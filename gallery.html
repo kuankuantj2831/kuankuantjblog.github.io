@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="图片画廊 - kuankuantj的个人博客">
+  
+  <title>画廊 - kuankuantj</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/enhanced-style.css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+  
+  <script src="/js/pace.min.js"></script>
+  
+  <style>
+    .gallery-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      min-height: 100vh;
+    }
+
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 60px;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      color: white;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .gallery-title {
+      font-size: 2.8em;
+      margin: 0 0 15px 0;
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .gallery-subtitle {
+      font-size: 1.2em;
+      margin: 0;
+      opacity: 0.95;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      background: white;
+      cursor: pointer;
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      display: block;
+      transition: all 0.3s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-item-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+      color: white;
+      padding: 20px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover .gallery-item-overlay {
+      transform: translateY(0);
+    }
+
+    .gallery-item-title {
+      font-size: 1.2em;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .gallery-item-desc {
+      font-size: 0.9em;
+      opacity: 0.9;
+    }
+
+    .upload-zone {
+      background: white;
+      border: 3px dashed #667eea;
+      border-radius: 20px;
+      padding: 60px 40px;
+      text-align: center;
+      margin-bottom: 50px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .upload-zone:hover {
+      border-color: #764ba2;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+      transform: translateY(-5px);
+    }
+
+    .upload-zone-icon {
+      font-size: 4em;
+      margin-bottom: 20px;
+      color: #667eea;
+    }
+
+    .upload-zone-text {
+      font-size: 1.3em;
+      color: #2c3e50;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .upload-zone-hint {
+      color: #7f8c8d;
+      font-size: 1em;
+    }
+
+    .upload-zone-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      font-size: 1.1em;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 20px;
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .upload-zone-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+    }
+
+    .empty-gallery {
+      text-align: center;
+      padding: 80px 20px;
+      color: #95a5a6;
+    }
+
+    .empty-gallery svg {
+      margin-bottom: 25px;
+      opacity: 0.5;
+    }
+
+    .empty-gallery-text {
+      font-size: 1.3em;
+      margin-bottom: 10px;
+    }
+
+    .empty-gallery-hint {
+      font-size: 1em;
+      color: #bdc3c7;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+      }
+
+      .gallery-header {
+        padding: 30px 15px;
+      }
+
+      .gallery-title {
+        font-size: 2em;
+      }
+
+      .upload-zone {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="content">
+    <!-- 侧边栏导航 -->
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="/"><img src="/images/hexo.svg" alt="kuankuantj"></a>
+        </div>
+        
+        <ul class="nav nav-main">
+          <li class="nav-item">
+            <a class="nav-item-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item-link" href="/archives">Archives</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-item-link" href="/gallery">Gallery</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item-link" href="/about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item-link" href="/upload.html">
+              <i class="fe fe-upload"></i>
+              Upload
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item-link nav-item-search" title="Search">
+              <i class="fe fe-search"></i>
+              Search
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- 画廊内容 -->
+    <div class="gallery-container">
+      <header class="gallery-header">
+        <h1 class="gallery-title">🎨 图片画廊</h1>
+        <p class="gallery-subtitle">记录生活中的美好瞬间</p>
+      </header>
+
+      <!-- 上传区域 -->
+      <div class="upload-zone" onclick="window.location.href='/upload.html'">
+        <div class="upload-zone-icon">📸</div>
+        <div class="upload-zone-text">点击上传图片</div>
+        <div class="upload-zone-hint">支持 JPG、PNG、GIF 等多种格式</div>
+        <button class="upload-zone-btn">选择图片</button>
+      </div>
+
+      <!-- 画廊网格 -->
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- 示例图片 -->
+        <a href="/images/ocean/ocean.png" class="gallery-item" data-fancybox="gallery" data-caption="海洋主题">
+          <img src="/images/ocean/ocean.png" alt="海洋主题">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-title">海洋主题</div>
+            <div class="gallery-item-desc">美丽的海洋背景</div>
+          </div>
+        </a>
+
+        <a href="/images/forrestgump.png" class="gallery-item" data-fancybox="gallery" data-caption="头像">
+          <img src="/images/forrestgump.png" alt="头像">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-title">个人头像</div>
+            <div class="gallery-item-desc">我的头像图片</div>
+          </div>
+        </a>
+
+        <a href="/css/images/banner.jpg" class="gallery-item" data-fancybox="gallery" data-caption="Banner">
+          <img src="/css/images/banner.jpg" alt="Banner">
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-title">横幅图片</div>
+            <div class="gallery-item-desc">网站横幅背景</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 空状态提示 -->
+      <!-- <div class="empty-gallery" style="display: none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <polyline points="21 15 16 10 5 21"></polyline>
+        </svg>
+        <div class="empty-gallery-text">还没有任何照片</div>
+        <div class="empty-gallery-hint">点击上方按钮上传你的第一张图片吧！</div>
+      </div> -->
+    </div>
+
+    <footer class="footer">
+      <div class="outer">
+        <ul class="list-inline">
+          <li>kuankuantj &copy; 2024</li>
+          <li><a href="/">首页</a></li>
+          <li><a href="/admin/">后台管理</a></li>
+          <li><a href="/upload.html">文件上传</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <!-- 悬浮上传按钮 -->
+  <a href="/upload.html" class="upload-float-btn" title="上传文件">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+      <polyline points="17 8 12 3 7 8"></polyline>
+      <line x1="12" y1="3" x2="12" y2="15"></line>
+    </svg>
+  </a>
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  <script src="/fancybox/jquery.fancybox.min.js"></script>
+  <script src="/js/ocean.js"></script>
+  
+  <script>
+    // 初始化 Fancybox
+    $(document).ready(function() {
+      $('[data-fancybox="gallery"]').fancybox({
+        buttons: [
+          "zoom",
+          "share",
+          "slideShow",
+          "fullScreen",
+          "download",
+          "thumbs",
+          "close"
+        ],
+        animationEffect: "zoom-in-out",
+        transitionEffect: "slide"
+      });
+    });
+  </script>
+</body>
+
+</html>
+

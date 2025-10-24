@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="文件上传管理">
+  
+  <title>文件上传 - kuankuantj</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/upload.css">
+  
+  <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+  <main class="content">
+    <div class="upload-container">
+      <header class="upload-header">
+        <h1 class="upload-title">📁 文件上传中心</h1>
+        <p class="upload-subtitle">轻松管理你的博客资源</p>
+      </header>
+
+      <div class="upload-wrapper">
+        <!-- 上传区域 -->
+        <div class="upload-area" id="uploadArea">
+          <div class="upload-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          <h2 class="upload-area-title">拖拽文件到这里</h2>
+          <p class="upload-area-description">或者点击选择文件</p>
+          <input type="file" id="fileInput" multiple hidden>
+          <button class="upload-btn" id="selectFileBtn">选择文件</button>
+          <p class="upload-hint">支持图片、视频、文档等多种格式</p>
+        </div>
+
+        <!-- 文件列表 -->
+        <div class="file-list" id="fileList">
+          <h3 class="file-list-title">待上传文件</h3>
+          <div class="file-items" id="fileItems">
+            <div class="empty-state">
+              <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                <polyline points="13 2 13 9 20 9"></polyline>
+              </svg>
+              <p>暂无文件</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 上传进度 -->
+        <div class="upload-progress-container" id="uploadProgressContainer" style="display: none;">
+          <h3>上传进度</h3>
+          <div class="progress-bar-wrapper">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-text" id="progressText">0%</span>
+          </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="upload-actions">
+          <button class="btn btn-primary" id="uploadBtn" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            开始上传
+          </button>
+          <button class="btn btn-secondary" id="clearBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            清空列表
+          </button>
+          <button class="btn btn-back" onclick="window.location.href='/'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            返回首页
+          </button>
+        </div>
+      </div>
+
+      <!-- 已上传文件展示 -->
+      <div class="uploaded-files-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h3 class="section-title" style="margin-bottom: 0;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 11 12 14 22 4"></polyline>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            已上传文件
+          </h3>
+          <button class="btn btn-secondary" id="clearAllBtn" style="padding: 10px 20px; font-size: 0.9em;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            清空全部
+          </button>
+        </div>
+        <div class="uploaded-items" id="uploadedItems">
+          <div class="empty-state">
+            <p>还没有上传任何文件</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 通知提示 -->
+    <div class="notification" id="notification"></div>
+
+    <footer class="footer">
+      <div class="outer">
+        <ul class="list-inline">
+          <li>kuankuantj &copy; 2024</li>
+          <li><a href="/">首页</a></li>
+          <li><a href="/admin/">后台管理</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+  <script src="/js/upload.js"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>简易上传测试</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #667eea;
+      margin-top: 0;
+    }
+    h2 {
+      color: #2c3e50;
+      font-size: 1.2em;
+      margin-top: 0;
+    }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      margin: 5px;
+    }
+    button:hover {
+      background: #5568d3;
+    }
+    button.danger {
+      background: #e74c3c;
+    }
+    button.danger:hover {
+      background: #c0392b;
+    }
+    .file-item {
+      background: #f8f9fa;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .file-info {
+      flex: 1;
+    }
+    .file-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .file-date {
+      font-size: 0.85em;
+      color: #666;
+    }
+    .message {
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    .message.success {
+      background: #d4edda;
+      color: #155724;
+    }
+    .message.error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .message.info {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+    input[type="file"] {
+      margin: 10px 0;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      width: 100%;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>🧪 简易上传测试</h1>
+    <p>这是一个简化版的测试页面，用来验证上传功能是否正常工作。</p>
+  </div>
+
+  <div class="box">
+    <h2>步骤 1: 清空数据</h2>
+    <p>先清空旧数据，确保干净的环境</p>
+    <button class="danger" onclick="clearData()">清空所有数据</button>
+    <div id="clearMsg"></div>
+  </div>
+
+  <div class="box">
+    <h2>步骤 2: 上传文件</h2>
+    <p>选择一个小文件（图片或文档，建议 < 2MB）</p>
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">上传文件</button>
+    <div id="uploadMsg"></div>
+  </div>
+
+  <div class="box">
+    <h2>步骤 3: 查看已上传文件</h2>
+    <p>上传成功后，文件会显示在这里</p>
+    <button onclick="loadFiles()">刷新列表</button>
+    <div id="fileList"></div>
+  </div>
+
+  <div class="box">
+    <h2>调试信息</h2>
+    <button onclick="showDebugInfo()">显示调试信息</button>
+    <div id="debugInfo"></div>
+  </div>
+
+  <script>
+    // 清空数据
+    function clearData() {
+      const msg = document.getElementById('clearMsg');
+      try {
+        localStorage.clear();
+        msg.innerHTML = '<div class="message success">✓ 数据已清空！现在可以上传文件测试了。</div>';
+      } catch (error) {
+        msg.innerHTML = `<div class="message error">❌ 清空失败: ${error.message}</div>`;
+      }
+      loadFiles();
+    }
+
+    // 上传文件
+    function uploadFile() {
+      const fileInput = document.getElementById('fileInput');
+      const msg = document.getElementById('uploadMsg');
+
+      if (!fileInput.files.length) {
+        msg.innerHTML = '<div class="message error">❌ 请先选择一个文件</div>';
+        return;
+      }
+
+      const file = fileInput.files[0];
+
+      if (file.size > 5 * 1024 * 1024) {
+        msg.innerHTML = '<div class="message error">❌ 文件太大，请选择小于 5MB 的文件</div>';
+        return;
+      }
+
+      msg.innerHTML = '<div class="message info">⏳ 正在上传...</div>';
+
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        try {
+          // 获取现有文件列表
+          let uploadedFiles = [];
+          const saved = localStorage.getItem('uploadedFiles');
+          if (saved) {
+            uploadedFiles = JSON.parse(saved);
+          }
+
+          // 添加新文件
+          const newFile = {
+            name: file.name,
+            size: formatFileSize(file.size),
+            date: new Date().toLocaleString('zh-CN'),
+            type: file.type,
+            data: e.target.result
+          };
+
+          uploadedFiles.unshift(newFile);
+
+          // 保存
+          localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+
+          msg.innerHTML = `
+            <div class="message success">
+              ✓ 上传成功！<br>
+              文件名: ${file.name}<br>
+              大小: ${formatFileSize(file.size)}
+            </div>
+          `;
+
+          // 清空输入
+          fileInput.value = '';
+
+          // 自动刷新列表
+          setTimeout(() => {
+            loadFiles();
+          }, 500);
+
+        } catch (error) {
+          msg.innerHTML = `<div class="message error">❌ 上传失败: ${error.message}</div>`;
+        }
+      };
+
+      reader.onerror = function() {
+        msg.innerHTML = '<div class="message error">❌ 文件读取失败</div>';
+      };
+
+      reader.readAsDataURL(file);
+    }
+
+    // 加载文件列表
+    function loadFiles() {
+      const container = document.getElementById('fileList');
+      
+      try {
+        const saved = localStorage.getItem('uploadedFiles');
+        
+        if (!saved) {
+          container.innerHTML = '<div class="message info">没有上传的文件</div>';
+          return;
+        }
+
+        const files = JSON.parse(saved);
+
+        if (files.length === 0) {
+          container.innerHTML = '<div class="message info">没有上传的文件</div>';
+          return;
+        }
+
+        let html = `<div class="message success">找到 ${files.length} 个文件：</div>`;
+
+        files.forEach((file, index) => {
+          html += `
+            <div class="file-item">
+              <div class="file-info">
+                <div class="file-name">📄 ${file.name}</div>
+                <div class="file-date">${file.date} | ${file.size}</div>
+                ${file.data ? '<small style="color: green;">✓ 有数据</small>' : '<small style="color: red;">✗ 无数据</small>'}
+              </div>
+              <div class="btn-group">
+                <button onclick="downloadFile(${index})">下载</button>
+                <button class="danger" onclick="deleteFile(${index})">删除</button>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+
+      } catch (error) {
+        container.innerHTML = `<div class="message error">❌ 加载失败: ${error.message}</div>`;
+      }
+    }
+
+    // 下载文件
+    function downloadFile(index) {
+      try {
+        const saved = localStorage.getItem('uploadedFiles');
+        const files = JSON.parse(saved);
+        const file = files[index];
+
+        if (!file.data) {
+          alert('文件数据不存在');
+          return;
+        }
+
+        const link = document.createElement('a');
+        link.href = file.data;
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        alert('下载已开始：' + file.name);
+
+      } catch (error) {
+        alert('下载失败：' + error.message);
+      }
+    }
+
+    // 删除文件
+    function deleteFile(index) {
+      if (!confirm('确定要删除这个文件吗？')) {
+        return;
+      }
+
+      try {
+        const saved = localStorage.getItem('uploadedFiles');
+        const files = JSON.parse(saved);
+        files.splice(index, 1);
+        localStorage.setItem('uploadedFiles', JSON.stringify(files));
+        loadFiles();
+        alert('文件已删除');
+      } catch (error) {
+        alert('删除失败：' + error.message);
+      }
+    }
+
+    // 显示调试信息
+    function showDebugInfo() {
+      const container = document.getElementById('debugInfo');
+      
+      try {
+        const saved = localStorage.getItem('uploadedFiles');
+        
+        let info = '<div style="background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 5px; margin-top: 10px; font-family: monospace; font-size: 0.85em; overflow-x: auto;">';
+        
+        if (!saved) {
+          info += 'localStorage["uploadedFiles"] = null (没有数据)';
+        } else {
+          const files = JSON.parse(saved);
+          info += `文件数量: ${files.length}<br><br>`;
+          
+          files.forEach((file, i) => {
+            info += `文件 ${i + 1}:<br>`;
+            info += `  名称: ${file.name}<br>`;
+            info += `  大小: ${file.size}<br>`;
+            info += `  日期: ${file.date}<br>`;
+            info += `  类型: ${file.type || '未知'}<br>`;
+            info += `  数据: ${file.data ? '有 (' + (file.data.length / 1024).toFixed(2) + ' KB)' : '无'}<br><br>`;
+          });
+        }
+        
+        info += '</div>';
+        container.innerHTML = info;
+        
+      } catch (error) {
+        container.innerHTML = `<div class="message error">❌ ${error.message}</div>`;
+      }
+    }
+
+    // 格式化文件大小
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 B';
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    }
+
+    // 页面加载时自动加载文件列表
+    window.onload = function() {
+      loadFiles();
+    };
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="欢迎使用全新升级的博客系统">
+  
+  <title>欢迎 - kuankuantj 博客已升级！</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/enhanced-style.css">
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Microsoft YaHei', sans-serif;
+    }
+
+    .welcome-wrapper {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-wrapper::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: drift 30s linear infinite;
+    }
+
+    @keyframes drift {
+      from { transform: translate(0, 0); }
+      to { transform: translate(50px, 50px); }
+    }
+
+    .welcome-container {
+      max-width: 900px;
+      background: white;
+      border-radius: 30px;
+      padding: 60px 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.8s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .welcome-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .welcome-icon {
+      font-size: 5em;
+      margin-bottom: 20px;
+      animation: bounce 2s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .welcome-title {
+      font-size: 2.8em;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 15px 0;
+      font-weight: 700;
+    }
+
+    .welcome-subtitle {
+      font-size: 1.3em;
+      color: #7f8c8d;
+      margin: 0;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .feature-card {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 3px solid transparent;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      border-color: #667eea;
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+    }
+
+    .feature-icon {
+      font-size: 3em;
+      margin-bottom: 15px;
+    }
+
+    .feature-title {
+      font-size: 1.3em;
+      color: #2c3e50;
+      margin: 0 0 10px 0;
+      font-weight: 600;
+    }
+
+    .feature-desc {
+      font-size: 0.95em;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .highlights {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+
+    .highlights-title {
+      font-size: 1.5em;
+      color: #2c3e50;
+      margin: 0 0 20px 0;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .highlights-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .highlights-list li {
+      padding: 12px 20px;
+      background: white;
+      border-radius: 10px;
+      color: #555;
+      font-size: 1em;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .highlights-list li:hover {
+      transform: translateX(5px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      padding: 18px 40px;
+      border-radius: 50px;
+      font-size: 1.1em;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .action-btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .action-btn-secondary {
+      background: white;
+      color: #667eea;
+      border: 3px solid #667eea;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer-note {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px solid #ecf0f1;
+      color: #95a5a6;
+      font-size: 0.95em;
+    }
+
+    @media (max-width: 768px) {
+      .welcome-container {
+        padding: 40px 25px;
+      }
+
+      .welcome-title {
+        font-size: 2em;
+      }
+
+      .welcome-subtitle {
+        font-size: 1.1em;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .action-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="welcome-wrapper">
+    <div class="welcome-container">
+      <header class="welcome-header">
+        <div class="welcome-icon">🎉</div>
+        <h1 class="welcome-title">博客系统已全面升级！</h1>
+        <p class="welcome-subtitle">全新的界面设计 · 强大的上传功能 · 更好的用户体验</p>
+      </header>
+
+      <div class="features-grid">
+        <div class="feature-card" onclick="window.location.href='/upload.html'">
+          <div class="feature-icon">📁</div>
+          <h3 class="feature-title">文件上传</h3>
+          <p class="feature-desc">支持拖拽上传、批量处理，实时进度显示</p>
+        </div>
+
+        <div class="feature-card" onclick="window.location.href='/gallery.html'">
+          <div class="feature-icon">🎨</div>
+          <h3 class="feature-title">图片画廊</h3>
+          <p class="feature-desc">精美的网格布局，灯箱预览效果</p>
+        </div>
+
+        <div class="feature-card" onclick="window.location.href='/about.html'">
+          <div class="feature-icon">👤</div>
+          <h3 class="feature-title">关于页面</h3>
+          <p class="feature-desc">全新设计的个人介绍和作品展示</p>
+        </div>
+      </div>
+
+      <div class="highlights">
+        <h2 class="highlights-title">✨ 主要改进</h2>
+        <ul class="highlights-list">
+          <li>🎨 全新渐变色主题</li>
+          <li>💫 流畅的动画效果</li>
+          <li>📱 完美响应式设计</li>
+          <li>⚡ 快捷悬浮按钮</li>
+          <li>🔍 优化搜索功能</li>
+          <li>📊 美化的代码块</li>
+          <li>🎯 导航高亮提示</li>
+          <li>💅 精致的卡片布局</li>
+        </ul>
+      </div>
+
+      <div class="action-buttons">
+        <a href="/" class="action-btn action-btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          进入博客
+        </a>
+        
+        <a href="/upload.html" class="action-btn action-btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          体验上传
+        </a>
+      </div>
+
+      <div class="footer-note">
+        <p>💡 提示：右下角的悬浮按钮可以快速访问上传功能</p>
+        <p>📖 查看 <a href="/FEATURES.md" style="color: #667eea; text-decoration: none; font-weight: 600;">详细功能说明</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+
