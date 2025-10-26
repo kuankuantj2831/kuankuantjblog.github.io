@@ -82,6 +82,12 @@
     if (clearAllBtn) {
       clearAllBtn.addEventListener('click', handleClearAll);
     }
+    
+    // 清除缓存按钮
+    const clearCacheBtn = document.getElementById('clearCacheBtn');
+    if (clearCacheBtn) {
+      clearCacheBtn.addEventListener('click', handleClearCache);
+    }
   }
 
   // 处理文件选择
@@ -380,6 +386,35 @@
       saveUploadedFiles();
       renderUploadedFiles();
       showNotification('已清空所有文件', 'success');
+    }
+  }
+
+  // 清除浏览器缓存
+  function handleClearCache() {
+    if (confirm('确定要清除所有浏览器缓存数据吗？\n\n这将清除：\n- 所有已上传的文件\n- 所有本地存储数据\n\n此操作不可恢复！')) {
+      try {
+        // 清除所有 localStorage 数据
+        localStorage.clear();
+        
+        // 重置状态
+        uploadedFiles = [];
+        files = [];
+        fileInput.value = '';
+        
+        // 重新渲染界面
+        renderFileList();
+        renderUploadedFiles();
+        
+        showNotification('✓ 缓存已清除！页面将在 2 秒后刷新...', 'success');
+        
+        // 延迟刷新页面
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
+        
+      } catch (error) {
+        showNotification('清除缓存失败：' + error.message, 'error');
+      }
     }
   }
 
