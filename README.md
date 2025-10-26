@@ -2,7 +2,7 @@
 
 猫咪的新网站~~~  
 by kuankuantj  
-[kuankuantj2831.github.io](https://kuankuantj2831.github.io)
+[kuankuantjblog.github.io](https://kuankuantjblog.github.io)
 
 ## ✨ 最新更新
 
@@ -129,8 +129,8 @@ my-blog/
 
 ## 📮 联系方式
 
-- **GitHub**: [kuankuantj2831](https://github.com/kuankuantj2831)
-- **网站**: [kuankuantj2831.github.io](https://kuankuantj2831.github.io)
+- **GitHub**: [kuankuantjblog](https://github.com/kuankuantjblog)
+- **网站**: [kuankuantjblog.github.io](https://kuankuantjblog.github.io)
 
 ## 📄 许可证
 
