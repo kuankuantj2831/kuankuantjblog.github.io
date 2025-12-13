@@ -1,0 +1,579 @@
+/* 天机阁主题样式 - Tianjg Theme Styles */
+
+/* ==================== CSS 变量定义 ==================== */
+:root {
+    /* 主题色 - 蓝紫渐变 */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --primary-color: #667eea;
+    --primary-dark: #764ba2;
+
+    /* 辅助色 - 粉红渐变 */
+    --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --accent-color: #f093fb;
+    --accent-dark: #f5576c;
+
+    /* 成功/免费资源色 */
+    --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    --success-color: #11998e;
+
+    /* VIP/付费资源色 */
+    --vip-gradient: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+    --vip-color: #ffd89b;
+
+    /* 中性色 */
+    --bg-light: #f5f7fa;
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --text-primary: #2c3e50;
+    --text-secondary: #7f8c8d;
+    --text-light: #95a5a6;
+    --border-color: #ecf0f1;
+
+    /* 阴影 */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 5px 20px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 15px 40px rgba(102, 126, 234, 0.3);
+    --shadow-hover: 0 8px 30px rgba(102, 126, 234, 0.4);
+
+    /* 圆角 */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 15px;
+    --radius-xl: 20px;
+    --radius-full: 50%;
+
+    /* 过渡 */
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* ==================== 文章卡片样式（天机阁风格）==================== */
+
+/* 卡片网格布局 */
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+/* 增强文章卡片 */
+.article-card-enhanced {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.article-card-enhanced::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+    transform: scaleX(0);
+    transition: transform var(--transition-base);
+}
+
+.article-card-enhanced:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.article-card-enhanced:hover::before {
+    transform: scaleX(1);
+}
+
+/* 卡片缩略图 */
+.article-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.article-card-enhanced:hover .article-thumbnail {
+    transform: scale(1.05);
+}
+
+/* 卡片内容区 */
+.article-card-content {
+    padding: 20px;
+}
+
+/* 文章标题（卡片版） */
+.article-card-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+.article-card-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color var(--transition-base);
+    display: block;
+}
+
+.article-card-title a:hover {
+    color: var(--primary-color);
+}
+
+/* 文章摘要 */
+.article-excerpt {
+    color: var(--text-secondary);
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ==================== 标签和徽章系统 ==================== */
+
+/* 标签容器 */
+.article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+/* 基础标签样式 */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 12px;
+    border-radius: var(--radius-xl);
+    font-size: 0.85em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    gap: 5px;
+}
+
+/* 分类标签 */
+.tag-category {
+    background: var(--primary-gradient);
+    color: white;
+}
+
+.tag-category:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* 普通标签 */
+.tag-normal {
+    background: #ecf0f1;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+.tag-normal:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* 免费资源标签 */
+.tag-free {
+    background: var(--success-gradient);
+    color: white;
+    font-weight: 600;
+}
+
+.tag-free::before {
+    content: '🎁';
+    margin-right: 3px;
+}
+
+/* VIP/付费资源标签 */
+.tag-vip {
+    background: var(--vip-gradient);
+    color: white;
+    font-weight: 600;
+}
+
+.tag-vip::before {
+    content: '👑';
+    margin-right: 3px;
+}
+
+/* 热门标签 */
+.tag-hot {
+    background: var(--accent-gradient);
+    color: white;
+    position: relative;
+    animation: pulse-tag 2s ease-in-out infinite;
+}
+
+.tag-hot::before {
+    content: '🔥';
+    margin-right: 3px;
+}
+
+@keyframes pulse-tag {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* ==================== 文章元信息 ==================== */
+
+.article-meta-enhanced {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--text-light);
+    font-size: 0.9em;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.meta-item i {
+    color: var(--primary-color);
+}
+
+/* ==================== 分类筛选器 ==================== */
+
+.category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border: 2px solid var(--border-color);
+    background: white;
+    color: var(--text-secondary);
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-weight: 500;
+    font-size: 0.95em;
+}
+
+.filter-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: var(--primary-gradient);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* ==================== 搜索框增强 ==================== */
+
+.search-box-enhanced {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+.search-input-enhanced {
+    width: 100%;
+    padding: 15px 50px 15px 20px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    font-size: 1em;
+    transition: all var(--transition-base);
+    background: white;
+}
+
+.search-input-enhanced:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.search-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+    pointer-events: none;
+}
+
+/* ==================== 按钮样式 ==================== */
+
+/* 主要按钮 */
+.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 12px 28px;
+    border-radius: var(--radius-xl);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+/* 次要按钮 */
+.btn-secondary {
+    background: white;
+    color: var(--primary-color);
+    padding: 12px 28px;
+    border-radius: var(--radius-xl);
+    border: 2px solid var(--primary-color);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-base);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* ==================== 统计信息卡片 ==================== */
+
+.stats-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: all var(--transition-base);
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.stats-number {
+    font-size: 2em;
+    font-weight: 700;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+}
+
+.stats-label {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+/* ==================== 分页样式 ==================== */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.page-number {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    background: white;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    border: 2px solid var(--border-color);
+    font-weight: 500;
+}
+
+.page-number:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.page-number.active {
+    background: var(--primary-gradient);
+    color: white;
+    border-color: transparent;
+}
+
+/* ==================== 加载动画 ==================== */
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--border-color);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 40px auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==================== 响应式设计 ==================== */
+
+@media (max-width: 768px) {
+    .articles-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .category-filter {
+        padding: 15px;
+    }
+
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 0.9em;
+    }
+
+    .article-card-content {
+        padding: 15px;
+    }
+
+    .article-card-title {
+        font-size: 1.1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .article-meta-enhanced {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .search-box-enhanced {
+        margin-bottom: 20px;
+    }
+}
+
+/* ==================== 特殊效果 ==================== */
+
+/* 渐变文本 */
+.gradient-text {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 光晕效果 */
+.glow-effect {
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(102, 126, 234, 0.8);
+    }
+}
+
+/* 悬浮卡片效果 */
+.hover-card {
+    transition: all var(--transition-base);
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ==================== 图标美化 ==================== */
+
+.icon-badge {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-full);
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5em;
+    box-shadow: var(--shadow-sm);
+}
+
+/* ==================== 通知/提示框 ==================== */
+
+.notice-box {
+    padding: 15px 20px;
+    border-radius: var(--radius-md);
+    margin: 20px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.notice-info {
+    background: #e3f2fd;
+    border-left: 4px solid #2196f3;
+    color: #1565c0;
+}
+
+.notice-success {
+    background: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    color: #2e7d32;
+}
+
+.notice-warning {
+    background: #fff3e0;
+    border-left: 4px solid #ff9800;
+    color: #e65100;
+}
+
+.notice-error {
+    background: #ffebee;
+    border-left: 4px solid #f44336;
+    color: #c62828;
+}

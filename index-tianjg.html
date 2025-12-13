@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="kuankuantj的个人博客 - 分享资源与技术">
+
+    <title>kuankuantj - 资源分享</title>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/enhanced-style.css">
+    <link rel="stylesheet" href="/css/tianjg-theme.css">
+    <link rel="stylesheet" href="/css/tianjg-layout.css">
+
+    <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+    <main class="content">
+        <!-- 侧边栏导航 -->
+        <aside class="sidebar">
+            <button class="navbar-toggle"></button>
+            <nav class="navbar">
+                <div class="logo">
+                    <a href="/"><img src="/images/hexo.svg" alt="kuankuantj"></a>
+                </div>
+
+                <ul class="nav nav-main">
+                    <li class="nav-item active">
+                        <a class="nav-item-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item-link" href="/archives">Archives</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item-link" href="/gallery">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item-link" href="/about">About</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 主内容区 -->
+        <div class="main-wrapper">
+            <!-- 顶部横幅 -->
+            <section class="hero-banner">
+                <div class="hero-content">
+                    <h1 class="hero-title">🎯 kuankuantj 资源分享</h1>
+                    <p class="hero-subtitle">探索、学习、分享 - 发现更多精彩内容</p>
+                    <div class="hero-search">
+                        <input type="text" placeholder="搜索资源、文章...">
+                        <button>搜索</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 分类导航栏 -->
+            <nav class="category-nav">
+                <div class="category-nav-inner">
+                    <div class="category-tabs">
+                        <a href="#" class="category-tab active">🏠 全部</a>
+                        <a href="#" class="category-tab">💻 编程技术</a>
+                        <a href="#" class="category-tab">🎮 游戏资源</a>
+                        <a href="#" class="category-tab">🎨 设计素材</a>
+                        <a href="#" class="category-tab">📚 学习资料</a>
+                        <a href="#" class="category-tab">🔧 实用工具</a>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 排序筛选栏 -->
+            <div class="sort-bar">
+                <div class="sort-options">
+                    <button class="sort-btn active">最新发布</button>
+                    <button class="sort-btn">最多浏览</button>
+                    <button class="sort-btn">最多点赞</button>
+                    <button class="sort-btn">随机推荐</button>
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active" title="网格视图">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </button>
+                    <button class="view-btn" title="列表视图">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 资源卡片网格 -->
+            <section class="resources-grid">
+                <div class="grid-container">
+
+                    <!-- 资源卡片 1 -->
+                    <div class="resource-card">
+                        <div class="resource-thumbnail">
+                            <span class="resource-type-badge badge-free">🎁 免费资源</span>
+                            <img src="/images/ocean/ocean.png" alt="Hexo博客搭建教程">
+                        </div>
+                        <div class="resource-content">
+                            <h3 class="resource-title">Hexo博客搭建完整教程</h3>
+                            <p class="resource-desc">从零开始搭建属于自己的个人博客，包含主题配置、部署上线等完整流程。</p>
+                            <div class="resource-meta">
+                                <span class="resource-category">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
+                                        </path>
+                                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                    </svg>
+                                    编程技术
+                                </span>
+                                <span class="resource-date">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    2024-05-19
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 资源卡片 2 -->
+                    <div class="resource-card">
+                        <div class="resource-thumbnail">
+                            <span class="resource-type-badge badge-hot">🔥 热门</span>
+                            <img src="/images/forrestgump.png" alt="Minecraft私服搭建">
+                        </div>
+                        <div class="resource-content">
+                            <h3 class="resource-title">Minecraft私服搭建指南</h3>
+                            <p class="resource-desc">详细的MC服务器搭建教程，包含插件配置、权限管理等内容。</p>
+                            <div class="resource-meta">
+                                <span class="resource-category">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
+                                        </path>
+                                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                    </svg>
+                                    游戏资源
+                                </span>
+                                <span class="resource-date">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    2024-05-18
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 资源卡片 3 -->
+                    <div class="resource-card">
+                        <div class="resource-thumbnail">
+                            <span class="resource-type-badge badge-vip">👑 VIP</span>
+                            <img src="/css/images/banner.jpg" alt="Web开发工具包">
+                        </div>
+                        <div class="resource-content">
+                            <h3 class="resource-title">前端开发必备工具包</h3>
+                            <p class="resource-desc">精选的前端开发工具集合，提升开发效率的神器。</p>
+                            <div class="resource-meta">
+                                <span class="resource-category">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
+                                        </path>
+                                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                    </svg>
+                                    实用工具
+                                </span>
+                                <span class="resource-date">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    2024-05-17
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 资源卡片 4 -->
+                    <div class="resource-card">
+                        <div class="resource-thumbnail">
+                            <span class="resource-type-badge badge-free">🎁 免费资源</span>
+                            <img src="/images/ocean/ocean.png" alt="Python学习路线">
+                        </div>
+                        <div class="resource-content">
+                            <h3 class="resource-title">Python零基础学习路线图</h3>
+                            <p class="resource-desc">从入门到精通的完整Python学习路径，适合初学者。</p>
+                            <div class="resource-meta">
+                                <span class="resource-category">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
+                                        </path>
+                                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                    </svg>
+                                    学习资料
+                                </span>
+                                <span class="resource-date">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    2024-05-16
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 资源卡片 5 -->
+                    <div class="resource-card">
+                        <div class="resource-thumbnail">
+                            <span class="resource-type-badge badge-free">🎁 免费资源</span>
+                            <img src="/images/hexo-inverted.svg" alt="设计素材">
+                        </div>
+                        <div class="resource-content">
+                            <h3 class="resource-title">UI设计素材库精选</h3>
+                            <p class="resource-desc">高质量的UI设计素材，包含图标、插画、模板等。</p>
+                            <div class="resource-meta">
+                                <span class="resource-category">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
+                                        </path>
+                                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                    </svg>
+                                    设计素材
+                                </span>
+                                <span class="resource-date">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    2024-05-15
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 资源卡片 6 -->
+                    <div class="resource-card">
+                        <div class="resource-thumbnail">
+                            <span class="resource-type-badge badge-hot">🔥 热门</span>
+                            <img src="/images/ocean/ocean.png" alt="Git使用教程">
+                        </div>
+                        <div class="resource-content">
+                            <h3 class="resource-title">Git版本控制完全指南</h3>
+                            <p class="resource-desc">Git从基础到进阶的完整教程，掌握版本控制的精髓。</p>
+                            <div class="resource-meta">
+                                <span class="resource-category">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z">
+                                        </path>
+                                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                    </svg>
+                                    编程技术
+                                </span>
+                                <span class="resource-date">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    2024-05-14
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 加载更多 -->
+                <div class="load-more">
+                    <button class="load-more-btn">加载更多资源</button>
+                </div>
+            </section>
+
+            <!-- 页脚 -->
+            <footer class="footer">
+                <div class="outer">
+                    <ul class="list-inline">
+                        <li>kuankuantj © 2024</li>
+                        <li><a href="/">首页</a></li>
+                        <li><a href="/admin/">后台管理</a></li>
+                        <li><a href="/upload.html">文件上传</a></li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+    </main>
+
+    <!-- 悬浮上传按钮 -->
+    <a href="/upload.html" class="upload-float-btn" title="上传文件">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+    </a>
+
+    <script src="/js/jquery-2.0.3.min.js"></script>
+    <script src="/js/ocean.js"></script>
+    <script src="/js/theme-enhancements.js"></script>
+
+    <script>
+        // 视图切换
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const gridContainer = document.querySelector('.grid-container');
+                if (this.title === '列表视图') {
+                    gridContainer.classList.add('list-view');
+                } else {
+                    gridContainer.classList.remove('list-view');
+                }
+            });
+        });
+
+        // 分类标签切换
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // 排序按钮切换
+        document.querySelectorAll('.sort-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

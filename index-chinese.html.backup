@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="kuankuantj的个人博客 - 分享是一种美德">
+
+    <title>kuankuantj的个人博客</title>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/chinese-style.css">
+    <link rel="stylesheet" href="/css/auth.css">
+
+    <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+    <div class="chinese-style-wrapper">
+        <!-- 背景装饰 -->
+        <div class="bg-decoration"></div>
+
+        <!-- 顶部导航 -->
+        <nav class="top-nav">
+            <div class="logo">天机阁</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active">🏠 主页</a>
+                <a href="#" class="nav-link">📦 精品资源</a>
+                <a href="#" class="nav-link">❌ 创意设计</a>
+                <a href="#" class="nav-link">📚 技术教程</a>
+                <a href="#" class="nav-link">🔧 天机工具</a>
+                <a href="#" class="nav-link">🎯 关于我们</a>
+                <a href="#" class="nav-link">🔍 搜索</a>
+                <a href="#" class="nav-link login-btn" style="cursor: pointer;">👤 登录</a>
+                <a href="#" class="nav-link register-btn" style="cursor: pointer;">📝 注册</a>
+
+                <!-- 用户菜单 -->
+                <div class="user-menu" style="display: none;">
+                    <div class="user-avatar">U</div>
+                    <div class="user-dropdown">
+                        <div class="user-dropdown-header">
+                            <div class="user-dropdown-name">用户名</div>
+                            <div class="user-dropdown-email">user@example.com</div>
+                        </div>
+                        <div class="user-dropdown-menu">
+                            <a href="#" class="user-dropdown-item">👤 个人中心</a>
+                            <a href="#" class="user-dropdown-item">⚙️ 设置</a>
+                            <div class="user-dropdown-divider"></div>
+                            <a href="#" class="user-dropdown-item" id="logoutBtn">🚪 退出登录</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 主标题区域 -->
+        <section class="hero-section">
+            <h1 class="main-title">分享是一种美德</h1>
+            <p class="sub-title">它不求回报，只为真诚</p>
+
+            <!-- 标签导航 -->
+            <div class="tab-navigation">
+                <button class="tab-btn active">文章</button>
+                <button class="tab-btn">用户</button>
+                <button class="tab-btn">知识</button>
+                <button class="tab-btn">玄机</button>
+                <button class="tab-btn">商品</button>
+            </div>
+
+            <!-- 搜索区域 -->
+            <div class="search-section">
+                <div class="search-container">
+                    <select class="search-select">
+                        <option>选择标签 ⬇</option>
+                        <option>编程技术</option>
+                        <option>游戏资源</option>
+                        <option>设计素材</option>
+                        <option>学习资料</option>
+                    </select>
+                    <input type="text" class="search-input" placeholder="开启精彩搜索...">
+                    <button class="search-btn">🔍</button>
+                </div>
+            </div>
+
+            <!-- 分类标签 -->
+            <div class="category-tags">
+                <a href="#" class="category-tag">陪神</a>
+                <a href="#" class="category-tag">哔哩哔哩</a>
+                <a href="#" class="category-tag">游戏R3</a>
+                <a href="#" class="category-tag">期刊</a>
+                <a href="#" class="category-tag">丝袜</a>
+                <a href="#" class="category-tag">百度网盘</a>
+            </div>
+        </section>
+
+        <!-- 公告卡片 -->
+        <section class="notice-cards">
+            <div class="notice-card">
+                <div class="notice-icon pink">📝</div>
+                <div class="notice-content">
+                    <div class="notice-title">注册机</div>
+                    <div class="notice-desc">感受逆向之美</div>
+                </div>
+            </div>
+
+            <div class="notice-card">
+                <div class="notice-icon blue">💬</div>
+                <div class="notice-content">
+                    <div class="notice-title">Telegram交流群</div>
+                    <div class="notice-desc">你意想不到的资源都在这里哦！</div>
+                </div>
+            </div>
+
+            <div class="notice-card">
+                <div class="notice-icon dark">
+                    <span style="color: white;">天</span>
+                </div>
+                <div class="notice-content">
+                    <div class="notice-title">
+                        天机阁交流群
+                        <span class="notice-badge">NEW</span>
+                    </div>
+                    <div class="notice-desc">QQ群：885659321</div>
+                </div>
+            </div>
+
+            <div class="notice-card">
+                <div class="notice-icon dark">
+                    <span style="color: white;">智</span>
+                </div>
+                <div class="notice-content">
+                    <div class="notice-title">
+                        天智
+                        <span class="notice-badge" style="background: #2196f3;">GO+</span>
+                    </div>
+                    <div class="notice-desc">神圣之智</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 提示横幅 -->
+        <div class="tip-banner">
+            <div class="tip-content">
+                <span>⚠️</span>
+                <span>请挂梯子访问获得更优质的体验哦！如果您的浏览器出现异常，请尝试更换浏览器或清除缓存！</span>
+            </div>
+        </div>
+
+        <!-- 资源展示区域 -->
+        <section class="resource-showcase">
+            <div class="resource-scroll">
+                <!-- 资源卡片 1 -->
+                <div class="showcase-card">
+                    <img src="/images/ocean/ocean.png" alt="资源1" class="showcase-image">
+                    <div class="showcase-info">
+                        <div class="showcase-title">Hexo博客搭建教程</div>
+                        <div class="showcase-meta">
+                            <span>💻 编程</span>
+                            <span>👁️ 1.2k</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 资源卡片 2 -->
+                <div class="showcase-card">
+                    <img src="/images/forrestgump.png" alt="资源2" class="showcase-image">
+                    <div class="showcase-info">
+                        <div class="showcase-title">Minecraft私服搭建</div>
+                        <div class="showcase-meta">
+                            <span>🎮 游戏</span>
+                            <span>👁️ 856</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 资源卡片 3 -->
+                <div class="showcase-card">
+                    <img src="/css/images/banner.jpg" alt="资源3" class="showcase-image">
+                    <div class="showcase-info">
+                        <div class="showcase-title">前端开发工具包</div>
+                        <div class="showcase-meta">
+                            <span>🔧 工具</span>
+                            <span>👁️ 2.3k</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 资源卡片 4 -->
+                <div class="showcase-card">
+                    <img src="/images/ocean/ocean.png" alt="资源4" class="showcase-image">
+                    <div class="showcase-info">
+                        <div class="showcase-title">Python学习路线</div>
+                        <div class="showcase-meta">
+                            <span>📚 学习</span>
+                            <span>👁️ 1.8k</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 资源卡片 5 -->
+                <div class="showcase-card">
+                    <img src="/images/hexo-inverted.svg" alt="资源5" class="showcase-image">
+                    <div class="showcase-info">
+                        <div class="showcase-title">UI设计素材库</div>
+                        <div class="showcase-meta">
+                            <span>🎨 设计</span>
+                            <span>👁️ 967</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 资源卡片 6 -->
+                <div class="showcase-card">
+                    <img src="/images/ocean/ocean.png" alt="资源6" class="showcase-image">
+                    <div class="showcase-info">
+                        <div class="showcase-title">Git版本控制指南</div>
+                        <div class="showcase-meta">
+                            <span>💻 编程</span>
+                            <span>👁️ 1.5k</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 登录弹窗 -->
+    <div class="auth-modal-overlay" id="loginModal">
+        <div class="auth-modal">
+            <div class="auth-modal-header">
+                <h2 class="auth-modal-title">🔐 用户登录</h2>
+                <button class="auth-modal-close">×</button>
+            </div>
+            <div class="auth-modal-body">
+                <div class="auth-error" id="loginError"></div>
+                <div class="auth-success" id="loginSuccess"></div>
+
+                <form id="loginForm">
+                    <div class="auth-form-group">
+                        <label class="auth-form-label">用户名/邮箱</label>
+                        <input type="text" class="auth-form-input" id="loginUsername" placeholder="请输入用户名或邮箱" required>
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label class="auth-form-label">密码</label>
+                        <input type="password" class="auth-form-input" id="loginPassword" placeholder="请输入密码" required>
+                    </div>
+
+                    <div class="auth-remember">
+                        <input type="checkbox" id="loginRemember">
+                        <label for="loginRemember">记住我</label>
+                    </div>
+
+                    <button type="submit" class="auth-btn auth-btn-primary">登录</button>
+                </form>
+
+                <div class="auth-switch">
+                    还没有账号？<a href="#" class="auth-switch-link" id="switchToRegister">立即注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 注册弹窗 -->
+    <div class="auth-modal-overlay" id="registerModal">
+        <div class="auth-modal">
+            <div class="auth-modal-header">
+                <h2 class="auth-modal-title">📝 用户注册</h2>
+                <button class="auth-modal-close">×</button>
+            </div>
+            <div class="auth-modal-body">
+                <div class="auth-error" id="registerError"></div>
+                <div class="auth-success" id="registerSuccess"></div>
+
+                <form id="registerForm">
+                    <div class="auth-form-group">
+                        <label class="auth-form-label">用户名</label>
+                        <input type="text" class="auth-form-input" id="registerUsername" placeholder="请输入用户名（至少3个字符）"
+                            required>
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label class="auth-form-label">邮箱</label>
+                        <input type="email" class="auth-form-input" id="registerEmail" placeholder="请输入邮箱地址" required>
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label class="auth-form-label">密码</label>
+                        <input type="password" class="auth-form-input" id="registerPassword" placeholder="请输入密码（至少6个字符）"
+                            required>
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label class="auth-form-label">确认密码</label>
+                        <input type="password" class="auth-form-input" id="registerConfirmPassword"
+                            placeholder="请再次输入密码" required>
+                    </div>
+
+                    <button type="submit" class="auth-btn auth-btn-primary">注册</button>
+                </form>
+
+                <div class="auth-switch">
+                    已有账号？<a href="#" class="auth-switch-link" id="switchToLogin">立即登录</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery-2.0.3.min.js"></script>
+    <script type="module" src="/js/firebase-auth.js"></script>
+    <script>
+        // 标签切换
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('.resource-scroll').forEach(container => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            container.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+            });
+
+            container.addEventListener('mouseleave', () => {
+                isDown = false;
+            });
+
+            container.addEventListener('mouseup', () => {
+                isDown = false;
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 2;
+                container.scrollLeft = scrollLeft - walk;
+            });
+        });
+    </script>
+</body>
+
+</html>

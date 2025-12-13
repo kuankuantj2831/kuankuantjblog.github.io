@@ -14,7 +14,7 @@
 2. 登录后，点击右上角头像
 3. 查看你的用户名（例如：`kuankuantj2831` 或 `kuankuantjblog`）
 
-**记下你的用户名：________________**
+**记下你的用户名：kuankuantj2831**
 
 ---
 
@@ -98,7 +98,7 @@
 
 ```bash
 # 1. 更新远程地址
-git remote set-url origin https://github.com/YOUR_USERNAME/YOUR_USERNAME.github.io.git
+git remote set-url origin https://github.com/kuankuantj2831/kuankuantjblog.github.io.git
 
 # 2. 查看确认
 git remote -v

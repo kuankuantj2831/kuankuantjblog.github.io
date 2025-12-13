@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="个人中心 - kuankuantj的个人博客">
+
+    <title>个人中心 - kuankuantj的个人博客</title>
+
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/profile.css">
+
+    <script src="/js/pace.min.js"></script>
+</head>
+
+<body>
+    <!-- 返回首页按钮 -->
+    <a href="/index-chinese.html" class="back-to-home" title="返回首页">
+        🏠
+    </a>
+
+    <div class="profile-wrapper">
+        <div class="profile-container">
+            <!-- 用户头部 -->
+            <div class="profile-header">
+                <div class="profile-avatar-section">
+                    <div class="profile-avatar" id="profileAvatar">
+                        U
+                    </div>
+                    <button class="avatar-upload-btn" onclick="document.getElementById('avatarInput').click()">
+                        📷
+                    </button>
+                    <input type="file" id="avatarInput" class="avatar-upload-input" accept="image/*">
+                </div>
+                <div class="profile-info">
+                    <h1 class="profile-name" id="profileName">加载中...</h1>
+                    <p class="profile-email" id="profileEmail">加载中...</p>
+                    <p class="profile-date" id="profileDate">注册时间：加载中...</p>
+                </div>
+            </div>
+
+            <!-- 个人信息卡片 -->
+            <div class="profile-card">
+                <h2 class="profile-card-title">个人信息</h2>
+
+                <div class="profile-message success" id="infoSuccessMsg">
+                    ✅ 信息更新成功！
+                </div>
+                <div class="profile-message error" id="infoErrorMsg">
+                    ❌ 更新失败，请重试
+                </div>
+
+                <form id="profileInfoForm">
+                    <div class="profile-form-group">
+                        <label class="profile-form-label">用户名</label>
+                        <input type="text" class="profile-form-input" id="displayName" placeholder="请输入用户名" required>
+                    </div>
+
+                    <div class="profile-form-group">
+                        <label class="profile-form-label">邮箱地址</label>
+                        <input type="email" class="profile-form-input" id="email" disabled>
+                    </div>
+
+                    <div class="profile-form-group">
+                        <label class="profile-form-label">个人简介</label>
+                        <textarea class="profile-form-textarea" id="bio" placeholder="介绍一下自己吧..."></textarea>
+                    </div>
+
+                    <button type="submit" class="profile-btn profile-btn-primary">
+                        💾 保存信息
+                    </button>
+                </form>
+            </div>
+
+            <!-- 安全设置卡片 -->
+            <div class="profile-card">
+                <h2 class="profile-card-title">安全设置</h2>
+
+                <div class="profile-message success" id="passwordSuccessMsg">
+                    ✅ 密码修改成功！
+                </div>
+                <div class="profile-message error" id="passwordErrorMsg">
+                    ❌ 密码修改失败
+                </div>
+
+                <form id="changePasswordForm">
+                    <div class="profile-form-group">
+                        <label class="profile-form-label">当前密码</label>
+                        <input type="password" class="profile-form-input" id="currentPassword" placeholder="请输入当前密码"
+                            required>
+                    </div>
+
+                    <div class="profile-form-group">
+                        <label class="profile-form-label">新密码</label>
+                        <input type="password" class="profile-form-input" id="newPassword" placeholder="请输入新密码（至少6个字符）"
+                            required>
+                    </div>
+
+                    <div class="profile-form-group">
+                        <label class="profile-form-label">确认新密码</label>
+                        <input type="password" class="profile-form-input" id="confirmPassword" placeholder="请再次输入新密码"
+                            required>
+                    </div>
+
+                    <button type="submit" class="profile-btn profile-btn-primary">
+                        🔒 修改密码
+                    </button>
+                </form>
+            </div>
+
+            <!-- 账号统计 -->
+            <div class="profile-card">
+                <h2 class="profile-card-title">账号统计</h2>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="statDays">0</div>
+                        <div class="stat-label">注册天数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statLogins">1</div>
+                        <div class="stat-label">登录次数</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="statPosts">0</div>
+                        <div class="stat-label">发布文章</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/profile.js"></script>
+</body>
+
+</html>

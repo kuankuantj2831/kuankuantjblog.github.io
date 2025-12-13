@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>Firebase测试</title>
+</head>
+
+<body>
+    <h1>Firebase Firestore 测试</h1>
+    <div id="result"></div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBspolmlmt50Skx6cq62_sqsUyYXkglBhg",
+            authDomain: "my-blog-b5278.firebaseapp.com",
+            projectId: "my-blog-b5278",
+            storageBucket: "my-blog-b5278.firebasestorage.app",
+            messagingSenderId: "1019644740604",
+            appId: "1:1019644740604:web:65a21a4f159d01317d2879"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const resultDiv = document.getElementById('result');
+
+        async function testFirestore() {
+            try {
+                resultDiv.innerHTML += '<p>🔍 测试读取 usernames/kuankuantj...</p>';
+
+                // 尝试读取用户名映射
+                const usernameDoc = await getDoc(doc(db, 'usernames', 'kuankuantj'));
+
+                if (usernameDoc.exists()) {
+                    const data = usernameDoc.data();
+                    resultDiv.innerHTML += `<p>✅ 找到用户名映射！</p>`;
+                    resultDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    resultDiv.innerHTML += '<p>❌ 用户名映射不存在</p>';
+                    resultDiv.innerHTML += '<p>💡 这意味着您需要重新注册才能使用用户名登录</p>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML += `<p>❌ 错误: ${error.message}</p>`;
+                resultDiv.innerHTML += `<p>错误代码: ${error.code}</p>`;
+
+                if (error.code === 'permission-denied') {
+                    resultDiv.innerHTML += '<p>⚠️ 权限错误！请检查Firestore规则是否正确配置</p>';
+                }
+            }
+        }
+
+        testFirestore();
+    </script>
+</body>
+
+</html>
