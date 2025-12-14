@@ -16,8 +16,14 @@ print("🚀 开始上传代码到 GitHub...")
 run_command("git add .")
 
 # 2. 提交更改
+# 2. 提交更改
 commit_message = "Update blog: Chinese style, Auth, Profile, and CNAME"
-run_command(f'git commit -m "{commit_message}"')
+print(f"执行命令: git commit -m \"{commit_message}\"")
+try:
+    subprocess.check_call(f'git commit -m "{commit_message}"', shell=True)
+    print("✅ 提交成功")
+except subprocess.CalledProcessError:
+    print("⚠️ 提交失败或没有新更改 (这通常没问题，我们将继续推送)")
 
 # 3. 推送到远程仓库
 # 尝试推送到 main，如果失败尝试 master
