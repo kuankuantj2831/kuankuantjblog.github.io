@@ -133,124 +133,31 @@
                     <div class="notice-title">
                         天智
                         <span class="notice-badge" style="background: #2196f3;">GO+</span>
-                    </div>
-                    <div class="notice-desc">神圣之智</div>
-                </div>
-            </div>
-        </section>
+                        let scrollLeft;
 
-        <!-- 提示横幅 -->
-        <div class="tip-banner">
-            <div class="tip-content">
-                <div class="auth-modal-header">
-                    <h2 class="auth-modal-title">🔐 用户登录</h2>
-                    <button class="auth-modal-close">×</button>
-                </div>
-                <div class="auth-modal-body">
-                    <div class="auth-error" id="loginError"></div>
-                    <div class="auth-success" id="loginSuccess"></div>
+                        container.addEventListener('mousedown', (e) => {
+                        isDown = true;
+                        startX = e.pageX - container.offsetLeft;
+                        scrollLeft = container.scrollLeft;
+                        });
 
-                    <form id="loginForm">
-                        <div class="auth-form-group">
-                            <label class="auth-form-label">用户名/邮箱</label>
-                            <input type="text" class="auth-form-input" id="loginUsername" placeholder="请输入用户名或邮箱"
-                                required>
-                        </div>
+                        container.addEventListener('mouseleave', () => {
+                        isDown = false;
+                        });
 
-                        <div class="auth-form-group">
-                            <label class="auth-form-label">密码</label>
-                            <input type="password" class="auth-form-input" id="loginPassword" placeholder="请输入密码"
-                                required>
-                        </div>
+                        container.addEventListener('mouseup', () => {
+                        isDown = false;
+                        });
 
-                        <div class="auth-remember">
-                            <input type="checkbox" id="loginRemember">
-                            <label for="loginRemember">记住我</label>
-                        </div>
-
-                        <button type="submit" class="auth-btn auth-btn-primary">登录</button>
-                    </form>
-
-                    <div class="auth-switch">
-                        还没有账号？<a href="#" class="auth-switch-link" id="switchToRegister">立即注册</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 注册弹窗 -->
-        <div class="auth-modal-overlay" id="registerModal">
-            <div class="auth-modal">
-                <div class="auth-modal-header">
-                    <h2 class="auth-modal-title">📝 用户注册</h2>
-                    <button class="auth-modal-close">×</button>
-                </div>
-                <div class="auth-modal-body">
-                    <div class="auth-error" id="registerError"></div>
-                    <div class="auth-success" id="registerSuccess"></div>
-
-                    <form id="registerForm">
-                        <div class="auth-form-group">
-                            <label class="auth-form-label">用户名</label>
-                            <input type="text" class="auth-form-input" id="registerUsername"
-                                placeholder="请输入用户名（至少3个字符）" required>
-                        </div>
-
-                        <div class="auth-form-group">
-                            <label class="auth-form-label">邮箱</label>
-                            <input type="email" class="auth-form-input" id="registerEmail" placeholder="请输入邮箱地址"
-                                required>
-                        </div>
-
-                        <div class="auth-form-group">
-                            <label class="auth-form-label">密码</label>
-                            <input type="password" class="auth-form-input" id="registerPassword"
-                                placeholder="请输入密码（至少6个字符）" required>
-                        </div>
-
-                        <div class="auth-form-group">
-                            <label class="auth-form-label">确认密码</label>
-                            <input type="password" class="auth-form-input" id="registerConfirmPassword"
-                                placeholder="请再次输入密码" required>
-                        </div>
-
-                        <button type="submit" class="auth-btn auth-btn-primary">注册</button>
-                    </form>
-
-                    <div class="auth-switch">
-                        已有账号？<a href="#" class="auth-switch-link" id="switchToLogin">立即登录</a>
-                    </div>
-                    });
-
-                    // 平滑滚动
-                    document.querySelectorAll('.resource-scroll').forEach(container => {
-                    let isDown = false;
-                    let startX;
-                    let scrollLeft;
-
-                    container.addEventListener('mousedown', (e) => {
-                    isDown = true;
-                    startX = e.pageX - container.offsetLeft;
-                    scrollLeft = container.scrollLeft;
-                    });
-
-                    container.addEventListener('mouseleave', () => {
-                    isDown = false;
-                    });
-
-                    container.addEventListener('mouseup', () => {
-                    isDown = false;
-                    });
-
-                    container.addEventListener('mousemove', (e) => {
-                    if (!isDown) return;
-                    e.preventDefault();
-                    const x = e.pageX - container.offsetLeft;
-                    const walk = (x - startX) * 2;
-                    container.scrollLeft = scrollLeft - walk;
-                    });
-                    });
-                    </script>
+                        container.addEventListener('mousemove', (e) => {
+                        if (!isDown) return;
+                        e.preventDefault();
+                        const x = e.pageX - container.offsetLeft;
+                        const walk = (x - startX) * 2;
+                        container.scrollLeft = scrollLeft - walk;
+                        });
+                        });
+                        </script>
 </body>
 
 </html>
