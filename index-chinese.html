@@ -43,6 +43,7 @@
                             <div class="user-dropdown-email">user@example.com</div>
                         </div>
                         <div class="user-dropdown-menu">
+                            <a href="/editor.html" class="user-dropdown-item">✍️ 发布文章</a>
                             <a href="/profile.html" class="user-dropdown-item">👤 个人中心</a>
                             <a href="/profile.html" class="user-dropdown-item">⚙️ 设置</a>
                             <div class="user-dropdown-divider"></div>
@@ -141,211 +142,115 @@
         <!-- 提示横幅 -->
         <div class="tip-banner">
             <div class="tip-content">
-                <span>⚠️</span>
-                <span>请挂梯子访问获得更优质的体验哦！如果您的浏览器出现异常，请尝试更换浏览器或清除缓存！</span>
+                <div class="auth-modal-header">
+                    <h2 class="auth-modal-title">🔐 用户登录</h2>
+                    <button class="auth-modal-close">×</button>
+                </div>
+                <div class="auth-modal-body">
+                    <div class="auth-error" id="loginError"></div>
+                    <div class="auth-success" id="loginSuccess"></div>
+
+                    <form id="loginForm">
+                        <div class="auth-form-group">
+                            <label class="auth-form-label">用户名/邮箱</label>
+                            <input type="text" class="auth-form-input" id="loginUsername" placeholder="请输入用户名或邮箱"
+                                required>
+                        </div>
+
+                        <div class="auth-form-group">
+                            <label class="auth-form-label">密码</label>
+                            <input type="password" class="auth-form-input" id="loginPassword" placeholder="请输入密码"
+                                required>
+                        </div>
+
+                        <div class="auth-remember">
+                            <input type="checkbox" id="loginRemember">
+                            <label for="loginRemember">记住我</label>
+                        </div>
+
+                        <button type="submit" class="auth-btn auth-btn-primary">登录</button>
+                    </form>
+
+                    <div class="auth-switch">
+                        还没有账号？<a href="#" class="auth-switch-link" id="switchToRegister">立即注册</a>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 资源展示区域 -->
-        <section class="resource-showcase">
-            <div class="resource-scroll">
-                <!-- 资源卡片 1 -->
-                <div class="showcase-card">
-                    <img src="/images/ocean/ocean.png" alt="资源1" class="showcase-image">
-                    <div class="showcase-info">
-                        <div class="showcase-title">Hexo博客搭建教程</div>
-                        <div class="showcase-meta">
-                            <span>💻 编程</span>
-                            <span>👁️ 1.2k</span>
+        <!-- 注册弹窗 -->
+        <div class="auth-modal-overlay" id="registerModal">
+            <div class="auth-modal">
+                <div class="auth-modal-header">
+                    <h2 class="auth-modal-title">📝 用户注册</h2>
+                    <button class="auth-modal-close">×</button>
+                </div>
+                <div class="auth-modal-body">
+                    <div class="auth-error" id="registerError"></div>
+                    <div class="auth-success" id="registerSuccess"></div>
+
+                    <form id="registerForm">
+                        <div class="auth-form-group">
+                            <label class="auth-form-label">用户名</label>
+                            <input type="text" class="auth-form-input" id="registerUsername"
+                                placeholder="请输入用户名（至少3个字符）" required>
                         </div>
-                    </div>
-                </div>
 
-                <!-- 资源卡片 2 -->
-                <div class="showcase-card">
-                    <img src="/images/forrestgump.png" alt="资源2" class="showcase-image">
-                    <div class="showcase-info">
-                        <div class="showcase-title">Minecraft私服搭建</div>
-                        <div class="showcase-meta">
-                            <span>🎮 游戏</span>
-                            <span>👁️ 856</span>
+                        <div class="auth-form-group">
+                            <label class="auth-form-label">邮箱</label>
+                            <input type="email" class="auth-form-input" id="registerEmail" placeholder="请输入邮箱地址"
+                                required>
                         </div>
-                    </div>
-                </div>
 
-                <!-- 资源卡片 3 -->
-                <div class="showcase-card">
-                    <img src="/css/images/banner.jpg" alt="资源3" class="showcase-image">
-                    <div class="showcase-info">
-                        <div class="showcase-title">前端开发工具包</div>
-                        <div class="showcase-meta">
-                            <span>🔧 工具</span>
-                            <span>👁️ 2.3k</span>
+                        <div class="auth-form-group">
+                            <label class="auth-form-label">密码</label>
+                            <input type="password" class="auth-form-input" id="registerPassword"
+                                placeholder="请输入密码（至少6个字符）" required>
                         </div>
-                    </div>
-                </div>
 
-                <!-- 资源卡片 4 -->
-                <div class="showcase-card">
-                    <img src="/images/ocean/ocean.png" alt="资源4" class="showcase-image">
-                    <div class="showcase-info">
-                        <div class="showcase-title">Python学习路线</div>
-                        <div class="showcase-meta">
-                            <span>📚 学习</span>
-                            <span>👁️ 1.8k</span>
+                        <div class="auth-form-group">
+                            <label class="auth-form-label">确认密码</label>
+                            <input type="password" class="auth-form-input" id="registerConfirmPassword"
+                                placeholder="请再次输入密码" required>
                         </div>
+
+                        <button type="submit" class="auth-btn auth-btn-primary">注册</button>
+                    </form>
+
+                    <div class="auth-switch">
+                        已有账号？<a href="#" class="auth-switch-link" id="switchToLogin">立即登录</a>
                     </div>
-                </div>
+                    });
 
-                <!-- 资源卡片 5 -->
-                <div class="showcase-card">
-                    <img src="/images/hexo-inverted.svg" alt="资源5" class="showcase-image">
-                    <div class="showcase-info">
-                        <div class="showcase-title">UI设计素材库</div>
-                        <div class="showcase-meta">
-                            <span>🎨 设计</span>
-                            <span>👁️ 967</span>
-                        </div>
-                    </div>
-                </div>
+                    // 平滑滚动
+                    document.querySelectorAll('.resource-scroll').forEach(container => {
+                    let isDown = false;
+                    let startX;
+                    let scrollLeft;
 
-                <!-- 资源卡片 6 -->
-                <div class="showcase-card">
-                    <img src="/images/ocean/ocean.png" alt="资源6" class="showcase-image">
-                    <div class="showcase-info">
-                        <div class="showcase-title">Git版本控制指南</div>
-                        <div class="showcase-meta">
-                            <span>💻 编程</span>
-                            <span>👁️ 1.5k</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+                    container.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    startX = e.pageX - container.offsetLeft;
+                    scrollLeft = container.scrollLeft;
+                    });
 
-    <!-- 登录弹窗 -->
-    <div class="auth-modal-overlay" id="loginModal">
-        <div class="auth-modal">
-            <div class="auth-modal-header">
-                <h2 class="auth-modal-title">🔐 用户登录</h2>
-                <button class="auth-modal-close">×</button>
-            </div>
-            <div class="auth-modal-body">
-                <div class="auth-error" id="loginError"></div>
-                <div class="auth-success" id="loginSuccess"></div>
+                    container.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    });
 
-                <form id="loginForm">
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">用户名/邮箱</label>
-                        <input type="text" class="auth-form-input" id="loginUsername" placeholder="请输入用户名或邮箱" required>
-                    </div>
+                    container.addEventListener('mouseup', () => {
+                    isDown = false;
+                    });
 
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">密码</label>
-                        <input type="password" class="auth-form-input" id="loginPassword" placeholder="请输入密码" required>
-                    </div>
-
-                    <div class="auth-remember">
-                        <input type="checkbox" id="loginRemember">
-                        <label for="loginRemember">记住我</label>
-                    </div>
-
-                    <button type="submit" class="auth-btn auth-btn-primary">登录</button>
-                </form>
-
-                <div class="auth-switch">
-                    还没有账号？<a href="#" class="auth-switch-link" id="switchToRegister">立即注册</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 注册弹窗 -->
-    <div class="auth-modal-overlay" id="registerModal">
-        <div class="auth-modal">
-            <div class="auth-modal-header">
-                <h2 class="auth-modal-title">📝 用户注册</h2>
-                <button class="auth-modal-close">×</button>
-            </div>
-            <div class="auth-modal-body">
-                <div class="auth-error" id="registerError"></div>
-                <div class="auth-success" id="registerSuccess"></div>
-
-                <form id="registerForm">
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">用户名</label>
-                        <input type="text" class="auth-form-input" id="registerUsername" placeholder="请输入用户名（至少3个字符）"
-                            required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">邮箱</label>
-                        <input type="email" class="auth-form-input" id="registerEmail" placeholder="请输入邮箱地址" required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">密码</label>
-                        <input type="password" class="auth-form-input" id="registerPassword" placeholder="请输入密码（至少6个字符）"
-                            required>
-                    </div>
-
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">确认密码</label>
-                        <input type="password" class="auth-form-input" id="registerConfirmPassword"
-                            placeholder="请再次输入密码" required>
-                    </div>
-
-                    <button type="submit" class="auth-btn auth-btn-primary">注册</button>
-                </form>
-
-                <div class="auth-switch">
-                    已有账号？<a href="#" class="auth-switch-link" id="switchToLogin">立即登录</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/jquery-2.0.3.min.js"></script>
-    <script type="module" src="/js/firebase-auth.js"></script>
-    <script>
-        // 标签切换
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // 平滑滚动
-        document.querySelectorAll('.resource-scroll').forEach(container => {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            container.addEventListener('mousedown', (e) => {
-                isDown = true;
-                startX = e.pageX - container.offsetLeft;
-                scrollLeft = container.scrollLeft;
-            });
-
-            container.addEventListener('mouseleave', () => {
-                isDown = false;
-            });
-
-            container.addEventListener('mouseup', () => {
-                isDown = false;
-            });
-
-            container.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - container.offsetLeft;
-                const walk = (x - startX) * 2;
-                container.scrollLeft = scrollLeft - walk;
-            });
-        });
-    </script>
+                    container.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - container.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    container.scrollLeft = scrollLeft - walk;
+                    });
+                    });
+                    </script>
 </body>
 
 </html>

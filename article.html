@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>文章加载中... - 天机阁</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/chinese-style.css">
+    <link rel="stylesheet" href="/css/tianjg-theme.css">
+    <style>
+        .article-container {
+            max-width: 900px;
+            margin: 100px auto 50px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .article-title {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .article-meta {
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .article-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #2c3e50;
+            white-space: pre-wrap;
+            /* 保留换行 */
+        }
+
+        /* 简单的 Markdown 样式适配 */
+        .article-content h1,
+        .article-content h2,
+        .article-content h3 {
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+        }
+
+        .article-content code {
+            background: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        .article-content pre {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chinese-style-wrapper">
+        <div class="bg-decoration"></div>
+
+        <nav class="top-nav">
+            <div class="logo">天机阁</div>
+            <div class="nav-links">
+                <a href="/index-chinese.html" class="nav-link">🏠 返回首页</a>
+            </div>
+        </nav>
+
+        <div class="article-container">
+            <div id="loading" style="text-align: center; padding: 50px;">
+                <div class="loading-spinner"></div>
+                <p>正在加载文章...</p>
+            </div>
+
+            <article id="articleContent" style="display: none;">
+                <div class="article-header">
+                    <h1 class="article-title" id="artTitle"></h1>
+                    <div class="article-meta">
+                        <span id="artCategory"></span>
+                        <span id="artDate"></span>
+                        <span id="artAuthor"></span>
+                    </div>
+                </div>
+                <div class="article-content" id="artBody"></div>
+            </article>
+        </div>
+    </div>
+
+    <script type="module" src="/js/article-display.js"></script>
+</body>
+
+</html>

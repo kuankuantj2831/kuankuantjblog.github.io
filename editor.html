@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>发布文章 - 天机阁</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/chinese-style.css">
+    <link rel="stylesheet" href="/css/tianjg-theme.css">
+    <link rel="stylesheet" href="/css/auth.css">
+    <style>
+        .editor-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .editor-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .editor-title {
+            font-size: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: #667eea;
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 400px;
+            resize: vertical;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.6;
+        }
+
+        .btn-publish {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-publish:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-publish:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .preview-btn {
+            margin-top: 10px;
+            background: transparent;
+            border: 1px solid #667eea;
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chinese-style-wrapper">
+        <div class="bg-decoration"></div>
+
+        <!-- 顶部导航 -->
+        <nav class="top-nav">
+            <div class="logo">天机阁</div>
+            <div class="nav-links">
+                <a href="/index-chinese.html" class="nav-link">🏠 返回首页</a>
+            </div>
+        </nav>
+
+        <div class="editor-container">
+            <div class="editor-header">
+                <h1 class="editor-title">✨ 发布新文章</h1>
+            </div>
+
+            <form id="articleForm">
+                <div class="form-group">
+                    <label class="form-label">文章标题</label>
+                    <input type="text" class="form-input" id="articleTitle" placeholder="请输入引人注目的标题" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">分类</label>
+                    <select class="form-select" id="articleCategory">
+                        <option value="编程技术">💻 编程技术</option>
+                        <option value="游戏资源">🎮 游戏资源</option>
+                        <option value="设计素材">🎨 设计素材</option>
+                        <option value="学习资料">📚 学习资料</option>
+                        <option value="天机工具">🔧 天机工具</option>
+                        <option value="生活随笔">📝 生活随笔</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">标签 (用逗号分隔)</label>
+                    <input type="text" class="form-input" id="articleTags" placeholder="例如: Python, 教程, 入门">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">文章摘要</label>
+                    <input type="text" class="form-input" id="articleSummary" placeholder="一句话描述文章内容（用于首页展示）" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">正文内容 (支持 Markdown)</label>
+                    <textarea class="form-textarea" id="articleContent" placeholder="# 标题&#10;&#10;开始你的创作..."
+                        required></textarea>
+                </div>
+
+                <button type="submit" class="btn-publish" id="publishBtn">🚀 发布文章</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="/js/editor.js"></script>
+</body>
+
+</html>
