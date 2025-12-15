@@ -298,7 +298,13 @@ class SupabaseAuthSystem {
 }
 
 // 初始化
-document.addEventListener('DOMContentLoaded', () => {
+// 初始化
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.supabaseAuthSystem = new SupabaseAuthSystem();
+        console.log('⚡ Supabase认证系统已加载 (DOMContentLoaded)');
+    });
+} else {
     window.supabaseAuthSystem = new SupabaseAuthSystem();
-    console.log('⚡ Supabase认证系统已加载');
-});
+    console.log('⚡ Supabase认证系统已加载 (Direct)');
+}
