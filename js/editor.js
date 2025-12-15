@@ -1,31 +1,17 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Firebase配置
-const firebaseConfig = {
-    apiKey: "AIzaSyBspolmlmt50Skx6cq62_sqsUyYXkglBhg",
-    authDomain: "my-blog-b5278.firebaseapp.com",
-    projectId: "my-blog-b5278",
-    storageBucket: "my-blog-b5278.firebasestorage.app",
-    messagingSenderId: "1019644740604",
-    appId: "1:1019644740604:web:65a21a4f159d01317d2879",
-    measurementId: "G-L1P4HP7F9K"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+import { supabase } from './supabase-client.js';
 
 // 检查登录状态
-onAuthStateChanged(auth, (user) => {
+async function checkAuth() {
+    const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
         alert("请先登录后再发布文章！");
         window.location.href = "/index-chinese.html";
     } else {
         console.log("当前用户:", user.email);
     }
-});
+}
+checkAuth();
 
 // 处理发布
 document.getElementById('articleForm').addEventListener('submit', async (e) => {
@@ -45,26 +31,44 @@ document.getElementById('articleForm').addEventListener('submit', async (e) => {
     const tags = tagsStr.split(/[,，]/).map(t => t.trim()).filter(t => t);
 
     try {
-        const user = auth.currentUser;
+        const { data: { user } } = await supabase.auth.getUser();
         if (!user) throw new Error("未登录");
 
-        // 写入数据库
-        const docRef = await addDoc(collection(db, "articles"), {
-            title: title,
-            category: category,
-            tags: tags,
-            summary: summary,
-            content: content,
-            authorId: user.uid,
-            authorName: user.displayName || user.email.split('@')[0], // 优先用用户名，没有则用邮箱前缀
-            createdAt: serverTimestamp(),
-            updatedAt: serverTimestamp(),
-            views: 0
-        });
+        // 获取作者名 (优先用 profile 中的 username)
+        let authorName = user.user_metadata.username || user.email.split('@')[0];
 
-        console.log("文章发布成功，ID: ", docRef.id);
+        // 尝试从 profiles 表获取最新用户名
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('username')
+            .eq('id', user.id)
+            .single();
+
+        if (profile && profile.username) {
+            authorName = profile.username;
+        }
+
+        // 写入数据库
+        const { data, error } = await supabase
+            .from('articles')
+            .insert([
+                {
+                    title: title,
+                    category: category,
+                    tags: tags, // Supabase 支持数组类型
+                    summary: summary,
+                    content: content,
+                    author_id: user.id,
+                    author_name: authorName
+                }
+            ])
+            .select();
+
+        if (error) throw error;
+
+        console.log("文章发布成功");
         alert("🎉 发布成功！");
-        window.location.href = "/index-chinese.html"; // 或者跳转到文章详情页
+        window.location.href = "/index-chinese.html";
 
     } catch (error) {
         console.error("发布失败: ", error);

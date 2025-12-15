@@ -1,18 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBspolmlmt50Skx6cq62_sqsUyYXkglBhg",
-    authDomain: "my-blog-b5278.firebaseapp.com",
-    projectId: "my-blog-b5278",
-    storageBucket: "my-blog-b5278.firebasestorage.app",
-    messagingSenderId: "1019644740604",
-    appId: "1:1019644740604:web:65a21a4f159d01317d2879",
-    measurementId: "G-L1P4HP7F9K"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import { supabase } from './supabase-client.js';
 
 async function loadArticle() {
     // 获取 URL 参数中的 id
@@ -26,27 +13,29 @@ async function loadArticle() {
     }
 
     try {
-        const docRef = doc(db, "articles", articleId);
-        const docSnap = await getDoc(docRef);
+        const { data: article, error } = await supabase
+            .from('articles')
+            .select('*')
+            .eq('id', articleId)
+            .single();
 
-        if (docSnap.exists()) {
-            const data = docSnap.data();
+        if (error) throw error;
 
+        if (article) {
             // 填充页面
-            document.title = data.title + " - 天机阁";
-            document.getElementById('artTitle').textContent = data.title;
-            document.getElementById('artCategory').textContent = "📂 " + data.category;
-            document.getElementById('artAuthor').textContent = "👤 " + data.authorName;
+            document.title = article.title + " - 天机阁";
+            document.getElementById('artTitle').textContent = article.title;
+            document.getElementById('artCategory').textContent = "📂 " + article.category;
+            document.getElementById('artAuthor').textContent = "👤 " + (article.author_name || '匿名');
 
             // 格式化时间
-            if (data.createdAt) {
-                const date = data.createdAt.toDate();
+            if (article.created_at) {
+                const date = new Date(article.created_at);
                 document.getElementById('artDate').textContent = "🕒 " + date.toLocaleDateString() + " " + date.toLocaleTimeString();
             }
 
-            // 简单的 Markdown 渲染 (如果需要更强功能可以引入 marked.js)
-            // 这里暂时直接显示，或者做简单的换行处理
-            document.getElementById('artBody').innerHTML = data.content
+            // 简单的 Markdown 渲染
+            document.getElementById('artBody').innerHTML = article.content
                 .replace(/</g, "&lt;").replace(/>/g, "&gt;") // 防XSS
                 .replace(/\n/g, "<br>"); // 换行
 

@@ -1,18 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBspolmlmt50Skx6cq62_sqsUyYXkglBhg",
-    authDomain: "my-blog-b5278.firebaseapp.com",
-    projectId: "my-blog-b5278",
-    storageBucket: "my-blog-b5278.firebasestorage.app",
-    messagingSenderId: "1019644740604",
-    appId: "1:1019644740604:web:65a21a4f159d01317d2879",
-    measurementId: "G-L1P4HP7F9K"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+import { supabase } from './supabase-client.js';
 
 async function loadArticles() {
     const container = document.getElementById('articles-container');
@@ -20,35 +7,39 @@ async function loadArticles() {
 
     try {
         // 查询最新的 10 篇文章
-        const q = query(collection(db, "articles"), orderBy("createdAt", "desc"), limit(10));
-        const querySnapshot = await getDocs(q);
+        const { data: articles, error } = await supabase
+            .from('articles')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(10);
 
-        if (querySnapshot.empty) {
+        if (error) throw error;
+
+        if (!articles || articles.length === 0) {
             container.innerHTML = '<div style="text-align:center; padding:20px; color:#666;">暂无文章，快去发布第一篇吧！<br><a href="/editor.html" style="color:#667eea;">✍️ 发布文章</a></div>';
             return;
         }
 
         container.innerHTML = ''; // 清空加载提示
 
-        querySnapshot.forEach((doc) => {
-            const data = doc.data();
+        articles.forEach((article) => {
             const card = document.createElement('div');
             card.className = 'showcase-card';
-            card.onclick = () => window.location.href = `/article.html?id=${doc.id}`;
+            card.onclick = () => window.location.href = `/article.html?id=${article.id}`;
 
             // 随机封面图 (如果没有上传图片功能，就用随机图)
             const randomImg = `/images/ocean/ocean.png`; // 暂时用默认图
 
             card.innerHTML = `
-                <img src="${data.coverImage || randomImg}" alt="${data.title}" class="showcase-image">
+                <img src="${article.cover_image || randomImg}" alt="${article.title}" class="showcase-image">
                 <div class="showcase-info">
-                    <div class="showcase-title">${data.title}</div>
+                    <div class="showcase-title">${article.title}</div>
                     <div class="showcase-meta">
-                        <span>📂 ${data.category}</span>
-                        <span>👤 ${data.authorName}</span>
+                        <span>📂 ${article.category}</span>
+                        <span>👤 ${article.author_name || '匿名'}</span>
                     </div>
                     <div style="font-size:12px; color:#999; margin-top:5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-                        ${data.summary}
+                        ${article.summary || ''}
                     </div>
                 </div>
             `;

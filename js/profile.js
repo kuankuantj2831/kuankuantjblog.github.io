@@ -1,36 +1,5 @@
-// 个人中心页面逻辑（无Storage版本）
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import {
-    getAuth,
-    onAuthStateChanged,
-    updateProfile,
-    updatePassword,
-    EmailAuthProvider,
-    reauthenticateWithCredential
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
-import {
-    getFirestore,
-    doc,
-    getDoc,
-    setDoc,
-    updateDoc
-} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
-// Firebase配置
-const firebaseConfig = {
-    apiKey: "AIzaSyBspolmlmt50Skx6cq62_sqsUyYXkglBhg",
-    authDomain: "my-blog-b5278.firebaseapp.com",
-    projectId: "my-blog-b5278",
-    storageBucket: "my-blog-b5278.firebasestorage.app",
-    messagingSenderId: "1019644740604",
-    appId: "1:1019644740604:web:65a21a4f159d01317d2879",
-    measurementId: "G-L1P4HP7F9K"
-};
-
-// 初始化Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+import { supabase } from './supabase-client.js';
 
 class ProfileManager {
     constructor() {
@@ -40,10 +9,11 @@ class ProfileManager {
     }
 
     init() {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                this.currentUser = user;
-                console.log('✅ 用户已登录:', user.email);
+        // 监听登录状态
+        supabase.auth.onAuthStateChange(async (event, session) => {
+            if (session?.user) {
+                this.currentUser = session.user;
+                console.log('✅ 用户已登录:', this.currentUser.email);
                 this.loadUserData();
             } else {
                 console.log('❌ 未登录，跳转到首页');
@@ -61,7 +31,6 @@ class ProfileManager {
         if (uploadBtn) {
             uploadBtn.style.display = 'none';
         }
-        console.log('ℹ️ 头像上传功能已禁用（需要升级Firebase计划）');
     }
 
     bindEvents() {
@@ -91,33 +60,33 @@ class ProfileManager {
                 emailEl.textContent = this.currentUser.email;
             }
 
-            const userDocRef = doc(db, 'users', this.currentUser.uid);
-            console.log('🔍 查询Firestore文档:', `users/${this.currentUser.uid}`);
+            // 从 profiles 表获取数据
+            const { data: profile, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', this.currentUser.id)
+                .single();
 
-            const userDoc = await getDoc(userDocRef);
-
-            if (userDoc.exists()) {
-                this.userData = userDoc.data();
+            if (profile) {
+                this.userData = profile;
                 console.log('✅ 找到用户数据:', this.userData);
             } else {
                 console.log('⚠️ 用户文档不存在，创建新文档...');
-                this.userData = {
-                    email: this.currentUser.email,
-                    displayName: this.currentUser.email.split('@')[0],
-                    bio: '',
-                    photoURL: '',
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString()
+                // 如果 profile 不存在，尝试创建
+                const newProfile = {
+                    id: this.currentUser.id,
+                    username: this.currentUser.user_metadata.username || this.currentUser.email.split('@')[0],
+                    avatar_url: ''
                 };
 
-                try {
-                    await setDoc(userDocRef, this.userData);
-                    console.log('✅ 用户文档创建成功');
-                } catch (setDocError) {
-                    console.error('❌ 创建用户文档失败:', setDocError);
-                    if (setDocError.code === 'permission-denied') {
-                        alert('⚠️ Firebase权限错误！\n\n请确认已配置Firestore规则。');
-                    }
+                const { error: insertError } = await supabase
+                    .from('profiles')
+                    .insert([newProfile]);
+
+                if (!insertError) {
+                    this.userData = newProfile;
+                } else {
+                    console.error('❌ 创建用户文档失败:', insertError);
                 }
             }
 
@@ -135,11 +104,13 @@ class ProfileManager {
         console.log('🎨 更新UI...');
 
         if (!this.userData) {
-            console.error('❌ userData为空，无法更新UI');
-            return;
+            // 如果没有 userData，尝试用 currentUser 的 metadata
+            this.userData = {
+                username: this.currentUser.user_metadata.username || this.currentUser.email.split('@')[0]
+            };
         }
 
-        const displayName = this.userData.displayName || this.currentUser.email.split('@')[0];
+        const displayName = this.userData.username || this.currentUser.email.split('@')[0];
         const nameEl = document.getElementById('profileName');
         const nameInput = document.getElementById('displayName');
 
@@ -156,11 +127,12 @@ class ProfileManager {
         if (emailInput) emailInput.value = this.currentUser.email;
 
         const bioInput = document.getElementById('bio');
-        if (bioInput) bioInput.value = this.userData.bio || '';
+        // profiles 表目前没有 bio 字段，如果需要可以加，或者暂时忽略
+        if (bioInput) bioInput.value = '';
 
         const dateEl = document.getElementById('profileDate');
-        if (dateEl && this.userData.createdAt) {
-            const createdDate = new Date(this.userData.createdAt);
+        if (dateEl && this.currentUser.created_at) {
+            const createdDate = new Date(this.currentUser.created_at);
             dateEl.textContent = `注册时间：${createdDate.toLocaleDateString('zh-CN')}`;
 
             const days = Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
@@ -174,27 +146,29 @@ class ProfileManager {
     async updateUserInfo() {
         try {
             const displayName = document.getElementById('displayName').value.trim();
-            const bio = document.getElementById('bio').value.trim();
+            // const bio = document.getElementById('bio').value.trim(); // 暂不支持 bio
 
             if (!displayName) {
                 this.showMessage('infoErrorMsg', '用户名不能为空');
                 return;
             }
 
-            console.log('💾 更新用户信息:', { displayName, bio });
+            console.log('💾 更新用户信息:', { displayName });
 
-            await updateDoc(doc(db, 'users', this.currentUser.uid), {
-                displayName,
-                bio,
-                updatedAt: new Date().toISOString()
+            // 更新 profiles 表
+            const { error } = await supabase
+                .from('profiles')
+                .update({ username: displayName })
+                .eq('id', this.currentUser.id);
+
+            if (error) throw error;
+
+            // 更新 Auth metadata (可选，为了保持一致性)
+            await supabase.auth.updateUser({
+                data: { username: displayName }
             });
 
-            await updateProfile(this.currentUser, {
-                displayName
-            });
-
-            this.userData.displayName = displayName;
-            this.userData.bio = bio;
+            this.userData.username = displayName;
 
             this.showMessage('infoSuccessMsg', '信息更新成功！');
             this.updateUI();
@@ -207,11 +181,12 @@ class ProfileManager {
 
     async changePassword() {
         try {
-            const currentPassword = document.getElementById('currentPassword').value;
+            // Supabase 修改密码不需要旧密码（只要已登录）
+            // const currentPassword = document.getElementById('currentPassword').value; 
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
 
-            if (!currentPassword || !newPassword || !confirmPassword) {
+            if (!newPassword || !confirmPassword) {
                 this.showMessage('passwordErrorMsg', '请填写完整信息');
                 return;
             }
@@ -228,25 +203,18 @@ class ProfileManager {
 
             console.log('🔒 修改密码...');
 
-            const credential = EmailAuthProvider.credential(
-                this.currentUser.email,
-                currentPassword
-            );
-            await reauthenticateWithCredential(this.currentUser, credential);
-            await updatePassword(this.currentUser, newPassword);
+            const { error } = await supabase.auth.updateUser({
+                password: newPassword
+            });
+
+            if (error) throw error;
 
             this.showMessage('passwordSuccessMsg', '密码修改成功！');
             document.getElementById('changePasswordForm').reset();
             console.log('✅ 密码修改成功');
         } catch (error) {
             console.error('❌ 修改密码失败:', error);
-            let message = '修改失败';
-            if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-                message = '当前密码错误';
-            } else if (error.code === 'auth/weak-password') {
-                message = '新密码强度太弱';
-            }
-            this.showMessage('passwordErrorMsg', message);
+            this.showMessage('passwordErrorMsg', '修改失败：' + error.message);
         }
     }
 
@@ -266,7 +234,6 @@ class ProfileManager {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 个人中心页面加载中...');
-    console.log('ℹ️ 头像上传功能已禁用（需要Firebase Blaze计划）');
     window.profileManager = new ProfileManager();
+    console.log('⚡ Supabase个人中心已加载');
 });
