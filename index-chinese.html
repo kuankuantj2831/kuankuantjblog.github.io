@@ -173,61 +173,48 @@
                 </form>
 
                 <div class="auth-switch">
-                    已有账号？<a href="#" class="auth-switch-link" id="switchToLogin">立即登录</a>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </script>
+                    <script type="module" src="js/supabase-auth.js"></script>
+                    <script type="module" src="js/load-articles.js"></script>
+                    <script src="js/theme-enhancements.js"></script>
+                    <script>
+                        // 标签切换
+                        document.querySelectorAll('.tab-btn').forEach(btn => {
+                            btn.addEventListener('click', function () {
+                                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+                            });
+                        });
 
-    <script src="js/jquery-2.0.3.min.js"></script>
-    <script>
-        window.onerror = function (msg, url, line, col, error) {
-            if (msg.includes('Script error') && !url) return true;
-            console.error('Error:', msg, url, line, col, error);
-            // alert('JS Error: ' + msg); // 调试用
-        };
-    </script>
-    <script type="module" src="js/supabase-auth.js"></script>
-    <script type="module" src="js/load-articles.js"></script>
-    <script src="js/theme-enhancements.js"></script>
-    <script>
-        // 标签切换
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function () {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+                        // 平滑滚动
+                        document.querySelectorAll('.resource-scroll').forEach(container => {
+                            let isDown = false;
+                            let startX;
+                            let scrollLeft;
 
-        // 平滑滚动
-        document.querySelectorAll('.resource-scroll').forEach(container => {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
+                            container.addEventListener('mousedown', (e) => {
+                                isDown = true;
+                                startX = e.pageX - container.offsetLeft;
+                                scrollLeft = container.scrollLeft;
+                            });
 
-            container.addEventListener('mousedown', (e) => {
-                isDown = true;
-                startX = e.pageX - container.offsetLeft;
-                scrollLeft = container.scrollLeft;
-            });
+                            container.addEventListener('mouseleave', () => {
+                                isDown = false;
+                            });
 
-            container.addEventListener('mouseleave', () => {
-                isDown = false;
-            });
+                            container.addEventListener('mouseup', () => {
+                                isDown = false;
+                            });
 
-            container.addEventListener('mouseup', () => {
-                isDown = false;
-            });
-
-            container.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - container.offsetLeft;
-                const walk = (x - startX) * 2;
-                container.scrollLeft = scrollLeft - walk;
-            });
-        });
-    </script>
+                            container.addEventListener('mousemove', (e) => {
+                                if (!isDown) return;
+                                e.preventDefault();
+                                const x = e.pageX - container.offsetLeft;
+                                const walk = (x - startX) * 2;
+                                container.scrollLeft = scrollLeft - walk;
+                            });
+                        });
+                    </script>
 </body>
 
 </html>
