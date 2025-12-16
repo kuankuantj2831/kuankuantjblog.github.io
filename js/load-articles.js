@@ -6,12 +6,20 @@ async function loadArticles() {
     if (!container) return;
 
     try {
+        console.log('Starting to load articles...');
+
+        if (!supabase) {
+            console.error('Supabase client is not initialized.');
+            throw new Error('Supabase client missing');
+        }
         // 查询最新的 10 篇文章
         const { data: articles, error } = await supabase
             .from('articles')
             .select('*')
             .order('created_at', { ascending: false })
             .limit(10);
+
+        console.log('Articles loaded:', articles, 'Error:', error);
 
         if (error) throw error;
 
@@ -48,7 +56,7 @@ async function loadArticles() {
 
     } catch (error) {
         console.error("加载文章列表失败:", error);
-        container.innerHTML = '<div style="color:red; text-align:center;">加载失败，请检查网络或数据库权限</div>';
+        container.innerHTML = `<div style="color:red; text-align:center;">加载失败: ${error.message || error}<br>请检查网络或数据库权限</div>`;
     }
 }
 

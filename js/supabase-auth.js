@@ -8,8 +8,15 @@ class SupabaseAuthSystem {
     }
 
     init() {
+        console.log('SupabaseAuth: initializing...');
+        if (!supabase) {
+            console.error('SupabaseAuth: supabase client is missing!');
+            return;
+        }
+
         // 监听登录状态
         supabase.auth.onAuthStateChange(async (event, session) => {
+            console.log('SupabaseAuth: Auth state change:', event, session);
             if (session?.user) {
                 const user = session.user;
                 let username = user.user_metadata.username || user.email.split('@')[0];
@@ -202,16 +209,7 @@ class SupabaseAuthSystem {
             // Supabase 默认只支持邮箱登录，如果输入的是用户名，需要先查邮箱
             let email = input;
             if (!input.includes('@')) {
-                const { data, error } = await supabase
-                    .from('profiles')
-                    .select('id') // 我们无法直接查邮箱，只能提示用户用邮箱登录，或者需要后端函数
-                // 这里简化处理：提示用户使用邮箱登录
-                // 或者：如果 profiles 表里存了 email 字段（目前设计没存），可以查
-                // 现在的设计 profiles 只有 username。
-                // 临时方案：尝试直接登录，如果失败提示用户
-
-                // 由于 Supabase 安全机制，不能通过公开表反查邮箱。
-                // 建议修改 UI 提示用户使用邮箱登录
+                // 尝试直接登录，如果失败提示用户
                 if (!input.includes('@')) {
                     this.showError('loginError', '目前仅支持邮箱登录，请输入注册邮箱');
                     return;
@@ -297,7 +295,6 @@ class SupabaseAuthSystem {
     }
 }
 
-// 初始化
 // 初始化
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {

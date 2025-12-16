@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Supabase Diagnostic</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+
+        #log {
+            background: white;
+            padding: 15px;
+            border: 1px solid #ccc;
+            white-space: pre-wrap;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Supabase Diagnostic</h1>
+    <div id="log">Initializing...</div>
+
+    <script src="js/supabase.js"></script>
+    <script>
+        const logEl = document.getElementById('log');
+        function log(msg, type = 'info') {
+            const el = document.createElement('div');
+            el.textContent = msg;
+            if (type) el.className = type;
+            logEl.appendChild(el);
+        }
+
+        logEl.textContent = ''; // Clear init message
+
+        try {
+            log('Step 1: Checking window.supabase...');
+            if (!window.supabase) {
+                log('ERROR: window.supabase is undefined!', 'error');
+                throw new Error('Supabase SDK not loaded');
+            }
+            log('window.supabase exists.', 'success');
+            log('Keys: ' + Object.keys(window.supabase).join(', '));
+
+            log('Step 2: Checking createClient...');
+            if (typeof window.supabase.createClient !== 'function') {
+                log('ERROR: window.supabase.createClient is not a function!', 'error');
+                log('Type: ' + typeof window.supabase.createClient);
+                throw new Error('createClient missing');
+            }
+            log('createClient found.', 'success');
+
+            log('Step 3: Initializing Client...');
+            const SUPABASE_URL = 'https://rbmajbplwfyvrwtkczzn.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibWFqYnBsd2Z5dnJ3dGtjenpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU3OTY4MjksImV4cCI6MjA4MTM3MjgyOX0.QyqRAyBXe_ywsLRARu0NMnLHeN86AYAyl1C9Um9RTSE';
+
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            log('Client initialized.', 'success');
+
+            log('Step 4: Testing Connection (Fetch Articles)...');
+            supabase.from('articles').select('*').limit(1).then(({ data, error }) => {
+                if (error) {
+                    log('ERROR: Fetch failed: ' + error.message, 'error');
+                    log('Details: ' + JSON.stringify(error, null, 2));
+                } else {
+                    log('SUCCESS: Connected! Found ' + data.length + ' articles.', 'success');
+                }
+            }).catch(err => {
+                log('EXCEPTION: ' + err.message, 'error');
+            });
+
+        } catch (e) {
+            log('FATAL ERROR: ' + e.message, 'error');
+        }
+    </script>
+</body>
+
+</html>
