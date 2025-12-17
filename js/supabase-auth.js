@@ -205,19 +205,15 @@ class SupabaseAuthSystem {
             return;
         }
 
-        try {
-            // Supabase 默认只支持邮箱登录，如果输入的是用户名，需要先查邮箱
-            let email = input;
-            if (!input.includes('@')) {
-                // 尝试直接登录，如果失败提示用户
-                if (!input.includes('@')) {
-                    this.showError('loginError', '目前仅支持邮箱登录，请输入注册邮箱');
-                    return;
-                }
-            }
+        // 强制要求使用邮箱登录
+        if (!input.includes('@')) {
+            this.showError('loginError', '不支持用户名登录，请输入注册时的邮箱地址');
+            return;
+        }
 
+        try {
             const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
+                email: input,
                 password: password
             });
 
@@ -231,7 +227,16 @@ class SupabaseAuthSystem {
 
         } catch (error) {
             console.error('登录错误:', error);
-            this.showError('loginError', '登录失败：' + (error.message || '账号或密码错误'));
+            let msg = '登录失败：' + (error.message || '账号或密码错误');
+
+            // 处理常见错误
+            if (error.message.includes('Email not confirmed')) {
+                msg = '登录失败：您的邮箱尚未验证，请检查收件箱（包括垃圾邮件）点击验证链接。';
+            } else if (error.message.includes('Invalid login credentials')) {
+                msg = '登录失败：邮箱或密码错误';
+            }
+
+            this.showError('loginError', msg);
         }
     }
 
