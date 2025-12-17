@@ -183,6 +183,29 @@
     <script type="module" src="js/load-articles.js"></script>
     <script src="js/theme-enhancements.js"></script>
     <script>
+        // Debugging script
+        window.addEventListener('load', () => {
+            console.log('Debug: Window loaded');
+            if (!window.supabase) {
+                alert('CRITICAL ERROR: Supabase SDK not loaded! window.supabase is undefined.');
+            } else {
+                console.log('Debug: Supabase SDK loaded');
+            }
+
+            const loginBtn = document.querySelector('.login-btn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', (e) => {
+                    console.log('Debug: Login button clicked');
+                    if (!window.supabaseAuthSystem) {
+                        alert('System not ready: SupabaseAuthSystem not initialized yet.');
+                    }
+                });
+            } else {
+                console.error('Debug: Login button not found in DOM');
+            }
+        });
+    </script>
+    <script>
         // 标签切换
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function () {
