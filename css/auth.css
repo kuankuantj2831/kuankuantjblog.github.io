@@ -338,4 +338,4 @@
     .auth-modal-title {
         font-size: 1.5em;
     }
-}
+}.auth-tab-btn { flex: 1; padding: 8px; background: transparent; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; } .auth-tab-btn.active { background: #007bff; color: white; border-color: #007bff; }

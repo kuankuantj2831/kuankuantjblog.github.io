@@ -26,9 +26,11 @@
             <div class="logo">天机阁</div>
             <div class="nav-links">
                 <a href="#" class="nav-link active">🏠 主页</a>
+                <a href="games.html" class="nav-link">🎮 游戏</a>
                 <a href="#" class="nav-link">☁️ 网盘</a>
                 <a href="#" class="nav-link">🎯 关于我们</a>
-                <a href="#" class="nav-link login-btn" style="cursor: pointer;">👤 登录</a>
+                <a href="#" class="nav-link login-btn" style="cursor: pointer;"
+                    onclick="document.getElementById('loginModal').classList.add('active')">👤 登录</a>
                 <a href="#" class="nav-link register-btn" style="cursor: pointer;">📝 注册</a>
 
                 <!-- 用户菜单 -->
@@ -108,7 +110,8 @@
                 <div class="auth-error" id="loginError"></div>
                 <div class="auth-success" id="loginSuccess"></div>
 
-                <form id="loginForm">
+                <form id="loginForm"
+                    onsubmit="event.preventDefault(); if(window.supabaseAuthSystem) { window.supabaseAuthSystem.handleLogin(); } else { alert('系统未就绪'); }">
                     <div class="auth-form-group">
                         <label class="auth-form-label">用户名/邮箱</label>
                         <input type="text" class="auth-form-input" id="loginUsername" placeholder="请输入用户名或邮箱" required>
@@ -117,6 +120,11 @@
                     <div class="auth-form-group">
                         <label class="auth-form-label">密码</label>
                         <input type="password" class="auth-form-input" id="loginPassword" placeholder="请输入密码" required>
+                    </div>
+
+                    <div class="auth-form-group" id="login2faGroup" style="display: none;">
+                        <label class="auth-form-label">验证码</label>
+                        <input type="text" class="auth-form-input" id="login2faCode" placeholder="请输入邮箱验证码">
                     </div>
 
                     <div class="auth-remember">
@@ -179,9 +187,32 @@
         </div>
     </div>
     <script src="js/supabase.js"></script>
-    <script type="module" src="js/supabase-auth.js"></script>
-    <script type="module" src="js/load-articles.js"></script>
+    <script type="module" src="js/supabase-auth.js?v=1766142191"></script>
+    <script type="module" src="js/load-articles.js?v=1766142191"></script>
     <script src="js/theme-enhancements.js"></script>
+    <script>
+        // Debugging script
+        window.addEventListener('load', () => {
+            console.log('Debug: Window loaded');
+            if (!window.supabase) {
+                alert('CRITICAL ERROR: Supabase SDK not loaded! window.supabase is undefined.');
+            } else {
+                console.log('Debug: Supabase SDK loaded');
+            }
+
+            const loginBtn = document.querySelector('.login-btn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', (e) => {
+                    console.log('Debug: Login button clicked');
+                    if (!window.supabaseAuthSystem) {
+                        alert('System not ready: SupabaseAuthSystem not initialized yet.');
+                    }
+                });
+            } else {
+                console.error('Debug: Login button not found in DOM');
+            }
+        });
+    </script>
     <script>
         // 标签切换
         document.querySelectorAll('.tab-btn').forEach(btn => {

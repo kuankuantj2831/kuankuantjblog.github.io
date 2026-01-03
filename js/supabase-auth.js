@@ -1,5 +1,5 @@
 
-import { supabase } from './supabase-client.js';
+import { API_BASE_URL } from './api-config.js';
 
 class SupabaseAuthSystem {
     constructor() {
@@ -8,60 +8,40 @@ class SupabaseAuthSystem {
     }
 
     init() {
-        console.log('SupabaseAuth: initializing...');
-        if (!supabase) {
-            console.error('SupabaseAuth: supabase client is missing!');
-            return;
-        }
-
-        // 监听登录状态
-        supabase.auth.onAuthStateChange(async (event, session) => {
-            console.log('SupabaseAuth: Auth state change:', event, session);
-            if (session?.user) {
-                const user = session.user;
-                let username = user.user_metadata.username || user.email.split('@')[0];
-                let avatar_url = user.user_metadata.avatar_url;
-
-                // 从 profiles 表获取最新信息
-                try {
-                    const { data, error } = await supabase
-                        .from('profiles')
-                        .select('username, avatar_url')
-                        .eq('id', user.id)
-                        .single();
-
-                    if (data) {
-                        if (data.username) username = data.username;
-                        if (data.avatar_url) avatar_url = data.avatar_url;
-                    }
-                } catch (error) {
-                    console.error("获取用户资料失败:", error);
-                }
-
-                this.currentUser = {
-                    id: user.id,
-                    email: user.email,
-                    username: username,
-                    avatar_url: avatar_url
-                };
-                this.updateUI();
-            } else {
-                this.currentUser = null;
-                this.updateUI();
-            }
-        });
-
+        console.log('AuthSystem: initializing...');
         this.bindEvents();
+
+        // Check for existing session in localStorage
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            try {
+                this.currentUser = JSON.parse(storedUser);
+                console.log('AuthSystem: User restored from localStorage', this.currentUser);
+                this.updateUI();
+            } catch (e) {
+                console.error('AuthSystem: Failed to parse stored user', e);
+                localStorage.removeItem('user');
+            }
+        } else {
+            console.log('AuthSystem: No user session found');
+            this.updateUI();
+        }
     }
 
     bindEvents() {
         // 登录按钮
         const loginBtn = document.querySelector('.login-btn');
-        if (loginBtn) loginBtn.addEventListener('click', () => this.showLoginModal());
+        if (loginBtn) loginBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // 防止链接跳转
+            this.showLoginModal();
+        });
 
         // 注册按钮
         const registerBtn = document.querySelector('.register-btn');
-        if (registerBtn) registerBtn.addEventListener('click', () => this.showRegisterModal());
+        if (registerBtn) registerBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // 防止链接跳转
+            this.showRegisterModal();
+        });
 
         // 关闭按钮
         document.querySelectorAll('.auth-modal-close, .auth-modal-overlay').forEach(el => {
@@ -108,13 +88,22 @@ class SupabaseAuthSystem {
         // 退出登录
         const logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => this.logout());
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.logout();
+            });
         }
     }
 
     showLoginModal() {
         this.closeModals();
         const modal = document.getElementById('loginModal');
+        if (modal) setTimeout(() => modal.classList.add('active'), 100);
+    }
+
+    showRegisterModal() {
+        this.closeModals();
+        const modal = document.getElementById('registerModal');
         if (modal) setTimeout(() => modal.classList.add('active'), 100);
     }
 
@@ -136,10 +125,11 @@ class SupabaseAuthSystem {
     async handleRegister() {
         const username = document.getElementById('registerUsername').value.trim();
         const email = document.getElementById('registerEmail').value.trim();
+        const phone = document.getElementById('registerPhone') ? document.getElementById('registerPhone').value.trim() : '';
         const password = document.getElementById('registerPassword').value;
         const confirmPassword = document.getElementById('registerConfirmPassword').value;
 
-        if (!username || !email || !password || !confirmPassword) {
+        if (!username || (!email && !phone) || !password || !confirmPassword) {
             this.showError('registerError', '请填写完整信息');
             return;
         }
@@ -160,36 +150,29 @@ class SupabaseAuthSystem {
         }
 
         try {
-            // 1. 注册用户
-            const { data, error } = await supabase.auth.signUp({
-                email: email,
-                password: password,
-                options: {
-                    data: {
-                        username: username
-                    }
-                }
+            const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, email, phone, password })
             });
 
-            if (error) throw error;
+            const data = await response.json();
 
-            if (data.user) {
-                // 2. 创建 profile (虽然 trigger 可以做，但前端显式创建更可控)
-                const { error: profileError } = await supabase
-                    .from('profiles')
-                    .insert([
-                        { id: data.user.id, username: username }
-                    ]);
-
-                if (profileError) console.error('创建Profile失败:', profileError);
-
-                this.showSuccess('registerSuccess', '注册成功！正在自动登录...');
-
-                setTimeout(() => {
-                    this.closeModals();
-                    document.getElementById('registerForm').reset();
-                }, 1500);
+            if (!response.ok) {
+                throw new Error(data.message || '注册失败');
             }
+
+            this.showSuccess('registerSuccess', '注册成功！正在自动登录...');
+
+            // Optionally auto-login or wait for user to login
+            setTimeout(() => {
+                this.closeModals();
+                document.getElementById('registerForm').reset();
+                // If the API returns a token/user on register, we could log them in here
+                // For now, let's ask them to login
+                this.showLoginModal();
+            }, 1500);
+
         } catch (error) {
             console.error('注册错误:', error);
             this.showError('registerError', error.message || '注册失败');
@@ -197,52 +180,80 @@ class SupabaseAuthSystem {
     }
 
     async handleLogin() {
+        console.log('Handle Login called');
         const input = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value;
+        const codeInput = document.getElementById('login2faCode');
+        const code = codeInput ? codeInput.value.trim() : '';
 
         if (!input || !password) {
             this.showError('loginError', '请填写完整信息');
             return;
         }
 
-        // 强制要求使用邮箱登录
-        if (!input.includes('@')) {
-            this.showError('loginError', '不支持用户名登录，请输入注册时的邮箱地址');
-            return;
-        }
-
         try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: input,
-                password: password
+            let url = `${API_BASE_URL}/auth/login`;
+            let body = { username: input, password };
+
+            // If 2FA input is visible and has value, verify it
+            if (document.getElementById('login2faGroup').style.display !== 'none' && code) {
+                url = `${API_BASE_URL}/auth/login/verify`;
+                // For verify, we need userId which we don't store in UI easily, 
+                // but the backend verify needs userId. 
+                // Actually, let's store userId in a hidden field or memory when 2FA is requested.
+                const userId = this.tempUserId;
+                if (!userId) throw new Error('会话过期，请刷新重试');
+                body = { userId, code };
+            }
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
             });
 
-            if (error) throw error;
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || '登录失败');
+            }
+
+            // Check for 2FA requirement
+            if (data.require2fa) {
+                this.tempUserId = data.userId;
+                document.getElementById('login2faGroup').style.display = 'block';
+                this.showSuccess('loginSuccess', '验证码已发送至您的邮箱，请输入验证码');
+                return; // Stop here, wait for user to input code
+            }
+
+            // Login Success
+            this.currentUser = data.user;
+            localStorage.setItem('user', JSON.stringify(this.currentUser));
+            if (data.token) localStorage.setItem('token', data.token);
 
             this.showSuccess('loginSuccess', '登录成功！');
+            this.updateUI();
+
             setTimeout(() => {
                 this.closeModals();
                 document.getElementById('loginForm').reset();
+                document.getElementById('login2faGroup').style.display = 'none';
+                if (codeInput) codeInput.value = '';
+                this.tempUserId = null;
             }, 1000);
 
         } catch (error) {
             console.error('登录错误:', error);
-            let msg = '登录失败：' + (error.message || '账号或密码错误');
-
-            // 处理常见错误
-            if (error.message.includes('Email not confirmed')) {
-                msg = '登录失败：您的邮箱尚未验证，请检查收件箱（包括垃圾邮件）点击验证链接。';
-            } else if (error.message.includes('Invalid login credentials')) {
-                msg = '登录失败：邮箱或密码错误';
-            }
-
-            this.showError('loginError', msg);
+            this.showError('loginError', '登录失败：' + (error.message || '账号或密码错误'));
         }
     }
 
     async logout() {
         try {
-            await supabase.auth.signOut();
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            this.currentUser = null;
+            this.updateUI();
             window.location.reload();
         } catch (error) {
             console.error('退出错误:', error);
@@ -250,9 +261,12 @@ class SupabaseAuthSystem {
     }
 
     updateUI() {
+        console.log('SupabaseAuth: updateUI called. CurrentUser:', this.currentUser);
         const loginBtn = document.querySelector('.login-btn');
         const registerBtn = document.querySelector('.register-btn');
         const userMenu = document.querySelector('.user-menu');
+
+        console.log('SupabaseAuth: UI Elements found:', { loginBtn, registerBtn, userMenu });
 
         if (this.currentUser) {
             // 已登录

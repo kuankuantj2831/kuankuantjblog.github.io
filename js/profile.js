@@ -1,5 +1,5 @@
 
-import { supabase } from './supabase-client.js';
+import { API_BASE_URL } from './api-config.js';
 
 class ProfileManager {
     constructor() {
@@ -9,46 +9,19 @@ class ProfileManager {
     }
 
     init() {
-        // 监听登录状态
-        supabase.auth.onAuthStateChange(async (event, session) => {
-            if (session?.user) {
-                this.currentUser = session.user;
-                console.log('✅ 用户已登录:', this.currentUser.email);
-                this.loadUserData();
-            } else {
-                console.log('❌ 未登录，跳转到首页');
-                window.location.href = '/index-chinese.html';
-            }
-        });
+        // Check login status from localStorage
+        const userJson = localStorage.getItem('user');
+        if (userJson) {
+            this.currentUser = JSON.parse(userJson);
+            console.log('✅ 用户已登录:', this.currentUser.email);
+            this.loadUserData();
+        } else {
+            console.log('❌ 未登录，跳转到首页');
+            window.location.href = '/index-chinese.html';
+        }
 
         this.bindEvents();
-        this.hideAvatarUpload(); // 隐藏头像上传功能
-    }
-
-    hideAvatarUpload() {
-        // 隐藏头像上传按钮
-        const uploadBtn = document.querySelector('.avatar-upload-btn');
-        if (uploadBtn) {
-            uploadBtn.style.display = 'none';
-        }
-    }
-
-    bindEvents() {
-        const infoForm = document.getElementById('profileInfoForm');
-        if (infoForm) {
-            infoForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.updateUserInfo();
-            });
-        }
-
-        const passwordForm = document.getElementById('changePasswordForm');
-        if (passwordForm) {
-            passwordForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                this.changePassword();
-            });
-        }
+        this.hideAvatarUpload(); // Hide avatar upload
     }
 
     async loadUserData() {
@@ -60,34 +33,22 @@ class ProfileManager {
                 emailEl.textContent = this.currentUser.email;
             }
 
-            // 从 profiles 表获取数据
-            const { data: profile, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', this.currentUser.id)
-                .single();
+            // Fetch profile from backend
+            const response = await fetch(`${API_BASE_URL}/profiles/${this.currentUser.id}`);
 
-            if (profile) {
-                this.userData = profile;
+            if (response.ok) {
+                const data = await response.json();
+                // Handle response structure (direct object or { data: ... })
+                this.userData = data.data || data;
                 console.log('✅ 找到用户数据:', this.userData);
             } else {
-                console.log('⚠️ 用户文档不存在，创建新文档...');
-                // 如果 profile 不存在，尝试创建
-                const newProfile = {
+                console.log('⚠️ 用户文档不存在或获取失败');
+                // Fallback to basic user info
+                this.userData = {
                     id: this.currentUser.id,
-                    username: this.currentUser.user_metadata.username || this.currentUser.email.split('@')[0],
+                    username: this.currentUser.username || this.currentUser.email.split('@')[0],
                     avatar_url: ''
                 };
-
-                const { error: insertError } = await supabase
-                    .from('profiles')
-                    .insert([newProfile]);
-
-                if (!insertError) {
-                    this.userData = newProfile;
-                } else {
-                    console.error('❌ 创建用户文档失败:', insertError);
-                }
             }
 
             this.updateUI();
@@ -146,7 +107,6 @@ class ProfileManager {
     async updateUserInfo() {
         try {
             const displayName = document.getElementById('displayName').value.trim();
-            // const bio = document.getElementById('bio').value.trim(); // 暂不支持 bio
 
             if (!displayName) {
                 this.showMessage('infoErrorMsg', '用户名不能为空');
@@ -155,20 +115,26 @@ class ProfileManager {
 
             console.log('💾 更新用户信息:', { displayName });
 
-            // 更新 profiles 表
-            const { error } = await supabase
-                .from('profiles')
-                .update({ username: displayName })
-                .eq('id', this.currentUser.id);
-
-            if (error) throw error;
-
-            // 更新 Auth metadata (可选，为了保持一致性)
-            await supabase.auth.updateUser({
-                data: { username: displayName }
+            // Update profile via API
+            const response = await fetch(`${API_BASE_URL}/profiles/${this.currentUser.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ username: displayName })
             });
 
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || '更新失败');
+            }
+
             this.userData.username = displayName;
+
+            // Update local storage user data as well
+            this.currentUser.username = displayName;
+            localStorage.setItem('user', JSON.stringify(this.currentUser));
 
             this.showMessage('infoSuccessMsg', '信息更新成功！');
             this.updateUI();
@@ -181,8 +147,6 @@ class ProfileManager {
 
     async changePassword() {
         try {
-            // Supabase 修改密码不需要旧密码（只要已登录）
-            // const currentPassword = document.getElementById('currentPassword').value; 
             const newPassword = document.getElementById('newPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
 
@@ -203,11 +167,22 @@ class ProfileManager {
 
             console.log('🔒 修改密码...');
 
-            const { error } = await supabase.auth.updateUser({
-                password: newPassword
+            const response = await fetch(`${API_BASE_URL}/auth/password`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    userId: this.currentUser.id,
+                    password: newPassword
+                })
             });
 
-            if (error) throw error;
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || '修改失败');
+            }
 
             this.showMessage('passwordSuccessMsg', '密码修改成功！');
             document.getElementById('changePasswordForm').reset();
@@ -216,24 +191,85 @@ class ProfileManager {
             console.error('❌ 修改密码失败:', error);
             this.showMessage('passwordErrorMsg', '修改失败：' + error.message);
         }
-    }
-
-    showMessage(elementId, message) {
-        const el = document.getElementById(elementId);
-        if (el) {
-            if (message) {
-                el.textContent = message;
-            }
-            el.classList.add('show');
-            setTimeout(() => {
-                el.classList.remove('show');
-            }, 3000);
-        }
+        this.showMessage('passwordSuccessMsg', '密码修改成功！');
+        document.getElementById('changePasswordForm').reset();
+        console.log('✅ 密码修改成功');
+    } catch(error) {
+        console.error('❌ 修改密码失败:', error);
+        this.showMessage('passwordErrorMsg', '修改失败：' + error.message);
     }
 }
 
-// 初始化
-document.addEventListener('DOMContentLoaded', () => {
-    window.profileManager = new ProfileManager();
-    console.log('⚡ Supabase个人中心已加载');
-});
+    async toggle2FA(enabled) {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_BASE_URL}/auth/user/2fa`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ enable: enabled })
+        });
+
+        if (!response.ok) {
+            throw new Error('操作失败');
+        }
+
+        this.currentUser.is_2fa_enabled = enabled;
+        localStorage.setItem('user', JSON.stringify(this.currentUser));
+        console.log(`2FA ${enabled ? 'enabled' : 'disabled'}`);
+    } catch (error) {
+        console.error('Toggle 2FA error:', error);
+        document.getElementById('toggle2fa').checked = !enabled; // Revert switch
+        alert('操作失败，请重试');
+    }
+}
+
+bindEvents() {
+    // ... existing events ...
+    const infoForm = document.getElementById('profileInfoForm');
+    if (infoForm) {
+        infoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.updateUserInfo();
+        });
+    }
+
+    const passwordForm = document.getElementById('changePasswordForm');
+    if (passwordForm) {
+        passwordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.changePassword();
+        });
+    }
+
+    const toggle2fa = document.getElementById('toggle2fa');
+    if (toggle2fa) {
+        toggle2fa.addEventListener('change', (e) => {
+            this.toggle2FA(e.target.checked);
+        });
+    }
+}
+
+    async loadUserData() {
+    try {
+        // ... existing load logic ...
+
+        // Update 2FA toggle state
+        const toggle2fa = document.getElementById('toggle2fa');
+        if (toggle2fa) {
+            // We should get the latest status from API, but for now use local or currentUser
+            // Ideally, /profiles/:id should return is_2fa_enabled
+            // If not, we might need to rely on what's in currentUser from login
+            toggle2fa.checked = !!this.currentUser.is_2fa_enabled;
+        }
+
+        // ... rest of loadUserData ...
+
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            window.profileManager = new ProfileManager();
+            console.log('⚡ Supabase个人中心已加载');
+        });

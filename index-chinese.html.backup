@@ -22,13 +22,10 @@
 
         <!-- 顶部导航 -->
         <nav class="top-nav">
-            <div class="logo">天机阁</div>
+            <div class="logo">kuankuantj's Blog</div>
             <div class="nav-links">
                 <a href="#" class="nav-link active">🏠 主页</a>
-                <a href="#" class="nav-link">📦 精品资源</a>
-                <a href="#" class="nav-link">❌ 创意设计</a>
-                <a href="#" class="nav-link">📚 技术教程</a>
-                <a href="#" class="nav-link">🔧 天机工具</a>
+                <a href="#" class="nav-link">📦 网盘</a>
                 <a href="#" class="nav-link">🎯 关于我们</a>
                 <a href="#" class="nav-link">🔍 搜索</a>
                 <a href="#" class="nav-link login-btn" style="cursor: pointer;">👤 登录</a>
@@ -92,59 +89,6 @@
                 <a href="#" class="category-tag">百度网盘</a>
             </div>
         </section>
-
-        <!-- 公告卡片 -->
-        <section class="notice-cards">
-            <div class="notice-card">
-                <div class="notice-icon pink">📝</div>
-                <div class="notice-content">
-                    <div class="notice-title">注册机</div>
-                    <div class="notice-desc">感受逆向之美</div>
-                </div>
-            </div>
-
-            <div class="notice-card">
-                <div class="notice-icon blue">💬</div>
-                <div class="notice-content">
-                    <div class="notice-title">Telegram交流群</div>
-                    <div class="notice-desc">你意想不到的资源都在这里哦！</div>
-                </div>
-            </div>
-
-            <div class="notice-card">
-                <div class="notice-icon dark">
-                    <span style="color: white;">天</span>
-                </div>
-                <div class="notice-content">
-                    <div class="notice-title">
-                        天机阁交流群
-                        <span class="notice-badge">NEW</span>
-                    </div>
-                    <div class="notice-desc">QQ群：885659321</div>
-                </div>
-            </div>
-
-            <div class="notice-card">
-                <div class="notice-icon dark">
-                    <span style="color: white;">智</span>
-                </div>
-                <div class="notice-content">
-                    <div class="notice-title">
-                        天智
-                        <span class="notice-badge" style="background: #2196f3;">GO+</span>
-                    </div>
-                    <div class="notice-desc">神圣之智</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 提示横幅 -->
-        <div class="tip-banner">
-            <div class="tip-content">
-                <span>⚠️</span>
-                <span>请挂梯子访问获得更优质的体验哦！如果您的浏览器出现异常，请尝试更换浏览器或清除缓存！</span>
-            </div>
-        </div>
 
         <!-- 资源展示区域 -->
         <section class="resource-showcase">

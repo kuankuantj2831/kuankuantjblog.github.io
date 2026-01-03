@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>游戏中心 - 天机阁</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/tianjg-theme.css">
+    <style>
+        .games-container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-thumbnail {
+            height: 200px;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+        }
+
+        .game-info {
+            padding: 20px;
+        }
+
+        .game-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .game-desc {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .play-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: #5cceee;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chinese-style-wrapper">
+        <div class="bg-decoration"></div>
+
+        <nav class="top-nav">
+            <div class="logo">天机阁</div>
+            <div class="nav-links">
+                <a href="index-chinese.html" class="nav-link">🏠 主页</a>
+                <a href="games.html" class="nav-link active">🎮 游戏</a>
+                <a href="#" class="nav-link">☁️ 网盘</a>
+                <a href="#" class="nav-link">🎯 关于我们</a>
+            </div>
+        </nav>
+
+        <div class="games-container">
+            <!-- Snake Game Card -->
+            <a href="games/snake/index.html" class="game-card" target="_blank">
+                <div class="game-thumbnail">
+                    🐍
+                </div>
+                <div class="game-info">
+                    <div class="game-title">贪吃蛇</div>
+                    <div class="game-desc">经典的贪吃蛇游戏，支持存档、成就系统和移动端操作。挑战最高分吧！</div>
+                    <span class="play-btn">开始游戏</span>
+                </div>
+            </a>
+
+            <!-- More games placeholder -->
+            <div class="game-card" style="opacity: 0.7; cursor: default;">
+                <div class="game-thumbnail" style="background: #eee; color: #999;">
+                    🚧
+                </div>
+                <div class="game-info">
+                    <div class="game-title">敬请期待</div>
+                    <div class="game-desc">更多精彩游戏正在开发中...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
