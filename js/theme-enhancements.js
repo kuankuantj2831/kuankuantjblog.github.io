@@ -3,17 +3,17 @@
  * 为博客添加交互功能和动态效果
  */
 
-(function() {
+(function () {
   'use strict';
 
   // ==================== 工具函数 ====================
-  
+
   /**
    * 添加淡入动画
    */
   function addFadeInAnimation() {
     const articles = document.querySelectorAll('.article');
-    
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
@@ -41,10 +41,10 @@
    */
   function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
+      anchor.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
         if (href === '#') return;
-        
+
         const target = document.querySelector(href);
         if (target) {
           e.preventDefault();
@@ -91,10 +91,10 @@
     if (!navbar) return;
 
     let lastScroll = 0;
-    
+
     window.addEventListener('scroll', () => {
       const currentScroll = window.pageYOffset;
-      
+
       if (currentScroll > 100) {
         navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
         navbar.style.background = 'rgba(255, 255, 255, 0.98)';
@@ -102,7 +102,7 @@
         navbar.style.boxShadow = 'none';
         navbar.style.background = 'rgba(255, 255, 255, 0.95)';
       }
-      
+
       lastScroll = currentScroll;
     });
   }
@@ -112,7 +112,7 @@
    */
   function enhanceLazyLoad() {
     const images = document.querySelectorAll('img[data-src]');
-    
+
     const imageObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -134,14 +134,14 @@
     const searchInput = document.querySelector('#local-search-input');
     if (!searchInput) return;
 
-    searchInput.addEventListener('input', function() {
+    searchInput.addEventListener('input', function () {
       const searchTerm = this.value.toLowerCase();
       const articles = document.querySelectorAll('.article');
 
       articles.forEach(article => {
         const title = article.querySelector('.article-title');
         const content = article.querySelector('.article-entry');
-        
+
         if (!title) return;
 
         const titleText = title.textContent.toLowerCase();
@@ -186,7 +186,7 @@
       const documentHeight = document.documentElement.scrollHeight;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const scrollPercent = (scrollTop / (documentHeight - windowHeight)) * 100;
-      
+
       progressBar.style.width = scrollPercent + '%';
     });
   }
@@ -196,10 +196,10 @@
    */
   function addCodeCopyButton() {
     const codeBlocks = document.querySelectorAll('pre code');
-    
+
     codeBlocks.forEach(codeBlock => {
       const pre = codeBlock.parentElement;
-      
+
       // 创建复制按钮
       const copyBtn = document.createElement('button');
       copyBtn.className = 'code-copy-btn';
@@ -217,19 +217,19 @@
         opacity: 0;
         transition: opacity 0.3s ease;
       `;
-      
+
       pre.style.position = 'relative';
       pre.appendChild(copyBtn);
-      
+
       // 悬停显示按钮
       pre.addEventListener('mouseenter', () => {
         copyBtn.style.opacity = '1';
       });
-      
+
       pre.addEventListener('mouseleave', () => {
         copyBtn.style.opacity = '0';
       });
-      
+
       // 复制功能
       copyBtn.addEventListener('click', async () => {
         try {
@@ -237,7 +237,7 @@
           copyBtn.innerHTML = '<i class="fe fe-check"></i> 已复制';
           copyBtn.style.background = '#4caf50';
           copyBtn.style.color = 'white';
-          
+
           setTimeout(() => {
             copyBtn.innerHTML = '<i class="fe fe-copy"></i> 复制';
             copyBtn.style.background = 'rgba(255, 255, 255, 0.9)';
@@ -255,9 +255,9 @@
    */
   function addHoverEffects() {
     const articles = document.querySelectorAll('.article');
-    
+
     articles.forEach(article => {
-      article.addEventListener('mouseenter', function() {
+      article.addEventListener('mouseenter', function () {
         this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
       });
     });
@@ -268,13 +268,13 @@
    */
   function markExternalLinks() {
     const links = document.querySelectorAll('a[href^="http"]');
-    
+
     links.forEach(link => {
       const href = link.getAttribute('href');
       if (!href.includes(window.location.hostname)) {
         link.setAttribute('target', '_blank');
         link.setAttribute('rel', 'noopener noreferrer');
-        
+
         // 添加外部链接图标
         if (!link.querySelector('.external-icon')) {
           const icon = document.createElement('i');
@@ -291,11 +291,11 @@
    */
   function initImageViewer() {
     const images = document.querySelectorAll('.article-entry img');
-    
+
     images.forEach(img => {
       img.style.cursor = 'zoom-in';
-      
-      img.addEventListener('click', function() {
+
+      img.addEventListener('click', function () {
         // 创建遮罩层
         const overlay = document.createElement('div');
         overlay.style.cssText = `
@@ -312,7 +312,7 @@
           cursor: zoom-out;
           animation: fadeIn 0.3s ease;
         `;
-        
+
         // 创建大图
         const bigImg = document.createElement('img');
         bigImg.src = this.src;
@@ -323,15 +323,37 @@
           box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
           animation: zoomIn 0.3s ease;
         `;
-        
+
         overlay.appendChild(bigImg);
         document.body.appendChild(overlay);
-        
+
         // 点击关闭
         overlay.addEventListener('click', () => {
           overlay.style.animation = 'fadeOut 0.3s ease';
           setTimeout(() => overlay.remove(), 300);
         });
+      });
+    });
+  }
+
+  /**
+   * 密码显示/隐藏切换
+   */
+  function initPasswordToggle() {
+    document.querySelectorAll('.password-eye-icon').forEach(icon => {
+      icon.addEventListener('click', function () {
+        // Find input in the same group
+        const input = this.parentElement.querySelector('input');
+        if (!input) return;
+
+        if (input.type === 'password') {
+          input.type = 'text';
+          this.textContent = '🔒'; // Optionally change icon or keep textual
+          // Or toggle a class for icon style change
+        } else {
+          input.type = 'password';
+          this.textContent = '👁️';
+        }
       });
     });
   }
@@ -391,6 +413,7 @@
     addHoverEffects();
     markExternalLinks();
     initImageViewer();
+    initPasswordToggle();
   }
 
   // 启动

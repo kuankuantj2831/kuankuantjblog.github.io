@@ -101,88 +101,102 @@
 
     <!-- 登录弹窗 -->
     <div class="auth-modal-overlay" id="loginModal">
-        <div class="auth-modal">
-            <div class="auth-modal-header">
-                <h2 class="auth-modal-title">🔐 用户登录</h2>
-                <button class="auth-modal-close">×</button>
-            </div>
+        <div class="auth-modal tianjg-modal">
+            <button class="auth-modal-close">×</button>
             <div class="auth-modal-body">
+                <!-- Logo Area -->
+                <div class="auth-logo">
+                    <span class="auth-logo-text">✨天机阁✨</span>
+                </div>
+
+                <!-- Header -->
+                <div class="auth-header-row">
+                    <h2 class="auth-title">登录</h2>
+                    <span class="auth-header-divider"></span>
+                </div>
+                <div class="auth-subtitle">
+                    没有账号？ <a href="#" class="auth-link" id="switchToRegister">立即注册 ></a>
+                </div>
+
                 <div class="auth-error" id="loginError"></div>
                 <div class="auth-success" id="loginSuccess"></div>
 
                 <form id="loginForm"
                     onsubmit="event.preventDefault(); if(window.supabaseAuthSystem) { window.supabaseAuthSystem.handleLogin(); } else { alert('系统未就绪'); }">
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">用户名/邮箱</label>
-                        <input type="text" class="auth-form-input" id="loginUsername" placeholder="请输入用户名或邮箱" required>
+
+                    <div class="tianjg-input-group">
+                        <input type="text" class="tianjg-input" id="loginUsername" placeholder="用户名或邮箱" required>
                     </div>
 
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">密码</label>
-                        <input type="password" class="auth-form-input" id="loginPassword" placeholder="请输入密码" required>
+                    <div class="tianjg-input-group">
+                        <input type="password" class="tianjg-input" id="loginPassword" placeholder="登录密码" required>
+                        <span class="password-eye-icon">👁️</span>
                     </div>
 
-                    <div class="auth-form-group" id="login2faGroup" style="display: none;">
-                        <label class="auth-form-label">验证码</label>
-                        <input type="text" class="auth-form-input" id="login2faCode" placeholder="请输入邮箱验证码">
+                    <div class="tianjg-input-group" id="login2faGroup" style="display: none;">
+                        <input type="text" class="tianjg-input" id="login2faCode" placeholder="请输入邮箱验证码">
                     </div>
 
-                    <div class="auth-remember">
-                        <input type="checkbox" id="loginRemember">
-                        <label for="loginRemember">记住我</label>
+                    <div class="auth-options-row">
+                        <div class="auth-remember">
+                            <input type="checkbox" id="loginRemember" class="tianjg-checkbox">
+                            <label for="loginRemember">记住登录</label>
+                        </div>
+                        <div class="auth-links">
+                            <a href="#" class="auth-link-grey">找回密码</a>
+                        </div>
                     </div>
 
-                    <button type="submit" class="auth-btn auth-btn-primary">登录</button>
+                    <button type="submit" class="tianjg-btn">➔ 登录</button>
                 </form>
-
-                <div class="auth-switch">
-                    还没有账号？<a href="#" class="auth-switch-link" id="switchToRegister">立即注册</a>
-                </div>
             </div>
         </div>
     </div>
 
     <!-- 注册弹窗 -->
     <div class="auth-modal-overlay" id="registerModal">
-        <div class="auth-modal">
-            <div class="auth-modal-header">
-                <h2 class="auth-modal-title">📝 用户注册</h2>
-                <button class="auth-modal-close">×</button>
-            </div>
+        <div class="auth-modal tianjg-modal">
+            <button class="auth-modal-close">×</button>
             <div class="auth-modal-body">
+                <!-- Logo Area -->
+                <div class="auth-logo">
+                    <span class="auth-logo-text">✨天机阁✨</span>
+                </div>
+
+                <!-- Header -->
+                <div class="auth-header-row">
+                    <h2 class="auth-title">注册</h2>
+                    <span class="auth-header-divider"></span>
+                </div>
+                <div class="auth-subtitle">
+                    已有账号？ <a href="#" class="auth-link" id="switchToLogin">立即登录 ></a>
+                </div>
+
                 <div class="auth-error" id="registerError"></div>
                 <div class="auth-success" id="registerSuccess"></div>
 
                 <form id="registerForm">
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">用户名</label>
-                        <input type="text" class="auth-form-input" id="registerUsername" placeholder="请输入用户名（至少3个字符）"
+                    <div class="tianjg-input-group">
+                        <input type="text" class="tianjg-input" id="registerUsername" placeholder="用户名（至少3个字符）"
                             required>
                     </div>
 
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">邮箱</label>
-                        <input type="email" class="auth-form-input" id="registerEmail" placeholder="请输入邮箱地址" required>
+                    <div class="tianjg-input-group">
+                        <input type="email" class="tianjg-input" id="registerEmail" placeholder="邮箱地址" required>
                     </div>
 
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">密码</label>
-                        <input type="password" class="auth-form-input" id="registerPassword" placeholder="请输入密码（至少6个字符）"
+                    <div class="tianjg-input-group">
+                        <input type="password" class="tianjg-input" id="registerPassword" placeholder="密码（至少6个字符）"
                             required>
                     </div>
 
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">确认密码</label>
-                        <input type="password" class="auth-form-input" id="registerConfirmPassword"
-                            placeholder="请再次输入密码" required>
+                    <div class="tianjg-input-group">
+                        <input type="password" class="tianjg-input" id="registerConfirmPassword" placeholder="确认密码"
+                            required>
                     </div>
 
-                    <button type="submit" class="auth-btn auth-btn-primary">注册</button>
+                    <button type="submit" class="tianjg-btn">➔ 立即注册</button>
                 </form>
-
-                <div class="auth-switch">
-                    已有账号？<a href="#" class="auth-switch-link" id="switchToLogin">立即登录</a>
-                </div>
             </div>
         </div>
     </div>
