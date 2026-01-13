@@ -4,7 +4,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+    font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     overflow-x: hidden;
 }
 
@@ -45,7 +45,7 @@ body {
     font-size: 1.5em;
     font-weight: bold;
     color: #5e35b1;
-    font-family: 'KaiTi', '楷体', serif;
+    font-family: 'STKaiti', 'Kaiti SC', 'KaiTi', '楷体', serif;
 }
 
 .nav-links {
@@ -82,7 +82,7 @@ body {
     font-size: 3em;
     font-weight: 700;
     margin-bottom: 15px;
-    font-family: 'KaiTi', '楷体', serif;
+    font-family: 'STKaiti', 'Kaiti SC', 'KaiTi', '楷体', serif;
     letter-spacing: 8px;
     background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 30%, #ff69b4 60%, #ff1493 100%);
     -webkit-background-clip: text;
@@ -94,7 +94,7 @@ body {
     font-size: 1.1em;
     color: #ff9800;
     margin-bottom: 50px;
-    font-family: 'KaiTi', '楷体', serif;
+    font-family: 'STKaiti', 'Kaiti SC', 'KaiTi', '楷体', serif;
 }
 
 /* ==================== 标签导航 ==================== */
