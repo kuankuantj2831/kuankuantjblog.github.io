@@ -25,7 +25,7 @@ async function loadArticle() {
 
         if (article) {
             // 填充页面
-            document.title = article.title + " - 天机阁";
+            document.title = article.title + " - Hakimi 的猫爬架";
             document.getElementById('artTitle').textContent = article.title;
             document.getElementById('artCategory').textContent = "📂 " + (article.category || '未分类');
             document.getElementById('artAuthor').textContent = "👤 " + (article.author_name || '匿名');
