@@ -4,7 +4,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+    font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     overflow-x: hidden;
 }
 
@@ -45,7 +45,7 @@ body {
     font-size: 1.5em;
     font-weight: bold;
     color: #5e35b1;
-    font-family: 'KaiTi', '楷体', serif;
+    font-family: 'STKaiti', 'Kaiti SC', 'KaiTi', '楷体', serif;
 }
 
 .nav-links {
@@ -82,7 +82,7 @@ body {
     font-size: 3em;
     font-weight: 700;
     margin-bottom: 15px;
-    font-family: 'KaiTi', '楷体', serif;
+    font-family: 'STKaiti', 'Kaiti SC', 'KaiTi', '楷体', serif;
     letter-spacing: 8px;
     background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 30%, #ff69b4 60%, #ff1493 100%);
     -webkit-background-clip: text;
@@ -94,7 +94,7 @@ body {
     font-size: 1.1em;
     color: #ff9800;
     margin-bottom: 50px;
-    font-family: 'KaiTi', '楷体', serif;
+    font-family: 'STKaiti', 'Kaiti SC', 'KaiTi', '楷体', serif;
 }
 
 /* ==================== 标签导航 ==================== */
@@ -356,6 +356,98 @@ body {
     justify-content: space-between;
     font-size: 0.8em;
     color: #999;
+}
+
+/* ==================== 用户菜单 ==================== */
+.user-menu {
+    position: relative;
+    margin-left: 20px;
+    z-index: 100;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #00bfa5 0%, #00897b 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 191, 165, 0.3);
+    transition: transform 0.2s;
+}
+
+.user-avatar:hover {
+    transform: scale(1.1);
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 260px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding: 10px 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.user-menu:hover .user-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.user-dropdown-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    background: #f9f9f9;
+}
+
+.user-dropdown-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.1em;
+}
+
+.user-dropdown-email {
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 4px;
+}
+
+.user-dropdown-menu {
+    padding: 10px 0;
+}
+
+.user-dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #555;
+    text-decoration: none;
+    transition: background 0.2s;
+    font-size: 0.95em;
+}
+
+.user-dropdown-item:hover {
+    background: #f5f5f5;
+    color: #00bfa5;
+}
+
+.user-dropdown-divider {
+    height: 1px;
+    background: #eee;
+    margin: 5px 0;
 }
 
 /* ==================== 响应式 ==================== */
