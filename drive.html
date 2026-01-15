@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>云端网盘 - Hakimi 的猫爬架</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/chinese-style.css?v=2">
+    <style>
+        .drive-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            min-height: 600px;
+        }
+
+        .drive-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .drive-title {
+            font-size: 1.8em;
+            color: #333;
+            font-family: 'STKaiti', 'KaiTi', serif;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed #00bfa5;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: #fdfdfd;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .upload-area:hover {
+            background: #f0fdfc;
+            transform: scale(1.01);
+        }
+
+        .upload-area.dragging {
+            background: #e0f2f1;
+            border-color: #00897b;
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            color: #00bfa5;
+            margin-bottom: 10px;
+        }
+
+        /* File List */
+        .file-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.2s;
+        }
+
+        .file-item:hover {
+            background: #f9f9f9;
+        }
+
+        .file-icon {
+            font-size: 1.5em;
+            margin-right: 15px;
+            color: #666;
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .file-meta {
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .btn-download {
+            background: #e1f5fe;
+            color: #0288d1;
+        }
+
+        .btn-download:hover {
+            background: #b3e5fc;
+        }
+
+        .btn-delete {
+            background: #ffebee;
+            color: #c62828;
+            opacity: 0.8;
+        }
+
+        .btn-delete:hover {
+            opacity: 1;
+        }
+
+        /* Progress */
+        #progressContainer {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #eee;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #00bfa5;
+            width: 0%;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chinese-style-wrapper">
+        <!-- Decoration -->
+        <div class="bg-decoration"></div>
+
+        <!-- Copy minimal Nav from Index -->
+        <nav class="top-nav">
+            <a href="index-chinese.html" class="logo" style="text-decoration: none;">Hakimi 的猫爬架</a>
+            <div class="nav-links">
+                <a href="index-chinese.html" class="nav-link">🏠 主页</a>
+                <a href="#" class="nav-link active">☁️ 网盘</a>
+            </div>
+        </nav>
+
+        <div class="drive-container">
+            <div class="drive-header">
+                <div class="drive-title">☁️ 云端文件库</div>
+                <div style="color:#666; font-size:0.9em;">
+                    <span id="fileCount">0</span> 个文件
+                </div>
+            </div>
+
+            <div class="upload-area" id="dropZone">
+                <div class="upload-icon">📤</div>
+                <h3>点击或拖拽文件到这里上传</h3>
+                <p style="color:#999; font-size:0.9em;">支持任意格式，最大 100MB</p>
+                <input type="file" id="fileInput" hidden>
+
+                <div id="progressContainer">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:0.85em;">
+                        <span id="uploadStatus">上传中...</span>
+                        <span id="uploadPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="file-list" id="fileList">
+                <div style="text-align:center; padding:30px; color:#999;" id="loadingText">
+                    正在连接云端...
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <!-- API Config needed? Importing shared config -->
+    <script type="module">
+        import { API_BASE_URL } from './js/api-config.js';
+
+        const fileListEl = document.getElementById('fileList');
+        const fileCountEl = document.getElementById('fileCount');
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        // Initial Load
+        loadFiles();
+
+        /* ========== Event Listeners ========== */
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // Drag & Drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+        function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+        ['dragenter', 'dragover'].forEach(() => dropZone.classList.add('dragging'));
+        ['dragleave', 'drop'].forEach(() => dropZone.classList.remove('dragging'));
+
+        dropZone.addEventListener('drop', handleDrop);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                uploadFile(files[0]);
+            }
+        }
+
+        /* ========== API Functions ========== */
+
+        async function loadFiles() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/drive/list`);
+                const data = await res.json();
+
+                if (res.ok) {
+                    renderFiles(data.files || []);
+                } else {
+                    fileListEl.innerHTML = `<div style="text-align:center;color:red;padding:20px;">无法加载文件列表: ${data.message}</div>`;
+                    // Detect config error
+                    if (data.message.includes('configuration missing')) {
+                        fileListEl.innerHTML += `<div style="text-align:center;color:#666;font-size:0.9em;margin-top:10px;">(提示：请在服务器 .env 中配置腾讯云 COS 密钥)</div>`;
+                    }
+                }
+            } catch (e) {
+                fileListEl.innerHTML = `<div style="text-align:center;color:#999;padding:20px;">连接服务器失败</div>`;
+            }
+        }
+
+        async function uploadFile(file) {
+            // Show Progress
+            document.getElementById('progressContainer').style.display = 'block';
+            updateProgress(0);
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                // Using XHR for progress event (Fetch doesn't support upload progress easily yet)
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', `${API_BASE_URL}/drive/upload`, true);
+
+                xhr.upload.onprogress = (e) => {
+                    if (e.lengthComputable) {
+                        const percent = Math.round((e.loaded / e.total) * 100);
+                        updateProgress(percent);
+                    }
+                };
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        updateProgress(100);
+                        document.getElementById('uploadStatus').textContent = '✅ 上传成功!';
+                        setTimeout(() => {
+                            document.getElementById('progressContainer').style.display = 'none';
+                            loadFiles(); // Refresh list
+                        }, 1000);
+                    } else {
+                        const resp = JSON.parse(xhr.responseText || '{}');
+                        alert('上传失败: ' + (resp.message || xhr.statusText));
+                        document.getElementById('progressContainer').style.display = 'none';
+                    }
+                };
+
+                xhr.onerror = function () {
+                    alert('网络错误');
+                    document.getElementById('progressContainer').style.display = 'none';
+                };
+
+                xhr.send(formData);
+
+            } catch (e) {
+                console.error(e);
+                alert('上传出错');
+            }
+        }
+
+        function updateProgress(percent) {
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('uploadPercent').textContent = percent + '%';
+        }
+
+        async function downloadFile(key, name) {
+            try {
+                // Get Signed URL
+                const res = await fetch(`${API_BASE_URL}/drive/download?key=${encodeURIComponent(key)}`);
+                const data = await res.json();
+
+                if (res.ok && data.url) {
+                    // Create minimal anchor to trigger download
+                    const a = document.createElement('a');
+                    a.href = data.url;
+                    a.download = name; // Hint to browser
+                    a.target = '_blank';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                } else {
+                    alert('无法获取下载链接: ' + data.message);
+                }
+            } catch (e) {
+                alert('下载出错');
+            }
+        }
+
+        // Expose to window for onclick
+        window.downloadFile = downloadFile;
+
+        function renderFiles(files) {
+            fileCountEl.textContent = files.length;
+            fileListEl.innerHTML = '';
+
+            if (files.length === 0) {
+                fileListEl.innerHTML = `<div style="text-align:center;padding:40px;color:#ccc;">暂无文件，快来上传一个吧~</div>`;
+                return;
+            }
+
+            files.forEach(file => {
+                const isFolder = file.type === 'folder';
+                const icon = isFolder ? '📁' : getFileIcon(file.name);
+                const sizeStr = isFolder ? '-' : formatSize(file.size);
+                const dateStr = file.lastModified ? new Date(file.lastModified).toLocaleString() : '';
+
+                const html = `
+                <li class="file-item">
+                    <div class="file-icon">${icon}</div>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-meta">${sizeStr} · ${dateStr}</div>
+                    </div>
+                    <div class="file-actions">
+                        <button class="action-btn btn-download" onclick="downloadFile('${file.key}', '${file.name}')">⬇ 下载</button>
+                        <!-- <button class="action-btn btn-delete">🗑️</button> -->
+                    </div>
+                </li>
+                `;
+                fileListEl.innerHTML += html;
+            });
+        }
+
+        function formatSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+
+        function getFileIcon(name) {
+            const ext = name.split('.').pop().toLowerCase();
+            if (['jpg', 'png', 'gif', 'jpeg'].includes(ext)) return '🖼️';
+            if (['zip', 'rar', '7z'].includes(ext)) return '📦';
+            if (['mp3', 'wav'].includes(ext)) return '🎵';
+            if (['mp4', 'mov'].includes(ext)) return '🎬';
+            if (['pdf'].includes(ext)) return '📕';
+            if (['doc', 'docx'].includes(ext)) return '📘';
+            return '📄';
+        }
+
+    </script>
+</body>
+
+</html>

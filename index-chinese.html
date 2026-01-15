@@ -27,7 +27,7 @@
             <div class="nav-links">
                 <a href="#" class="nav-link active">🏠 主页</a>
                 <a href="games.html" class="nav-link">🎮 游戏</a>
-                <a href="#" class="nav-link">☁️ 网盘</a>
+                <a href="drive.html" class="nav-link">☁️ 网盘</a>
                 <a href="#" class="nav-link">🎯 关于我们</a>
                 <a href="#" class="nav-link login-btn" style="cursor: pointer;"
                     onclick="document.getElementById('loginModal').classList.add('active')">👤 登录</a>
@@ -121,8 +121,7 @@
                 <div class="auth-error" id="loginError"></div>
                 <div class="auth-success" id="loginSuccess"></div>
 
-                <form id="loginForm"
-                    onsubmit="event.preventDefault(); if(window.supabaseAuthSystem) { window.supabaseAuthSystem.handleLogin(); } else { alert('系统未就绪'); }">
+                <form id="loginForm">
 
                     <div class="tianjg-input-group">
                         <input type="text" class="tianjg-input" id="loginUsername" placeholder="用户名或邮箱" required>

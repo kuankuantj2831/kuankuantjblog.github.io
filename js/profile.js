@@ -12,8 +12,15 @@ class ProfileManager {
         // Check login status from localStorage
         const userJson = localStorage.getItem('user');
         if (userJson) {
-            this.currentUser = JSON.parse(userJson);
-            console.log('✅ 用户已登录:', this.currentUser.email);
+            try {
+                this.currentUser = JSON.parse(userJson);
+                console.log('✅ 用户已登录:', this.currentUser.email);
+            } catch (e) {
+                console.error('Json parse error', e);
+                localStorage.removeItem('user');
+                window.location.href = '/index-chinese.html';
+                return;
+            }
             this.loadUserData();
         } else {
             console.log('❌ 未登录，跳转到首页');
@@ -21,34 +28,64 @@ class ProfileManager {
         }
 
         this.bindEvents();
-        this.hideAvatarUpload(); // Hide avatar upload
+    }
+
+    bindEvents() {
+        const infoForm = document.getElementById('profileInfoForm');
+        if (infoForm) {
+            infoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.updateUserInfo();
+            });
+        }
+
+        const passwordForm = document.getElementById('changePasswordForm');
+        if (passwordForm) {
+            passwordForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.changePassword();
+            });
+        }
+
+        const toggle2fa = document.getElementById('toggle2fa');
+        if (toggle2fa) {
+            toggle2fa.addEventListener('change', (e) => {
+                this.toggle2FA(e.target.checked);
+            });
+        }
+
+        // Hide avatar upload for now as requested/implied by previous code
+        const avatarInput = document.getElementById('avatarInput');
+        if (avatarInput) avatarInput.style.display = 'none';
     }
 
     async loadUserData() {
         try {
             console.log('📥 开始加载用户数据...');
 
-            const emailEl = document.getElementById('profileEmail');
-            if (emailEl) {
-                emailEl.textContent = this.currentUser.email;
-            }
+            // Initial UI update from local storage (fast)
+            this.updateUI();
 
-            // Fetch profile from backend
+            // Fetch profile from backend to get latest username etc
+            // Note: /profiles/:id currently returns public info found in 'profiles' table.
+            // It might not contain is_2fa_enabled. 
+            // The is_2fa_enabled is in 'users' table and usually comes from login response.
+            // So we rely on this.currentUser (from localStorage) for 2FA status for now.
             const response = await fetch(`${API_BASE_URL}/profiles/${this.currentUser.id}`);
 
             if (response.ok) {
                 const data = await response.json();
-                // Handle response structure (direct object or { data: ... })
                 this.userData = data.data || data;
                 console.log('✅ 找到用户数据:', this.userData);
+
+                // Update specific fields that might have changed
+                if (this.userData.username) {
+                    this.currentUser.username = this.userData.username;
+                    // Update local storage to keep it fresh
+                    localStorage.setItem('user', JSON.stringify(this.currentUser));
+                }
             } else {
                 console.log('⚠️ 用户文档不存在或获取失败');
-                // Fallback to basic user info
-                this.userData = {
-                    id: this.currentUser.id,
-                    username: this.currentUser.username || this.currentUser.email.split('@')[0],
-                    avatar_url: ''
-                };
             }
 
             this.updateUI();
@@ -64,32 +101,25 @@ class ProfileManager {
     updateUI() {
         console.log('🎨 更新UI...');
 
-        if (!this.userData) {
-            // 如果没有 userData，尝试用 currentUser 的 metadata
-            this.userData = {
-                username: this.currentUser.user_metadata.username || this.currentUser.email.split('@')[0]
-            };
-        }
-
-        const displayName = this.userData.username || this.currentUser.email.split('@')[0];
+        const displayName = this.currentUser.username || this.currentUser.email.split('@')[0];
         const nameEl = document.getElementById('profileName');
         const nameInput = document.getElementById('displayName');
 
         if (nameEl) nameEl.textContent = displayName;
         if (nameInput) nameInput.value = displayName;
 
-        // 更新头像（只显示首字母，不支持图片）
+        // Update Avatar
         const avatarEl = document.getElementById('profileAvatar');
         if (avatarEl) {
-            avatarEl.textContent = displayName.charAt(0).toUpperCase();
+            if (this.currentUser.avatar_url) {
+                avatarEl.innerHTML = `<img src="${this.currentUser.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+            } else {
+                avatarEl.textContent = displayName.charAt(0).toUpperCase();
+            }
         }
 
         const emailInput = document.getElementById('email');
         if (emailInput) emailInput.value = this.currentUser.email;
-
-        const bioInput = document.getElementById('bio');
-        // profiles 表目前没有 bio 字段，如果需要可以加，或者暂时忽略
-        if (bioInput) bioInput.value = '';
 
         const dateEl = document.getElementById('profileDate');
         if (dateEl && this.currentUser.created_at) {
@@ -99,6 +129,18 @@ class ProfileManager {
             const days = Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
             const daysEl = document.getElementById('statDays');
             if (daysEl) daysEl.textContent = days;
+        }
+
+        // Update 2FA Toggle
+        const toggle2fa = document.getElementById('toggle2fa');
+        if (toggle2fa) {
+            // Force boolean conversion
+            const isEnabled = !!this.currentUser.is_2fa_enabled;
+            // Only update if different to avoid triggering change event loops if any
+            if (toggle2fa.checked !== isEnabled) {
+                toggle2fa.checked = isEnabled;
+            }
+            console.log('UI: 2FA Toggle set to', isEnabled);
         }
 
         console.log('✅ UI更新完成');
@@ -115,7 +157,6 @@ class ProfileManager {
 
             console.log('💾 更新用户信息:', { displayName });
 
-            // Update profile via API
             const response = await fetch(`${API_BASE_URL}/profiles/${this.currentUser.id}`, {
                 method: 'PUT',
                 headers: {
@@ -130,15 +171,12 @@ class ProfileManager {
                 throw new Error(data.message || '更新失败');
             }
 
-            this.userData.username = displayName;
-
-            // Update local storage user data as well
+            // Update local state
             this.currentUser.username = displayName;
             localStorage.setItem('user', JSON.stringify(this.currentUser));
 
             this.showMessage('infoSuccessMsg', '信息更新成功！');
             this.updateUI();
-            console.log('✅ 用户信息更新成功');
         } catch (error) {
             console.error('❌ 更新用户信息失败:', error);
             this.showMessage('infoErrorMsg', '更新失败：' + error.message);
@@ -186,90 +224,60 @@ class ProfileManager {
 
             this.showMessage('passwordSuccessMsg', '密码修改成功！');
             document.getElementById('changePasswordForm').reset();
-            console.log('✅ 密码修改成功');
         } catch (error) {
             console.error('❌ 修改密码失败:', error);
             this.showMessage('passwordErrorMsg', '修改失败：' + error.message);
         }
-        this.showMessage('passwordSuccessMsg', '密码修改成功！');
-        document.getElementById('changePasswordForm').reset();
-        console.log('✅ 密码修改成功');
-    } catch(error) {
-        console.error('❌ 修改密码失败:', error);
-        this.showMessage('passwordErrorMsg', '修改失败：' + error.message);
     }
-}
 
     async toggle2FA(enabled) {
-    try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_BASE_URL}/auth/user/2fa`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ enable: enabled })
-        });
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) throw new Error('未授权');
 
-        if (!response.ok) {
-            throw new Error('操作失败');
+            console.log('Sending toggle request:', enabled);
+
+            const response = await fetch(`${API_BASE_URL}/auth/user/2fa`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ enable: enabled })
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || '操作失败');
+            }
+
+            // Update local state
+            this.currentUser.is_2fa_enabled = enabled ? 1 : 0; // Ensure logic consistency (DB might return 1/0)
+            localStorage.setItem('user', JSON.stringify(this.currentUser));
+
+            console.log(`2FA locally updated to: ${this.currentUser.is_2fa_enabled}`);
+
+        } catch (error) {
+            console.error('Toggle 2FA error:', error);
+            document.getElementById('toggle2fa').checked = !enabled; // Revert switch
+            alert('操作失败，请重试: ' + error.message);
         }
+    }
 
-        this.currentUser.is_2fa_enabled = enabled;
-        localStorage.setItem('user', JSON.stringify(this.currentUser));
-        console.log(`2FA ${enabled ? 'enabled' : 'disabled'}`);
-    } catch (error) {
-        console.error('Toggle 2FA error:', error);
-        document.getElementById('toggle2fa').checked = !enabled; // Revert switch
-        alert('操作失败，请重试');
+    showMessage(elementId, message) {
+        const el = document.getElementById(elementId);
+        if (el) {
+            el.textContent = message;
+            el.style.display = 'block';
+            setTimeout(() => {
+                el.style.display = 'none';
+            }, 3000);
+        }
     }
 }
 
-bindEvents() {
-    // ... existing events ...
-    const infoForm = document.getElementById('profileInfoForm');
-    if (infoForm) {
-        infoForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.updateUserInfo();
-        });
-    }
-
-    const passwordForm = document.getElementById('changePasswordForm');
-    if (passwordForm) {
-        passwordForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.changePassword();
-        });
-    }
-
-    const toggle2fa = document.getElementById('toggle2fa');
-    if (toggle2fa) {
-        toggle2fa.addEventListener('change', (e) => {
-            this.toggle2FA(e.target.checked);
-        });
-    }
-}
-
-    async loadUserData() {
-    try {
-        // ... existing load logic ...
-
-        // Update 2FA toggle state
-        const toggle2fa = document.getElementById('toggle2fa');
-        if (toggle2fa) {
-            // We should get the latest status from API, but for now use local or currentUser
-            // Ideally, /profiles/:id should return is_2fa_enabled
-            // If not, we might need to rely on what's in currentUser from login
-            toggle2fa.checked = !!this.currentUser.is_2fa_enabled;
-        }
-
-        // ... rest of loadUserData ...
-
-
-        // 初始化
-        document.addEventListener('DOMContentLoaded', () => {
-            window.profileManager = new ProfileManager();
-            console.log('⚡ Supabase个人中心已加载');
-        });
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+    window.profileManager = new ProfileManager();
+    console.log('⚡ 个人中心已加载');
+});

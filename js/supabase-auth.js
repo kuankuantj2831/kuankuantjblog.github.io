@@ -180,15 +180,32 @@ class SupabaseAuthSystem {
     }
 
     async handleLogin() {
+        if (this.isLoginSubmitting) return;
+        this.isLoginSubmitting = true;
+
         console.log('Handle Login called');
         const input = document.getElementById('loginUsername').value.trim();
         const password = document.getElementById('loginPassword').value;
         const codeInput = document.getElementById('login2faCode');
         const code = codeInput ? codeInput.value.trim() : '';
+        const submitBtn = document.querySelector('#loginForm button[type="submit"]');
+
+        // Clear previous messages
+        this.showError('loginError', '');
+        document.getElementById('loginError').classList.remove('show');
+        // Do NOT clear loginSuccess if it contains the "Code sent" message and we are verifying
+        // Actually, better to clear only if restarting or erroring
 
         if (!input || !password) {
             this.showError('loginError', '请填写完整信息');
             return;
+        }
+
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = '处理中...';
+            submitBtn.style.opacity = '0.7';
+            submitBtn.style.cursor = 'not-allowed';
         }
 
         try {
@@ -197,10 +214,14 @@ class SupabaseAuthSystem {
 
             // If 2FA input is visible and has value, verify it
             if (document.getElementById('login2faGroup').style.display !== 'none' && code) {
+                // Clear the "Code sent" success message to avoid confusion
+                const successEl = document.getElementById('loginSuccess');
+                if (successEl) {
+                    successEl.classList.remove('show');
+                    successEl.textContent = '';
+                }
+
                 url = `${API_BASE_URL}/auth/login/verify`;
-                // For verify, we need userId which we don't store in UI easily, 
-                // but the backend verify needs userId. 
-                // Actually, let's store userId in a hidden field or memory when 2FA is requested.
                 const userId = this.tempUserId;
                 if (!userId) throw new Error('会话过期，请刷新重试');
                 body = { userId, code };
@@ -231,7 +252,7 @@ class SupabaseAuthSystem {
             localStorage.setItem('user', JSON.stringify(this.currentUser));
             if (data.token) localStorage.setItem('token', data.token);
 
-            this.showSuccess('loginSuccess', '登录成功！');
+            this.showSuccess('loginSuccess', '登录成功！正在跳转...');
             this.updateUI();
 
             setTimeout(() => {
@@ -245,6 +266,14 @@ class SupabaseAuthSystem {
         } catch (error) {
             console.error('登录错误:', error);
             this.showError('loginError', '登录失败：' + (error.message || '账号或密码错误'));
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '登录';
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
+            }
+            this.isLoginSubmitting = false;
         }
     }
 

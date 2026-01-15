@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2FA 邮件测试 - Hakimi 的猫爬架</title>
+    <link rel="stylesheet" href="css/chinese-style.css?v=2">
+    <style>
+        body {
+            background: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            /* Important so padding doesn't affect width */
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .btn-send {
+            background: #1890ff;
+        }
+
+        .btn-send:hover {
+            background: #40a9ff;
+        }
+
+        .btn-verify {
+            background: #52c41a;
+            margin-top: 10px;
+        }
+
+        .btn-verify:hover {
+            background: #73d13d;
+        }
+
+        .log-area {
+            margin-top: 20px;
+            padding: 15px;
+            background: #282c34;
+            color: #abb2bf;
+            border-radius: 6px;
+            min-height: 100px;
+            font-family: monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="test-container">
+        <h2 style="text-align:center; color:#5e35b1;">🛠️ 邮件及 2FA 测试</h2>
+        <p style="text-align:center; color:#666; font-size:14px; margin-bottom:20px;">
+            不通过登录页面，直接测试邮件发送与验证功能。
+        </p>
+
+        <div class="input-group">
+            <label>📧 测试邮箱</label>
+            <input type="email" id="testEmail" value="kuankuantj@126.com" placeholder="请输入接收验证码的邮箱">
+            <button class="btn btn-send" onclick="sendCode()" id="btnSend">🚀 发送验证码</button>
+        </div>
+
+        <div class="input-group" style="border-top: 1px solid #eee; padding-top: 20px;">
+            <label>🔑 输入验证码</label>
+            <input type="text" id="testCode" placeholder="查看邮箱，输入6位数字">
+            <button class="btn btn-verify" onclick="verifyCode()" id="btnVerify">✅ 验证</button>
+        </div>
+
+        <div class="log-area" id="logOutput">// 日志将显示在这里...</div>
+    </div>
+
+    <script type="module">
+        import { API_BASE_URL } from './js/api-config.js';
+
+        const logEl = document.getElementById('logOutput');
+        const btnSend = document.getElementById('btnSend');
+        const btnVerify = document.getElementById('btnVerify');
+
+        function log(msg, type = 'info') {
+            const time = new Date().toLocaleTimeString();
+            let color = '#abb2bf';
+            if (type === 'success') color = '#98c379';
+            if (type === 'error') color = '#e06c75';
+
+            logEl.innerHTML += `<div style="color:${color}">[${time}] ${msg}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        window.sendCode = async () => {
+            const email = document.getElementById('testEmail').value.trim();
+            if (!email) return alert('请输入邮箱');
+
+            btnSend.disabled = true;
+            btnSend.textContent = '发送中...';
+            log(`正在发送邮件给 ${email}...`);
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/test/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    log(data.message, 'success');
+                    alert('发送成功！请查收邮件。');
+                } else {
+                    log(`发送失败: ${data.message}`, 'error');
+                    alert('发送失败，请看日志');
+                }
+            } catch (e) {
+                log(`网络错误: ${e.message}`, 'error');
+            } finally {
+                btnSend.disabled = false;
+                btnSend.textContent = '🚀 发送验证码';
+            }
+        };
+
+        window.verifyCode = async () => {
+            const email = document.getElementById('testEmail').value.trim();
+            const code = document.getElementById('testCode').value.trim();
+            if (!code) return alert('请输入验证码');
+
+            btnVerify.disabled = true;
+            btnVerify.textContent = '验证中...';
+            log(`正在向服务器验证代码 ${code}...`);
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/test/verify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, code })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    log(data.message, 'success');
+                    log('✅ 测试通过！2FA 功能正常。', 'success');
+                    alert('验证成功！');
+                } else {
+                    log(`验证失败: ${data.message}`, 'error');
+                }
+            } catch (e) {
+                log(`网络错误: ${e.message}`, 'error');
+            } finally {
+                btnVerify.disabled = false;
+                btnVerify.textContent = '✅ 验证';
+            }
+        };
+    </script>
+
+</body>
+
+</html>
