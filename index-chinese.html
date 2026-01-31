@@ -37,15 +37,55 @@
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">U</div>
                     <div class="user-dropdown">
-                        <div class="user-dropdown-header">
-                            <div class="user-dropdown-name">用户名</div>
-                            <div class="user-dropdown-email">user@example.com</div>
+                        <!-- Header / Greeting -->
+                        <div class="user-card-header-bg">
+                            <div class="user-card-info">
+                                <div class="user-dropdown-name">用户名</div>
+                                <div class="user-level-badge">Lv.5 <span>✨</span></div>
+                            </div>
                         </div>
+
+                        <!-- Stats Row -->
+                        <div class="user-card-stats">
+                            <div class="stat-item">
+                                <div class="stat-num">12</div>
+                                <div class="stat-label">关注</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-num">356</div>
+                                <div class="stat-label">粉丝</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-num">1.2k</div>
+                                <div class="stat-label">获赞</div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions Grid -->
+                        <div class="user-card-grid">
+                            <a href="profile.html" class="grid-item">
+                                <div class="grid-icon">👤</div>
+                                <div class="grid-label">个人中心</div>
+                            </a>
+                            <a href="editor.html" class="grid-item">
+                                <div class="grid-icon">✍️</div>
+                                <div class="grid-label">内容投稿</div>
+                            </a>
+                            <a href="#" class="grid-item">
+                                <div class="grid-icon">🪙</div>
+                                <div class="grid-label">我的硬币</div>
+                            </a>
+                            <a href="drive.html" class="grid-item">
+                                <div class="grid-icon">☁️</div>
+                                <div class="grid-label">云端网盘</div>
+                            </a>
+                        </div>
+
+                        <div class="user-dropdown-divider"></div>
+
+                        <!-- List Menu -->
                         <div class="user-dropdown-menu">
-                            <a href="editor.html" class="user-dropdown-item">✍️ 发布文章</a>
-                            <a href="profile.html" class="user-dropdown-item">👤 个人中心</a>
                             <a href="profile.html" class="user-dropdown-item">⚙️ 设置</a>
-                            <div class="user-dropdown-divider"></div>
                             <a href="#" class="user-dropdown-item" id="logoutBtn">🚪 退出登录</a>
                         </div>
                     </div>
@@ -141,15 +181,38 @@
                             <input type="checkbox" id="loginRemember" class="tianjg-checkbox">
                             <label for="loginRemember">记住登录</label>
                         </div>
-                        <div class="auth-links">
-                            <a href="#" class="auth-link-grey">找回密码</a>
-                        </div>
                     </div>
-
-                    <button type="submit" class="tianjg-btn">➔ 登录</button>
-                </form>
+                    <div class="auth-links">
+                        <a href="#" class="auth-link-grey" id="forgotPasswordLink">找回密码</a>
+                    </div>
             </div>
+
+            <button type="submit" class="tianjg-btn">➔ 登录</button>
+            </form>
+
+            <!-- Reset Password Form (Hidden) -->
+            <form id="resetPasswordForm" style="display: none;">
+                <div class="tianjg-input-group">
+                    <input type="email" class="tianjg-input" id="resetEmail" placeholder="请输入注册邮箱" required>
+                </div>
+
+                <div class="tianjg-input-group" style="display: flex; gap: 10px;">
+                    <input type="text" class="tianjg-input" id="resetCode" placeholder="验证码" required>
+                    <button type="button" class="tianjg-btn" id="sendResetCodeBtn"
+                        style="width: 120px; font-size: 0.9em; padding: 0;">获取验证码</button>
+                </div>
+
+                <div class="tianjg-input-group">
+                    <input type="password" class="tianjg-input" id="resetNewPassword" placeholder="新密码" required>
+                </div>
+
+                <button type="submit" class="tianjg-btn">➔ 重置密码</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="#" class="auth-link-grey" id="backToLogin">返回登录</a>
+                </div>
+            </form>
         </div>
+    </div>
     </div>
 
     <!-- 注册弹窗 -->
