@@ -93,17 +93,147 @@ class SupabaseAuthSystem {
                 this.logout();
             });
         }
+
+        // 找回密码链接
+        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+        const loginFormContainer = document.getElementById('loginForm');
+        const resetPasswordForm = document.getElementById('resetPasswordForm');
+        const backToLogin = document.getElementById('backToLogin');
+
+        if (forgotPasswordLink && loginFormContainer && resetPasswordForm) {
+            forgotPasswordLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginFormContainer.style.display = 'none';
+                resetPasswordForm.style.display = 'block';
+                document.querySelector('#loginModal .auth-title').textContent = '重置密码';
+                document.querySelector('#loginModal .auth-subtitle').style.display = 'none';
+                this.showError('loginError', ''); // Clear errors
+                this.showSuccess('loginSuccess', '');
+            });
+        }
+
+        if (backToLogin) {
+            backToLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                resetPasswordForm.style.display = 'none';
+                loginFormContainer.style.display = 'block';
+                document.querySelector('#loginModal .auth-title').textContent = '登录';
+                document.querySelector('#loginModal .auth-subtitle').style.display = 'block';
+                this.showError('loginError', '');
+                this.showSuccess('loginSuccess', '');
+            });
+        }
+
+        // 发送重置验证码
+        const sendResetCodeBtn = document.getElementById('sendResetCodeBtn');
+        if (sendResetCodeBtn) {
+            sendResetCodeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleSendResetCode();
+            });
+        }
+
+        // 重置密码表单提交
+        if (resetPasswordForm) {
+            resetPasswordForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.handleResetPassword();
+            });
+        }
+    }
+
+    async handleSendResetCode() {
+        const emailInput = document.getElementById('resetEmail');
+        const email = emailInput.value.trim();
+        const sendBtn = document.getElementById('sendResetCodeBtn');
+
+        if (!email) {
+            this.showError('loginError', '请输入邮箱地址');
+            return;
+        }
+
+        if (sendBtn.disabled) return;
+
+        try {
+            sendBtn.disabled = true;
+            sendBtn.textContent = '发送中...';
+
+            const response = await fetch(`${API_BASE_URL}/auth/send-reset-code`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) throw new Error(data.message || '发送失败');
+
+            this.showSuccess('loginSuccess', '验证码已发送，请检查邮箱');
+
+            // Countdown
+            let count = 60;
+            const timer = setInterval(() => {
+                count--;
+                sendBtn.textContent = `${count}s后重试`;
+                if (count <= 0) {
+                    clearInterval(timer);
+                    sendBtn.disabled = false;
+                    sendBtn.textContent = '获取验证码';
+                }
+            }, 1000);
+
+        } catch (error) {
+            console.error(error);
+            this.showError('loginError', error.message);
+            sendBtn.disabled = false;
+            sendBtn.textContent = '获取验证码';
+        }
+    }
+
+    async handleResetPassword() {
+        const email = document.getElementById('resetEmail').value.trim();
+        const code = document.getElementById('resetCode').value.trim();
+        const newPassword = document.getElementById('resetNewPassword').value;
+        const submitBtn = document.querySelector('#resetPasswordForm button[type="submit"]');
+
+        if (!email || !code || !newPassword) {
+            this.showError('loginError', '请填写完整信息');
+            return;
+        }
+
+        try {
+            submitBtn.disabled = true;
+            submitBtn.textContent = '提交中...';
+
+            const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, code, newPassword })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) throw new Error(data.message || '重置失败');
+
+            this.showSuccess('loginSuccess', '密码重置成功！请重新登录');
+
+            setTimeout(() => {
+                // Switch back to login
+                document.getElementById('backToLogin').click();
+                document.getElementById('resetPasswordForm').reset();
+            }, 2000);
+
+        } catch (error) {
+            this.showError('loginError', error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '➔ 重置密码';
+        }
     }
 
     showLoginModal() {
         this.closeModals();
         const modal = document.getElementById('loginModal');
-        if (modal) setTimeout(() => modal.classList.add('active'), 100);
-    }
-
-    showRegisterModal() {
-        this.closeModals();
-        const modal = document.getElementById('registerModal');
         if (modal) setTimeout(() => modal.classList.add('active'), 100);
     }
 

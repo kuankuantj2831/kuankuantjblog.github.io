@@ -29,7 +29,8 @@
     border-radius: 12px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     width: 90%;
-    max-width: 400px; /* 更窄一点 */
+    max-width: 400px;
+    /* 更窄一点 */
     padding: 0;
     position: relative;
     overflow: hidden;
@@ -60,13 +61,15 @@
 }
 
 .auth-modal-body {
-    padding: 40px 35px;
+    padding: 25px 30px;
+    /* Reduced from 40px 35px */
 }
 
 /* ==================== Logo & Header ==================== */
 .auth-logo {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    /* Reduced from 30px */
 }
 
 .auth-logo-text {
@@ -82,7 +85,7 @@
     content: '✨';
     font-size: 14px;
     margin: 0 5px;
-    color: #7f66ff; /* 淡紫点缀 */
+    color: #7f66ff;
 }
 
 .auth-header-row {
@@ -99,21 +102,14 @@
     position: relative;
 }
 
-/* 标题下方的绿色短横线 */
-.auth-title::after {
-    content: '';
-    display: block;
-    width: 30px;
-    height: 3px;
-    background: #00d2b4; /* 蓝绿色 */
-    margin-top: 8px;
-    border-radius: 2px;
-}
+/* 标题下方的绿色短横线 - 已移除 */
+/* .auth-title::after { ... } */
 
 .auth-subtitle {
     font-size: 14px;
     color: #999;
-    margin-bottom: 35px;
+    margin-bottom: 15px;
+    /* Reduced from 35px */
 }
 
 .auth-link {
@@ -140,7 +136,8 @@
 /* ==================== 输入框组 ==================== */
 .tianjg-input-group {
     position: relative;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
+    /* Reduced from 25px */
 }
 
 .tianjg-input {
@@ -183,7 +180,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    /* Reduced from 30px */
 }
 
 .auth-remember {
@@ -195,7 +193,8 @@
 .tianjg-checkbox {
     width: 16px;
     height: 16px;
-    accent-color: #00d2b4; /* 这里的颜色需要浏览器支持，旧版可能不生效 */
+    accent-color: #00d2b4;
+    /* 这里的颜色需要浏览器支持，旧版可能不生效 */
     cursor: pointer;
 }
 
@@ -211,8 +210,10 @@
     width: 100%;
     padding: 12px;
     border: none;
-    border-radius: 25px; /* 胶囊圆角 */
-    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%); /* 蓝色渐变 */
+    border-radius: 25px;
+    /* 胶囊圆角 */
+    background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+    /* 蓝色渐变 */
     color: white;
     font-size: 16px;
     font-weight: 600;
@@ -243,7 +244,11 @@
     font-size: 13px;
     display: none;
 }
-.auth-error.show { display: block; animation: shake 0.4s; }
+
+.auth-error.show {
+    display: block;
+    animation: shake 0.4s;
+}
 
 .auth-success {
     color: #52c41a;
@@ -254,12 +259,25 @@
     font-size: 13px;
     display: none;
 }
-.auth-success.show { display: block; }
+
+.auth-success.show {
+    display: block;
+}
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
 }
 
 /* ==================== 响应式微调 ==================== */
