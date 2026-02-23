@@ -161,38 +161,19 @@ async function loadArticle() {
 // --- Interaction Functions ---
 
 async function initInteractions(articleId, currentUser) {
-    // 1. Likes
-    try {
-        await loadLikes(articleId, currentUser);
-    } catch (e) {
-        console.error('加载点赞失败:', e);
-    }
-
+    // 先绑定所有按钮事件（不依赖网络请求）
     const likeBtn = safeGetElement('likeBtn');
     if (likeBtn) {
         likeBtn.onclick = () => toggleLike(articleId, currentUser);
     }
 
-    // 2. Coins (投币)
-    try {
-        await loadArticleCoins(articleId);
-    } catch (e) {
-        console.error('加载投币数失败:', e);
-    }
-
     const coinBtn = safeGetElement('coinBtn');
     if (coinBtn) {
         coinBtn.onclick = () => showCoinModal(articleId, currentUser);
+        console.log('[initInteractions] 投币按钮已绑定');
     }
 
     initCoinModal(articleId, currentUser);
-
-    // 3. Comments
-    try {
-        await loadComments(articleId, currentUser);
-    } catch (e) {
-        console.error('加载评论失败:', e);
-    }
 
     const submitBtn = safeGetElement('submitCommentBtn');
     const loginPrompt = safeGetElement('loginToComment');
@@ -205,6 +186,28 @@ async function initInteractions(articleId, currentUser) {
     } else {
         if (loginPrompt) loginPrompt.style.display = 'block';
         if (commentForm) commentForm.style.display = 'none';
+    }
+
+    // 异步加载数据（不阻塞按钮绑定）
+    // 1. Likes
+    try {
+        await loadLikes(articleId, currentUser);
+    } catch (e) {
+        console.error('加载点赞失败:', e);
+    }
+
+    // 2. Coins (投币数)
+    try {
+        await loadArticleCoins(articleId);
+    } catch (e) {
+        console.error('加载投币数失败:', e);
+    }
+
+    // 3. Comments
+    try {
+        await loadComments(articleId, currentUser);
+    } catch (e) {
+        console.error('加载评论失败:', e);
     }
 }
 
