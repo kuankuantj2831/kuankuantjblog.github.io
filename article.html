@@ -74,6 +74,46 @@
             border-radius: 8px;
             overflow-x: auto;
         }
+
+        /* 投币按钮 hover 效果 */
+        #coinBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(247, 151, 30, 0.4);
+        }
+
+        #likeBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 77, 79, 0.3);
+        }
+
+        .coin-amount-btn:hover {
+            background: #f7971e !important;
+            color: white !important;
+            transform: scale(1.1);
+        }
+
+        .coin-amount-btn.selected {
+            background: linear-gradient(135deg, #f7971e, #ffd200) !important;
+            color: white !important;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(247, 151, 30, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 投币成功动画 */
+        @keyframes coinDrop {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(0) rotate(360deg); opacity: 1; }
+        }
+
+        .coin-success-anim {
+            animation: coinDrop 0.6s ease-out;
+        }
     </style>
 </head>
 
@@ -112,12 +152,35 @@
                 <!-- Interactions Section -->
                 <div class="interactions-section"
                     style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 30px;">
-                    <!-- Like Button -->
-                    <div style="text-align: center; margin-bottom: 40px;">
+                    <!-- Like & Coin Buttons -->
+                    <div style="text-align: center; margin-bottom: 40px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; align-items: center;">
                         <button id="likeBtn"
                             style="background: white; border: 2px solid #ff4d4f; color: #ff4d4f; padding: 10px 30px; border-radius: 30px; cursor: pointer; font-size: 18px; transition: all 0.3s;">
                             <span id="likeIcon">🤍</span> 点赞 <span id="likeCount">0</span>
                         </button>
+                        <button id="coinBtn"
+                            style="background: linear-gradient(135deg, #f7971e, #ffd200); border: none; color: white; padding: 10px 30px; border-radius: 30px; cursor: pointer; font-size: 18px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(247, 151, 30, 0.3);">
+                            🪙 投币 <span id="coinCount">0</span>
+                        </button>
+                    </div>
+
+                    <!-- Coin Modal -->
+                    <div id="coinModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
+                        <div style="background:white; border-radius:16px; padding:30px; max-width:360px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation: fadeInUp 0.3s ease;">
+                            <div style="font-size:48px; margin-bottom:10px;">🪙</div>
+                            <h3 style="margin-bottom:20px; color:#333;">给作者投币</h3>
+                            <div style="display:flex; justify-content:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
+                                <button class="coin-amount-btn" data-amount="1" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">1</button>
+                                <button class="coin-amount-btn" data-amount="2" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">2</button>
+                                <button class="coin-amount-btn" data-amount="5" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">5</button>
+                                <button class="coin-amount-btn" data-amount="10" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">10</button>
+                            </div>
+                            <p id="coinModalBalance" style="font-size:13px; color:#999; margin-bottom:15px;">我的余额：加载中...</p>
+                            <div style="display:flex; gap:10px; justify-content:center;">
+                                <button id="coinConfirmBtn" style="background:linear-gradient(135deg, #f7971e, #ffd200); color:white; border:none; padding:10px 30px; border-radius:25px; font-size:16px; cursor:pointer; font-weight:bold;">确认投币</button>
+                                <button id="coinCancelBtn" style="background:#f0f0f0; color:#666; border:none; padding:10px 30px; border-radius:25px; font-size:16px; cursor:pointer;">取消</button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Comments Section -->

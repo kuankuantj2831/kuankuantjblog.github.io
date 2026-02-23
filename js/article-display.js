@@ -173,7 +173,21 @@ async function initInteractions(articleId, currentUser) {
         likeBtn.onclick = () => toggleLike(articleId, currentUser);
     }
 
-    // 2. Comments
+    // 2. Coins (投币)
+    try {
+        await loadArticleCoins(articleId);
+    } catch (e) {
+        console.error('加载投币数失败:', e);
+    }
+
+    const coinBtn = safeGetElement('coinBtn');
+    if (coinBtn) {
+        coinBtn.onclick = () => showCoinModal(articleId, currentUser);
+    }
+
+    initCoinModal(articleId, currentUser);
+
+    // 3. Comments
     try {
         await loadComments(articleId, currentUser);
     } catch (e) {
@@ -192,6 +206,182 @@ async function initInteractions(articleId, currentUser) {
         if (loginPrompt) loginPrompt.style.display = 'block';
         if (commentForm) commentForm.style.display = 'none';
     }
+}
+
+// --- Coin (投币) Functions ---
+
+let selectedCoinAmount = 1;
+
+async function loadArticleCoins(articleId) {
+    try {
+        const res = await fetch(`${API_BASE_URL}/coins/article/${encodeURIComponent(articleId)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        const coinCountEl = safeGetElement('coinCount');
+        if (coinCountEl) coinCountEl.textContent = data.total_coins || 0;
+    } catch (e) {
+        console.error('Load article coins error:', e);
+    }
+}
+
+function showCoinModal(articleId, currentUser) {
+    if (!currentUser || !currentUser.id) {
+        alert('请先登录后再投币');
+        return;
+    }
+
+    const modal = safeGetElement('coinModal');
+    if (!modal) return;
+
+    modal.style.display = 'flex';
+    selectedCoinAmount = 1;
+
+    // 高亮默认选中的金额按钮
+    document.querySelectorAll('.coin-amount-btn').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.amount === '1');
+    });
+
+    // 加载用户余额
+    loadUserBalance(currentUser);
+}
+
+async function loadUserBalance(currentUser) {
+    const balanceEl = safeGetElement('coinModalBalance');
+    if (!balanceEl) return;
+
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            balanceEl.textContent = '请先登录';
+            return;
+        }
+
+        const res = await fetch(`${API_BASE_URL}/coins/balance`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        balanceEl.textContent = `我的余额：${data.balance || 0} 🪙`;
+    } catch (e) {
+        console.error('Load balance error:', e);
+        balanceEl.textContent = '余额加载失败';
+    }
+}
+
+function initCoinModal(articleId, currentUser) {
+    // 金额选择按钮
+    document.querySelectorAll('.coin-amount-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectedCoinAmount = parseInt(btn.dataset.amount);
+            document.querySelectorAll('.coin-amount-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        });
+    });
+
+    // 确认投币
+    const confirmBtn = safeGetElement('coinConfirmBtn');
+    if (confirmBtn) {
+        confirmBtn.onclick = () => donateCoin(articleId, currentUser);
+    }
+
+    // 取消按钮
+    const cancelBtn = safeGetElement('coinCancelBtn');
+    if (cancelBtn) {
+        cancelBtn.onclick = closeCoinModal;
+    }
+
+    // 点击遮罩关闭
+    const modal = safeGetElement('coinModal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeCoinModal();
+        });
+    }
+}
+
+function closeCoinModal() {
+    const modal = safeGetElement('coinModal');
+    if (modal) modal.style.display = 'none';
+}
+
+async function donateCoin(articleId, currentUser) {
+    if (!currentUser || !currentUser.id) {
+        alert('请先登录');
+        return;
+    }
+
+    const confirmBtn = safeGetElement('coinConfirmBtn');
+    if (confirmBtn) {
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = '投币中...';
+    }
+
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('登录已过期，请重新登录');
+            return;
+        }
+
+        const res = await fetch(`${API_BASE_URL}/coins/donate`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                article_id: parseInt(articleId),
+                amount: selectedCoinAmount
+            })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.message || '投币失败');
+        }
+
+        // 投币成功
+        closeCoinModal();
+
+        // 更新投币数显示
+        await loadArticleCoins(articleId);
+
+        // 投币成功动画
+        const coinBtn = safeGetElement('coinBtn');
+        if (coinBtn) {
+            coinBtn.classList.add('coin-success-anim');
+            setTimeout(() => coinBtn.classList.remove('coin-success-anim'), 600);
+        }
+
+        // 显示成功提示
+        showCoinToast(`投币成功！-${selectedCoinAmount} 🪙`);
+
+    } catch (e) {
+        console.error('Donate error:', e);
+        alert(e.message || '投币失败，请重试');
+    } finally {
+        if (confirmBtn) {
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = '确认投币';
+        }
+    }
+}
+
+function showCoinToast(message) {
+    // 创建临时 toast 提示
+    const toast = document.createElement('div');
+    toast.textContent = message;
+    toast.style.cssText = 'position:fixed; top:20px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg, #f7971e, #ffd200); color:white; padding:12px 24px; border-radius:25px; font-size:16px; font-weight:bold; z-index:2000; box-shadow:0 4px 15px rgba(247,151,30,0.4); animation:fadeInUp 0.3s ease;';
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.transition = 'opacity 0.5s';
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 500);
+    }, 2000);
 }
 
 async function loadLikes(articleId, currentUser) {

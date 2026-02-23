@@ -312,6 +312,6 @@ router.get('/article/:id', async (req, res) => {
 });
 
 // 导出路由和工具函数（供其他模块调用，如发布文章时奖励硬币）
+router.addTransaction = addTransaction;
+router.COIN_REWARDS = COIN_REWARDS;
 module.exports = router;
-module.exports.addTransaction = addTransaction;
-module.exports.COIN_REWARDS = COIN_REWARDS;
