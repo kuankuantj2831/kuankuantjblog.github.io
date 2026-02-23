@@ -110,15 +110,15 @@
             <!-- 搜索区域 -->
             <div class="search-section">
                 <div class="search-container">
-                    <select class="search-select">
+                    <select class="search-select" id="searchSelect">
                         <option>选择标签 ⬇</option>
-                        <option>编程技术</option>
-                        <option>游戏资源</option>
-                        <option>设计素材</option>
-                        <option>学习资料</option>
+                        <option value="编程技术">编程技术</option>
+                        <option value="游戏资源">游戏资源</option>
+                        <option value="设计素材">设计素材</option>
+                        <option value="学习资料">学习资料</option>
                     </select>
-                    <input type="text" class="search-input" placeholder="开启精彩搜索...">
-                    <button class="search-btn">🔍</button>
+                    <input type="text" class="search-input" id="searchInput" placeholder="开启精彩搜索...">
+                    <button class="search-btn" id="searchBtn">🔍</button>
                 </div>
             </div>
 
@@ -264,6 +264,7 @@
     <script src="js/supabase.js"></script>
     <script type="module" src="js/supabase-auth.js?v=20260223b"></script>
     <script type="module" src="js/load-articles.js?v=20260223b"></script>
+    <script type="module" src="js/blog-search.js?v=20260223b"></script>
     <script src="js/theme-enhancements.js"></script>
     <script>
         // Debugging script
