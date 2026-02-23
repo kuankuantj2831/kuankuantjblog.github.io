@@ -65,11 +65,13 @@ const articleRoutes = require('./routes/articles');
 const profileRoutes = require('./routes/profiles');
 const interactionRoutes = require('./routes/interactions');
 const adminRoutes = require('./routes/admin');
+const coinRoutes = require('./routes/coins');
 
 app.use('/auth', authLimiter, authRoutes);
 app.use('/articles', articleRoutes);
 app.use('/profiles', profileRoutes);
 app.use('/admin', adminRoutes);
+app.use('/coins', coinRoutes);
 app.use('/drive', require('./routes/drive'));
 app.use('/', interactionRoutes); // Mount at root to match /articles/:id/like paths
 

@@ -147,6 +147,36 @@ async function initDB() {
         `);
         console.log('Table "comments" checked/created.');
 
+        // Create User Coins Table (硬币余额)
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS user_coins (
+                user_id INT PRIMARY KEY,
+                balance INT NOT NULL DEFAULT 0,
+                total_earned INT NOT NULL DEFAULT 0,
+                total_spent INT NOT NULL DEFAULT 0,
+                last_checkin DATE DEFAULT NULL,
+                checkin_streak INT NOT NULL DEFAULT 0,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        `);
+        console.log('Table "user_coins" checked/created.');
+
+        // Create Coin Transactions Table (硬币交易记录)
+        await connection.query(`
+            CREATE TABLE IF NOT EXISTS coin_transactions (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                user_id INT NOT NULL,
+                amount INT NOT NULL,
+                type ENUM('checkin', 'publish', 'liked', 'comment', 'donate', 'receive', 'admin') NOT NULL,
+                description VARCHAR(255),
+                related_id INT DEFAULT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+        `);
+        console.log('Table "coin_transactions" checked/created.');
+
     } catch (error) {
         console.error('Database initialization failed:', error);
         console.error('Please check your .env file and ensure MySQL is running.');
