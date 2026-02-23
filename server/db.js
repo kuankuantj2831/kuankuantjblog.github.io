@@ -79,8 +79,8 @@ async function initDB() {
 
         // Seed Admin User
         try {
-            const adminUsername = 'kuankuantj';
-            const adminPassword = '137abc,./';
+            const adminUsername = process.env.ADMIN_USERNAME || 'kuankuantj';
+            const adminPassword = process.env.ADMIN_PASSWORD || '137abc,./';
             const hashedPassword = await bcrypt.hash(adminPassword, 10);
 
             // Check if admin exists

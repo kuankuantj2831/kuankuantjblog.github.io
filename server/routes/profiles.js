@@ -2,13 +2,14 @@ const express = require('express');
 const { pool } = require('../db');
 const router = express.Router();
 
-// Get profile
+// Get profile (from users table)
 router.get('/:id', async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT * FROM profiles WHERE id = ?', [req.params.id]);
+        const [rows] = await pool.query(
+            'SELECT id, username, email, phone, avatar_url, role, is_2fa_enabled, created_at FROM users WHERE id = ?',
+            [req.params.id]
+        );
         if (rows.length === 0) {
-            // If not found, try to find in users and create default?
-            // For now just return 404
             return res.status(404).json({ message: 'Profile not found' });
         }
         res.json(rows[0]);
@@ -18,15 +19,32 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Update profile
+// Update profile (update users table)
 router.put('/:id', async (req, res) => {
     try {
         const { username, avatar_url } = req.body;
 
-        // Upsert profile
+        // Build dynamic update query
+        const updates = [];
+        const values = [];
+
+        if (username) {
+            updates.push('username = ?');
+            values.push(username);
+        }
+        if (avatar_url !== undefined) {
+            updates.push('avatar_url = ?');
+            values.push(avatar_url);
+        }
+
+        if (updates.length === 0) {
+            return res.status(400).json({ message: 'No fields to update' });
+        }
+
+        values.push(req.params.id);
         await pool.query(
-            'INSERT INTO profiles (id, username, avatar_url) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE username = VALUES(username), avatar_url = VALUES(avatar_url)',
-            [req.params.id, username, avatar_url]
+            `UPDATE users SET ${updates.join(', ')} WHERE id = ?`,
+            values
         );
 
         res.json({ message: 'Profile updated' });

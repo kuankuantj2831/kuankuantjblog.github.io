@@ -1,5 +1,5 @@
-
-import { API_BASE_URL } from './api-config.js?v=20260223';
+﻿
+import { API_BASE_URL } from './api-config.js?v=20260223b';
 
 class ProfileManager {
     constructor() {
@@ -66,26 +66,47 @@ class ProfileManager {
             // Initial UI update from local storage (fast)
             this.updateUI();
 
-            // Fetch profile from backend to get latest username etc
-            // Note: /profiles/:id currently returns public info found in 'profiles' table.
-            // It might not contain is_2fa_enabled. 
-            // The is_2fa_enabled is in 'users' table and usually comes from login response.
-            // So we rely on this.currentUser (from localStorage) for 2FA status for now.
-            const response = await fetch(`${API_BASE_URL}/profiles/${this.currentUser.id}`);
+            if (!this.currentUser || !this.currentUser.id) {
+                console.warn('⚠️ 用户数据不完整，跳过远程加载');
+                return;
+            }
+
+            let response;
+            try {
+                response = await fetch(`${API_BASE_URL}/profiles/${encodeURIComponent(this.currentUser.id)}`);
+            } catch (networkError) {
+                console.warn('⚠️ 网络连接失败，使用本地缓存数据:', networkError.message);
+                return; // 使用本地缓存数据，不阻塞页面
+            }
 
             if (response.ok) {
-                const data = await response.json();
+                let data;
+                try {
+                    data = await response.json();
+                } catch (parseError) {
+                    console.warn('⚠️ 服务器返回数据格式异常');
+                    return;
+                }
+
                 this.userData = data.data || data;
                 console.log('✅ 找到用户数据:', this.userData);
 
                 // Update specific fields that might have changed
                 if (this.userData.username) {
                     this.currentUser.username = this.userData.username;
-                    // Update local storage to keep it fresh
-                    localStorage.setItem('user', JSON.stringify(this.currentUser));
                 }
+                // 同步 2FA 状态
+                if (this.userData.is_2fa_enabled !== undefined) {
+                    this.currentUser.is_2fa_enabled = this.userData.is_2fa_enabled;
+                }
+                // 同步头像
+                if (this.userData.avatar_url !== undefined) {
+                    this.currentUser.avatar_url = this.userData.avatar_url;
+                }
+                // Update local storage to keep it fresh
+                localStorage.setItem('user', JSON.stringify(this.currentUser));
             } else {
-                console.log('⚠️ 用户文档不存在或获取失败');
+                console.log('⚠️ 用户文档不存在或获取失败 (HTTP ' + response.status + ')');
             }
 
             this.updateUI();
@@ -93,7 +114,7 @@ class ProfileManager {
             console.error('❌ 加载用户数据失败:', error);
             const nameEl = document.getElementById('profileName');
             if (nameEl) {
-                nameEl.textContent = '加载失败';
+                nameEl.textContent = '加载失败，请刷新重试';
             }
         }
     }
@@ -101,7 +122,7 @@ class ProfileManager {
     updateUI() {
         console.log('🎨 更新UI...');
 
-        const displayName = this.currentUser.username || this.currentUser.email.split('@')[0];
+        const displayName = this.currentUser.username || (this.currentUser.email ? this.currentUser.email.split('@')[0] : '用户');
         const nameEl = document.getElementById('profileName');
         const nameInput = document.getElementById('displayName');
 
@@ -148,27 +169,39 @@ class ProfileManager {
 
     async updateUserInfo() {
         try {
-            const displayName = document.getElementById('displayName').value.trim();
+            const displayNameEl = document.getElementById('displayName');
+            const displayName = displayNameEl ? displayNameEl.value.trim() : '';
 
             if (!displayName) {
                 this.showMessage('infoErrorMsg', '用户名不能为空');
                 return;
             }
 
+            if (displayName.length > 50) {
+                this.showMessage('infoErrorMsg', '用户名不能超过50个字符');
+                return;
+            }
+
             console.log('💾 更新用户信息:', { displayName });
 
-            const response = await fetch(`${API_BASE_URL}/profiles/${this.currentUser.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({ username: displayName })
-            });
+            let response;
+            try {
+                response = await fetch(`${API_BASE_URL}/profiles/${encodeURIComponent(this.currentUser.id)}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: displayName })
+                });
+            } catch (networkError) {
+                throw new Error('网络连接失败，请检查网络后重试');
+            }
 
             if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message || '更新失败');
+                let errMsg = '更新失败';
+                try {
+                    const data = await response.json();
+                    errMsg = data.message || errMsg;
+                } catch (_) { /* 忽略解析错误 */ }
+                throw new Error(errMsg);
             }
 
             // Update local state
@@ -179,14 +212,16 @@ class ProfileManager {
             this.updateUI();
         } catch (error) {
             console.error('❌ 更新用户信息失败:', error);
-            this.showMessage('infoErrorMsg', '更新失败：' + error.message);
+            this.showMessage('infoErrorMsg', '更新失败：' + (error.message || '未知错误'));
         }
     }
 
     async changePassword() {
         try {
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+            const newPasswordEl = document.getElementById('newPassword');
+            const confirmPasswordEl = document.getElementById('confirmPassword');
+            const newPassword = newPasswordEl ? newPasswordEl.value : '';
+            const confirmPassword = confirmPasswordEl ? confirmPasswordEl.value : '';
 
             if (!newPassword || !confirmPassword) {
                 this.showMessage('passwordErrorMsg', '请填写完整信息');
@@ -205,28 +240,35 @@ class ProfileManager {
 
             console.log('🔒 修改密码...');
 
-            const response = await fetch(`${API_BASE_URL}/auth/password`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({
-                    userId: this.currentUser.id,
-                    password: newPassword
-                })
-            });
+            let response;
+            try {
+                response = await fetch(`${API_BASE_URL}/auth/password`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: this.currentUser.id,
+                        password: newPassword
+                    })
+                });
+            } catch (networkError) {
+                throw new Error('网络连接失败，请检查网络后重试');
+            }
 
             if (!response.ok) {
-                const data = await response.json();
-                throw new Error(data.message || '修改失败');
+                let errMsg = '修改失败';
+                try {
+                    const data = await response.json();
+                    errMsg = data.message || errMsg;
+                } catch (_) { /* 忽略解析错误 */ }
+                throw new Error(errMsg);
             }
 
             this.showMessage('passwordSuccessMsg', '密码修改成功！');
-            document.getElementById('changePasswordForm').reset();
+            const passwordForm = document.getElementById('changePasswordForm');
+            if (passwordForm) passwordForm.reset();
         } catch (error) {
             console.error('❌ 修改密码失败:', error);
-            this.showMessage('passwordErrorMsg', '修改失败：' + error.message);
+            this.showMessage('passwordErrorMsg', '修改失败：' + (error.message || '未知错误'));
         }
     }
 

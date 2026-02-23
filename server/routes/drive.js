@@ -124,15 +124,25 @@ router.get('/download', checkCOSConfig, (req, res) => {
 // DELETE /delete - Delete file
 router.post('/delete', checkCOSConfig, (req, res) => {
     const { key } = req.body;
-    // Optional: Check permissions (e.g. only admin or uploader)
-    // For now assuming public drive
+
+    if (!key || typeof key !== 'string') {
+        return res.status(400).json({ message: 'Missing or invalid file key' });
+    }
+
+    // 防止路径遍历攻击
+    if (key.includes('..') || key.startsWith('/')) {
+        return res.status(400).json({ message: 'Invalid file key' });
+    }
 
     cos.deleteObject({
         Bucket: BUCKET,
         Region: REGION,
         Key: key
     }, (err, data) => {
-        if (err) return res.status(500).json({ message: 'Delete failed' });
+        if (err) {
+            console.error('COS Delete Error:', err);
+            return res.status(500).json({ message: 'Delete failed', error: err.message });
+        }
         res.json({ message: 'Deleted successfully' });
     });
 });

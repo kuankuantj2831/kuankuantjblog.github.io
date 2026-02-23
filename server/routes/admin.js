@@ -29,7 +29,12 @@ const requireAdmin = (req, res, next) => {
 // Admin Login
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
-    const ip = req.ip || req.connection.remoteAddress;
+
+    if (!username || !password) {
+        return res.status(400).json({ message: 'Username and password are required' });
+    }
+
+    const ip = req.ip || req.socket?.remoteAddress || 'unknown';
     const now = Date.now();
 
     // Check Lockout

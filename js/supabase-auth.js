@@ -1,5 +1,5 @@
-
-import { API_BASE_URL } from './api-config.js?v=20260223';
+﻿
+import { API_BASE_URL } from './api-config.js?v=20260223b';
 
 class SupabaseAuthSystem {
     constructor() {
@@ -280,13 +280,23 @@ class SupabaseAuthSystem {
         }
 
         try {
-            const response = await fetch(`${API_BASE_URL}/auth/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, email, phone, password })
-            });
+            let response;
+            try {
+                response = await fetch(`${API_BASE_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, phone, password })
+                });
+            } catch (networkError) {
+                throw new Error('网络连接失败，请检查网络后重试');
+            }
 
-            const data = await response.json();
+            let data;
+            try {
+                data = await response.json();
+            } catch (parseError) {
+                throw new Error(`服务器响应异常 (${response.status})`);
+            }
 
             if (!response.ok) {
                 throw new Error(data.message || '注册失败');
@@ -297,9 +307,8 @@ class SupabaseAuthSystem {
             // Optionally auto-login or wait for user to login
             setTimeout(() => {
                 this.closeModals();
-                document.getElementById('registerForm').reset();
-                // If the API returns a token/user on register, we could log them in here
-                // For now, let's ask them to login
+                const registerForm = document.getElementById('registerForm');
+                if (registerForm) registerForm.reset();
                 this.showLoginModal();
             }, 1500);
 
@@ -314,20 +323,22 @@ class SupabaseAuthSystem {
         this.isLoginSubmitting = true;
 
         console.log('Handle Login called');
-        const input = document.getElementById('loginUsername').value.trim();
-        const password = document.getElementById('loginPassword').value;
+        const usernameInput = document.getElementById('loginUsername');
+        const passwordInput = document.getElementById('loginPassword');
+        const input = usernameInput ? usernameInput.value.trim() : '';
+        const password = passwordInput ? passwordInput.value : '';
         const codeInput = document.getElementById('login2faCode');
         const code = codeInput ? codeInput.value.trim() : '';
         const submitBtn = document.querySelector('#loginForm button[type="submit"]');
 
         // Clear previous messages
         this.showError('loginError', '');
-        document.getElementById('loginError').classList.remove('show');
-        // Do NOT clear loginSuccess if it contains the "Code sent" message and we are verifying
-        // Actually, better to clear only if restarting or erroring
+        const loginErrorEl = document.getElementById('loginError');
+        if (loginErrorEl) loginErrorEl.classList.remove('show');
 
         if (!input || !password) {
             this.showError('loginError', '请填写完整信息');
+            this.isLoginSubmitting = false;
             return;
         }
 
@@ -343,7 +354,8 @@ class SupabaseAuthSystem {
             let body = { username: input, password };
 
             // If 2FA input is visible and has value, verify it
-            if (document.getElementById('login2faGroup').style.display !== 'none' && code) {
+            const login2faGroup = document.getElementById('login2faGroup');
+            if (login2faGroup && login2faGroup.style.display !== 'none' && code) {
                 // Clear the "Code sent" success message to avoid confusion
                 const successEl = document.getElementById('loginSuccess');
                 if (successEl) {
@@ -357,13 +369,23 @@ class SupabaseAuthSystem {
                 body = { userId, code };
             }
 
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
-            });
+            let response;
+            try {
+                response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+            } catch (networkError) {
+                throw new Error('网络连接失败，请检查网络后重试');
+            }
 
-            const data = await response.json();
+            let data;
+            try {
+                data = await response.json();
+            } catch (parseError) {
+                throw new Error(`服务器响应异常 (${response.status})`);
+            }
 
             if (!response.ok) {
                 throw new Error(data.message || '登录失败');
@@ -372,12 +394,16 @@ class SupabaseAuthSystem {
             // Check for 2FA requirement
             if (data.require2fa) {
                 this.tempUserId = data.userId;
-                document.getElementById('login2faGroup').style.display = 'block';
+                if (login2faGroup) login2faGroup.style.display = 'block';
                 this.showSuccess('loginSuccess', '验证码已发送至您的邮箱，请输入验证码');
                 return; // Stop here, wait for user to input code
             }
 
-            // Login Success
+            // Login Success - 验证返回数据完整性
+            if (!data.user || !data.user.id) {
+                throw new Error('服务器返回的用户数据不完整');
+            }
+
             this.currentUser = data.user;
             localStorage.setItem('user', JSON.stringify(this.currentUser));
             if (data.token) localStorage.setItem('token', data.token);
@@ -387,8 +413,9 @@ class SupabaseAuthSystem {
 
             setTimeout(() => {
                 this.closeModals();
-                document.getElementById('loginForm').reset();
-                document.getElementById('login2faGroup').style.display = 'none';
+                const loginForm = document.getElementById('loginForm');
+                if (loginForm) loginForm.reset();
+                if (login2faGroup) login2faGroup.style.display = 'none';
                 if (codeInput) codeInput.value = '';
                 this.tempUserId = null;
             }, 1000);

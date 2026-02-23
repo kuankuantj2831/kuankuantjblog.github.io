@@ -66,6 +66,12 @@ router.post('/login', async (req, res) => {
         // Check if 2FA is enabled
         console.log(`Login: User ${user.username} (ID: ${user.id}) 2FA status: ${user.is_2fa_enabled}`);
         if (user.is_2fa_enabled) {
+            // 检查用户是否有邮箱（2FA 需要邮箱发送验证码）
+            if (!user.email) {
+                console.warn(`Login: User ${user.id} has 2FA enabled but no email address`);
+                return res.status(400).json({ message: '2FA is enabled but no email address is set. Please contact admin.' });
+            }
+
             console.log('Login: 2FA is enabled, sending code...');
             // Generate 6-digit code
             const code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -160,14 +166,27 @@ router.post('/user/2fa', async (req, res) => {
 router.put('/password', async (req, res) => {
     try {
         const { userId, password } = req.body;
-        // In a real app, verify token here
+
+        if (!userId || !password) {
+            return res.status(400).json({ message: 'userId and password are required' });
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({ message: 'Password must be at least 6 characters' });
+        }
+
+        // Verify user exists
+        const [users] = await pool.query('SELECT id FROM users WHERE id = ?', [userId]);
+        if (users.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
         await pool.query('UPDATE users SET password_hash = ? WHERE id = ?', [hashedPassword, userId]);
 
         res.json({ message: 'Password updated successfully' });
     } catch (error) {
-        console.error(error);
+        console.error('Change password error:', error);
         res.status(500).json({ message: 'Server error' });
     }
 });

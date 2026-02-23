@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api-config.js?v=20260223';
+﻿import { API_BASE_URL } from './api-config.js?v=20260223b';
 
 console.warn('⚠️ js/supabase-client.js is deprecated. Please use js/api-config.js and standard fetch API instead.');
 
