@@ -33,6 +33,7 @@ class BlogSearch {
         this.searchSelect = document.getElementById('searchSelect');
         this.categoryTags = document.querySelectorAll('.category-tag');
         this.articlesContainer = document.getElementById('articles-container');
+        this.searchResultInfo = document.getElementById('searchResultInfo');
 
         if (!this.searchInput || !this.searchBtn || !this.articlesContainer) {
             console.warn('搜索模块: 缺少必要的 DOM 元素，跳过初始化');
@@ -175,6 +176,9 @@ class BlogSearch {
     }
 
     renderResults(articles, pagination) {
+        // 更新搜索信息栏（独立容器，不在横向滚动区域内）
+        this.updateSearchInfo(articles, pagination);
+
         if (!articles || articles.length === 0) {
             const searchTerms = [];
             if (this.currentKeyword) searchTerms.push(`"${escapeHtml(this.currentKeyword)}"`);
@@ -182,13 +186,13 @@ class BlogSearch {
             if (this.currentTag) searchTerms.push(`标签: ${escapeHtml(this.currentTag)}`);
 
             this.articlesContainer.innerHTML = `
-                <div style="text-align:center; padding:40px; color:#999; width:100%;">
+                <div style="text-align:center; padding:40px; color:#999; min-width:100%;">
                     <div style="font-size:48px; margin-bottom:15px;">🔍</div>
                     <div style="font-size:16px; margin-bottom:8px;">没有找到相关文章</div>
                     <div style="font-size:13px; color:#bbb; margin-bottom:20px;">
                         搜索条件: ${searchTerms.join(' + ') || '无'}
                     </div>
-                    <button onclick="document.getElementById('searchInput').value=''; window.blogSearch.resetSearch();" 
+                    <button onclick="document.getElementById('searchInput').value=''; window.blogSearch.resetSearch();"
                             style="padding:8px 20px; background:#667eea; color:white; border:none; border-radius:5px; cursor:pointer;">
                         查看全部文章
                     </button>
@@ -197,25 +201,6 @@ class BlogSearch {
         }
 
         this.articlesContainer.innerHTML = '';
-
-        // 搜索结果提示
-        if (pagination.total !== undefined) {
-            const infoDiv = document.createElement('div');
-            infoDiv.className = 'search-result-info';
-            infoDiv.style.cssText = 'width:100%; padding:8px 15px; font-size:13px; color:#888; display:flex; justify-content:space-between; align-items:center; flex-shrink:0;';
-
-            const searchTerms = [];
-            if (this.currentKeyword) searchTerms.push(`"${escapeHtml(this.currentKeyword)}"`);
-            if (this.currentCategory) searchTerms.push(escapeHtml(this.currentCategory));
-            if (this.currentTag) searchTerms.push(escapeHtml(this.currentTag));
-
-            infoDiv.innerHTML = `
-                <span>找到 <strong style="color:#667eea;">${pagination.total}</strong> 篇相关文章 ${searchTerms.length ? '(' + searchTerms.join(' + ') + ')' : ''}</span>
-                <a href="#" onclick="event.preventDefault(); document.getElementById('searchInput').value=''; window.blogSearch.resetSearch();" 
-                   style="color:#667eea; text-decoration:none; font-size:12px;">✕ 清除搜索</a>
-            `;
-            this.articlesContainer.appendChild(infoDiv);
-        }
 
         // 渲染文章卡片
         articles.forEach((article) => {
@@ -261,6 +246,31 @@ class BlogSearch {
     /**
      * 重置搜索，恢复加载全部文章
      */
+    /**
+     * 更新搜索信息栏（渲染到独立容器，不影响横向滚动布局）
+     */
+    updateSearchInfo(articles, pagination) {
+        if (!this.searchResultInfo) return;
+
+        if (pagination && pagination.total !== undefined) {
+            const searchTerms = [];
+            if (this.currentKeyword) searchTerms.push(`"${escapeHtml(this.currentKeyword)}"`);
+            if (this.currentCategory) searchTerms.push(escapeHtml(this.currentCategory));
+            if (this.currentTag) searchTerms.push(escapeHtml(this.currentTag));
+
+            this.searchResultInfo.style.display = 'flex';
+            this.searchResultInfo.style.cssText = 'display:flex; padding:8px 15px; font-size:13px; color:#888; justify-content:space-between; align-items:center;';
+            this.searchResultInfo.innerHTML = `
+                <span>找到 <strong style="color:#667eea;">${pagination.total}</strong> 篇相关文章 ${searchTerms.length ? '(' + searchTerms.join(' + ') + ')' : ''}</span>
+                <a href="#" onclick="event.preventDefault(); document.getElementById('searchInput').value=''; window.blogSearch.resetSearch();"
+                   style="color:#667eea; text-decoration:none; font-size:12px;">✕ 清除搜索</a>
+            `;
+        } else {
+            this.searchResultInfo.style.display = 'none';
+            this.searchResultInfo.innerHTML = '';
+        }
+    }
+
     async resetSearch() {
         this.currentKeyword = '';
         this.currentCategory = '';
@@ -271,6 +281,12 @@ class BlogSearch {
         if (this.searchSelect) this.searchSelect.selectedIndex = 0;
         if (this.categoryTags) {
             this.categoryTags.forEach(t => t.classList.remove('active'));
+        }
+
+        // 隐藏搜索信息栏
+        if (this.searchResultInfo) {
+            this.searchResultInfo.style.display = 'none';
+            this.searchResultInfo.innerHTML = '';
         }
 
         // 重新加载全部文章
