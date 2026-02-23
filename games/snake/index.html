@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贪吃蛇</title>
+    
+    <!-- 优化：预连接到字体服务器 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="backgroundCanvas"></canvas>
+    <div class="main-container">
+        <div class="inner-frame">
+            <h1>贪吃蛇</h1>
+            <div class="stats-container">
+                <div class="score-container">
+                    <span>分数: </span><span id="score">0</span>
+                </div>
+                <div class="time-container">
+                    <span>时间: </span><span id="time">0</span>s
+                </div>
+                <div class="highscore-container">
+                    <span>最高: </span><span id="highScore">0</span>
+                </div>
+            </div>
+            <canvas id="gameCanvas" width="400" height="400"></canvas>
+            <div class="save-load-container">
+                <button id="saveButton">生成存档</button>
+                <input type="text" id="saveCodeInput" placeholder="在此处粘贴存档码...">
+                <button id="loadButton">读取存档</button>
+                <button id="newGameButton">新游戏</button>
+                <button id="achievementsButton">成就</button>
+            </div>
+            <div id="gameOverScreen" class="hidden">
+                <h2>No signal!</h2>
+                <p>最终得分: <span id="finalScore">0</span></p>
+                <button id="restartButton">重新连接</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 成就弹窗 -->
+    <div id="achievements-modal" class="hidden">
+        <div class="modal-content">
+            <h2>成就列表</h2>
+            <div id="achievements-list"></div>
+            <button id="close-achievements">关闭</button>
+        </div>
+    </div>
+
+    <!-- 优化：延迟执行脚本 -->
+    <script src="script.js" defer></script>
+    
+    <div id="achievement-container"></div>
+
+    <!-- 移动端虚拟按键 -->
+    <div id="mobile-controls" class="hidden">
+        <div class="d-pad">
+            <button id="up-button" class="d-pad-button up">↑</button>
+            <button id="down-button" class="d-pad-button down">↓</button>
+            <button id="left-button" class="d-pad-button left">←</button>
+            <button id="right-button" class="d-pad-button right">→</button>
+        </div>
+    </div>
+</body>
+</html>

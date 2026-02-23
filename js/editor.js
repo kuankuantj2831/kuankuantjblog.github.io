@@ -1,17 +1,20 @@
 
-import { supabase } from './supabase-client.js';
+import { API_BASE_URL } from './api-config.js?v=20260223';
 
 // 检查登录状态
-async function checkAuth() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
+// Check login status
+function checkAuth() {
+    const userJson = localStorage.getItem('user');
+    if (!userJson) {
         alert("请先登录后再发布文章！");
         window.location.href = "/index-chinese.html";
-    } else {
-        console.log("当前用户:", user.email);
+        return null;
     }
+    const user = JSON.parse(userJson);
+    console.log("当前用户:", user.email);
+    return user;
 }
-checkAuth();
+const currentUser = checkAuth();
 
 // 处理发布
 document.getElementById('articleForm').addEventListener('submit', async (e) => {
@@ -27,44 +30,42 @@ document.getElementById('articleForm').addEventListener('submit', async (e) => {
     const summary = document.getElementById('articleSummary').value;
     const content = document.getElementById('articleContent').value;
 
-    // 处理标签
+    // Process tags
     const tags = tagsStr.split(/[,，]/).map(t => t.trim()).filter(t => t);
 
     try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) throw new Error("未登录");
+        const userJson = localStorage.getItem('user');
+        if (!userJson) throw new Error("未登录");
+        const user = JSON.parse(userJson);
 
-        // 获取作者名 (优先用 profile 中的 username)
-        let authorName = user.user_metadata.username || user.email.split('@')[0];
+        // Get author name (use username from metadata or email)
+        let authorName = user.username || user.user_metadata?.username || user.email.split('@')[0];
 
-        // 尝试从 profiles 表获取最新用户名
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('username')
-            .eq('id', user.id)
-            .single();
+        // Prepare article data
+        const articleData = {
+            title: title,
+            category: category,
+            tags: tags.join(','), // Convert array to string if backend expects string, or keep as array if JSON
+            summary: summary,
+            content: content,
+            author_id: user.id,
+            author_name: authorName
+        };
 
-        if (profile && profile.username) {
-            authorName = profile.username;
+        const response = await fetch(`${API_BASE_URL}/articles`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // 'Authorization': `Bearer ${localStorage.getItem('token')}` // Add token if needed
+            },
+            body: JSON.stringify(articleData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || '发布失败');
         }
-
-        // 写入数据库
-        const { data, error } = await supabase
-            .from('articles')
-            .insert([
-                {
-                    title: title,
-                    category: category,
-                    tags: tags, // Supabase 支持数组类型
-                    summary: summary,
-                    content: content,
-                    author_id: user.id,
-                    author_name: authorName
-                }
-            ])
-            .select();
-
-        if (error) throw error;
 
         console.log("文章发布成功");
         alert("🎉 发布成功！");

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理 - Hakimi 的猫爬架</title>
+    <link rel="stylesheet" href="../css/chinese-style.css">
+    <style>
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .admin-container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .btn-primary {
+            background: #1890ff;
+        }
+
+        .btn-danger {
+            background: #ff4d4f;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .table th,
+        .table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: white;
+            width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="loginSection" class="admin-container" style="max-width: 400px; margin-top: 100px;">
+        <div class="card">
+            <h2 style="text-align:center; margin-bottom:20px;">🛡️ 管理员登录</h2>
+            <div class="form-group">
+                <label>账号</label>
+                <input type="text" id="adminUsername" placeholder="请输入管理员账号">
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" id="adminPassword" placeholder="请输入管理员密码">
+            </div>
+            <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="adminLogin()">登录</button>
+        </div>
+    </div>
+
+    <div id="dashboardSection" class="admin-container" style="display: none;">
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2>👥 用户管理</h2>
+                <div>
+                    <span style="margin-right:10px; font-weight:bold;">管理员</span>
+                    <button class="btn btn-primary" onclick="showAddUserModal()">+ 添加用户</button>
+                    <button class="btn btn-danger" onclick="logout()">退出</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户名</th>
+                        <th>角色</th>
+                        <th>邮箱</th>
+                        <th>手机</th>
+                        <th>注册时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- Users will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <h3>添加用户</h3>
+            <div class="form-group">
+                <label>用户名</label>
+                <input type="text" id="newUsername">
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="text" id="newPassword">
+            </div>
+            <div class="form-group">
+                <label>角色</label>
+                <select id="newRole">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div style="text-align:right; margin-top:20px;">
+                <button class="btn" style="background:#ccc; color:#333;" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" onclick="addUser()">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { API_BASE_URL } from '../js/api-config.js?v=20260223';
+
+        // Check if already logged in
+        const adminToken = localStorage.getItem('adminToken');
+        if (adminToken) {
+            showDashboard();
+        }
+
+        window.adminLogin = async () => {
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+
+            if (!username || !password) return alert('请输入账号和密码');
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    localStorage.setItem('adminToken', data.token);
+                    showDashboard();
+                } else {
+                    alert(data.message || '登录失败');
+                }
+            } catch (e) {
+                console.error(e);
+                alert('网络错误');
+            }
+        };
+
+        function showDashboard() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+            loadUsers();
+        }
+
+        window.logout = () => {
+            localStorage.removeItem('adminToken');
+            window.location.reload();
+        };
+
+        // Load users
+        async function loadUsers() {
+            const token = localStorage.getItem('adminToken');
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/users`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (res.status === 403 || res.status === 401) {
+                    alert('登录过期，请重新登录');
+                    logout();
+                    return;
+                }
+
+                const users = await res.json();
+                const tbody = document.getElementById('userTableBody');
+                tbody.innerHTML = '';
+
+                users.forEach(u => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                    <td>${u.id}</td>
+                    <td>${u.username}</td>
+                    <td><span style="background:${u.role === 'admin' ? '#ff4d4f' : '#1890ff'}; color:white; padding:2px 6px; border-radius:4px; font-size:12px;">${u.role}</span></td>
+                    <td>${u.email || '-'}</td>
+                    <td>${u.phone || '-'}</td>
+                    <td>${new Date(u.created_at).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteUser(${u.id})">删除</button>
+                    </td>
+                `;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                console.error('Load users error:', e);
+                alert('加载失败');
+            }
+        }
+
+        window.showAddUserModal = () => {
+            document.getElementById('addUserModal').style.display = 'block';
+        };
+
+        window.closeModal = () => {
+            document.getElementById('addUserModal').style.display = 'none';
+        };
+
+        window.addUser = async () => {
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+            const role = document.getElementById('newRole').value;
+            const token = localStorage.getItem('adminToken');
+
+            if (!username || !password) return alert('请填写用户名和密码');
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/users`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ username, password, role })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    alert('添加成功');
+                    closeModal();
+                    loadUsers();
+                } else {
+                    alert(data.message || '添加失败');
+                }
+            } catch (e) {
+                console.error(e);
+                alert('网络错误');
+            }
+        };
+
+        window.deleteUser = async (id) => {
+            if (!confirm('确定删除该用户吗？')) return;
+            const token = localStorage.getItem('adminToken');
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/users/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    alert('删除成功');
+                    loadUsers();
+                } else {
+                    alert('删除失败');
+                }
+            } catch (e) {
+                console.error(e);
+                alert('网络错误');
+            }
+        };
+
+        // Init
+        // loadUsers(); // Don't load users immediately, wait for login
+    </script>
+</body>
+
+</html>

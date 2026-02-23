@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="kuankuantj的个人博客 - 分享是一种美德">
 
-    <title>kuankuantj的个人博客</title>
+    <title>Hakimi 的猫爬架</title>
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/chinese-style.css">
-    <link rel="stylesheet" href="css/auth.css">
-    <link rel="stylesheet" href="css/tianjg-theme.css">
+    <link rel="stylesheet" href="css/chinese-style.css?v=2">
+    <link rel="stylesheet" href="css/auth.css?v=2">
+    <link rel="stylesheet" href="css/tianjg-theme.css?v=2">
 
     <script src="js/pace.min.js"></script>
 </head>
@@ -23,27 +23,69 @@
 
         <!-- 顶部导航 -->
         <nav class="top-nav">
-            <div class="logo">天机阁</div>
+            <div class="logo">Hakimi 的猫爬架</div>
             <div class="nav-links">
                 <a href="#" class="nav-link active">🏠 主页</a>
-                <a href="#" class="nav-link">☁️ 网盘</a>
+                <a href="games.html" class="nav-link">🎮 游戏</a>
+                <a href="drive.html" class="nav-link">☁️ 网盘</a>
                 <a href="#" class="nav-link">🎯 关于我们</a>
-                <a href="#" class="nav-link login-btn" style="cursor: pointer;">👤 登录</a>
+                <a href="#" class="nav-link login-btn" style="cursor: pointer;"
+                    onclick="document.getElementById('loginModal').classList.add('active')">👤 登录</a>
                 <a href="#" class="nav-link register-btn" style="cursor: pointer;">📝 注册</a>
 
                 <!-- 用户菜单 -->
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">U</div>
                     <div class="user-dropdown">
-                        <div class="user-dropdown-header">
-                            <div class="user-dropdown-name">用户名</div>
-                            <div class="user-dropdown-email">user@example.com</div>
+                        <!-- Header / Greeting -->
+                        <div class="user-card-header-bg">
+                            <div class="user-card-info">
+                                <div class="user-dropdown-name">用户名</div>
+                                <div class="user-level-badge">Lv.5 <span>✨</span></div>
+                            </div>
                         </div>
+
+                        <!-- Stats Row -->
+                        <div class="user-card-stats">
+                            <div class="stat-item">
+                                <div class="stat-num">12</div>
+                                <div class="stat-label">关注</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-num">356</div>
+                                <div class="stat-label">粉丝</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-num">1.2k</div>
+                                <div class="stat-label">获赞</div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions Grid -->
+                        <div class="user-card-grid">
+                            <a href="profile.html" class="grid-item">
+                                <div class="grid-icon">👤</div>
+                                <div class="grid-label">个人中心</div>
+                            </a>
+                            <a href="editor.html" class="grid-item">
+                                <div class="grid-icon">✍️</div>
+                                <div class="grid-label">内容投稿</div>
+                            </a>
+                            <a href="#" class="grid-item">
+                                <div class="grid-icon">🪙</div>
+                                <div class="grid-label">我的硬币</div>
+                            </a>
+                            <a href="drive.html" class="grid-item">
+                                <div class="grid-icon">☁️</div>
+                                <div class="grid-label">云端网盘</div>
+                            </a>
+                        </div>
+
+                        <div class="user-dropdown-divider"></div>
+
+                        <!-- List Menu -->
                         <div class="user-dropdown-menu">
-                            <a href="editor.html" class="user-dropdown-item">✍️ 发布文章</a>
-                            <a href="profile.html" class="user-dropdown-item">👤 个人中心</a>
                             <a href="profile.html" class="user-dropdown-item">⚙️ 设置</a>
-                            <div class="user-dropdown-divider"></div>
                             <a href="#" class="user-dropdown-item" id="logoutBtn">🚪 退出登录</a>
                         </div>
                     </div>
@@ -99,89 +141,154 @@
 
     <!-- 登录弹窗 -->
     <div class="auth-modal-overlay" id="loginModal">
-        <div class="auth-modal">
-            <div class="auth-modal-header">
-                <h2 class="auth-modal-title">🔐 用户登录</h2>
-                <button class="auth-modal-close">×</button>
-            </div>
+        <div class="auth-modal tianjg-modal">
+            <button class="auth-modal-close">×</button>
             <div class="auth-modal-body">
+                <!-- Logo Area -->
+                <div class="auth-logo">
+                    <span class="auth-logo-text">✨Hakimi 的猫爬架✨</span>
+                </div>
+
+                <!-- Header -->
+                <div class="auth-header-row">
+                    <h2 class="auth-title">登录</h2>
+                    <span class="auth-header-divider"></span>
+                </div>
+                <div class="auth-subtitle">
+                    没有账号？ <a href="#" class="auth-link" id="switchToRegister">立即注册 ></a>
+                </div>
+
                 <div class="auth-error" id="loginError"></div>
                 <div class="auth-success" id="loginSuccess"></div>
 
                 <form id="loginForm">
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">用户名/邮箱</label>
-                        <input type="text" class="auth-form-input" id="loginUsername" placeholder="请输入用户名或邮箱" required>
+
+                    <div class="tianjg-input-group">
+                        <input type="text" class="tianjg-input" id="loginUsername" placeholder="用户名或邮箱" required>
                     </div>
 
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">密码</label>
-                        <input type="password" class="auth-form-input" id="loginPassword" placeholder="请输入密码" required>
+                    <div class="tianjg-input-group">
+                        <input type="password" class="tianjg-input" id="loginPassword" placeholder="登录密码" required>
+                        <span class="password-eye-icon">👁️</span>
                     </div>
 
-                    <div class="auth-remember">
-                        <input type="checkbox" id="loginRemember">
-                        <label for="loginRemember">记住我</label>
+                    <div class="tianjg-input-group" id="login2faGroup" style="display: none;">
+                        <input type="text" class="tianjg-input" id="login2faCode" placeholder="请输入邮箱验证码">
                     </div>
 
-                    <button type="submit" class="auth-btn auth-btn-primary">登录</button>
-                </form>
-
-                <div class="auth-switch">
-                    还没有账号？<a href="#" class="auth-switch-link" id="switchToRegister">立即注册</a>
-                </div>
+                    <div class="auth-options-row">
+                        <div class="auth-remember">
+                            <input type="checkbox" id="loginRemember" class="tianjg-checkbox">
+                            <label for="loginRemember">记住登录</label>
+                        </div>
+                    </div>
+                    <div class="auth-links">
+                        <a href="#" class="auth-link-grey" id="forgotPasswordLink">找回密码</a>
+                    </div>
             </div>
+
+            <button type="submit" class="tianjg-btn">➔ 登录</button>
+            </form>
+
+            <!-- Reset Password Form (Hidden) -->
+            <form id="resetPasswordForm" style="display: none;">
+                <div class="tianjg-input-group">
+                    <input type="email" class="tianjg-input" id="resetEmail" placeholder="请输入注册邮箱" required>
+                </div>
+
+                <div class="tianjg-input-group" style="display: flex; gap: 10px;">
+                    <input type="text" class="tianjg-input" id="resetCode" placeholder="验证码" required>
+                    <button type="button" class="tianjg-btn" id="sendResetCodeBtn"
+                        style="width: 120px; font-size: 0.9em; padding: 0;">获取验证码</button>
+                </div>
+
+                <div class="tianjg-input-group">
+                    <input type="password" class="tianjg-input" id="resetNewPassword" placeholder="新密码" required>
+                </div>
+
+                <button type="submit" class="tianjg-btn">➔ 重置密码</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="#" class="auth-link-grey" id="backToLogin">返回登录</a>
+                </div>
+            </form>
         </div>
+    </div>
     </div>
 
     <!-- 注册弹窗 -->
     <div class="auth-modal-overlay" id="registerModal">
-        <div class="auth-modal">
-            <div class="auth-modal-header">
-                <h2 class="auth-modal-title">📝 用户注册</h2>
-                <button class="auth-modal-close">×</button>
-            </div>
+        <div class="auth-modal tianjg-modal">
+            <button class="auth-modal-close">×</button>
             <div class="auth-modal-body">
+                <!-- Logo Area -->
+                <div class="auth-logo">
+                    <span class="auth-logo-text">✨Hakimi 的猫爬架✨</span>
+                </div>
+
+                <!-- Header -->
+                <div class="auth-header-row">
+                    <h2 class="auth-title">注册</h2>
+                    <span class="auth-header-divider"></span>
+                </div>
+                <div class="auth-subtitle">
+                    已有账号？ <a href="#" class="auth-link" id="switchToLogin">立即登录 ></a>
+                </div>
+
                 <div class="auth-error" id="registerError"></div>
                 <div class="auth-success" id="registerSuccess"></div>
 
                 <form id="registerForm">
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">用户名</label>
-                        <input type="text" class="auth-form-input" id="registerUsername" placeholder="请输入用户名（至少3个字符）"
+                    <div class="tianjg-input-group">
+                        <input type="text" class="tianjg-input" id="registerUsername" placeholder="用户名（至少3个字符）"
                             required>
                     </div>
 
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">邮箱</label>
-                        <input type="email" class="auth-form-input" id="registerEmail" placeholder="请输入邮箱地址" required>
+                    <div class="tianjg-input-group">
+                        <input type="email" class="tianjg-input" id="registerEmail" placeholder="邮箱地址" required>
                     </div>
 
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">密码</label>
-                        <input type="password" class="auth-form-input" id="registerPassword" placeholder="请输入密码（至少6个字符）"
+                    <div class="tianjg-input-group">
+                        <input type="password" class="tianjg-input" id="registerPassword" placeholder="密码（至少6个字符）"
                             required>
                     </div>
 
-                    <div class="auth-form-group">
-                        <label class="auth-form-label">确认密码</label>
-                        <input type="password" class="auth-form-input" id="registerConfirmPassword"
-                            placeholder="请再次输入密码" required>
+                    <div class="tianjg-input-group">
+                        <input type="password" class="tianjg-input" id="registerConfirmPassword" placeholder="确认密码"
+                            required>
                     </div>
 
-                    <button type="submit" class="auth-btn auth-btn-primary">注册</button>
+                    <button type="submit" class="tianjg-btn">➔ 立即注册</button>
                 </form>
-
-                <div class="auth-switch">
-                    已有账号？<a href="#" class="auth-switch-link" id="switchToLogin">立即登录</a>
-                </div>
             </div>
         </div>
     </div>
     <script src="js/supabase.js"></script>
-    <script type="module" src="js/supabase-auth.js"></script>
-    <script type="module" src="js/load-articles.js"></script>
+    <script type="module" src="js/supabase-auth.js?v=20260223"></script>
+    <script type="module" src="js/load-articles.js?v=20260223"></script>
     <script src="js/theme-enhancements.js"></script>
+    <script>
+        // Debugging script
+        window.addEventListener('load', () => {
+            console.log('Debug: Window loaded');
+            if (!window.supabase) {
+                alert('CRITICAL ERROR: Supabase SDK not loaded! window.supabase is undefined.');
+            } else {
+                console.log('Debug: Supabase SDK loaded');
+            }
+
+            const loginBtn = document.querySelector('.login-btn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', (e) => {
+                    console.log('Debug: Login button clicked');
+                    if (!window.supabaseAuthSystem) {
+                        alert('System not ready: SupabaseAuthSystem not initialized yet.');
+                    }
+                });
+            } else {
+                console.error('Debug: Login button not found in DOM');
+            }
+        });
+    </script>
     <script>
         // 标签切换
         document.querySelectorAll('.tab-btn').forEach(btn => {
