@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熄灯游戏 - Lights Out</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background: linear-gradient(135deg, #0c0c1d 0%, #1a1a3e 50%, #0c0c1d 100%);
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        /* 背景星星效果 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; }
+            50% { opacity: var(--max-opacity); }
+        }
+
+        .game-container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 200, 50, 0.5);
+            background: linear-gradient(to right, #ffd700, #ff8c00, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: #8888aa;
+            margin-bottom: 25px;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            color: #aab;
+        }
+
+        .info-item .icon {
+            font-size: 1.3rem;
+        }
+
+        .info-item .value {
+            font-weight: bold;
+            color: #ffd700;
+            font-size: 1.2rem;
+            min-width: 30px;
+        }
+
+        .board {
+            display: inline-grid;
+            gap: 6px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 25px;
+        }
+
+        .cell {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cell.on {
+            background: radial-gradient(circle at 40% 35%, #ffe066, #ffb300 60%, #ff8f00);
+            border-color: rgba(255, 200, 50, 0.6);
+            box-shadow: 
+                0 0 15px rgba(255, 180, 0, 0.5),
+                0 0 40px rgba(255, 150, 0, 0.2),
+                inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .cell.on::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 25%;
+            width: 30%;
+            height: 20%;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            filter: blur(3px);
+        }
+
+        .cell.off {
+            background: linear-gradient(145deg, #2a2a4a, #1e1e38);
+            border-color: rgba(255, 255, 255, 0.06);
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.3),
+                0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .cell:hover {
+            transform: scale(1.05);
+            filter: brightness(1.15);
+        }
+
+        .cell:active {
+            transform: scale(0.95);
+        }
+
+        .cell.flash {
+            animation: cellFlash 0.3s ease;
+        }
+
+        @keyframes cellFlash {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(1.8); }
+            100% { filter: brightness(1); }
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #1a1a2e;
+            box-shadow: 0 4px 15px rgba(255, 180, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 180, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary.active {
+            background: rgba(255, 200, 50, 0.2);
+            color: #ffd700;
+            border-color: rgba(255, 200, 50, 0.4);
+        }
+
+        .size-selector {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .size-btn {
+            padding: 6px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #aab;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .size-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .size-btn.active {
+            background: rgba(255, 200, 50, 0.2);
+            color: #ffd700;
+            border-color: rgba(255, 200, 50, 0.4);
+        }
+
+        /* 胜利弹窗 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: linear-gradient(145deg, #1e1e3a, #2a2a50);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(255, 200, 50, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 90vw;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal .trophy {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .modal h2 {
+            font-size: 1.8rem;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .modal p {
+            color: #aab;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .modal .stats {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .modal .stat {
+            text-align: center;
+        }
+
+        .modal .stat .num {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .modal .stat .label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .modal .btn {
+            margin-top: 15px;
+        }
+
+        /* 关卡选择 */
+        .level-info {
+            font-size: 0.85rem;
+            color: #8888aa;
+            margin-bottom: 5px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 500px) {
+            h1 { font-size: 1.8rem; }
+            .cell { width: 55px; height: 55px; }
+            .board { gap: 4px; padding: 10px; }
+            .info-bar { gap: 15px; }
+            .modal { padding: 25px; }
+        }
+
+        @media (max-width: 380px) {
+            .cell { width: 48px; height: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 星星背景 -->
+    <div class="stars" id="stars"></div>
+
+    <div class="game-container">
+        <h1>✨ 熄灯游戏</h1>
+        <p class="subtitle">点击格子切换它和相邻格子的状态，将所有灯熄灭即可过关！</p>
+
+        <div class="info-bar">
+            <div class="info-item">
+                <span class="icon">🎯</span>
+                <span>关卡</span>
+                <span class="value" id="levelDisplay">1</span>
+            </div>
+            <div class="info-item">
+                <span class="icon">👆</span>
+                <span>步数</span>
+                <span class="value" id="movesDisplay">0</span>
+            </div>
+            <div class="info-item">
+                <span class="icon">⏱️</span>
+                <span>时间</span>
+                <span class="value" id="timeDisplay">0s</span>
+            </div>
+        </div>
+
+        <div class="size-selector">
+            <button class="size-btn active" data-size="3">3×3</button>
+            <button class="size-btn" data-size="4">4×4</button>
+            <button class="size-btn" data-size="5">5×5</button>
+            <button class="size-btn" data-size="6">6×6</button>
+            <button class="size-btn" data-size="7">7×7</button>
+        </div>
+
+        <div class="board" id="board"></div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="newGame()">🔄 新游戏</button>
+            <button class="btn btn-secondary" onclick="resetGame()">↩️ 重置</button>
+            <button class="btn btn-secondary" id="hintBtn" onclick="showHint()">💡 提示</button>
+        </div>
+
+        <p class="level-info" id="levelInfo"></p>
+    </div>
+
+    <!-- 胜利弹窗 -->
+    <div class="modal-overlay" id="winModal">
+        <div class="modal">
+            <div class="trophy">🏆</div>
+            <h2>恭喜过关！</h2>
+            <p id="winMessage">你成功熄灭了所有的灯！</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="num" id="winMoves">0</div>
+                    <div class="label">步数</div>
+                </div>
+                <div class="stat">
+                    <div class="num" id="winTime">0s</div>
+                    <div class="label">用时</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="nextLevel()">▶️ 下一关</button>
+        </div>
+    </div>
+
+    <script>
+        // ============ 游戏状态 ============
+        let boardSize = 3;
+        let board = [];
+        let initialBoard = [];
+        let moves = 0;
+        let level = 1;
+        let timer = null;
+        let seconds = 0;
+        let gameWon = false;
+        let solution = [];
+
+        // ============ 初始化 ============
+        function init() {
+            createStars();
+            setupSizeButtons();
+            newGame();
+        }
+
+        // 创建星星背景
+        function createStars() {
+            const container = document.getElementById('stars');
+            for (let i = 0; i < 80; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', (2 + Math.random() * 4) + 's');
+                star.style.setProperty('--max-opacity', (0.3 + Math.random() * 0.7));
+                star.style.animationDelay = Math.random() * 4 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        // 设置尺寸按钮
+        function setupSizeButtons() {
+            document.querySelectorAll('.size-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    boardSize = parseInt(btn.dataset.size);
+                    level = 1;
+                    newGame();
+                });
+            });
+        }
+
+        // ============ 游戏逻辑 ============
+
+        // 生成可解的谜题
+        function generateSolvablePuzzle() {
+            // 从全灭状态开始，随机点击若干格子来生成谜题
+            // 这样保证一定有解
+            board = Array.from({ length: boardSize }, () => Array(boardSize).fill(false));
+            
+            // 根据关卡和棋盘大小决定点击次数
+            const minClicks = Math.min(level + 1, Math.floor(boardSize * boardSize * 0.6));
+            const maxClicks = Math.min(level + 3, boardSize * boardSize);
+            const numClicks = Math.min(minClicks + Math.floor(Math.random() * 3), maxClicks);
+            
+            // 记录解法（被点击的格子）
+            const clicked = Array.from({ length: boardSize }, () => Array(boardSize).fill(false));
+            
+            for (let i = 0; i < numClicks; i++) {
+                let r, c;
+                // 尝试找一个还没点过的格子
+                let attempts = 0;
+                do {
+                    r = Math.floor(Math.random() * boardSize);
+                    c = Math.floor(Math.random() * boardSize);
+                    attempts++;
+                } while (clicked[r][c] && attempts < 50);
+                
+                if (!clicked[r][c]) {
+                    clicked[r][c] = true;
+                    toggleCell(r, c, true); // silent toggle
+                }
+            }
+            
+            // 确保不是全灭状态
+            const hasOn = board.some(row => row.some(cell => cell));
+            if (!hasOn) {
+                // 如果全灭了，随机点一个
+                const r = Math.floor(Math.random() * boardSize);
+                const c = Math.floor(Math.random() * boardSize);
+                clicked[r][c] = !clicked[r][c];
+                toggleCell(r, c, true);
+            }
+            
+            // 保存解法
+            solution = [];
+            for (let r = 0; r < boardSize; r++) {
+                for (let c = 0; c < boardSize; c++) {
+                    if (clicked[r][c]) {
+                        solution.push([r, c]);
+                    }
+                }
+            }
+            
+            // 保存初始状态
+            initialBoard = board.map(row => [...row]);
+        }
+
+        // 切换格子（及相邻格子）
+        function toggleCell(row, col, silent = false) {
+            const directions = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1]];
+            directions.forEach(([dr, dc]) => {
+                const nr = row + dr;
+                const nc = col + dc;
+                if (nr >= 0 && nr < boardSize && nc >= 0 && nc < boardSize) {
+                    board[nr][nc] = !board[nr][nc];
+                }
+            });
+        }
+
+        // 点击处理
+        function handleClick(row, col) {
+            if (gameWon) return;
+            
+            // 开始计时
+            if (moves === 0 && !timer) {
+                startTimer();
+            }
+            
+            toggleCell(row, col);
+            moves++;
+            
+            // 添加动画
+            const directions = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1]];
+            directions.forEach(([dr, dc]) => {
+                const nr = row + dr;
+                const nc = col + dc;
+                if (nr >= 0 && nr < boardSize && nc >= 0 && nc < boardSize) {
+                    const cell = document.querySelector(`[data-row="${nr}"][data-col="${nc}"]`);
+                    if (cell) {
+                        cell.classList.add('flash');
+                        setTimeout(() => cell.classList.remove('flash'), 300);
+                    }
+                }
+            });
+            
+            renderBoard();
+            updateInfo();
+            checkWin();
+        }
+
+        // 检查是否胜利
+        function checkWin() {
+            const allOff = board.every(row => row.every(cell => !cell));
+            if (allOff) {
+                gameWon = true;
+                stopTimer();
+                setTimeout(showWinModal, 500);
+            }
+        }
+
+        // ============ 渲染 ============
+
+        function renderBoard() {
+            const boardEl = document.getElementById('board');
+            boardEl.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
+            
+            // 如果格子数量不对，重新创建
+            if (boardEl.children.length !== boardSize * boardSize) {
+                boardEl.innerHTML = '';
+                for (let r = 0; r < boardSize; r++) {
+                    for (let c = 0; c < boardSize; c++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'cell';
+                        cell.dataset.row = r;
+                        cell.dataset.col = c;
+                        cell.addEventListener('click', () => handleClick(r, c));
+                        boardEl.appendChild(cell);
+                    }
+                }
+            }
+            
+            // 更新状态
+            for (let r = 0; r < boardSize; r++) {
+                for (let c = 0; c < boardSize; c++) {
+                    const cell = document.querySelector(`[data-row="${r}"][data-col="${c}"]`);
+                    if (cell) {
+                        cell.classList.toggle('on', board[r][c]);
+                        cell.classList.toggle('off', !board[r][c]);
+                    }
+                }
+            }
+        }
+
+        function updateInfo() {
+            document.getElementById('movesDisplay').textContent = moves;
+            document.getElementById('levelDisplay').textContent = level;
+        }
+
+        // ============ 计时器 ============
+
+        function startTimer() {
+            seconds = 0;
+            timer = setInterval(() => {
+                seconds++;
+                document.getElementById('timeDisplay').textContent = formatTime(seconds);
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        function formatTime(s) {
+            if (s < 60) return s + 's';
+            const m = Math.floor(s / 60);
+            const sec = s % 60;
+            return m + 'm' + (sec > 0 ? sec + 's' : '');
+        }
+
+        // ============ 游戏控制 ============
+
+        function newGame() {
+            gameWon = false;
+            moves = 0;
+            stopTimer();
+            seconds = 0;
+            document.getElementById('timeDisplay').textContent = '0s';
+            
+            generateSolvablePuzzle();
+            renderBoard();
+            updateInfo();
+            
+            const onCount = board.flat().filter(c => c).length;
+            document.getElementById('levelInfo').textContent = 
+                `棋盘 ${boardSize}×${boardSize} | 亮灯数 ${onCount} | 最少 ${solution.length} 步可解`;
+        }
+
+        function resetGame() {
+            if (gameWon) return;
+            board = initialBoard.map(row => [...row]);
+            moves = 0;
+            stopTimer();
+            seconds = 0;
+            document.getElementById('timeDisplay').textContent = '0s';
+            renderBoard();
+            updateInfo();
+        }
+
+        function nextLevel() {
+            hideWinModal();
+            level++;
+            newGame();
+        }
+
+        // ============ 提示系统 ============
+
+        function showHint() {
+            if (gameWon || solution.length === 0) return;
+            
+            // 使用高斯消元法求解当前棋盘状态
+            const currentSolution = solveBoard();
+            
+            if (currentSolution.length === 0) {
+                document.getElementById('levelInfo').textContent = '当前状态无解，请重置游戏';
+                return;
+            }
+            
+            // 高亮第一个需要点击的格子
+            const [r, c] = currentSolution[0];
+            const cell = document.querySelector(`[data-row="${r}"][data-col="${c}"]`);
+            if (cell) {
+                cell.style.outline = '3px solid #00ff88';
+                cell.style.outlineOffset = '-3px';
+                setTimeout(() => {
+                    cell.style.outline = '';
+                    cell.style.outlineOffset = '';
+                }, 1500);
+            }
+            
+            document.getElementById('levelInfo').textContent = 
+                `💡 提示：还需要 ${currentSolution.length} 步`;
+        }
+
+        // 高斯消元法求解（GF(2)上）
+        function solveBoard() {
+            const n = boardSize;
+            const total = n * n;
+            
+            // 构建增广矩阵
+            // 每个变量对应一个格子，方程表示每个格子最终状态为0
+            const matrix = [];
+            
+            for (let i = 0; i < total; i++) {
+                const row = new Array(total + 1).fill(0);
+                const r = Math.floor(i / n);
+                const c = i % n;
+                
+                // 点击哪些格子会影响格子(r,c)
+                const directions = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1]];
+                directions.forEach(([dr, dc]) => {
+                    const nr = r + dr;
+                    const nc = c + dc;
+                    if (nr >= 0 && nr < n && nc >= 0 && nc < n) {
+                        row[nr * n + nc] = 1;
+                    }
+                });
+                
+                // 右侧为当前状态（需要翻转的）
+                row[total] = board[r][c] ? 1 : 0;
+                matrix.push(row);
+            }
+            
+            // 高斯消元
+            const pivotCol = new Array(total).fill(-1);
+            let col = 0;
+            for (let row = 0; row < total && col < total; col++) {
+                // 找主元
+                let pivotRow = -1;
+                for (let i = row; i < total; i++) {
+                    if (matrix[i][col] === 1) {
+                        pivotRow = i;
+                        break;
+                    }
+                }
+                if (pivotRow === -1) continue;
+                
+                // 交换行
+                [matrix[row], matrix[pivotRow]] = [matrix[pivotRow], matrix[row]];
+                pivotCol[row] = col;
+                
+                // 消元
+                for (let i = 0; i < total; i++) {
+                    if (i !== row && matrix[i][col] === 1) {
+                        for (let j = col; j <= total; j++) {
+                            matrix[i][j] ^= matrix[row][j];
+                        }
+                    }
+                }
+                row++;
+            }
+            
+            // 回代求解
+            const result = new Array(total).fill(0);
+            for (let i = 0; i < total; i++) {
+                if (pivotCol[i] !== -1) {
+                    result[pivotCol[i]] = matrix[i][total];
+                }
+            }
+            
+            // 收集需要点击的格子
+            const clicks = [];
+            for (let i = 0; i < total; i++) {
+                if (result[i] === 1) {
+                    clicks.push([Math.floor(i / n), i % n]);
+                }
+            }
+            
+            return clicks;
+        }
+
+        // ============ 弹窗 ============
+
+        function showWinModal() {
+            document.getElementById('winMoves').textContent = moves;
+            document.getElementById('winTime').textContent = formatTime(seconds);
+            
+            let msg = '你成功熄灭了所有的灯！';
+            if (moves <= solution.length) {
+                msg = '🌟 完美！你用了最少步数完成！';
+            } else if (moves <= solution.length * 1.5) {
+                msg = '👏 非常棒！接近最优解！';
+            }
+            document.getElementById('winMessage').textContent = msg;
+            
+            document.getElementById('winModal').classList.add('show');
+        }
+
+        function hideWinModal() {
+            document.getElementById('winModal').classList.remove('show');
+        }
+
+        // 点击弹窗外部关闭
+        document.getElementById('winModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) hideWinModal();
+        });
+
+        // ============ 启动 ============
+        init();
+    </script>
+</body>
+</html>
