@@ -339,7 +339,11 @@
 
             <!-- 用户管理 Tab -->
             <div id="tab-users" class="tab-content active">
-                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <input type="text" id="userSearchInput" placeholder="搜索用户名/邮箱/手机..." oninput="filterUsers()" style="padding:8px 12px; border:1px solid #ddd; border-radius:6px; font-size:14px; width:220px;">
+                        <span id="userCountLabel" style="color:#999; font-size:13px;">共 0 个用户</span>
+                    </div>
                     <button class="btn btn-primary" onclick="showAddUserModal()">+ 添加用户</button>
                 </div>
                 <table class="table">
@@ -476,6 +480,7 @@
         import { API_BASE_URL } from '../js/api-config.js?v=20260223b';
 
         let allCoinUsers = []; // 缓存硬币用户数据
+        let allUsers = []; // 缓存用户数据
         let currentDetailUserId = null; // 当前查看详情的用户 ID
 
         // ==================== 登录相关 ====================
@@ -564,13 +569,27 @@
 
                 if (!checkAuth(res)) return;
 
-                const users = await res.json();
-                const tbody = document.getElementById('userTableBody');
-                tbody.innerHTML = '';
+                allUsers = await res.json();
+                document.getElementById('userCountLabel').textContent = `共 ${allUsers.length} 个用户`;
+                renderUserTable(allUsers);
+            } catch (e) {
+                console.error('Load users error:', e);
+                alert('加载失败');
+            }
+        }
 
-                users.forEach(u => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
+        function renderUserTable(users) {
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#999; padding:30px;">未找到匹配的用户</td></tr>';
+                return;
+            }
+
+            users.forEach(u => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
                     <td>${u.id}</td>
                     <td>${u.username}</td>
                     <td><span style="background:${u.role === 'admin' ? '#ff4d4f' : '#1890ff'}; color:white; padding:2px 6px; border-radius:4px; font-size:12px;">${u.role}</span></td>
@@ -581,13 +600,24 @@
                         <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteUser(${u.id})">删除</button>
                     </td>
                 `;
-                    tbody.appendChild(tr);
-                });
-            } catch (e) {
-                console.error('Load users error:', e);
-                alert('加载失败');
-            }
+                tbody.appendChild(tr);
+            });
         }
+
+        window.filterUsers = () => {
+            const keyword = document.getElementById('userSearchInput').value.trim().toLowerCase();
+            if (!keyword) {
+                renderUserTable(allUsers);
+                return;
+            }
+            const filtered = allUsers.filter(u =>
+                u.username.toLowerCase().includes(keyword) ||
+                (u.email && u.email.toLowerCase().includes(keyword)) ||
+                (u.phone && u.phone.includes(keyword)) ||
+                String(u.id) === keyword
+            );
+            renderUserTable(filtered);
+        };
 
         window.showAddUserModal = () => {
             document.getElementById('addUserModal').classList.add('active');
