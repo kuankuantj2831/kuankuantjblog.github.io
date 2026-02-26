@@ -5,6 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>发布文章 - Hakimi 的猫爬架</title>
+
+    <!-- 性能优化：预连接 API 服务器 -->
+    <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
+    <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
+
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/chinese-style.css">
     <link rel="stylesheet" href="/css/tianjg-theme.css">
@@ -164,7 +169,7 @@
         </div>
     </div>
 
-    <script src="/js/supabase.js"></script>
+    <script src="/js/supabase.js" defer></script>
     <script type="module" src="/js/editor.js?v=20260223b"></script>
 </body>
 

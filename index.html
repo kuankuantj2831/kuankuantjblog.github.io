@@ -5,35 +5,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-
-
   <meta name="description" content="一个简单的个人博客">
 
-  <title>
-
-    kuankuantj
-  </title>
-  <!-- Icon -->
-
-  <link rel="shortcut icon" href="/favicon.ico">
-
-
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/enhanced-style.css">
-  <link rel="stylesheet" href="/css/tianjg-theme.css">
-
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-
-
-  <script src="/js/pace.min.js"></script>
+  <title>kuankuantj</title>
 
   <!-- 自动跳转到中国风首页 -->
   <script>
     window.location.href = 'index-chinese.html';
   </script>
+
+  <!-- 性能优化：预连接 API 服务器 -->
+  <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
+  <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/enhanced-style.css">
+  <link rel="stylesheet" href="/css/tianjg-theme.css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  <script src="/js/pace.min.js" async></script>
 
   <meta name="generator" content="Hexo 7.2.0">
 </head>
@@ -402,28 +393,17 @@
     </div>
   </aside>
 
-  <script src="/js/jquery-2.0.3.min.js"></script>
-
-
-  <script src="/js/jquery.justifiedGallery.min.js"></script>
-
-
-  <script src="/js/lazyload.min.js"></script>
-
-
-  <script src="/js/busuanzi-2.3.pure.min.js"></script>
+  <!-- 性能优化：所有非关键脚本使用 defer -->
+  <script src="/js/jquery-2.0.3.min.js" defer></script>
+  <script src="/js/jquery.justifiedGallery.min.js" defer></script>
+  <script src="/js/lazyload.min.js" defer></script>
+  <script src="/js/busuanzi-2.3.pure.min.js" defer></script>
+  <script src="/fancybox/jquery.fancybox.min.js" defer></script>
 
 
 
-  <script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-
-
-  <script src="/js/ocean.js"></script>
-  <script src="/js/theme-enhancements.js"></script>
+  <script src="/js/ocean.js" defer></script>
+  <script src="/js/theme-enhancements.js" defer></script>
 
   <!-- 悬浮上传按钮 -->
   <a href="/upload.html" class="upload-float-btn" title="上传文件">
