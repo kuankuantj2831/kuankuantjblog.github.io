@@ -5,7 +5,7 @@ class SupabaseAuthSystem {
     constructor() {
         this.currentUser = null;
         // Cloudflare Turnstile 配置
-        this.turnstileSiteKey = '0x4AAAAAAACifos6OfdLuVI_8';
+        this.turnstileSiteKey = '0x4AAAAAACijBVEqwMl-mypT';
         this.loginWidgetId = null;
         this.registerWidgetId = null;
         this.init();
