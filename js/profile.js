@@ -147,7 +147,7 @@ class ProfileManager {
             const createdDate = new Date(this.currentUser.created_at);
             dateEl.textContent = `注册时间：${createdDate.toLocaleDateString('zh-CN')}`;
 
-            const days = Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24));
+            const days = Math.max(0, Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24)));
             const daysEl = document.getElementById('statDays');
             if (daysEl) daysEl.textContent = days;
         }
