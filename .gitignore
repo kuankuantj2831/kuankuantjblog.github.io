@@ -7,6 +7,7 @@ node_modules/
 # Build artifacts
 deploy_package.zip
 *.zip
+server_upload_tencent_cloud/
 
 # Logs
 npm-debug.log*
