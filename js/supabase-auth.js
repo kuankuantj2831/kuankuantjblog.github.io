@@ -289,36 +289,76 @@ class SupabaseAuthSystem {
         }
     }
 
+    // 等待 Turnstile SDK 加载完成，最多等待 10 秒
+    waitForTurnstile(maxWait = 10000) {
+        return new Promise((resolve) => {
+            if (typeof turnstile !== 'undefined') {
+                resolve(true);
+                return;
+            }
+            const start = Date.now();
+            const check = () => {
+                if (typeof turnstile !== 'undefined') {
+                    resolve(true);
+                } else if (Date.now() - start > maxWait) {
+                    console.warn('Turnstile SDK load timeout');
+                    resolve(false);
+                } else {
+                    setTimeout(check, 200);
+                }
+            };
+            check();
+        });
+    }
+
     // 渲染登录表单的 Turnstile
-    renderLoginTurnstile() {
-        if (typeof turnstile === 'undefined') return;
+    async renderLoginTurnstile() {
+        const ready = await this.waitForTurnstile();
+        if (!ready) {
+            console.warn('Turnstile SDK not available, skipping login widget');
+            return;
+        }
         const container = document.getElementById('loginTurnstile');
         if (!container) return;
         // 先清空容器，移除旧的小组件
         container.innerHTML = '';
-        this.loginWidgetId = turnstile.render('#loginTurnstile', {
-            sitekey: this.turnstileSiteKey,
-            theme: 'light',
-            size: 'flexible',
-            callback: (token) => { console.log('Login Turnstile verified'); },
-            'error-callback': () => { console.warn('Login Turnstile error'); }
-        });
+        try {
+            this.loginWidgetId = turnstile.render('#loginTurnstile', {
+                sitekey: this.turnstileSiteKey,
+                theme: 'light',
+                size: 'flexible',
+                callback: (token) => { console.log('Login Turnstile verified'); },
+                'error-callback': () => { console.warn('Login Turnstile error'); }
+            });
+            console.log('Login Turnstile rendered, widgetId:', this.loginWidgetId);
+        } catch (e) {
+            console.error('Failed to render Login Turnstile:', e);
+        }
     }
 
     // 渲染注册表单的 Turnstile
-    renderRegisterTurnstile() {
-        if (typeof turnstile === 'undefined') return;
+    async renderRegisterTurnstile() {
+        const ready = await this.waitForTurnstile();
+        if (!ready) {
+            console.warn('Turnstile SDK not available, skipping register widget');
+            return;
+        }
         const container = document.getElementById('registerTurnstile');
         if (!container) return;
         // 先清空容器，移除旧的小组件
         container.innerHTML = '';
-        this.registerWidgetId = turnstile.render('#registerTurnstile', {
-            sitekey: this.turnstileSiteKey,
-            theme: 'light',
-            size: 'flexible',
-            callback: (token) => { console.log('Register Turnstile verified'); },
-            'error-callback': () => { console.warn('Register Turnstile error'); }
-        });
+        try {
+            this.registerWidgetId = turnstile.render('#registerTurnstile', {
+                sitekey: this.turnstileSiteKey,
+                theme: 'light',
+                size: 'flexible',
+                callback: (token) => { console.log('Register Turnstile verified'); },
+                'error-callback': () => { console.warn('Register Turnstile error'); }
+            });
+            console.log('Register Turnstile rendered, widgetId:', this.registerWidgetId);
+        } catch (e) {
+            console.error('Failed to render Register Turnstile:', e);
+        }
     }
 
     closeModals() {

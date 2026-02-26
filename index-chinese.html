@@ -20,7 +20,8 @@
     <!-- 性能优化：pace 加载指示器使用 async 避免阻塞渲染 -->
     <script src="js/pace.min.js" async></script>
     <!-- Cloudflare Turnstile 人机验证 -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+    <script>window.__turnstileReady = false; function onTurnstileLoad() { window.__turnstileReady = true; console.log('Turnstile SDK loaded'); }</script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
 </head>
 
 <body>
