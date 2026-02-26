@@ -9,6 +9,10 @@ deploy_package.zip
 *.zip
 server_upload_tencent_cloud/
 
+# Backup data
+backup_data/
+backup_mysql_data/
+
 # Logs
 npm-debug.log*
 yarn-debug.log*
