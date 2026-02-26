@@ -326,7 +326,7 @@ class SupabaseAuthSystem {
             this.loginWidgetId = turnstile.render('#loginTurnstile', {
                 sitekey: this.turnstileSiteKey,
                 theme: 'light',
-                size: 'flexible',
+                size: 'normal',
                 callback: (token) => { console.log('Login Turnstile verified'); },
                 'error-callback': () => { console.warn('Login Turnstile error'); }
             });
@@ -351,7 +351,7 @@ class SupabaseAuthSystem {
             this.registerWidgetId = turnstile.render('#registerTurnstile', {
                 sitekey: this.turnstileSiteKey,
                 theme: 'light',
-                size: 'flexible',
+                size: 'normal',
                 callback: (token) => { console.log('Register Turnstile verified'); },
                 'error-callback': () => { console.warn('Register Turnstile error'); }
             });
