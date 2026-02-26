@@ -4,12 +4,17 @@ import { API_BASE_URL } from './api-config.js?v=20260223b';
 class SupabaseAuthSystem {
     constructor() {
         this.currentUser = null;
+        // Cloudflare Turnstile 配置
+        this.turnstileSiteKey = '0x4AAAAAAACifos6OfdLuVI_8';
+        this.loginWidgetId = null;
+        this.registerWidgetId = null;
         this.init();
     }
 
     init() {
         console.log('AuthSystem: initializing...');
         this.bindEvents();
+        this.initTurnstile();
 
         // Check for existing session in localStorage
         const storedUser = localStorage.getItem('user');
@@ -25,6 +30,63 @@ class SupabaseAuthSystem {
         } else {
             console.log('AuthSystem: No user session found');
             this.updateUI();
+        }
+    }
+
+    // 初始化 Cloudflare Turnstile 人机验证小组件
+    initTurnstile() {
+        const renderWidgets = () => {
+            if (typeof turnstile === 'undefined') {
+                // Turnstile SDK 还没加载完，等待重试
+                setTimeout(renderWidgets, 500);
+                return;
+            }
+            // 登录表单的 Turnstile
+            const loginContainer = document.getElementById('loginTurnstile');
+            if (loginContainer && !this.loginWidgetId) {
+                this.loginWidgetId = turnstile.render('#loginTurnstile', {
+                    sitekey: this.turnstileSiteKey,
+                    theme: 'light',
+                    size: 'flexible',
+                    callback: (token) => { console.log('Login Turnstile verified'); },
+                    'error-callback': () => { console.warn('Login Turnstile error'); }
+                });
+            }
+            // 注册表单的 Turnstile
+            const registerContainer = document.getElementById('registerTurnstile');
+            if (registerContainer && !this.registerWidgetId) {
+                this.registerWidgetId = turnstile.render('#registerTurnstile', {
+                    sitekey: this.turnstileSiteKey,
+                    theme: 'light',
+                    size: 'flexible',
+                    callback: (token) => { console.log('Register Turnstile verified'); },
+                    'error-callback': () => { console.warn('Register Turnstile error'); }
+                });
+            }
+        };
+        renderWidgets();
+    }
+
+    // 获取 Turnstile token
+    getTurnstileToken(widgetId) {
+        try {
+            if (typeof turnstile !== 'undefined' && widgetId != null) {
+                return turnstile.getResponse(widgetId);
+            }
+        } catch (e) {
+            console.warn('Failed to get Turnstile token:', e);
+        }
+        return null;
+    }
+
+    // 重置 Turnstile 小组件
+    resetTurnstile(widgetId) {
+        try {
+            if (typeof turnstile !== 'undefined' && widgetId != null) {
+                turnstile.reset(widgetId);
+            }
+        } catch (e) {
+            console.warn('Failed to reset Turnstile:', e);
         }
     }
 
@@ -250,6 +312,9 @@ class SupabaseAuthSystem {
         document.querySelectorAll('.auth-error, .auth-success').forEach(el => {
             el.classList.remove('show');
         });
+        // 重置 Turnstile 小组件
+        this.resetTurnstile(this.loginWidgetId);
+        this.resetTurnstile(this.registerWidgetId);
     }
 
     async handleRegister() {
@@ -279,13 +344,20 @@ class SupabaseAuthSystem {
             return;
         }
 
+        // 获取 Turnstile token
+        const turnstileToken = this.getTurnstileToken(this.registerWidgetId);
+        if (!turnstileToken) {
+            this.showError('registerError', '请完成人机验证');
+            return;
+        }
+
         try {
             let response;
             try {
                 response = await fetch(`${API_BASE_URL}/auth/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, email, phone, password })
+                    body: JSON.stringify({ username, email, phone, password, turnstileToken })
                 });
             } catch (networkError) {
                 throw new Error('网络连接失败，请检查网络后重试');
@@ -350,11 +422,30 @@ class SupabaseAuthSystem {
         }
 
         try {
+            // 获取 Turnstile token（仅首次登录时验证，2FA 验证码阶段不需要）
+            const login2faGroup = document.getElementById('login2faGroup');
+            const is2faStep = login2faGroup && login2faGroup.style.display !== 'none' && code;
+            
+            if (!is2faStep) {
+                const turnstileToken = this.getTurnstileToken(this.loginWidgetId);
+                if (!turnstileToken) {
+                    this.showError('loginError', '请完成人机验证');
+                    this.isLoginSubmitting = false;
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '➔ 登录';
+                        submitBtn.style.opacity = '1';
+                        submitBtn.style.cursor = 'pointer';
+                    }
+                    return;
+                }
+                var loginTurnstileToken = turnstileToken;
+            }
+
             let url = `${API_BASE_URL}/auth/login`;
-            let body = { username: input, password };
+            let body = { username: input, password, turnstileToken: loginTurnstileToken || undefined };
 
             // If 2FA input is visible and has value, verify it
-            const login2faGroup = document.getElementById('login2faGroup');
             if (login2faGroup && login2faGroup.style.display !== 'none' && code) {
                 // Clear the "Code sent" success message to avoid confusion
                 const successEl = document.getElementById('loginSuccess');

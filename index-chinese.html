@@ -19,6 +19,8 @@
 
     <!-- 性能优化：pace 加载指示器使用 async 避免阻塞渲染 -->
     <script src="js/pace.min.js" async></script>
+    <!-- Cloudflare Turnstile 人机验证 -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 </head>
 
 <body>
@@ -192,6 +194,9 @@
                         <a href="#" class="auth-link-grey" id="forgotPasswordLink">找回密码</a>
                     </div>
 
+                    <!-- Cloudflare Turnstile 人机验证 -->
+                    <div id="loginTurnstile" class="cf-turnstile" style="margin-bottom: 15px;"></div>
+
                     <button type="submit" class="tianjg-btn">➔ 登录</button>
                 </form>
 
@@ -261,6 +266,9 @@
                         <input type="password" class="tianjg-input" id="registerConfirmPassword" placeholder="确认密码"
                             required>
                     </div>
+
+                    <!-- Cloudflare Turnstile 人机验证 -->
+                    <div id="registerTurnstile" class="cf-turnstile" style="margin-bottom: 15px;"></div>
 
                     <button type="submit" class="tianjg-btn">➔ 立即注册</button>
                 </form>
