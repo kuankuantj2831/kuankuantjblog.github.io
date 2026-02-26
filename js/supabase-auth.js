@@ -33,38 +33,10 @@ class SupabaseAuthSystem {
         }
     }
 
-    // 初始化 Cloudflare Turnstile 人机验证小组件
+    // Turnstile 初始化（小组件在模态框打开时按需渲染）
     initTurnstile() {
-        const renderWidgets = () => {
-            if (typeof turnstile === 'undefined') {
-                // Turnstile SDK 还没加载完，等待重试
-                setTimeout(renderWidgets, 500);
-                return;
-            }
-            // 登录表单的 Turnstile
-            const loginContainer = document.getElementById('loginTurnstile');
-            if (loginContainer && !this.loginWidgetId) {
-                this.loginWidgetId = turnstile.render('#loginTurnstile', {
-                    sitekey: this.turnstileSiteKey,
-                    theme: 'light',
-                    size: 'flexible',
-                    callback: (token) => { console.log('Login Turnstile verified'); },
-                    'error-callback': () => { console.warn('Login Turnstile error'); }
-                });
-            }
-            // 注册表单的 Turnstile
-            const registerContainer = document.getElementById('registerTurnstile');
-            if (registerContainer && !this.registerWidgetId) {
-                this.registerWidgetId = turnstile.render('#registerTurnstile', {
-                    sitekey: this.turnstileSiteKey,
-                    theme: 'light',
-                    size: 'flexible',
-                    callback: (token) => { console.log('Register Turnstile verified'); },
-                    'error-callback': () => { console.warn('Register Turnstile error'); }
-                });
-            }
-        };
-        renderWidgets();
+        // Turnstile SDK 通过 async defer 加载，小组件在 showLoginModal/showRegisterModal 中按需渲染
+        console.log('AuthSystem: Turnstile will render on modal open');
     }
 
     // 获取 Turnstile token
@@ -296,13 +268,57 @@ class SupabaseAuthSystem {
     showLoginModal() {
         this.closeModals();
         const modal = document.getElementById('loginModal');
-        if (modal) setTimeout(() => modal.classList.add('active'), 100);
+        if (modal) {
+            setTimeout(() => {
+                modal.classList.add('active');
+                // 模态框可见后渲染 Turnstile
+                this.renderLoginTurnstile();
+            }, 100);
+        }
     }
 
     showRegisterModal() {
         this.closeModals();
         const modal = document.getElementById('registerModal');
-        if (modal) setTimeout(() => modal.classList.add('active'), 100);
+        if (modal) {
+            setTimeout(() => {
+                modal.classList.add('active');
+                // 模态框可见后渲染 Turnstile
+                this.renderRegisterTurnstile();
+            }, 100);
+        }
+    }
+
+    // 渲染登录表单的 Turnstile
+    renderLoginTurnstile() {
+        if (typeof turnstile === 'undefined') return;
+        const container = document.getElementById('loginTurnstile');
+        if (!container) return;
+        // 先清空容器，移除旧的小组件
+        container.innerHTML = '';
+        this.loginWidgetId = turnstile.render('#loginTurnstile', {
+            sitekey: this.turnstileSiteKey,
+            theme: 'light',
+            size: 'flexible',
+            callback: (token) => { console.log('Login Turnstile verified'); },
+            'error-callback': () => { console.warn('Login Turnstile error'); }
+        });
+    }
+
+    // 渲染注册表单的 Turnstile
+    renderRegisterTurnstile() {
+        if (typeof turnstile === 'undefined') return;
+        const container = document.getElementById('registerTurnstile');
+        if (!container) return;
+        // 先清空容器，移除旧的小组件
+        container.innerHTML = '';
+        this.registerWidgetId = turnstile.render('#registerTurnstile', {
+            sitekey: this.turnstileSiteKey,
+            theme: 'light',
+            size: 'flexible',
+            callback: (token) => { console.log('Register Turnstile verified'); },
+            'error-callback': () => { console.warn('Register Turnstile error'); }
+        });
     }
 
     closeModals() {
@@ -312,9 +328,13 @@ class SupabaseAuthSystem {
         document.querySelectorAll('.auth-error, .auth-success').forEach(el => {
             el.classList.remove('show');
         });
-        // 重置 Turnstile 小组件
-        this.resetTurnstile(this.loginWidgetId);
-        this.resetTurnstile(this.registerWidgetId);
+        // 移除 Turnstile 小组件（关闭时销毁，打开时重新渲染）
+        try {
+            if (typeof turnstile !== 'undefined') {
+                if (this.loginWidgetId != null) { turnstile.remove(this.loginWidgetId); this.loginWidgetId = null; }
+                if (this.registerWidgetId != null) { turnstile.remove(this.registerWidgetId); this.registerWidgetId = null; }
+            }
+        } catch (e) { console.warn('Turnstile remove error:', e); }
     }
 
     async handleRegister() {
