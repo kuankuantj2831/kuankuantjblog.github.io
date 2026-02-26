@@ -9,6 +9,9 @@ deploy_package.zip
 *.zip
 server_upload_tencent_cloud/
 
+# Server (backend code, deployed separately to Tencent Cloud SCF)
+server/
+
 # Backup data
 backup_data/
 backup_mysql_data/
