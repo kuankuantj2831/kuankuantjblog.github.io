@@ -1,6 +1,6 @@
 /**
- * 硬币系统前端模块
- * 功能：余额查询、每日签到、交易记录
+ * 积分系统前端模块 v2
+ * 功能：签到、日历、排行榜、交易记录
  */
 
 import { API_BASE_URL } from './api-config.js?v=20260223b';
@@ -10,6 +10,20 @@ function escapeHtml(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+// 头像颜色池
+const AVATAR_COLORS = [
+    'linear-gradient(135deg, #667eea, #764ba2)',
+    'linear-gradient(135deg, #f093fb, #f5576c)',
+    'linear-gradient(135deg, #4facfe, #00f2fe)',
+    'linear-gradient(135deg, #43e97b, #38f9d7)',
+    'linear-gradient(135deg, #fa709a, #fee140)',
+    'linear-gradient(135deg, #a18cd1, #fbc2eb)',
+    'linear-gradient(135deg, #fccb90, #d57eeb)',
+    'linear-gradient(135deg, #e0c3fc, #8ec5fc)',
+    'linear-gradient(135deg, #f5af19, #f12711)',
+    'linear-gradient(135deg, #667eea, #43e97b)',
+];
+
 class CoinsApp {
     constructor() {
         this.currentUser = null;
@@ -18,10 +32,11 @@ class CoinsApp {
         this.currentFilter = '';
         this.hasMore = true;
         this.isLoading = false;
+        this.calendarYear = new Date().getFullYear();
+        this.calendarMonth = new Date().getMonth() + 1;
     }
 
     init() {
-        // 检查登录状态
         try {
             const userData = localStorage.getItem('user');
             const token = localStorage.getItem('token');
@@ -42,13 +57,31 @@ class CoinsApp {
         document.getElementById('mainContent').style.display = 'block';
         document.getElementById('loginPrompt').style.display = 'none';
 
+        this.updateDateDisplay();
         this.bindEvents();
         this.loadBalance();
+        this.loadCalendar();
+        this.loadLeaderboard();
         this.loadTransactions();
     }
 
+    /**
+     * 更新日期显示
+     */
+    updateDateDisplay() {
+        const now = new Date();
+        const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        const month = now.getMonth() + 1;
+        const day = now.getDate();
+        const weekday = weekdays[now.getDay()];
+        const isWeekend = (now.getDay() === 0 || now.getDay() === 6);
+
+        document.getElementById('dateStr').textContent = `${month}月${day}日${weekday}`;
+        document.getElementById('dateType').textContent = isWeekend ? '周末签到' : '工作日签到';
+        document.getElementById('dateIcon').textContent = isWeekend ? '🌙' : '☀️';
+    }
+
     bindEvents() {
-        // 筛选按钮
         document.querySelectorAll('.filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -61,9 +94,6 @@ class CoinsApp {
         });
     }
 
-    /**
-     * 获取带认证的请求头
-     */
     getHeaders() {
         return {
             'Content-Type': 'application/json',
@@ -71,33 +101,22 @@ class CoinsApp {
         };
     }
 
-    /**
-     * 显示消息提示
-     */
     showToast(message, type = 'success') {
         const toast = document.getElementById('toast');
         if (!toast) return;
         toast.textContent = message;
         toast.className = `toast ${type} show`;
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
+        setTimeout(() => { toast.classList.remove('show'); }, 3000);
     }
 
     /**
-     * 加载余额信息
+     * 加载余额和签到信息
      */
     async loadBalance() {
         try {
-            let response;
-            try {
-                response = await fetch(`${API_BASE_URL}/coins/balance`, {
-                    headers: this.getHeaders()
-                });
-            } catch (networkError) {
-                console.error('网络错误:', networkError);
-                return;
-            }
+            const response = await fetch(`${API_BASE_URL}/coins/balance`, {
+                headers: this.getHeaders()
+            });
 
             if (!response.ok) {
                 if (response.status === 401 || response.status === 403) {
@@ -109,67 +128,35 @@ class CoinsApp {
 
             const data = await response.json();
 
-            // 更新余额显示
-            document.getElementById('balanceAmount').textContent = data.balance || 0;
-            document.getElementById('totalEarned').textContent = data.total_earned || 0;
-            document.getElementById('totalSpent').textContent = data.total_spent || 0;
-            document.getElementById('checkinStreak').textContent = `${data.checkin_streak || 0}天`;
-            document.getElementById('streakDays').textContent = data.checkin_streak || 0;
+            // 更新今日奖励
+            const todayReward = data.today_reward || 0.5;
+            document.getElementById('todayReward').textContent = `+${todayReward}`;
 
-            // 更新签到按钮状态
+            // 更新统计
+            document.getElementById('statStreak').textContent = data.checkin_streak || 0;
+            document.getElementById('statMonthDays').textContent = data.month_checkin_days || 0;
+            document.getElementById('statTotalDays').textContent = data.total_checkin_days || 0;
+            document.getElementById('statTotalEarned').textContent = data.total_earned || 0;
+
+            // 更新签到状态
             const checkinBtn = document.getElementById('checkinBtn');
+            const statusText = document.getElementById('statusText');
+            const statusSub = document.getElementById('statusSub');
+
             if (data.checked_in_today) {
                 checkinBtn.disabled = true;
                 checkinBtn.classList.add('checked');
-                checkinBtn.textContent = '✅ 今日已签到';
+                checkinBtn.innerHTML = '✅ 已签到';
+                statusText.textContent = '已完成签到';
+                statusSub.textContent = `今日已获得 ${todayReward} 积分`;
+            } else {
+                statusText.textContent = '未签到';
+                statusSub.textContent = '点击右侧按钮签到';
             }
-
-            // 渲染签到日历
-            this.renderCalendar(data.checkin_streak || 0, data.checked_in_today);
 
         } catch (error) {
             console.error('加载余额失败:', error);
         }
-    }
-
-    /**
-     * 渲染签到日历（最近7天）
-     */
-    renderCalendar(streak, checkedToday) {
-        const calendar = document.getElementById('checkinCalendar');
-        if (!calendar) return;
-
-        const days = ['日', '一', '二', '三', '四', '五', '六'];
-        const today = new Date();
-        let html = '';
-
-        for (let i = 6; i >= 0; i--) {
-            const date = new Date(today);
-            date.setDate(date.getDate() - i);
-            const dayName = days[date.getDay()];
-            const isToday = i === 0;
-
-            // 判断这天是否已签到
-            let isChecked = false;
-            if (isToday && checkedToday) {
-                isChecked = true;
-            } else if (!isToday) {
-                // 根据连续签到天数推算
-                const daysAgo = i;
-                const effectiveStreak = checkedToday ? streak : streak;
-                if (daysAgo < effectiveStreak) {
-                    isChecked = true;
-                }
-            }
-
-            const classes = ['calendar-day'];
-            if (isChecked) classes.push('checked');
-            if (isToday) classes.push('today');
-
-            html += `<div class="${classes.join(' ')}">${dayName}</div>`;
-        }
-
-        calendar.innerHTML = html;
     }
 
     /**
@@ -183,22 +170,17 @@ class CoinsApp {
         checkinBtn.textContent = '签到中...';
 
         try {
-            let response;
-            try {
-                response = await fetch(`${API_BASE_URL}/coins/checkin`, {
-                    method: 'POST',
-                    headers: this.getHeaders()
-                });
-            } catch (networkError) {
-                throw new Error('网络连接失败');
-            }
+            const response = await fetch(`${API_BASE_URL}/coins/checkin`, {
+                method: 'POST',
+                headers: this.getHeaders()
+            });
 
             const data = await response.json();
 
             if (!response.ok) {
                 if (data.already_checked_in) {
                     checkinBtn.classList.add('checked');
-                    checkinBtn.textContent = '✅ 今日已签到';
+                    checkinBtn.innerHTML = '✅ 已签到';
                     return;
                 }
                 throw new Error(data.message || '签到失败');
@@ -206,7 +188,10 @@ class CoinsApp {
 
             // 签到成功
             checkinBtn.classList.add('checked');
-            checkinBtn.textContent = '✅ 今日已签到';
+            checkinBtn.innerHTML = '✅ 已签到';
+
+            document.getElementById('statusText').textContent = '已完成签到';
+            document.getElementById('statusSub').textContent = `今日已获得 ${data.reward} 积分`;
 
             // 显示奖励弹窗
             const rewardPopup = document.getElementById('rewardPopup');
@@ -216,19 +201,17 @@ class CoinsApp {
                 rewardPopup.style.display = 'block';
             }
 
-            // 更新余额
-            document.getElementById('balanceAmount').textContent = data.balance;
-            document.getElementById('streakDays').textContent = data.streak;
-            document.getElementById('checkinStreak').textContent = `${data.streak}天`;
+            // 更新统计
+            document.getElementById('statStreak').textContent = data.streak;
 
-            // 更新日历
-            this.renderCalendar(data.streak, true);
-
-            // 刷新交易记录
+            // 刷新数据
+            this.loadBalance();
+            this.loadCalendar();
+            this.loadLeaderboard();
             this.currentPage = 1;
             this.loadTransactions(true);
 
-            this.showToast(`签到成功！+${data.reward} 硬币 🪙`);
+            this.showToast(`签到成功！+${data.reward} 积分 ⭐`);
 
         } catch (error) {
             console.error('签到失败:', error);
@@ -236,6 +219,190 @@ class CoinsApp {
             checkinBtn.textContent = '✨ 立即签到';
             this.showToast(error.message || '签到失败', 'error');
         }
+    }
+
+    /**
+     * 加载签到日历
+     */
+    async loadCalendar() {
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/coins/calendar?year=${this.calendarYear}&month=${this.calendarMonth}`,
+                { headers: this.getHeaders() }
+            );
+
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+            const data = await response.json();
+            this.renderCalendar(data);
+
+        } catch (error) {
+            console.error('加载日历失败:', error);
+            // 降级：用空数据渲染
+            this.renderCalendar({
+                year: this.calendarYear,
+                month: this.calendarMonth,
+                days_in_month: new Date(this.calendarYear, this.calendarMonth, 0).getDate(),
+                checkin_dates: {},
+                checkin_rate: 0
+            });
+        }
+    }
+
+    /**
+     * 渲染完整月历
+     */
+    renderCalendar(data) {
+        const grid = document.getElementById('calendarGrid');
+        if (!grid) return;
+
+        const { year, month, days_in_month, checkin_dates, checkin_rate } = data;
+
+        // 更新标题
+        document.getElementById('monthLabel').textContent = `${year}年${month}月`;
+        document.getElementById('calendarRate').textContent = checkin_rate || 0;
+
+        const today = new Date();
+        const todayStr = today.toISOString().split('T')[0];
+        const isCurrentMonth = (year === today.getFullYear() && month === today.getMonth() + 1);
+
+        // 该月第一天是星期几
+        const firstDay = new Date(year, month - 1, 1).getDay();
+
+        let html = '';
+
+        // 填充前面的空白
+        for (let i = 0; i < firstDay; i++) {
+            html += '<div class="calendar-day empty"></div>';
+        }
+
+        // 填充每一天
+        for (let day = 1; day <= days_in_month; day++) {
+            const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dayOfWeek = new Date(year, month - 1, day).getDay();
+            const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+            const isToday = dateStr === todayStr;
+            const isFuture = new Date(year, month - 1, day) > today;
+            const isChecked = checkin_dates && checkin_dates[dateStr] !== undefined;
+
+            let classes = ['calendar-day'];
+            if (isToday) classes.push('today');
+            if (isFuture) {
+                classes.push('future');
+            } else if (isChecked) {
+                classes.push('checked');
+            } else {
+                classes.push('not-checked');
+            }
+
+            let bonusHtml = '';
+            if (isWeekend && !isFuture) {
+                bonusHtml = '<div class="day-bonus">x2</div>';
+            }
+
+            let checkHtml = '';
+            if (isChecked && isToday) {
+                checkHtml = '<span class="day-check">✓</span>';
+            }
+
+            html += `<div class="${classes.join(' ')}">${day}${bonusHtml}${checkHtml}</div>`;
+        }
+
+        grid.innerHTML = html;
+    }
+
+    /**
+     * 切换月份
+     */
+    changeMonth(delta) {
+        this.calendarMonth += delta;
+        if (this.calendarMonth > 12) {
+            this.calendarMonth = 1;
+            this.calendarYear++;
+        } else if (this.calendarMonth < 1) {
+            this.calendarMonth = 12;
+            this.calendarYear--;
+        }
+        this.loadCalendar();
+    }
+
+    /**
+     * 加载排行榜
+     */
+    async loadLeaderboard() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/coins/leaderboard`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+            const data = await response.json();
+            this.renderLeaderboard(data.leaderboard || []);
+
+        } catch (error) {
+            console.error('加载排行榜失败:', error);
+            document.getElementById('leaderboardList').innerHTML = `
+                <li class="transaction-empty">
+                    <div class="empty-icon">🏆</div>
+                    <div>暂无排行数据</div>
+                </li>`;
+        }
+    }
+
+    /**
+     * 渲染排行榜
+     */
+    renderLeaderboard(list) {
+        const container = document.getElementById('leaderboardList');
+        if (!container) return;
+
+        if (list.length === 0) {
+            container.innerHTML = `
+                <li class="transaction-empty">
+                    <div class="empty-icon">🏆</div>
+                    <div>暂无排行数据</div>
+                </li>`;
+            return;
+        }
+
+        let html = '';
+        list.forEach((item, index) => {
+            const rank = index + 1;
+            let rankClass = '';
+            let rankContent = '';
+
+            if (rank === 1) {
+                rankClass = 'gold';
+                rankContent = '<span class="trophy">🥇</span>';
+            } else if (rank === 2) {
+                rankClass = 'silver';
+                rankContent = '<span class="trophy">🥈</span>';
+            } else if (rank === 3) {
+                rankClass = 'bronze';
+                rankContent = '<span class="trophy">🥉</span>';
+            } else {
+                rankContent = rank;
+            }
+
+            const username = escapeHtml(item.username);
+            const firstChar = username.charAt(0).toUpperCase();
+            const colorIndex = username.charCodeAt(0) % AVATAR_COLORS.length;
+            const avatarColor = AVATAR_COLORS[colorIndex];
+
+            html += `
+                <li class="leaderboard-item">
+                    <div class="lb-rank ${rankClass}">${rankContent}</div>
+                    <div class="lb-avatar" style="background: ${avatarColor}">${firstChar}</div>
+                    <div class="lb-info">
+                        <div class="lb-username">${username}</div>
+                        <div class="lb-total">累计 ${item.total_earned} 分</div>
+                    </div>
+                    <div class="lb-balance">
+                        <div class="lb-balance-value">${item.balance}</div>
+                        <div class="lb-balance-label">可用</div>
+                    </div>
+                </li>`;
+        });
+
+        container.innerHTML = html;
     }
 
     /**
@@ -259,18 +426,11 @@ class CoinsApp {
                 params.set('type', this.currentFilter);
             }
 
-            let response;
-            try {
-                response = await fetch(`${API_BASE_URL}/coins/transactions?${params}`, {
-                    headers: this.getHeaders()
-                });
-            } catch (networkError) {
-                throw new Error('网络连接失败');
-            }
+            const response = await fetch(`${API_BASE_URL}/coins/transactions?${params}`, {
+                headers: this.getHeaders()
+            });
 
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
             const result = await response.json();
             const transactions = result.data || [];
@@ -313,12 +473,11 @@ class CoinsApp {
                             <div class="transaction-time">${timeStr}</div>
                         </div>
                     </div>
-                    <div class="transaction-amount ${amountClass}">${amountText} 🪙</div>
+                    <div class="transaction-amount ${amountClass}">${amountText} ⭐</div>
                 `;
                 list.appendChild(li);
             });
 
-            // 分页
             this.hasMore = pagination.page < pagination.totalPages;
             if (loadMoreBtn) {
                 loadMoreBtn.style.display = this.hasMore ? 'block' : 'none';
@@ -331,50 +490,28 @@ class CoinsApp {
         }
     }
 
-    /**
-     * 加载更多
-     */
     loadMore() {
         if (!this.hasMore || this.isLoading) return;
         this.currentPage++;
         this.loadTransactions(false);
     }
 
-    /**
-     * 获取交易类型图标
-     */
     getTypeIcon(type) {
         const icons = {
-            checkin: '📅',
-            publish: '📝',
-            liked: '❤️',
-            comment: '💬',
-            donate: '🎁',
-            receive: '🪙',
-            admin: '⚙️'
+            checkin: '📅', publish: '📝', liked: '❤️',
+            comment: '💬', donate: '🎁', receive: '⭐', admin: '⚙️'
         };
         return icons[type] || '💰';
     }
 
-    /**
-     * 获取交易类型标签
-     */
     getTypeLabel(type) {
         const labels = {
-            checkin: '每日签到',
-            publish: '发布文章',
-            liked: '文章被点赞',
-            comment: '评论文章',
-            donate: '投币',
-            receive: '收到硬币',
-            admin: '管理员操作'
+            checkin: '每日签到', publish: '发布文章', liked: '文章被点赞',
+            comment: '评论文章', donate: '投币', receive: '收到积分', admin: '管理员操作'
         };
         return labels[type] || '其他';
     }
 
-    /**
-     * 格式化时间
-     */
     formatTime(dateStr) {
         if (!dateStr) return '';
         try {
@@ -382,16 +519,11 @@ class CoinsApp {
             const now = new Date();
             const diff = now - date;
 
-            // 1分钟内
             if (diff < 60000) return '刚刚';
-            // 1小时内
             if (diff < 3600000) return `${Math.floor(diff / 60000)}分钟前`;
-            // 24小时内
             if (diff < 86400000) return `${Math.floor(diff / 3600000)}小时前`;
-            // 7天内
             if (diff < 604800000) return `${Math.floor(diff / 86400000)}天前`;
 
-            // 超过7天显示日期
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
             const hours = String(date.getHours()).padStart(2, '0');
