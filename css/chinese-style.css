@@ -524,6 +524,52 @@ body {
     margin: 5px 20px;
 }
 
+/* ==================== 禁用标签 ==================== */
+.tab-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.tab-btn:disabled:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ==================== 汉堡菜单按钮 ==================== */
+.hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 20;
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 24px;
+    height: 2.5px;
+    background: #5e35b1;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger-btn.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger-btn.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
 /* ==================== 响应式 ==================== */
 @media (max-width: 768px) {
     .main-title {
@@ -544,7 +590,45 @@ body {
     }
 
     .top-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 15px 20px;
+    }
+
+    .hamburger-btn {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        width: 100%;
         flex-direction: column;
-        gap: 20px;
+        gap: 5px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 15px;
+        margin-top: 10px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-links.mobile-open {
+        display: flex;
+    }
+
+    .nav-link {
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: background 0.2s;
+    }
+
+    .nav-link:hover {
+        background: rgba(94, 53, 177, 0.1);
+    }
+
+    .user-menu {
+        width: 100%;
+        margin-left: 0;
     }
 }

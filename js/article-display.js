@@ -1,11 +1,6 @@
 ﻿
 import { API_BASE_URL } from './api-config.js?v=20260223b';
-
-// HTML 转义工具函数
-function escapeHtml(str) {
-    if (!str) return '';
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+import { escapeHtml } from './utils.js';
 
 // 安全获取 DOM 元素
 function safeGetElement(id) {

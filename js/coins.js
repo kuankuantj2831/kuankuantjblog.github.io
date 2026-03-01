@@ -4,11 +4,7 @@
  */
 
 import { API_BASE_URL } from './api-config.js?v=20260223b';
-
-function escapeHtml(str) {
-    if (!str) return '';
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+import { escapeHtml } from './utils.js';
 
 // 头像颜色池
 const AVATAR_COLORS = [

@@ -1,11 +1,6 @@
 ﻿
 import { API_BASE_URL } from './api-config.js?v=20260223b';
-
-// HTML 转义工具函数，防止 XSS
-function escapeHtml(str) {
-    if (!str) return '';
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+import { escapeHtml } from './utils.js';
 
 async function loadArticles() {
     const container = document.getElementById('articles-container');
@@ -61,7 +56,7 @@ async function loadArticles() {
             const safeCoverImage = escapeHtml(article.cover_image || randomImg);
 
             card.innerHTML = `
-                <img src="${safeCoverImage}" alt="${safeTitle}" class="showcase-image">
+                <img loading="lazy" src="${safeCoverImage}" alt="${safeTitle}" class="showcase-image">
                 <div class="showcase-info">
                     <div class="showcase-title">${safeTitle}</div>
                     <div class="showcase-meta">

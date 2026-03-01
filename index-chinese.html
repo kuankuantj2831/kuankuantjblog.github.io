@@ -4,7 +4,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="kuankuantj的个人博客 - 分享是一种美德">
+    <meta name="description" content="Hakimi 的猫爬架 - 一个分享编程技术、游戏资源、设计素材与学习资料的个人博客。分享是一种美德，它不求回报，只为真诚。">
+    <meta name="keywords" content="Hakimi,猫爬架,个人博客,编程技术,游戏资源,mcock.cn">
+    <meta name="author" content="Hakimi">
+
+    <!-- Open Graph 社交分享标签 -->
+    <meta property="og:title" content="Hakimi 的猫爬架">
+    <meta property="og:description" content="分享编程技术、游戏资源、设计素材与学习资料的个人博客">
+    <meta property="og:image" content="https://mcock.cn/images/forrestgump.png">
+    <meta property="og:url" content="https://mcock.cn">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Hakimi 的猫爬架">
 
     <title>Hakimi 的猫爬架</title>
 
@@ -13,7 +23,7 @@
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/chinese-style.css?v=2">
+    <link rel="stylesheet" href="css/chinese-style.css?v=3">
     <link rel="stylesheet" href="css/auth.css?v=2">
     <link rel="stylesheet" href="css/tianjg-theme.css?v=2">
 
@@ -32,7 +42,11 @@
         <!-- 顶部导航 -->
         <nav class="top-nav">
             <div class="logo">Hakimi 的猫爬架</div>
-            <div class="nav-links">
+            <!-- 移动端汉堡菜单按钮 -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
                 <a href="#" class="nav-link active">🏠 主页</a>
                 <a href="games.html" class="nav-link">🎮 游戏</a>
                 <a href="drive.html" class="nav-link">☁️ 网盘</a>
@@ -109,10 +123,10 @@
             <!-- 标签导航 -->
             <div class="tab-navigation">
                 <button class="tab-btn active">文章</button>
-                <button class="tab-btn">用户</button>
-                <button class="tab-btn">知识</button>
-                <button class="tab-btn">玄机</button>
-                <button class="tab-btn">商品</button>
+                <button class="tab-btn" disabled title="即将开放">用户</button>
+                <button class="tab-btn" disabled title="即将开放">知识</button>
+                <button class="tab-btn" disabled title="即将开放">玄机</button>
+                <button class="tab-btn" disabled title="即将开放">商品</button>
             </div>
 
             <!-- 搜索区域 -->
@@ -284,14 +298,30 @@
     <!-- 性能优化：主题增强脚本使用 defer 延迟加载 -->
     <script src="js/theme-enhancements.js" defer></script>
     <script>
-        // 标签切换
-        document.querySelectorAll('.tab-btn').forEach(btn => {
+        // 汉堡菜单切换
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navLinks = document.getElementById('navLinks');
+        if (hamburgerBtn && navLinks) {
+            hamburgerBtn.addEventListener('click', function () {
+                this.classList.toggle('active');
+                navLinks.classList.toggle('mobile-open');
+            });
+            // 点击导航链接后自动关闭菜单
+            navLinks.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburgerBtn.classList.remove('active');
+                    navLinks.classList.remove('mobile-open');
+                });
+            });
+        }
+
+        // 标签切换（只对未禁用的按钮生效）
+        document.querySelectorAll('.tab-btn:not([disabled])').forEach(btn => {
             btn.addEventListener('click', function () {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
             });
         });
-
     </script>
 </body>
 

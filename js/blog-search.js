@@ -5,12 +5,7 @@
  */
 
 import { API_BASE_URL } from './api-config.js?v=20260223b';
-
-// HTML 转义工具函数，防止 XSS
-function escapeHtml(str) {
-    if (!str) return '';
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
+import { escapeHtml } from './utils.js';
 
 class BlogSearch {
     constructor() {
