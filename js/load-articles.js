@@ -1,6 +1,6 @@
 ﻿
 import { API_BASE_URL } from './api-config.js?v=20260223b';
-import { escapeHtml } from './utils.js';
+import { escapeHtml, sanitizeUrl } from './utils.js';
 
 async function loadArticles() {
     const container = document.getElementById('articles-container');
@@ -53,7 +53,7 @@ async function loadArticles() {
             const safeCategory = escapeHtml(article.category || '未分类');
             const safeAuthor = escapeHtml(article.author_name || '匿名');
             const safeSummary = escapeHtml(article.summary || '');
-            const safeCoverImage = escapeHtml(article.cover_image || randomImg);
+            const safeCoverImage = sanitizeUrl(article.cover_image || randomImg);
 
             card.innerHTML = `
                 <img loading="lazy" src="${safeCoverImage}" alt="${safeTitle}" class="showcase-image">
