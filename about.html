@@ -2,227 +2,513 @@
 <html lang="zh-CN">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关于我 - kuankuantj的个人博客">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="关于我们 - Hakimi 的猫爬架">
+    <title>关于我们 - Hakimi 的猫爬架</title>
 
-  <title>关于我 - kuankuantj</title>
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script src="/js/pace.min.js" async></script>
 
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/enhanced-style.css">
-  <link rel="stylesheet" href="/css/tianjg-theme.css">
-  <link rel="stylesheet" href="/css/about.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  <script src="/js/pace.min.js" async></script>
+        body {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f0e6ff 0%, #e8f4f8 30%, #fce4ec 60%, #f0e6ff 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* 背景装饰 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://cdn.jsdelivr.net/gh/kuankuantj2831/kuankuantjblog.github.io@main/images/chinese-bg.png') repeat;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .back-btn {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            text-decoration: none; font-size: 22px;
+            background: rgba(255,255,255,0.9); width: 45px; height: 45px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1); transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .back-btn:hover { transform: scale(1.1); box-shadow: 0 4px 20px rgba(102,126,234,0.3); }
+
+        .about-wrapper {
+            max-width: 900px; margin: 0 auto; padding: 30px 20px 80px;
+            position: relative; z-index: 1;
+        }
+
+        /* ===== Hero 区域 ===== */
+        .hero-section {
+            text-align: center; padding: 60px 20px 40px;
+            position: relative;
+        }
+
+        .hero-avatar {
+            width: 140px; height: 140px; border-radius: 50%;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+        .hero-avatar img {
+            width: 100%; height: 100%; border-radius: 50%;
+            object-fit: cover; border: 4px solid white;
+            box-shadow: 0 8px 30px rgba(102,126,234,0.3);
+        }
+        .hero-avatar::after {
+            content: ''; position: absolute; inset: -6px;
+            border-radius: 50%;
+            border: 2px dashed rgba(102,126,234,0.4);
+            animation: spin 20s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .hero-name {
+            font-size: 36px; font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 10px;
+        }
+        .hero-tagline {
+            font-size: 16px; color: #888; letter-spacing: 3px;
+        }
+        .hero-badges {
+            display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap;
+        }
+        .hero-badge {
+            padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 500;
+            background: rgba(255,255,255,0.8); color: #667eea;
+            border: 1px solid rgba(102,126,234,0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* ===== 统计条 ===== */
+        .stats-bar {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: white; border-radius: 16px; padding: 20px 15px;
+            text-align: center; box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            transition: transform 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-4px); }
+        .stat-card .stat-num {
+            font-size: 28px; font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-card .stat-label { font-size: 13px; color: #999; margin-top: 4px; }
+
+        /* ===== 内容卡片 ===== */
+        .section-card {
+            background: white; border-radius: 20px; padding: 30px;
+            margin-bottom: 25px; box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+            position: relative; overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .section-card:hover { transform: translateY(-3px); }
+        .section-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        }
+        .section-card.intro::before { background: linear-gradient(90deg, #667eea, #764ba2); }
+        .section-card.skills::before { background: linear-gradient(90deg, #f093fb, #f5576c); }
+        .section-card.hobbies::before { background: linear-gradient(90deg, #4facfe, #00f2fe); }
+        .section-card.projects::before { background: linear-gradient(90deg, #fa709a, #fee140); }
+        .section-card.gaming::before { background: linear-gradient(90deg, #43e97b, #38f9d7); }
+        .section-card.contact::before { background: linear-gradient(90deg, #a18cd1, #fbc2eb); }
+        .section-card.team::before { background: linear-gradient(90deg, #fccb90, #d57eeb); }
+
+        .card-header {
+            display: flex; align-items: center; gap: 15px; margin-bottom: 20px;
+        }
+        .card-icon {
+            width: 50px; height: 50px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; color: white; flex-shrink: 0;
+        }
+        .card-header h2 { font-size: 22px; font-weight: 700; }
+        .card-header .card-sub { font-size: 13px; color: #999; margin-top: 2px; }
+
+        .card-body p {
+            font-size: 15px; line-height: 1.8; color: #555; margin-bottom: 10px;
+        }
+
+        /* 技能标签 */
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .skill-tag {
+            padding: 8px 18px; border-radius: 25px; font-size: 14px; font-weight: 500;
+            transition: all 0.3s; cursor: default;
+        }
+        .skill-tag.dev { background: linear-gradient(135deg, #667eea20, #764ba220); color: #667eea; border: 1px solid #667eea30; }
+        .skill-tag.design { background: linear-gradient(135deg, #f093fb20, #f5576c20); color: #f5576c; border: 1px solid #f5576c30; }
+        .skill-tag.tool { background: linear-gradient(135deg, #4facfe20, #00f2fe20); color: #4facfe; border: 1px solid #4facfe30; }
+        .skill-tag.other { background: linear-gradient(135deg, #43e97b20, #38f9d720); color: #11998e; border: 1px solid #11998e30; }
+        .skill-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+        /* 爱好列表 */
+        .hobby-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
+        }
+        .hobby-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 15px; border-radius: 12px;
+            background: #f8f9ff; transition: all 0.3s;
+        }
+        .hobby-item:hover { background: #eef0ff; transform: translateX(5px); }
+        .hobby-item .hobby-icon { font-size: 28px; }
+        .hobby-item .hobby-name { font-size: 15px; font-weight: 600; color: #333; }
+        .hobby-item .hobby-desc { font-size: 12px; color: #999; margin-top: 2px; }
+
+        /* 项目卡片 */
+        .project-list { display: flex; flex-direction: column; gap: 12px; }
+        .project-item {
+            display: flex; align-items: center; gap: 15px;
+            padding: 16px; border-radius: 12px;
+            background: #f8f9ff; text-decoration: none; color: inherit;
+            transition: all 0.3s; border: 1px solid transparent;
+        }
+        .project-item:hover {
+            background: white; border-color: #667eea30;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.15); transform: translateX(5px);
+        }
+        .project-icon { font-size: 32px; }
+        .project-info { flex: 1; }
+        .project-name { font-size: 15px; font-weight: 600; }
+        .project-desc { font-size: 13px; color: #999; margin-top: 3px; }
+        .project-arrow { font-size: 18px; color: #ccc; transition: color 0.3s; }
+        .project-item:hover .project-arrow { color: #667eea; }
+
+        /* 游戏心得 */
+        .game-emotions {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;
+        }
+        .emotion-card {
+            padding: 20px; border-radius: 14px; text-align: center;
+        }
+        .emotion-card.win {
+            background: linear-gradient(135deg, #e8f5e920, #c8e6c920);
+            border: 1px solid #4caf5020;
+        }
+        .emotion-card.lose {
+            background: linear-gradient(135deg, #fce4ec20, #f8bbd020);
+            border: 1px solid #e5393520;
+        }
+        .emotion-icon { font-size: 36px; margin-bottom: 10px; }
+        .emotion-title { font-size: 14px; font-weight: 600; color: #555; margin-bottom: 8px; }
+        .emotion-text { font-size: 13px; color: #777; font-style: italic; line-height: 1.6; }
+
+        .game-table {
+            width: 100%; border-collapse: collapse; border-radius: 12px; overflow: hidden;
+        }
+        .game-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; padding: 12px 16px; font-size: 14px; font-weight: 600;
+        }
+        .game-table td {
+            padding: 12px 16px; font-size: 14px; border-bottom: 1px solid #f0f0f0;
+        }
+        .game-table tr:last-child td { border-bottom: none; }
+        .game-table tr:hover td { background: #f8f9ff; }
+
+        /* 团队成员 */
+        .team-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;
+        }
+        .team-member {
+            text-align: center; padding: 25px 15px; border-radius: 14px;
+            background: #f8f9ff; transition: all 0.3s;
+        }
+        .team-member:hover { background: #eef0ff; transform: translateY(-4px); }
+        .team-avatar {
+            width: 70px; height: 70px; border-radius: 50%;
+            margin: 0 auto 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 28px; font-weight: 700; color: white;
+        }
+        .team-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+        .team-role { font-size: 12px; color: #999; }
+
+        /* 联系方式 */
+        .contact-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;
+        }
+        .contact-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 18px; border-radius: 12px;
+            background: #f8f9ff; text-decoration: none; color: #333;
+            transition: all 0.3s; border: 1px solid transparent;
+        }
+        .contact-item:hover {
+            background: white; border-color: #667eea30;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.15); transform: translateY(-3px);
+        }
+        .contact-icon { font-size: 22px; }
+        .contact-text { font-size: 14px; font-weight: 500; }
+
+        /* 页脚 */
+        .about-footer {
+            text-align: center; padding: 30px 0; color: #aaa; font-size: 13px;
+        }
+        .about-footer a { color: #667eea; text-decoration: none; }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .hero-name { font-size: 28px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .hobby-grid { grid-template-columns: 1fr; }
+            .game-emotions { grid-template-columns: 1fr; }
+            .section-card { padding: 20px; }
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
 </head>
 
 <body>
-  <main class="content">
-    <!-- 头部导航 -->
-    <aside class="sidebar">
-      <button class="navbar-toggle"></button>
-      <nav class="navbar">
-        <div class="logo">
-          <a href="/"><img src="/images/hexo.svg" alt="kuankuantj"></a>
-        </div>
+    <a href="/index-chinese.html" class="back-btn" title="返回首页">🏠</a>
 
-        <ul class="nav nav-main">
-          <li class="nav-item">
-            <a class="nav-item-link" href="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-item-link" href="/archives">Archives</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-item-link" href="/gallery">Gallery</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-item-link" href="/about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-item-link" href="/upload.html">
-              <i class="fe fe-upload"></i>
-              Upload
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-item-link nav-item-search" title="Search">
-              <i class="fe fe-search"></i>
-              Search
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </aside>
-
-    <!-- 关于页面内容 -->
-    <div class="about-container">
-      <header class="about-header">
-        <div class="about-avatar">
-          <img src="https://cdn.jsdelivr.net/gh/kuankuantj2831/kuankuantjblog.github.io@main/images/forrestgump.png" alt="kuankuantj" loading="lazy">
-          <div class="avatar-ring"></div>
-        </div>
-        <h1 class="about-name gradient-text">kuankuantj</h1>
-        <p class="about-tagline">一个喜欢探索的人</p>
-      </header>
-
-      <section class="about-content">
-        <div class="about-card">
-          <div class="card-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-          </div>
-          <h2>个人介绍</h2>
-          <p>hi~ 我是王思墨，来自天津，很高兴认识大家！awa~~~~~~</p>
-          <p>我是一个充满好奇心的探索者，热爱编程、创造和学习新事物。</p>
-        </div>
-
-        <div class="about-card">
-          <div class="card-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
-          </div>
-          <h2>技能特长</h2>
-          <div class="skills">
-            <span class="skill-tag">Web开发</span>
-            <span class="skill-tag">编程</span>
-            <span class="skill-tag">创意设计</span>
-            <span class="skill-tag">问题解决</span>
-          </div>
-        </div>
-
-        <div class="about-card">
-          <div class="card-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-            </svg>
-          </div>
-          <h2>兴趣爱好</h2>
-          <ul class="hobbies-list">
-            <li>💻 编程 - 用代码创造美好事物</li>
-            <li>✈️ 旅行 - 探索世界的每一个角落</li>
-            <li>📚 阅读 - 在书海中寻找知识</li>
-            <li>🎮 游戏 - Minecraft 等创造性游戏</li>
-          </ul>
-        </div>
-
-        <div class="about-card">
-          <div class="card-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-              </polygon>
-            </svg>
-          </div>
-          <h2>项目作品</h2>
-          <div class="projects">
-            <a href="https://icodeshequ.youdao.com/work/8b995012a58644a59c0f0d510794bde7?from=management"
-              target="_blank" class="project-link">
-              <span class="project-icon">🎯</span>
-              <span>一个小球游戏</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="about-card gaming-section">
-          <div class="card-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="6" y1="3" x2="6" y2="15"></line>
-              <circle cx="18" cy="6" r="3"></circle>
-              <circle cx="6" cy="18" r="3"></circle>
-              <path d="M18 9a9 9 0 0 1-9 9"></path>
-            </svg>
-          </div>
-          <h2>游戏心得</h2>
-          <div class="game-emotions">
-            <div class="emotion win">
-              <div class="emotion-icon">🎉</div>
-              <h3>当我打赢一局游戏时：</h3>
-              <p class="emotion-text">"啊哈哈哈，对手真菜，轻轻松松，简简单单，有手就行！"</p>
+    <div class="about-wrapper">
+        <!-- Hero -->
+        <section class="hero-section">
+            <div class="hero-avatar">
+                <img src="https://cdn.jsdelivr.net/gh/kuankuantj2831/kuankuantjblog.github.io@main/images/forrestgump.png" alt="Hakimi" loading="lazy">
             </div>
-            <div class="emotion lose">
-              <div class="emotion-icon">😢</div>
-              <h3>当我打输一局游戏时：</h3>
-              <p class="emotion-text">"啊啊啊啊，怎么会这样..."</p>
+            <h1 class="hero-name">Hakimi 的猫爬架</h1>
+            <p class="hero-tagline">一个充满好奇心的探索者 · 用代码创造美好事物</p>
+            <div class="hero-badges">
+                <span class="hero-badge">🎨 创意设计</span>
+                <span class="hero-badge">💻 全栈开发</span>
+                <span class="hero-badge">🎮 游戏爱好者</span>
+                <span class="hero-badge">📚 终身学习</span>
             </div>
-          </div>
+        </section>
 
-          <table class="game-table">
-            <thead>
-              <tr>
-                <th>游戏名</th>
-                <th>作者</th>
-                <th>玩后感</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Minecraft</td>
-                <td>MOJANG AB</td>
-                <td>创造可以让人进步</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- 统计 -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-num">2024</div>
+                <div class="stat-label">创站年份</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">∞</div>
+                <div class="stat-label">探索精神</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">7×24</div>
+                <div class="stat-label">在线服务</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">❤️</div>
+                <div class="stat-label">热爱编程</div>
+            </div>
         </div>
 
-        <div class="about-card contact-section">
-          <div class="card-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-              <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-          </div>
-          <h2>联系方式</h2>
-          <p>欢迎通过以下方式与我交流：</p>
-          <div class="contact-links">
-            <a href="https://github.com/kuankuantj2831" class="contact-btn" target="_blank">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-              </svg>
-              GitHub
-            </a>
-          </div>
+        <!-- 个人介绍 -->
+        <div class="section-card intro">
+            <div class="card-header">
+                <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">👋</div>
+                <div>
+                    <h2>个人介绍</h2>
+                    <div class="card-sub">About Me</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p>hi~ 我是王思墨，来自天津，很高兴认识大家！awa~~~~~~</p>
+                <p>我是一个充满好奇心的探索者，热爱编程、创造和学习新事物。「Hakimi 的猫爬架」是我的个人博客，在这里记录学习笔记、分享技术心得、展示创意项目。</p>
+                <p>希望这个小站能给你带来一些有趣的内容和灵感 ✨</p>
+            </div>
         </div>
-      </section>
+
+        <!-- 技能特长 -->
+        <div class="section-card skills">
+            <div class="card-header">
+                <div class="card-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">🛡️</div>
+                <div>
+                    <h2>技能特长</h2>
+                    <div class="card-sub">Skills & Expertise</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="skill-tags">
+                    <span class="skill-tag dev">HTML / CSS</span>
+                    <span class="skill-tag dev">JavaScript</span>
+                    <span class="skill-tag dev">Node.js</span>
+                    <span class="skill-tag dev">MySQL</span>
+                    <span class="skill-tag design">UI 设计</span>
+                    <span class="skill-tag design">创意设计</span>
+                    <span class="skill-tag tool">Git / GitHub</span>
+                    <span class="skill-tag tool">Cloudflare</span>
+                    <span class="skill-tag other">问题解决</span>
+                    <span class="skill-tag other">快速学习</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 兴趣爱好 -->
+        <div class="section-card hobbies">
+            <div class="card-header">
+                <div class="card-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">📖</div>
+                <div>
+                    <h2>兴趣爱好</h2>
+                    <div class="card-sub">Hobbies & Interests</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="hobby-grid">
+                    <div class="hobby-item">
+                        <div class="hobby-icon">💻</div>
+                        <div>
+                            <div class="hobby-name">编程</div>
+                            <div class="hobby-desc">用代码创造美好事物</div>
+                        </div>
+                    </div>
+                    <div class="hobby-item">
+                        <div class="hobby-icon">✈️</div>
+                        <div>
+                            <div class="hobby-name">旅行</div>
+                            <div class="hobby-desc">探索世界的每一个角落</div>
+                        </div>
+                    </div>
+                    <div class="hobby-item">
+                        <div class="hobby-icon">📚</div>
+                        <div>
+                            <div class="hobby-name">阅读</div>
+                            <div class="hobby-desc">在书海中寻找知识</div>
+                        </div>
+                    </div>
+                    <div class="hobby-item">
+                        <div class="hobby-icon">🎮</div>
+                        <div>
+                            <div class="hobby-name">游戏</div>
+                            <div class="hobby-desc">Minecraft 等创造性游戏</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 项目作品 -->
+        <div class="section-card projects">
+            <div class="card-header">
+                <div class="card-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">⭐</div>
+                <div>
+                    <h2>项目作品</h2>
+                    <div class="card-sub">Projects & Works</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="project-list">
+                    <a href="https://mcock.cn" class="project-item" target="_blank">
+                        <div class="project-icon">🐱</div>
+                        <div class="project-info">
+                            <div class="project-name">Hakimi 的猫爬架</div>
+                            <div class="project-desc">个人博客网站，支持文章发布、积分系统、云盘等功能</div>
+                        </div>
+                        <div class="project-arrow">→</div>
+                    </a>
+                    <a href="https://icodeshequ.youdao.com/work/8b995012a58644a59c0f0d510794bde7?from=management" class="project-item" target="_blank">
+                        <div class="project-icon">🎯</div>
+                        <div class="project-info">
+                            <div class="project-name">一个小球游戏</div>
+                            <div class="project-desc">有趣的互动小游戏作品</div>
+                        </div>
+                        <div class="project-arrow">→</div>
+                    </a>
+                    <a href="/games.html" class="project-item">
+                        <div class="project-icon">🕹️</div>
+                        <div class="project-info">
+                            <div class="project-name">小游戏合集</div>
+                            <div class="project-desc">贪吃蛇、熄灯游戏等经典小游戏</div>
+                        </div>
+                        <div class="project-arrow">→</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 游戏心得 -->
+        <div class="section-card gaming">
+            <div class="card-header">
+                <div class="card-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">🎮</div>
+                <div>
+                    <h2>游戏心得</h2>
+                    <div class="card-sub">Gaming Experience</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="game-emotions">
+                    <div class="emotion-card win">
+                        <div class="emotion-icon">🎉</div>
+                        <div class="emotion-title">当我打赢一局游戏时</div>
+                        <div class="emotion-text">"啊哈哈哈，对手真菜，轻轻松松，简简单单，有手就行！"</div>
+                    </div>
+                    <div class="emotion-card lose">
+                        <div class="emotion-icon">😢</div>
+                        <div class="emotion-title">当我打输一局游戏时</div>
+                        <div class="emotion-text">"啊啊啊啊，怎么会这样..."</div>
+                    </div>
+                </div>
+                <table class="game-table">
+                    <thead>
+                        <tr>
+                            <th>游戏名</th>
+                            <th>作者</th>
+                            <th>玩后感</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🎮 Minecraft</td>
+                            <td>MOJANG AB</td>
+                            <td>创造可以让人进步</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 联系方式 -->
+        <div class="section-card contact">
+            <div class="card-header">
+                <div class="card-icon" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">💌</div>
+                <div>
+                    <h2>联系方式</h2>
+                    <div class="card-sub">Get In Touch</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <p style="margin-bottom: 15px;">欢迎通过以下方式与我交流，一起探索有趣的事物！</p>
+                <div class="contact-grid">
+                    <a href="https://github.com/kuankuantj2831" class="contact-item" target="_blank">
+                        <span class="contact-icon">🐙</span>
+                        <span class="contact-text">GitHub</span>
+                    </a>
+                    <a href="mailto:hakimi@mcock.cn" class="contact-item">
+                        <span class="contact-icon">📧</span>
+                        <span class="contact-text">hakimi@mcock.cn</span>
+                    </a>
+                    <a href="/index-chinese.html" class="contact-item">
+                        <span class="contact-icon">🏠</span>
+                        <span class="contact-text">博客首页</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="about-footer">
+            <p>© 2024 - 2026 <a href="/index-chinese.html">Hakimi 的猫爬架</a> · 用心创造，用爱分享</p>
+        </div>
     </div>
-
-    <footer class="footer">
-      <div class="outer">
-        <ul class="list-inline">
-          <li>kuankuantj &copy; 2024</li>
-          <li><a href="/">首页</a></li>
-          <li><a href="/admin/">后台管理</a></li>
-          <li><a href="/upload.html">文件上传</a></li>
-        </ul>
-      </div>
-    </footer>
-  </main>
-
-  <!-- 悬浮上传按钮 -->
-  <a href="/upload.html" class="upload-float-btn" title="上传文件">
-    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-      <polyline points="17 8 12 3 7 8"></polyline>
-      <line x1="12" y1="3" x2="12" y2="15"></line>
-    </svg>
-  </a>
-
-  <script src="https://cdn.jsdelivr.net/npm/jquery@2.0.3/dist/jquery.min.js" defer></script>
-  <script src="/js/ocean.js" defer></script>
-  <script src="/js/theme-enhancements.js" defer></script>
 </body>
 
 </html>
