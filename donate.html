@@ -469,7 +469,183 @@
             font-size: 0.9em;
         }
 
-        /* 感谢弹窗 */
+        /* ========== 二维码支付弹窗 ========== */
+        .qr-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .qr-modal-overlay.show {
+            display: flex;
+        }
+
+        .qr-modal {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 25px;
+            max-width: 400px;
+            width: 92%;
+            text-align: center;
+            animation: popIn 0.3s ease;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .qr-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #999;
+            line-height: 1;
+        }
+
+        .qr-modal-close:hover {
+            color: #333;
+        }
+
+        .qr-modal h2 {
+            margin: 0 0 5px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .qr-method-label {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .qr-method-label.wechat {
+            background: #f0faf4;
+            color: #07c160;
+        }
+
+        .qr-method-label.alipay {
+            background: #f0f5ff;
+            color: #1677ff;
+        }
+
+        .qr-amount-display {
+            font-size: 2em;
+            font-weight: 700;
+            color: #ff6b6b;
+            margin: 10px 0;
+        }
+
+        .qr-code-wrapper {
+            width: 220px;
+            height: 220px;
+            margin: 15px auto;
+            border: 3px solid #f0f0f0;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fafafa;
+        }
+
+        .qr-code-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .qr-placeholder {
+            color: #ccc;
+            font-size: 0.85em;
+            padding: 20px;
+        }
+
+        .qr-order-info {
+            font-size: 0.75em;
+            color: #bbb;
+            margin: 10px 0;
+        }
+
+        .qr-tips {
+            font-size: 0.82em;
+            color: #999;
+            margin: 10px 0 15px;
+            line-height: 1.6;
+        }
+
+        .qr-confirm-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #07c160, #06ad56);
+            color: white;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .qr-confirm-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(7,193,96,0.4);
+        }
+
+        .qr-confirm-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            background: linear-gradient(135deg, #999, #777);
+        }
+
+        .qr-pay-status {
+            font-size: 0.85em;
+            margin-top: 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .qr-pay-status.waiting {
+            display: block;
+            background: #fff8e1;
+            color: #f57f17;
+            animation: pulse 2s infinite;
+        }
+
+        .qr-pay-status.timeout {
+            display: block;
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .qr-pay-status.failed {
+            display: block;
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* ========== 感谢弹窗 ========== */
         .thank-modal-overlay {
             display: none;
             position: fixed;
@@ -478,7 +654,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
-            z-index: 1000;
+            z-index: 1001;
             justify-content: center;
             align-items: center;
         }
@@ -553,20 +729,20 @@
         <div class="bg-decoration"></div>
 
         <nav class="top-nav">
-            <a href="/index-chinese.html" class="nav-logo">🐱 猫爬架</a>
+            <a href="/index-chinese.html" class="nav-logo">&#x1F431; 猫爬架</a>
             <div class="nav-links">
                 <a href="/index-chinese.html">首页</a>
                 <a href="/about.html">关于</a>
-                <a href="/donate.html" style="color:#ff6b6b; font-weight:600;">❤️ 捐助</a>
+                <a href="/donate.html" style="color:#ff6b6b; font-weight:600;">&#x2764;&#xFE0F; 捐助</a>
             </div>
         </nav>
 
         <div class="donate-container">
             <!-- 顶部 Hero -->
             <div class="donate-hero">
-                <div class="donate-hero-icon">❤️</div>
+                <div class="donate-hero-icon">&#x2764;&#xFE0F;</div>
                 <h1>支持猫爬架</h1>
-                <p>您的每一份支持，都是我们前进的动力 ✨</p>
+                <p>您的每一份支持，都是我们前进的动力 &#x2728;</p>
             </div>
 
             <!-- 捐助目标进度 -->
@@ -588,7 +764,7 @@
                         <div class="label">捐助人次</div>
                     </div>
                     <div class="goal-stat-item">
-                        <div class="num" id="statTotal">¥0</div>
+                        <div class="num" id="statTotal">&#xA5;0</div>
                         <div class="label">累计捐助</div>
                     </div>
                 </div>
@@ -596,7 +772,7 @@
 
             <!-- 捐助表单 -->
             <div class="donate-form-card">
-                <h2>💰 发起捐助</h2>
+                <h2>&#x1F4B0; 发起捐助</h2>
 
                 <div class="amount-presets" id="amountPresets">
                     <button class="amount-btn" data-amount="5">5 <span class="yuan">元</span></button>
@@ -622,28 +798,28 @@
 
                 <div class="payment-methods">
                     <button class="payment-btn active-wechat" id="btnWechat" data-method="wechat">
-                        💚 微信支付
+                        &#x1F49A; 微信支付
                     </button>
                     <button class="payment-btn" id="btnAlipay" data-method="alipay">
-                        💙 支付宝
+                        &#x1F499; 支付宝
                     </button>
                 </div>
 
                 <button class="submit-donate-btn" id="submitDonate">
-                    ❤️ 立即捐助
+                    &#x2764;&#xFE0F; 立即捐助
                 </button>
             </div>
 
             <!-- 排行榜 & 最近记录 -->
             <div class="donate-panels">
                 <div class="panel-card">
-                    <h3>🏆 捐助排行榜</h3>
+                    <h3>&#x1F3C6; 捐助排行榜</h3>
                     <ul class="leaderboard-list" id="leaderboardList">
                         <li class="empty-tip">暂无捐助记录</li>
                     </ul>
                 </div>
                 <div class="panel-card">
-                    <h3>🕐 最近捐助</h3>
+                    <h3>&#x1F550; 最近捐助</h3>
                     <div id="recentList">
                         <div class="empty-tip">暂无捐助记录</div>
                     </div>
@@ -651,18 +827,39 @@
             </div>
 
             <div class="back-home">
-                <a href="/index-chinese.html">← 返回首页</a>
+                <a href="/index-chinese.html">&#x2190; 返回首页</a>
             </div>
+        </div>
+    </div>
+
+    <!-- 二维码支付弹窗 -->
+    <div class="qr-modal-overlay" id="qrModal">
+        <div class="qr-modal">
+            <button class="qr-modal-close" id="closeQrModal">&#x2715;</button>
+            <h2>&#x1F4F1; 扫码支付</h2>
+            <div class="qr-method-label wechat" id="qrMethodLabel">微信</div>
+            <div class="qr-amount-display" id="qrAmountLabel">&#xA5;0</div>
+            <div class="qr-code-wrapper">
+                <img id="qrCodeImage" src="" alt="收款码" style="display:none;">
+                <div class="qr-placeholder" id="qrPlaceholder">收款码加载中...</div>
+            </div>
+            <div class="qr-tips">
+                &#x1F4CC; 请使用对应 APP 扫描上方二维码完成支付<br>
+                支付完成后请点击下方按钮确认
+            </div>
+            <div class="qr-order-info">订单号：<span id="qrOrderNo">-</span></div>
+            <button class="qr-confirm-btn" id="confirmPaidBtn">&#x2705; 我已支付完成</button>
+            <div class="qr-pay-status" id="qrPayStatus"></div>
         </div>
     </div>
 
     <!-- 感谢弹窗 -->
     <div class="thank-modal-overlay" id="thankModal">
         <div class="thank-modal">
-            <div class="icon">🎉</div>
+            <div class="icon">&#x1F389;</div>
             <h2>感谢您的支持！</h2>
             <p>您的捐助将帮助猫爬架持续运营，<br>为更多人提供免费资源分享。</p>
-            <button onclick="document.getElementById('thankModal').classList.remove('show')">好的</button>
+            <button id="closeThankModal">好的</button>
         </div>
     </div>
 

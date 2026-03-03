@@ -1,6 +1,8 @@
 /**
  * 捐助系统前端逻辑
- * 支持虎皮椒在线支付 + 排行榜 + 进度条
+ * 二维码收款 + 管理员确认 + 排行榜 + 进度条
+ * 
+ * 流程：选择金额 → 展示收款码 → 扫码支付 → 点击"我已支付" → 轮询等待确认 → 自动弹出感谢页
  */
 
 import { API_BASE_URL } from './api-config.js?v=20260223b';
@@ -11,15 +13,28 @@ class DonateApp {
         this.selectedAmount = 20;
         this.paymentMethod = 'wechat';
         this.polling = null;
+        this.currentOrderNo = null;
+        this.qrUrls = { wechat_qr: '', alipay_qr: '' };
         this.init();
     }
 
     init() {
+        this.loadQRCodes();
         this.bindEvents();
         this.loadGoal();
         this.loadLeaderboard();
         this.loadRecent();
-        this.checkReturnStatus();
+    }
+
+    async loadQRCodes() {
+        try {
+            const res = await fetch(`${API_BASE_URL}/donate/qrcode`);
+            if (res.ok) {
+                this.qrUrls = await res.json();
+            }
+        } catch (e) {
+            console.error('加载收款码失败:', e);
+        }
     }
 
     bindEvents() {
@@ -52,40 +67,64 @@ class DonateApp {
             btnWechat.addEventListener('click', () => {
                 this.paymentMethod = 'wechat';
                 btnWechat.className = 'payment-btn active-wechat';
-                btnAlipay.className = 'payment-btn';
+                if (btnAlipay) btnAlipay.className = 'payment-btn';
+                this.updateQRPreview();
             });
         }
 
         if (btnAlipay) {
             btnAlipay.addEventListener('click', () => {
                 this.paymentMethod = 'alipay';
-                btnAlipay.className = 'payment-btn active-alipay';
-                btnWechat.className = 'payment-btn';
+                if (btnAlipay) btnAlipay.className = 'payment-btn active-alipay';
+                if (btnWechat) btnWechat.className = 'payment-btn';
+                this.updateQRPreview();
             });
         }
 
-        // 提交捐助
+        // 提交捐助（显示二维码弹窗）
         const submitBtn = document.getElementById('submitDonate');
         if (submitBtn) {
             submitBtn.addEventListener('click', () => this.submitDonate());
         }
+
+        // "我已支付"按钮
+        const confirmPaidBtn = document.getElementById('confirmPaidBtn');
+        if (confirmPaidBtn) {
+            confirmPaidBtn.addEventListener('click', () => this.confirmPaid());
+        }
+
+        // 关闭二维码弹窗
+        const closeQrBtn = document.getElementById('closeQrModal');
+        if (closeQrBtn) {
+            closeQrBtn.addEventListener('click', () => this.closeQRModal());
+        }
+
+        // 关闭感谢弹窗
+        const closeThankBtn = document.getElementById('closeThankModal');
+        if (closeThankBtn) {
+            closeThankBtn.addEventListener('click', () => {
+                document.getElementById('thankModal').classList.remove('show');
+            });
+        }
     }
 
     /**
-     * 检查从支付页面返回的状态
+     * 更新二维码弹窗中的预览
      */
-    checkReturnStatus() {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('status') === 'success') {
-            document.getElementById('thankModal').classList.add('show');
-            // 清除 URL 参数
-            window.history.replaceState({}, '', '/donate.html');
-            // 刷新数据
-            setTimeout(() => {
-                this.loadGoal();
-                this.loadLeaderboard();
-                this.loadRecent();
-            }, 1000);
+    updateQRPreview() {
+        const qrImg = document.getElementById('qrCodeImage');
+        const methodLabel = document.getElementById('qrMethodLabel');
+        if (!qrImg) return;
+
+        const url = this.paymentMethod === 'alipay' ? this.qrUrls.alipay_qr : this.qrUrls.wechat_qr;
+        if (url) {
+            qrImg.src = url;
+            qrImg.style.display = 'block';
+            document.getElementById('qrPlaceholder')?.style && (document.getElementById('qrPlaceholder').style.display = 'none');
+        }
+        if (methodLabel) {
+            methodLabel.textContent = this.paymentMethod === 'alipay' ? '支付宝' : '微信';
+            methodLabel.className = 'qr-method-label ' + (this.paymentMethod === 'alipay' ? 'alipay' : 'wechat');
         }
     }
 
@@ -190,7 +229,7 @@ class DonateApp {
     }
 
     /**
-     * 提交捐助
+     * 提交捐助 → 创建订单 → 弹出二维码
      */
     async submitDonate() {
         const btn = document.getElementById('submitDonate');
@@ -237,11 +276,11 @@ class DonateApp {
                 throw new Error(data.message || '创建订单失败');
             }
 
-            // 使用虎皮椒支付 — 通过表单提交跳转到支付页面
-            this.redirectToPayment(data.pay_url, data.params);
+            // 保存当前订单号
+            this.currentOrderNo = data.order_no;
 
-            // 开始轮询订单状态
-            this.startPolling(data.order_no);
+            // 显示二维码弹窗
+            this.showQRModal(data);
 
         } catch (e) {
             alert(e.message || '创建订单失败，请稍后重试');
@@ -253,33 +292,115 @@ class DonateApp {
     }
 
     /**
-     * 跳转到虎皮椒支付页面
+     * 显示二维码支付弹窗
      */
-    redirectToPayment(url, params) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = url;
-        form.target = '_blank';
+    showQRModal(data) {
+        const modal = document.getElementById('qrModal');
+        const qrImg = document.getElementById('qrCodeImage');
+        const amountLabel = document.getElementById('qrAmountLabel');
+        const orderLabel = document.getElementById('qrOrderNo');
+        const methodLabel = document.getElementById('qrMethodLabel');
+        const statusEl = document.getElementById('qrPayStatus');
+        const confirmBtn = document.getElementById('confirmPaidBtn');
 
-        Object.keys(params).forEach(key => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = params[key];
-            form.appendChild(input);
-        });
+        // 设置二维码图片
+        if (qrImg && data.qr_url) {
+            qrImg.src = data.qr_url;
+            qrImg.style.display = 'block';
+            const placeholder = document.getElementById('qrPlaceholder');
+            if (placeholder) placeholder.style.display = 'none';
+        }
 
-        document.body.appendChild(form);
-        form.submit();
-        document.body.removeChild(form);
+        // 设置金额和订单号
+        if (amountLabel) amountLabel.textContent = '¥' + data.amount;
+        if (orderLabel) orderLabel.textContent = data.order_no;
+        if (methodLabel) {
+            methodLabel.textContent = this.paymentMethod === 'alipay' ? '支付宝' : '微信';
+            methodLabel.className = 'qr-method-label ' + (this.paymentMethod === 'alipay' ? 'alipay' : 'wechat');
+        }
+
+        // 重置状态
+        if (statusEl) {
+            statusEl.textContent = '';
+            statusEl.className = 'qr-pay-status';
+        }
+        if (confirmBtn) {
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = '✅ 我已支付完成';
+        }
+
+        // 显示弹窗
+        modal.classList.add('show');
     }
 
     /**
-     * 轮询订单状态
+     * 关闭二维码弹窗
+     */
+    closeQRModal() {
+        const modal = document.getElementById('qrModal');
+        modal.classList.remove('show');
+        // 停止轮询
+        if (this.polling) {
+            clearInterval(this.polling);
+            this.polling = null;
+        }
+        this.currentOrderNo = null;
+    }
+
+    /**
+     * 用户点击"我已支付"
+     */
+    async confirmPaid() {
+        if (!this.currentOrderNo) return;
+
+        const confirmBtn = document.getElementById('confirmPaidBtn');
+        const statusEl = document.getElementById('qrPayStatus');
+
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = '⏳ 提交中...';
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/donate/confirm-paid`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ order_no: this.currentOrderNo })
+            });
+
+            const data = await res.json();
+
+            if (data.status === 'paid') {
+                // 已经被确认了
+                this.onPaymentConfirmed();
+                return;
+            }
+
+            if (!res.ok) {
+                throw new Error(data.message || '提交失败');
+            }
+
+            // 显示等待确认状态
+            confirmBtn.textContent = '⏳ 等待站长确认中...';
+            if (statusEl) {
+                statusEl.textContent = '已提交！站长确认收款后将自动跳转感谢页面 🎉';
+                statusEl.className = 'qr-pay-status waiting';
+            }
+
+            // 开始轮询订单状态
+            this.startPolling(this.currentOrderNo);
+
+        } catch (e) {
+            alert(e.message || '操作失败');
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = '✅ 我已支付完成';
+        }
+    }
+
+    /**
+     * 轮询订单状态，等待管理员确认
      */
     startPolling(orderNo) {
         let attempts = 0;
-        const maxAttempts = 60; // 最多轮询 5 分钟
+        const maxAttempts = 200; // 最多轮询约10分钟（3秒一次）
 
         if (this.polling) clearInterval(this.polling);
 
@@ -287,6 +408,12 @@ class DonateApp {
             attempts++;
             if (attempts > maxAttempts) {
                 clearInterval(this.polling);
+                this.polling = null;
+                const statusEl = document.getElementById('qrPayStatus');
+                if (statusEl) {
+                    statusEl.textContent = '等待超时，请稍后刷新页面查看状态';
+                    statusEl.className = 'qr-pay-status timeout';
+                }
                 return;
             }
 
@@ -297,15 +424,40 @@ class DonateApp {
 
                 if (data.status === 'paid') {
                     clearInterval(this.polling);
-                    document.getElementById('thankModal').classList.add('show');
-                    this.loadGoal();
-                    this.loadLeaderboard();
-                    this.loadRecent();
+                    this.polling = null;
+                    this.onPaymentConfirmed();
+                } else if (data.status === 'failed') {
+                    clearInterval(this.polling);
+                    this.polling = null;
+                    const statusEl = document.getElementById('qrPayStatus');
+                    if (statusEl) {
+                        statusEl.textContent = '订单已被标记为未收到款，如有疑问请联系站长';
+                        statusEl.className = 'qr-pay-status failed';
+                    }
                 }
             } catch (e) {
                 // 忽略轮询错误
             }
-        }, 5000); // 每 5 秒查一次
+        }, 3000); // 每 3 秒查一次
+    }
+
+    /**
+     * 支付确认成功后的处理
+     */
+    onPaymentConfirmed() {
+        // 关闭二维码弹窗
+        const qrModal = document.getElementById('qrModal');
+        qrModal.classList.remove('show');
+
+        // 显示感谢弹窗
+        document.getElementById('thankModal').classList.add('show');
+
+        // 刷新数据
+        setTimeout(() => {
+            this.loadGoal();
+            this.loadLeaderboard();
+            this.loadRecent();
+        }, 500);
     }
 
     /**
