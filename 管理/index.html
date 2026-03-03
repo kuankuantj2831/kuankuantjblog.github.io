@@ -335,6 +335,7 @@
             <div class="tab-nav">
                 <button class="tab-btn active" onclick="switchTab('users')">👥 用户管理</button>
                 <button class="tab-btn" onclick="switchTab('coins')">🪙 硬币管理</button>
+                <button class="tab-btn" onclick="switchTab('donations')">❤️ 捐助管理</button>
             </div>
 
             <!-- 用户管理 Tab -->
@@ -384,6 +385,86 @@
                     <tbody id="coinTableBody">
                     </tbody>
                 </table>
+            </div>
+
+            <!-- 捐助管理 Tab -->
+            <div id="tab-donations" class="tab-content">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <select id="donateStatusFilter" onchange="loadDonations()" style="padding:8px 12px; border:1px solid #ddd; border-radius:6px; font-size:14px;">
+                            <option value="">全部状态</option>
+                            <option value="paid">已支付</option>
+                            <option value="pending">待支付</option>
+                            <option value="failed">失败</option>
+                        </select>
+                        <span id="donateCountLabel" style="color:#999; font-size:13px;">共 0 条记录</span>
+                    </div>
+                    <button class="btn btn-primary" onclick="showGoalModal()">🎯 设置目标</button>
+                </div>
+
+                <!-- 捐助统计卡片 -->
+                <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:15px;">
+                    <div style="background:#fff5f5; padding:15px; border-radius:10px; text-align:center;">
+                        <div style="font-size:1.4em; font-weight:700; color:#ff6b6b;" id="adminTotalAmount">¥0</div>
+                        <div style="font-size:0.8em; color:#999;">总捐助金额</div>
+                    </div>
+                    <div style="background:#f0faf4; padding:15px; border-radius:10px; text-align:center;">
+                        <div style="font-size:1.4em; font-weight:700; color:#07c160;" id="adminPaidCount">0</div>
+                        <div style="font-size:0.8em; color:#999;">成功订单</div>
+                    </div>
+                    <div style="background:#fff8e1; padding:15px; border-radius:10px; text-align:center;">
+                        <div style="font-size:1.4em; font-weight:700; color:#ffa000;" id="adminPendingCount">0</div>
+                        <div style="font-size:0.8em; color:#999;">待支付</div>
+                    </div>
+                    <div style="background:#f3e5f5; padding:15px; border-radius:10px; text-align:center;">
+                        <div style="font-size:1.4em; font-weight:700; color:#9c27b0;" id="adminGoalProgress">0%</div>
+                        <div style="font-size:0.8em; color:#999;">目标进度</div>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>订单号</th>
+                            <th>捐助者</th>
+                            <th>金额</th>
+                            <th>方式</th>
+                            <th>状态</th>
+                            <th>留言</th>
+                            <th>时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="donateTableBody">
+                    </tbody>
+                </table>
+                <div style="text-align:center; margin-top:10px;">
+                    <button class="btn" id="donatePrevBtn" onclick="changDonatePage(-1)" style="display:none;">上一页</button>
+                    <span id="donatePageInfo" style="margin:0 10px; color:#999; font-size:13px;"></span>
+                    <button class="btn" id="donateNextBtn" onclick="changDonatePage(1)" style="display:none;">下一页</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 捐助目标设置弹窗 -->
+    <div id="goalModal" class="modal">
+        <div class="modal-content" style="width:400px;">
+            <h3>🎯 设置捐助目标</h3>
+            <div class="form-group">
+                <label>目标标题</label>
+                <input type="text" id="goalTitleInput" placeholder="如：服务器续费基金">
+            </div>
+            <div class="form-group">
+                <label>目标描述</label>
+                <input type="text" id="goalDescInput" placeholder="描述这个目标的用途">
+            </div>
+            <div class="form-group">
+                <label>目标金额（元）</label>
+                <input type="number" id="goalAmountInput" placeholder="500" min="1" step="0.01">
+            </div>
+            <div style="text-align:right; margin-top:20px;">
+                <button class="btn" onclick="closeModal('goalModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveGoal()">保存</button>
             </div>
         </div>
     </div>
@@ -555,6 +636,9 @@
 
             if (tab === 'coins') {
                 loadCoinUsers();
+            }
+            if (tab === 'donations') {
+                loadDonations();
             }
         };
 
@@ -847,6 +931,121 @@
                 }
             } catch (e) {
                 console.error('Adjust coins error:', e);
+                alert('网络错误');
+            }
+        };
+
+        // ==================== 捐助管理 ====================
+
+        let donatePage = 1;
+
+        async function loadDonations() {
+            const token = localStorage.getItem('adminToken');
+            const status = document.getElementById('donateStatusFilter').value;
+            try {
+                const params = new URLSearchParams({ page: donatePage, limit: 20 });
+                if (status) params.append('status', status);
+
+                const res = await fetch(`${API_BASE_URL}/donate/admin/list?${params}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (checkAuth(res)) {
+                    const data = await res.json();
+                    renderDonateTable(data.data, data.pagination);
+                    loadDonateStats();
+                }
+            } catch (e) {
+                console.error('Load donations error:', e);
+            }
+        }
+
+        function renderDonateTable(list, pagination) {
+            const tbody = document.getElementById('donateTableBody');
+            document.getElementById('donateCountLabel').textContent = `共 ${pagination.total} 条记录`;
+
+            if (!list || list.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#999;">暂无捐助记录</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = list.map(d => {
+                const statusMap = { paid: '✅ 已支付', pending: '⏳ 待支付', failed: '❌ 失败', refunded: '↩️ 已退款' };
+                const methodMap = { wechat: '💚 微信', alipay: '💙 支付宝' };
+                const time = d.paid_at ? new Date(d.paid_at).toLocaleString('zh-CN') : new Date(d.created_at).toLocaleString('zh-CN');
+                return `<tr>
+                    <td style="font-size:0.8em; font-family:monospace;">${escapeHtml(d.order_no)}</td>
+                    <td>${escapeHtml(d.donor_name)}${d.user_username ? ` <span style="color:#999; font-size:0.8em;">(${escapeHtml(d.user_username)})</span>` : ''}</td>
+                    <td style="font-weight:700; color:#ff6b6b;">¥${parseFloat(d.amount).toFixed(2)}</td>
+                    <td>${methodMap[d.payment_method] || d.payment_method}</td>
+                    <td>${statusMap[d.status] || d.status}</td>
+                    <td style="max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${escapeHtml(d.message)}">${escapeHtml(d.message) || '-'}</td>
+                    <td style="font-size:0.85em;">${time}</td>
+                </tr>`;
+            }).join('');
+
+            // 分页
+            document.getElementById('donatePageInfo').textContent = `第 ${pagination.page} / ${pagination.totalPages} 页`;
+            document.getElementById('donatePrevBtn').style.display = pagination.page > 1 ? 'inline-block' : 'none';
+            document.getElementById('donateNextBtn').style.display = pagination.page < pagination.totalPages ? 'inline-block' : 'none';
+        }
+
+        async function loadDonateStats() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/donate/goal`);
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.stats) {
+                        document.getElementById('adminTotalAmount').textContent = '¥' + parseFloat(data.stats.total_amount || 0).toFixed(2);
+                        document.getElementById('adminPaidCount').textContent = data.stats.total_donors || 0;
+                    }
+                    if (data.goal) {
+                        const current = parseFloat(data.goal.current_amount) || 0;
+                        const target = parseFloat(data.goal.target_amount) || 1;
+                        document.getElementById('adminGoalProgress').textContent = Math.min((current / target * 100), 100).toFixed(1) + '%';
+                    }
+                }
+            } catch (e) { /* ignore */ }
+        }
+
+        window.changDonatePage = (delta) => {
+            donatePage += delta;
+            if (donatePage < 1) donatePage = 1;
+            loadDonations();
+        };
+
+        window.showGoalModal = () => {
+            document.getElementById('goalModal').style.display = 'flex';
+        };
+
+        window.saveGoal = async () => {
+            const token = localStorage.getItem('adminToken');
+            const title = document.getElementById('goalTitleInput').value.trim();
+            const description = document.getElementById('goalDescInput').value.trim();
+            const target_amount = document.getElementById('goalAmountInput').value;
+
+            if (!title || !target_amount) {
+                alert('请填写标题和目标金额');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/donate/admin/goal`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ title, description, target_amount })
+                });
+                const data = await res.json();
+                if (res.ok) {
+                    alert('捐助目标已更新！');
+                    closeModal('goalModal');
+                    loadDonateStats();
+                } else {
+                    alert(data.message || '更新失败');
+                }
+            } catch (e) {
                 alert('网络错误');
             }
         };
