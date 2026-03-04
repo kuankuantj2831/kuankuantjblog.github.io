@@ -570,4 +570,82 @@ async function submitComment(articleId, currentUser) {
     }
 }
 
+// ==================== 分享功能 ====================
+
+function initShare() {
+    const shareBtn = document.getElementById('shareBtn');
+    const shareModal = document.getElementById('shareModal');
+    const closeShareBtn = document.getElementById('closeShareBtn');
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+
+    if (!shareBtn || !shareModal) return;
+
+    let qrGenerated = false;
+
+    shareBtn.addEventListener('click', () => {
+        shareModal.style.display = 'flex';
+
+        // 设置文章标题
+        const titleEl = document.getElementById('artTitle');
+        const shareTitleEl = document.getElementById('shareArticleTitle');
+        if (titleEl && shareTitleEl) {
+            shareTitleEl.textContent = titleEl.textContent;
+        }
+
+        // 生成二维码（只生成一次）
+        if (!qrGenerated && typeof QRCode !== 'undefined') {
+            const qrContainer = document.getElementById('shareQrCode');
+            if (qrContainer) {
+                qrContainer.innerHTML = '';
+                new QRCode(qrContainer, {
+                    text: window.location.href,
+                    width: 200,
+                    height: 200,
+                    colorDark: '#333333',
+                    colorLight: '#ffffff',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+                qrGenerated = true;
+            }
+        }
+    });
+
+    if (closeShareBtn) {
+        closeShareBtn.addEventListener('click', () => {
+            shareModal.style.display = 'none';
+        });
+    }
+
+    // 点击遮罩关闭
+    shareModal.addEventListener('click', (e) => {
+        if (e.target === shareModal) {
+            shareModal.style.display = 'none';
+        }
+    });
+
+    // 复制链接
+    if (copyLinkBtn) {
+        copyLinkBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                copyLinkBtn.textContent = '✅ 已复制';
+                setTimeout(() => { copyLinkBtn.textContent = '📋 复制链接'; }, 2000);
+            } catch (e) {
+                // fallback
+                const input = document.createElement('input');
+                input.value = window.location.href;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                copyLinkBtn.textContent = '✅ 已复制';
+                setTimeout(() => { copyLinkBtn.textContent = '📋 复制链接'; }, 2000);
+            }
+        });
+    }
+}
+
+// 页面加载后初始化分享
+document.addEventListener('DOMContentLoaded', initShare);
+
 loadArticle();
