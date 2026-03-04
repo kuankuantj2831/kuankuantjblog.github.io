@@ -38,6 +38,19 @@
             font-family: 'STKaiti', 'KaiTi', serif;
         }
 
+        .drive-user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .drive-user-info .username {
+            font-weight: 600;
+            color: #00bfa5;
+        }
+
         /* Upload Area */
         .upload-area {
             border: 2px dashed #00bfa5;
@@ -159,6 +172,46 @@
             width: 0%;
             transition: width 0.3s;
         }
+
+        /* Login Prompt */
+        .login-prompt {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .login-prompt .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .login-prompt h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .login-prompt p {
+            color: #999;
+            margin-bottom: 30px;
+        }
+
+        .login-prompt .login-btn {
+            display: inline-block;
+            padding: 12px 40px;
+            background: #00bfa5;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .login-prompt .login-btn:hover {
+            background: #00897b;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 191, 165, 0.3);
+        }
     </style>
 </head>
 
@@ -167,7 +220,7 @@
         <!-- Decoration -->
         <div class="bg-decoration"></div>
 
-        <!-- Copy minimal Nav from Index -->
+        <!-- Nav -->
         <nav class="top-nav">
             <a href="index-chinese.html" class="logo" style="text-decoration: none;">Hakimi 的猫爬架</a>
             <div class="nav-links">
@@ -176,18 +229,31 @@
             </div>
         </nav>
 
-        <div class="drive-container">
+        <!-- 未登录提示 -->
+        <div class="drive-container" id="loginPrompt" style="display:none;">
+            <div class="login-prompt">
+                <div class="icon">🔒</div>
+                <h2>请先登录</h2>
+                <p>云端网盘是您的私人文件空间，登录后即可上传和管理文件</p>
+                <a href="index-chinese.html" class="login-btn">去登录</a>
+            </div>
+        </div>
+
+        <!-- 已登录的网盘界面 -->
+        <div class="drive-container" id="driveMain" style="display:none;">
             <div class="drive-header">
-                <div class="drive-title">☁️ 云端文件库</div>
-                <div style="color:#666; font-size:0.9em;">
-                    <span id="fileCount">0</span> 个文件
+                <div class="drive-title">☁️ 我的网盘</div>
+                <div class="drive-user-info">
+                    <span>👤 <span class="username" id="driveUsername"></span></span>
+                    <span>·</span>
+                    <span><span id="fileCount">0</span> 个文件</span>
                 </div>
             </div>
 
             <div class="upload-area" id="dropZone">
                 <div class="upload-icon">📤</div>
                 <h3>点击或拖拽文件到这里上传</h3>
-                <p style="color:#999; font-size:0.9em;">支持任意格式，最大 100MB</p>
+                <p style="color:#999; font-size:0.9em;">支持任意格式，最大 50MB · 文件仅自己可见</p>
                 <input type="file" id="fileInput" hidden>
 
                 <div id="progressContainer">
@@ -209,201 +275,274 @@
         </div>
     </div>
 
-    <!-- API Config needed? Importing shared config -->
     <script type="module">
         import { API_BASE_URL } from './js/api-config.js?v=20260223b';
 
-        const fileListEl = document.getElementById('fileList');
-        const fileCountEl = document.getElementById('fileCount');
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
+        // 获取登录信息
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
 
-        // Initial Load
-        loadFiles();
+        const loginPrompt = document.getElementById('loginPrompt');
+        const driveMain = document.getElementById('driveMain');
 
-        /* ========== Event Listeners ========== */
-        dropZone.addEventListener('click', () => fileInput.click());
-        fileInput.addEventListener('change', handleFileSelect);
+        if (!token || !user) {
+            // 未登录
+            loginPrompt.style.display = 'block';
+        } else {
+            // 已登录
+            driveMain.style.display = 'block';
+            document.getElementById('driveUsername').textContent = user.username || '用户';
 
-        // Drag & Drop
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, preventDefaults, false);
-        });
-        function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+            const fileListEl = document.getElementById('fileList');
+            const fileCountEl = document.getElementById('fileCount');
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
 
-        ['dragenter', 'dragover'].forEach(() => dropZone.classList.add('dragging'));
-        ['dragleave', 'drop'].forEach(() => dropZone.classList.remove('dragging'));
-
-        dropZone.addEventListener('drop', handleDrop);
-
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            handleFiles(files);
-        }
-
-        function handleFileSelect(e) {
-            const files = e.target.files;
-            handleFiles(files);
-        }
-
-        function handleFiles(files) {
-            if (files.length > 0) {
-                uploadFile(files[0]);
-            }
-        }
-
-        /* ========== API Functions ========== */
-
-        async function loadFiles() {
-            try {
-                const res = await fetch(`${API_BASE_URL}/drive/list`);
-                const data = await res.json();
-
-                if (res.ok) {
-                    renderFiles(data.files || []);
-                } else {
-                    fileListEl.innerHTML = `<div style="text-align:center;color:red;padding:20px;">无法加载文件列表: ${data.message}</div>`;
-                    // Detect config error
-                    if (data.message.includes('configuration missing')) {
-                        fileListEl.innerHTML += `<div style="text-align:center;color:#666;font-size:0.9em;margin-top:10px;">(提示：请在服务器 .env 中配置腾讯云 COS 密钥)</div>`;
-                    }
-                }
-            } catch (e) {
-                fileListEl.innerHTML = `<div style="text-align:center;color:#999;padding:20px;">连接服务器失败</div>`;
-            }
-        }
-
-        async function uploadFile(file) {
-            // Show Progress
-            document.getElementById('progressContainer').style.display = 'block';
-            updateProgress(0);
-
-            const formData = new FormData();
-            formData.append('file', file);
-
-            try {
-                // Using XHR for progress event (Fetch doesn't support upload progress easily yet)
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', `${API_BASE_URL}/drive/upload`, true);
-
-                xhr.upload.onprogress = (e) => {
-                    if (e.lengthComputable) {
-                        const percent = Math.round((e.loaded / e.total) * 100);
-                        updateProgress(percent);
-                    }
-                };
-
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-                        updateProgress(100);
-                        document.getElementById('uploadStatus').textContent = '✅ 上传成功!';
-                        setTimeout(() => {
-                            document.getElementById('progressContainer').style.display = 'none';
-                            loadFiles(); // Refresh list
-                        }, 1000);
-                    } else {
-                        const resp = JSON.parse(xhr.responseText || '{}');
-                        alert('上传失败: ' + (resp.message || xhr.statusText));
-                        document.getElementById('progressContainer').style.display = 'none';
-                    }
-                };
-
-                xhr.onerror = function () {
-                    alert('网络错误');
-                    document.getElementById('progressContainer').style.display = 'none';
-                };
-
-                xhr.send(formData);
-
-            } catch (e) {
-                console.error(e);
-                alert('上传出错');
-            }
-        }
-
-        function updateProgress(percent) {
-            document.getElementById('progressFill').style.width = percent + '%';
-            document.getElementById('uploadPercent').textContent = percent + '%';
-        }
-
-        async function downloadFile(key, name) {
-            try {
-                // Get Signed URL
-                const res = await fetch(`${API_BASE_URL}/drive/download?key=${encodeURIComponent(key)}`);
-                const data = await res.json();
-
-                if (res.ok && data.url) {
-                    // Create minimal anchor to trigger download
-                    const a = document.createElement('a');
-                    a.href = data.url;
-                    a.download = name; // Hint to browser
-                    a.target = '_blank';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                } else {
-                    alert('无法获取下载链接: ' + data.message);
-                }
-            } catch (e) {
-                alert('下载出错');
-            }
-        }
-
-        // Expose to window for onclick
-        window.downloadFile = downloadFile;
-
-        function renderFiles(files) {
-            fileCountEl.textContent = files.length;
-            fileListEl.innerHTML = '';
-
-            if (files.length === 0) {
-                fileListEl.innerHTML = `<div style="text-align:center;padding:40px;color:#ccc;">暂无文件，快来上传一个吧~</div>`;
-                return;
-            }
-
-            files.forEach(file => {
-                const isFolder = file.type === 'folder';
-                const icon = isFolder ? '📁' : getFileIcon(file.name);
-                const sizeStr = isFolder ? '-' : formatSize(file.size);
-                const dateStr = file.lastModified ? new Date(file.lastModified).toLocaleString() : '';
-
-                const html = `
-                <li class="file-item">
-                    <div class="file-icon">${icon}</div>
-                    <div class="file-info">
-                        <div class="file-name">${file.name}</div>
-                        <div class="file-meta">${sizeStr} · ${dateStr}</div>
-                    </div>
-                    <div class="file-actions">
-                        <button class="action-btn btn-download" onclick="downloadFile('${file.key}', '${file.name}')">⬇ 下载</button>
-                        <!-- <button class="action-btn btn-delete">🗑️</button> -->
-                    </div>
-                </li>
-                `;
-                fileListEl.innerHTML += html;
+            // 通用请求头
+            const authHeaders = () => ({
+                'Authorization': `Bearer ${token}`
             });
-        }
 
-        function formatSize(bytes) {
-            if (bytes === 0) return '0 B';
-            const k = 1024;
-            const sizes = ['B', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-        }
+            // Initial Load
+            loadFiles();
 
-        function getFileIcon(name) {
-            const ext = name.split('.').pop().toLowerCase();
-            if (['jpg', 'png', 'gif', 'jpeg'].includes(ext)) return '🖼️';
-            if (['zip', 'rar', '7z'].includes(ext)) return '📦';
-            if (['mp3', 'wav'].includes(ext)) return '🎵';
-            if (['mp4', 'mov'].includes(ext)) return '🎬';
-            if (['pdf'].includes(ext)) return '📕';
-            if (['doc', 'docx'].includes(ext)) return '📘';
-            return '📄';
-        }
+            /* ========== Event Listeners ========== */
+            dropZone.addEventListener('click', (e) => {
+                // 避免点击进度条区域也触发文件选择
+                if (e.target.closest('#progressContainer')) return;
+                fileInput.click();
+            });
+            fileInput.addEventListener('change', handleFileSelect);
 
+            // Drag & Drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            function preventDefaults(e) { e.preventDefault(); e.stopPropagation(); }
+
+            dropZone.addEventListener('dragenter', () => dropZone.classList.add('dragging'));
+            dropZone.addEventListener('dragover', () => dropZone.classList.add('dragging'));
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragging'));
+            dropZone.addEventListener('drop', () => dropZone.classList.remove('dragging'));
+
+            dropZone.addEventListener('drop', handleDrop);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+
+            function handleFileSelect(e) {
+                const files = e.target.files;
+                handleFiles(files);
+            }
+
+            function handleFiles(files) {
+                if (files.length > 0) {
+                    uploadFile(files[0]);
+                }
+            }
+
+            /* ========== API Functions ========== */
+
+            async function loadFiles() {
+                try {
+                    const res = await fetch(`${API_BASE_URL}/drive/list`, {
+                        headers: authHeaders()
+                    });
+
+                    if (res.status === 401 || res.status === 403) {
+                        // Token 过期或无效
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                        loginPrompt.style.display = 'block';
+                        driveMain.style.display = 'none';
+                        return;
+                    }
+
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        renderFiles(data.files || []);
+                    } else {
+                        fileListEl.innerHTML = `<div style="text-align:center;color:red;padding:20px;">无法加载文件列表: ${data.message}</div>`;
+                    }
+                } catch (e) {
+                    fileListEl.innerHTML = `<div style="text-align:center;color:#999;padding:20px;">连接服务器失败</div>`;
+                }
+            }
+
+            async function uploadFile(file) {
+                // Show Progress
+                document.getElementById('progressContainer').style.display = 'block';
+                updateProgress(0);
+                document.getElementById('uploadStatus').textContent = '上传中...';
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                try {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', `${API_BASE_URL}/drive/upload`, true);
+                    xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+
+                    xhr.upload.onprogress = (e) => {
+                        if (e.lengthComputable) {
+                            const percent = Math.round((e.loaded / e.total) * 100);
+                            updateProgress(percent);
+                        }
+                    };
+
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            updateProgress(100);
+                            document.getElementById('uploadStatus').textContent = '✅ 上传成功!';
+                            setTimeout(() => {
+                                document.getElementById('progressContainer').style.display = 'none';
+                                fileInput.value = ''; // 重置文件选择
+                                loadFiles();
+                            }, 1000);
+                        } else {
+                            const resp = JSON.parse(xhr.responseText || '{}');
+                            alert('上传失败: ' + (resp.message || xhr.statusText));
+                            document.getElementById('progressContainer').style.display = 'none';
+                        }
+                    };
+
+                    xhr.onerror = function () {
+                        alert('网络错误');
+                        document.getElementById('progressContainer').style.display = 'none';
+                    };
+
+                    xhr.send(formData);
+
+                } catch (e) {
+                    console.error(e);
+                    alert('上传出错');
+                }
+            }
+
+            function updateProgress(percent) {
+                document.getElementById('progressFill').style.width = percent + '%';
+                document.getElementById('uploadPercent').textContent = percent + '%';
+            }
+
+            async function downloadFile(key, name) {
+                try {
+                    const res = await fetch(`${API_BASE_URL}/drive/download?key=${encodeURIComponent(key)}`, {
+                        headers: authHeaders()
+                    });
+                    const data = await res.json();
+
+                    if (res.ok && data.url) {
+                        const a = document.createElement('a');
+                        a.href = data.url;
+                        a.download = name;
+                        a.target = '_blank';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    } else {
+                        alert('无法获取下载链接: ' + (data.message || '未知错误'));
+                    }
+                } catch (e) {
+                    alert('下载出错');
+                }
+            }
+
+            async function deleteFile(key, name) {
+                if (!confirm(`确定要删除「${name}」吗？此操作不可恢复。`)) return;
+
+                try {
+                    const res = await fetch(`${API_BASE_URL}/drive/delete`, {
+                        method: 'POST',
+                        headers: {
+                            ...authHeaders(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ key })
+                    });
+                    const data = await res.json();
+
+                    if (res.ok) {
+                        loadFiles(); // 刷新列表
+                    } else {
+                        alert('删除失败: ' + (data.message || '未知错误'));
+                    }
+                } catch (e) {
+                    alert('删除出错');
+                }
+            }
+
+            // Expose to window for onclick
+            window.downloadFile = downloadFile;
+            window.deleteFile = deleteFile;
+
+            function renderFiles(files) {
+                fileCountEl.textContent = files.length;
+                fileListEl.innerHTML = '';
+
+                if (files.length === 0) {
+                    fileListEl.innerHTML = `<div style="text-align:center;padding:40px;color:#ccc;">暂无文件，快来上传一个吧~</div>`;
+                    return;
+                }
+
+                files.forEach(file => {
+                    const isFolder = file.type === 'folder';
+                    const icon = isFolder ? '📁' : getFileIcon(file.name);
+                    const sizeStr = isFolder ? '-' : formatSize(file.size);
+                    const dateStr = file.lastModified ? new Date(file.lastModified).toLocaleString() : '';
+                    // 转义文件名中的特殊字符，防止 XSS
+                    const safeName = escapeHtml(file.name);
+                    const safeKey = escapeHtml(file.key);
+
+                    const html = `
+                    <li class="file-item">
+                        <div class="file-icon">${icon}</div>
+                        <div class="file-info">
+                            <div class="file-name">${safeName}</div>
+                            <div class="file-meta">${sizeStr} · ${dateStr}</div>
+                        </div>
+                        <div class="file-actions">
+                            <button class="action-btn btn-download" onclick="downloadFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">⬇ 下载</button>
+                            <button class="action-btn btn-delete" onclick="deleteFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">🗑️ 删除</button>
+                        </div>
+                    </li>
+                    `;
+                    fileListEl.innerHTML += html;
+                });
+            }
+
+            function escapeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            function formatSize(bytes) {
+                if (bytes === 0) return '0 B';
+                const k = 1024;
+                const sizes = ['B', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+            }
+
+            function getFileIcon(name) {
+                const ext = (name || '').split('.').pop().toLowerCase();
+                if (['jpg', 'png', 'gif', 'jpeg', 'webp', 'svg'].includes(ext)) return '🖼️';
+                if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) return '📦';
+                if (['mp3', 'wav', 'flac', 'aac'].includes(ext)) return '🎵';
+                if (['mp4', 'mov', 'avi', 'mkv'].includes(ext)) return '🎬';
+                if (['pdf'].includes(ext)) return '📕';
+                if (['doc', 'docx'].includes(ext)) return '📘';
+                if (['xls', 'xlsx'].includes(ext)) return '📊';
+                if (['ppt', 'pptx'].includes(ext)) return '📙';
+                if (['txt', 'md'].includes(ext)) return '📝';
+                if (['js', 'py', 'java', 'cpp', 'html', 'css'].includes(ext)) return '💻';
+                return '📄';
+            }
+        }
     </script>
 </body>
 
