@@ -593,19 +593,38 @@ function initShare() {
         }
 
         // 生成二维码（只生成一次）
-        if (!qrGenerated && typeof QRCode !== 'undefined') {
+        if (!qrGenerated) {
             const qrContainer = document.getElementById('shareQrCode');
             if (qrContainer) {
                 qrContainer.innerHTML = '';
-                new QRCode(qrContainer, {
-                    text: window.location.href,
-                    width: 200,
-                    height: 200,
-                    colorDark: '#333333',
-                    colorLight: '#ffffff',
-                    correctLevel: QRCode.CorrectLevel.M
-                });
-                qrGenerated = true;
+                const url = window.location.href;
+
+                if (typeof QRCode !== 'undefined') {
+                    // 使用 qrcodejs 库
+                    try {
+                        new QRCode(qrContainer, {
+                            text: url,
+                            width: 200,
+                            height: 200,
+                            colorDark: '#333333',
+                            colorLight: '#ffffff',
+                            correctLevel: QRCode.CorrectLevel.M
+                        });
+                        qrGenerated = true;
+                    } catch (e) {
+                        console.warn('QRCode lib error, using fallback:', e);
+                    }
+                }
+
+                // Fallback: 使用在线 API 生成二维码
+                if (!qrGenerated) {
+                    const img = document.createElement('img');
+                    img.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+                    img.alt = '文章二维码';
+                    img.style.cssText = 'width:200px;height:200px;border-radius:8px;';
+                    qrContainer.appendChild(img);
+                    qrGenerated = true;
+                }
             }
         }
     });
