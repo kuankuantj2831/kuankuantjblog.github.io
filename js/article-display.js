@@ -75,7 +75,12 @@ async function loadArticle() {
 
             if (titleEl) titleEl.textContent = article.title || '无标题';
             if (categoryEl) categoryEl.textContent = "📂 " + (article.category || '未分类');
-            if (authorEl) authorEl.textContent = "👤 " + (article.author_name || '匿名');
+            if (authorEl) {
+                const titleBadge = article.author_title
+                    ? `<span style="display:inline-block;padding:1px 6px;border-radius:4px;font-size:0.75em;font-weight:700;margin-right:4px;${article.author_title === 'MVP' ? 'background:#fce4ec;color:#c62828;' : 'background:#fff8e1;color:#f57f17;'}">${article.author_title}</span>`
+                    : '';
+                authorEl.innerHTML = "👤 " + titleBadge + escapeHtml(article.author_name || '匿名');
+            }
 
             // 格式化时间
             if (article.created_at && dateEl) {
