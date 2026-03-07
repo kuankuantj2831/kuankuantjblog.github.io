@@ -173,6 +173,11 @@ async function initInteractions(articleId, currentUser) {
         console.log('[initInteractions] 投币按钮已绑定');
     }
 
+    const favoriteBtn = safeGetElement('favoriteBtn');
+    if (favoriteBtn) {
+        favoriteBtn.onclick = () => toggleFavorite(articleId, currentUser);
+    }
+
     initCoinModal(articleId, currentUser);
 
     const submitBtn = safeGetElement('submitCommentBtn');
@@ -203,7 +208,14 @@ async function initInteractions(articleId, currentUser) {
         console.error('加载投币数失败:', e);
     }
 
-    // 3. Comments
+    // 3. Favorites (收藏)
+    try {
+        await loadFavorites(articleId, currentUser);
+    } catch (e) {
+        console.error('加载收藏失败:', e);
+    }
+
+    // 4. Comments
     try {
         await loadComments(articleId, currentUser);
     } catch (e) {
@@ -446,6 +458,72 @@ async function toggleLike(articleId, currentUser) {
         }
     } catch (e) {
         console.error('Toggle like error:', e);
+        alert('网络错误，请重试');
+    }
+}
+
+// --- Favorites (收藏) Functions ---
+
+async function loadFavorites(articleId, currentUser) {
+    try {
+        let url = `${API_BASE_URL}/articles/${encodeURIComponent(articleId)}/favorite`;
+        if (currentUser && currentUser.id) {
+            url += `?userId=${encodeURIComponent(currentUser.id)}`;
+        }
+
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const data = await res.json();
+
+        const favoriteCountEl = safeGetElement('favoriteCount');
+        const favoriteBtn = safeGetElement('favoriteBtn');
+
+        if (favoriteCountEl) favoriteCountEl.textContent = data.count || 0;
+
+        if (favoriteBtn) {
+            if (data.favorited) {
+                favoriteBtn.style.background = '#faad14';
+                favoriteBtn.style.color = 'white';
+                favoriteBtn.innerHTML = '★ 已收藏 <span id="favoriteCount">' + (data.count || 0) + '</span>';
+            } else {
+                favoriteBtn.style.background = 'white';
+                favoriteBtn.style.color = '#faad14';
+                favoriteBtn.innerHTML = '☆ 收藏 <span id="favoriteCount">' + (data.count || 0) + '</span>';
+            }
+        }
+    } catch (e) {
+        console.error('Load favorites error:', e);
+    }
+}
+
+async function toggleFavorite(articleId, currentUser) {
+    if (!currentUser || !currentUser.id) {
+        alert('请先登录');
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_BASE_URL}/articles/${encodeURIComponent(articleId)}/favorite`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: currentUser.id })
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            showToast(data.favorited ? '已收藏 ⭐' : '已取消收藏');
+            await loadFavorites(articleId, currentUser);
+        } else {
+            let errMsg = '操作失败';
+            try {
+                const errData = await res.json();
+                errMsg = errData.message || errMsg;
+            } catch (_) { /* 忽略 */ }
+            alert(errMsg);
+        }
+    } catch (e) {
+        console.error('Toggle favorite error:', e);
         alert('网络错误，请重试');
     }
 }

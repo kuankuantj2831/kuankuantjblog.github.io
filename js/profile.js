@@ -5,6 +5,8 @@ class ProfileManager {
     constructor() {
         this.currentUser = null;
         this.userData = null;
+        this.favoritesPage = 1;
+        this.favoritesTotal = 0;
         this.init();
     }
 
@@ -110,6 +112,7 @@ class ProfileManager {
             }
 
             this.updateUI();
+            this.loadFavorites();
         } catch (error) {
             console.error('❌ 加载用户数据失败:', error);
             const nameEl = document.getElementById('profileName');
@@ -304,6 +307,83 @@ class ProfileManager {
             document.getElementById('toggle2fa').checked = !enabled; // Revert switch
             alert('操作失败，请重试: ' + error.message);
         }
+    }
+
+    async loadFavorites(append = false) {
+        const listEl = document.getElementById('favoritesList');
+        const loadMoreEl = document.getElementById('favoritesLoadMore');
+        if (!listEl) return;
+
+        if (!this.currentUser || !this.currentUser.id) {
+            listEl.innerHTML = '<p style="text-align:center;color:#999;">请先登录</p>';
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_BASE_URL}/favorites?userId=${encodeURIComponent(this.currentUser.id)}&page=${this.favoritesPage}&limit=5`);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+            const data = await res.json();
+            this.favoritesTotal = data.pagination.total;
+
+            // 更新统计数字
+            const statEl = document.getElementById('statFavorites');
+            if (statEl) statEl.textContent = this.favoritesTotal;
+
+            if (!append) listEl.innerHTML = '';
+
+            if (data.articles.length === 0 && !append) {
+                listEl.innerHTML = '<p style="text-align:center;color:#999;">还没有收藏文章，去看看有什么好文章吧~</p>';
+                if (loadMoreEl) loadMoreEl.style.display = 'none';
+                return;
+            }
+
+            data.articles.forEach(article => {
+                const item = document.createElement('div');
+                item.style.cssText = 'padding:12px 0;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:background 0.2s;';
+                item.onmouseenter = () => item.style.background = '#f9f9f9';
+                item.onmouseleave = () => item.style.background = 'transparent';
+
+                const title = this.escapeHtml(article.title || '无标题');
+                const summary = this.escapeHtml((article.summary || '').substring(0, 80));
+                const date = article.favorited_at ? new Date(article.favorited_at).toLocaleDateString('zh-CN') : '';
+                const category = article.category ? `<span style="background:#e6f7ff;color:#1890ff;padding:2px 8px;border-radius:10px;font-size:12px;margin-left:8px;">${this.escapeHtml(article.category)}</span>` : '';
+
+                item.innerHTML = `
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <div style="flex:1;min-width:0;">
+                            <div style="font-size:15px;font-weight:500;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                ${title}${category}
+                            </div>
+                            ${summary ? `<div style="font-size:13px;color:#999;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${summary}</div>` : ''}
+                        </div>
+                        <div style="font-size:12px;color:#bbb;margin-left:12px;white-space:nowrap;">${date}</div>
+                    </div>
+                `;
+                item.onclick = () => { window.location.href = `/article.html?id=${article.id}`; };
+                listEl.appendChild(item);
+            });
+
+            // 显示/隐藏加载更多按钮
+            if (loadMoreEl) {
+                const loaded = this.favoritesPage * 5;
+                loadMoreEl.style.display = loaded < this.favoritesTotal ? 'block' : 'none';
+            }
+        } catch (e) {
+            console.error('加载收藏失败:', e);
+            if (!append) listEl.innerHTML = '<p style="text-align:center;color:#999;">加载失败，请刷新重试</p>';
+        }
+    }
+
+    loadMoreFavorites() {
+        this.favoritesPage++;
+        this.loadFavorites(true);
+    }
+
+    escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
     }
 
     showMessage(elementId, message) {
