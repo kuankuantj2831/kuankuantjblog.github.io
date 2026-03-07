@@ -587,6 +587,7 @@ class SupabaseAuthSystem {
 
     async logout() {
         try {
+            this.stopHeartbeat();
             localStorage.removeItem('user');
             localStorage.removeItem('token');
             this.currentUser = null;
@@ -625,12 +626,68 @@ class SupabaseAuthSystem {
                 if (userName) userName.textContent = this.currentUser.username;
                 if (userEmail) userEmail.textContent = this.currentUser.email;
             }
+            // 显示消息链接并加载未读数
+            const msgLink = document.querySelector('.msg-nav-link');
+            if (msgLink) {
+                msgLink.style.display = '';
+                this.loadUnreadBadge();
+            }
+            this.startHeartbeat();
         } else {
             // 未登录
             if (loginBtn) loginBtn.style.display = 'inline-block';
             if (registerBtn) registerBtn.style.display = 'inline-block';
             if (userMenu) userMenu.style.display = 'none';
+            const msgLink = document.querySelector('.msg-nav-link');
+            if (msgLink) msgLink.style.display = 'none';
         }
+    }
+
+    async loadUnreadBadge() {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+            const res = await fetch(`${API_BASE_URL}/messages/unread-count`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            const badge = document.getElementById('navUnreadBadge');
+            if (badge) {
+                if (data.total > 0) {
+                    badge.textContent = data.total > 99 ? '99+' : data.total;
+                    badge.style.display = '';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+        } catch (e) {
+            console.log('加载未读数失败:', e.message);
+        }
+    }
+
+    startHeartbeat() {
+        this.stopHeartbeat();
+        this.sendHeartbeat();
+        this._heartbeatTimer = setInterval(() => this.sendHeartbeat(), 60000);
+    }
+
+    stopHeartbeat() {
+        if (this._heartbeatTimer) {
+            clearInterval(this._heartbeatTimer);
+            this._heartbeatTimer = null;
+        }
+    }
+
+    async sendHeartbeat() {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+            await fetch(`${API_BASE_URL}/online/heartbeat`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+        } catch (e) { /* ignore */ }
     }
 
     showError(elementId, message) {

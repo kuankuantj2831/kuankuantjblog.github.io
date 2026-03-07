@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="css/chinese-style.css?v=3">
     <link rel="stylesheet" href="css/auth.css?v=2">
     <link rel="stylesheet" href="css/tianjg-theme.css?v=2">
+    <link rel="stylesheet" href="css/theme.css?v=1">
 
     <!-- 性能优化：pace 加载指示器使用 async 避免阻塞渲染 -->
     <script src="js/pace.min.js" async></script>
@@ -41,7 +42,7 @@
 
         <!-- 顶部导航 -->
         <nav class="top-nav">
-            <div class="logo">Hakimi 的猫爬架</div>
+            <div class="logo">Hakimi 的猫爬架 <span id="onlineCount" style="font-size:12px;color:#4CAF50;margin-left:8px;display:none;">🟢 <span id="onlineNum">0</span>人在线</span></div>
             <!-- 移动端汉堡菜单按钮 -->
             <button class="hamburger-btn" id="hamburgerBtn" aria-label="菜单">
                 <span></span><span></span><span></span>
@@ -52,6 +53,7 @@
                 <a href="drive.html" class="nav-link">☁️ 网盘</a>
                 <a href="donate.html" class="nav-link" style="color:#ff6b6b;">❤️ 捐助</a>
                 <a href="about.html" class="nav-link">🎯 关于我们</a>
+                <a href="messages.html" class="nav-link msg-nav-link" style="display:none;position:relative;">💬 消息 <span id="navUnreadBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span></a>
                 <a href="#" class="nav-link login-btn" style="cursor: pointer;"
                     onclick="document.getElementById('loginModal').classList.add('active')">👤 登录</a>
                 <a href="#" class="nav-link register-btn" style="cursor: pointer;">📝 注册</a>
@@ -323,7 +325,25 @@
                 this.classList.add('active');
             });
         });
+
+        // 加载在线人数
+        (async function loadOnlineCount() {
+            try {
+                const apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+                const res = await fetch(apiBase + '/online/count');
+                if (res.ok) {
+                    const data = await res.json();
+                    const el = document.getElementById('onlineCount');
+                    const num = document.getElementById('onlineNum');
+                    if (el && num) {
+                        num.textContent = data.count;
+                        el.style.display = '';
+                    }
+                }
+            } catch (e) { /* ignore */ }
+        })();
     </script>
+    <script src="js/theme.js?v=1"></script>
 </body>
 
 </html>
