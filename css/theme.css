@@ -1,0 +1,145 @@
+/* 主题变量 - 亮色模式（默认） */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --bg-card: #ffffff;
+    --bg-hover: #f9f9f9;
+    --bg-input: #ffffff;
+    --bg-nav: rgba(255, 255, 255, 0.95);
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    --text-link: #1890ff;
+    --border-color: #e8e8e8;
+    --border-light: #f0f0f0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-heavy: rgba(0, 0, 0, 0.15);
+    --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+    --code-bg: #f6f8fa;
+    --tag-bg: #e6f7ff;
+    --tag-color: #1890ff;
+    --success-bg: #f6ffed;
+    --success-border: #b7eb8f;
+    --error-bg: #fff2f0;
+    --error-color: #ff4d4f;
+    --scrollbar-track: #f1f1f1;
+    --scrollbar-thumb: #c1c1c1;
+}
+
+/* 深色模式 */
+[data-theme="dark"] {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-card: #1e2a45;
+    --bg-hover: #253352;
+    --bg-input: #1e2a45;
+    --bg-nav: rgba(26, 26, 46, 0.95);
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --text-link: #69b4ff;
+    --border-color: #2a3a5c;
+    --border-light: #253352;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-heavy: rgba(0, 0, 0, 0.5);
+    --accent-gradient: linear-gradient(135deg, #4a5fd6 0%, #6b3fa0 100%);
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+    --code-bg: #1e2a45;
+    --tag-bg: #1e3a5f;
+    --tag-color: #69b4ff;
+    --success-bg: #1a2e1a;
+    --success-border: #3c6e3c;
+    --error-bg: #2e1a1a;
+    --error-color: #ff6b6b;
+    --scrollbar-track: #1a1a2e;
+    --scrollbar-thumb: #3a4a6c;
+}
+
+/* 全局深色模式覆盖 */
+[data-theme="dark"] body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .top-nav {
+    background: var(--bg-nav) !important;
+    backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .nav-link {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .nav-link:hover,
+[data-theme="dark"] .nav-link.active {
+    color: var(--text-link) !important;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+    background: var(--bg-input);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .profile-card,
+[data-theme="dark"] .card,
+[data-theme="dark"] .modal-content {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] a {
+    color: var(--text-link);
+}
+
+[data-theme="dark"] button {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] ::placeholder {
+    color: var(--text-muted);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+}
+
+/* 主题切换按钮 */
+.theme-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg-card);
+    box-shadow: 0 4px 16px var(--shadow-color);
+    cursor: pointer;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 24px var(--shadow-heavy);
+}
+
+/* 切换动画 */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
