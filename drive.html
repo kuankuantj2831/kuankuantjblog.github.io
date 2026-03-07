@@ -152,6 +152,36 @@
             opacity: 1;
         }
 
+        .btn-share {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .btn-share:hover {
+            background: #ffe0b2;
+        }
+
+        .share-modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;
+        }
+        .share-modal {
+            background: white; border-radius: 16px; padding: 28px; max-width: 400px; width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .share-modal h3 { margin-bottom: 16px; color: #333; }
+        .share-modal label { display: block; font-size: 13px; color: #666; margin: 10px 0 4px; }
+        .share-modal input, .share-modal select {
+            width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;
+        }
+        .share-modal-btns { display: flex; gap: 10px; margin-top: 18px; }
+        .share-modal-btns button {
+            flex: 1; padding: 10px; border: none; border-radius: 10px; font-size: 14px; cursor: pointer;
+        }
+        .share-confirm-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .share-cancel-btn { background: #f0f0f0; color: #666; }
+        .share-result { margin-top: 14px; padding: 12px; background: #f6ffed; border: 1px solid #b7eb8f; border-radius: 8px; display: none; word-break: break-all; font-size: 13px; }
+
         /* Progress */
         #progressContainer {
             margin-top: 15px;
@@ -210,9 +240,8 @@
         .login-prompt .login-btn:hover {
             background: #00897b;
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 191, 165, 0.3);
-        }
     </style>
+    <link rel="stylesheet" href="css/theme.css?v=1">
 </head>
 
 <body>
@@ -506,6 +535,7 @@
                         </div>
                         <div class="file-actions">
                             <button class="action-btn btn-download" onclick="downloadFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">⬇ 下载</button>
+                            <button class="action-btn btn-share" onclick="openShareModal('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">🔗 分享</button>
                             <button class="action-btn btn-delete" onclick="deleteFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">🗑️ 删除</button>
                         </div>
                     </li>
@@ -542,8 +572,77 @@
                 if (['js', 'py', 'java', 'cpp', 'html', 'css'].includes(ext)) return '💻';
                 return '📄';
             }
+
+            // --- 分享功能 ---
+            let shareFileKey = '', shareFileName = '';
+
+            window.openShareModal = function(key, name) {
+                shareFileKey = key;
+                shareFileName = name;
+                document.getElementById('shareModalTitle').textContent = `分享「${name}」`;
+                document.getElementById('sharePassword').value = '';
+                document.getElementById('shareExpires').value = '0';
+                document.getElementById('shareMaxDownloads').value = '';
+                document.getElementById('shareResult').style.display = 'none';
+                const modal = document.getElementById('shareModal');
+                modal.style.display = 'flex';
+            };
+
+            window.closeShareModal = function() {
+                document.getElementById('shareModal').style.display = 'none';
+            };
+
+            window.confirmShare = async function() {
+                const password = document.getElementById('sharePassword').value || undefined;
+                const expiresHours = document.getElementById('shareExpires').value;
+                const maxDownloads = document.getElementById('shareMaxDownloads').value || undefined;
+
+                try {
+                    const res = await fetch(`${API_BASE_URL}/drive/share`, {
+                        method: 'POST',
+                        headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ fileKey: shareFileKey, fileName: shareFileName, password, expiresHours, maxDownloads })
+                    });
+                    const data = await res.json();
+                    if (res.ok) {
+                        const fullUrl = location.origin + data.shareUrl;
+                        const resultEl = document.getElementById('shareResult');
+                        resultEl.innerHTML = `✅ 分享链接已创建！<br><a href="${data.shareUrl}" target="_blank" style="color:#1890ff;">${fullUrl}</a><br><button onclick="navigator.clipboard.writeText('${fullUrl}');this.textContent='已复制!'" style="margin-top:8px;padding:4px 12px;border:1px solid #1890ff;background:white;color:#1890ff;border-radius:6px;cursor:pointer;">复制链接</button>`;
+                        resultEl.style.display = 'block';
+                    } else {
+                        alert(data.message || '创建失败');
+                    }
+                } catch (e) {
+                    alert('网络错误');
+                }
+            };
         }
     </script>
+
+    <!-- 分享弹窗 -->
+    <div class="share-modal-overlay" id="shareModal">
+        <div class="share-modal">
+            <h3 id="shareModalTitle">分享文件</h3>
+            <label>提取密码（可选）</label>
+            <input type="text" id="sharePassword" placeholder="留空则无需密码" maxlength="32">
+            <label>有效期</label>
+            <select id="shareExpires">
+                <option value="0">永久有效</option>
+                <option value="1">1小时</option>
+                <option value="24">1天</option>
+                <option value="168">7天</option>
+                <option value="720">30天</option>
+            </select>
+            <label>最大下载次数（可选）</label>
+            <input type="number" id="shareMaxDownloads" placeholder="留空则不限" min="1" max="9999">
+            <div class="share-result" id="shareResult"></div>
+            <div class="share-modal-btns">
+                <button class="share-cancel-btn" onclick="closeShareModal()">取消</button>
+                <button class="share-confirm-btn" onclick="confirmShare()">🔗 创建分享</button>
+            </div>
+        </div>
+    </div>
+    <script src="js/theme.js?v=1"></script>
 </body>
 
 </html>
