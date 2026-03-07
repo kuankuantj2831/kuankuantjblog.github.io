@@ -236,6 +236,7 @@ function endGame() {
     unlockAchievement('FIRST_DEATH');
     if (highestScore > 0 && score < highestScore && highestScore - score <= 5) { unlockAchievement('SO_CLOSE'); }
     if (score > highestScore) { highestScore = score; localStorage.setItem('highestScore', highestScore); updateHighScoreDisplay(); }
+    submitScore(score, time);
 }
 
 function handleDirectionChange(newDirection) {
@@ -298,3 +299,84 @@ function setupMobileControls() {
 loadAchievements();
 setupMobileControls();
 startGame();
+
+// --- Leaderboard ---
+const GAME_NAME = 'snake';
+
+function getApiBase() {
+    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        return 'http://localhost:9000';
+    }
+    return 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+}
+
+async function submitScore(finalScore, playTime) {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) return; // 未登录不提交
+        await fetch(`${getApiBase()}/games/scores`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ gameName: GAME_NAME, score: finalScore, playTime: playTime })
+        });
+    } catch (e) { console.log('分数提交失败:', e.message); }
+}
+
+async function loadLeaderboard() {
+    const listEl = document.getElementById('leaderboardList');
+    const myBestEl = document.getElementById('myBestScore');
+    try {
+        const res = await fetch(`${getApiBase()}/games/leaderboard/${GAME_NAME}?limit=20`);
+        if (!res.ok) throw new Error('加载失败');
+        const rows = await res.json();
+
+        if (!rows.length) {
+            listEl.innerHTML = '<p style="text-align:center;color:#999;">暂无记录，成为第一个上榜的人吧！</p>';
+        } else {
+            const medals = ['🥇', '🥈', '🥉'];
+            listEl.innerHTML = '<table style="width:100%;border-collapse:collapse;">' +
+                '<tr style="color:#faad14;border-bottom:1px solid #333;"><th style="text-align:left;padding:6px;">#</th><th style="text-align:left;padding:6px;">玩家</th><th style="text-align:right;padding:6px;">分数</th><th style="text-align:right;padding:6px;">时间</th></tr>' +
+                rows.map((r, i) => {
+                    const rank = i < 3 ? medals[i] : (i + 1);
+                    const name = r.username || '匿名';
+                    return `<tr style="border-bottom:1px solid #222;"><td style="padding:6px;">${rank}</td><td style="padding:6px;">${escapeText(name)}</td><td style="text-align:right;padding:6px;color:#faad14;font-weight:bold;">${r.score}</td><td style="text-align:right;padding:6px;color:#888;">${r.play_time}s</td></tr>`;
+                }).join('') + '</table>';
+        }
+
+        // 个人最高分
+        const token = localStorage.getItem('token');
+        if (token) {
+            const myRes = await fetch(`${getApiBase()}/games/my-best/${GAME_NAME}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (myRes.ok) {
+                const my = await myRes.json();
+                myBestEl.innerHTML = `🎮 我的最高分: <strong style="color:#faad14;">${my.best_score || 0}</strong> | 游玩次数: ${my.play_count || 0}`;
+            } else {
+                myBestEl.innerHTML = '🎮 登录后可查看个人记录';
+            }
+        } else {
+            myBestEl.innerHTML = '🎮 <a href="/index-chinese.html" style="color:#faad14;">登录</a>后可提交分数和查看个人记录';
+        }
+    } catch (e) {
+        console.error('排行榜加载失败:', e);
+        listEl.innerHTML = '<p style="text-align:center;color:#ff6b6b;">加载失败，请重试</p>';
+    }
+}
+
+function escapeText(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+}
+
+// 排行榜按钮事件
+document.getElementById('viewLeaderboard').addEventListener('click', () => {
+    document.getElementById('leaderboardPanel').classList.remove('hidden');
+    document.getElementById('leaderboardPanel').style.display = 'flex';
+    loadLeaderboard();
+});
+document.getElementById('closeLeaderboard').addEventListener('click', () => {
+    document.getElementById('leaderboardPanel').classList.add('hidden');
+    document.getElementById('leaderboardPanel').style.display = 'none';
+});

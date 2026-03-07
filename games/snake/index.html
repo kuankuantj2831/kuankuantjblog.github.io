@@ -40,6 +40,18 @@
                 <h2>No signal!</h2>
                 <p>最终得分: <span id="finalScore">0</span></p>
                 <button id="restartButton">重新连接</button>
+                <button id="viewLeaderboard" style="margin-top:8px;padding:8px 20px;background:#faad14;color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:14px;">🏆 排行榜</button>
+            </div>
+        </div>
+        <!-- 排行榜面板 -->
+        <div id="leaderboardPanel" class="hidden" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;display:flex;justify-content:center;align-items:center;">
+            <div style="background:#1a1a2e;border:2px solid #faad14;border-radius:16px;padding:24px;max-width:420px;width:90%;max-height:80vh;overflow-y:auto;color:#e0e0e0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                    <h2 style="margin:0;color:#faad14;">🏆 排行榜</h2>
+                    <button id="closeLeaderboard" style="background:none;border:none;color:#999;font-size:24px;cursor:pointer;">✕</button>
+                </div>
+                <div id="myBestScore" style="background:#2a2a4a;padding:10px 14px;border-radius:10px;margin-bottom:14px;font-size:14px;"></div>
+                <div id="leaderboardList" style="font-size:14px;">加载中...</div>
             </div>
         </div>
     </div>
