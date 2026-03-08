@@ -22,7 +22,8 @@
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/enhanced-style.css">
   <link rel="stylesheet" href="/css/tianjg-theme.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  <script src="/js/cdn-fallback.js"></script>
+  <script>cdnLoad('@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css', 'css');</script>
 
   <script src="/js/pace.min.js" async></script>
 
@@ -39,11 +40,11 @@
         </div>
 
         <div class="video-media">
-          <video playsinline="" autoplay="" loop="" muted="" data-autoplay="" poster="https://cdn.jsdelivr.net/gh/kuankuantj2831/kuankuantjblog.github.io@main/images/ocean/ocean.png"
+          <video playsinline="" autoplay="" loop="" muted="" data-autoplay="" poster="/images/ocean/ocean.png"
             x5-video-player-type="h5">
-            <source src="https://cdn.jsdelivr.net/gh/kuankuantj2831/kuankuantjblog.github.io@main/images/ocean/ocean.mp4" type="video/mp4">
-            <source src="https://cdn.jsdelivr.net/gh/kuankuantj2831/kuankuantjblog.github.io@main/images/ocean/ocean.ogv" type="video/ogg">
-            <source src="https://cdn.jsdelivr.net/gh/kuankuantj2831/kuankuantjblog.github.io@main/images/ocean/ocean.webm" type="video/webm">
+            <source src="/images/ocean/ocean.mp4" type="video/mp4">
+            <source src="/images/ocean/ocean.ogv" type="video/ogg">
+            <source src="/images/ocean/ocean.webm" type="video/webm">
             <p>Your user agent does not support the HTML5 Video element.</p>
           </video>
           <div class="video-overlay"></div>
@@ -394,11 +395,11 @@
   </aside>
 
   <!-- 性能优化：所有非关键脚本使用 defer -->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@2.0.3/dist/jquery.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.min.js" defer></script>
+  <script>cdnLoad('jquery@2.0.3/dist/jquery.min.js', 'js', {defer:true});</script>
+  <script>cdnLoad('justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js', 'js', {defer:true});</script>
+  <script>cdnLoad('vanilla-lazyload@17.8.8/dist/lazyload.min.js', 'js', {defer:true});</script>
   <script src="/js/busuanzi-2.3.pure.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+  <script>cdnLoad('@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', 'js', {defer:true});</script>
 
 
 

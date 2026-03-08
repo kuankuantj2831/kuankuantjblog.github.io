@@ -23,7 +23,8 @@
 
   
   
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+<script src="/js/cdn-fallback.js"></script>
+<script>cdnLoad('@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css', 'css');</script>
 
   
   
@@ -213,17 +214,17 @@
 </div>
   </aside>
   
-<script src="https://cdn.jsdelivr.net/npm/jquery@2.0.3/dist/jquery.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.8/dist/lazyload.min.js" defer></script>
+<script>cdnLoad('jquery@2.0.3/dist/jquery.min.js','js',{defer:true});</script>
+<script>cdnLoad('justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js','js',{defer:true});</script>
+<script>cdnLoad('vanilla-lazyload@17.8.8/dist/lazyload.min.js','js',{defer:true});</script>
 <script src="/js/busuanzi-2.3.pure.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+<script>cdnLoad('@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js','js',{defer:true});</script>
 
 
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/tocbot@4.25.0/dist/tocbot.min.js"></script>
+<script>cdnLoad('tocbot@4.25.0/dist/tocbot.min.js','js');</script>
 
 
 <script>
