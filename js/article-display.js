@@ -2,6 +2,19 @@
 import { API_BASE_URL } from './api-config.js?v=20260223b';
 import { escapeHtml } from './utils.js';
 
+// 轻量提示（替代 alert）
+function showToast(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    Object.assign(t.style, {
+        position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
+        background: 'rgba(0,0,0,0.75)', color: '#fff', padding: '10px 24px',
+        borderRadius: '8px', fontSize: '14px', zIndex: '9999', transition: 'opacity 0.3s'
+    });
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2000);
+}
+
 // 安全获取 DOM 元素
 function safeGetElement(id) {
     const el = document.getElementById(id);
