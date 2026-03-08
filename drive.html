@@ -253,15 +253,15 @@
         <nav class="top-nav">
             <a href="index-chinese.html" class="logo" style="text-decoration: none;">Hakimi 的猫爬架</a>
             <div class="nav-links">
-                <a href="index-chinese.html" class="nav-link">?? 主页</a>
-                <a href="#" class="nav-link active">?? 网盘</a>
+                <a href="index-chinese.html" class="nav-link">🏠 主页</a>
+                <a href="#" class="nav-link active">☁️ 网盘</a>
             </div>
         </nav>
 
         <!-- 未登录提示 -->
         <div class="drive-container" id="loginPrompt" style="display:none;">
             <div class="login-prompt">
-                <div class="icon">??</div>
+                <div class="icon">🔒</div>
                 <h2>请先登录</h2>
                 <p>云端网盘是您的私人文件空间，登录后即可上传和管理文件</p>
                 <a href="index-chinese.html" class="login-btn">去登录</a>
@@ -271,16 +271,16 @@
         <!-- 已登录的网盘界面 -->
         <div class="drive-container" id="driveMain" style="display:none;">
             <div class="drive-header">
-                <div class="drive-title">?? 我的网盘</div>
+                <div class="drive-title">☁️ 我的网盘</div>
                 <div class="drive-user-info">
-                    <span>?? <span class="username" id="driveUsername"></span></span>
+                    <span>👤 <span class="username" id="driveUsername"></span></span>
                     <span>·</span>
                     <span><span id="fileCount">0</span> 个文件</span>
                 </div>
             </div>
 
             <div class="upload-area" id="dropZone">
-                <div class="upload-icon">??</div>
+                <div class="upload-icon">📤</div>
                 <h3>点击或拖拽文件到这里上传</h3>
                 <p style="color:#999; font-size:0.9em;">支持任意格式，最大 50MB · 文件仅自己可见</p>
                 <input type="file" id="fileInput" hidden>
@@ -519,7 +519,7 @@
 
                 files.forEach(file => {
                     const isFolder = file.type === 'folder';
-                    const icon = isFolder ? '??' : getFileIcon(file.name);
+                    const icon = isFolder ? '📁' : getFileIcon(file.name);
                     const sizeStr = isFolder ? '-' : formatSize(file.size);
                     const dateStr = file.lastModified ? new Date(file.lastModified).toLocaleString() : '';
                     // 转义文件名中的特殊字符，防止 XSS
@@ -535,8 +535,8 @@
                         </div>
                         <div class="file-actions">
                             <button class="action-btn btn-download" onclick="downloadFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">? 下载</button>
-                            <button class="action-btn btn-share" onclick="openShareModal('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">?? 分享</button>
-                            <button class="action-btn btn-delete" onclick="deleteFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">??? 删除</button>
+                            <button class="action-btn btn-share" onclick="openShareModal('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">🔗 分享</button>
+                            <button class="action-btn btn-delete" onclick="deleteFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">🗑️ 删除</button>
                         </div>
                     </li>
                     `;
@@ -560,17 +560,17 @@
 
             function getFileIcon(name) {
                 const ext = (name || '').split('.').pop().toLowerCase();
-                if (['jpg', 'png', 'gif', 'jpeg', 'webp', 'svg'].includes(ext)) return '???';
-                if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) return '??';
-                if (['mp3', 'wav', 'flac', 'aac'].includes(ext)) return '??';
-                if (['mp4', 'mov', 'avi', 'mkv'].includes(ext)) return '??';
-                if (['pdf'].includes(ext)) return '??';
-                if (['doc', 'docx'].includes(ext)) return '??';
-                if (['xls', 'xlsx'].includes(ext)) return '??';
-                if (['ppt', 'pptx'].includes(ext)) return '??';
-                if (['txt', 'md'].includes(ext)) return '??';
-                if (['js', 'py', 'java', 'cpp', 'html', 'css'].includes(ext)) return '??';
-                return '??';
+                if (['jpg', 'png', 'gif', 'jpeg', 'webp', 'svg'].includes(ext)) return '🖼️';
+                if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) return '📦';
+                if (['mp3', 'wav', 'flac', 'aac'].includes(ext)) return '🎵';
+                if (['mp4', 'mov', 'avi', 'mkv'].includes(ext)) return '🎬';
+                if (['pdf'].includes(ext)) return '📕';
+                if (['doc', 'docx'].includes(ext)) return '📘';
+                if (['xls', 'xlsx'].includes(ext)) return '📊';
+                if (['ppt', 'pptx'].includes(ext)) return '📙';
+                if (['txt', 'md'].includes(ext)) return '📝';
+                if (['js', 'py', 'java', 'cpp', 'html', 'css'].includes(ext)) return '💻';
+                return '📄';
             }
 
             // --- 分享功能 ---
@@ -638,7 +638,7 @@
             <div class="share-result" id="shareResult"></div>
             <div class="share-modal-btns">
                 <button class="share-cancel-btn" onclick="closeShareModal()">取消</button>
-                <button class="share-confirm-btn" onclick="confirmShare()">?? 创建分享</button>
+                <button class="share-confirm-btn" onclick="confirmShare()">🔗 创建分享</button>
             </div>
         </div>
     </div>
