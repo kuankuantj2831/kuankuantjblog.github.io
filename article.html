@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>ÎÄÕÂ¼ÓÔØÖĞ... - Hakimi µÄÃ¨ÅÀ¼Ü</title>
+    <title>æ–‡ç« åŠ è½½ä¸­... - Hakimi çš„çŒ«çˆ¬æ¶</title>
 
-    <!-- ĞÔÄÜÓÅ»¯£ºÔ¤Á¬½Ó API ·şÎñÆ÷ -->
+    <!-- æ€§èƒ½ä¼˜åŒ–ï¼šé¢„è¿æ¥ API æœåŠ¡å™¨ -->
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
@@ -50,10 +50,10 @@
             line-height: 1.8;
             color: #2c3e50;
             white-space: pre-wrap;
-            /* ±£Áô»»ĞĞ */
+            /* ä¿ç•™æ¢è¡Œ */
         }
 
-        /* ¼òµ¥µÄ Markdown ÑùÊ½ÊÊÅä */
+        /* ç®€å•çš„ Markdown æ ·å¼é€‚é… */
         .article-content h1,
         .article-content h2,
         .article-content h3 {
@@ -80,7 +80,7 @@
             overflow-x: auto;
         }
 
-        /* Í¶±Ò°´Å¥ hover Ğ§¹û */
+        /* æŠ•å¸æŒ‰é’® hover æ•ˆæœ */
         #coinBtn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(247, 151, 30, 0.4);
@@ -109,7 +109,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Í¶±Ò³É¹¦¶¯»­ */
+        /* æŠ•å¸æˆåŠŸåŠ¨ç”» */
         @keyframes coinDrop {
             0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
             50% { opacity: 1; }
@@ -128,17 +128,17 @@
         <div class="bg-decoration"></div>
 
         <nav class="top-nav">
-            <div class="logo">Hakimi µÄÃ¨ÅÀ¼Ü</div>
+            <div class="logo">Hakimi çš„çŒ«çˆ¬æ¶</div>
             <div class="nav-links">
-                <a href="/index-chinese.html" class="nav-link">?? ·µ»ØÊ×Ò³</a>
-                <a href="/games.html" class="nav-link">?? ÓÎÏ·</a>
+                <a href="/index-chinese.html" class="nav-link">?? è¿”å›é¦–é¡µ</a>
+                <a href="/games.html" class="nav-link">?? æ¸¸æˆ</a>
             </div>
         </nav>
 
         <div class="article-container">
             <div id="loading" style="text-align: center; padding: 50px;">
                 <div class="loading-spinner"></div>
-                <p>ÕıÔÚ¼ÓÔØÎÄÕÂ...</p>
+                <p>æ­£åœ¨åŠ è½½æ–‡ç« ...</p>
             </div>
 
             <article id="articleContent" style="display: none;">
@@ -150,7 +150,7 @@
                         <span id="artAuthor"></span>
                         <span id="deleteBtnContainer" style="display: none;">
                             <button id="deleteArticleBtn"
-                                style="background: #ff4d4f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px;">³·»ØÎÄÕÂ</button>
+                                style="background: #ff4d4f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px;">æ’¤å›æ–‡ç« </button>
                         </span>
                     </div>
                 </div>
@@ -162,19 +162,19 @@
                     <div style="text-align: center; margin-bottom: 40px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; align-items: center;">
                         <button id="likeBtn"
                             style="background: white; border: 2px solid #ff4d4f; color: #ff4d4f; padding: 10px 30px; border-radius: 30px; cursor: pointer; font-size: 18px; transition: all 0.3s;">
-                            <span id="likeIcon">??</span> µãÔŞ <span id="likeCount">0</span>
+                            <span id="likeIcon">??</span> ç‚¹èµ <span id="likeCount">0</span>
                         </button>
                         <button id="coinBtn"
                             style="background: linear-gradient(135deg, #f7971e, #ffd200); border: none; color: white; padding: 10px 30px; border-radius: 30px; cursor: pointer; font-size: 18px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(247, 151, 30, 0.3);">
-                            ?? Í¶±Ò <span id="coinCount">0</span>
+                            ?? æŠ•å¸ <span id="coinCount">0</span>
                         </button>
                         <button id="shareBtn"
                             style="background: white; border: 2px solid #07c160; color: #07c160; padding: 10px 30px; border-radius: 30px; cursor: pointer; font-size: 18px; transition: all 0.3s;">
-                            ?? ·ÖÏí
+                            ?? åˆ†äº«
                         </button>
                         <button id="favoriteBtn"
                             style="background: white; border: 2px solid #faad14; color: #faad14; padding: 10px 30px; border-radius: 30px; cursor: pointer; font-size: 18px; transition: all 0.3s;">
-                            ¡î ÊÕ²Ø <span id="favoriteCount">0</span>
+                            â˜† æ”¶è— <span id="favoriteCount">0</span>
                         </button>
                     </div>
 
@@ -182,17 +182,17 @@
                     <div id="coinModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
                         <div style="background:white; border-radius:16px; padding:30px; max-width:360px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation: fadeInUp 0.3s ease;">
                             <div style="font-size:48px; margin-bottom:10px;">??</div>
-                            <h3 style="margin-bottom:20px; color:#333;">¸ø×÷ÕßÍ¶±Ò</h3>
+                            <h3 style="margin-bottom:20px; color:#333;">ç»™ä½œè€…æŠ•å¸</h3>
                             <div style="display:flex; justify-content:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
                                 <button class="coin-amount-btn" data-amount="1" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">1</button>
                                 <button class="coin-amount-btn" data-amount="2" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">2</button>
                                 <button class="coin-amount-btn" data-amount="5" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">5</button>
                                 <button class="coin-amount-btn" data-amount="10" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">10</button>
                             </div>
-                            <p id="coinModalBalance" style="font-size:13px; color:#999; margin-bottom:15px;">ÎÒµÄÓà¶î£º¼ÓÔØÖĞ...</p>
+                            <p id="coinModalBalance" style="font-size:13px; color:#999; margin-bottom:15px;">æˆ‘çš„ä½™é¢ï¼šåŠ è½½ä¸­...</p>
                             <div style="display:flex; gap:10px; justify-content:center;">
-                                <button id="coinConfirmBtn" style="background:linear-gradient(135deg, #f7971e, #ffd200); color:white; border:none; padding:10px 30px; border-radius:25px; font-size:16px; cursor:pointer; font-weight:bold;">È·ÈÏÍ¶±Ò</button>
-                                <button id="coinCancelBtn" style="background:#f0f0f0; color:#666; border:none; padding:10px 30px; border-radius:25px; font-size:16px; cursor:pointer;">È¡Ïû</button>
+                                <button id="coinConfirmBtn" style="background:linear-gradient(135deg, #f7971e, #ffd200); color:white; border:none; padding:10px 30px; border-radius:25px; font-size:16px; cursor:pointer; font-weight:bold;">ç¡®è®¤æŠ•å¸</button>
+                                <button id="coinCancelBtn" style="background:#f0f0f0; color:#666; border:none; padding:10px 30px; border-radius:25px; font-size:16px; cursor:pointer;">å–æ¶ˆ</button>
                             </div>
                         </div>
                     </div>
@@ -201,33 +201,33 @@
                     <div id="shareModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
                         <div style="background:white; border-radius:16px; padding:30px; max-width:360px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation: fadeInUp 0.3s ease;">
                             <div style="font-size:36px; margin-bottom:10px;">??</div>
-                            <h3 style="margin-bottom:5px; color:#333;">Î¢ĞÅÉ¨Âë·ÖÏí</h3>
-                            <p style="font-size:13px; color:#999; margin-bottom:15px;">ÓÃÎ¢ĞÅÉ¨Ò»É¨´ò¿ªÎÄÕÂ£¬È»ºó×ª·¢¸øºÃÓÑ</p>
+                            <h3 style="margin-bottom:5px; color:#333;">å¾®ä¿¡æ‰«ç åˆ†äº«</h3>
+                            <p style="font-size:13px; color:#999; margin-bottom:15px;">ç”¨å¾®ä¿¡æ‰«ä¸€æ‰«æ‰“å¼€æ–‡ç« ï¼Œç„¶åè½¬å‘ç»™å¥½å‹</p>
                             <div id="shareQrCode" style="display:flex; justify-content:center; margin-bottom:15px;"></div>
                             <p id="shareArticleTitle" style="font-size:14px; color:#666; margin-bottom:15px; padding:0 10px; word-break:break-all;"></p>
                             <div style="display:flex; gap:10px; justify-content:center;">
-                                <button id="copyLinkBtn" style="background:#07c160; color:white; border:none; padding:10px 25px; border-radius:25px; font-size:14px; cursor:pointer; font-weight:bold;">?? ¸´ÖÆÁ´½Ó</button>
-                                <button id="closeShareBtn" style="background:#f0f0f0; color:#666; border:none; padding:10px 25px; border-radius:25px; font-size:14px; cursor:pointer;">¹Ø±Õ</button>
+                                <button id="copyLinkBtn" style="background:#07c160; color:white; border:none; padding:10px 25px; border-radius:25px; font-size:14px; cursor:pointer; font-weight:bold;">?? å¤åˆ¶é“¾æ¥</button>
+                                <button id="closeShareBtn" style="background:#f0f0f0; color:#666; border:none; padding:10px 25px; border-radius:25px; font-size:14px; cursor:pointer;">å…³é—­</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Comments Section -->
                     <div class="comments-section">
-                        <h3 style="margin-bottom: 20px;">ÆÀÂÛÇø</h3>
+                        <h3 style="margin-bottom: 20px;">è¯„è®ºåŒº</h3>
 
                         <!-- Comment Form -->
                         <div id="commentFormContainer" style="margin-bottom: 30px;">
-                            <textarea id="commentInput" placeholder="Ğ´ÏÂÄãµÄÆÀÂÛ..."
+                            <textarea id="commentInput" placeholder="å†™ä¸‹ä½ çš„è¯„è®º..."
                                 style="width: 100%; height: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; resize: vertical; margin-bottom: 10px;"></textarea>
                             <button id="submitCommentBtn"
-                                style="background: #1890ff; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">·¢²¼ÆÀÂÛ</button>
+                                style="background: #1890ff; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">å‘å¸ƒè¯„è®º</button>
                         </div>
                         <div id="loginToComment"
                             style="display: none; text-align: center; padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 30px;">
-                            <p>Çë <a href="#"
+                            <p>è¯· <a href="#"
                                     onclick="document.getElementById('loginModal').style.display='block'; return false;"
-                                    style="color: #1890ff;">µÇÂ¼</a> ºó·¢±íÆÀÂÛ</p>
+                                    style="color: #1890ff;">ç™»å½•</a> åå‘è¡¨è¯„è®º</p>
                         </div>
 
                         <!-- Comments List -->

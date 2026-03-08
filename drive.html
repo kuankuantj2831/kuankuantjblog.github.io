@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>ÔÆ¶ËÍøÅÌ - Hakimi µÄÃ¨ÅÀ¼Ü</title>
+    <title>äº‘ç«¯ç½‘ç›˜ - Hakimi çš„çŒ«çˆ¬æ¶</title>
 
-    <!-- ĞÔÄÜÓÅ»¯£ºÔ¤Á¬½Ó API ·şÎñÆ÷ -->
+    <!-- æ€§èƒ½ä¼˜åŒ–ï¼šé¢„è¿æ¥ API æœåŠ¡å™¨ -->
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
@@ -251,43 +251,43 @@
 
         <!-- Nav -->
         <nav class="top-nav">
-            <a href="index-chinese.html" class="logo" style="text-decoration: none;">Hakimi µÄÃ¨ÅÀ¼Ü</a>
+            <a href="index-chinese.html" class="logo" style="text-decoration: none;">Hakimi çš„çŒ«çˆ¬æ¶</a>
             <div class="nav-links">
-                <a href="index-chinese.html" class="nav-link">?? Ö÷Ò³</a>
-                <a href="#" class="nav-link active">?? ÍøÅÌ</a>
+                <a href="index-chinese.html" class="nav-link">?? ä¸»é¡µ</a>
+                <a href="#" class="nav-link active">?? ç½‘ç›˜</a>
             </div>
         </nav>
 
-        <!-- Î´µÇÂ¼ÌáÊ¾ -->
+        <!-- æœªç™»å½•æç¤º -->
         <div class="drive-container" id="loginPrompt" style="display:none;">
             <div class="login-prompt">
                 <div class="icon">??</div>
-                <h2>ÇëÏÈµÇÂ¼</h2>
-                <p>ÔÆ¶ËÍøÅÌÊÇÄúµÄË½ÈËÎÄ¼ş¿Õ¼ä£¬µÇÂ¼ºó¼´¿ÉÉÏ´«ºÍ¹ÜÀíÎÄ¼ş</p>
-                <a href="index-chinese.html" class="login-btn">È¥µÇÂ¼</a>
+                <h2>è¯·å…ˆç™»å½•</h2>
+                <p>äº‘ç«¯ç½‘ç›˜æ˜¯æ‚¨çš„ç§äººæ–‡ä»¶ç©ºé—´ï¼Œç™»å½•åå³å¯ä¸Šä¼ å’Œç®¡ç†æ–‡ä»¶</p>
+                <a href="index-chinese.html" class="login-btn">å»ç™»å½•</a>
             </div>
         </div>
 
-        <!-- ÒÑµÇÂ¼µÄÍøÅÌ½çÃæ -->
+        <!-- å·²ç™»å½•çš„ç½‘ç›˜ç•Œé¢ -->
         <div class="drive-container" id="driveMain" style="display:none;">
             <div class="drive-header">
-                <div class="drive-title">?? ÎÒµÄÍøÅÌ</div>
+                <div class="drive-title">?? æˆ‘çš„ç½‘ç›˜</div>
                 <div class="drive-user-info">
                     <span>?? <span class="username" id="driveUsername"></span></span>
-                    <span>¡¤</span>
-                    <span><span id="fileCount">0</span> ¸öÎÄ¼ş</span>
+                    <span>Â·</span>
+                    <span><span id="fileCount">0</span> ä¸ªæ–‡ä»¶</span>
                 </div>
             </div>
 
             <div class="upload-area" id="dropZone">
                 <div class="upload-icon">??</div>
-                <h3>µã»÷»òÍÏ×§ÎÄ¼şµ½ÕâÀïÉÏ´«</h3>
-                <p style="color:#999; font-size:0.9em;">Ö§³ÖÈÎÒâ¸ñÊ½£¬×î´ó 50MB ¡¤ ÎÄ¼ş½ö×Ô¼º¿É¼û</p>
+                <h3>ç‚¹å‡»æˆ–æ‹–æ‹½æ–‡ä»¶åˆ°è¿™é‡Œä¸Šä¼ </h3>
+                <p style="color:#999; font-size:0.9em;">æ”¯æŒä»»æ„æ ¼å¼ï¼Œæœ€å¤§ 50MB Â· æ–‡ä»¶ä»…è‡ªå·±å¯è§</p>
                 <input type="file" id="fileInput" hidden>
 
                 <div id="progressContainer">
                     <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:0.85em;">
-                        <span id="uploadStatus">ÉÏ´«ÖĞ...</span>
+                        <span id="uploadStatus">ä¸Šä¼ ä¸­...</span>
                         <span id="uploadPercent">0%</span>
                     </div>
                     <div class="progress-bar">
@@ -298,7 +298,7 @@
 
             <ul class="file-list" id="fileList">
                 <div style="text-align:center; padding:30px; color:#999;" id="loadingText">
-                    ÕıÔÚÁ¬½ÓÔÆ¶Ë...
+                    æ­£åœ¨è¿æ¥äº‘ç«¯...
                 </div>
             </ul>
         </div>
@@ -307,7 +307,7 @@
     <script type="module">
         import { API_BASE_URL } from './js/api-config.js?v=20260223b';
 
-        // »ñÈ¡µÇÂ¼ĞÅÏ¢
+        // è·å–ç™»å½•ä¿¡æ¯
         const token = localStorage.getItem('token');
         const user = JSON.parse(localStorage.getItem('user') || 'null');
 
@@ -315,19 +315,19 @@
         const driveMain = document.getElementById('driveMain');
 
         if (!token || !user) {
-            // Î´µÇÂ¼
+            // æœªç™»å½•
             loginPrompt.style.display = 'block';
         } else {
-            // ÒÑµÇÂ¼
+            // å·²ç™»å½•
             driveMain.style.display = 'block';
-            document.getElementById('driveUsername').textContent = user.username || 'ÓÃ»§';
+            document.getElementById('driveUsername').textContent = user.username || 'ç”¨æˆ·';
 
             const fileListEl = document.getElementById('fileList');
             const fileCountEl = document.getElementById('fileCount');
             const dropZone = document.getElementById('dropZone');
             const fileInput = document.getElementById('fileInput');
 
-            // Í¨ÓÃÇëÇóÍ·
+            // é€šç”¨è¯·æ±‚å¤´
             const authHeaders = () => ({
                 'Authorization': `Bearer ${token}`
             });
@@ -337,7 +337,7 @@
 
             /* ========== Event Listeners ========== */
             dropZone.addEventListener('click', (e) => {
-                // ±ÜÃâµã»÷½ø¶ÈÌõÇøÓòÒ²´¥·¢ÎÄ¼şÑ¡Ôñ
+                // é¿å…ç‚¹å‡»è¿›åº¦æ¡åŒºåŸŸä¹Ÿè§¦å‘æ–‡ä»¶é€‰æ‹©
                 if (e.target.closest('#progressContainer')) return;
                 fileInput.click();
             });
@@ -382,7 +382,7 @@
                     });
 
                     if (res.status === 401 || res.status === 403) {
-                        // Token ¹ıÆÚ»òÎŞĞ§
+                        // Token è¿‡æœŸæˆ–æ— æ•ˆ
                         localStorage.removeItem('token');
                         localStorage.removeItem('user');
                         loginPrompt.style.display = 'block';
@@ -395,10 +395,10 @@
                     if (res.ok) {
                         renderFiles(data.files || []);
                     } else {
-                        fileListEl.innerHTML = `<div style="text-align:center;color:red;padding:20px;">ÎŞ·¨¼ÓÔØÎÄ¼şÁĞ±í: ${data.message}</div>`;
+                        fileListEl.innerHTML = `<div style="text-align:center;color:red;padding:20px;">æ— æ³•åŠ è½½æ–‡ä»¶åˆ—è¡¨: ${data.message}</div>`;
                     }
                 } catch (e) {
-                    fileListEl.innerHTML = `<div style="text-align:center;color:#999;padding:20px;">Á¬½Ó·şÎñÆ÷Ê§°Ü</div>`;
+                    fileListEl.innerHTML = `<div style="text-align:center;color:#999;padding:20px;">è¿æ¥æœåŠ¡å™¨å¤±è´¥</div>`;
                 }
             }
 
@@ -406,7 +406,7 @@
                 // Show Progress
                 document.getElementById('progressContainer').style.display = 'block';
                 updateProgress(0);
-                document.getElementById('uploadStatus').textContent = 'ÉÏ´«ÖĞ...';
+                document.getElementById('uploadStatus').textContent = 'ä¸Šä¼ ä¸­...';
 
                 const formData = new FormData();
                 formData.append('file', file);
@@ -426,21 +426,21 @@
                     xhr.onload = function () {
                         if (xhr.status === 200) {
                             updateProgress(100);
-                            document.getElementById('uploadStatus').textContent = '? ÉÏ´«³É¹¦!';
+                            document.getElementById('uploadStatus').textContent = '? ä¸Šä¼ æˆåŠŸ!';
                             setTimeout(() => {
                                 document.getElementById('progressContainer').style.display = 'none';
-                                fileInput.value = ''; // ÖØÖÃÎÄ¼şÑ¡Ôñ
+                                fileInput.value = ''; // é‡ç½®æ–‡ä»¶é€‰æ‹©
                                 loadFiles();
                             }, 1000);
                         } else {
                             const resp = JSON.parse(xhr.responseText || '{}');
-                            alert('ÉÏ´«Ê§°Ü: ' + (resp.message || xhr.statusText));
+                            alert('ä¸Šä¼ å¤±è´¥: ' + (resp.message || xhr.statusText));
                             document.getElementById('progressContainer').style.display = 'none';
                         }
                     };
 
                     xhr.onerror = function () {
-                        alert('ÍøÂç´íÎó');
+                        alert('ç½‘ç»œé”™è¯¯');
                         document.getElementById('progressContainer').style.display = 'none';
                     };
 
@@ -448,7 +448,7 @@
 
                 } catch (e) {
                     console.error(e);
-                    alert('ÉÏ´«³ö´í');
+                    alert('ä¸Šä¼ å‡ºé”™');
                 }
             }
 
@@ -473,15 +473,15 @@
                         a.click();
                         document.body.removeChild(a);
                     } else {
-                        alert('ÎŞ·¨»ñÈ¡ÏÂÔØÁ´½Ó: ' + (data.message || 'Î´Öª´íÎó'));
+                        alert('æ— æ³•è·å–ä¸‹è½½é“¾æ¥: ' + (data.message || 'æœªçŸ¥é”™è¯¯'));
                     }
                 } catch (e) {
-                    alert('ÏÂÔØ³ö´í');
+                    alert('ä¸‹è½½å‡ºé”™');
                 }
             }
 
             async function deleteFile(key, name) {
-                if (!confirm(`È·¶¨ÒªÉ¾³ı¡¸${name}¡¹Âğ£¿´Ë²Ù×÷²»¿É»Ö¸´¡£`)) return;
+                if (!confirm(`ç¡®å®šè¦åˆ é™¤ã€Œ${name}ã€å—ï¼Ÿæ­¤æ“ä½œä¸å¯æ¢å¤ã€‚`)) return;
 
                 try {
                     const res = await fetch(`${API_BASE_URL}/drive/delete`, {
@@ -495,12 +495,12 @@
                     const data = await res.json();
 
                     if (res.ok) {
-                        loadFiles(); // Ë¢ĞÂÁĞ±í
+                        loadFiles(); // åˆ·æ–°åˆ—è¡¨
                     } else {
-                        alert('É¾³ıÊ§°Ü: ' + (data.message || 'Î´Öª´íÎó'));
+                        alert('åˆ é™¤å¤±è´¥: ' + (data.message || 'æœªçŸ¥é”™è¯¯'));
                     }
                 } catch (e) {
-                    alert('É¾³ı³ö´í');
+                    alert('åˆ é™¤å‡ºé”™');
                 }
             }
 
@@ -513,7 +513,7 @@
                 fileListEl.innerHTML = '';
 
                 if (files.length === 0) {
-                    fileListEl.innerHTML = `<div style="text-align:center;padding:40px;color:#ccc;">ÔİÎŞÎÄ¼ş£¬¿ìÀ´ÉÏ´«Ò»¸ö°É~</div>`;
+                    fileListEl.innerHTML = `<div style="text-align:center;padding:40px;color:#ccc;">æš‚æ— æ–‡ä»¶ï¼Œå¿«æ¥ä¸Šä¼ ä¸€ä¸ªå§~</div>`;
                     return;
                 }
 
@@ -522,7 +522,7 @@
                     const icon = isFolder ? '??' : getFileIcon(file.name);
                     const sizeStr = isFolder ? '-' : formatSize(file.size);
                     const dateStr = file.lastModified ? new Date(file.lastModified).toLocaleString() : '';
-                    // ×ªÒåÎÄ¼şÃûÖĞµÄÌØÊâ×Ö·û£¬·ÀÖ¹ XSS
+                    // è½¬ä¹‰æ–‡ä»¶åä¸­çš„ç‰¹æ®Šå­—ç¬¦ï¼Œé˜²æ­¢ XSS
                     const safeName = escapeHtml(file.name);
                     const safeKey = escapeHtml(file.key);
 
@@ -531,12 +531,12 @@
                         <div class="file-icon">${icon}</div>
                         <div class="file-info">
                             <div class="file-name">${safeName}</div>
-                            <div class="file-meta">${sizeStr} ¡¤ ${dateStr}</div>
+                            <div class="file-meta">${sizeStr} Â· ${dateStr}</div>
                         </div>
                         <div class="file-actions">
-                            <button class="action-btn btn-download" onclick="downloadFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">? ÏÂÔØ</button>
-                            <button class="action-btn btn-share" onclick="openShareModal('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">?? ·ÖÏí</button>
-                            <button class="action-btn btn-delete" onclick="deleteFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">??? É¾³ı</button>
+                            <button class="action-btn btn-download" onclick="downloadFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">? ä¸‹è½½</button>
+                            <button class="action-btn btn-share" onclick="openShareModal('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">?? åˆ†äº«</button>
+                            <button class="action-btn btn-delete" onclick="deleteFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">??? åˆ é™¤</button>
                         </div>
                     </li>
                     `;
@@ -573,13 +573,13 @@
                 return '??';
             }
 
-            // --- ·ÖÏí¹¦ÄÜ ---
+            // --- åˆ†äº«åŠŸèƒ½ ---
             let shareFileKey = '', shareFileName = '';
 
             window.openShareModal = function(key, name) {
                 shareFileKey = key;
                 shareFileName = name;
-                document.getElementById('shareModalTitle').textContent = `·ÖÏí¡¸${name}¡¹`;
+                document.getElementById('shareModalTitle').textContent = `åˆ†äº«ã€Œ${name}ã€`;
                 document.getElementById('sharePassword').value = '';
                 document.getElementById('shareExpires').value = '0';
                 document.getElementById('shareMaxDownloads').value = '';
@@ -607,38 +607,38 @@
                     if (res.ok) {
                         const fullUrl = location.origin + data.shareUrl;
                         const resultEl = document.getElementById('shareResult');
-                        resultEl.innerHTML = `? ·ÖÏíÁ´½ÓÒÑ´´½¨£¡<br><a href="${data.shareUrl}" target="_blank" style="color:#1890ff;">${fullUrl}</a><br><button onclick="navigator.clipboard.writeText('${fullUrl}');this.textContent='ÒÑ¸´ÖÆ!'" style="margin-top:8px;padding:4px 12px;border:1px solid #1890ff;background:white;color:#1890ff;border-radius:6px;cursor:pointer;">¸´ÖÆÁ´½Ó</button>`;
+                        resultEl.innerHTML = `? åˆ†äº«é“¾æ¥å·²åˆ›å»ºï¼<br><a href="${data.shareUrl}" target="_blank" style="color:#1890ff;">${fullUrl}</a><br><button onclick="navigator.clipboard.writeText('${fullUrl}');this.textContent='å·²å¤åˆ¶!'" style="margin-top:8px;padding:4px 12px;border:1px solid #1890ff;background:white;color:#1890ff;border-radius:6px;cursor:pointer;">å¤åˆ¶é“¾æ¥</button>`;
                         resultEl.style.display = 'block';
                     } else {
-                        alert(data.message || '´´½¨Ê§°Ü');
+                        alert(data.message || 'åˆ›å»ºå¤±è´¥');
                     }
                 } catch (e) {
-                    alert('ÍøÂç´íÎó');
+                    alert('ç½‘ç»œé”™è¯¯');
                 }
             };
         }
     </script>
 
-    <!-- ·ÖÏíµ¯´° -->
+    <!-- åˆ†äº«å¼¹çª— -->
     <div class="share-modal-overlay" id="shareModal">
         <div class="share-modal">
-            <h3 id="shareModalTitle">·ÖÏíÎÄ¼ş</h3>
-            <label>ÌáÈ¡ÃÜÂë£¨¿ÉÑ¡£©</label>
-            <input type="text" id="sharePassword" placeholder="Áô¿ÕÔòÎŞĞèÃÜÂë" maxlength="32">
-            <label>ÓĞĞ§ÆÚ</label>
+            <h3 id="shareModalTitle">åˆ†äº«æ–‡ä»¶</h3>
+            <label>æå–å¯†ç ï¼ˆå¯é€‰ï¼‰</label>
+            <input type="text" id="sharePassword" placeholder="ç•™ç©ºåˆ™æ— éœ€å¯†ç " maxlength="32">
+            <label>æœ‰æ•ˆæœŸ</label>
             <select id="shareExpires">
-                <option value="0">ÓÀ¾ÃÓĞĞ§</option>
-                <option value="1">1Ğ¡Ê±</option>
-                <option value="24">1Ìì</option>
-                <option value="168">7Ìì</option>
-                <option value="720">30Ìì</option>
+                <option value="0">æ°¸ä¹…æœ‰æ•ˆ</option>
+                <option value="1">1å°æ—¶</option>
+                <option value="24">1å¤©</option>
+                <option value="168">7å¤©</option>
+                <option value="720">30å¤©</option>
             </select>
-            <label>×î´óÏÂÔØ´ÎÊı£¨¿ÉÑ¡£©</label>
-            <input type="number" id="shareMaxDownloads" placeholder="Áô¿ÕÔò²»ÏŞ" min="1" max="9999">
+            <label>æœ€å¤§ä¸‹è½½æ¬¡æ•°ï¼ˆå¯é€‰ï¼‰</label>
+            <input type="number" id="shareMaxDownloads" placeholder="ç•™ç©ºåˆ™ä¸é™" min="1" max="9999">
             <div class="share-result" id="shareResult"></div>
             <div class="share-modal-btns">
-                <button class="share-cancel-btn" onclick="closeShareModal()">È¡Ïû</button>
-                <button class="share-confirm-btn" onclick="confirmShare()">?? ´´½¨·ÖÏí</button>
+                <button class="share-cancel-btn" onclick="closeShareModal()">å–æ¶ˆ</button>
+                <button class="share-confirm-btn" onclick="confirmShare()">?? åˆ›å»ºåˆ†äº«</button>
             </div>
         </div>
     </div>
