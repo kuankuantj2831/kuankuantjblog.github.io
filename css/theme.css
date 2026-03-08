@@ -143,3 +143,676 @@
 .theme-transition *::after {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
+
+/* ==================== 深色模式 - 主页 (chinese-style) ==================== */
+[data-theme="dark"] .chinese-style-wrapper {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    background-image: none !important;
+}
+
+[data-theme="dark"] .logo {
+    color: #b39ddb !important;
+}
+
+[data-theme="dark"] .hero-section .main-title {
+    background: linear-gradient(135deg, #b39ddb 0%, #69b4ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+[data-theme="dark"] .sub-title {
+    color: #ffb74d !important;
+}
+
+/* 标签导航 */
+[data-theme="dark"] .tab-btn {
+    background: var(--bg-card) !important;
+    color: var(--text-secondary) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .tab-btn:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme="dark"] .tab-btn.active {
+    background: linear-gradient(135deg, #00897b 0%, #00695c 100%) !important;
+    color: white !important;
+}
+
+[data-theme="dark"] .tab-btn:disabled {
+    opacity: 0.4;
+}
+
+/* 搜索区域 */
+[data-theme="dark"] .search-container {
+    background: var(--bg-card) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .search-select {
+    background: var(--bg-hover) !important;
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .search-input {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .search-btn {
+    background: linear-gradient(135deg, #00897b 0%, #00695c 100%) !important;
+}
+
+/* 分类标签 */
+[data-theme="dark"] .category-tag {
+    background: rgba(30, 42, 69, 0.8) !important;
+    color: var(--text-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .category-tag:hover {
+    background: var(--bg-card) !important;
+    color: #4db6ac !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* 公告卡片 */
+[data-theme="dark"] .notice-card {
+    background: rgba(30, 42, 69, 0.9) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .notice-title {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .notice-desc {
+    color: var(--text-muted) !important;
+}
+
+/* 提示横幅 */
+[data-theme="dark"] .tip-content {
+    background: linear-gradient(135deg, #2e1a1a 0%, #3a1a1a 100%) !important;
+    color: #ff6b6b !important;
+}
+
+/* 资源卡片 */
+[data-theme="dark"] .showcase-card {
+    background: var(--bg-card) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .showcase-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .showcase-title {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .showcase-meta {
+    color: var(--text-muted) !important;
+}
+
+/* 用户下拉菜单 */
+[data-theme="dark"] .user-dropdown {
+    background: var(--bg-card) !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .user-card-header-bg {
+    background: linear-gradient(to bottom, #253352 0%, var(--bg-card) 100%) !important;
+}
+
+[data-theme="dark"] .user-dropdown-name {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .stat-num {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .stat-label {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .grid-item {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .grid-item:hover {
+    background: var(--bg-hover) !important;
+    color: #4db6ac !important;
+}
+
+[data-theme="dark"] .user-dropdown-item {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .user-dropdown-item:hover {
+    background: var(--bg-hover) !important;
+    color: #ff6b6b !important;
+}
+
+[data-theme="dark"] .user-dropdown-divider {
+    background: var(--border-color) !important;
+}
+
+/* 汉堡菜单 */
+[data-theme="dark"] .hamburger-btn span {
+    background: #b39ddb !important;
+}
+
+/* 移动端导航 */
+[data-theme="dark"] .nav-links {
+    background: rgba(26, 26, 46, 0.95) !important;
+}
+
+/* ==================== 深色模式 - 文章页 ==================== */
+[data-theme="dark"] .article-container {
+    background: rgba(30, 42, 69, 0.98) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .article-header {
+    border-bottom-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .article-title {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .article-meta {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .article-content {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .article-content h1,
+[data-theme="dark"] .article-content h2,
+[data-theme="dark"] .article-content h3 {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .article-content code {
+    background: var(--code-bg) !important;
+    color: #e06c75 !important;
+}
+
+[data-theme="dark"] .article-content pre {
+    background: #1e2a45 !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .article-content blockquote {
+    background: var(--bg-hover) !important;
+    border-left-color: var(--text-link) !important;
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .article-content img {
+    opacity: 0.9;
+}
+
+/* 文章页互动按钮 */
+[data-theme="dark"] #likeBtn,
+[data-theme="dark"] #favoriteBtn,
+[data-theme="dark"] #shareBtn {
+    background: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* 评论区 */
+[data-theme="dark"] .comment-item {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .comment-author {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .comment-text {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .comment-time {
+    color: var(--text-muted) !important;
+}
+
+/* 投币/分享弹窗 */
+[data-theme="dark"] .coin-modal-overlay > div,
+[data-theme="dark"] .share-modal-overlay > div {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .coin-amount-btn {
+    background: var(--bg-card) !important;
+    border-color: #f7971e !important;
+    color: #f7971e !important;
+}
+
+/* ==================== 深色模式 - 个人中心 ==================== */
+[data-theme="dark"] .profile-wrapper {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    background-image: none !important;
+}
+
+[data-theme="dark"] .profile-header {
+    background: rgba(30, 42, 69, 0.95) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .profile-name {
+    background: linear-gradient(135deg, #b39ddb 0%, #69b4ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+[data-theme="dark"] .profile-email {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .profile-date {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .profile-card {
+    background: rgba(30, 42, 69, 0.95) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .profile-card-title {
+    color: var(--text-primary) !important;
+    border-bottom-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .profile-form-label {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .profile-form-input,
+[data-theme="dark"] .profile-form-textarea {
+    background: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .profile-form-input:focus,
+[data-theme="dark"] .profile-form-textarea:focus {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2) !important;
+}
+
+[data-theme="dark"] .profile-form-input:disabled {
+    background: var(--bg-hover) !important;
+}
+
+[data-theme="dark"] .profile-btn-secondary {
+    background: var(--bg-hover) !important;
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .profile-btn-secondary:hover {
+    background: var(--border-color) !important;
+}
+
+[data-theme="dark"] .profile-stats .stat-item {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%) !important;
+}
+
+[data-theme="dark"] .profile-stats .stat-label {
+    color: var(--text-secondary) !important;
+}
+
+/* ==================== 深色模式 - 私信页 ==================== */
+[data-theme="dark"] .messages-wrapper {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    background-image: none !important;
+}
+
+[data-theme="dark"] .messages-container {
+    background: var(--bg-card) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .conversations-panel {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .conversation-item {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .conversation-item:hover,
+[data-theme="dark"] .conversation-item.active {
+    background: var(--bg-hover) !important;
+}
+
+[data-theme="dark"] .conversation-name {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .conversation-preview {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .chat-header {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .chat-header-name {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .chat-messages {
+    background: var(--bg-primary) !important;
+}
+
+[data-theme="dark"] .message-bubble.received {
+    background: var(--bg-hover) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .chat-input-area {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .chat-input {
+    background: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .search-users-input {
+    background: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* 通知面板 */
+[data-theme="dark"] .notification-item {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .notification-item:hover {
+    background: var(--bg-hover) !important;
+}
+
+[data-theme="dark"] .notification-item.unread {
+    background: rgba(105, 180, 255, 0.08) !important;
+}
+
+[data-theme="dark"] .notification-content {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .notification-time {
+    color: var(--text-muted) !important;
+}
+
+/* ==================== 深色模式 - 关于页 ==================== */
+[data-theme="dark"] .about-wrapper {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+    background-image: none !important;
+}
+
+[data-theme="dark"] .about-card,
+[data-theme="dark"] .skill-card,
+[data-theme="dark"] .timeline-item {
+    background: var(--bg-card) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .about-title,
+[data-theme="dark"] .section-title {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .about-desc,
+[data-theme="dark"] .about-text {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .contact-item {
+    background: var(--bg-hover) !important;
+    color: var(--text-secondary) !important;
+}
+
+/* ==================== 深色模式 - 网盘页 ==================== */
+[data-theme="dark"] .drive-container {
+    background: var(--bg-card) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .drive-container h2 {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .drive-container p {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .file-item {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .file-item:hover {
+    background: var(--bg-hover) !important;
+}
+
+[data-theme="dark"] .file-name {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .file-size,
+[data-theme="dark"] .file-date {
+    color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .share-modal {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .share-modal h3 {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .share-modal label {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .share-modal input,
+[data-theme="dark"] .share-modal select {
+    background: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .share-cancel-btn {
+    background: var(--bg-hover) !important;
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .upload-area {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .shared-item {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* ==================== 深色模式 - 捐赠页 ==================== */
+[data-theme="dark"] .donate-container {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .goal-card,
+[data-theme="dark"] .qr-card,
+[data-theme="dark"] .panel-card {
+    background: var(--bg-card) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .goal-card h2,
+[data-theme="dark"] .qr-card h2,
+[data-theme="dark"] .panel-card h3 {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .qr-card .qr-subtitle {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .donate-container .lb-item {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .donate-container .lb-name {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .donate-container .lb-amount {
+    color: #4db6ac !important;
+}
+
+/* ==================== 深色模式 - 游戏页 ==================== */
+[data-theme="dark"] .games-container {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .game-card {
+    background: var(--bg-card) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .game-card h3 {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .game-card p {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .leaderboard-item {
+    background: var(--bg-hover) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .leaderboard-name,
+[data-theme="dark"] .lb-name {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .leaderboard-score,
+[data-theme="dark"] .lb-score {
+    color: #4db6ac !important;
+}
+
+[data-theme="dark"] .lb-title.vip {
+    background: rgba(245, 127, 23, 0.15) !important;
+}
+
+/* ==================== 深色模式 - 编辑器页 ==================== */
+[data-theme="dark"] .editor-container {
+    background: var(--bg-card) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .editor-toolbar {
+    background: var(--bg-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .editor-toolbar button {
+    color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .editor-toolbar button:hover {
+    background: var(--bg-hover) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] #editor-area,
+[data-theme="dark"] .editor-textarea {
+    background: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+}
+
+/* ==================== 深色模式 - 通用元素 ==================== */
+/* Toast 提示 */
+[data-theme="dark"] .toast {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* 模态框 */
+[data-theme="dark"] .modal-overlay {
+    background: rgba(0, 0, 0, 0.7) !important;
+}
+
+[data-theme="dark"] .modal-content,
+[data-theme="dark"] .modal-body {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .modal-header {
+    border-bottom-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .modal-footer {
+    border-top-color: var(--border-color) !important;
+}
+
+/* 表格 */
+[data-theme="dark"] table {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] th {
+    background: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] td {
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] tr:hover td {
+    background: var(--bg-hover) !important;
+}
+
+/* 分页 */
+[data-theme="dark"] .pagination a,
+[data-theme="dark"] .pagination span {
+    background: var(--bg-card) !important;
+    color: var(--text-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .pagination .active {
+    background: var(--accent-gradient) !important;
+    color: white !important;
+}
+
+/* hr 分割线 */
+[data-theme="dark"] hr {
+    border-color: var(--border-color) !important;
+}
