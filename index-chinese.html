@@ -326,10 +326,16 @@
             });
         });
 
-        // 加载在线人数
+        // 加载在线人数 & 发送访客心跳
         (async function loadOnlineCount() {
             try {
                 const apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+                // 发送匿名访客心跳
+                fetch(apiBase + '/online/visitor-heartbeat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }).catch(() => {});
+                // 每60秒持续发送心跳
+                setInterval(() => {
+                    fetch(apiBase + '/online/visitor-heartbeat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }).catch(() => {});
+                }, 60000);
                 const res = await fetch(apiBase + '/online/count');
                 if (res.ok) {
                     const data = await res.json();
