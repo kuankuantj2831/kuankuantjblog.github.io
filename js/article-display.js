@@ -79,6 +79,16 @@ async function loadArticle() {
             // 填充页面
             document.title = escapeHtml(article.title) + " - Hakimi 的猫爬架";
 
+            // 动态更新 SEO meta 标签
+            const articleUrl = window.location.href;
+            const summary = (article.summary || article.title || '').substring(0, 160);
+            const setMeta = (id, attr, val) => { const el = document.getElementById(id); if (el) el.setAttribute(attr, val); };
+            setMeta('metaDescription', 'content', summary);
+            setMeta('ogTitle', 'content', article.title + ' - Hakimi 的猫爬架');
+            setMeta('ogDescription', 'content', summary);
+            setMeta('ogUrl', 'content', articleUrl);
+            setMeta('canonicalUrl', 'href', articleUrl);
+
             const titleEl = safeGetElement('artTitle');
             const categoryEl = safeGetElement('artCategory');
             const authorEl = safeGetElement('artAuthor');
@@ -117,6 +127,9 @@ async function loadArticle() {
             // 显示内容，隐藏加载
             if (loadingEl) loadingEl.style.display = 'none';
             if (contentEl) contentEl.style.display = 'block';
+
+            // 通知文章已加载（用于目录生成和代码高亮）
+            document.dispatchEvent(new Event('article-loaded'));
 
             // Check ownership
             const currentUser = getSafeUser();

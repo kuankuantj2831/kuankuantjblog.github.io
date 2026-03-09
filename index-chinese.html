@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com https://registry.npmmirror.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; connect-src 'self' https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; font-src 'self' https:;">
     <meta name="description" content="Hakimi 的猫爬架 - 一个分享编程技术、游戏资源、设计素材与学习资料的个人博客。分享是一种美德，它不求回报，只为真诚。">
     <meta name="keywords" content="Hakimi,猫爬架,个人博客,编程技术,游戏资源,mcock.cn">
     <meta name="author" content="Hakimi">
@@ -16,6 +17,23 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Hakimi 的猫爬架">
 
+    <!-- JSON-LD 结构化数据 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Hakimi 的猫爬架",
+        "url": "https://mcock.cn",
+        "description": "分享编程技术、游戏资源、设计素材与学习资料的个人博客",
+        "author": { "@type": "Person", "name": "Hakimi" },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://mcock.cn/index-chinese.html?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
     <title>Hakimi 的猫爬架</title>
 
     <!-- 性能优化：预连接 API 服务器，节省 DNS 解析 + TLS 握手时间 -->
@@ -23,7 +41,8 @@
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/chinese-style.css?v=4">
+    <link rel="alternate" type="application/rss+xml" title="Hakimi 的猫爬架 RSS" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/articles/feed/rss">
+    <link rel="stylesheet" href="css/chinese-style.css?v=5">
     <link rel="stylesheet" href="css/auth.css?v=3">
     <link rel="stylesheet" href="css/tianjg-theme.css?v=3">
     <link rel="stylesheet" href="css/theme.css?v=3">
@@ -157,8 +176,13 @@
         <section class="resource-showcase">
             <div id="searchResultInfo" style="display:none;"></div>
             <div class="resource-scroll" id="articles-container">
-                <!-- Articles will be loaded dynamically here -->
-                <div class="loading-spinner">加载文章中...</div>
+                <!-- 骨架屏加载占位 -->
+                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line" style="width:70%"></div><div class="skeleton-line" style="width:50%"></div><div class="skeleton-line" style="width:90%"></div></div></div>
+                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line" style="width:60%"></div><div class="skeleton-line" style="width:45%"></div><div class="skeleton-line" style="width:80%"></div></div></div>
+                <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line" style="width:75%"></div><div class="skeleton-line" style="width:55%"></div><div class="skeleton-line" style="width:85%"></div></div></div>
+            </div>
+            <div id="loadMoreContainer" style="text-align:center;padding:20px;display:none;">
+                <button id="loadMoreBtn" style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;padding:10px 30px;border-radius:25px;cursor:pointer;font-size:14px;transition:all 0.3s;">加载更多</button>
             </div>
         </section>
     </div>

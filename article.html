@@ -4,6 +4,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" id="metaDescription" content="Hakimi 的猫爬架 - 文章详情">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Hakimi 的猫爬架">
+    <meta property="og:title" id="ogTitle" content="文章 - Hakimi 的猫爬架">
+    <meta property="og:description" id="ogDescription" content="">
+    <meta property="og:url" id="ogUrl" content="">
+    <meta property="og:image" content="https://mcock.cn/images/forrestgump.png">
+    <link rel="canonical" id="canonicalUrl" href="">
     <title>文章加载中... - Hakimi 的猫爬架</title>
 
     <!-- 性能优化：预连接 API 服务器 -->
@@ -121,7 +129,23 @@
         }
     </style>
     <link rel="stylesheet" href="/css/theme.css?v=3">
-</head>
+    <!-- 代码高亮 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11/styles/github.min.css">
+    <style>
+        /* 文章目录侧边栏 */
+        .toc-sidebar { position: fixed; right: 20px; top: 120px; width: 220px; max-height: 60vh; overflow-y: auto; background: rgba(255,255,255,0.95); border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-size: 13px; display: none; z-index: 50; }
+        .toc-sidebar h4 { margin: 0 0 10px; font-size: 14px; color: #333; }
+        .toc-sidebar a { display: block; color: #666; text-decoration: none; padding: 4px 0; border-left: 2px solid transparent; padding-left: 8px; transition: all 0.2s; }
+        .toc-sidebar a:hover, .toc-sidebar a.active { color: #667eea; border-left-color: #667eea; }
+        .toc-sidebar .toc-h3 { padding-left: 20px; font-size: 12px; }
+        /* 回到顶部按钮 */
+        .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; cursor: pointer; font-size: 20px; box-shadow: 0 4px 15px rgba(102,126,234,0.4); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 100; }
+        .back-to-top.visible { opacity: 1; visibility: visible; }
+        .back-to-top:hover { transform: translateY(-3px); }
+        /* 代码块样式增强 */
+        .article-content pre code { font-size: 14px; line-height: 1.6; }
+        @media (max-width: 1200px) { .toc-sidebar { display: none !important; } }
+    </style>
 
 <body>
     <div class="chinese-style-wrapper">
@@ -240,9 +264,47 @@
         </div>
     </div>
 
+    <!-- 文章目录侧边栏 -->
+    <nav class="toc-sidebar" id="tocSidebar"><h4>📑 目录</h4><div id="tocContent"></div></nav>
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+
     <script src="/js/cdn-fallback.js"></script>
     <script>cdnLoad('qrcodejs2@0.0.2/qrcode.min.js', 'js');</script>
-    <script type="module" src="/js/article-display.js?v=20260308a"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11/highlight.min.js" defer></script>
+    <script type="module" src="/js/article-display.js?v=20260309a"></script>
+    <script>
+        // 回到顶部
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            backToTop.classList.toggle('visible', window.scrollY > 300);
+        });
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // 文章加载完成后生成目录和高亮代码
+        document.addEventListener('article-loaded', () => {
+            // 代码高亮
+            if (window.hljs) {
+                document.querySelectorAll('.article-content pre code').forEach(el => hljs.highlightElement(el));
+            }
+            // 生成目录
+            const headings = document.querySelectorAll('.article-content h1, .article-content h2, .article-content h3');
+            const tocContent = document.getElementById('tocContent');
+            const tocSidebar = document.getElementById('tocSidebar');
+            if (headings.length > 2 && tocContent && tocSidebar) {
+                tocSidebar.style.display = 'block';
+                headings.forEach((h, i) => {
+                    h.id = 'heading-' + i;
+                    const a = document.createElement('a');
+                    a.href = '#heading-' + i;
+                    a.textContent = h.textContent;
+                    if (h.tagName === 'H3') a.className = 'toc-h3';
+                    a.addEventListener('click', (e) => { e.preventDefault(); h.scrollIntoView({ behavior: 'smooth' }); });
+                    tocContent.appendChild(a);
+                });
+            }
+        });
+    </script>
     <script src="/js/theme.js?v=1"></script>
 </body>
 
