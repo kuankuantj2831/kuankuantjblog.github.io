@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="鍏充簬鎴戜滑 - Hakimi 鐨勭尗鐖灦">
-    <title>鍏充簬鎴戜滑 - Hakimi 鐨勭尗鐖灦</title>
+    <meta name="description" content="关于我们 - Hakimi 的猫爬架">
+    <title>关于我们 - Hakimi 的猫爬架</title>
 
     <link rel="shortcut icon" href="/favicon.ico">
     <script src="/js/pace.min.js" async></script>
@@ -21,7 +21,7 @@
             color: #333;
         }
 
-        /* 鑳屾櫙瑁呴グ */
+        /* 背景装饰 */
         body::before {
             content: '';
             position: fixed;
@@ -47,7 +47,7 @@
             position: relative; z-index: 1;
         }
 
-        /* ===== Hero 鍖哄煙 ===== */
+        /* ===== Hero 区域 ===== */
         .hero-section {
             text-align: center; padding: 60px 20px 40px;
             position: relative;
@@ -90,7 +90,7 @@
             backdrop-filter: blur(10px);
         }
 
-        /* ===== 缁熻鏉?===== */
+        /* ===== 统计条 ===== */
         .stats-bar {
             display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;
             margin: 30px 0;
@@ -109,7 +109,7 @@
         }
         .stat-card .stat-label { font-size: 13px; color: #999; margin-top: 4px; }
 
-        /* ===== 鍐呭鍗＄墖 ===== */
+        /* ===== 内容卡片 ===== */
         .section-card {
             background: white; border-radius: 20px; padding: 30px;
             margin-bottom: 25px; box-shadow: 0 2px 15px rgba(0,0,0,0.06);
@@ -143,7 +143,7 @@
             font-size: 15px; line-height: 1.8; color: #555; margin-bottom: 10px;
         }
 
-        /* 鎶€鑳芥爣绛?*/
+        /* 技能标签 */
         .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
         .skill-tag {
             padding: 8px 18px; border-radius: 25px; font-size: 14px; font-weight: 500;
@@ -155,7 +155,7 @@
         .skill-tag.other { background: linear-gradient(135deg, #43e97b20, #38f9d720); color: #11998e; border: 1px solid #11998e30; }
         .skill-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
-        /* 鐖卞ソ鍒楄〃 */
+        /* 爱好列表 */
         .hobby-grid {
             display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;
         }
@@ -169,7 +169,7 @@
         .hobby-item .hobby-name { font-size: 15px; font-weight: 600; color: #333; }
         .hobby-item .hobby-desc { font-size: 12px; color: #999; margin-top: 2px; }
 
-        /* 椤圭洰鍗＄墖 */
+        /* 项目卡片 */
         .project-list { display: flex; flex-direction: column; gap: 12px; }
         .project-item {
             display: flex; align-items: center; gap: 15px;
@@ -188,7 +188,7 @@
         .project-arrow { font-size: 18px; color: #ccc; transition: color 0.3s; }
         .project-item:hover .project-arrow { color: #667eea; }
 
-        /* 娓告垙蹇冨緱 */
+        /* 游戏心得 */
         .game-emotions {
             display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;
         }
@@ -220,7 +220,7 @@
         .game-table tr:last-child td { border-bottom: none; }
         .game-table tr:hover td { background: #f8f9ff; }
 
-        /* 鍥㈤槦鎴愬憳 */
+        /* 团队成员 */
         .team-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;
         }
@@ -237,7 +237,7 @@
         .team-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
         .team-role { font-size: 12px; color: #999; }
 
-        /* 鑱旂郴鏂瑰紡 */
+        /* 联系方式 */
         .contact-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;
         }
@@ -254,13 +254,13 @@
         .contact-icon { font-size: 22px; }
         .contact-text { font-size: 14px; font-weight: 500; }
 
-        /* 椤佃剼 */
+        /* 页脚 */
         .about-footer {
             text-align: center; padding: 30px 0; color: #aaa; font-size: 13px;
         }
         .about-footer a { color: #667eea; text-decoration: none; }
 
-        /* 鍝嶅簲寮?*/
+        /* 响应式 */
         @media (max-width: 600px) {
             .hero-name { font-size: 28px; }
             .stats-bar { grid-template-columns: repeat(2, 1fr); }
@@ -273,7 +273,7 @@
 </head>
 
 <body>
-    <a href="/index-chinese.html" class="back-btn" title="杩斿洖棣栭〉">馃彔</a>
+    <a href="/index-chinese.html" class="back-btn" title="返回首页">🏠</a>
 
     <div class="about-wrapper">
         <!-- Hero -->
@@ -281,58 +281,58 @@
             <div class="hero-avatar">
                 <img src="/images/forrestgump.png" alt="Hakimi" loading="lazy">
             </div>
-            <h1 class="hero-name">Hakimi 鐨勭尗鐖灦</h1>
-            <p class="hero-tagline">涓€涓厖婊″ソ濂囧績鐨勬帰绱㈣€?路 鐢ㄤ唬鐮佸垱閫犵編濂戒簨鐗?/p>
+            <h1 class="hero-name">Hakimi 的猫爬架</h1>
+            <p class="hero-tagline">一个充满好奇心的探索者 · 用代码创造美好事物</p>
             <div class="hero-badges">
-                <span class="hero-badge">馃帹 鍒涙剰璁捐</span>
-                <span class="hero-badge">馃捇 鍏ㄦ爤寮€鍙?/span>
-                <span class="hero-badge">馃幃 娓告垙鐖卞ソ鑰?/span>
-                <span class="hero-badge">馃摎 缁堣韩瀛︿範</span>
+                <span class="hero-badge">🎨 创意设计</span>
+                <span class="hero-badge">💻 全栈开发</span>
+                <span class="hero-badge">🎮 游戏爱好者</span>
+                <span class="hero-badge">📚 终身学习</span>
             </div>
         </section>
 
-        <!-- 缁熻 -->
+        <!-- 统计 -->
         <div class="stats-bar">
             <div class="stat-card">
                 <div class="stat-num">2024</div>
-                <div class="stat-label">鍒涚珯骞翠唤</div>
+                <div class="stat-label">创站年份</div>
             </div>
             <div class="stat-card">
-                <div class="stat-num">鈭?/div>
-                <div class="stat-label">鎺㈢储绮剧</div>
+                <div class="stat-num">∞</div>
+                <div class="stat-label">探索精神</div>
             </div>
             <div class="stat-card">
-                <div class="stat-num">7脳24</div>
-                <div class="stat-label">鍦ㄧ嚎鏈嶅姟</div>
+                <div class="stat-num">7×24</div>
+                <div class="stat-label">在线服务</div>
             </div>
             <div class="stat-card">
-                <div class="stat-num">鉂わ笍</div>
-                <div class="stat-label">鐑埍缂栫▼</div>
+                <div class="stat-num">❤️</div>
+                <div class="stat-label">热爱编程</div>
             </div>
         </div>
 
-        <!-- 涓汉浠嬬粛 -->
+        <!-- 个人介绍 -->
         <div class="section-card intro">
             <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">馃憢</div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">👋</div>
                 <div>
-                    <h2>涓汉浠嬬粛</h2>
+                    <h2>个人介绍</h2>
                     <div class="card-sub">About Me</div>
                 </div>
             </div>
             <div class="card-body">
-                <p>hi~ 鎴戞槸鐜嬫€濆ⅷ锛屾潵鑷ぉ娲ワ紝寰堥珮鍏磋璇嗗ぇ瀹讹紒awa~~~~~~</p>
-                <p>鎴戞槸涓€涓厖婊″ソ濂囧績鐨勬帰绱㈣€咃紝鐑埍缂栫▼銆佸垱閫犲拰瀛︿範鏂颁簨鐗┿€傘€孒akimi 鐨勭尗鐖灦銆嶆槸鎴戠殑涓汉鍗氬锛屽湪杩欓噷璁板綍瀛︿範绗旇銆佸垎浜妧鏈績寰椼€佸睍绀哄垱鎰忛」鐩€?/p>
-                <p>甯屾湜杩欎釜灏忕珯鑳界粰浣犲甫鏉ヤ竴浜涙湁瓒ｇ殑鍐呭鍜岀伒鎰?鉁?/p>
+                <p>hi~ 我是王思墨，来自天津，很高兴认识大家！awa~~~~~~</p>
+                <p>我是一个充满好奇心的探索者，热爱编程、创造和学习新事物。「Hakimi 的猫爬架」是我的个人博客，在这里记录学习笔记、分享技术心得、展示创意项目。</p>
+                <p>希望这个小站能给你带来一些有趣的内容和灵感 ✨</p>
             </div>
         </div>
 
-        <!-- 鎶€鑳界壒闀?-->
+        <!-- 技能特长 -->
         <div class="section-card skills">
             <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">馃洝锔?/div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">🛡️</div>
                 <div>
-                    <h2>鎶€鑳界壒闀?/h2>
+                    <h2>技能特长</h2>
                     <div class="card-sub">Skills & Expertise</div>
                 </div>
             </div>
@@ -342,170 +342,170 @@
                     <span class="skill-tag dev">JavaScript</span>
                     <span class="skill-tag dev">Node.js</span>
                     <span class="skill-tag dev">MySQL</span>
-                    <span class="skill-tag design">UI 璁捐</span>
-                    <span class="skill-tag design">鍒涙剰璁捐</span>
+                    <span class="skill-tag design">UI 设计</span>
+                    <span class="skill-tag design">创意设计</span>
                     <span class="skill-tag tool">Git / GitHub</span>
                     <span class="skill-tag tool">Cloudflare</span>
-                    <span class="skill-tag other">闂瑙ｅ喅</span>
-                    <span class="skill-tag other">蹇€熷涔?/span>
+                    <span class="skill-tag other">问题解决</span>
+                    <span class="skill-tag other">快速学习</span>
                 </div>
             </div>
         </div>
 
-        <!-- 鍏磋叮鐖卞ソ -->
+        <!-- 兴趣爱好 -->
         <div class="section-card hobbies">
             <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">馃摉</div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">📖</div>
                 <div>
-                    <h2>鍏磋叮鐖卞ソ</h2>
+                    <h2>兴趣爱好</h2>
                     <div class="card-sub">Hobbies & Interests</div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="hobby-grid">
                     <div class="hobby-item">
-                        <div class="hobby-icon">馃捇</div>
+                        <div class="hobby-icon">💻</div>
                         <div>
-                            <div class="hobby-name">缂栫▼</div>
-                            <div class="hobby-desc">鐢ㄤ唬鐮佸垱閫犵編濂戒簨鐗?/div>
+                            <div class="hobby-name">编程</div>
+                            <div class="hobby-desc">用代码创造美好事物</div>
                         </div>
                     </div>
                     <div class="hobby-item">
-                        <div class="hobby-icon">鉁堬笍</div>
+                        <div class="hobby-icon">✈️</div>
                         <div>
-                            <div class="hobby-name">鏃呰</div>
-                            <div class="hobby-desc">鎺㈢储涓栫晫鐨勬瘡涓€涓钀?/div>
+                            <div class="hobby-name">旅行</div>
+                            <div class="hobby-desc">探索世界的每一个角落</div>
                         </div>
                     </div>
                     <div class="hobby-item">
-                        <div class="hobby-icon">馃摎</div>
+                        <div class="hobby-icon">📚</div>
                         <div>
-                            <div class="hobby-name">闃呰</div>
-                            <div class="hobby-desc">鍦ㄤ功娴蜂腑瀵绘壘鐭ヨ瘑</div>
+                            <div class="hobby-name">阅读</div>
+                            <div class="hobby-desc">在书海中寻找知识</div>
                         </div>
                     </div>
                     <div class="hobby-item">
-                        <div class="hobby-icon">馃幃</div>
+                        <div class="hobby-icon">🎮</div>
                         <div>
-                            <div class="hobby-name">娓告垙</div>
-                            <div class="hobby-desc">Minecraft 绛夊垱閫犳€ф父鎴?/div>
+                            <div class="hobby-name">游戏</div>
+                            <div class="hobby-desc">Minecraft 等创造性游戏</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 椤圭洰浣滃搧 -->
+        <!-- 项目作品 -->
         <div class="section-card projects">
             <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">猸?/div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #fa709a, #fee140);">⭐</div>
                 <div>
-                    <h2>椤圭洰浣滃搧</h2>
+                    <h2>项目作品</h2>
                     <div class="card-sub">Projects & Works</div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="project-list">
                     <a href="https://mcock.cn" class="project-item" target="_blank">
-                        <div class="project-icon">馃惐</div>
+                        <div class="project-icon">🐱</div>
                         <div class="project-info">
-                            <div class="project-name">Hakimi 鐨勭尗鐖灦</div>
-                            <div class="project-desc">涓汉鍗氬缃戠珯锛屾敮鎸佹枃绔犲彂甯冦€佺Н鍒嗙郴缁熴€佷簯鐩樼瓑鍔熻兘</div>
+                            <div class="project-name">Hakimi 的猫爬架</div>
+                            <div class="project-desc">个人博客网站，支持文章发布、积分系统、云盘等功能</div>
                         </div>
-                        <div class="project-arrow">鈫?/div>
+                        <div class="project-arrow">→</div>
                     </a>
                     <a href="https://icodeshequ.youdao.com/work/8b995012a58644a59c0f0d510794bde7?from=management" class="project-item" target="_blank">
-                        <div class="project-icon">馃幆</div>
+                        <div class="project-icon">🎯</div>
                         <div class="project-info">
-                            <div class="project-name">涓€涓皬鐞冩父鎴?/div>
-                            <div class="project-desc">鏈夎叮鐨勪簰鍔ㄥ皬娓告垙浣滃搧</div>
+                            <div class="project-name">一个小球游戏</div>
+                            <div class="project-desc">有趣的互动小游戏作品</div>
                         </div>
-                        <div class="project-arrow">鈫?/div>
+                        <div class="project-arrow">→</div>
                     </a>
                     <a href="/games.html" class="project-item">
-                        <div class="project-icon">馃暪锔?/div>
+                        <div class="project-icon">🕹️</div>
                         <div class="project-info">
-                            <div class="project-name">灏忔父鎴忓悎闆?/div>
-                            <div class="project-desc">璐悆铔囥€佺唲鐏父鎴忕瓑缁忓吀灏忔父鎴?/div>
+                            <div class="project-name">小游戏合集</div>
+                            <div class="project-desc">贪吃蛇、熄灯游戏等经典小游戏</div>
                         </div>
-                        <div class="project-arrow">鈫?/div>
+                        <div class="project-arrow">→</div>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- 娓告垙蹇冨緱 -->
+        <!-- 游戏心得 -->
         <div class="section-card gaming">
             <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">馃幃</div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">🎮</div>
                 <div>
-                    <h2>娓告垙蹇冨緱</h2>
+                    <h2>游戏心得</h2>
                     <div class="card-sub">Gaming Experience</div>
                 </div>
             </div>
             <div class="card-body">
                 <div class="game-emotions">
                     <div class="emotion-card win">
-                        <div class="emotion-icon">馃帀</div>
-                        <div class="emotion-title">褰撴垜鎵撹耽涓€灞€娓告垙鏃?/div>
-                        <div class="emotion-text">"鍟婂搱鍝堝搱锛屽鎵嬬湡鑿滐紝杞昏交鏉炬澗锛岀畝绠€鍗曞崟锛屾湁鎵嬪氨琛岋紒"</div>
+                        <div class="emotion-icon">🎉</div>
+                        <div class="emotion-title">当我打赢一局游戏时</div>
+                        <div class="emotion-text">"啊哈哈哈，对手真菜，轻轻松松，简简单单，有手就行！"</div>
                     </div>
                     <div class="emotion-card lose">
-                        <div class="emotion-icon">馃槩</div>
-                        <div class="emotion-title">褰撴垜鎵撹緭涓€灞€娓告垙鏃?/div>
-                        <div class="emotion-text">"鍟婂晩鍟婂晩锛屾€庝箞浼氳繖鏍?.."</div>
+                        <div class="emotion-icon">😢</div>
+                        <div class="emotion-title">当我打输一局游戏时</div>
+                        <div class="emotion-text">"啊啊啊啊，怎么会这样..."</div>
                     </div>
                 </div>
                 <table class="game-table">
                     <thead>
                         <tr>
-                            <th>娓告垙鍚?/th>
-                            <th>浣滆€?/th>
-                            <th>鐜╁悗鎰?/th>
+                            <th>游戏名</th>
+                            <th>作者</th>
+                            <th>玩后感</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>馃幃 Minecraft</td>
+                            <td>🎮 Minecraft</td>
                             <td>MOJANG AB</td>
-                            <td>鍒涢€犲彲浠ヨ浜鸿繘姝?/td>
+                            <td>创造可以让人进步</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 鑱旂郴鏂瑰紡 -->
+        <!-- 联系方式 -->
         <div class="section-card contact">
             <div class="card-header">
-                <div class="card-icon" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">馃拰</div>
+                <div class="card-icon" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">💌</div>
                 <div>
-                    <h2>鑱旂郴鏂瑰紡</h2>
+                    <h2>联系方式</h2>
                     <div class="card-sub">Get In Touch</div>
                 </div>
             </div>
             <div class="card-body">
-                <p style="margin-bottom: 15px;">娆㈣繋閫氳繃浠ヤ笅鏂瑰紡涓庢垜浜ゆ祦锛屼竴璧锋帰绱㈡湁瓒ｇ殑浜嬬墿锛?/p>
+                <p style="margin-bottom: 15px;">欢迎通过以下方式与我交流，一起探索有趣的事物！</p>
                 <div class="contact-grid">
                     <a href="https://github.com/kuankuantj2831" class="contact-item" target="_blank">
-                        <span class="contact-icon">馃悪</span>
+                        <span class="contact-icon">🐙</span>
                         <span class="contact-text">GitHub</span>
                     </a>
                     <a href="mailto:hakimi@mcock.cn" class="contact-item">
-                        <span class="contact-icon">馃摟</span>
+                        <span class="contact-icon">📧</span>
                         <span class="contact-text">hakimi@mcock.cn</span>
                     </a>
                     <a href="/index-chinese.html" class="contact-item">
-                        <span class="contact-icon">馃彔</span>
-                        <span class="contact-text">鍗氬棣栭〉</span>
+                        <span class="contact-icon">🏠</span>
+                        <span class="contact-text">博客首页</span>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- 椤佃剼 -->
+        <!-- 页脚 -->
         <div class="about-footer">
-            <p>漏 2024 - 2026 <a href="/index-chinese.html">Hakimi 鐨勭尗鐖灦</a> 路 鐢ㄥ績鍒涢€狅紝鐢ㄧ埍鍒嗕韩</p>
+            <p>© 2024 - 2026 <a href="/index-chinese.html">Hakimi 的猫爬架</a> · 用心创造，用爱分享</p>
         </div>
     </div>
     <script src="/js/theme.js?v=1"></script>

@@ -4,10 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="鏀寔 Hakimi 鐨勭尗鐖灦 - 鎮ㄧ殑姣忎竴浠芥崘鍔╅兘鏄鎴戜滑鏈€澶х殑榧撳姳">
-    <title>鎹愬姪鏀寔 - Hakimi 鐨勭尗鐖灦</title>
+    <meta name="description" content="支持 Hakimi 的猫爬架 - 您的每一份捐助都是对我们最大的鼓励">
+    <title>捐助支持 - Hakimi 的猫爬架</title>
     <link rel="shortcut icon" href="favicon.ico">
-    <link rel="stylesheet" href="css/chinese-style.css?v=4">
+    <link rel="stylesheet" href="css/chinese-style.css?v=3">
     <style>
         .donate-container {
             max-width: 900px;
@@ -49,7 +49,7 @@
             margin: 0;
         }
 
-        /* 杩涘害鏉?*/
+        /* 进度条 */
         .goal-card {
             background: white;
             border-radius: 16px;
@@ -155,7 +155,7 @@
             margin-top: 2px;
         }
 
-        /* 鏀舵鐮佸睍绀哄崱鐗?*/
+        /* 收款码展示卡片 */
         .qr-card {
             background: white;
             border-radius: 16px;
@@ -235,7 +235,7 @@
             border: 1px solid #ef9a9a;
         }
 
-        /* 鎺掕姒?& 鏈€杩戣褰?*/
+        /* 排行榜 & 最近记录 */
         .donate-panels {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -339,7 +339,7 @@
             flex-shrink: 0;
         }
 
-        /* 鏈€杩戣褰?*/
+        /* 最近记录 */
         .recent-item {
             padding: 10px 0;
             border-bottom: 1px solid #f5f5f5;
@@ -389,7 +389,7 @@
             font-size: 0.9em;
         }
 
-        /* 杩斿洖鎸夐挳 */
+        /* 返回按钮 */
         .back-home {
             text-align: center;
             margin-top: 10px;
@@ -412,28 +412,28 @@
         <div class="bg-decoration"></div>
 
         <nav class="top-nav">
-            <a href="/index-chinese.html" class="nav-logo">&#x1F431; 鐚埇鏋?/a>
+            <a href="/index-chinese.html" class="nav-logo">&#x1F431; 猫爬架</a>
             <div class="nav-links">
-                <a href="/index-chinese.html">棣栭〉</a>
-                <a href="/about.html">鍏充簬</a>
-                <a href="/donate.html" style="color:#ff6b6b; font-weight:600;">&#x2764;&#xFE0F; 鎹愬姪</a>
+                <a href="/index-chinese.html">首页</a>
+                <a href="/about.html">关于</a>
+                <a href="/donate.html" style="color:#ff6b6b; font-weight:600;">&#x2764;&#xFE0F; 捐助</a>
             </div>
         </nav>
 
         <div class="donate-container">
-            <!-- 椤堕儴 Hero -->
+            <!-- 顶部 Hero -->
             <div class="donate-hero">
                 <div class="donate-hero-icon">&#x2764;&#xFE0F;</div>
-                <h1>鏀寔鐚埇鏋?/h1>
-                <p>鎮ㄧ殑姣忎竴浠芥敮鎸侊紝閮芥槸鎴戜滑鍓嶈繘鐨勫姩鍔?&#x2728;</p>
+                <h1>支持猫爬架</h1>
+                <p>您的每一份支持，都是我们前进的动力 &#x2728;</p>
             </div>
 
-            <!-- 鎹愬姪鐩爣杩涘害 -->
+            <!-- 捐助目标进度 -->
             <div class="goal-card" id="goalCard">
                 <div class="goal-header">
-                    <div class="goal-title" id="goalTitle">鍔犺浇涓?..</div>
+                    <div class="goal-title" id="goalTitle">加载中...</div>
                     <div class="goal-amount">
-                        <span id="goalCurrent">0</span> / <span id="goalTarget">0</span> 鍏?
+                        <span id="goalCurrent">0</span> / <span id="goalTarget">0</span> 元
                     </div>
                 </div>
                 <div class="progress-bar-outer">
@@ -444,51 +444,51 @@
                 <div class="goal-stats">
                     <div class="goal-stat-item">
                         <div class="num" id="statDonors">0</div>
-                        <div class="label">鎹愬姪浜烘暟</div>
+                        <div class="label">捐助人数</div>
                     </div>
                     <div class="goal-stat-item">
                         <div class="num" id="statTotal">&#xA5;0</div>
-                        <div class="label">绱鎹愬姪</div>
+                        <div class="label">累计捐助</div>
                     </div>
                 </div>
             </div>
 
-            <!-- 鏀舵鐮佸睍绀?-->
+            <!-- 收款码展示 -->
             <div class="qr-card">
-                <h2>&#x1F4B0; 寰俊鎵爜璧炲姪</h2>
-                <div class="qr-subtitle">鎵撳紑寰俊鎵竴鎵紝鏀寔鐚埇鏋剁殑杩愯惀</div>
+                <h2>&#x1F4B0; 微信扫码赞助</h2>
+                <div class="qr-subtitle">打开微信扫一扫，支持猫爬架的运营</div>
                 <div class="qr-code-display">
-                    <img src="/weixin_pay/skm.PNG" alt="寰俊鏀舵鐮?>
+                    <img src="/weixin_pay/skm.PNG" alt="微信收款码">
                 </div>
                 <div class="qr-tips">
-                    &#x1F4CC; 鎵爜鏀粯鍚庯紝绔欓暱纭鏀舵浼氫负鎮ㄧ疮璁¤禐鍔╅噾棰?br>
-                    &#x1F3C5; 绱璧炲姪 鈮?<strong>5鍏?/strong> 鑾峰緱 <strong>VIP</strong> 澶磋<br>
-                    &#x1F3C6; 绱璧炲姪 鈮?<strong>10鍏?/strong> 鑾峰緱 <strong>MVP</strong> 澶磋
+                    &#x1F4CC; 扫码支付后，站长确认收款会为您累计赞助金额<br>
+                    &#x1F3C5; 累计赞助 ≥ <strong>5元</strong> 获得 <strong>VIP</strong> 头衔<br>
+                    &#x1F3C6; 累计赞助 ≥ <strong>10元</strong> 获得 <strong>MVP</strong> 头衔
                 </div>
                 <div class="title-info">
-                    <div class="title-badge vip">&#x1F3C5; VIP 澶磋 鈥?绱璧炲姪 鈮?5鍏?/div>
-                    <div class="title-badge mvp">&#x1F3C6; MVP 澶磋 鈥?绱璧炲姪 鈮?10鍏?/div>
+                    <div class="title-badge vip">&#x1F3C5; VIP 头衔 — 累计赞助 ≥ 5元</div>
+                    <div class="title-badge mvp">&#x1F3C6; MVP 头衔 — 累计赞助 ≥ 10元</div>
                 </div>
             </div>
 
-            <!-- 鎺掕姒?& 鏈€杩戣褰?-->
+            <!-- 排行榜 & 最近记录 -->
             <div class="donate-panels">
                 <div class="panel-card">
-                    <h3>&#x1F3C6; 鎹愬姪鎺掕姒?/h3>
+                    <h3>&#x1F3C6; 捐助排行榜</h3>
                     <ul class="leaderboard-list" id="leaderboardList">
-                        <li class="empty-tip">鏆傛棤鎹愬姪璁板綍</li>
+                        <li class="empty-tip">暂无捐助记录</li>
                     </ul>
                 </div>
                 <div class="panel-card">
-                    <h3>&#x1F550; 鏈€杩戞崘鍔?/h3>
+                    <h3>&#x1F550; 最近捐助</h3>
                     <div id="recentList">
-                        <div class="empty-tip">鏆傛棤鎹愬姪璁板綍</div>
+                        <div class="empty-tip">暂无捐助记录</div>
                     </div>
                 </div>
             </div>
 
             <div class="back-home">
-                <a href="/index-chinese.html">&#x2190; 杩斿洖棣栭〉</a>
+                <a href="/index-chinese.html">&#x2190; 返回首页</a>
             </div>
         </div>
     </div>

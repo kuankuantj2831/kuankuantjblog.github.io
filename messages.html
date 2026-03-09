@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="娑堟伅涓績 - kuankuantj鐨勪釜浜哄崥瀹?>
-    <title>娑堟伅涓績 - kuankuantj鐨勪釜浜哄崥瀹?/title>
+    <meta name="description" content="消息中心 - kuankuantj的个人博客">
+    <title>消息中心 - kuankuantj的个人博客</title>
 
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
@@ -15,62 +15,62 @@
 </head>
 
 <body>
-    <a href="/index-chinese.html" class="back-to-home" title="杩斿洖棣栭〉">馃彔</a>
+    <a href="/index-chinese.html" class="back-to-home" title="返回首页">🏠</a>
 
     <div class="messages-wrapper">
         <div class="messages-container">
-            <!-- 鏍囩鏍?-->
+            <!-- 标签栏 -->
             <div class="messages-tabs">
                 <button class="messages-tab active" data-tab="chat" onclick="switchTab('chat')">
-                    馃挰 绉佷俊 <span class="tab-badge" id="chatBadge"></span>
+                    💬 私信 <span class="tab-badge" id="chatBadge"></span>
                 </button>
                 <button class="messages-tab" data-tab="notifications" onclick="switchTab('notifications')">
-                    馃敂 閫氱煡 <span class="tab-badge" id="notifBadge"></span>
+                    🔔 通知 <span class="tab-badge" id="notifBadge"></span>
                 </button>
             </div>
 
             <div class="messages-content">
-                <!-- 绉佷俊闈㈡澘 -->
+                <!-- 私信面板 -->
                 <div class="tab-panel active" id="chatPanel">
-                    <!-- 鎼滅储鏂扮敤鎴?-->
+                    <!-- 搜索新用户 -->
                     <div class="new-chat-bar">
                         <input type="text" class="new-chat-input" id="searchUserInput"
-                            placeholder="馃攳 鎼滅储鐢ㄦ埛鍙戣捣鏂板璇?.." autocomplete="off">
+                            placeholder="🔍 搜索用户发起新对话..." autocomplete="off">
                     </div>
                     <div class="search-results" id="searchResults"></div>
 
-                    <!-- 浼氳瘽鍒楄〃 -->
+                    <!-- 会话列表 -->
                     <div class="conversation-list" id="conversationList">
                         <div class="empty-state">
-                            <div class="empty-state-icon">馃挰</div>
-                            <div class="empty-state-text">鍔犺浇涓?..</div>
+                            <div class="empty-state-icon">💬</div>
+                            <div class="empty-state-text">加载中...</div>
                         </div>
                     </div>
 
-                    <!-- 鑱婂ぉ瑙嗗浘锛堢偣鍑讳細璇濆悗鏄剧ず锛?-->
+                    <!-- 聊天视图（点击会话后显示） -->
                     <div class="chat-view" id="chatView">
                         <div class="chat-header">
-                            <button class="chat-back" onclick="closeChatView()">鈫?/button>
-                            <span class="chat-title" id="chatTitle">瀵硅瘽</span>
+                            <button class="chat-back" onclick="closeChatView()">←</button>
+                            <span class="chat-title" id="chatTitle">对话</span>
                         </div>
                         <div class="chat-messages" id="chatMessages"></div>
                         <div class="chat-input-area">
                             <input type="text" class="chat-input" id="chatInput"
-                                placeholder="杈撳叆娑堟伅..." maxlength="2000" autocomplete="off">
-                            <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()">鍙戦€?/button>
+                                placeholder="输入消息..." maxlength="2000" autocomplete="off">
+                            <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()">发送</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- 閫氱煡闈㈡澘 -->
+                <!-- 通知面板 -->
                 <div class="tab-panel" id="notificationsPanel">
                     <div class="notifications-toolbar">
-                        <button class="mark-all-read-btn" onclick="markAllRead()">鍏ㄩ儴宸茶</button>
+                        <button class="mark-all-read-btn" onclick="markAllRead()">全部已读</button>
                     </div>
                     <div class="notification-list" id="notificationList">
                         <div class="empty-state">
-                            <div class="empty-state-icon">馃敂</div>
-                            <div class="empty-state-text">鍔犺浇涓?..</div>
+                            <div class="empty-state-icon">🔔</div>
+                            <div class="empty-state-text">加载中...</div>
                         </div>
                     </div>
                 </div>
