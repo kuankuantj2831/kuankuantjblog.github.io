@@ -175,9 +175,9 @@
 
             <!-- 标签导航 -->
             <div class="tab-navigation">
-                <button class="tab-btn active">文章</button>
-                <button class="tab-btn" disabled title="即将开放">用户</button>
-                <button class="tab-btn" disabled title="即将开放">知识</button>
+                <button class="tab-btn active" data-tab="articles">文章</button>
+                <button class="tab-btn" data-tab="users">用户</button>
+                <button class="tab-btn" data-tab="knowledge">知识</button>
             </div>
 
             <!-- 搜索区域 -->
@@ -371,13 +371,119 @@
             });
         }
 
-        // 标签切换（只对未禁用的按钮生效）
-        document.querySelectorAll('.tab-btn:not([disabled])').forEach(btn => {
-            btn.addEventListener('click', function () {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
+        // 标签切换（文章/用户/知识）
+        (function initTabSwitch() {
+            var currentTab = 'articles';
+            var apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+            var container = document.getElementById('articles-container');
+            var searchSection = document.querySelector('.search-section');
+            var categoryTags = document.querySelector('.category-tags');
+            var loadMoreContainer = document.getElementById('loadMoreContainer');
+            var searchInput = document.getElementById('searchInput');
+            var searchBtn = document.getElementById('searchBtn');
+
+            function escapeHTML(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+            function showArticlesUI() {
+                if (searchSection) searchSection.style.display = '';
+                if (categoryTags) categoryTags.style.display = '';
+                if (loadMoreContainer) loadMoreContainer.style.display = '';
+                // 恢复文章列表
+                if (window._loadArticles) window._loadArticles(1);
+            }
+
+            function hideArticlesUI() {
+                if (searchSection) searchSection.style.display = 'none';
+                if (categoryTags) categoryTags.style.display = 'none';
+                if (loadMoreContainer) loadMoreContainer.style.display = 'none';
+            }
+
+            async function searchUsers(keyword) {
+                container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">🔍 搜索中...</div>';
+                try {
+                    var url = apiBase + '/profiles/search' + (keyword ? '?q=' + encodeURIComponent(keyword) : '');
+                    var res = await fetch(url);
+                    var data = await res.json();
+                    var users = data.data || [];
+                    if (users.length === 0) {
+                        container.innerHTML = '<div style="text-align:center;padding:40px;color:#999;min-width:100%;"><div style="font-size:48px;margin-bottom:15px;">👤</div><div>暂无用户</div></div>';
+                        return;
+                    }
+                    container.innerHTML = '';
+                    users.forEach(function(u) {
+                        var card = document.createElement('div');
+                        card.className = 'resource-card';
+                        card.style.cursor = 'pointer';
+                        var avatar = u.avatar_url ? escapeHTML(u.avatar_url) : 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23667eea%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2265%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2250%22>' + escapeHTML(u.username.charAt(0).toUpperCase()) + '</text></svg>';
+                        var date = new Date(u.created_at).toLocaleDateString('zh-CN');
+                        card.innerHTML = '<div class="card-image"><img src="' + avatar + '" alt="' + escapeHTML(u.username) + '" style="object-fit:cover;"></div><div class="card-info"><h3 class="card-title">👤 ' + escapeHTML(u.username) + '</h3><p class="card-meta">加入于 ' + date + '</p></div>';
+                        card.onclick = function() { window.location.href = '/profile.html?id=' + u.id; };
+                        container.appendChild(card);
+                    });
+                } catch(e) {
+                    container.innerHTML = '<div style="text-align:center;padding:30px;color:#e74c3c;">加载失败，请稍后重试</div>';
+                }
+            }
+
+            async function searchKnowledge(keyword) {
+                container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">🔍 搜索中...</div>';
+                try {
+                    var url = apiBase + '/knowledge/search' + (keyword ? '?q=' + encodeURIComponent(keyword) : '');
+                    var res = await fetch(url);
+                    var data = await res.json();
+                    var items = data.data || [];
+                    if (items.length === 0) {
+                        container.innerHTML = '<div style="text-align:center;padding:40px;color:#999;min-width:100%;"><div style="font-size:48px;margin-bottom:15px;">📚</div><div>暂无知识内容</div></div>';
+                        return;
+                    }
+                    container.innerHTML = '';
+                    items.forEach(function(k) {
+                        var card = document.createElement('div');
+                        card.className = 'resource-card';
+                        card.style.cursor = 'pointer';
+                        var summary = k.summary ? escapeHTML(k.summary).substring(0, 80) + '...' : '暂无摘要';
+                        var date = new Date(k.created_at).toLocaleDateString('zh-CN');
+                        var tags = k.tags ? escapeHTML(k.tags) : '';
+                        card.innerHTML = '<div class="card-image" style="background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;"><span style="font-size:48px;">📖</span></div><div class="card-info"><h3 class="card-title">' + escapeHTML(k.title) + '</h3><p class="card-meta">' + escapeHTML(k.author_name || '匿名') + ' · ' + date + (tags ? ' · ' + tags : '') + '</p><p class="card-desc" style="font-size:12px;color:#999;margin-top:4px;">' + summary + '</p></div>';
+                        container.appendChild(card);
+                    });
+                } catch(e) {
+                    container.innerHTML = '<div style="text-align:center;padding:30px;color:#e74c3c;">加载失败，请稍后重试</div>';
+                }
+            }
+
+            document.querySelectorAll('.tab-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    var tab = btn.getAttribute('data-tab');
+                    if (tab === currentTab) return;
+                    currentTab = tab;
+                    if (tab === 'articles') {
+                        showArticlesUI();
+                    } else {
+                        hideArticlesUI();
+                        if (tab === 'users') searchUsers('');
+                        else if (tab === 'knowledge') searchKnowledge('');
+                    }
+                });
             });
-        });
+
+            // 搜索框支持搜索用户/知识（当对应tab激活时）
+            if (searchBtn && searchInput) {
+                var origClick = searchBtn.onclick;
+                searchBtn.addEventListener('click', function(e) {
+                    if (currentTab === 'users') { e.stopImmediatePropagation(); searchUsers(searchInput.value.trim()); }
+                    else if (currentTab === 'knowledge') { e.stopImmediatePropagation(); searchKnowledge(searchInput.value.trim()); }
+                }, true);
+                searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        if (currentTab === 'users') { e.preventDefault(); e.stopImmediatePropagation(); searchUsers(searchInput.value.trim()); }
+                        else if (currentTab === 'knowledge') { e.preventDefault(); e.stopImmediatePropagation(); searchKnowledge(searchInput.value.trim()); }
+                    }
+                }, true);
+            }
+        })();
 
         // 加载在线人数 & 发送访客心跳
         (async function loadOnlineCount() {
