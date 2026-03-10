@@ -18,18 +18,49 @@ class SupabaseAuthSystem {
 
         // Check for existing session in localStorage
         const storedUser = localStorage.getItem('user');
-        if (storedUser) {
+        const token = localStorage.getItem('token');
+        if (storedUser && token) {
             try {
                 this.currentUser = JSON.parse(storedUser);
                 console.log('AuthSystem: User restored from localStorage', this.currentUser);
                 this.updateUI();
+                // 异步验证 token 是否仍然有效
+                this.verifyToken(token);
             } catch (e) {
                 console.error('AuthSystem: Failed to parse stored user', e);
                 localStorage.removeItem('user');
+                localStorage.removeItem('token');
             }
         } else {
-            console.log('AuthSystem: No user session found');
+            // token 或 user 缺失，清除不完整的状态
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+            console.log('AuthSystem: No valid session found');
             this.updateUI();
+        }
+    }
+
+    async verifyToken(token) {
+        try {
+            const res = await fetch(`${API_BASE_URL}/auth/me`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if (!res.ok) {
+                console.warn('AuthSystem: Token expired/invalid, clearing session');
+                this.currentUser = null;
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                this.stopHeartbeat();
+                this.updateUI();
+            } else {
+                // 用服务端最新数据更新本地缓存
+                const userData = await res.json();
+                this.currentUser = { ...this.currentUser, ...userData };
+                localStorage.setItem('user', JSON.stringify(this.currentUser));
+            }
+        } catch (e) {
+            // 网络错误时保留本地 session（离线容错）
+            console.log('AuthSystem: Network error during token verify, keeping local session');
         }
     }
 
@@ -683,11 +714,19 @@ class SupabaseAuthSystem {
         try {
             const token = localStorage.getItem('token');
             if (!token) return;
-            await fetch(`${API_BASE_URL}/online/heartbeat`, {
+            const res = await fetch(`${API_BASE_URL}/online/heartbeat`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-        } catch (e) { /* ignore */ }
+            if (res.status === 401) {
+                console.warn('AuthSystem: Heartbeat 401, token expired, auto logout');
+                this.currentUser = null;
+                localStorage.removeItem('user');
+                localStorage.removeItem('token');
+                this.stopHeartbeat();
+                this.updateUI();
+            }
+        } catch (e) { /* network error, ignore */ }
     }
 
     showError(elementId, message) {
