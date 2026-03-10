@@ -43,15 +43,16 @@
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="alternate" type="application/rss+xml" title="Hakimi 的猫爬架 RSS" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/articles/feed/rss">
     <link rel="stylesheet" href="css/chinese-style.css?v=5">
-    <link rel="stylesheet" href="css/auth.css?v=3">
-    <link rel="stylesheet" href="css/tianjg-theme.css?v=3">
-    <link rel="stylesheet" href="css/theme.css?v=3">
+    <!-- 非关键 CSS 异步加载 -->
+    <link rel="stylesheet" href="css/auth.css?v=3" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/tianjg-theme.css?v=3" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/theme.css?v=4">
 
     <!-- 性能优化：pace 加载指示器使用 async 避免阻塞渲染 -->
     <script src="js/pace.min.js" async></script>
-    <!-- Cloudflare Turnstile 人机验证 -->
-    <script>window.__turnstileReady = false; function onTurnstileLoad() { window.__turnstileReady = true; console.log('Turnstile SDK loaded'); }</script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
+    <!-- Cloudflare Turnstile 延迟到用户点击登录/注册时才加载 -->
+    <script>window.__turnstileReady = false; function onTurnstileLoad() { window.__turnstileReady = true; console.log('Turnstile SDK loaded'); }
+    function loadTurnstile() { if (document.getElementById('turnstileScript')) return; var s = document.createElement('script'); s.id = 'turnstileScript'; s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad'; s.async = true; document.head.appendChild(s); }</script>
 </head>
 
 <body>
@@ -74,8 +75,8 @@
                 <a href="about.html" class="nav-link">🎯 关于我们</a>
                 <a href="messages.html" class="nav-link msg-nav-link" style="display:none;position:relative;">💬 消息 <span id="navUnreadBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span></a>
                 <a href="#" class="nav-link login-btn" style="cursor: pointer;"
-                    onclick="document.getElementById('loginModal').classList.add('active')">👤 登录</a>
-                <a href="#" class="nav-link register-btn" style="cursor: pointer;">📝 注册</a>
+                    onclick="loadTurnstile();document.getElementById('loginModal').classList.add('active')">👤 登录</a>
+                <a href="#" class="nav-link register-btn" style="cursor: pointer;" onclick="loadTurnstile()">📝 注册</a>
 
                 <!-- 用户菜单 -->
                 <div class="user-menu" style="display: none;">
@@ -315,11 +316,10 @@
             </div>
         </div>
     </div>
-    <!-- 性能优化：supabase SDK 使用 defer 延迟加载 -->
-    <script src="js/supabase.js" defer></script>
-    <script type="module" src="js/supabase-auth.js?v=20260226c"></script>
-    <script type="module" src="js/load-articles.js?v=20260223b"></script>
-    <script type="module" src="js/blog-search.js?v=20260223b"></script>
+    <!-- supabase.js 已移除（未使用），auth 系统延迟加载 -->
+    <script type="module" src="js/supabase-auth.js?v=20260310a"></script>
+    <script type="module" src="js/load-articles.js?v=20260310a"></script>
+    <script type="module" src="js/blog-search.js?v=20260310a"></script>
     <!-- 性能优化：主题增强脚本使用 defer 延迟加载 -->
     <script src="js/theme-enhancements.js" defer></script>
     <script>
