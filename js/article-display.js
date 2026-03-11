@@ -466,9 +466,13 @@ async function toggleLike(articleId, currentUser) {
     }
 
     try {
+        const token = localStorage.getItem('token');
         const res = await fetch(`${API_BASE_URL}/articles/${encodeURIComponent(articleId)}/like`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify({ userId: currentUser.id })
         });
 
@@ -530,9 +534,13 @@ async function toggleFavorite(articleId, currentUser) {
     }
 
     try {
+        const token = localStorage.getItem('token');
         const res = await fetch(`${API_BASE_URL}/articles/${encodeURIComponent(articleId)}/favorite`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify({ userId: currentUser.id })
         });
 
@@ -610,10 +618,13 @@ async function loadComments(articleId, currentUser) {
 window.deleteComment = async (commentId, articleId, userId) => {
     if (!confirm('确定删除这条评论吗？')) return;
     try {
+        const token = localStorage.getItem('token');
         const res = await fetch(`${API_BASE_URL}/comments/${encodeURIComponent(commentId)}`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId })
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
         });
         if (res.ok) {
             window.location.reload();
@@ -647,12 +658,14 @@ async function submitComment(articleId, currentUser) {
     }
 
     try {
+        const token = localStorage.getItem('token');
         const res = await fetch(`${API_BASE_URL}/articles/${encodeURIComponent(articleId)}/comments`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
             body: JSON.stringify({
-                userId: currentUser.id,
-                userName: currentUser.username || '匿名',
                 content
             })
         });

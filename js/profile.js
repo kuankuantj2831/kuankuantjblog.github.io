@@ -191,7 +191,11 @@ class ProfileManager {
         const avatarEl = document.getElementById('profileAvatar');
         if (avatarEl) {
             if (user.avatar_url) {
-                avatarEl.innerHTML = `<img src="${user.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+                avatarEl.textContent = '';
+                const img = document.createElement('img');
+                img.src = user.avatar_url;
+                img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
+                avatarEl.appendChild(img);
             } else {
                 avatarEl.textContent = displayName.charAt(0).toUpperCase();
             }
@@ -267,7 +271,11 @@ class ProfileManager {
 
             // 更新头像显示
             if (avatarEl) {
-                avatarEl.innerHTML = `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+                avatarEl.textContent = '';
+                const img = document.createElement('img');
+                img.src = avatarUrl;
+                img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%';
+                avatarEl.appendChild(img);
             }
 
             if (uploadBtn) uploadBtn.textContent = '✅';
@@ -302,9 +310,13 @@ class ProfileManager {
 
             let response;
             try {
+                const token = localStorage.getItem('token');
                 response = await fetch(`${API_BASE_URL}/profiles/${encodeURIComponent(this.currentUser.id)}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
                     body: JSON.stringify({ username: displayName })
                 });
             } catch (networkError) {

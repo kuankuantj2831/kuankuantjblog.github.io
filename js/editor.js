@@ -82,9 +82,13 @@ if (articleForm) {
 
             let response;
             try {
+                const token = localStorage.getItem('token');
                 response = await fetch(`${API_BASE_URL}/articles`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
                     body: JSON.stringify(articleData)
                 });
             } catch (networkError) {

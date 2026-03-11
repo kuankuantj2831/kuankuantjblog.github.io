@@ -649,7 +649,12 @@ class SupabaseAuthSystem {
 
                 if (avatar) {
                     if (this.currentUser.avatar_url) {
-                        avatar.innerHTML = `<img src="${this.currentUser.avatar_url}" alt="头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+                        avatar.textContent = '';
+                        const img = document.createElement('img');
+                        img.src = this.currentUser.avatar_url;
+                        img.alt = '头像';
+                        img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;';
+                        avatar.appendChild(img);
                     } else {
                         avatar.textContent = (this.currentUser.username || 'U').charAt(0).toUpperCase();
                     }
