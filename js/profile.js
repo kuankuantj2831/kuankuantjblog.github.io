@@ -7,10 +7,16 @@ class ProfileManager {
         this.userData = null;
         this.favoritesPage = 1;
         this.favoritesTotal = 0;
+        this.viewingUserId = null;  // 正在查看的用户ID（null=自己）
+        this.isOwnProfile = true;   // 是否查看自己的主页
         this.init();
     }
 
     init() {
+        // 检查 URL 是否指定了要查看的用户
+        const params = new URLSearchParams(window.location.search);
+        const viewId = params.get('id');
+
         // Check login status from localStorage
         const userJson = localStorage.getItem('user');
         if (userJson) {
@@ -20,15 +26,29 @@ class ProfileManager {
             } catch (e) {
                 console.error('Json parse error', e);
                 localStorage.removeItem('user');
+            }
+        }
+
+        if (viewId) {
+            this.viewingUserId = parseInt(viewId);
+            this.isOwnProfile = this.currentUser && this.currentUser.id === this.viewingUserId;
+        } else {
+            // 没有 id 参数，查看自己的主页，需要登录
+            if (!this.currentUser) {
+                console.log('❌ 未登录，跳转到首页');
                 window.location.href = '/index-chinese.html';
                 return;
             }
-            this.loadUserData();
-        } else {
-            console.log('❌ 未登录，跳转到首页');
-            window.location.href = '/index-chinese.html';
+            this.viewingUserId = this.currentUser.id;
+            this.isOwnProfile = true;
         }
 
+        // 非自己的主页时隐藏编辑功能
+        if (!this.isOwnProfile) {
+            this.hideEditControls();
+        }
+
+        this.loadUserData();
         this.bindEvents();
     }
 
@@ -61,24 +81,46 @@ class ProfileManager {
         if (avatarInput) avatarInput.style.display = 'none';
     }
 
+    hideEditControls() {
+        // 查看他人主页时隐藏所有编辑功能
+        const selectors = [
+            '#profileInfoForm',      // 修改用户名表单
+            '#changePasswordForm',   // 修改密码表单
+            '#avatarInput',          // 头像上传
+            '.toggle-2fa-section',   // 2FA 开关区域
+        ];
+        selectors.forEach(sel => {
+            const el = document.querySelector(sel);
+            if (el) el.style.display = 'none';
+        });
+        // 隐藏 2FA toggle 的父容器
+        const toggle2fa = document.getElementById('toggle2fa');
+        if (toggle2fa) {
+            const parent = toggle2fa.closest('.setting-item') || toggle2fa.parentElement;
+            if (parent) parent.style.display = 'none';
+        }
+    }
+
     async loadUserData() {
         try {
             console.log('📥 开始加载用户数据...');
 
-            // Initial UI update from local storage (fast)
-            this.updateUI();
+            const targetId = this.viewingUserId;
 
-            if (!this.currentUser || !this.currentUser.id) {
-                console.warn('⚠️ 用户数据不完整，跳过远程加载');
-                return;
+            // 查看自己的主页时，先用本地缓存快速渲染
+            if (this.isOwnProfile && this.currentUser) {
+                this.updateUI();
             }
 
             let response;
             try {
-                response = await fetch(`${API_BASE_URL}/profiles/${encodeURIComponent(this.currentUser.id)}`);
+                response = await fetch(`${API_BASE_URL}/profiles/${encodeURIComponent(targetId)}`);
             } catch (networkError) {
-                console.warn('⚠️ 网络连接失败，使用本地缓存数据:', networkError.message);
-                return; // 使用本地缓存数据，不阻塞页面
+                console.warn('⚠️ 网络连接失败:', networkError.message);
+                if (this.isOwnProfile) return; // 自己的主页用缓存
+                const nameEl = document.getElementById('profileName');
+                if (nameEl) nameEl.textContent = '加载失败，请刷新重试';
+                return;
             }
 
             if (response.ok) {
@@ -93,22 +135,24 @@ class ProfileManager {
                 this.userData = data.data || data;
                 console.log('✅ 找到用户数据:', this.userData);
 
-                // Update specific fields that might have changed
-                if (this.userData.username) {
-                    this.currentUser.username = this.userData.username;
+                if (this.isOwnProfile && this.currentUser) {
+                    // 同步到本地缓存
+                    if (this.userData.username) {
+                        this.currentUser.username = this.userData.username;
+                    }
+                    if (this.userData.is_2fa_enabled !== undefined) {
+                        this.currentUser.is_2fa_enabled = this.userData.is_2fa_enabled;
+                    }
+                    if (this.userData.avatar_url !== undefined) {
+                        this.currentUser.avatar_url = this.userData.avatar_url;
+                    }
+                    localStorage.setItem('user', JSON.stringify(this.currentUser));
                 }
-                // 同步 2FA 状态
-                if (this.userData.is_2fa_enabled !== undefined) {
-                    this.currentUser.is_2fa_enabled = this.userData.is_2fa_enabled;
-                }
-                // 同步头像
-                if (this.userData.avatar_url !== undefined) {
-                    this.currentUser.avatar_url = this.userData.avatar_url;
-                }
-                // Update local storage to keep it fresh
-                localStorage.setItem('user', JSON.stringify(this.currentUser));
             } else {
                 console.log('⚠️ 用户文档不存在或获取失败 (HTTP ' + response.status + ')');
+                const nameEl = document.getElementById('profileName');
+                if (nameEl) nameEl.textContent = '用户不存在';
+                return;
             }
 
             this.updateUI();
@@ -125,7 +169,11 @@ class ProfileManager {
     updateUI() {
         console.log('🎨 更新UI...');
 
-        const displayName = this.currentUser.username || (this.currentUser.email ? this.currentUser.email.split('@')[0] : '用户');
+        // 确定数据来源：查看他人时用 userData，查看自己时优先 currentUser
+        const user = this.isOwnProfile ? (this.currentUser || this.userData) : this.userData;
+        if (!user) return;
+
+        const displayName = user.username || (user.email ? user.email.split('@')[0] : '用户');
         const nameEl = document.getElementById('profileName');
         const nameInput = document.getElementById('displayName');
 
@@ -135,19 +183,19 @@ class ProfileManager {
         // Update Avatar
         const avatarEl = document.getElementById('profileAvatar');
         if (avatarEl) {
-            if (this.currentUser.avatar_url) {
-                avatarEl.innerHTML = `<img src="${this.currentUser.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+            if (user.avatar_url) {
+                avatarEl.innerHTML = `<img src="${user.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
             } else {
                 avatarEl.textContent = displayName.charAt(0).toUpperCase();
             }
         }
 
         const emailInput = document.getElementById('email');
-        if (emailInput) emailInput.value = this.currentUser.email;
+        if (emailInput) emailInput.value = user.email || '';
 
         const dateEl = document.getElementById('profileDate');
-        if (dateEl && this.currentUser.created_at) {
-            const createdDate = new Date(this.currentUser.created_at);
+        if (dateEl && user.created_at) {
+            const createdDate = new Date(user.created_at);
             dateEl.textContent = `注册时间：${createdDate.toLocaleDateString('zh-CN')}`;
 
             const days = Math.max(0, Math.floor((Date.now() - createdDate.getTime()) / (1000 * 60 * 60 * 24)));
@@ -155,16 +203,16 @@ class ProfileManager {
             if (daysEl) daysEl.textContent = days;
         }
 
-        // Update 2FA Toggle
-        const toggle2fa = document.getElementById('toggle2fa');
-        if (toggle2fa) {
-            // Force boolean conversion
-            const isEnabled = !!this.currentUser.is_2fa_enabled;
-            // Only update if different to avoid triggering change event loops if any
-            if (toggle2fa.checked !== isEnabled) {
-                toggle2fa.checked = isEnabled;
+        // Update 2FA Toggle (only for own profile)
+        if (this.isOwnProfile) {
+            const toggle2fa = document.getElementById('toggle2fa');
+            if (toggle2fa) {
+                const isEnabled = !!user.is_2fa_enabled;
+                if (toggle2fa.checked !== isEnabled) {
+                    toggle2fa.checked = isEnabled;
+                }
+                console.log('UI: 2FA Toggle set to', isEnabled);
             }
-            console.log('UI: 2FA Toggle set to', isEnabled);
         }
 
         console.log('✅ UI更新完成');
