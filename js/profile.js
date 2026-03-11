@@ -362,13 +362,13 @@ class ProfileManager {
         const loadMoreEl = document.getElementById('favoritesLoadMore');
         if (!listEl) return;
 
-        if (!this.currentUser || !this.currentUser.id) {
+        if (!this.viewingUserId) {
             listEl.innerHTML = '<p style="text-align:center;color:#999;">请先登录</p>';
             return;
         }
 
         try {
-            const res = await fetch(`${API_BASE_URL}/favorites?userId=${encodeURIComponent(this.currentUser.id)}&page=${this.favoritesPage}&limit=5`);
+            const res = await fetch(`${API_BASE_URL}/favorites?userId=${encodeURIComponent(this.viewingUserId)}&page=${this.favoritesPage}&limit=5`);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
             const data = await res.json();
