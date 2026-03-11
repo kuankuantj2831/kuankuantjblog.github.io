@@ -413,10 +413,13 @@
                     users.forEach(function(u) {
                         var card = document.createElement('div');
                         card.className = 'resource-card';
-                        card.style.cursor = 'pointer';
-                        var avatar = u.avatar_url ? escapeHTML(u.avatar_url) : 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%23667eea%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2265%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2250%22>' + escapeHTML(u.username.charAt(0).toUpperCase()) + '</text></svg>';
+                        card.style.cssText = 'cursor:pointer;display:flex;flex-direction:column;align-items:center;padding:20px 15px;text-align:center;';
+                        var initial = u.username ? u.username.charAt(0).toUpperCase() : '?';
+                        var avatarHtml = u.avatar_url
+                            ? '<img src="' + escapeHTML(u.avatar_url) + '" style="width:72px;height:72px;border-radius:50%;object-fit:cover;box-shadow:0 2px 12px rgba(102,126,234,0.3);">'
+                            : '<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;box-shadow:0 2px 12px rgba(102,126,234,0.3);">' + escapeHTML(initial) + '</div>';
                         var date = new Date(u.created_at).toLocaleDateString('zh-CN');
-                        card.innerHTML = '<div class="card-image"><img src="' + avatar + '" alt="' + escapeHTML(u.username) + '" style="object-fit:cover;"></div><div class="card-info"><h3 class="card-title">👤 ' + escapeHTML(u.username) + '</h3><p class="card-meta">加入于 ' + date + '</p></div>';
+                        card.innerHTML = avatarHtml + '<div style="margin-top:12px;font-size:15px;font-weight:600;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;">' + escapeHTML(u.username) + '</div><div style="margin-top:4px;font-size:12px;color:#999;">加入于 ' + date + '</div>';
                         card.onclick = function() { window.location.href = '/profile.html?id=' + u.id; };
                         container.appendChild(card);
                     });
