@@ -76,9 +76,15 @@ class ProfileManager {
             });
         }
 
-        // Hide avatar upload for now as requested/implied by previous code
+        // 头像上传
         const avatarInput = document.getElementById('avatarInput');
-        if (avatarInput) avatarInput.style.display = 'none';
+        if (avatarInput) {
+            avatarInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    this.uploadAvatar(e.target.files[0]);
+                }
+            });
+        }
     }
 
     hideEditControls() {
@@ -87,6 +93,7 @@ class ProfileManager {
             '#profileInfoForm',      // 修改用户名表单
             '#changePasswordForm',   // 修改密码表单
             '#avatarInput',          // 头像上传
+            '.avatar-upload-btn',    // 头像上传按钮
             '.toggle-2fa-section',   // 2FA 开关区域
         ];
         selectors.forEach(sel => {
@@ -216,6 +223,64 @@ class ProfileManager {
         }
 
         console.log('✅ UI更新完成');
+    }
+
+    async uploadAvatar(file) {
+        // 前端校验
+        if (file.size > 2 * 1024 * 1024) {
+            alert('图片大小不能超过 2MB');
+            return;
+        }
+        if (!/^image\/(jpeg|png|gif|webp)$/.test(file.type)) {
+            alert('只支持 JPG/PNG/GIF/WebP 格式');
+            return;
+        }
+
+        const avatarEl = document.getElementById('profileAvatar');
+        const uploadBtn = document.querySelector('.avatar-upload-btn');
+        const originalBtnText = uploadBtn ? uploadBtn.textContent : '';
+
+        try {
+            if (uploadBtn) uploadBtn.textContent = '⏳';
+
+            const token = localStorage.getItem('token');
+            const formData = new FormData();
+            formData.append('avatar', file);
+
+            const response = await fetch(`${API_BASE_URL}/profiles/${encodeURIComponent(this.currentUser.id)}/avatar`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${token}` },
+                body: formData
+            });
+
+            if (!response.ok) {
+                const data = await response.json().catch(() => ({}));
+                throw new Error(data.message || '上传失败');
+            }
+
+            const result = await response.json();
+            const avatarUrl = result.avatar_url;
+
+            // 更新本地状态
+            this.currentUser.avatar_url = avatarUrl;
+            localStorage.setItem('user', JSON.stringify(this.currentUser));
+
+            // 更新头像显示
+            if (avatarEl) {
+                avatarEl.innerHTML = `<img src="${avatarUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`;
+            }
+
+            if (uploadBtn) uploadBtn.textContent = '✅';
+            setTimeout(() => { if (uploadBtn) uploadBtn.textContent = '📷'; }, 1500);
+        } catch (error) {
+            console.error('❌ 头像上传失败:', error);
+            alert('头像上传失败：' + error.message);
+            if (uploadBtn) uploadBtn.textContent = originalBtnText || '📷';
+        }
+
+        // 清空 input 以便重复选择同一文件
+        const avatarInput = document.getElementById('avatarInput');
+        if (avatarInput) avatarInput.value = '';
     }
 
     async updateUserInfo() {
