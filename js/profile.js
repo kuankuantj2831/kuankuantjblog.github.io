@@ -370,11 +370,14 @@ class ProfileManager {
 
             let response;
             try {
+                const token = localStorage.getItem('token');
                 response = await fetch(`${API_BASE_URL}/auth/password`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
                     body: JSON.stringify({
-                        userId: this.currentUser.id,
                         password: newPassword
                     })
                 });

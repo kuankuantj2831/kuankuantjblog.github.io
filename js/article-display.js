@@ -142,10 +142,13 @@ async function loadArticle() {
                     deleteBtn.onclick = async () => {
                         if (confirm('确定要撤回（删除）这篇文章吗？此操作不可恢复。')) {
                             try {
+                                const token = localStorage.getItem('token');
                                 const delResponse = await fetch(`${API_BASE_URL}/articles/${encodeURIComponent(articleId)}`, {
                                     method: 'DELETE',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ userId: currentUser.id })
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${token}`
+                                    }
                                 });
 
                                 if (delResponse.ok) {
