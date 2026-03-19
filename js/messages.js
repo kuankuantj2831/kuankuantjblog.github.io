@@ -118,9 +118,11 @@ window.openChat = async function (userId, username) {
 
     await loadChatMessages(userId);
 
-    // 自动刷新聊天
+    // 自动刷新聊天（页面不可见时暂停）
     if (chatRefreshTimer) clearInterval(chatRefreshTimer);
-    chatRefreshTimer = setInterval(() => loadChatMessages(userId), 5000);
+    chatRefreshTimer = setInterval(() => {
+        if (document.visibilityState === 'visible') loadChatMessages(userId);
+    }, 5000);
 
     // 聚焦输入框
     document.getElementById('chatInput').focus();

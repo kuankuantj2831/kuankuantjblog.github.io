@@ -187,6 +187,20 @@ class ProfileManager {
         if (nameEl) nameEl.textContent = displayName;
         if (nameInput) nameInput.value = displayName;
 
+        // 等级展示
+        const levelData = this.userData && this.userData.levelInfo;
+        const levelBar = document.getElementById('profileLevelBar');
+        if (levelBar && levelData) {
+            levelBar.style.display = '';
+            const badge = document.getElementById('profileLevelBadge');
+            const expEl = document.getElementById('profileLevelExp');
+            const progEl = document.getElementById('profileLevelProgress');
+            const lvClass = 'level-' + Math.min(levelData.level, 5);
+            if (badge) { badge.className = 'user-level-badge ' + lvClass; badge.textContent = 'Lv' + levelData.level; }
+            if (expEl) expEl.textContent = levelData.nextExp ? `${levelData.exp} / ${levelData.nextExp} EXP` : `${levelData.exp} EXP (MAX)`;
+            if (progEl) progEl.style.width = Math.round(levelData.progress * 100) + '%';
+        }
+
         // Update Avatar
         const avatarEl = document.getElementById('profileAvatar');
         if (avatarEl) {

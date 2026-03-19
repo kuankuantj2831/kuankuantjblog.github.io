@@ -1,6 +1,7 @@
 ﻿
 import { API_BASE_URL } from './api-config.js?v=20260223b';
 import { escapeHtml } from './utils.js';
+import { renderMarkdown } from './markdown.js';
 
 // 轻量提示（替代 alert）
 function showToast(msg) {
@@ -102,8 +103,14 @@ async function loadArticle() {
                 const titleBadge = article.author_title
                     ? `<span style="display:inline-block;padding:1px 6px;border-radius:4px;font-size:0.75em;font-weight:700;margin-right:4px;${article.author_title === 'MVP' ? 'background:#fce4ec;color:#c62828;' : 'background:#fff8e1;color:#f57f17;'}">${article.author_title}</span>`
                     : '';
-                authorEl.innerHTML = "👤 " + titleBadge + escapeHtml(article.author_name || '匿名');
+                const lvClass = 'level-' + Math.min(article.author_level || 1, 5);
+                const levelBadge = `<span class="user-level-badge ${lvClass}">Lv${article.author_level || 1}</span>`;
+                authorEl.innerHTML = "👤 " + levelBadge + titleBadge + escapeHtml(article.author_name || '匿名');
             }
+
+            // 显示阅读量
+            const viewsEl = safeGetElement('artViews');
+            if (viewsEl) viewsEl.textContent = '👁 ' + (article.view_count || 0);
 
             // 格式化时间
             if (article.created_at && dateEl) {
@@ -117,11 +124,9 @@ async function loadArticle() {
                 }
             }
 
-            // 简单的 Markdown 渲染（已防 XSS）
+            // Markdown 渲染（安全，已内置 XSS 防护）
             if (bodyEl) {
-                bodyEl.innerHTML = (article.content || '')
-                    .replace(/</g, "&lt;").replace(/>/g, "&gt;") // 防XSS
-                    .replace(/\n/g, "<br>"); // 换行
+                bodyEl.innerHTML = renderMarkdown(article.content || '');
             }
 
             // 显示内容，隐藏加载
@@ -581,40 +586,113 @@ async function loadComments(articleId, currentUser) {
             return;
         }
 
-        comments.forEach(comment => {
-            if (!comment) return; // 跳过无效数据
-
-            const div = document.createElement('div');
-            div.style.borderBottom = '1px solid #eee';
-            div.style.padding = '15px 0';
-
-            let dateStr = '';
-            try {
-                dateStr = comment.created_at ? new Date(comment.created_at).toLocaleString() : '';
-            } catch (_) {
-                dateStr = '';
+        // 构建评论树
+        const topLevel = [];
+        const childrenMap = {};
+        comments.forEach(c => {
+            if (!c) return;
+            if (c.parent_id) {
+                if (!childrenMap[c.parent_id]) childrenMap[c.parent_id] = [];
+                childrenMap[c.parent_id].push(c);
+            } else {
+                topLevel.push(c);
             }
+        });
 
-            const isAuthor = currentUser && currentUser.id && currentUser.id == comment.user_id;
-
-            // 转义 HTML 防止 XSS
-            const safeName = escapeHtml(comment.user_name || '匿名用户');
-            const safeContent = escapeHtml(comment.content || '').replace(/\n/g, '<br>');
-
-            div.innerHTML = `
-                <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
-                    <span style="font-weight:bold;color:#333;">${safeName}</span>
-                    <span style="font-size:12px;color:#999;">${escapeHtml(dateStr)}</span>
-                </div>
-                <div style="color:#666;line-height:1.6;">${safeContent}</div>
-                ${isAuthor ? `<button onclick="deleteComment(${parseInt(comment.id)}, ${parseInt(articleId)}, ${parseInt(currentUser.id)})" style="color:red;background:none;border:none;cursor:pointer;font-size:12px;margin-top:5px;">删除</button>` : ''}
-            `;
-            list.appendChild(div);
+        topLevel.forEach(comment => {
+            const el = buildCommentEl(comment, currentUser, articleId, childrenMap);
+            list.appendChild(el);
         });
     } catch (e) {
         console.error('Load comments error:', e);
         list.innerHTML = '<p style="text-align:center;color:#999;">评论加载失败</p>';
     }
+}
+
+function buildCommentEl(comment, currentUser, articleId, childrenMap) {
+    const div = document.createElement('div');
+    div.className = 'comment-item';
+
+    let dateStr = '';
+    try {
+        dateStr = comment.created_at ? new Date(comment.created_at).toLocaleString() : '';
+    } catch (_) { dateStr = ''; }
+
+    const isAuthor = currentUser && currentUser.id && currentUser.id == comment.user_id;
+    const safeName = escapeHtml(comment.user_name || '匿名用户');
+    const safeContent = escapeHtml(comment.content || '').replace(/\n/g, '<br>');
+    const cLvClass = 'level-' + Math.min(comment.user_level || 1, 5);
+    const cLevelBadge = `<span class="user-level-badge ${cLvClass}">Lv${comment.user_level || 1}</span>`;
+    const cId = parseInt(comment.id);
+
+    div.innerHTML = `
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+            <span style="font-weight:bold;color:#333;">${cLevelBadge}${safeName}</span>
+            <span style="font-size:12px;color:#999;">${escapeHtml(dateStr)}</span>
+        </div>
+        <div style="color:#666;line-height:1.6;">${safeContent}</div>
+        <div>
+            ${currentUser ? `<button class="reply-btn" data-cid="${cId}" data-name="${safeName}">回复</button>` : ''}
+            ${isAuthor ? `<button onclick="deleteComment(${cId}, ${parseInt(articleId)}, ${parseInt(currentUser.id)})" style="color:red;background:none;border:none;cursor:pointer;font-size:12px;margin-top:5px;">删除</button>` : ''}
+        </div>
+        ${currentUser ? `<div class="reply-form" id="replyForm-${cId}">
+            <div class="reply-to-hint">回复 @${safeName}</div>
+            <textarea placeholder="写下你的回复..." maxlength="2000"></textarea>
+            <button class="reply-submit-btn" data-cid="${cId}" data-article="${articleId}">发布回复</button>
+        </div>` : ''}
+    `;
+
+    // 回复按钮事件
+    const replyBtn = div.querySelector(':scope > div > .reply-btn');
+    if (replyBtn) {
+        replyBtn.addEventListener('click', () => {
+            const form = div.querySelector(`:scope > .reply-form`);
+            if (form) form.style.display = form.style.display === 'none' || !form.style.display ? 'block' : 'none';
+        });
+    }
+
+    // 发布回复事件
+    const replyForm = div.querySelector(':scope > .reply-form');
+    const submitReplyBtn = replyForm ? replyForm.querySelector('.reply-submit-btn') : null;
+    if (submitReplyBtn) {
+        submitReplyBtn.addEventListener('click', async () => {
+            const textarea = replyForm.querySelector('textarea');
+            const content = textarea ? textarea.value.trim() : '';
+            if (!content) { alert('请输入回复内容'); return; }
+            if (content.length > 2000) { alert('回复内容不能超过2000字'); return; }
+            try {
+                const token = localStorage.getItem('token');
+                const res = await fetch(`${API_BASE_URL}/articles/${encodeURIComponent(articleId)}/comments`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ content, parentId: cId })
+                });
+                if (res.ok) {
+                    await loadComments(articleId, currentUser);
+                } else {
+                    let errMsg = '回复失败';
+                    try { const d = await res.json(); errMsg = d.message || errMsg; } catch (_) {}
+                    alert(errMsg);
+                }
+            } catch (e) {
+                console.error('Reply error:', e);
+                alert('网络错误，请重试');
+            }
+        });
+    }
+
+    // 渲染子评论
+    const children = childrenMap[comment.id];
+    if (children && children.length > 0) {
+        const repliesDiv = document.createElement('div');
+        repliesDiv.className = 'comment-replies';
+        children.forEach(child => {
+            repliesDiv.appendChild(buildCommentEl(child, currentUser, articleId, childrenMap));
+        });
+        div.appendChild(repliesDiv);
+    }
+
+    return div;
 }
 
 // Expose deleteComment to global scope so onclick works

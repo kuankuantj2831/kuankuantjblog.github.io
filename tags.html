@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Hakimi 的猫爬架 - 标签云与分类浏览">
+    <title>标签与分类 - Hakimi 的猫爬架</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/chinese-style.css">
+    <link rel="stylesheet" href="/css/tianjg-theme.css">
+    <style>
+        .tags-container{max-width:960px;margin:100px auto 50px;padding:20px;}
+        .section-title{font-size:24px;font-weight:700;margin-bottom:20px;color:#333;border-left:4px solid #667eea;padding-left:12px;}
+
+        /* 标签云 */
+        .tag-cloud{background:rgba(255,255,255,.98);border-radius:15px;padding:30px;box-shadow:0 6px 20px rgba(0,0,0,.08);margin-bottom:30px;text-align:center;}
+        .tag-cloud-item{display:inline-block;margin:6px 10px;color:#667eea;text-decoration:none;transition:all .2s;padding:4px 8px;border-radius:6px;}
+        .tag-cloud-item:hover{background:#667eea;color:#fff;transform:scale(1.1);}
+
+        /* 分类卡片 */
+        .category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:30px;}
+        .category-card{display:block;background:rgba(255,255,255,.98);border-radius:12px;padding:24px;box-shadow:0 4px 15px rgba(0,0,0,.06);text-decoration:none;color:#333;transition:all .3s;text-align:center;}
+        .category-card:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(102,126,234,.2);}
+        .category-name{font-size:18px;font-weight:600;margin-bottom:8px;}
+        .category-count{font-size:14px;color:#999;}
+
+        /* 热门文章 */
+        .hot-list{background:rgba(255,255,255,.98);border-radius:15px;padding:20px 24px;box-shadow:0 6px 20px rgba(0,0,0,.08);}
+        .hot-article-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f0f0f0;text-decoration:none;color:#333;transition:background .2s;}
+        .hot-article-item:last-child{border-bottom:none;}
+        .hot-article-item:hover{background:#f8f9ff;border-radius:8px;padding-left:8px;}
+        .hot-rank{width:24px;height:24px;border-radius:50%;background:#e8e8e8;color:#666;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+        .hot-rank.top3{background:linear-gradient(135deg,#f7971e,#ffd200);color:#fff;}
+        .hot-title{flex:1;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+        .hot-views{font-size:12px;color:#999;flex-shrink:0;}
+
+        @media(max-width:600px){.tags-container{padding:10px;margin-top:80px;}.category-grid{grid-template-columns:1fr 1fr;}}
+    </style>
+</head>
+<body>
+    <div class="chinese-style-wrapper">
+        <div class="bg-decoration"></div>
+        <nav class="top-nav">
+            <div class="logo">Hakimi 的猫爬架</div>
+            <div class="nav-links">
+                <a href="/index-chinese.html" class="nav-link">🏠 返回首页</a>
+                <a href="/games.html" class="nav-link">🎮 游戏</a>
+            </div>
+        </nav>
+
+        <div class="tags-container">
+            <h2 class="section-title">🏷️ 标签云</h2>
+            <div class="tag-cloud" id="tagCloud">
+                <p style="color:#999;">加载中...</p>
+            </div>
+
+            <h2 class="section-title">📂 文章分类</h2>
+            <div class="category-grid" id="categoryList">
+                <p style="color:#999;">加载中...</p>
+            </div>
+
+            <h2 class="section-title">🔥 热门文章</h2>
+            <div class="hot-list" id="hotArticles">
+                <p style="color:#999;">加载中...</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/js/tags.js"></script>
+</body>
+</html>

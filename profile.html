@@ -14,6 +14,10 @@
 
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/profile.css">
+    <style>
+        .user-level-badge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:.72em;font-weight:700;margin-right:4px;vertical-align:middle}
+        .level-1{background:#e8eaf6;color:#5c6bc0}.level-2{background:#e0f2f1;color:#00897b}.level-3{background:#fff8e1;color:#f9a825}.level-4{background:#fce4ec;color:#e53935}.level-5{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+    </style>
 
     <script src="/js/pace.min.js" async></script>
     <link rel="stylesheet" href="/css/theme.css?v=3">
@@ -40,6 +44,13 @@
                 </div>
                 <div class="profile-info">
                     <h1 class="profile-name" id="profileName">加载中...</h1>
+                    <div id="profileLevelBar" style="display:none;margin:8px 0;">
+                        <span id="profileLevelBadge" class="user-level-badge level-1">Lv1</span>
+                        <span id="profileLevelExp" style="font-size:0.82em;color:#888;margin-left:6px;"></span>
+                        <div style="background:#eee;border-radius:6px;height:8px;margin-top:4px;overflow:hidden;max-width:220px;">
+                            <div id="profileLevelProgress" style="height:100%;border-radius:6px;background:linear-gradient(90deg,#667eea,#764ba2);width:0%;transition:width .5s;"></div>
+                        </div>
+                    </div>
                     <p class="profile-email" id="profileEmail">加载中...</p>
                     <p class="profile-date" id="profileDate">注册时间：加载中...</p>
                 </div>

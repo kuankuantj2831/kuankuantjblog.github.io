@@ -24,8 +24,14 @@
         checkLoginStatus() {
             const savedUser = localStorage.getItem('currentUser');
             if (savedUser) {
-                this.currentUser = JSON.parse(savedUser);
-                this.updateUI();
+                try {
+                    this.currentUser = JSON.parse(savedUser);
+                    this.updateUI();
+                } catch (e) {
+                    console.warn('localStorage currentUser 解析失败，已重置：', e);
+                    localStorage.removeItem('currentUser');
+                    this.currentUser = null;
+                }
             }
         }
 
@@ -273,7 +279,14 @@
         // 工具函数
         getUsers() {
             const users = localStorage.getItem('users');
-            return users ? JSON.parse(users) : [];
+            if (!users) return [];
+            try {
+                return JSON.parse(users);
+            } catch (e) {
+                console.warn('localStorage users 解析失败，已重置：', e);
+                localStorage.removeItem('users');
+                return [];
+            }
         }
 
         encodePassword(password) {

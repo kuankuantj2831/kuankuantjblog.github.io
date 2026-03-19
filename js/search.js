@@ -116,8 +116,9 @@ var searchFunc = function (path, search_id, content_id) {
 
               // highlight all keywords
               keywords.forEach(function (keyword) {
-                var regS = new RegExp(keyword, "gi");
-                match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                var escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                var regS = new RegExp(escapedKeyword, "gi");
+                match_content = match_content.replace(regS, function(m) { return "<em class=\"search-keyword\">" + m.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + "</em>"; });
               });
 
               str += "<p class=\"search-result\">" + match_content + "...</p>"

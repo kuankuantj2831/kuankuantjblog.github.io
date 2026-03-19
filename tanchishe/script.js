@@ -236,6 +236,11 @@ function endGame() {
     unlockAchievement('FIRST_DEATH');
     if (highestScore > 0 && score < highestScore && highestScore - score <= 5) { unlockAchievement('SO_CLOSE'); }
     if (score > highestScore) { highestScore = score; localStorage.setItem('highestScore', highestScore); updateHighScoreDisplay(); }
+
+    // 触发游戏结束事件，用于积分系统
+    window.dispatchEvent(new CustomEvent('gameOver', {
+        detail: { score: score, playTime: time, gameName: 'snake' }
+    }));
 }
 
 function handleDirectionChange(newDirection) {

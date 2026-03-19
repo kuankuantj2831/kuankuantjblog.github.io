@@ -320,8 +320,8 @@ class SupabaseAuthSystem {
         }
     }
 
-    // 等待 Turnstile SDK 加载完成，最多等待 10 秒
-    waitForTurnstile(maxWait = 10000) {
+    // 等待 Turnstile SDK 加载完成，最多等待 5 秒
+    waitForTurnstile(maxWait = 5000) {
         return new Promise((resolve) => {
             if (typeof turnstile !== 'undefined') {
                 resolve(true);
@@ -347,6 +347,8 @@ class SupabaseAuthSystem {
         const ready = await this.waitForTurnstile();
         if (!ready) {
             console.warn('Turnstile SDK not available, skipping login widget');
+            const container = document.getElementById('loginTurnstile');
+            if (container) container.innerHTML = '<p style="font-size:12px;color:#999;text-align:center;">人机验证加载失败，你仍可以直接登录</p>';
             return;
         }
         const container = document.getElementById('loginTurnstile');
@@ -372,6 +374,8 @@ class SupabaseAuthSystem {
         const ready = await this.waitForTurnstile();
         if (!ready) {
             console.warn('Turnstile SDK not available, skipping register widget');
+            const container = document.getElementById('registerTurnstile');
+            if (container) container.innerHTML = '<p style="font-size:12px;color:#999;text-align:center;">人机验证加载失败，你仍可以直接注册</p>';
             return;
         }
         const container = document.getElementById('registerTurnstile');
@@ -435,11 +439,10 @@ class SupabaseAuthSystem {
             return;
         }
 
-        // 获取 Turnstile token
+        // 获取 Turnstile token（降级：加载失败时允许跳过）
         const turnstileToken = this.getTurnstileToken(this.registerWidgetId);
         if (!turnstileToken) {
-            this.showError('registerError', '请完成人机验证');
-            return;
+            console.warn('Turnstile token not available for register, proceeding without it');
         }
 
         try {
@@ -520,17 +523,9 @@ class SupabaseAuthSystem {
             if (!is2faStep) {
                 const turnstileToken = this.getTurnstileToken(this.loginWidgetId);
                 if (!turnstileToken) {
-                    this.showError('loginError', '请完成人机验证');
-                    this.isLoginSubmitting = false;
-                    if (submitBtn) {
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = '➔ 登录';
-                        submitBtn.style.opacity = '1';
-                        submitBtn.style.cursor = 'pointer';
-                    }
-                    return;
+                    console.warn('Turnstile token not available, proceeding without it');
                 }
-                var loginTurnstileToken = turnstileToken;
+                var loginTurnstileToken = turnstileToken || undefined;
             }
 
             let url = `${API_BASE_URL}/auth/login`;

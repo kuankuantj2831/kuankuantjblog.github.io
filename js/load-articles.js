@@ -34,6 +34,7 @@ function createArticleCard(article) {
             <div class="showcase-meta">
                 <span>📂 ${safeCategory}</span>
                 <span>👤 ${titleBadge}${safeAuthor}</span>
+                <span>👁 ${article.view_count || 0}</span>
             </div>
             <div style="font-size:12px; color:#999; margin-top:5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                 ${safeSummary}
@@ -129,3 +130,21 @@ if (loadMoreBtn) {
 window._loadArticles = loadArticles;
 
 loadArticles(1);
+
+// 动态加载热门标签到首页分类标签区
+(async function loadCategoryTags() {
+    const container = document.getElementById('categoryTags');
+    if (!container) return;
+    try {
+        const res = await fetch(`${API_BASE_URL}/articles/meta/tags`);
+        if (!res.ok) return;
+        const tags = await res.json();
+        tags.slice(0, 8).forEach(tag => {
+            const a = document.createElement('a');
+            a.href = `/index-chinese.html?search=${encodeURIComponent(tag.name)}`;
+            a.className = 'category-tag';
+            a.textContent = tag.name;
+            container.appendChild(a);
+        });
+    } catch (_) { /* 静默失败 */ }
+})();

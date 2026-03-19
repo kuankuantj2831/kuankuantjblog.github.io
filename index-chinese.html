@@ -47,6 +47,19 @@
     <link rel="stylesheet" href="css/auth.css?v=3" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/tianjg-theme.css?v=3" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/theme.css?v=4">
+    <style>
+        /* 通知下拉面板 */
+        .notif-dropdown{position:absolute;top:100%;right:0;width:340px;max-height:420px;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:999;overflow:hidden;}
+        .notif-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #eee;font-weight:600;font-size:15px;}
+        .notif-list{max-height:360px;overflow-y:auto;}
+        .notif-item{display:flex;gap:10px;padding:12px 16px;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background .2s;font-size:13px;line-height:1.5;}
+        .notif-item:hover{background:#f8f9ff;}
+        .notif-item.unread{background:#f0f4ff;}
+        .notif-item .notif-icon{font-size:20px;flex-shrink:0;}
+        .notif-item .notif-text{flex:1;overflow:hidden;}
+        .notif-item .notif-time{font-size:11px;color:#999;margin-top:4px;}
+        @media(max-width:600px){.notif-dropdown{width:290px;right:-40px;}}
+    </style>
 
     <!-- 性能优化：pace 加载指示器使用 async 避免阻塞渲染 -->
     <script src="js/pace.min.js" async></script>
@@ -75,6 +88,19 @@
                 <a href="donate.html" class="nav-link" style="color:#ff6b6b;">❤️ 捐助</a>
                 <a href="about.html" class="nav-link">🎯 关于我们</a>
                 <a href="messages.html" class="nav-link msg-nav-link" style="display:none;position:relative;">💬 消息 <span id="navUnreadBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span></a>
+                <div class="nav-link notification-bell-wrap" style="display:none;position:relative;cursor:pointer;" id="notificationBell">
+                    🔔 <span id="notifBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span>
+                    <!-- 通知下拉面板 -->
+                    <div id="notifDropdown" class="notif-dropdown" style="display:none;">
+                        <div class="notif-header">
+                            <span>通知</span>
+                            <a href="#" id="notifReadAll" style="font-size:12px;color:#667eea;">全部已读</a>
+                        </div>
+                        <div id="notifList" class="notif-list">
+                            <p style="text-align:center;color:#999;padding:20px;">暂无通知</p>
+                        </div>
+                    </div>
+                </div>
                 <a href="#" class="nav-link login-btn" style="cursor: pointer;"
                     onclick="loadTurnstile();document.getElementById('loginModal').classList.add('active')">👤 登录</a>
                 <a href="#" class="nav-link register-btn" style="cursor: pointer;" onclick="loadTurnstile()">📝 注册</a>
@@ -197,10 +223,8 @@
             </div>
 
             <!-- 分类标签 -->
-            <div class="category-tags">
-                <a href="#" class="category-tag">原神</a>
-                <a href="#" class="category-tag">哔哩哔哩</a>
-                <a href="#" class="category-tag">游戏</a>
+            <div class="category-tags" id="categoryTags">
+                <a href="tags.html" class="category-tag" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;">🏷️ 全部标签</a>
             </div>
         </section>
 
@@ -351,6 +375,10 @@
     <script type="module" src="js/supabase-auth.js?v=20260311"></script>
     <script type="module" src="js/load-articles.js?v=20260310a"></script>
     <script type="module" src="js/blog-search.js?v=20260310a"></script>
+    <script type="module">
+        import { initNotifications } from './js/notifications.js';
+        document.addEventListener('DOMContentLoaded', () => setTimeout(initNotifications, 500));
+    </script>
     <!-- 性能优化：主题增强脚本使用 defer 延迟加载 -->
     <script src="js/theme-enhancements.js" defer></script>
     <script>

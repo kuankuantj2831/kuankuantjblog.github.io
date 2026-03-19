@@ -40,8 +40,10 @@
     var $this = $(this),
       url = $this.attr('data-url'),
       encodedUrl = encodeURIComponent(url),
-      id = 'article-share-box-' + $this.attr('data-id'),
+      rawId = ($this.attr('data-id') || '').replace(/[^a-zA-Z0-9_-]/g, ''),
+      id = 'article-share-box-' + rawId,
       title = $this.attr('data-title'),
+      safeUrl = (url || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'),
       offset = $this.offset();
 
     if ($('#' + id).length){
@@ -54,7 +56,7 @@
     } else {
       var html = [
         '<div id="' + id + '" class="article-share-box">',
-          '<input class="article-share-input" value="' + url + '">',
+          '<input class="article-share-input" value="' + safeUrl + '">',
           '<div class="article-share-links">',
             '<a href="https://twitter.com/intent/tweet?text=' + encodeURIComponent(title) + '&url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"><span class="fa fa-twitter"></span></a>',
             '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"><span class="fa fa-facebook"></span></a>',
@@ -92,10 +94,11 @@
       if ($(this).parent().hasClass('fancybox') || $(this).parent().is('a')) return;
 
       var alt = this.alt;
+      var safeAlt = alt ? alt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') : '';
 
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      if (alt) $(this).after('<span class="caption">' + safeAlt + '</span>');
 
-      $(this).wrap('<a href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + alt + '"></a>')
+      $(this).wrap('<a href="' + this.src + '" data-fancybox=\"gallery\" data-caption="' + safeAlt + '"></a>')
     });
 
     $(this).find('.fancybox').each(function(){
