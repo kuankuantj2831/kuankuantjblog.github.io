@@ -113,22 +113,22 @@
                         <div class="user-card-header-bg">
                             <div class="user-card-info">
                                 <div class="user-dropdown-name">用户名</div>
-                                <div class="user-level-badge">Lv.5 <span>✨</span></div>
+                                <div class="user-level-badge" id="userCardLevel">加载中...</div>
                             </div>
                         </div>
 
                         <!-- Stats Row -->
                         <div class="user-card-stats">
                             <div class="stat-item">
-                                <div class="stat-num">12</div>
-                                <div class="stat-label">关注</div>
+                                <div class="stat-num" id="userStatArticles">-</div>
+                                <div class="stat-label">文章</div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-num">356</div>
-                                <div class="stat-label">粉丝</div>
+                                <div class="stat-num" id="userStatComments">-</div>
+                                <div class="stat-label">评论</div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-num">1.2k</div>
+                                <div class="stat-num" id="userStatLikes">-</div>
                                 <div class="stat-label">获赞</div>
                             </div>
                         </div>
@@ -222,10 +222,6 @@
                 </div>
             </div>
 
-            <!-- 分类标签 -->
-            <div class="category-tags" id="categoryTags">
-                <a href="tags.html" class="category-tag" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;">🏷️ 全部标签</a>
-            </div>
         </section>
 
         <!-- 资源展示区域 -->
@@ -405,7 +401,6 @@
             var apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
             var container = document.getElementById('articles-container');
             var searchSection = document.querySelector('.search-section');
-            var categoryTags = document.querySelector('.category-tags');
             var loadMoreContainer = document.getElementById('loadMoreContainer');
             var searchInput = document.getElementById('searchInput');
             var searchBtn = document.getElementById('searchBtn');
@@ -414,7 +409,6 @@
 
             function showArticlesUI() {
                 if (searchSection) searchSection.style.display = '';
-                if (categoryTags) categoryTags.style.display = '';
                 if (loadMoreContainer) loadMoreContainer.style.display = '';
                 // 恢复文章列表
                 if (window._loadArticles) window._loadArticles(1);
@@ -422,7 +416,6 @@
 
             function hideArticlesUI() {
                 if (searchSection) searchSection.style.display = 'none';
-                if (categoryTags) categoryTags.style.display = 'none';
                 if (loadMoreContainer) loadMoreContainer.style.display = 'none';
             }
 

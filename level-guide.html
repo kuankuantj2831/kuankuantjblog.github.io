@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Hakimi 的猫爬架 - 用户等级系统完全指南，教你如何快速升级">
+    <title>如何提升等级 - Hakimi 的猫爬架</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/chinese-style.css">
+    <link rel="stylesheet" href="/css/tianjg-theme.css">
+    <style>
+        .guide-container{max-width:800px;margin:100px auto 50px;padding:40px;background:rgba(255,255,255,.98);border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1);}
+        .guide-title{font-size:28px;font-weight:700;text-align:center;margin-bottom:10px;color:#333;}
+        .guide-subtitle{text-align:center;color:#999;font-size:14px;margin-bottom:30px;}
+        .guide-section{margin-bottom:35px;}
+        .guide-section h2{font-size:20px;color:#333;border-left:4px solid #667eea;padding-left:12px;margin-bottom:15px;}
+        .guide-section p{color:#555;line-height:1.8;margin-bottom:10px;}
+
+        .level-table{width:100%;border-collapse:collapse;margin:15px 0;font-size:14px;}
+        .level-table th{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:10px 14px;text-align:center;}
+        .level-table td{padding:10px 14px;text-align:center;border-bottom:1px solid #eee;}
+        .level-table tr:hover td{background:#f8f9ff;}
+        .level-table .lv-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-weight:700;font-size:12px;}
+        .lv1{background:#e8eaf6;color:#5c6bc0;} .lv2{background:#e0f2f1;color:#00897b;}
+        .lv3{background:#fff8e1;color:#f9a825;} .lv4{background:#fce4ec;color:#e53935;}
+        .lv5{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;}
+
+        .exp-card{display:flex;gap:16px;flex-wrap:wrap;margin:15px 0;}
+        .exp-item{flex:1;min-width:160px;background:#f8f9ff;border-radius:12px;padding:20px;text-align:center;border:1px solid #e8e8ff;transition:transform .2s;}
+        .exp-item:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(102,126,234,.15);}
+        .exp-icon{font-size:32px;margin-bottom:8px;}
+        .exp-action{font-size:15px;font-weight:600;color:#333;margin-bottom:4px;}
+        .exp-value{font-size:22px;font-weight:700;color:#667eea;}
+        .exp-desc{font-size:12px;color:#999;margin-top:4px;}
+
+        .tip-box{background:#f0f7ff;border-left:4px solid #667eea;padding:15px 20px;border-radius:0 8px 8px 0;margin:15px 0;color:#555;line-height:1.8;}
+        .tip-box strong{color:#667eea;}
+
+        .progress-demo{background:#e8e8e8;border-radius:10px;height:20px;overflow:hidden;margin:10px 0;}
+        .progress-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,#667eea,#764ba2);transition:width .5s;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700;}
+
+        .strategy-list{list-style:none;padding:0;}
+        .strategy-list li{padding:12px 16px;border-bottom:1px solid #f0f0f0;display:flex;align-items:flex-start;gap:10px;line-height:1.7;}
+        .strategy-list li:last-child{border-bottom:none;}
+        .strategy-num{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px;}
+
+        @media(max-width:600px){.guide-container{margin:80px 10px 30px;padding:20px;}.exp-card{flex-direction:column;}}
+    </style>
+</head>
+<body>
+    <div class="chinese-style-wrapper">
+        <div class="bg-decoration"></div>
+        <nav class="top-nav">
+            <div class="logo">Hakimi 的猫爬架</div>
+            <div class="nav-links">
+                <a href="/index-chinese.html" class="nav-link">🏠 返回首页</a>
+            </div>
+        </nav>
+
+        <div class="guide-container">
+            <h1 class="guide-title">🏆 如何提升你的等级</h1>
+            <p class="guide-subtitle">用户等级系统完全指南 · 从萌新到大佬的进阶之路</p>
+
+            <!-- 等级总览 -->
+            <div class="guide-section">
+                <h2>📊 等级总览</h2>
+                <p>每位用户从 <strong>Lv.1</strong> 起步，通过在社区中活跃互动来积累经验值（EXP），达到对应阈值即可升级。最高等级为 <strong>Lv.10</strong>。</p>
+
+                <table class="level-table">
+                    <thead>
+                        <tr><th>等级</th><th>所需累计经验</th><th>升级所需</th><th>徽章预览</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Lv.1</td><td>0</td><td>—</td><td><span class="lv-badge lv1">Lv1</span></td></tr>
+                        <tr><td>Lv.2</td><td>50</td><td>+50</td><td><span class="lv-badge lv1">Lv2</span></td></tr>
+                        <tr><td>Lv.3</td><td>150</td><td>+100</td><td><span class="lv-badge lv2">Lv3</span></td></tr>
+                        <tr><td>Lv.4</td><td>350</td><td>+200</td><td><span class="lv-badge lv3">Lv4</span></td></tr>
+                        <tr><td>Lv.5</td><td>700</td><td>+350</td><td><span class="lv-badge lv4">Lv5</span></td></tr>
+                        <tr><td>Lv.6</td><td>1,200</td><td>+500</td><td><span class="lv-badge lv4">Lv6</span></td></tr>
+                        <tr><td>Lv.7</td><td>2,000</td><td>+800</td><td><span class="lv-badge lv5">Lv7</span></td></tr>
+                        <tr><td>Lv.8</td><td>3,500</td><td>+1,500</td><td><span class="lv-badge lv5">Lv8</span></td></tr>
+                        <tr><td>Lv.9</td><td>6,000</td><td>+2,500</td><td><span class="lv-badge lv5">Lv9</span></td></tr>
+                        <tr><td>Lv.10</td><td>10,000</td><td>+4,000</td><td><span class="lv-badge lv5">Lv10 ✨</span></td></tr>
+                    </tbody>
+                </table>
+
+                <p style="font-size:13px;color:#999;">💡 等级越高，升级所需经验越多。前几级很容易达到，后期需要持续活跃。</p>
+            </div>
+
+            <!-- 经验获取方式 -->
+            <div class="guide-section">
+                <h2>⚡ 经验获取方式</h2>
+                <p>你的总经验由以下四个来源累加计算：</p>
+
+                <div class="exp-card">
+                    <div class="exp-item">
+                        <div class="exp-icon">✍️</div>
+                        <div class="exp-action">发布文章</div>
+                        <div class="exp-value">+20 EXP</div>
+                        <div class="exp-desc">每发布一篇文章</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">💬</div>
+                        <div class="exp-action">发表评论</div>
+                        <div class="exp-value">+5 EXP</div>
+                        <div class="exp-desc">每发表一条评论</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">❤️</div>
+                        <div class="exp-action">获得点赞</div>
+                        <div class="exp-value">+3 EXP</div>
+                        <div class="exp-desc">你的文章被他人点赞</div>
+                    </div>
+                    <div class="exp-item">
+                        <div class="exp-icon">🪙</div>
+                        <div class="exp-action">获得硬币</div>
+                        <div class="exp-value">+1 EXP</div>
+                        <div class="exp-desc">每获得 1 枚硬币</div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <strong>📐 经验公式：</strong><br>
+                    总经验 = 累计获得硬币 × 1 + 发布文章数 × 20 + 评论数 × 5 + 被赞数 × 3
+                </div>
+            </div>
+
+            <!-- 升级示例 -->
+            <div class="guide-section">
+                <h2>📈 升级需要做什么？</h2>
+                <p>以下是从 Lv.1 升到各等级的参考路径：</p>
+
+                <table class="level-table">
+                    <thead>
+                        <tr><th>目标</th><th>方案 A（写文章）</th><th>方案 B（多评论）</th><th>方案 C（混合）</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="lv-badge lv1">Lv.2</span><br><small>50 EXP</small></td>
+                            <td>发 3 篇文章</td>
+                            <td>发 10 条评论</td>
+                            <td>1 篇文章 + 6 条评论</td>
+                        </tr>
+                        <tr>
+                            <td><span class="lv-badge lv2">Lv.3</span><br><small>150 EXP</small></td>
+                            <td>发 8 篇文章</td>
+                            <td>发 30 条评论</td>
+                            <td>4 篇文章 + 14 条评论</td>
+                        </tr>
+                        <tr>
+                            <td><span class="lv-badge lv3">Lv.5</span><br><small>700 EXP</small></td>
+                            <td>发 35 篇文章</td>
+                            <td>发 140 条评论</td>
+                            <td>15 篇文章 + 50 评论 + 50 赞</td>
+                        </tr>
+                        <tr>
+                            <td><span class="lv-badge lv5">Lv.10</span><br><small>10,000 EXP</small></td>
+                            <td>发 500 篇文章</td>
+                            <td>发 2000 条评论</td>
+                            <td>100 文章 + 500 评论 + 1000 赞 + 2500 币</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 快速升级策略 -->
+            <div class="guide-section">
+                <h2>🚀 快速升级策略</h2>
+                <ol class="strategy-list">
+                    <li>
+                        <span class="strategy-num">1</span>
+                        <div><strong>坚持写文章（性价比最高）</strong><br>每篇文章 +20 EXP，是单次获取经验最多的方式。写技术笔记、游戏攻略、学习心得都可以。不需要长篇大论，分享你的真实经验就好。</div>
+                    </li>
+                    <li>
+                        <span class="strategy-num">2</span>
+                        <div><strong>积极评论互动</strong><br>每条评论 +5 EXP。看到好文章就留下你的想法，回复别人的评论也算。这是最轻松的升级方式。</div>
+                    </li>
+                    <li>
+                        <span class="strategy-num">3</span>
+                        <div><strong>写出优质内容获赞</strong><br>每个赞 +3 EXP。好的文章会持续获得点赞，这是"被动收入"型经验。标题吸引人、内容有干货是关键。</div>
+                    </li>
+                    <li>
+                        <span class="strategy-num">4</span>
+                        <div><strong>获得硬币打赏</strong><br>每枚硬币 +1 EXP。虽然单个经验少，但如果你的文章足够好，读者会主动投币支持你。</div>
+                    </li>
+                    <li>
+                        <span class="strategy-num">5</span>
+                        <div><strong>组合出击</strong><br>最高效的方式是：每天写 1 篇文章（+20）+ 评论 5 条（+25）= 每天 45+ EXP。坚持一个月就能到 Lv.5！</div>
+                    </li>
+                </ol>
+            </div>
+
+            <!-- 等级有什么用 -->
+            <div class="guide-section">
+                <h2>🎖️ 等级有什么用？</h2>
+                <p>等级是你在社区活跃度和贡献度的象征：</p>
+                <ul style="color:#555;line-height:2;padding-left:20px;">
+                    <li>🏅 <strong>等级徽章</strong> — 你的评论和文章旁会显示等级徽章，等级越高越醒目</li>
+                    <li>✨ <strong>高等级特效</strong> — Lv.5+ 的徽章有渐变色特效，Lv.10 带闪光标识</li>
+                    <li>👑 <strong>社区认可</strong> — 高等级代表你是社区的资深成员，更容易获得其他用户的信任</li>
+                </ul>
+            </div>
+
+            <!-- 查看我的等级 -->
+            <div class="guide-section">
+                <h2>👀 如何查看我的等级？</h2>
+                <p>有以下几种方式查看你当前的等级和经验进度：</p>
+                <ul style="color:#555;line-height:2;padding-left:20px;">
+                    <li>📌 <strong>首页用户卡片</strong> — 点击右上角头像，下拉菜单中显示你的等级</li>
+                    <li>📌 <strong>个人中心</strong> — 访问 <a href="/profile.html" style="color:#667eea;">个人中心</a> 查看详细等级进度条</li>
+                    <li>📌 <strong>文章和评论</strong> — 你发布的内容旁边会自动显示等级徽章</li>
+                </ul>
+            </div>
+
+            <div style="text-align:center;margin-top:30px;padding-top:20px;border-top:1px solid #eee;">
+                <p style="color:#999;font-size:14px;">现在就开始你的升级之旅吧！💪</p>
+                <a href="/editor.html" style="display:inline-block;margin:10px 8px;padding:10px 24px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:25px;text-decoration:none;font-weight:600;">✍️ 去写文章</a>
+                <a href="/index-chinese.html" style="display:inline-block;margin:10px 8px;padding:10px 24px;background:linear-gradient(135deg,#f7971e,#ffd200);color:#fff;border-radius:25px;text-decoration:none;font-weight:600;">💬 去评论互动</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

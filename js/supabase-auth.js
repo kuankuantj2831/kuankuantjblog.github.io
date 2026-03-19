@@ -657,6 +657,8 @@ class SupabaseAuthSystem {
                 if (userName) userName.textContent = this.currentUser.username;
                 if (userEmail) userEmail.textContent = this.currentUser.email;
             }
+            // 异步加载用户等级和统计数据到卡片
+            this.loadUserCardInfo();
             // 显示消息链接并加载未读数
             const msgLink = document.querySelector('.msg-nav-link');
             if (msgLink) {
@@ -688,12 +690,44 @@ class SupabaseAuthSystem {
                 if (data.total > 0) {
                     badge.textContent = data.total > 99 ? '99+' : data.total;
                     badge.style.display = '';
+
                 } else {
                     badge.style.display = 'none';
                 }
             }
         } catch (e) {
             console.log('加载未读数失败:', e.message);
+        }
+    }
+
+    async loadUserCardInfo() {
+        if (!this.currentUser || !this.currentUser.id) return;
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${API_BASE_URL}/profiles/${encodeURIComponent(this.currentUser.id)}`, {
+                headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+
+            // 更新等级徽章
+            const levelEl = document.getElementById('userCardLevel');
+            if (levelEl && data.levelInfo) {
+                const lv = data.levelInfo.level || 1;
+                const stars = lv >= 5 ? ' ✨' : '';
+                levelEl.textContent = `Lv.${lv}${stars}`;
+            }
+
+            // 更新统计数据
+            const artEl = document.getElementById('userStatArticles');
+            const cmtEl = document.getElementById('userStatComments');
+            const likeEl = document.getElementById('userStatLikes');
+            const bd = data.levelInfo.breakdown || data.levelInfo;
+            if (artEl) artEl.textContent = bd.articles || 0;
+            if (cmtEl) cmtEl.textContent = bd.comments || 0;
+            if (likeEl) likeEl.textContent = bd.liked || 0;
+        } catch (e) {
+            console.log('加载用户卡片信息失败:', e.message);
         }
     }
 
