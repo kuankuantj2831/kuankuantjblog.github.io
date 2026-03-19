@@ -101,7 +101,7 @@ async function loadArticle() {
             if (categoryEl) categoryEl.textContent = "📂 " + (article.category || '未分类');
             if (authorEl) {
                 const titleBadge = article.author_title
-                    ? `<span style="display:inline-block;padding:1px 6px;border-radius:4px;font-size:0.75em;font-weight:700;margin-right:4px;${article.author_title === 'MVP' ? 'background:#fce4ec;color:#c62828;' : 'background:#fff8e1;color:#f57f17;'}">${article.author_title}</span>`
+                    ? `<span style="display:inline-block;padding:1px 6px;border-radius:4px;font-size:0.75em;font-weight:700;margin-right:4px;${article.author_title === '站长' ? 'background:#d32f2f;color:#fff;' : article.author_title === 'MVP' ? 'background:#fce4ec;color:#c62828;' : 'background:#fff8e1;color:#f57f17;'}">${escapeHtml(article.author_title)}</span>`
                     : '';
                 const lvClass = 'level-' + Math.min(article.author_level || 1, 5);
                 const levelBadge = `<span class="user-level-badge ${lvClass}">Lv${article.author_level || 1}</span>`;
@@ -623,11 +623,19 @@ function buildCommentEl(comment, currentUser, articleId, childrenMap) {
     const safeContent = escapeHtml(comment.content || '').replace(/\n/g, '<br>');
     const cLvClass = 'level-' + Math.min(comment.user_level || 1, 5);
     const cLevelBadge = `<span class="user-level-badge ${cLvClass}">Lv${comment.user_level || 1}</span>`;
+    let cTitleBadge = '';
+    if (comment.user_title === '站长') {
+        cTitleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#d32f2f;color:#fff;margin-right:3px;">站长</span>';
+    } else if (comment.user_title === 'MVP') {
+        cTitleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#fce4ec;color:#c62828;margin-right:3px;">MVP</span>';
+    } else if (comment.user_title === 'VIP') {
+        cTitleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#fff8e1;color:#f57f17;margin-right:3px;">VIP</span>';
+    }
     const cId = parseInt(comment.id);
 
     div.innerHTML = `
         <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
-            <span style="font-weight:bold;color:#333;">${cLevelBadge}${safeName}</span>
+            <span style="font-weight:bold;color:#333;">${cLevelBadge}${cTitleBadge}${safeName}</span>
             <span style="font-size:12px;color:#999;">${escapeHtml(dateStr)}</span>
         </div>
         <div style="color:#666;line-height:1.6;">${safeContent}</div>

@@ -214,7 +214,9 @@ class BlogSearch {
 
             // 头衔徽章
             let titleBadge = '';
-            if (article.author_title === 'MVP') {
+            if (article.author_title === '站长') {
+                titleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#d32f2f;color:#fff;margin-right:3px;">站长</span>';
+            } else if (article.author_title === 'MVP') {
                 titleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#fce4ec;color:#c62828;margin-right:3px;">MVP</span>';
             } else if (article.author_title === 'VIP') {
                 titleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#fff8e1;color:#f57f17;margin-right:3px;">VIP</span>';
@@ -338,7 +340,9 @@ class BlogSearch {
 
                 // 头衔徽章
                 let titleBadge = '';
-                if (article.author_title === 'MVP') {
+                if (article.author_title === '站长') {
+                    titleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#d32f2f;color:#fff;margin-right:3px;">站长</span>';
+                } else if (article.author_title === 'MVP') {
                     titleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#fce4ec;color:#c62828;margin-right:3px;">MVP</span>';
                 } else if (article.author_title === 'VIP') {
                     titleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#fff8e1;color:#f57f17;margin-right:3px;">VIP</span>';
