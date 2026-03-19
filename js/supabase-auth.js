@@ -403,6 +403,12 @@ class SupabaseAuthSystem {
         document.querySelectorAll('.auth-error, .auth-success').forEach(el => {
             el.classList.remove('show');
         });
+        // 重置 2FA 状态（防止关闭弹窗后再打开时状态残留）
+        const login2faGroup = document.getElementById('login2faGroup');
+        if (login2faGroup) login2faGroup.style.display = 'none';
+        const codeInput = document.getElementById('login2faCode');
+        if (codeInput) codeInput.value = '';
+        this.tempUserId = null;
         // 移除 Turnstile 小组件（关闭时销毁，打开时重新渲染）
         try {
             if (typeof turnstile !== 'undefined') {
@@ -470,7 +476,28 @@ class SupabaseAuthSystem {
 
             this.showSuccess('registerSuccess', '注册成功！正在自动登录...');
 
-            // Optionally auto-login or wait for user to login
+            // 自动登录
+            try {
+                const loginRes = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const loginData = await loginRes.json();
+                if (loginRes.ok && loginData.token && loginData.user) {
+                    this.currentUser = loginData.user;
+                    localStorage.setItem('user', JSON.stringify(this.currentUser));
+                    localStorage.setItem('token', loginData.token);
+                    this.updateUI();
+                    setTimeout(() => {
+                        this.closeModals();
+                        const registerForm = document.getElementById('registerForm');
+                        if (registerForm) registerForm.reset();
+                    }, 1000);
+                    return;
+                }
+            } catch (_) { /* 自动登录失败，回退到手动登录 */ }
+
             setTimeout(() => {
                 this.closeModals();
                 const registerForm = document.getElementById('registerForm');
@@ -520,12 +547,12 @@ class SupabaseAuthSystem {
             const login2faGroup = document.getElementById('login2faGroup');
             const is2faStep = login2faGroup && login2faGroup.style.display !== 'none' && code;
             
+            let loginTurnstileToken;
             if (!is2faStep) {
-                const turnstileToken = this.getTurnstileToken(this.loginWidgetId);
-                if (!turnstileToken) {
+                loginTurnstileToken = this.getTurnstileToken(this.loginWidgetId);
+                if (!loginTurnstileToken) {
                     console.warn('Turnstile token not available, proceeding without it');
                 }
-                var loginTurnstileToken = turnstileToken || undefined;
             }
 
             let url = `${API_BASE_URL}/auth/login`;
