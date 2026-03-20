@@ -1,6 +1,6 @@
 ﻿
 import { API_BASE_URL } from './api-config.js?v=20260223b';
-import { escapeHtml, sanitizeUrl } from './utils.js';
+import { escapeHtml, sanitizeUrl, renderTitleBadge } from './utils.js';
 
 let currentPage = 1;
 const PAGE_SIZE = 10;
@@ -20,14 +20,7 @@ function createArticleCard(article) {
     const safeSummary = escapeHtml(article.summary || '');
     const safeCoverImage = sanitizeUrl(article.cover_image || randomImg);
 
-    let titleBadge = '';
-    if (article.author_title === '站长') {
-        titleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#d32f2f;color:#fff;margin-right:3px;">站长</span>';
-    } else if (article.author_title === 'MVP') {
-        titleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#fce4ec;color:#c62828;margin-right:3px;">MVP</span>';
-    } else if (article.author_title === 'VIP') {
-        titleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#fff8e1;color:#f57f17;margin-right:3px;">VIP</span>';
-    }
+    let titleBadge = renderTitleBadge(article.author_title);
 
     card.innerHTML = `
         <img loading="lazy" src="${safeCoverImage}" alt="${safeTitle}" class="showcase-image">

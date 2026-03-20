@@ -4,7 +4,7 @@
  */
 
 import { API_BASE_URL } from './api-config.js?v=20260223b';
-import { escapeHtml } from './utils.js';
+import { escapeHtml, formatTime } from './utils.js';
 
 // 头像颜色池
 const AVATAR_COLORS = [
@@ -458,7 +458,7 @@ class CoinsApp {
                 const amountClass = isPositive ? 'positive' : 'negative';
                 const amountText = isPositive ? `+${tx.amount}` : `${tx.amount}`;
                 const icon = this.getTypeIcon(tx.type);
-                const timeStr = this.formatTime(tx.created_at);
+                const timeStr = formatTime(tx.created_at);
                 const desc = escapeHtml(tx.description || this.getTypeLabel(tx.type));
 
                 li.innerHTML = `
@@ -506,28 +506,6 @@ class CoinsApp {
             comment: '评论文章', donate: '投币', receive: '收到积分', admin: '管理员操作'
         };
         return labels[type] || '其他';
-    }
-
-    formatTime(dateStr) {
-        if (!dateStr) return '';
-        try {
-            const date = new Date(dateStr);
-            const now = new Date();
-            const diff = now - date;
-
-            if (diff < 60000) return '刚刚';
-            if (diff < 3600000) return `${Math.floor(diff / 60000)}分钟前`;
-            if (diff < 86400000) return `${Math.floor(diff / 3600000)}小时前`;
-            if (diff < 604800000) return `${Math.floor(diff / 86400000)}天前`;
-
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-            return `${month}-${day} ${hours}:${minutes}`;
-        } catch (e) {
-            return dateStr;
-        }
     }
 }
 

@@ -1,5 +1,5 @@
 import { API_BASE_URL } from './api-config.js?v=20260223b';
-import { escapeHtml } from './utils.js';
+import { escapeHtml, formatTime } from './utils.js';
 
 const NOTIF_ICONS = {
     like: '❤️', comment: '💬', reply: '↩️', coin: '🪙',
@@ -153,19 +153,4 @@ async function markAllRead() {
         loadNotifCount();
         loadNotifications();
     } catch (_) { /* ignore */ }
-}
-
-function formatTime(dateStr) {
-    try {
-        const d = new Date(dateStr);
-        const now = new Date();
-        const diff = (now - d) / 1000;
-        if (diff < 60) return '刚刚';
-        if (diff < 3600) return Math.floor(diff / 60) + '分钟前';
-        if (diff < 86400) return Math.floor(diff / 3600) + '小时前';
-        if (diff < 604800) return Math.floor(diff / 86400) + '天前';
-        return d.toLocaleDateString();
-    } catch (_) {
-        return '';
-    }
 }

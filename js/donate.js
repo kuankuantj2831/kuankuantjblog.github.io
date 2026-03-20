@@ -6,7 +6,7 @@
  */
 
 import { API_BASE_URL } from './api-config.js?v=20260223b';
-import { escapeHtml } from './utils.js';
+import { escapeHtml, formatTime } from './utils.js';
 
 class DonateApp {
     constructor() {
@@ -110,7 +110,7 @@ class DonateApp {
             }
 
             container.innerHTML = list.map(item => {
-                const time = this.formatTime(item.paid_at);
+                const time = formatTime(item.paid_at);
                 return `
                     <div class="recent-item">
                         <div class="recent-top">
@@ -125,23 +125,6 @@ class DonateApp {
         } catch (e) {
             console.error('加载最近捐助失败:', e);
         }
-    }
-
-    /**
-     * 格式化时间
-     */
-    formatTime(dateStr) {
-        if (!dateStr) return '';
-        const d = new Date(dateStr);
-        const now = new Date();
-        const diff = now - d;
-
-        if (diff < 60000) return '刚刚';
-        if (diff < 3600000) return Math.floor(diff / 60000) + ' 分钟前';
-        if (diff < 86400000) return Math.floor(diff / 3600000) + ' 小时前';
-        if (diff < 604800000) return Math.floor(diff / 86400000) + ' 天前';
-
-        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
 }
 

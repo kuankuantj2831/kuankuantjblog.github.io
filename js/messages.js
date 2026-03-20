@@ -1,4 +1,5 @@
 import { API_BASE_URL } from './api-config.js';
+import { escapeHtml, formatTime } from './utils.js';
 
 let currentUser = null;
 let currentChatUserId = null;
@@ -397,31 +398,8 @@ async function loadUnreadCounts() {
 }
 
 // --- 工具函数 ---
-function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str || '';
-    return div.innerHTML;
-}
-
 function escapeAttr(str) {
     return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-}
-
-function formatTime(dateStr) {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const now = new Date();
-    const diff = now - date;
-
-    if (diff < 60000) return '刚刚';
-    if (diff < 3600000) return Math.floor(diff / 60000) + '分钟前';
-    if (diff < 86400000) return Math.floor(diff / 3600000) + '小时前';
-
-    const dayDiff = Math.floor(diff / 86400000);
-    if (dayDiff === 1) return '昨天';
-    if (dayDiff < 7) return dayDiff + '天前';
-
-    return date.toLocaleDateString('zh-CN');
 }
 
 // --- 启动 ---

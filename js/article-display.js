@@ -1,6 +1,6 @@
 ﻿
 import { API_BASE_URL } from './api-config.js?v=20260223b';
-import { escapeHtml } from './utils.js';
+import { escapeHtml, renderTitleBadge, renderLevelBadge } from './utils.js';
 import { renderMarkdown } from './markdown.js';
 
 // 轻量提示（替代 alert）
@@ -100,11 +100,8 @@ async function loadArticle() {
             if (titleEl) titleEl.textContent = article.title || '无标题';
             if (categoryEl) categoryEl.textContent = "📂 " + (article.category || '未分类');
             if (authorEl) {
-                const titleBadge = article.author_title
-                    ? `<span style="display:inline-block;padding:1px 6px;border-radius:4px;font-size:0.75em;font-weight:700;margin-right:4px;${article.author_title === '站长' ? 'background:#d32f2f;color:#fff;' : article.author_title === 'MVP' ? 'background:#fce4ec;color:#c62828;' : 'background:#fff8e1;color:#f57f17;'}">${escapeHtml(article.author_title)}</span>`
-                    : '';
-                const lvClass = 'level-' + Math.min(article.author_level || 1, 5);
-                const levelBadge = `<span class="user-level-badge ${lvClass}">Lv${article.author_level || 1}</span>`;
+                const titleBadge = renderTitleBadge(article.author_title);
+                const levelBadge = renderLevelBadge(article.author_level);
                 authorEl.innerHTML = "👤 " + levelBadge + titleBadge + escapeHtml(article.author_name || '匿名');
             }
 
@@ -621,16 +618,8 @@ function buildCommentEl(comment, currentUser, articleId, childrenMap) {
     const isAuthor = currentUser && currentUser.id && currentUser.id == comment.user_id;
     const safeName = escapeHtml(comment.user_name || '匿名用户');
     const safeContent = escapeHtml(comment.content || '').replace(/\n/g, '<br>');
-    const cLvClass = 'level-' + Math.min(comment.user_level || 1, 5);
-    const cLevelBadge = `<span class="user-level-badge ${cLvClass}">Lv${comment.user_level || 1}</span>`;
-    let cTitleBadge = '';
-    if (comment.user_title === '站长') {
-        cTitleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#d32f2f;color:#fff;margin-right:3px;">站长</span>';
-    } else if (comment.user_title === 'MVP') {
-        cTitleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#fce4ec;color:#c62828;margin-right:3px;">MVP</span>';
-    } else if (comment.user_title === 'VIP') {
-        cTitleBadge = '<span style="display:inline-block;padding:1px 5px;border-radius:3px;font-size:0.75em;font-weight:700;background:#fff8e1;color:#f57f17;margin-right:3px;">VIP</span>';
-    }
+    const cLevelBadge = renderLevelBadge(comment.user_level);
+    const cTitleBadge = renderTitleBadge(comment.user_title);
     const cId = parseInt(comment.id);
 
     div.innerHTML = `

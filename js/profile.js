@@ -1,5 +1,6 @@
 ﻿
 import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { escapeHtml } from './utils.js';
 
 class ProfileManager {
     constructor() {
@@ -486,10 +487,10 @@ class ProfileManager {
                 item.onmouseenter = () => item.style.background = '#f9f9f9';
                 item.onmouseleave = () => item.style.background = 'transparent';
 
-                const title = this.escapeHtml(article.title || '无标题');
-                const summary = this.escapeHtml((article.summary || '').substring(0, 80));
+                const title = escapeHtml(article.title || '无标题');
+                const summary = escapeHtml((article.summary || '').substring(0, 80));
                 const date = article.favorited_at ? new Date(article.favorited_at).toLocaleDateString('zh-CN') : '';
-                const category = article.category ? `<span style="background:#e6f7ff;color:#1890ff;padding:2px 8px;border-radius:10px;font-size:12px;margin-left:8px;">${this.escapeHtml(article.category)}</span>` : '';
+                const category = article.category ? `<span style="background:#e6f7ff;color:#1890ff;padding:2px 8px;border-radius:10px;font-size:12px;margin-left:8px;">${escapeHtml(article.category)}</span>` : '';
 
                 item.innerHTML = `
                     <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -520,12 +521,6 @@ class ProfileManager {
     loadMoreFavorites() {
         this.favoritesPage++;
         this.loadFavorites(true);
-    }
-
-    escapeHtml(str) {
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
     }
 
     showMessage(elementId, message) {
