@@ -42,6 +42,22 @@
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
     <link rel="shortcut icon" href="favicon.ico">
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#667eea">
+    <!-- iOS PWA 专属 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="猫爬架">
+    <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/icon-192x192.png">
+    <!-- iOS 启动画面 -->
+    <link rel="apple-touch-startup-image" href="/images/icons/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px)">
+    <link rel="apple-touch-startup-image" href="/images/icons/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px)">
+    <link rel="apple-touch-startup-image" href="/images/icons/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px)">
+    <link rel="apple-touch-startup-image" href="/images/icons/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px)">
+    <link rel="apple-touch-startup-image" href="/images/icons/splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px)">
+    <link rel="apple-touch-startup-image" href="/images/icons/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px)">
     <link rel="alternate" type="application/rss+xml" title="Hakimi 的猫爬架 RSS" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/articles/feed/rss">
     <link rel="stylesheet" href="css/chinese-style.css?v=5">
     <!-- 非关键 CSS 异步加载 -->
@@ -530,6 +546,16 @@
         })();
     </script>
     <script src="js/theme.js?v=1"></script>
+    <!-- PWA Service Worker 注册 -->
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('SW registered:', reg.scope))
+                .catch(err => console.log('SW registration failed:', err));
+        });
+    }
+    </script>
 </body>
 
 </html>
