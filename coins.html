@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="签到领积分 - Hakimi 的猫爬架">
+    <meta name="description" content="签到领硬币 - Hakimi 的猫爬架">
 
-    <title>签到领积分 - Hakimi 的猫爬架</title>
+    <title>签到领硬币 - Hakimi 的猫爬架</title>
 
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
@@ -188,7 +188,7 @@
         .legend-dot.gray { background: #f0f0f0; }
         .legend-dot.blue { width: 14px; height: 14px; border: 2px solid #2196f3; background: transparent; border-radius: 4px; }
 
-        /* ===== 积分排行榜 ===== */
+        /* ===== 硬币排行榜 ===== */
         .leaderboard-card {
             background: white; border-radius: 16px; padding: 25px;
             margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -355,7 +355,7 @@
         <!-- 页面标题 -->
         <div class="page-header">
             <div class="subtitle">每日打卡</div>
-            <h1>签到<span>领积分</span></h1>
+            <h1>签到<span>领硬币</span></h1>
             <div class="slogan">坚持 · 积累 · 收获</div>
         </div>
 
@@ -371,7 +371,7 @@
                 </div>
                 <div class="checkin-reward-info">
                     <div class="reward-label">今日可获得</div>
-                    <div><span class="reward-value" id="todayReward">+0.5</span> <span class="reward-unit">积分</span></div>
+                    <div><span class="reward-value" id="todayReward">+0.5</span> <span class="reward-unit">硬币</span></div>
                 </div>
             </div>
 
@@ -388,7 +388,7 @@
 
             <div class="reward-popup" id="rewardPopup">
                 <div>🎉 签到成功！获得</div>
-                <div class="reward-amount">+<span id="rewardAmount">0</span> 积分</div>
+                <div class="reward-amount">+<span id="rewardAmount">0</span> 硬币</div>
             </div>
 
             <div class="checkin-stats">
@@ -410,7 +410,7 @@
                 <div class="checkin-stat-item">
                     <div class="stat-icon">⭐</div>
                     <div class="stat-value" id="statTotalEarned">0</div>
-                    <div class="stat-label">累计积分</div>
+                    <div class="stat-label">累计硬币</div>
                 </div>
             </div>
         </div>
@@ -449,13 +449,13 @@
             </div>
         </div>
 
-        <!-- 积分排行榜 -->
+        <!-- 硬币排行榜 -->
         <div class="leaderboard-card">
             <div class="leaderboard-header">
                 <div class="leaderboard-header-left">
                     <div class="lb-icon">📈</div>
                     <div>
-                        <h3>积分排行榜</h3>
+                        <h3>硬币排行榜</h3>
                         <div class="lb-sub">与小伙伴们比一比</div>
                     </div>
                 </div>
@@ -495,8 +495,8 @@
     <!-- 未登录提示 -->
     <div class="login-prompt" id="loginPrompt" style="display:none;">
         <div class="prompt-icon">⭐</div>
-        <h2>签到领积分</h2>
-        <p>登录后即可每日签到获取积分，查看排行榜</p>
+        <h2>签到领硬币</h2>
+        <p>登录后即可每日签到获取硬币，查看排行榜</p>
         <a href="/index-chinese.html" class="login-link">返回首页登录</a>
     </div>
 

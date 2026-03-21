@@ -76,7 +76,7 @@ class DailyTasks {
             if (!response.ok) throw new Error('完成任务失败');
 
             const result = await response.json();
-            alert(`任务完成！获得 ${result.reward} 积分`);
+            alert(`任务完成！获得 ${result.reward} 硬币`);
 
             // 刷新任务列表和硬币余额
             this.loadTasks();

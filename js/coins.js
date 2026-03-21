@@ -1,5 +1,5 @@
 /**
- * 积分系统前端模块 v2
+ * 硬币系统前端模块 v2
  * 功能：签到、日历、排行榜、交易记录
  */
 
@@ -144,7 +144,7 @@ class CoinsApp {
                 checkinBtn.classList.add('checked');
                 checkinBtn.innerHTML = '✅ 已签到';
                 statusText.textContent = '已完成签到';
-                statusSub.textContent = `今日已获得 ${todayReward} 积分`;
+                statusSub.textContent = `今日已获得 ${todayReward} 硬币`;
             } else {
                 statusText.textContent = '未签到';
                 statusSub.textContent = '点击右侧按钮签到';
@@ -187,7 +187,7 @@ class CoinsApp {
             checkinBtn.innerHTML = '✅ 已签到';
 
             document.getElementById('statusText').textContent = '已完成签到';
-            document.getElementById('statusSub').textContent = `今日已获得 ${data.reward} 积分`;
+            document.getElementById('statusSub').textContent = `今日已获得 ${data.reward} 硬币`;
 
             // 显示奖励弹窗
             const rewardPopup = document.getElementById('rewardPopup');
@@ -207,7 +207,7 @@ class CoinsApp {
             this.currentPage = 1;
             this.loadTransactions(true);
 
-            this.showToast(`签到成功！+${data.reward} 积分 ⭐`);
+            this.showToast(`签到成功！+${data.reward} 硬币 ⭐`);
 
         } catch (error) {
             console.error('签到失败:', error);
@@ -503,7 +503,7 @@ class CoinsApp {
     getTypeLabel(type) {
         const labels = {
             checkin: '每日签到', publish: '发布文章', liked: '文章被点赞',
-            comment: '评论文章', donate: '投币', receive: '收到积分', admin: '管理员操作'
+            comment: '评论文章', donate: '投币', receive: '收到硬币', admin: '管理员操作'
         };
         return labels[type] || '其他';
     }

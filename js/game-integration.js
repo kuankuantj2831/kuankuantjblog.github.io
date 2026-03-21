@@ -95,7 +95,7 @@ class GameIntegration {
 
             if (!response.ok) throw new Error('提交分数失败');
 
-            alert(`分数提交成功！获得 ${scoreData.reward || 10} 积分`);
+            alert(`分数提交成功！获得 ${scoreData.reward || 10} 硬币`);
         } catch (error) {
             console.error('提交分数失败:', error);
             alert('提交分数失败');
