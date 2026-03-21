@@ -105,7 +105,10 @@
         var splash = document.getElementById('pwa-splash');
         if (isStandalone && splash) {
             splash.style.display = 'flex';
+            var dismissed = false;
             function dismissSplash(){
+                if (dismissed) return;
+                dismissed = true;
                 setTimeout(function(){
                     splash.style.opacity = '0';
                     setTimeout(function(){ splash.remove(); }, 500);
@@ -116,6 +119,10 @@
             } else {
                 window.addEventListener('load', dismissSplash);
             }
+            // 绝对保底：5秒后无论如何都消失
+            setTimeout(function(){
+                if (!dismissed) { dismissed = true; splash.style.opacity = '0'; setTimeout(function(){ splash.remove(); }, 500); }
+            }, 5000);
         } else if (splash) {
             splash.remove();
         }
@@ -587,7 +594,20 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
-                .then(reg => console.log('SW registered:', reg.scope))
+                .then(reg => {
+                    console.log('SW registered:', reg.scope);
+                    // 检测到新 SW 安装后自动刷新页面
+                    reg.addEventListener('updatefound', () => {
+                        var newSW = reg.installing;
+                        if (newSW) {
+                            newSW.addEventListener('statechange', () => {
+                                if (newSW.state === 'activated') {
+                                    window.location.reload();
+                                }
+                            });
+                        }
+                    });
+                })
                 .catch(err => console.log('SW registration failed:', err));
         });
     }
