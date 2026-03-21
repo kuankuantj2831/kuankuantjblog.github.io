@@ -87,7 +87,7 @@
 
 <body>
     <!-- iOS PWA 开屏动画 -->
-    <div id="pwa-splash" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .5s;">
+    <div id="pwa-splash" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);align-items:center;justify-content:center;flex-direction:column;transition:opacity .5s;">
         <div style="text-align:center;animation:splash-in .8s ease">
             <div style="font-size:80px;margin-bottom:16px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.2))">🐱</div>
             <div style="font-size:26px;font-weight:700;color:#fff;letter-spacing:2px;margin-bottom:8px">Hakimi 的猫爬架</div>
@@ -105,12 +105,17 @@
         var splash = document.getElementById('pwa-splash');
         if (isStandalone && splash) {
             splash.style.display = 'flex';
-            window.addEventListener('load', function(){
+            function dismissSplash(){
                 setTimeout(function(){
                     splash.style.opacity = '0';
                     setTimeout(function(){ splash.remove(); }, 500);
                 }, 1500);
-            });
+            }
+            if (document.readyState === 'complete') {
+                dismissSplash();
+            } else {
+                window.addEventListener('load', dismissSplash);
+            }
         } else if (splash) {
             splash.remove();
         }
