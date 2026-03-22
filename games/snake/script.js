@@ -372,6 +372,8 @@ function escapeText(str) {
 
 // 排行榜按钮事件
 document.getElementById('viewLeaderboard').addEventListener('click', () => {
+    document.getElementById('leaderboardList').innerHTML = '加载中...';
+    document.getElementById('myBestScore').innerHTML = '';
     document.getElementById('leaderboardPanel').classList.remove('hidden');
     document.getElementById('leaderboardPanel').style.display = 'flex';
     loadLeaderboard();

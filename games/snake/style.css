@@ -112,7 +112,8 @@ h1 {
     margin-bottom: 25px;
 }
 
-#gameOverScreen.hidden {
+#gameOverScreen.hidden,
+#leaderboardPanel.hidden {
     display: none;
 }
 
