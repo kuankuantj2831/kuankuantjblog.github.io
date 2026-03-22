@@ -245,15 +245,30 @@ class ProfileManager {
     }
 
     async uploadAvatar(file) {
-        // 前端校验
+        // 前端校验：文件大小
         if (file.size > 2 * 1024 * 1024) {
             alert('图片大小不能超过 2MB');
             return;
         }
+        // 前端校验：MIME type
         if (!/^image\/(jpeg|png|gif|webp)$/.test(file.type)) {
             alert('只支持 JPG/PNG/GIF/WebP 格式');
             return;
         }
+        // 前端校验：读取文件头魔法字节验证真实类型
+        try {
+            const header = await file.slice(0, 12).arrayBuffer();
+            const bytes = new Uint8Array(header);
+            const isJPEG = bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF;
+            const isPNG = bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47;
+            const isGIF = bytes[0] === 0x47 && bytes[1] === 0x49 && bytes[2] === 0x46;
+            const isWEBP = bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46
+                        && bytes[8] === 0x57 && bytes[9] === 0x45 && bytes[10] === 0x42 && bytes[11] === 0x50;
+            if (!isJPEG && !isPNG && !isGIF && !isWEBP) {
+                alert('文件内容不是有效的图片格式');
+                return;
+            }
+        } catch (_) { /* 读取失败则交给后端校验 */ }
 
         const avatarEl = document.getElementById('profileAvatar');
         const uploadBtn = document.querySelector('.avatar-upload-btn');
