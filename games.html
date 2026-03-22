@@ -74,6 +74,133 @@
             background: #5cceee;
             color: white;
             border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .play-btn:hover {
+            background: #4ab8d8;
+        }
+
+        /* 排行榜区域 */
+        .leaderboard-section {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .leaderboard-section h2 {
+            text-align: center;
+            color: #faad14;
+            font-size: 28px;
+            margin-bottom: 24px;
+        }
+
+        .leaderboard-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .leaderboard-tab {
+            padding: 8px 24px;
+            border: 2px solid rgba(250, 173, 20, 0.3);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ccc;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .leaderboard-tab:hover {
+            border-color: rgba(250, 173, 20, 0.6);
+            color: #faad14;
+        }
+
+        .leaderboard-tab.active {
+            background: rgba(250, 173, 20, 0.15);
+            border-color: #faad14;
+            color: #faad14;
+            font-weight: bold;
+        }
+
+        .leaderboard-card {
+            background: rgba(26, 26, 46, 0.9);
+            border: 1px solid rgba(250, 173, 20, 0.2);
+            border-radius: 16px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th {
+            padding: 14px 16px;
+            text-align: left;
+            color: #faad14;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(250, 173, 20, 0.2);
+            background: rgba(250, 173, 20, 0.05);
+        }
+
+        .leaderboard-table th:nth-child(3),
+        .leaderboard-table th:nth-child(4) {
+            text-align: right;
+        }
+
+        .leaderboard-table td {
+            padding: 12px 16px;
+            color: #e0e0e0;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .leaderboard-table td:nth-child(3),
+        .leaderboard-table td:nth-child(4) {
+            text-align: right;
+        }
+
+        .leaderboard-table tr:hover td {
+            background: rgba(250, 173, 20, 0.05);
+        }
+
+        .leaderboard-table .rank-medal {
+            font-size: 18px;
+        }
+
+        .leaderboard-table .rank-num {
+            color: #888;
+            font-weight: bold;
+        }
+
+        .leaderboard-table .score-val {
+            color: #faad14;
+            font-weight: bold;
+        }
+
+        .leaderboard-table .time-val {
+            color: #888;
+        }
+
+        .leaderboard-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #888;
+            font-size: 15px;
+        }
+
+        .leaderboard-loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #aaa;
+        }
     </style>
     <link rel="stylesheet" href="css/theme.css?v=3">
 </head>
@@ -140,8 +267,88 @@
                 </div>
             </div>
         </div>
+
+        <!-- 全局排行榜 -->
+        <div class="leaderboard-section">
+            <h2>🏆 游戏排行榜</h2>
+            <div class="leaderboard-tabs">
+                <button class="leaderboard-tab active" data-game="snake">🐍 贪吃蛇</button>
+                <button class="leaderboard-tab" data-game="xidengyouxi">✨ 熄灯游戏</button>
+                <button class="leaderboard-tab" data-game="huarongdao">♟️ 华容道</button>
+            </div>
+            <div class="leaderboard-card">
+                <div id="leaderboardContent" class="leaderboard-loading">加载中...</div>
+            </div>
+        </div>
     </div>
+
     <script src="js/theme.js?v=1"></script>
+    <script>
+    (function() {
+        const API_BASE = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+            ? 'http://localhost:9000' : 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+
+        const medals = ['🥇', '🥈', '🥉'];
+        let currentGame = 'snake';
+
+        function escapeHtml(str) {
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
+        async function loadLeaderboard(gameName) {
+            const container = document.getElementById('leaderboardContent');
+            container.innerHTML = '<div class="leaderboard-loading">加载中...</div>';
+            try {
+                const res = await fetch(`${API_BASE}/games/leaderboard/${encodeURIComponent(gameName)}?limit=20`);
+                if (!res.ok) throw new Error('请求失败');
+                const rows = await res.json();
+
+                if (!rows.length) {
+                    container.innerHTML = '<div class="leaderboard-empty">暂无记录，快去游戏中成为第一个上榜的人吧！</div>';
+                    return;
+                }
+
+                let html = '<table class="leaderboard-table"><thead><tr>' +
+                    '<th>排名</th><th>玩家</th><th>分数</th><th>用时</th>' +
+                    '</tr></thead><tbody>';
+
+                rows.forEach((r, i) => {
+                    const rank = i < 3
+                        ? '<span class="rank-medal">' + medals[i] + '</span>'
+                        : '<span class="rank-num">' + (i + 1) + '</span>';
+                    const name = escapeHtml(r.username || '匿名');
+                    html += '<tr>' +
+                        '<td>' + rank + '</td>' +
+                        '<td>' + name + '</td>' +
+                        '<td><span class="score-val">' + r.score + '</span></td>' +
+                        '<td><span class="time-val">' + (r.play_time || '-') + 's</span></td>' +
+                        '</tr>';
+                });
+
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (e) {
+                console.error('排行榜加载失败:', e);
+                container.innerHTML = '<div class="leaderboard-empty" style="color:#ff6b6b;">加载失败，请刷新重试</div>';
+            }
+        }
+
+        // Tab 切换
+        document.querySelectorAll('.leaderboard-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelector('.leaderboard-tab.active').classList.remove('active');
+                tab.classList.add('active');
+                currentGame = tab.dataset.game;
+                loadLeaderboard(currentGame);
+            });
+        });
+
+        // 初始加载
+        loadLeaderboard(currentGame);
+    })();
+    </script>
 </body>
 
 </html>
