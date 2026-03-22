@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>华容道 - 经典益智游戏</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>华 容 道</h1>
+        <div class="game-info">
+            <div class="info-item">
+                <span class="label">步数：</span>
+                <span id="moves-count">0</span>
+            </div>
+            <div class="info-item">
+                <span class="label">最少：</span>
+                <span id="min-steps">-</span>
+            </div>
+            <div class="info-item">
+                <span class="label">时间：</span>
+                <span id="timer">00:00</span>
+            </div>
+        </div>
+        <div class="board-wrapper">
+            <div class="board-border">
+                <div id="board" class="board"></div>
+                <div class="exit-gate">
+                    <span>出口</span>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="layout-selector">
+                <label for="layout-select">选择布局：</label>
+                <select id="layout-select"></select>
+            </div>
+            <div class="button-group">
+                <button id="btn-reset" class="btn btn-reset">重新开始</button>
+                <button id="btn-undo" class="btn btn-undo">撤销</button>
+            </div>
+        </div>
+        <div id="win-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>🎉 恭喜通关！</h2>
+                <p>曹操成功逃出华容道！</p>
+                <p>总步数：<span id="win-moves"></span> 步</p>
+                <p>用时：<span id="win-time"></span></p>
+                <button id="btn-play-again" class="btn btn-reset">再来一局</button>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
