@@ -445,6 +445,12 @@ class SupabaseAuthSystem {
             return;
         }
 
+        const agreeCheckbox = document.getElementById('agreeTerms');
+        if (agreeCheckbox && !agreeCheckbox.checked) {
+            this.showError('registerError', '请先同意用户协议和隐私政策');
+            return;
+        }
+
         // 获取 Turnstile token（降级：加载失败时允许跳过）
         const turnstileToken = this.getTurnstileToken(this.registerWidgetId);
         if (!turnstileToken) {

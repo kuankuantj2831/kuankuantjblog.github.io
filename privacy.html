@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Hakimi 的猫爬架 - 隐私政策">
+    <title>隐私政策 - Hakimi 的猫爬架</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="canonical" href="https://mcock.cn/privacy.html">
+    <link rel="stylesheet" href="/css/chinese-style.css">
+    <link rel="stylesheet" href="/css/tianjg-theme.css">
+    <style>
+        .legal-container{max-width:800px;margin:100px auto 50px;padding:40px;background:rgba(255,255,255,.98);border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,.1);}
+        .legal-title{font-size:28px;font-weight:700;text-align:center;margin-bottom:6px;color:#333;}
+        .legal-update{text-align:center;color:#999;font-size:13px;margin-bottom:30px;}
+        .legal-section{margin-bottom:28px;}
+        .legal-section h2{font-size:18px;color:#333;border-left:4px solid #667eea;padding-left:12px;margin-bottom:12px;}
+        .legal-section p,.legal-section li{color:#555;line-height:1.9;font-size:14px;}
+        .legal-section ul{padding-left:20px;margin:8px 0;}
+        .legal-section table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;}
+        .legal-section th{background:#f8f9ff;padding:8px 12px;text-align:left;border-bottom:2px solid #667eea;color:#333;}
+        .legal-section td{padding:8px 12px;border-bottom:1px solid #eee;color:#555;}
+        .legal-nav{display:flex;gap:12px;justify-content:center;margin-top:30px;padding-top:20px;border-top:1px solid #eee;}
+        .legal-nav a{color:#667eea;text-decoration:none;font-size:14px;}
+        .legal-nav a:hover{text-decoration:underline;}
+        @media(max-width:600px){.legal-container{margin:80px 10px 30px;padding:20px;}}
+    </style>
+</head>
+<body>
+    <div class="chinese-style-wrapper">
+        <div class="bg-decoration"></div>
+        <nav class="top-nav">
+            <div class="logo">Hakimi 的猫爬架</div>
+            <div class="nav-links">
+                <a href="/index-chinese.html" class="nav-link">🏠 返回首页</a>
+            </div>
+        </nav>
+
+        <div class="legal-container">
+            <h1 class="legal-title">🔒 隐私政策</h1>
+            <p class="legal-update">最后更新：2026 年 3 月 22 日</p>
+
+            <div class="legal-section">
+                <h2>1. 概述</h2>
+                <p>「Hakimi 的猫爬架」（以下简称"本站"）重视你的隐私。本政策说明我们如何收集、使用、存储和保护你的个人信息。使用本站即表示你同意本政策。</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>2. 我们收集的信息</h2>
+                <table>
+                    <thead>
+                        <tr><th>信息类型</th><th>具体内容</th><th>收集方式</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>账号信息</td><td>用户名、邮箱地址、加密后的密码</td><td>注册时提供</td></tr>
+                        <tr><td>个人资料</td><td>头像、个人简介</td><td>你主动设置</td></tr>
+                        <tr><td>内容数据</td><td>发布的文章、评论、点赞记录</td><td>使用过程中产生</td></tr>
+                        <tr><td>虚拟物品</td><td>硬币余额、等级经验</td><td>使用过程中产生</td></tr>
+                        <tr><td>访问数据</td><td>访问时间、页面浏览量</td><td>自动收集</td></tr>
+                    </tbody>
+                </table>
+                <p>我们<strong>不会</strong>收集你的真实姓名、身份证号、手机号、地理位置或支付信息。</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>3. 信息使用目的</h2>
+                <p>我们收集的信息仅用于：</p>
+                <ul>
+                    <li>提供和维护本站的核心功能（登录、发文、评论、等级系统等）。</li>
+                    <li>发送与你账号相关的通知（如被评论、被点赞提醒）。</li>
+                    <li>统计网站访问数据以改善用户体验。</li>
+                    <li>防止滥用行为和保障网站安全。</li>
+                </ul>
+                <p>我们<strong>不会</strong>将你的信息用于广告投放或出售给第三方。</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>4. 信息存储与安全</h2>
+                <ul>
+                    <li><strong>密码安全</strong>：你的密码经过 bcrypt 加密存储，即使数据库泄露也无法还原明文密码。</li>
+                    <li><strong>传输加密</strong>：本站全站使用 HTTPS 加密传输，防止数据被窃听。</li>
+                    <li><strong>身份验证</strong>：使用 JWT（JSON Web Token）进行身份验证，Token 有时效限制。</li>
+                    <li><strong>人机验证</strong>：注册和登录使用 Cloudflare Turnstile 防止机器人攻击。</li>
+                    <li><strong>数据存储</strong>：数据存储在腾讯云服务器上，受腾讯云安全体系保护。</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>5. 第三方服务</h2>
+                <p>本站使用以下第三方服务，它们可能会收集部分匿名数据：</p>
+                <ul>
+                    <li><strong>Cloudflare</strong> — CDN 加速和安全防护，可能收集 IP 地址用于安全分析。</li>
+                    <li><strong>GitHub Pages</strong> — 静态页面托管服务。</li>
+                    <li><strong>腾讯云 SCF</strong> — 后端 API 服务托管。</li>
+                    <li><strong>腾讯云 COS</strong> — 用户头像等文件存储。</li>
+                </ul>
+                <p>这些第三方服务有各自的隐私政策，我们建议你查阅了解。</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>6. Cookie 与本地存储</h2>
+                <ul>
+                    <li>本站使用 <strong>localStorage</strong> 存储登录 Token 和用户偏好设置（如主题模式）。</li>
+                    <li>Cloudflare 可能设置安全相关的 Cookie。</li>
+                    <li>我们不使用追踪型 Cookie 或第三方广告 Cookie。</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>7. 你的权利</h2>
+                <p>你对自己的个人信息享有以下权利：</p>
+                <ul>
+                    <li><strong>查看</strong> — 在个人中心查看你的所有账号信息。</li>
+                    <li><strong>修改</strong> — 随时修改你的用户名、头像和个人简介。</li>
+                    <li><strong>删除</strong> — 你可以联系站长申请删除账号及所有相关数据。</li>
+                    <li><strong>导出</strong> — 你可以联系站长申请导出你的个人数据。</li>
+                </ul>
+            </div>
+
+            <div class="legal-section">
+                <h2>8. 未成年人保护</h2>
+                <p>本站不面向 13 岁以下的儿童。如果我们发现不慎收集了 13 岁以下儿童的信息，将立即删除。如果你是未成年人，请在监护人的指导下使用本站。</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>9. 政策变更</h2>
+                <p>我们可能会不时更新本隐私政策。更新后的政策将在本页面公布并标注更新日期。重大变更时，我们会通过站内通知提醒你。</p>
+            </div>
+
+            <div class="legal-section">
+                <h2>10. 联系我们</h2>
+                <p>如对隐私政策有任何疑问或需要行使你的数据权利，请通过以下方式联系：</p>
+                <ul>
+                    <li>站内消息：联系用户「kuankuantj」</li>
+                    <li>关于页面：<a href="/about.html" style="color:#667eea;">关于我们</a></li>
+                </ul>
+            </div>
+
+            <div class="legal-nav">
+                <a href="/terms.html">📜 用户协议</a>
+                <a href="/index-chinese.html">🏠 返回首页</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -324,6 +324,14 @@
                 <button id="loadMoreBtn" style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;padding:10px 30px;border-radius:25px;cursor:pointer;font-size:14px;transition:all 0.3s;">加载更多</button>
             </div>
         </section>
+
+        <!-- 页脚 -->
+        <footer style="text-align:center;padding:20px 0 30px;font-size:12px;color:rgba(255,255,255,.5);">
+            <a href="/terms.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">用户协议</a>
+            <a href="/privacy.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">隐私政策</a>
+            <a href="/about.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">关于我们</a>
+            <p style="margin-top:8px;">© 2026 Hakimi 的猫爬架</p>
+        </footer>
     </div>
 
     <!-- 登录弹窗 -->
@@ -448,7 +456,10 @@
 
                     <!-- Cloudflare Turnstile 人机验证 -->
                     <div id="registerTurnstile" class="cf-turnstile" style="margin-bottom: 15px;"></div>
-
+                    <label style="display:flex;align-items:flex-start;gap:6px;margin-bottom:15px;font-size:12px;color:#888;cursor:pointer;line-height:1.5;">
+                        <input type="checkbox" id="agreeTerms" style="margin-top:3px;flex-shrink:0;">
+                        <span>注册即表示同意 <a href="/terms.html" target="_blank" style="color:#667eea;">用户协议</a> 和 <a href="/privacy.html" target="_blank" style="color:#667eea;">隐私政策</a></span>
+                    </label>
                     <button type="submit" class="tianjg-btn">➔ 立即注册</button>
                 </form>
             </div>
