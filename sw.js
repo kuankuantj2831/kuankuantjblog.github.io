@@ -3,10 +3,10 @@
  * 缓存策略：网络优先，离线回退
  */
 
-const CACHE_NAME = 'hakimi-blog-v3';
+const CACHE_NAME = 'hakimi-blog-v4';
 const OFFLINE_URL = '/offline.html';
 
-// 预缓存的核心资源
+// 预缓存的核心资源（不带版本号，fetch 时用 ignoreSearch 匹配）
 const PRECACHE_URLS = [
     '/',
     '/index-chinese.html',
@@ -19,6 +19,9 @@ const PRECACHE_URLS = [
     '/js/auth.js',
     '/js/utils.js',
     '/js/theme.js',
+    '/js/bg-loader.js',
+    '/js/pwa-install.js',
+    '/js/theme-enhancements.js',
     '/images/icons/icon-192x192.png',
     '/favicon.ico'
 ];
@@ -66,10 +69,10 @@ self.addEventListener('fetch', event => {
         return;
     }
 
-    // 静态资源：缓存优先
+    // 静态资源：stale-while-revalidate（ignoreSearch 匹配带版本号的请求）
     if (url.pathname.match(/\.(css|js|png|jpg|jpeg|gif|ico|woff2?)$/)) {
         event.respondWith(
-            caches.match(request).then(cached => {
+            caches.match(request, { ignoreSearch: true }).then(cached => {
                 const fetchPromise = fetch(request).then(response => {
                     if (response.ok) {
                         const clone = response.clone();

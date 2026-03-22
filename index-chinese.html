@@ -36,6 +36,7 @@
     </script>
 
     <title>Hakimi 的猫爬架</title>
+    <link rel="canonical" href="https://mcock.cn/index-chinese.html">
 
     <!-- 性能优化：预连接 API 服务器，节省 DNS 解析 + TLS 握手时间 -->
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
@@ -130,7 +131,7 @@
     </script>
 
     <div class="chinese-style-wrapper">
-        <script src="/js/bg-loader.js"></script>
+        <script src="/js/bg-loader.js" defer></script>
         <!-- 背景装饰 -->
         <div class="bg-decoration"></div>
 
@@ -596,10 +597,10 @@
             navigator.serviceWorker.register('/sw.js')
                 .then(reg => {
                     console.log('SW registered:', reg.scope);
-                    // 检测到新 SW 安装后自动刷新页面
+                    // 仅在更新时刷新（非首次安装）
                     reg.addEventListener('updatefound', () => {
                         var newSW = reg.installing;
-                        if (newSW) {
+                        if (newSW && navigator.serviceWorker.controller) {
                             newSW.addEventListener('statechange', () => {
                                 if (newSW.state === 'activated') {
                                     window.location.reload();
