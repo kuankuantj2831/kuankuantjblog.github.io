@@ -402,10 +402,32 @@
                 }
             }
 
+            // ========== 分片上传配置 ==========
+            const CHUNK_SIZE = 3 * 1024 * 1024; // 3MB 每片（SCF API 网关限制 ~6MB，留余量）
+            const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB 最大文件大小
+            const MAX_RETRIES = 3; // 单片最大重试次数
+
             async function uploadFile(file) {
+                // 文件大小检查
+                if (file.size > MAX_FILE_SIZE) {
+                    alert(`文件过大（${formatSize(file.size)}），最大支持 ${formatSize(MAX_FILE_SIZE)}`);
+                    return;
+                }
+
                 // Show Progress
                 document.getElementById('progressContainer').style.display = 'block';
                 updateProgress(0);
+
+                // 小文件（< 3MB）走直传，大文件走分片
+                if (file.size <= CHUNK_SIZE) {
+                    await uploadSmallFile(file);
+                } else {
+                    await uploadLargeFile(file);
+                }
+            }
+
+            // 小文件直传（原有逻辑，增强错误处理）
+            async function uploadSmallFile(file) {
                 document.getElementById('uploadStatus').textContent = '上传中...';
 
                 const formData = new FormData();
@@ -415,6 +437,7 @@
                     const xhr = new XMLHttpRequest();
                     xhr.open('POST', `${API_BASE_URL}/drive/upload`, true);
                     xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+                    xhr.timeout = 60000; // 60秒超时
 
                     xhr.upload.onprogress = (e) => {
                         if (e.lengthComputable) {
@@ -425,31 +448,191 @@
 
                     xhr.onload = function () {
                         if (xhr.status === 200) {
-                            updateProgress(100);
-                            document.getElementById('uploadStatus').textContent = '? 上传成功!';
-                            setTimeout(() => {
-                                document.getElementById('progressContainer').style.display = 'none';
-                                fileInput.value = ''; // 重置文件选择
-                                loadFiles();
-                            }, 1000);
+                            uploadSuccess();
                         } else {
-                            const resp = JSON.parse(xhr.responseText || '{}');
-                            alert('上传失败: ' + (resp.message || xhr.statusText));
-                            document.getElementById('progressContainer').style.display = 'none';
+                            let msg = xhr.statusText;
+                            try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {}
+                            uploadFail('上传失败: ' + msg);
                         }
                     };
 
                     xhr.onerror = function () {
-                        alert('网络错误');
-                        document.getElementById('progressContainer').style.display = 'none';
+                        uploadFail('网络连接失败，请检查网络后重试');
+                    };
+
+                    xhr.ontimeout = function () {
+                        uploadFail('上传超时，请检查网络后重试');
                     };
 
                     xhr.send(formData);
 
                 } catch (e) {
-                    console.error(e);
-                    alert('上传出错');
+                    console.error('上传异常:', e);
+                    uploadFail('上传出错: ' + e.message);
                 }
+            }
+
+            // 大文件分片上传
+            async function uploadLargeFile(file) {
+                const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
+                document.getElementById('uploadStatus').textContent = `准备分片上传（共 ${totalChunks} 片）...`;
+
+                try {
+                    // 步骤1：初始化分片上传
+                    const initRes = await fetch(`${API_BASE_URL}/drive/upload/init`, {
+                        method: 'POST',
+                        headers: {
+                            ...authHeaders(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            fileName: file.name,
+                            fileSize: file.size,
+                            totalChunks: totalChunks
+                        })
+                    });
+
+                    if (!initRes.ok) {
+                        const errData = await initRes.json().catch(() => ({}));
+                        throw new Error(errData.message || `初始化失败 (${initRes.status})`);
+                    }
+
+                    const { uploadId } = await initRes.json();
+                    console.log(`分片上传初始化成功, uploadId: ${uploadId}, 总片数: ${totalChunks}`);
+
+                    // 步骤2：逐片上传
+                    for (let i = 0; i < totalChunks; i++) {
+                        const start = i * CHUNK_SIZE;
+                        const end = Math.min(start + CHUNK_SIZE, file.size);
+                        const chunk = file.slice(start, end);
+
+                        document.getElementById('uploadStatus').textContent = `上传中... 分片 ${i + 1}/${totalChunks}`;
+
+                        // 带重试的分片上传
+                        let success = false;
+                        for (let retry = 0; retry < MAX_RETRIES; retry++) {
+                            try {
+                                await uploadChunk(uploadId, i, chunk, totalChunks);
+                                success = true;
+                                break;
+                            } catch (err) {
+                                console.warn(`分片 ${i + 1} 第 ${retry + 1} 次上传失败:`, err.message);
+                                if (retry < MAX_RETRIES - 1) {
+                                    document.getElementById('uploadStatus').textContent = `分片 ${i + 1} 上传失败，正在重试 (${retry + 2}/${MAX_RETRIES})...`;
+                                    await sleep(1000 * (retry + 1)); // 递增等待
+                                }
+                            }
+                        }
+
+                        if (!success) {
+                            // 尝试取消上传
+                            await abortUpload(uploadId).catch(() => {});
+                            throw new Error(`分片 ${i + 1} 上传失败，已重试 ${MAX_RETRIES} 次`);
+                        }
+
+                        // 更新总进度
+                        const overallPercent = Math.round(((i + 1) / totalChunks) * 100);
+                        updateProgress(overallPercent);
+                    }
+
+                    // 步骤3：通知后端合并分片
+                    document.getElementById('uploadStatus').textContent = '合并文件中...';
+                    const completeRes = await fetch(`${API_BASE_URL}/drive/upload/complete`, {
+                        method: 'POST',
+                        headers: {
+                            ...authHeaders(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ uploadId })
+                    });
+
+                    if (!completeRes.ok) {
+                        const errData = await completeRes.json().catch(() => ({}));
+                        throw new Error(errData.message || `合并失败 (${completeRes.status})`);
+                    }
+
+                    uploadSuccess();
+
+                } catch (e) {
+                    console.error('分片上传失败:', e);
+                    uploadFail(e.message || '分片上传失败');
+                }
+            }
+
+            // 上传单个分片
+            function uploadChunk(uploadId, chunkIndex, chunkBlob, totalChunks) {
+                return new Promise((resolve, reject) => {
+                    const formData = new FormData();
+                    formData.append('chunk', chunkBlob);
+                    formData.append('uploadId', uploadId);
+                    formData.append('chunkIndex', chunkIndex);
+                    formData.append('totalChunks', totalChunks);
+
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', `${API_BASE_URL}/drive/upload/chunk`, true);
+                    xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+                    xhr.timeout = 30000; // 30秒超时
+
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            resolve();
+                        } else {
+                            let msg = xhr.statusText;
+                            try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {}
+                            reject(new Error(msg));
+                        }
+                    };
+
+                    xhr.onerror = function () {
+                        reject(new Error('网络连接失败'));
+                    };
+
+                    xhr.ontimeout = function () {
+                        reject(new Error('分片上传超时'));
+                    };
+
+                    xhr.send(formData);
+                });
+            }
+
+            // 取消分片上传
+            async function abortUpload(uploadId) {
+                try {
+                    await fetch(`${API_BASE_URL}/drive/upload/abort`, {
+                        method: 'POST',
+                        headers: {
+                            ...authHeaders(),
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ uploadId })
+                    });
+                } catch (e) {
+                    console.warn('取消上传请求失败:', e);
+                }
+            }
+
+            // 上传成功处理
+            function uploadSuccess() {
+                updateProgress(100);
+                document.getElementById('uploadStatus').textContent = '✅ 上传成功!';
+                setTimeout(() => {
+                    document.getElementById('progressContainer').style.display = 'none';
+                    fileInput.value = '';
+                    loadFiles();
+                }, 1000);
+            }
+
+            // 上传失败处理
+            function uploadFail(message) {
+                document.getElementById('uploadStatus').textContent = '❌ ' + message;
+                setTimeout(() => {
+                    document.getElementById('progressContainer').style.display = 'none';
+                }, 3000);
+            }
+
+            // 工具函数：延时
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
             }
 
             function updateProgress(percent) {
