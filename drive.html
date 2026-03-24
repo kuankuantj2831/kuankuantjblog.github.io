@@ -402,217 +402,130 @@
                 }
             }
 
-            // ========== 分片上传配置 ==========
-            const CHUNK_SIZE = 3 * 1024 * 1024; // 3MB 每片（SCF API 网关限制 ~6MB，留余量）
-            const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB 最大文件大小
-            const MAX_RETRIES = 3; // 单片最大重试次数
+            const MAX_DIRECT_SIZE = 5 * 1024 * 1024; // 5MB 以下走后端中转
+            const MAX_FILE_SIZE = 200 * 1024 * 1024; // 最大 200MB
 
             async function uploadFile(file) {
-                // 文件大小检查
                 if (file.size > MAX_FILE_SIZE) {
-                    alert(`文件过大（${formatSize(file.size)}），最大支持 ${formatSize(MAX_FILE_SIZE)}`);
+                    alert('文件大小不能超过 200MB');
                     return;
                 }
 
-                // Show Progress
                 document.getElementById('progressContainer').style.display = 'block';
                 updateProgress(0);
+                document.getElementById('uploadStatus').textContent = '上传中...';
 
-                // 小文件（< 3MB）走直传，大文件走分片
-                if (file.size <= CHUNK_SIZE) {
-                    await uploadSmallFile(file);
-                } else {
-                    await uploadLargeFile(file);
+                try {
+                    if (file.size <= MAX_DIRECT_SIZE) {
+                        // 小文件：走后端中转（兼容原有逻辑）
+                        await uploadViaBackend(file);
+                    } else {
+                        // 大文件：获取签名 URL 后直传 COS
+                        await uploadViaCOS(file);
+                    }
+                } catch (e) {
+                    console.error('上传出错:', e);
+                    alert('上传失败：' + (e.message || '未知错误'));
+                    document.getElementById('progressContainer').style.display = 'none';
                 }
             }
 
-            // 小文件直传（原有逻辑，增强错误处理）
-            async function uploadSmallFile(file) {
-                document.getElementById('uploadStatus').textContent = '上传中...';
+            // 小文件：后端中转上传
+            function uploadViaBackend(file) {
+                return new Promise((resolve, reject) => {
+                    const formData = new FormData();
+                    formData.append('file', file);
 
-                const formData = new FormData();
-                formData.append('file', file);
-
-                try {
                     const xhr = new XMLHttpRequest();
                     xhr.open('POST', `${API_BASE_URL}/drive/upload`, true);
                     xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-                    xhr.timeout = 60000; // 60秒超时
 
                     xhr.upload.onprogress = (e) => {
                         if (e.lengthComputable) {
-                            const percent = Math.round((e.loaded / e.total) * 100);
-                            updateProgress(percent);
+                            updateProgress(Math.round((e.loaded / e.total) * 100));
                         }
                     };
 
                     xhr.onload = function () {
                         if (xhr.status === 200) {
-                            uploadSuccess();
-                        } else {
-                            let msg = xhr.statusText;
-                            try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {}
-                            uploadFail('上传失败: ' + msg);
-                        }
-                    };
-
-                    xhr.onerror = function () {
-                        uploadFail('网络连接失败，请检查网络后重试');
-                    };
-
-                    xhr.ontimeout = function () {
-                        uploadFail('上传超时，请检查网络后重试');
-                    };
-
-                    xhr.send(formData);
-
-                } catch (e) {
-                    console.error('上传异常:', e);
-                    uploadFail('上传出错: ' + e.message);
-                }
-            }
-
-            // 大文件分片上传
-            async function uploadLargeFile(file) {
-                const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-                document.getElementById('uploadStatus').textContent = `准备分片上传（共 ${totalChunks} 片）...`;
-
-                try {
-                    // 步骤1：初始化分片上传
-                    const initRes = await fetch(`${API_BASE_URL}/drive/upload/init`, {
-                        method: 'POST',
-                        headers: {
-                            ...authHeaders(),
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            fileName: file.name,
-                            fileSize: file.size,
-                            totalChunks: totalChunks
-                        })
-                    });
-
-                    if (!initRes.ok) {
-                        const errData = await initRes.json().catch(() => ({}));
-                        throw new Error(errData.message || `初始化失败 (${initRes.status})`);
-                    }
-
-                    const { uploadId } = await initRes.json();
-                    console.log(`分片上传初始化成功, uploadId: ${uploadId}, 总片数: ${totalChunks}`);
-
-                    // 步骤2：逐片上传
-                    for (let i = 0; i < totalChunks; i++) {
-                        const start = i * CHUNK_SIZE;
-                        const end = Math.min(start + CHUNK_SIZE, file.size);
-                        const chunk = file.slice(start, end);
-
-                        document.getElementById('uploadStatus').textContent = `上传中... 分片 ${i + 1}/${totalChunks}`;
-
-                        // 带重试的分片上传
-                        let success = false;
-                        for (let retry = 0; retry < MAX_RETRIES; retry++) {
-                            try {
-                                await uploadChunk(uploadId, i, chunk, totalChunks);
-                                success = true;
-                                break;
-                            } catch (err) {
-                                console.warn(`分片 ${i + 1} 第 ${retry + 1} 次上传失败:`, err.message);
-                                if (retry < MAX_RETRIES - 1) {
-                                    document.getElementById('uploadStatus').textContent = `分片 ${i + 1} 上传失败，正在重试 (${retry + 2}/${MAX_RETRIES})...`;
-                                    await sleep(1000 * (retry + 1)); // 递增等待
-                                }
-                            }
-                        }
-
-                        if (!success) {
-                            // 尝试取消上传
-                            await abortUpload(uploadId).catch(() => {});
-                            throw new Error(`分片 ${i + 1} 上传失败，已重试 ${MAX_RETRIES} 次`);
-                        }
-
-                        // 更新总进度
-                        const overallPercent = Math.round(((i + 1) / totalChunks) * 100);
-                        updateProgress(overallPercent);
-                    }
-
-                    // 步骤3：通知后端合并分片
-                    document.getElementById('uploadStatus').textContent = '合并文件中...';
-                    const completeRes = await fetch(`${API_BASE_URL}/drive/upload/complete`, {
-                        method: 'POST',
-                        headers: {
-                            ...authHeaders(),
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ uploadId })
-                    });
-
-                    if (!completeRes.ok) {
-                        const errData = await completeRes.json().catch(() => ({}));
-                        throw new Error(errData.message || `合并失败 (${completeRes.status})`);
-                    }
-
-                    uploadSuccess();
-
-                } catch (e) {
-                    console.error('分片上传失败:', e);
-                    uploadFail(e.message || '分片上传失败');
-                }
-            }
-
-            // 上传单个分片
-            function uploadChunk(uploadId, chunkIndex, chunkBlob, totalChunks) {
-                return new Promise((resolve, reject) => {
-                    const formData = new FormData();
-                    formData.append('chunk', chunkBlob);
-                    formData.append('uploadId', uploadId);
-                    formData.append('chunkIndex', chunkIndex);
-                    formData.append('totalChunks', totalChunks);
-
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', `${API_BASE_URL}/drive/upload/chunk`, true);
-                    xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-                    xhr.timeout = 30000; // 30秒超时
-
-                    xhr.onload = function () {
-                        if (xhr.status === 200) {
+                            onUploadSuccess();
                             resolve();
                         } else {
-                            let msg = xhr.statusText;
-                            try { msg = JSON.parse(xhr.responseText).message || msg; } catch(e) {}
-                            reject(new Error(msg));
+                            const resp = JSON.parse(xhr.responseText || '{}');
+                            reject(new Error(resp.message || '服务器返回错误'));
                         }
                     };
 
                     xhr.onerror = function () {
-                        reject(new Error('网络连接失败'));
+                        reject(new Error('网络连接失败，请检查网络后重试'));
                     };
 
                     xhr.ontimeout = function () {
-                        reject(new Error('分片上传超时'));
+                        reject(new Error('上传超时，请重试'));
                     };
 
+                    xhr.timeout = 60000; // 60 秒超时
                     xhr.send(formData);
                 });
             }
 
-            // 取消分片上传
-            async function abortUpload(uploadId) {
-                try {
-                    await fetch(`${API_BASE_URL}/drive/upload/abort`, {
-                        method: 'POST',
-                        headers: {
-                            ...authHeaders(),
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ uploadId })
-                    });
-                } catch (e) {
-                    console.warn('取消上传请求失败:', e);
+            // 大文件：COS 直传
+            async function uploadViaCOS(file) {
+                // 1. 从后端获取签名 URL
+                document.getElementById('uploadStatus').textContent = '准备上传...';
+                const signRes = await fetch(`${API_BASE_URL}/drive/sign`, {
+                    method: 'POST',
+                    headers: {
+                        ...authHeaders(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ fileName: file.name, fileSize: file.size })
+                });
+
+                if (!signRes.ok) {
+                    const err = await signRes.json().catch(() => ({}));
+                    throw new Error(err.message || '获取上传凭证失败');
                 }
+
+                const { signedUrl } = await signRes.json();
+
+                // 2. 用签名 URL 直传到 COS
+                document.getElementById('uploadStatus').textContent = '上传中...';
+                await new Promise((resolve, reject) => {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('PUT', signedUrl, true);
+                    xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+
+                    xhr.upload.onprogress = (e) => {
+                        if (e.lengthComputable) {
+                            updateProgress(Math.round((e.loaded / e.total) * 100));
+                        }
+                    };
+
+                    xhr.onload = function () {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            resolve();
+                        } else {
+                            reject(new Error(`COS 上传失败 (${xhr.status})`));
+                        }
+                    };
+
+                    xhr.onerror = function () {
+                        reject(new Error('网络连接失败，请检查网络后重试'));
+                    };
+
+                    xhr.ontimeout = function () {
+                        reject(new Error('上传超时，文件可能过大，请重试'));
+                    };
+
+                    xhr.timeout = 600000; // 大文件 10 分钟超时
+                    xhr.send(file);
+                });
+
+                onUploadSuccess();
             }
 
-            // 上传成功处理
-            function uploadSuccess() {
+            function onUploadSuccess() {
                 updateProgress(100);
                 document.getElementById('uploadStatus').textContent = '✅ 上传成功!';
                 setTimeout(() => {
@@ -620,19 +533,6 @@
                     fileInput.value = '';
                     loadFiles();
                 }, 1000);
-            }
-
-            // 上传失败处理
-            function uploadFail(message) {
-                document.getElementById('uploadStatus').textContent = '❌ ' + message;
-                setTimeout(() => {
-                    document.getElementById('progressContainer').style.display = 'none';
-                }, 3000);
-            }
-
-            // 工具函数：延时
-            function sleep(ms) {
-                return new Promise(resolve => setTimeout(resolve, ms));
             }
 
             function updateProgress(percent) {
