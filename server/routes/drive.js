@@ -54,8 +54,8 @@ router.post('/sign', verifyToken, checkCOSConfig, (req, res) => {
     if (fileSize && fileSize > MAX_SIZE) {
         return res.status(400).json({ message: '文件大小不能超过 200MB' });
     }
-    // 安全：清理文件名中的路径遍历字符
-    const safeName = fileName.replace(/[\\\/\.\:]/g, '_').substring(0, 200);
+    // 安全：清理文件名中的路径遍历字符（保留扩展名中的点号）
+    const safeName = fileName.replace(/[\\\/\:]/g, '_').replace(/\.{2,}/g, '.').substring(0, 200);
     const key = getUserPrefix(req.userId) + safeName;
 
     // 生成 PUT 签名 URL（有效期 10 分钟）
