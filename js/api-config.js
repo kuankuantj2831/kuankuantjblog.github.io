@@ -12,5 +12,5 @@ const isDev = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
 
 export const API_BASE_URL = isDev ? ENV_CONFIG.development : ENV_CONFIG.production;
 
-// 输出当前环境信息，方便调试
-console.log(`[API Config] 环境: ${isDev ? '开发' : '生产'}, API地址: ${API_BASE_URL}`);
+// 输出当前环境信息，方便调试（仅开发环境）
+if (isDev) console.log(`[API Config] 环境: 开发, API地址: ${API_BASE_URL}`);

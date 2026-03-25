@@ -73,3 +73,30 @@ export function formatTime(dateStr) {
         return '';
     }
 }
+
+/**
+ * 显示Toast提示（替代alert）
+ * @param {string} msg - 提示消息
+ * @param {string} type - 类型：'info', 'success', 'error' (影响颜色)
+ * @param {number} duration - 显示时长（毫秒，默认2000）
+ */
+export function showToast(msg, type = 'info', duration = 2000) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    const colors = {
+        info: 'rgba(0,0,0,0.75)',
+        success: 'rgba(76, 175, 80, 0.9)',
+        error: 'rgba(244, 67, 54, 0.9)'
+    };
+    Object.assign(t.style, {
+        position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
+        background: colors[type] || colors.info,
+        color: '#fff', padding: '10px 24px',
+        borderRadius: '8px', fontSize: '14px', zIndex: '9999',
+        transition: 'opacity 0.3s', opacity: '1',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        maxWidth: '90vw', wordBreak: 'break-word'
+    });
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, duration);
+}

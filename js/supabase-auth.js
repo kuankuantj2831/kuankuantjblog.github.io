@@ -12,7 +12,10 @@ class SupabaseAuthSystem {
     }
 
     init() {
-        console.log('AuthSystem: initializing...');
+        // 调试日志（仅开发环境）
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+            console.log('AuthSystem: initializing...');
+        }
         this.bindEvents();
         this.initTurnstile();
 
@@ -22,7 +25,9 @@ class SupabaseAuthSystem {
         if (storedUser && token) {
             try {
                 this.currentUser = JSON.parse(storedUser);
-                console.log('AuthSystem: User restored from localStorage', this.currentUser);
+                if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+                    console.log('AuthSystem: User restored from localStorage', this.currentUser);
+                }
                 this.updateUI();
                 // 异步验证 token 是否仍然有效
                 this.verifyToken(token);
@@ -35,7 +40,9 @@ class SupabaseAuthSystem {
             // token 或 user 缺失，清除不完整的状态
             localStorage.removeItem('user');
             localStorage.removeItem('token');
-            console.log('AuthSystem: No valid session found');
+            if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+                console.log('AuthSystem: No valid session found');
+            }
             this.updateUI();
         }
     }

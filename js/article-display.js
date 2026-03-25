@@ -46,8 +46,8 @@ async function loadArticle() {
     const articleId = urlParams.get('id');
 
     if (!articleId) {
-        alert("文章ID丢失");
-        window.location.href = "/index-chinese.html";
+        showToast("文章ID丢失");
+        setTimeout(() => { window.location.href = "/index-chinese.html"; }, 1500);
         return;
     }
 
