@@ -22,5 +22,133 @@
   </figure>
   <a href="/index-chinese.html" style="display:inline-block; margin-top:20px; padding:12px 30px; background:linear-gradient(135deg,#00bfa5,#00897b); color:white; text-decoration:none; border-radius:25px; font-size:1.1em; box-shadow:0 4px 15px rgba(0,191,165,0.3); transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">🏠 返回首页</a>
 </div>
+
+<!-- Win7 Emoji 兼容性处理 -->
+<script>
+(function() {
+    // 检测是否为 Windows 7
+    function isWindows7() {
+        var ua = navigator.userAgent;
+        return ua.indexOf('Windows NT 6.1') !== -1 || 
+               ua.indexOf('Windows 7') !== -1;
+    }
+    
+    // Emoji 替换映射表
+    var emojiMap = {
+        "🐱": "猫",
+        "🏠": "首页",
+        "🎮": "游戏",
+        "☁️": "云",
+        "☀️": "太阳",
+        "❤️": "爱心",
+        "🎯": "关于",
+        "💬": "消息",
+        "🔔": "通知",
+        "👤": "用户",
+        "📝": "编辑",
+        "⬆️": "升级",
+        "🖼️": "图片",
+        "✍️": "写作",
+        "⚙️": "设置",
+        "🚪": "退出",
+        "💡": "提示",
+        "⚡": "经验",
+        "🚀": "发布",
+        "🎖️": "等级",
+        "💪": "加油",
+        "🔒": "锁定",
+        "📜": "协议",
+        "↑": "上",
+        "↓": "下",
+        "↩️": "撤销",
+        "❓": "帮助",
+        "🔄": "刷新",
+        "▶️": "开始",
+        "⏱️": "时间",
+        "🎨": "创意",
+        "💻": "电脑",
+        "📚": "学习",
+        "🛡️": "盾牌",
+        "✈️": "飞机",
+        "⭐": "星星",
+        "🕹️": "手柄",
+        "📧": "邮箱",
+        "📱": "手机",
+        "📑": "目录",
+        "📦": "压缩",
+        "📄": "文件",
+        "📙": "PPT",
+        "🔧": "工具",
+        "🪙": "硬币",
+        "💰": "金币",
+        "✅": "完成",
+        "🛠️": "工具",
+        "💫": "星光",
+        "🔍": "搜索",
+        "📖": "书籍",
+        "🏷️": "标签",
+        "🗑️": "删除"
+    };
+    
+    // 替换页面中的 emoji
+    function replaceEmojis() {
+        if (!isWindows7()) return;
+        
+        // 替换文本节点
+        var walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT,
+            null,
+            false
+        );
+        
+        var node;
+        while (node = walker.nextNode()) {
+            var text = node.textContent;
+            var hasEmoji = false;
+            for (var emoji in emojiMap) {
+                if (text.indexOf(emoji) !== -1) {
+                    text = text.split(emoji).join(emojiMap[emoji]);
+                    hasEmoji = true;
+                }
+            }
+            if (hasEmoji) {
+                node.textContent = text;
+            }
+        }
+        
+        // 替换属性中的 emoji（如 title, alt 等）
+        var elements = document.querySelectorAll('*');
+        var attrs = ['title', 'alt', 'placeholder', 'value'];
+        for (var i = 0; i < elements.length; i++) {
+            var el = elements[i];
+            for (var j = 0; j < attrs.length; j++) {
+                var attr = attrs[j];
+                if (el.hasAttribute(attr)) {
+                    var val = el.getAttribute(attr);
+                    var hasEmoji = false;
+                    for (var emoji in emojiMap) {
+                        if (val.indexOf(emoji) !== -1) {
+                            val = val.split(emoji).join(emojiMap[emoji]);
+                            hasEmoji = true;
+                        }
+                    }
+                    if (hasEmoji) {
+                        el.setAttribute(attr, val);
+                    }
+                }
+            }
+        }
+    }
+    
+    // DOM 加载完成后执行替换
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', replaceEmojis);
+    } else {
+        replaceEmojis();
+    }
+})();
+</script>
+
 </body>
 </html>
