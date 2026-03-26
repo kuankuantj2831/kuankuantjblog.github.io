@@ -678,12 +678,12 @@
 
             if (window.BrowserDetect && window.BrowserDetect.needLegacyMode()) {
                 // 旧版浏览器：使用兼容版本（无 ES Module，兼容 IE11）
-                script.src = '/js/article-display-legacy.js?v=20260311';
+                script.src = '/js/article-display-legacy.js?v=20260326';
                 console.log('[BrowserDetect] 加载兼容版本脚本 (Legacy Mode)');
             } else {
                 // 现代浏览器：使用 ES Module 版本
                 script.type = 'module';
-                script.src = '/js/article-display.js?v=20260311';
+                script.src = '/js/article-display.js?v=20260326';
                 console.log('[BrowserDetect] 加载现代版本脚本 (ES Module)');
             }
 

@@ -3,7 +3,7 @@
  * 缓存策略：网络优先，离线回退
  */
 
-const CACHE_NAME = 'hakimi-blog-v6';
+const CACHE_NAME = 'hakimi-blog-v7';
 const OFFLINE_URL = '/offline.html';
 
 // 预缓存的核心资源（不带版本号，fetch 时用 ignoreSearch 匹配）
