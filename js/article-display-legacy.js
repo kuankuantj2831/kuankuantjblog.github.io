@@ -421,6 +421,17 @@
             viewsEl.textContent = '👁 ' + (article.view_count || 0);
         }
 
+        // 计算阅读时间
+        var readingTimeEl = safeGetElement('readingTime');
+        if (readingTimeEl) {
+            var content = article.content || '';
+            var chineseChars = content.match(/[\u4e00-\u9fa5]/g) || [];
+            var nonChineseChars = content.replace(/[\u4e00-\u9fa5\s]/g, '');
+            var totalChars = chineseChars.length + nonChineseChars.length;
+            var readingTime = Math.max(1, Math.ceil(totalChars / 300));
+            readingTimeEl.textContent = '⏱️ ' + readingTime + ' 分钟阅读';
+        }
+
         // 渲染 Markdown 内容
         if (bodyEl) {
             bodyEl.innerHTML = renderMarkdown(article.content || '');
