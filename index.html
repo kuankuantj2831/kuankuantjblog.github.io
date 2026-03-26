@@ -2,6 +2,12 @@
 <html lang="en">
 
 <head>
+  <!-- 立即跳转到新首页，防止显示旧主题内容 -->
+  <script>
+    window.location.replace('index-chinese.html');
+  </script>
+  <meta http-equiv="refresh" content="0;url=index-chinese.html">
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="msvalidate.01" content="E5A901AA24687146D9F8D47CE949EEAC" />
@@ -10,12 +16,7 @@
 
   <title>Hakimi 的猫爬架</title>
 
-  <!-- 自动跳转到中国风首页（meta refresh 对搜索引擎友好） -->
-  <meta http-equiv="refresh" content="0;url=index-chinese.html">
   <link rel="canonical" href="https://mcock.cn/index-chinese.html">
-  <script>
-    window.location.replace('index-chinese.html');
-  </script>
 
   <!-- 性能优化：预连接 API 服务器 -->
   <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
