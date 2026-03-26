@@ -20,10 +20,19 @@
 
     // Android: 拦截 beforeinstallprompt
     let deferredPrompt = null;
+    let beforeInstallPromptFired = false;
+    
     window.addEventListener('beforeinstallprompt', e => {
         e.preventDefault();
         deferredPrompt = e;
+        beforeInstallPromptFired = true;
+        console.log('[PWA] beforeinstallprompt event fired');
     });
+    
+    // 检查是否已经安装
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        console.log('[PWA] Already in standalone mode');
+    }
 
     setTimeout(() => {
         const banner = document.createElement('div');
