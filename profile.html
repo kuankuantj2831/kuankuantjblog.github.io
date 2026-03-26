@@ -222,10 +222,27 @@
                     <button onclick="window.profileManager.loadMoreFavorites()" style="background:#1890ff;color:white;border:none;padding:8px 24px;border-radius:20px;cursor:pointer;font-size:14px;">加载更多</button>
                 </div>
             </div>
+
+            <!-- 我的关注卡片 -->
+            <div class="profile-card">
+                <h2 class="profile-card-title">👥 我的关注</h2>
+                <div id="followListContainer">
+                    <p style="color:#999;text-align:center;padding:20px;">加载中...</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <script type="module" src="/js/profile.js?v=20260311c"></script>
+    <script src="/js/follow.js"></script>
+    <script>
+        // 页面加载完成后渲染关注列表
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.Follow && window.Follow.renderList) {
+                window.Follow.renderList('followListContainer');
+            }
+        });
+    </script>
     <script src="/js/bg-loader.js"></script>
     <script src="/js/theme.js?v=1"></script>
 

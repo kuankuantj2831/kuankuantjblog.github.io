@@ -103,6 +103,14 @@ async function loadArticle() {
                 const titleBadge = renderTitleBadge(article.author_title);
                 const levelBadge = renderLevelBadge(article.author_level);
                 authorEl.innerHTML = "👤 " + levelBadge + titleBadge + escapeHtml(article.author_name || '匿名');
+                // 保存作者信息供关注功能使用
+                window.currentArticleAuthor = {
+                    id: article.author_id,
+                    name: article.author_name,
+                    avatar: article.author_avatar,
+                    level: article.author_level,
+                    title: article.author_title
+                };
             }
 
             // 显示阅读量
