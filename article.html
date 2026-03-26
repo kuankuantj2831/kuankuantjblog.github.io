@@ -316,6 +316,125 @@
                 right: 10px;
             }
         }
+
+        /* 全屏阅读模式样式 */
+        .fullscreen-read-mode {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 40px 60px !important;
+            z-index: 9999 !important;
+            overflow-y: auto !important;
+            background: rgba(255, 255, 255, 0.98) !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+
+        .fullscreen-read-mode .article-header {
+            max-width: 900px;
+            margin: 0 auto 30px;
+        }
+
+        .fullscreen-read-mode .article-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* 全屏模式下隐藏的元素 */
+        body.fullscreen-active .top-nav,
+        body.fullscreen-active .toc-sidebar,
+        body.fullscreen-active #fontSizeToolbar,
+        body.fullscreen-active .interactions-section,
+        body.fullscreen-active .back-to-top,
+        body.fullscreen-active .bg-decoration {
+            display: none !important;
+        }
+
+        /* 全屏模式控制栏 */
+        .fullscreen-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 10000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 12px;
+            border-radius: 30px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .fullscreen-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fullscreen-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .fullscreen-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        /* 显示全屏按钮 */
+        body:not(.fullscreen-active) .fullscreen-controls {
+            display: none;
+        }
+
+        body.fullscreen-active .fullscreen-toggle-btn {
+            display: none;
+        }
+
+        .fullscreen-toggle-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: rgba(255, 255, 255, 0.95);
+            color: #667eea;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 18px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .fullscreen-toggle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .fullscreen-read-mode {
+                padding: 20px !important;
+            }
+        }
     </style>
     <link rel="stylesheet" href="/css/theme.css?v=3">
     <!-- 代码高亮 -->
@@ -467,6 +586,12 @@
     <nav class="toc-sidebar" id="tocSidebar"><h4>📑 目录</h4><div id="tocContent"></div></nav>
     <!-- 回到顶部 -->
     <button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+    <!-- 全屏阅读按钮 -->
+    <button class="fullscreen-toggle-btn" id="fullscreenToggleBtn" title="全屏阅读">⛶</button>
+    <!-- 全屏模式控制栏 -->
+    <div class="fullscreen-controls" id="fullscreenControls">
+        <button class="fullscreen-btn" id="exitFullscreenBtn" title="退出全屏">⛶</button>
+    </div>
 
     <script src="/js/polyfill.js"></script>
     <script src="/js/cdn-fallback.js"></script>
@@ -563,6 +688,78 @@
             }
 
             document.head.appendChild(script);
+        })();
+    </script>
+    <script>
+        // 全屏阅读模式功能
+        (function initFullscreenMode() {
+            const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
+            const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
+            const articleContainer = document.querySelector('.article-container');
+            const fullscreenControls = document.getElementById('fullscreenControls');
+
+            // 进入全屏阅读模式
+            function enterFullscreenMode() {
+                document.body.classList.add('fullscreen-active');
+                articleContainer.classList.add('fullscreen-read-mode');
+
+                // 将文章容器移动到body下以避免层级问题
+                if (articleContainer.parentElement !== document.body) {
+                    articleContainer.dataset.originalParent = '';
+                    articleContainer._originalParent = articleContainer.parentElement;
+                    document.body.appendChild(articleContainer);
+                }
+
+                // 记录滚动位置
+                sessionStorage.setItem('fullscreen_scroll', window.scrollY);
+                window.scrollTo(0, 0);
+
+                // 添加ESC键退出
+                document.addEventListener('keydown', handleEscKey);
+            }
+
+            // 退出全屏阅读模式
+            function exitFullscreenMode() {
+                document.body.classList.remove('fullscreen-active');
+                articleContainer.classList.remove('fullscreen-read-mode');
+
+                // 恢复原位置
+                if (articleContainer._originalParent) {
+                    articleContainer._originalParent.appendChild(articleContainer);
+                    delete articleContainer._originalParent;
+                }
+
+                // 恢复滚动位置
+                const savedScroll = sessionStorage.getItem('fullscreen_scroll');
+                if (savedScroll) {
+                    setTimeout(() => window.scrollTo(0, parseInt(savedScroll)), 10);
+                    sessionStorage.removeItem('fullscreen_scroll');
+                }
+
+                document.removeEventListener('keydown', handleEscKey);
+            }
+
+            // ESC键处理
+            function handleEscKey(e) {
+                if (e.key === 'Escape' && document.body.classList.contains('fullscreen-active')) {
+                    exitFullscreenMode();
+                }
+            }
+
+            // 绑定事件
+            if (fullscreenToggleBtn) {
+                fullscreenToggleBtn.addEventListener('click', enterFullscreenMode);
+            }
+            if (exitFullscreenBtn) {
+                exitFullscreenBtn.addEventListener('click', exitFullscreenMode);
+            }
+            if (fullscreenControls) {
+                fullscreenControls.addEventListener('click', (e) => {
+                    if (e.target === fullscreenControls) {
+                        exitFullscreenMode();
+                    }
+                });
+            }
         })();
     </script>
     <script>
