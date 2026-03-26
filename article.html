@@ -242,6 +242,80 @@
         .coin-success-anim {
             animation: coinDrop 0.6s ease-out;
         }
+
+        /* 字体大小调节工具栏 */
+        .font-size-toolbar {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 12px;
+            border-radius: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .font-size-label {
+            font-size: 12px;
+            color: #666;
+            margin-right: 4px;
+        }
+
+        .font-size-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: #666;
+            cursor: pointer;
+            border-radius: 50%;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .font-size-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .font-size-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .font-size-btn[data-size="small"] { font-size: 12px; }
+        .font-size-btn[data-size="medium"] { font-size: 14px; }
+        .font-size-btn[data-size="large"] { font-size: 16px; }
+
+        /* 字体大小类 */
+        .article-content.font-small { font-size: 16px; }
+        .article-content.font-small h1 { font-size: 1.6em; }
+        .article-content.font-small h2 { font-size: 1.35em; }
+        .article-content.font-small h3 { font-size: 1.15em; }
+
+        .article-content.font-medium { font-size: 18px; }
+        .article-content.font-medium h1 { font-size: 1.8em; }
+        .article-content.font-medium h2 { font-size: 1.5em; }
+        .article-content.font-medium h3 { font-size: 1.25em; }
+
+        .article-content.font-large { font-size: 20px; }
+        .article-content.font-large h1 { font-size: 2em; }
+        .article-content.font-large h2 { font-size: 1.65em; }
+        .article-content.font-large h3 { font-size: 1.35em; }
+
+        @media (max-width: 768px) {
+            .font-size-toolbar {
+                top: auto;
+                bottom: 80px;
+                right: 10px;
+            }
+        }
     </style>
     <link rel="stylesheet" href="/css/theme.css?v=3">
     <!-- 代码高亮 -->
@@ -273,6 +347,14 @@
                 <a href="/games.html" class="nav-link">🎮 游戏</a>
             </div>
         </nav>
+
+        <!-- 字体大小调节工具栏 -->
+        <div class="font-size-toolbar" id="fontSizeToolbar">
+            <span class="font-size-label">字体大小</span>
+            <button class="font-size-btn" data-size="small" title="小字体">A-</button>
+            <button class="font-size-btn active" data-size="medium" title="中字体">A</button>
+            <button class="font-size-btn" data-size="large" title="大字体">A+</button>
+        </div>
 
         <div class="article-container">
             <div id="loading" style="text-align: center; padding: 50px;">
@@ -389,6 +471,61 @@
     <script src="/js/polyfill.js"></script>
     <script src="/js/cdn-fallback.js"></script>
     <script src="/js/follow.js"></script>
+    <script>
+        // 字体大小调节功能
+        (function initFontSize() {
+            const FONT_SIZE_KEY = 'article_font_size';
+            const artBody = document.getElementById('artBody');
+            const toolbar = document.getElementById('fontSizeToolbar');
+
+            // 从localStorage读取字体大小偏好
+            function getSavedFontSize() {
+                try {
+                    return localStorage.getItem(FONT_SIZE_KEY) || 'medium';
+                } catch (e) {
+                    return 'medium';
+                }
+            }
+
+            // 保存字体大小偏好
+            function saveFontSize(size) {
+                try {
+                    localStorage.setItem(FONT_SIZE_KEY, size);
+                } catch (e) {
+                    console.warn('保存字体大小设置失败:', e);
+                }
+            }
+
+            // 应用字体大小
+            function applyFontSize(size) {
+                if (!artBody) return;
+                artBody.classList.remove('font-small', 'font-medium', 'font-large');
+                artBody.classList.add('font-' + size);
+
+                // 更新按钮状态
+                toolbar.querySelectorAll('.font-size-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.size === size);
+                });
+            }
+
+            // 初始化
+            const savedSize = getSavedFontSize();
+
+            // 监听按钮点击
+            toolbar.querySelectorAll('.font-size-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const size = btn.dataset.size;
+                    applyFontSize(size);
+                    saveFontSize(size);
+                });
+            });
+
+            // 页面加载完成后应用保存的字体大小
+            document.addEventListener('article-loaded', () => {
+                applyFontSize(savedSize);
+            });
+        })();
+    </script>
     <script>
         // 文章加载完成后初始化关注按钮
         document.addEventListener('article-loaded', function() {
