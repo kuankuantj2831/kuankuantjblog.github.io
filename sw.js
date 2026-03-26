@@ -3,7 +3,7 @@
  * 缓存策略：网络优先，离线回退
  */
 
-const CACHE_NAME = 'hakimi-blog-v5';
+const CACHE_NAME = 'hakimi-blog-v6';
 const OFFLINE_URL = '/offline.html';
 
 // 预缓存的核心资源（不带版本号，fetch 时用 ignoreSearch 匹配）
@@ -22,6 +22,10 @@ const PRECACHE_URLS = [
     '/js/bg-loader.js',
     '/js/pwa-install.js',
     '/js/theme-enhancements.js',
+    '/js/polyfill.js',
+    '/js/music-player.js',
+    '/js/follow.js',
+    '/js/browser-detect.js',
     '/images/icons/icon-192x192.png',
     '/favicon.ico'
 ];
