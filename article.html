@@ -452,6 +452,12 @@
         .back-to-top:hover { transform: translateY(-3px); }
         /* 代码块样式增强 */
         .article-content pre code { font-size: 14px; line-height: 1.6; }
+        /* 关注按钮样式 */
+        .follow-btn { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: 1px solid #667eea; display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
+        .follow-btn.not-following { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .follow-btn.not-following:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(102,126,234,0.4); }
+        .follow-btn.following { background: white; color: #667eea; }
+        .follow-btn.following:hover { background: #ff4d4f; border-color: #ff4d4f; color: white; }
         @media (max-width: 1200px) { .toc-sidebar { display: none !important; } }
     </style>
 
