@@ -58,7 +58,7 @@ self.addEventListener('fetch', event => {
 
     // API 请求不缓存
     if (url.pathname.startsWith('/auth') ||
-        url.pathname.startsWith('/articles') && request.headers.get('accept')?.includes('application/json') ||
+        url.pathname.startsWith('/articles') && (request.headers.get('accept') || '').includes('application/json') ||
         url.pathname.startsWith('/profiles') ||
         url.pathname.startsWith('/coins') ||
         url.pathname.startsWith('/messages') ||

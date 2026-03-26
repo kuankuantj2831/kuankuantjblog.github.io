@@ -79,6 +79,8 @@
         @media(max-width:600px){.notif-dropdown{width:290px;right:-40px;}}
     </style>
 
+    <!-- 兼容性 polyfill：为旧浏览器提供现代 JS 特性支持 -->
+    <script src="js/polyfill.js"></script>
     <!-- 性能优化：pace 加载指示器使用 async 避免阻塞渲染 -->
     <script src="js/pace.min.js" async></script>
     <!-- Cloudflare Turnstile 延迟到用户点击登录/注册时才加载 -->
