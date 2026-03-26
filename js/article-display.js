@@ -126,6 +126,16 @@ async function loadArticle() {
                 bodyEl.innerHTML = renderMarkdown(article.content || '');
             }
 
+            // 计算阅读时间
+            const content = article.content || '';
+            const chineseChars = content.match(/[\u4e00-\u9fa5]/g) || [];
+            const totalChars = chineseChars.length + content.replace(/[\u4e00-\u9fa5\s]/g, '').length;
+            const readingTime = Math.max(1, Math.ceil(totalChars / 300));
+            const readingTimeEl = safeGetElement('readingTime');
+            if (readingTimeEl) {
+                readingTimeEl.textContent = `⏱️ ${readingTime} 分钟阅读`;
+            }
+
             // 显示内容，隐藏加载
             if (loadingEl) loadingEl.style.display = 'none';
             if (contentEl) contentEl.style.display = 'block';
