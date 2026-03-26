@@ -333,6 +333,7 @@
             <a href="/privacy.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">隐私政策</a>
             <a href="/about.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">关于我们</a>
             <p style="margin-top:8px;">© 2026 Hakimi 的猫爬架</p>
+            <p style="margin-top:5px;" id="siteRuntime">🚀 网站已运行 0 天</p>
         </footer>
     </div>
 
@@ -602,6 +603,31 @@
                     }
                 }
             } catch (e) { /* ignore */ }
+        })();
+    </script>
+    <!-- 网站运行时间计算 -->
+    <script>
+        // 网站启动时间：2024年5月19日
+        (function initSiteRuntime() {
+            const startDate = new Date('2024-05-19T00:00:00');
+            const runtimeEl = document.getElementById('siteRuntime');
+
+            function updateRuntime() {
+                const now = new Date();
+                const diff = now - startDate;
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+                if (runtimeEl) {
+                    runtimeEl.textContent = `🚀 网站已运行 ${days} 天 ${hours} 小时 ${minutes} 分`;
+                }
+            }
+
+            updateRuntime();
+            // 每分钟更新一次
+            setInterval(updateRuntime, 60000);
         })();
     </script>
     <script src="js/theme.js?v=1"></script>
