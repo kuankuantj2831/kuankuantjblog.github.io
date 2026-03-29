@@ -313,7 +313,7 @@
                 <label>密码</label>
                 <input type="password" id="adminPassword" placeholder="请输入管理员密码">
             </div>
-            <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="adminLogin()">登录</button>
+            <button class="btn btn-primary" id="loginBtn" style="width:100%; margin-top:10px;">登录</button>
         </div>
     </div>
 
@@ -1240,6 +1240,11 @@
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         }
+
+        // ==================== 初始化 ====================
+        
+        // 绑定登录按钮事件
+        document.getElementById('loginBtn')?.addEventListener('click', window.adminLogin);
     </script>
 
 <!-- Win7 Emoji 兼容性处理 -->
