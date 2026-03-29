@@ -88,15 +88,38 @@ class EnhancedCommentSystem {
         // 首先创建映射
         comments.forEach(comment => {
             comment.children = [];
+            comment.depth = 0; // 初始化深度
             map.set(comment.id, comment);
         });
 
+        // 计算每个评论的深度
+        const calculateDepth = (comment) => {
+            if (!comment.parentId) return 0;
+            const parent = map.get(comment.parentId);
+            if (!parent) return 0;
+            if (parent.depth === undefined) {
+                parent.depth = calculateDepth(parent);
+            }
+            return parent.depth + 1;
+        };
+
         // 构建树形结构
         comments.forEach(comment => {
+            comment.depth = calculateDepth(comment);
+            
             if (comment.parentId && map.has(comment.parentId)) {
                 const parent = map.get(comment.parentId);
-                if (parent.children.length < this.options.maxDepth) {
+                // 限制嵌套深度，超过maxDepth的评论转为同级
+                if (comment.depth < this.options.maxDepth) {
                     parent.children.push(comment);
+                } else {
+                    // 超过深度限制，作为根级评论的回复（平级显示）
+                    const rootParent = this.findRootParent(parent, map);
+                    rootParent.children.push({
+                        ...comment,
+                        isDeepReply: true, // 标记为深层回复
+                        replyTo: parent.author?.name || '层主'
+                    });
                 }
             } else {
                 roots.push(comment);
@@ -104,6 +127,19 @@ class EnhancedCommentSystem {
         });
 
         return roots;
+    }
+
+    /**
+     * 查找根级父评论
+     */
+    findRootParent(comment, map) {
+        let current = comment;
+        while (current.parentId && map.has(current.parentId)) {
+            const parent = map.get(current.parentId);
+            if (!parent.parentId) return parent;
+            current = parent;
+        }
+        return current;
     }
 
     /**
@@ -447,6 +483,25 @@ class EnhancedCommentSystem {
                     border-radius: 8px;
                 }
 
+                .comment-item.deep-reply {
+                    background: rgba(102, 126, 234, 0.05);
+                    border-left: 3px solid #667eea;
+                }
+
+                .deep-reply-badge {
+                    font-size: 11px;
+                    background: #667eea;
+                    color: white;
+                    padding: 2px 8px;
+                    border-radius: 10px;
+                }
+
+                .deep-reply-label {
+                    color: #667eea;
+                    font-size: 13px;
+                    font-weight: 500;
+                }
+
                 .comment-avatar {
                     width: 40px;
                     height: 40px;
@@ -679,20 +734,28 @@ class CommentUI {
     renderCommentItem(comment, depth = 0) {
         const isOwner = this.system.options.currentUser?.id === comment.author.id;
         const hasVoted = comment.userVote || null;
+        const isDeepReply = comment.isDeepReply;
+        const actualDepth = Math.min(depth, this.system.options.maxDepth - 1);
+        
+        // 深层回复的特殊样式
+        const itemClass = isDeepReply ? 'comment-item deep-reply' : 'comment-item';
+        const replyToLabel = isDeepReply ?
+            `<span class="deep-reply-label">回复 ${comment.replyTo}：</span>` : '';
 
         return `
-            <div class="comment-item" data-id="${comment.id}" style="margin-left: ${depth * 40}px">
+            <div class="${itemClass}" data-id="${comment.id}" style="margin-left: ${actualDepth * 40}px">
                 <div class="comment-avatar">
-                    ${comment.author.avatar 
-                        ? `<img src="${comment.author.avatar}" alt="">` 
+                    ${comment.author.avatar
+                        ? `<img src="${comment.author.avatar}" alt="">`
                         : comment.author.name.charAt(0).toUpperCase()}
                 </div>
                 <div class="comment-content">
                     <div class="comment-header">
                         <span class="comment-author">${comment.author.name}</span>
+                        ${isDeepReply ? '<span class="deep-reply-badge">深层回复</span>' : ''}
                         <span class="comment-date">${this.formatTime(comment.createdAt)}</span>
                     </div>
-                    <div class="comment-body">${comment.content}</div>
+                    <div class="comment-body">${replyToLabel}${comment.content}</div>
                     <div class="comment-actions">
                         <button class="action-btn ${hasVoted === 'up' ? 'voted-up' : ''}" 
                                 onclick="commentUI.vote('${comment.id}', 'up')">
