@@ -336,6 +336,7 @@
                 <button class="tab-btn active" onclick="switchTab('users')">👥 用户管理</button>
                 <button class="tab-btn" onclick="switchTab('coins')">🪙 硬币管理</button>
                 <button class="tab-btn" onclick="switchTab('donations')">❤️ 捐助管理</button>
+                <button class="tab-btn" onclick="switchTab('login-history')">🔒 登录记录</button>
             </div>
 
             <!-- 用户管理 Tab -->
@@ -447,6 +448,19 @@
                     <button class="btn" id="donatePrevBtn" onclick="changDonatePage(-1)" style="display:none;">上一页</button>
                     <span id="donatePageInfo" style="margin:0 10px; color:#999; font-size:13px;"></span>
                     <button class="btn" id="donateNextBtn" onclick="changDonatePage(1)" style="display:none;">下一页</button>
+                </div>
+            </div>
+
+            <!-- 登录记录 Tab -->
+            <div id="tab-login-history" class="tab-content">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
+                    <h3 style="margin:0; color:#333;">🔒 管理员登录记录</h3>
+                    <div style="color:#666; font-size:13px;">
+                        <span id="loginHistoryCount">共 0 条记录</span>
+                    </div>
+                </div>
+                <div id="loginHistoryContainer">
+                    <div style="text-align:center; color:#999; padding:40px;">暂无登录记录</div>
                 </div>
             </div>
         </div>
@@ -623,8 +637,18 @@
 
                 if (res.ok) {
                     localStorage.setItem('adminToken', data.token);
+                    
+                    // 记录登录历史
+                    if (typeof LoginHistory !== 'undefined') {
+                        await LoginHistory.recordLogin(true, username);
+                    }
+                    
                     showDashboard();
                 } else {
+                    // 记录失败登录
+                    if (typeof LoginHistory !== 'undefined') {
+                        await LoginHistory.recordLogin(false, username);
+                    }
                     alert(data.message || '登录失败');
                 }
             } catch (e) {
@@ -674,6 +698,12 @@
             }
             if (tab === 'donations') {
                 loadDonations();
+            }
+            if (tab === 'login-history') {
+                if (typeof LoginHistory !== 'undefined') {
+                    LoginHistory.renderHistoryTable('loginHistoryContainer');
+                    document.getElementById('loginHistoryCount').textContent = `共 ${LoginHistory.getHistory().length} 条记录`;
+                }
             }
         };
 
@@ -1336,6 +1366,9 @@
     }
 })();
 </script>
+
+<!-- 登录历史记录功能 -->
+<script src="../js/login-history.js"></script>
 
 </body>
 
