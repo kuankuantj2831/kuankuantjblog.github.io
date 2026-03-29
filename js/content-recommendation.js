@@ -89,6 +89,9 @@ const ContentRecommendation = {
         const scores = this.getHotScores();
         const now = new Date();
         
+        // 验证并限制limit范围
+        const safeLimit = Math.min(Math.max(1, parseInt(limit) || 10), 100);
+        
         let filtered = Object.entries(scores).map(([id, data]) => ({
             id,
             ...data
@@ -105,14 +108,19 @@ const ContentRecommendation = {
             const cutoff = new Date(now.getTime() - days * 86400000);
             
             filtered = filtered.filter(item => {
-                return new Date(item.updatedAt || item.createdAt) > cutoff;
+                const itemDate = item.updatedAt || item.createdAt;
+                try {
+                    return itemDate && new Date(itemDate) > cutoff;
+                } catch (e) {
+                    return false;
+                }
             });
         }
         
         // 按热度排序
         filtered.sort((a, b) => (b.score || 0) - (a.score || 0));
         
-        return filtered.slice(0, limit);
+        return filtered.slice(0, safeLimit);
     },
 
     /**
@@ -121,13 +129,17 @@ const ContentRecommendation = {
      */
     getRecommendedArticles(userHistory = [], limit = 5) {
         const scores = this.getHotScores();
+        
+        // 验证并限制limit范围
+        const safeLimit = Math.min(Math.max(1, parseInt(limit) || 5), 100);
+        
         const allArticles = Object.entries(scores).map(([id, data]) => ({
             id,
             ...data
         }));
         
         // 排除已阅读的文章
-        const readIds = userHistory.map(h => h.id);
+        const readIds = userHistory.map(h => h.id).filter(Boolean);
         const unread = allArticles.filter(a => !readIds.includes(a.id));
         
         // 根据用户阅读历史找相似标签
@@ -138,7 +150,7 @@ const ContentRecommendation = {
             article.recommendScore = article.score || 0;
             
             // 标签匹配加分
-            if (article.tags && userTags.length > 0) {
+            if (article.tags && Array.isArray(article.tags) && userTags.length > 0) {
                 const matchCount = article.tags.filter(tag => userTags.includes(tag)).length;
                 article.recommendScore += matchCount * 50;
             }
@@ -147,7 +159,7 @@ const ContentRecommendation = {
         // 按推荐分数排序
         unread.sort((a, b) => b.recommendScore - a.recommendScore);
         
-        return unread.slice(0, limit);
+        return unread.slice(0, safeLimit);
     },
 
     /**

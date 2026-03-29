@@ -426,42 +426,89 @@ const UserPersonalization = {
     // 初始化拖拽
     initDragAndDrop() {
         let draggedItem = null;
+        
+        // 存储事件监听器以便后续清理
+        this._dragListeners = this._dragListeners || [];
 
         document.querySelectorAll('.layout-draggable').forEach(item => {
             item.draggable = true;
 
-            item.addEventListener('dragstart', (e) => {
+            const dragstartHandler = (e) => {
                 draggedItem = item;
                 item.classList.add('dragging');
                 e.dataTransfer.effectAllowed = 'move';
-            });
+            };
 
-            item.addEventListener('dragend', () => {
+            const dragendHandler = () => {
                 item.classList.remove('dragging');
                 draggedItem = null;
                 this.saveCurrentLayout();
+            };
+
+            item.addEventListener('dragstart', dragstartHandler);
+            item.addEventListener('dragend', dragendHandler);
+            
+            this._dragListeners.push({
+                element: item,
+                event: 'dragstart',
+                handler: dragstartHandler
+            });
+            this._dragListeners.push({
+                element: item,
+                event: 'dragend',
+                handler: dragendHandler
             });
         });
 
         document.querySelectorAll('.layout-dropzone').forEach(zone => {
-            zone.addEventListener('dragover', (e) => {
+            const dragoverHandler = (e) => {
                 e.preventDefault();
                 e.dataTransfer.dropEffect = 'move';
                 zone.classList.add('drag-over');
-            });
+            };
 
-            zone.addEventListener('dragleave', () => {
+            const dragleaveHandler = () => {
                 zone.classList.remove('drag-over');
-            });
+            };
 
-            zone.addEventListener('drop', (e) => {
+            const dropHandler = (e) => {
                 e.preventDefault();
                 zone.classList.remove('drag-over');
                 if (draggedItem) {
                     zone.appendChild(draggedItem);
                 }
+            };
+
+            zone.addEventListener('dragover', dragoverHandler);
+            zone.addEventListener('dragleave', dragleaveHandler);
+            zone.addEventListener('drop', dropHandler);
+            
+            this._dragListeners.push({
+                element: zone,
+                event: 'dragover',
+                handler: dragoverHandler
+            });
+            this._dragListeners.push({
+                element: zone,
+                event: 'dragleave',
+                handler: dragleaveHandler
+            });
+            this._dragListeners.push({
+                element: zone,
+                event: 'drop',
+                handler: dropHandler
             });
         });
+    },
+    
+    // 清理拖拽事件监听器
+    cleanupDragListeners() {
+        if (this._dragListeners) {
+            this._dragListeners.forEach(({ element, event, handler }) => {
+                element.removeEventListener(event, handler);
+            });
+            this._dragListeners = [];
+        }
     },
 
     // 保存当前布局
@@ -555,7 +602,7 @@ const UserPersonalization = {
                                          data-id="${frame.id}" data-type="frame">
                                         <div class="decoration-preview" style="background: ${frame.gradient || frame.color}"></div>
                                         <div class="decoration-info">
-                                            <span class="decoration-name">${frame.name}</span>
+                                            <span class="decoration-name">${this.escapeHtml(frame.name)}</span>
                                             ${frame.badge ? `<span class="decoration-badge">${frame.badge}</span>` : ''}
                                             ${!owned ? `<span class="decoration-price">${frame.price || 0} 币</span>` : ''}
                                         </div>
@@ -578,7 +625,7 @@ const UserPersonalization = {
                                          data-id="${color.id}" data-type="color">
                                         <div class="decoration-preview" style="background: ${color.gradient || color.color}"></div>
                                         <div class="decoration-info">
-                                            <span class="decoration-name" style="color: ${color.color}">${color.name}</span>
+                                            <span class="decoration-name" style="color: ${color.color}">${this.escapeHtml(color.name)}</span>
                                             ${!owned ? `<span class="decoration-price">${color.price || 0} 币</span>` : ''}
                                         </div>
                                         <button class="decoration-btn" ${!owned && color.type !== 'free' ? 'disabled' : ''}>
@@ -596,7 +643,7 @@ const UserPersonalization = {
                                 <div class="decoration-item" data-id="${bg.id}" data-type="background">
                                     <div class="decoration-preview" style="${bg.style ? `background: ${bg.style}` : bg.pattern ? `background: ${this.getPatternCSS(bg.pattern)}` : 'background: #f0f0f0'}"></div>
                                     <div class="decoration-info">
-                                        <span class="decoration-name">${bg.name}</span>
+                                        <span class="decoration-name">${this.escapeHtml(bg.name)}</span>
                                         ${bg.price ? `<span class="decoration-price">${bg.price} 币</span>` : ''}
                                     </div>
                                 </div>

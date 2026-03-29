@@ -58,26 +58,32 @@ const SecurityManagement = {
 
     // 验证密保答案
     verifySecurityAnswers(answers) {
-        const stored = JSON.parse(localStorage.getItem(this.KEYS.SECURITY_QUESTIONS) || '[]');
-        
-        if (stored.length === 0) return { success: false, message: '未设置密保问题' };
-        if (answers.length < 2) return { success: false, message: '请至少回答2个问题' };
+        try {
+            const stored = JSON.parse(localStorage.getItem(this.KEYS.SECURITY_QUESTIONS) || '[]');
+            
+            if (stored.length === 0) return { success: false, message: '未设置密保问题' };
+            if (!Array.isArray(answers) || answers.length < 2) return { success: false, message: '请至少回答2个问题' };
 
-        let correctCount = 0;
-        for (const answer of answers) {
-            const storedQuestion = stored.find(q => q.questionId === answer.questionId);
-            if (storedQuestion && this.hashAnswer(answer.answer) === storedQuestion.answerHash) {
-                correctCount++;
+            let correctCount = 0;
+            for (const answer of answers) {
+                if (!answer || typeof answer !== 'object') continue;
+                const storedQuestion = stored.find(q => q.questionId === answer.questionId);
+                if (storedQuestion && answer.answer && this.hashAnswer(answer.answer) === storedQuestion.answerHash) {
+                    correctCount++;
+                }
             }
-        }
 
-        if (correctCount >= 2) {
-            this.logSecurityEvent('SECURITY_QUESTIONS_VERIFIED', '密保问题验证通过');
-            return { success: true, message: '验证通过' };
-        }
+            if (correctCount >= 2) {
+                this.logSecurityEvent('SECURITY_QUESTIONS_VERIFIED', '密保问题验证通过');
+                return { success: true, message: '验证通过' };
+            }
 
-        this.logSecurityEvent('SECURITY_QUESTIONS_FAILED', '密保问题验证失败', { correctCount });
-        return { success: false, message: '答案不正确，请重试' };
+            this.logSecurityEvent('SECURITY_QUESTIONS_FAILED', '密保问题验证失败', { correctCount });
+            return { success: false, message: '答案不正确，请重试' };
+        } catch (e) {
+            console.error('验证密保答案失败:', e);
+            return { success: false, message: '验证失败，请重试' };
+        }
     },
 
     // 检查是否已设置密保

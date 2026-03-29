@@ -67,10 +67,23 @@ const UtilityFeatures = {
         // 首次上线
         this.setUserOnline();
         
+        // 清理可能存在的旧定时器
+        if (this.state.heartbeatInterval) {
+            clearInterval(this.state.heartbeatInterval);
+        }
+        
         // 定期更新在线状态
         this.state.heartbeatInterval = setInterval(() => {
             this.updateOnlineStatus();
         }, this.config.onlineCheckInterval);
+    },
+    
+    // 停止心跳（清理资源）
+    stopHeartbeat() {
+        if (this.state.heartbeatInterval) {
+            clearInterval(this.state.heartbeatInterval);
+            this.state.heartbeatInterval = null;
+        }
     },
 
     // 设置用户在线

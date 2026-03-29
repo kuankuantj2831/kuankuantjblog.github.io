@@ -35,8 +35,10 @@ const DriveEnhanced = {
     getUsedSpace() {
         try {
             const data = localStorage.getItem(this.KEYS.USED_SPACE);
-            return data ? parseInt(data) : 0;
+            const parsed = data ? parseInt(data) : 0;
+            return isNaN(parsed) ? 0 : Math.max(0, parsed);
         } catch (e) {
+            console.error('Failed to get used space:', e);
             return 0;
         }
     },

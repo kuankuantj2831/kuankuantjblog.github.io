@@ -609,10 +609,10 @@ const FileShare = {
                         <span style="font-size: 28px; margin-right: 15px;">${this.getFileIcon(share.fileType)}</span>
                         <div style="flex: 1; min-width: 0;">
                             <div style="font-weight: 500; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                ${share.fileName}
+                                ${this.escapeHtml(share.fileName || '未命名文件')}
                             </div>
                             <div style="font-size: 12px; color: #999; margin-top: 3px;">
-                                ${share.code ? `🔐 提取码: ${share.code} · ` : ''}
+                                ${share.code ? `🔐 提取码: ${this.escapeHtml(share.code)} · ` : ''}
                                 ⏰ ${this.getExpireText(share)} · 
                                 👁️ ${share.viewCount} · ⬇️ ${share.downloadCount}
                             </div>

@@ -742,20 +742,33 @@ class CommentUI {
         const replyToLabel = isDeepReply ?
             `<span class="deep-reply-label">回复 ${comment.replyTo}：</span>` : '';
 
+        // 转义HTML防止XSS
+        const escapeHtml = (text) => {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        };
+        
+        const safeAuthor = escapeHtml(comment.author.name || '匿名');
+        const safeContent = escapeHtml(comment.content || '');
+        const safeReplyTo = comment.replyTo ? escapeHtml(comment.replyTo) : '';
+        const safeReplyToLabel = isDeepReply ?
+            `<span class="deep-reply-label">回复 ${safeReplyTo}：</span>` : '';
+        
         return `
             <div class="${itemClass}" data-id="${comment.id}" style="margin-left: ${actualDepth * 40}px">
                 <div class="comment-avatar">
                     ${comment.author.avatar
-                        ? `<img src="${comment.author.avatar}" alt="">`
-                        : comment.author.name.charAt(0).toUpperCase()}
+                        ? `<img src="${escapeHtml(comment.author.avatar)}" alt="">`
+                        : safeAuthor.charAt(0).toUpperCase()}
                 </div>
                 <div class="comment-content">
                     <div class="comment-header">
-                        <span class="comment-author">${comment.author.name}</span>
+                        <span class="comment-author">${safeAuthor}</span>
                         ${isDeepReply ? '<span class="deep-reply-badge">深层回复</span>' : ''}
                         <span class="comment-date">${this.formatTime(comment.createdAt)}</span>
                     </div>
-                    <div class="comment-body">${replyToLabel}${comment.content}</div>
+                    <div class="comment-body">${safeReplyToLabel}${safeContent}</div>
                     <div class="comment-actions">
                         <button class="action-btn ${hasVoted === 'up' ? 'voted-up' : ''}" 
                                 onclick="commentUI.vote('${comment.id}', 'up')">
@@ -765,7 +778,7 @@ class CommentUI {
                                 onclick="commentUI.vote('${comment.id}', 'down')">
                             👎 ${comment.votes?.down || 0}
                         </button>
-                        <button class="action-btn" onclick="commentUI.reply('${comment.id}', '${comment.author.name}')">
+                        <button class="action-btn" onclick="commentUI.reply('${comment.id}', '${safeAuthor.replace(/'/g, "\\'")}')">
                             💬 回复
                         </button>
                         ${isOwner ? `
@@ -800,8 +813,31 @@ class CommentUI {
             alert('请输入评论内容');
             return;
         }
+        
+        // 限制评论长度
+        if (content.length > 5000) {
+            alert('评论内容过长，请控制在5000字以内');
+            return;
+        }
 
-        const result = await this.system.submitComment(content, this.replyingTo);
+        try {
+            const result = await this.system.submitComment(content, this.replyingTo);
+            
+            if (result.success) {
+                input.value = '';
+                this.cancelReply();
+                this.showToast('评论发布成功！');
+                // 重新加载评论
+                const comments = await this.system.loadComments();
+                this.renderCommentList(comments.comments);
+                this.updateCommentCount(comments.total);
+            } else {
+                this.showToast(result.message || '发布失败，请重试');
+            }
+        } catch (error) {
+            console.error('Submit comment error:', error);
+            this.showToast('网络错误，请稍后重试');
+        }
 
         if (result.success) {
             input.value = '';

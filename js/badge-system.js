@@ -284,6 +284,18 @@ const BadgeSystem = {
      * 显示单个勋章通知
      */
     showBadgeNotification(badge) {
+        // 转义HTML防止XSS
+        const escapeHtml = (text) => {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        };
+        
+        const safeName = escapeHtml(badge.name);
+        const safeDescription = escapeHtml(badge.description);
+        const safeIcon = escapeHtml(badge.icon);
+        const safeColor = escapeHtml(badge.color);
+        
         const overlay = document.createElement('div');
         overlay.style.cssText = `
             position: fixed;
@@ -301,17 +313,17 @@ const BadgeSystem = {
 
         overlay.innerHTML = `
             <div style="
-                background: linear-gradient(135deg, ${badge.color} 0%, ${badge.color}dd 100%);
+                background: linear-gradient(135deg, ${safeColor} 0%, ${safeColor}dd 100%);
                 border-radius: 20px;
                 padding: 40px;
                 text-align: center;
                 color: #fff;
                 max-width: 320px;
                 animation: bounceIn 0.5s ease;
-                box-shadow: 0 20px 60px ${badge.color}50;
+                box-shadow: 0 20px 60px ${safeColor}50;
             ">
                 <div style="font-size: 80px; margin-bottom: 15px; animation: float 2s ease infinite;">
-                    ${badge.icon}
+                    ${safeIcon}
                 </div>
                 <h2 style="margin: 0 0 10px 0; font-size: 24px;">获得新勋章！</h2>
                 <div style="
@@ -321,10 +333,10 @@ const BadgeSystem = {
                     margin: 15px 0;
                 ">
                     <div style="font-size: 28px; font-weight: bold; margin-bottom: 5px;">
-                        ${badge.name}
+                        ${safeName}
                     </div>
                     <div style="font-size: 14px; opacity: 0.9;">
-                        ${badge.description}
+                        ${safeDescription}
                     </div>
                 </div>
                 <button onclick="this.closest('.badge-overlay').remove()" style="

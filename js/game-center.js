@@ -407,13 +407,27 @@ const GameCenter = {
     
     // 提交分数到排行榜
     submitScore(gameId, score, userId = 'default', username = '匿名玩家') {
+        // 验证参数
+        if (!gameId || typeof gameId !== 'string') {
+            console.error('Invalid gameId:', gameId);
+            return -1;
+        }
+        if (typeof score !== 'number' || score < 0 || !isFinite(score)) {
+            console.error('Invalid score:', score);
+            return -1;
+        }
+        if (!userId || typeof userId !== 'string') {
+            console.error('Invalid userId:', userId);
+            return -1;
+        }
+        
         const key = `${this.LEADERBOARD_KEY}_${gameId}`;
         let leaderboard = JSON.parse(localStorage.getItem(key) || '[]');
 
         const entry = {
-            userId,
-            username,
-            score,
+            userId: String(userId).substring(0, 50),
+            username: String(username || '匿名玩家').substring(0, 50),
+            score: Math.floor(score),
             submittedAt: new Date().toISOString()
         };
 
@@ -440,9 +454,22 @@ const GameCenter = {
 
     // 获取排行榜
     getLeaderboard(gameId, limit = 10) {
+        if (!gameId || typeof gameId !== 'string') {
+            console.error('Invalid gameId:', gameId);
+            return [];
+        }
+        // 限制limit范围
+        const safeLimit = Math.min(Math.max(1, parseInt(limit) || 10), 100);
+        
         const key = `${this.LEADERBOARD_KEY}_${gameId}`;
-        const leaderboard = JSON.parse(localStorage.getItem(key) || '[]');
-        return leaderboard.slice(0, limit);
+        let leaderboard = [];
+        try {
+            leaderboard = JSON.parse(localStorage.getItem(key) || '[]');
+        } catch (e) {
+            console.error('Failed to parse leaderboard:', e);
+            return [];
+        }
+        return leaderboard.slice(0, safeLimit);
     },
 
     // 渲染排行榜

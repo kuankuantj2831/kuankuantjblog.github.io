@@ -153,12 +153,23 @@ const ArticleExport = {
             return;
         }
         
+        // 转义HTML特殊字符防止XSS
+        const escapeHtml = (text) => {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        };
+        
+        const safeTitle = escapeHtml(title);
+        const safeAuthor = escapeHtml(author);
+        const safeDate = date ? escapeHtml(date) : '';
+        
         const htmlContent = `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
+    <title>${safeTitle}</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -209,9 +220,9 @@ const ArticleExport = {
     </style>
 </head>
 <body>
-    <h1>${title}</h1>
+    <h1>${safeTitle}</h1>
     <div class="meta">
-        作者：${author}${date ? ' | 发布时间：' + date : ''}
+        作者：${safeAuthor}${safeDate ? ' | 发布时间：' + safeDate : ''}
     </div>
     <div class="content">
         ${contentEl.innerHTML}
@@ -223,7 +234,9 @@ const ArticleExport = {
 </body>
 </html>`;
         
-        this.downloadFile(htmlContent, `${title}.html`, 'text/html');
+        // 确保文件名安全
+        const safeFilename = String(title).replace(/[\\/:*?"<>|]/g, '_');
+        this.downloadFile(htmlContent, `${safeFilename}.html`, 'text/html');
         this.showToast('文章已导出为 HTML');
     },
 
@@ -241,9 +254,13 @@ const ArticleExport = {
             return;
         }
         
-        let textContent = `${title}\n`;
-        textContent += `${'='.repeat(title.length)}\n\n`;
-        textContent += `作者：${author}\n`;
+        // 确保标题是字符串
+        const safeTitle = String(title || '未命名文章');
+        const safeAuthor = String(author || '匿名');
+        
+        let textContent = `${safeTitle}\n`;
+        textContent += `${'='.repeat(safeTitle.length)}\n\n`;
+        textContent += `作者：${safeAuthor}\n`;
         if (date) textContent += `发布时间：${date}\n`;
         textContent += `原文链接：${window.location.href}\n`;
         textContent += `${'-'.repeat(40)}\n\n`;
@@ -251,7 +268,9 @@ const ArticleExport = {
         textContent += `\n\n${'-'.repeat(40)}\n`;
         textContent += `导出时间：${new Date().toLocaleString('zh-CN')}\n`;
         
-        this.downloadFile(textContent, `${title}.txt`, 'text/plain');
+        // 确保文件名安全
+        const safeFilename = safeTitle.replace(/[\\/:*?"<>|]/g, '_');
+        this.downloadFile(textContent, `${safeFilename}.txt`, 'text/plain');
         this.showToast('文章已导出为文本');
     },
 
@@ -269,8 +288,16 @@ const ArticleExport = {
             return;
         }
         
-        let mdContent = '# ' + title + '\n\n';
-        mdContent += '> 作者：' + author + '  \n';
+        // 转义Markdown特殊字符
+        const escapeMarkdown = (text) => {
+            return String(text || '').replace(/#/g, '\\#').replace(/\*/g, '\\*').replace(/_/g, '\\_');
+        };
+        
+        const safeTitle = escapeMarkdown(title || '未命名文章');
+        const safeAuthor = escapeMarkdown(author || '匿名');
+        
+        let mdContent = '# ' + safeTitle + '\n\n';
+        mdContent += '> 作者：' + safeAuthor + '  \n';
         if (date) mdContent += '> 发布时间：' + date + '  \n';
         mdContent += '> 原文链接：[' + window.location.href + '](' + window.location.href + ')\n\n';
         mdContent += `---\n\n`;
@@ -278,7 +305,9 @@ const ArticleExport = {
         mdContent += `\n\n---\n\n`;
         mdContent += `*导出时间：${new Date().toLocaleString('zh-CN')}*`;
         
-        this.downloadFile(mdContent, `${title}.md`, 'text/markdown');
+        // 确保文件名安全
+        const safeFilename = String(title || '未命名文章').replace(/[\\/:*?"<>|]/g, '_');
+        this.downloadFile(mdContent, `${safeFilename}.md`, 'text/markdown');
         this.showToast('文章已导出为 Markdown');
     },
 
@@ -286,11 +315,13 @@ const ArticleExport = {
      * 下载文件
      */
     downloadFile(content, filename, mimeType) {
+        // 确保文件名安全，移除可能导致路径遍历的字符
+        const safeFilename = String(filename).replace(/[\\/:*?"<>|]/g, '_').substring(0, 200);
         const blob = new Blob([content], { type: mimeType + ';charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = filename;
+        link.download = safeFilename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

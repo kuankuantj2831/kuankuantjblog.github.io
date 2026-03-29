@@ -236,14 +236,14 @@ const CommunityCircles = {
                     <div style="display:flex;align-items:center;margin-bottom:12px;">
                         <span style="font-size:40px;margin-right:15px;">${circle.icon}</span>
                         <div style="flex:1;">
-                            <h3 style="margin:0 0 4px 0;color:${circle.color};font-size:18px;">${circle.name}</h3>
+                            <h3 style="margin:0 0 4px 0;color:${circle.color};font-size:18px;">${this.escapeHtml(circle.name)}</h3>
                             <div style="font-size:12px;color:#999;">
                                 <span>${circle.memberCount} 成员</span> · 
                                 <span>${circle.postCount} 帖子</span>
                             </div>
                         </div>
                     </div>
-                    <p style="margin:0 0 15px 0;color:#666;font-size:14px;line-height:1.5;">${circle.description}</p>
+                    <p style="margin:0 0 15px 0;color:#666;font-size:14px;line-height:1.5;">${this.escapeHtml(circle.description)}</p>
                     ${showJoinButton ? `
                         <button onclick="event.stopPropagation();CommunityCircles.toggleJoin('${circle.id}', this)" 
                                 style="
@@ -372,8 +372,8 @@ const CommunityCircles = {
                     <div style="display:flex;align-items:center;">
                         <span style="font-size:60px;margin-right:20px;">${circle.icon}</span>
                         <div style="flex:1;">
-                            <h2 style="margin:0 0 8px 0;font-size:24px;">${circle.name}</h2>
-                            <p style="margin:0;opacity:0.9;font-size:14px;">${circle.description}</p>
+                            <h2 style="margin:0 0 8px 0;font-size:24px;">${this.escapeHtml(circle.name)}</h2>
+                            <p style="margin:0;opacity:0.9;font-size:14px;">${this.escapeHtml(circle.description)}</p>
                             <div style="margin-top:10px;font-size:13px;opacity:0.8;">
                                 ${circle.memberCount} 成员 · ${circle.postCount} 帖子
                             </div>
