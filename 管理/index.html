@@ -333,10 +333,10 @@
         <!-- Tab 导航 -->
         <div class="card" style="padding-bottom: 0;">
             <div class="tab-nav">
-                <button class="tab-btn active" onclick="switchTab('users')">👥 用户管理</button>
-                <button class="tab-btn" onclick="switchTab('coins')">🪙 硬币管理</button>
-                <button class="tab-btn" onclick="switchTab('donations')">❤️ 捐助管理</button>
-                <button class="tab-btn" onclick="switchTab('login-history')">登录记录</button>
+                <button class="tab-btn active" data-tab="users" onclick="switchTab('users')">👥 用户管理</button>
+                <button class="tab-btn" data-tab="coins" onclick="switchTab('coins')">🪙 硬币管理</button>
+                <button class="tab-btn" data-tab="donations" onclick="switchTab('donations')">❤️ 捐助管理</button>
+                <button class="tab-btn" data-tab="login-history" onclick="switchTab('login-history')">登录记录</button>
             </div>
 
             <!-- 用户管理 Tab -->
@@ -690,8 +690,10 @@
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
-            document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
-            document.getElementById(`tab-${tab}`).classList.add('active');
+            const btn = document.querySelector(`[data-tab="${tab}"]`);
+            if (btn) btn.classList.add('active');
+            const content = document.getElementById(`tab-${tab}`);
+            if (content) content.classList.add('active');
 
             if (tab === 'coins') {
                 loadCoinUsers();
