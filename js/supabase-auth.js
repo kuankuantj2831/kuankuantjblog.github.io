@@ -556,6 +556,15 @@ class SupabaseAuthSystem {
         }
 
         try {
+            // 检查IP是否被封禁
+            if (typeof IPSecurity !== 'undefined') {
+                const banCheck = await IPSecurity.isBanned();
+                if (banCheck && banCheck.banned) {
+                    const remainingMinutes = Math.ceil(banCheck.remainingTime / 60000);
+                    throw new Error(`您的IP已被封禁，原因：${banCheck.reason}。剩余时间：${remainingMinutes}分钟`);
+                }
+            }
+            
             // 获取 Turnstile token（仅首次登录时验证，2FA 验证码阶段不需要）
             const login2faGroup = document.getElementById('login2faGroup');
             const is2faStep = login2faGroup && login2faGroup.style.display !== 'none' && code;
@@ -605,6 +614,10 @@ class SupabaseAuthSystem {
             }
 
             if (!response.ok) {
+                // 记录失败登录
+                if (typeof IPSecurity !== 'undefined') {
+                    await IPSecurity.recordLogin(input, false, 'index');
+                }
                 throw new Error(data.message || '登录失败');
             }
 
@@ -624,6 +637,15 @@ class SupabaseAuthSystem {
             this.currentUser = data.user;
             localStorage.setItem('user', JSON.stringify(this.currentUser));
             if (data.token) localStorage.setItem('token', data.token);
+
+            // 记录成功登录
+            if (typeof IPSecurity !== 'undefined') {
+                try {
+                    await IPSecurity.recordLogin(input, true, 'index');
+                } catch (e) {
+                    console.log('IP记录失败:', e);
+                }
+            }
 
             this.showSuccess('loginSuccess', '登录成功！正在跳转...');
             this.updateUI();

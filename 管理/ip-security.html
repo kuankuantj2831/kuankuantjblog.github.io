@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>IP安全管理 - 后台管理</title>
+    <link rel="stylesheet" href="../css/chinese-style.css">
+    <style>
+        body {
+            background: #f0f2f5;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .admin-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-card.danger {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        }
+        .stat-card.warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .stat-card.success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e8e8e8;
+            padding-bottom: 12px;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+        .tab-btn:hover {
+            background: #f5f5f5;
+        }
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .table th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e8e8e8;
+        }
+        .table td {
+            padding: 12px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status-banned {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-danger {
+            background: #ff4d4f;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #ff7875;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #764ba2;
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        .btn-small {
+            padding: 4px 12px;
+            font-size: 12px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .search-box {
+            display: flex;
+            gap: 8px;
+        }
+        .search-box input {
+            padding: 8px 12px;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 200px;
+        }
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .danger-zone {
+            border: 1px solid #ff4d4f;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .danger-zone-title {
+            color: #ff4d4f;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .table {
+                font-size: 12px;
+            }
+            .table th, .table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <a href="index.html" class="back-link">← 返回后台管理</a>
+        
+        <div class="card">
+            <h2 style="margin:0 0 20px 0;">IP安全管理</h2>
+            
+            <!-- 统计卡片 -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalLogins">0</div>
+                    <div class="stat-label">总登录次数</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-value" id="successRate">0%</div>
+                    <div class="stat-label">成功率</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-value" id="bannedCount">0</div>
+                    <div class="stat-label">封禁IP数</div>
+                </div>
+                <div class="stat-card danger">
+                    <div class="stat-value" id="suspiciousCount">0</div>
+                    <div class="stat-label">可疑IP数</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab导航 -->
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="login-history">登录记录</button>
+                <button class="tab-btn" data-tab="banned-ips">封禁管理</button>
+                <button class="tab-btn" data-tab="security-settings">安全设置</button>
+            </div>
+
+            <!-- 登录记录 Tab -->
+            <div id="tab-login-history" class="tab-content active">
+                <div class="toolbar">
+                    <div class="search-box">
+                        <input type="text" id="ipSearchInput" placeholder="搜索IP地址..." oninput="filterLoginHistory()">
+                        <input type="text" id="userSearchInput" placeholder="搜索用户名..." oninput="filterLoginHistory()">
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary btn-small" onclick="exportLoginHistory()">导出记录</button>
+                        <button class="btn btn-danger btn-small" onclick="clearAllHistory()">清空记录</button>
+                    </div>
+                </div>
+                <div id="loginHistoryContainer">
+                    <div class="empty-state">暂无登录记录</div>
+                </div>
+            </div>
+
+            <!-- 封禁管理 Tab -->
+            <div id="tab-banned-ips" class="tab-content">
+                <div class="form-row" style="margin-bottom: 20px;">
+                    <div class="form-group" style="margin:0;">
+                        <label>IP地址</label>
+                        <input type="text" id="banIpInput" placeholder="输入要封禁的IP地址">
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label>封禁时长</label>
+                        <select id="banDurationSelect">
+                            <option value="3600000">1小时</option>
+                            <option value="86400000">1天</option>
+                            <option value="604800000">7天</option>
+                            <option value="2592000000">30天</option>
+                            <option value="31536000000">1年</option>
+                            <option value="9999999999999">永久</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-danger" onclick="banIPManual()">封禁IP</button>
+                </div>
+                <div id="bannedIPsContainer">
+                    <div class="empty-state">暂无封禁的IP</div>
+                </div>
+            </div>
+
+            <!-- 安全设置 Tab -->
+            <div id="tab-security-settings" class="tab-content">
+                <div class="settings-grid">
+                    <div>
+                        <div class="form-group">
+                            <label>最大失败尝试次数</label>
+                            <input type="number" id="maxAttemptsInput" value="5" min="1" max="20">
+                        </div>
+                        <div class="form-group">
+                            <label>自动封禁时长</label>
+                            <select id="autoBanDuration">
+                                <option value="3600000">1小时</option>
+                                <option value="86400000" selected>1天</option>
+                                <option value="604800000">7天</option>
+                                <option value="2592000000">30天</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" id="autoBanCheckbox" checked> 启用自动封禁
+                            </label>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveSecuritySettings()">保存设置</button>
+                    </div>
+                </div>
+                
+                <div class="danger-zone">
+                    <div class="danger-zone-title">危险操作</div>
+                    <button class="btn btn-secondary btn-small" onclick="IPSecurity.exportData()">导出所有安全数据</button>
+                    <button class="btn btn-danger btn-small" onclick="clearAllSecurityData()" style="margin-left: 10px;">清空所有安全数据</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IP安全脚本 -->
+    <script src="../js/ip-security.js"></script>
+    
+    <script>
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initTabs();
+            updateStats();
+            renderLoginHistory();
+            renderBannedIPs();
+            loadSettings();
+        });
+
+        // Tab切换
+        function initTabs() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tab = this.dataset.tab;
+                    
+                    // 切换按钮状态
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 切换内容
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.getElementById('tab-' + tab).classList.add('active');
+                });
+            });
+        }
+
+        // 更新统计
+        function updateStats() {
+            const stats = IPSecurity.getStats();
+            document.getElementById('totalLogins').textContent = stats.totalLogins;
+            document.getElementById('successRate').textContent = stats.successRate + '%';
+            document.getElementById('bannedCount').textContent = stats.bannedCount;
+            document.getElementById('suspiciousCount').textContent = stats.suspiciousIPs;
+        }
+
+        // 渲染登录记录
+        function renderLoginHistory() {
+            const history = IPSecurity.getLoginHistory();
+            const container = document.getElementById('loginHistoryContainer');
+            
+            if (history.length === 0) {
+                container.innerHTML = '<div class="empty-state">暂无登录记录</div>';
+                return;
+            }
+
+            let html = '<table class="table"><thead><tr>' +
+                '<th>时间</th><th>用户名</th><th>IP地址</th><th>位置</th><th>来源</th><th>状态</th><th>操作</th>' +
+                '</tr></thead><tbody>';
+            
+            history.forEach(record => {
+                const time = new Date(record.timestamp).toLocaleString();
+                const location = record.location ? 
+                    `${record.location.country} ${record.location.city}` : '未知';
+                const statusClass = record.success ? 'status-success' : 'status-failed';
+                const statusText = record.success ? '成功' : '失败';
+                const source = record.source === 'admin' ? '后台' : '首页';
+                
+                html += `<tr>
+                    <td>${time}</td>
+                    <td>${record.username}</td>
+                    <td>${record.ip}</td>
+                    <td>${location}</td>
+                    <td>${source}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <button class="btn btn-danger btn-small" onclick="banIPFromHistory('${record.ip}')">封禁</button>
+                        <button class="btn btn-secondary btn-small" onclick="deleteHistoryRecord('${record.id}')">删除</button>
+                    </td>
+                </tr>`;
+            });
+            
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // 筛选登录记录
+        function filterLoginHistory() {
+            const ipFilter = document.getElementById('ipSearchInput').value.toLowerCase();
+            const userFilter = document.getElementById('userSearchInput').value.toLowerCase();
+            
+            let history = IPSecurity.getLoginHistory();
+            
+            if (ipFilter) {
+                history = history.filter(r => r.ip.toLowerCase().includes(ipFilter));
+            }
+            if (userFilter) {
+                history = history.filter(r => r.username.toLowerCase().includes(userFilter));
+            }
+            
+            // 重新渲染（简化版）
+            renderLoginHistory();
+        }
+
+        // 从记录封禁IP
+        function banIPFromHistory(ip) {
+            if (confirm(`确定要封禁IP ${ip} 吗？`)) {
+                IPSecurity.banIP(ip, '从登录记录手动封禁');
+                renderBannedIPs();
+                updateStats();
+                alert('IP已封禁');
+            }
+        }
+
+        // 删除单条记录
+        function deleteHistoryRecord(id) {
+            if (confirm('确定删除这条记录吗？')) {
+                IPSecurity.deleteHistoryRecord(id);
+                renderLoginHistory();
+                updateStats();
+            }
+        }
+
+        // 清空所有记录
+        function clearAllHistory() {
+            if (confirm('确定要清空所有登录记录吗？此操作不可恢复。')) {
+                IPSecurity.clearHistory();
+                renderLoginHistory();
+                updateStats();
+            }
+        }
+
+        // 导出登录记录
+        function exportLoginHistory() {
+            IPSecurity.exportData();
+        }
+
+        // 渲染封禁列表
+        function renderBannedIPs() {
+            const banned = IPSecurity.getBannedIPs();
+            const container = document.getElementById('bannedIPsContainer');
+            const ips = Object.keys(banned);
+            
+            if (ips.length === 0) {
+                container.innerHTML = '<div class="empty-state">暂无封禁的IP</div>';
+                return;
+            }
+
+            let html = '<table class="table"><thead><tr>' +
+                '<th>IP地址</th><th>封禁原因</th><th>封禁时间</th><th>过期时间</th><th>剩余时间</th><th>操作</th>' +
+                '</tr></thead><tbody>';
+            
+            ips.forEach(ip => {
+                const record = banned[ip];
+                const bannedAt = new Date(record.bannedAt).toLocaleString();
+                const expiresAt = new Date(record.expiresAt).toLocaleString();
+                const remaining = formatDuration(record.expiresAt - Date.now());
+                
+                html += `<tr>
+                    <td>${ip}</td>
+                    <td>${record.reason || '无'}</td>
+                    <td>${bannedAt}</td>
+                    <td>${expiresAt}</td>
+                    <td>${remaining}</td>
+                    <td>
+                        <button class="btn btn-primary btn-small" onclick="unbanIP('${ip}')">解封</button>
+                    </td>
+                </tr>`;
+            });
+            
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        // 手动封禁IP
+        function banIPManual() {
+            const ip = document.getElementById('banIpInput').value.trim();
+            const duration = parseInt(document.getElementById('banDurationSelect').value);
+            
+            if (!ip) {
+                alert('请输入IP地址');
+                return;
+            }
+            
+            IPSecurity.banIP(ip, '手动封禁', duration);
+            renderBannedIPs();
+            updateStats();
+            document.getElementById('banIpInput').value = '';
+            alert('IP已封禁');
+        }
+
+        // 解封IP
+        function unbanIP(ip) {
+            if (confirm(`确定要解封IP ${ip} 吗？`)) {
+                IPSecurity.unbanIP(ip);
+                renderBannedIPs();
+                updateStats();
+            }
+        }
+
+        // 格式化时长
+        function formatDuration(ms) {
+            if (ms < 0) return '已过期';
+            
+            const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            
+            if (days > 0) return `${days}天${hours}小时`;
+            if (hours > 0) return `${hours}小时`;
+            return '即将过期';
+        }
+
+        // 加载设置
+        function loadSettings() {
+            const settings = IPSecurity.getSettings();
+            document.getElementById('maxAttemptsInput').value = settings.maxFailedAttempts;
+            document.getElementById('autoBanDuration').value = settings.banDuration;
+            document.getElementById('autoBanCheckbox').checked = settings.autoBan;
+        }
+
+        // 保存设置
+        function saveSecuritySettings() {
+            const settings = {
+                maxFailedAttempts: parseInt(document.getElementById('maxAttemptsInput').value),
+                banDuration: parseInt(document.getElementById('autoBanDuration').value),
+                autoBan: document.getElementById('autoBanCheckbox').checked
+            };
+            
+            IPSecurity.saveSettings(settings);
+            alert('设置已保存');
+        }
+
+        // 清空所有安全数据
+        function clearAllSecurityData() {
+            if (confirm('确定要清空所有安全数据吗？包括登录记录、封禁列表等。此操作不可恢复！')) {
+                localStorage.removeItem(IPSecurity.STORAGE_KEYS.LOGIN_HISTORY);
+                localStorage.removeItem(IPSecurity.STORAGE_KEYS.BANNED_IPS);
+                localStorage.removeItem(IPSecurity.STORAGE_KEYS.IP_ATTEMPTS);
+                localStorage.removeItem(IPSecurity.STORAGE_KEYS.SECURITY_SETTINGS);
+                
+                renderLoginHistory();
+                renderBannedIPs();
+                updateStats();
+                loadSettings();
+                
+                alert('所有安全数据已清空');
+            }
+        }
+    </script>
+</body>
+</html>
