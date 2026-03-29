@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社区圈子 - Hakimi 的猫爬架</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <style>
+        .circles-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 60px 20px;
+            text-align: center;
+            color: #fff;
+        }
+        .circles-hero h1 {
+            margin: 0 0 15px 0;
+            font-size: 36px;
+        }
+        .circles-hero p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        .circles-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .circles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .circle-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .circle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        .circle-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .circle-icon {
+            font-size: 48px;
+            margin-right: 15px;
+        }
+        .circle-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 20px;
+        }
+        .circle-stats {
+            font-size: 13px;
+            color: #999;
+        }
+        .circle-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .join-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .join-btn.join {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+        .join-btn.join:hover {
+            opacity: 0.9;
+        }
+        .join-btn.joined {
+            background: #f0f0f0;
+            color: #666;
+        }
+        .my-circles {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .my-circles h2 {
+            margin: 0 0 20px 0;
+            font-size: 20px;
+            color: #333;
+        }
+        .my-circles-list {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .my-circle-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: #fff;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #e0e0e0;
+        }
+        .my-circle-tag:hover {
+            background: #667eea;
+            color: #fff;
+            border-color: #667eea;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 15px;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-in {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="chinese-style-wrapper">
+        <!-- 导航 -->
+        <nav class="top-nav">
+            <div class="nav-brand">
+                <a href="/">Hakimi 的猫爬架</a>
+            </div>
+            <div class="nav-links">
+                <a href="/">首页</a>
+                <a href="/about.html">关于</a>
+                <a href="/circles.html" class="active">圈子</a>
+                <a href="/games.html">游戏</a>
+                <a href="/coins.html">硬币</a>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <div class="circles-hero">
+            <h1>🏘️ 社区圈子</h1>
+            <p>加入感兴趣的圈子，与志同道合的朋友一起交流</p>
+        </div>
+
+        <!-- 我加入的圈子 -->
+        <div class="circles-container">
+            <div class="my-circles" id="myCirclesSection" style="display: none;">
+                <h2>我加入的圈子</h2>
+                <div class="my-circles-list" id="myCirclesList"></div>
+            </div>
+
+            <!-- 所有圈子 -->
+            <h2 style="margin-bottom: 25px;">发现圈子</h2>
+            <div id="circlesContainer" class="circles-grid">
+                <div class="empty-state">
+                    <div class="loading-spinner"></div>
+                    <p>正在加载圈子...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入社区圈子模块 -->
+    <script src="js/community-circles.js"></script>
+    <script>
+        // 页面加载完成后渲染圈子
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取我加入的圈子
+            const myCircles = CommunityCircles.getUserCircles();
+            if (myCircles.length > 0) {
+                const mySection = document.getElementById('myCirclesSection');
+                const myList = document.getElementById('myCirclesList');
+                mySection.style.display = 'block';
+                
+                const circles = CommunityCircles.getCircles();
+                myList.innerHTML = myCircles.map(id => {
+                    const circle = circles.find(c => c.id === id);
+                    if (!circle) return '';
+                    return `
+                        <div class="my-circle-tag" onclick="CommunityCircles.openCircle('${id}')">
+                            <span>${circle.icon}</span>
+                            <span>${circle.name}</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // 渲染所有圈子
+            renderCircles();
+        });
+
+        function renderCircles() {
+            const container = document.getElementById('circlesContainer');
+            const circles = CommunityCircles.getCircles();
+            const myCircles = CommunityCircles.getUserCircles();
+
+            container.innerHTML = circles.map((circle, index) => {
+                const isJoined = myCircles.includes(circle.id);
+                const delay = index * 0.1;
+                
+                return `
+                    <div class="circle-card animate-in" style="animation-delay: ${delay}s">
+                        <div class="circle-header">
+                            <div class="circle-icon">${circle.icon}</div>
+                            <div class="circle-info">
+                                <h3 style="color: ${circle.color}">${circle.name}</h3>
+                                <div class="circle-stats">
+                                    ${circle.memberCount} 成员 · ${circle.postCount} 帖子
+                                </div>
+                            </div>
+                        </div>
+                        <p class="circle-desc">${circle.description}</p>
+                        <button class="join-btn ${isJoined ? 'joined' : 'join'}" 
+                                onclick="toggleJoin('${circle.id}', this)">
+                            ${isJoined ? '已加入' : '+ 加入圈子'}
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleJoin(circleId, btn) {
+            const isJoined = CommunityCircles.isJoined(circleId);
+            
+            if (isJoined) {
+                if (confirm('确定要退出这个圈子吗？')) {
+                    CommunityCircles.leaveCircle(circleId);
+                    btn.textContent = '+ 加入圈子';
+                    btn.classList.remove('joined');
+                    btn.classList.add('join');
+                    showToast('已退出圈子');
+                }
+            } else {
+                CommunityCircles.joinCircle(circleId);
+                btn.textContent = '已加入';
+                btn.classList.remove('join');
+                btn.classList.add('joined');
+                showToast('成功加入圈子！');
+            }
+            
+            // 刷新我加入的圈子显示
+            setTimeout(() => location.reload(), 500);
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.8);
+                color: #fff;
+                padding: 12px 24px;
+                border-radius: 25px;
+                font-size: 14px;
+                z-index: 99999;
+                animation: fadeInUp 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

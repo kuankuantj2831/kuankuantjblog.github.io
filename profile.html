@@ -230,16 +230,43 @@
                     <p style="color:#999;text-align:center;padding:20px;">加载中...</p>
                 </div>
             </div>
+
+            <!-- 勋章墙 -->
+            <div class="profile-card">
+                <div id="badgeWallContainer"></div>
+            </div>
+
+            <!-- 浏览历史 -->
+            <div class="profile-card">
+                <h2 class="profile-card-title">📖 最近浏览</h2>
+                <div id="readingHistoryContainer">
+                    <p style="text-align:center;color:#999;padding:20px;">加载中...</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <script type="module" src="/js/profile.js?v=20260311c"></script>
     <script src="/js/follow.js"></script>
+    <!-- 勋章系统 -->
+    <script src="/js/badge-system.js"></script>
+    <!-- 浏览历史 -->
+    <script src="/js/reading-history.js"></script>
     <script>
         // 页面加载完成后渲染关注列表
         document.addEventListener('DOMContentLoaded', function() {
             if (window.Follow && window.Follow.renderList) {
                 window.Follow.renderList('followListContainer');
+            }
+            
+            // 初始化勋章墙
+            if (window.BadgeSystem) {
+                BadgeSystem.renderBadgeWall('badgeWallContainer');
+            }
+            
+            // 初始化浏览历史
+            if (window.ReadingHistory) {
+                ReadingHistory.renderHistory('readingHistoryContainer', 5);
             }
         });
     </script>

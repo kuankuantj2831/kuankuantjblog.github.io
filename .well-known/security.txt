@@ -1,4 +1,4 @@
-Contact: mailto:kuankuantj2831@gmail.com
+Contact: mailto:kuankuantj@126.com
 Preferred-Languages: zh-CN, en
 Canonical: https://mcock.cn/.well-known/security.txt
 Expires: 2027-12-31T23:59:59.000Z
