@@ -8,6 +8,66 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>后台管理 - Hakimi 的猫爬架</title>
+    
+    <!-- Tab切换和登录兼容补丁 (必须在Cloudflare脚本之前) -->
+    <script>
+        // 预先定义一个安全的switchTab函数
+        window.switchTab = function(tab) {
+            // 如果页面已加载完成，使用数据属性选择器
+            if (document.readyState !== 'loading') {
+                document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
+                document.querySelectorAll('.tab-content').forEach(function(content) { content.classList.remove('active'); });
+                
+                var btn = document.querySelector('[data-tab="' + tab + '"]');
+                if (btn) btn.classList.add('active');
+                var content = document.getElementById('tab-' + tab);
+                if (content) content.classList.add('active');
+                
+                // 触发特定Tab的加载函数
+                if (tab === 'coins' && typeof loadCoinUsers === 'function') loadCoinUsers();
+                if (tab === 'donations' && typeof loadDonations === 'function') loadDonations();
+                if (tab === 'login-history' && typeof LoginHistory !== 'undefined') {
+                    LoginHistory.renderHistoryTable('loginHistoryContainer');
+                    var countEl = document.getElementById('loginHistoryCount');
+                    if (countEl) countEl.textContent = '共 ' + LoginHistory.getHistory().length + ' 条记录';
+                }
+            }
+        };
+        
+        // 登录函数占位符
+        window.adminLogin = function() {
+            var username = document.getElementById('adminUsername');
+            var password = document.getElementById('adminPassword');
+            if (!username || !password) return;
+            
+            // 尝试调用模块中的实际函数
+            if (typeof window._realAdminLogin === 'function') {
+                window._realAdminLogin();
+            } else {
+                alert('登录系统初始化中，请稍后重试');
+            }
+        };
+        
+        // DOM加载完成后绑定Tab按钮事件
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                bindTabEvents();
+            });
+        } else {
+            bindTabEvents();
+        }
+        
+        function bindTabEvents() {
+            document.querySelectorAll('.tab-btn').forEach(function(btn) {
+                var tabName = btn.getAttribute('data-tab');
+                if (tabName) {
+                    btn.addEventListener('click', function() {
+                        window.switchTab(tabName);
+                    });
+                }
+            });
+        }
+    </script>
     <link rel="stylesheet" href="../css/chinese-style.css">
     <style>
         body {
@@ -336,10 +396,10 @@
         <!-- Tab 导航 -->
         <div class="card" style="padding-bottom: 0;">
             <div class="tab-nav">
-                <button class="tab-btn active" data-tab="users" onclick="switchTab('users')">👥 用户管理</button>
-                <button class="tab-btn" data-tab="coins" onclick="switchTab('coins')">🪙 硬币管理</button>
-                <button class="tab-btn" data-tab="donations" onclick="switchTab('donations')">❤️ 捐助管理</button>
-                <button class="tab-btn" data-tab="login-history" onclick="switchTab('login-history')">登录记录</button>
+                <button class="tab-btn active" data-tab="users">👥 用户管理</button>
+                <button class="tab-btn" data-tab="coins">🪙 硬币管理</button>
+                <button class="tab-btn" data-tab="donations">❤️ 捐助管理</button>
+                <button class="tab-btn" data-tab="login-history">登录记录</button>
             </div>
 
             <!-- 用户管理 Tab -->
@@ -1378,33 +1438,7 @@
 </script>
 
 <!-- 登录历史记录功能 -->
-<script src="../js/login-history.js?v=20260329a"></script>
-
-<!-- Tab切换修复补丁 (Cloudflare Rocket Loader 兼容) -->
-<script>
-// 覆盖旧的switchTab函数，使用data-tab属性
-window.switchTab = function(tab) {
-    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-    var btn = document.querySelector('[data-tab="' + tab + '"]');
-    if (btn) btn.classList.add('active');
-    var content = document.getElementById('tab-' + tab);
-    if (content) content.classList.add('active');
-
-    if (tab === 'coins' && typeof loadCoinUsers === 'function') {
-        loadCoinUsers();
-    }
-    if (tab === 'donations' && typeof loadDonations === 'function') {
-        loadDonations();
-    }
-    if (tab === 'login-history' && typeof LoginHistory !== 'undefined') {
-        LoginHistory.renderHistoryTable('loginHistoryContainer');
-        var countEl = document.getElementById('loginHistoryCount');
-        if (countEl) countEl.textContent = '共 ' + LoginHistory.getHistory().length + ' 条记录';
-    }
-};
-</script>
+<script src="../js/login-history.js?v=20260329b"></script>
 
 </body>
 
