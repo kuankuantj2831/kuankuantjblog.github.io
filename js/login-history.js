@@ -155,7 +155,7 @@ const LoginHistory = {
         
         history.forEach(record => {
             const statusClass = record.success ? 'success' : 'failed';
-            const statusText = record.success ? '✅ 成功' : '❌ 失败';
+            const statusText = record.success ? '成功' : '失败';
             const statusColor = record.success ? '#52c41a' : '#ff4d4f';
             
             html += `
@@ -180,9 +180,9 @@ const LoginHistory = {
                 </tbody>
             </table>
             <div style="margin-top:20px;text-align:right;">
-                <button onclick="if(confirm('确定要清空所有登录记录吗？')) { LoginHistory.clearHistory(); LoginHistory.renderHistoryTable('${containerId}'); }" 
+                <button onclick="if(confirm('确定要清空所有登录记录吗？')) { LoginHistory.clearHistory(); LoginHistory.renderHistoryTable('${containerId}'); document.getElementById('loginHistoryCount').textContent = '共 0 条记录'; }"
                         style="background:#ff4d4f;color:white;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;">
-                    🗑️ 清空所有记录
+                    清空所有记录
                 </button>
             </div>
         `;
