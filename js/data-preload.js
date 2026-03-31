@@ -10,12 +10,17 @@ class DataPreloader {
         this.preloadQueue = new Set();
         this.isPreloading = false;
         this.preloadDelay = 2000; // 2秒后开始预加载
+        this.hasInitialized = false; // 防止重复初始化
     }
 
     /**
      * 初始化预加载
      */
     init() {
+        // 防止重复初始化
+        if (this.hasInitialized) return;
+        this.hasInitialized = true;
+
         // 页面加载完成后开始预加载
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.startPreloading());
