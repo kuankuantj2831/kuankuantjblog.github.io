@@ -109,14 +109,14 @@ class DataPreloader {
             }
 
             await Promise.all(
-                batch.map(async ({ endpoint, type }) => {
+                batch.map(async (item) => {
                     try {
-                        await apiClient.get(endpoint, { cache: true });
-                        console.log(`[DataPreloader] 预加载成功: ${type}`);
+                        await apiClient.get(item.endpoint, { cache: true });
+                        console.log(`[DataPreloader] 预加载成功: ${item.type}`);
                     } catch (error) {
-                        console.warn(`[DataPreloader] 预加载失败: ${type}`, error.message);
+                        console.warn(`[DataPreloader] 预加载失败: ${item.type}`, error.message);
                     }
-                    this.preloadQueue.delete({ endpoint, type });
+                    this.preloadQueue.delete(item);
                 })
             );
 
