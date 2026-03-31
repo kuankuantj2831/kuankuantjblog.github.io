@@ -2,6 +2,10 @@
 <html lang="zh-CN">
 
 <head>
+    <script>
+        // 自动跳转到 index.html，保留查询参数
+        window.location.replace('/index.html' + window.location.search);
+    </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://static.cloudflareinsights.com https://cdn.jsdelivr.net https://unpkg.com https://registry.npmmirror.com https://cdnjs.cloudflare.com https://cdn.bootcdn.net https://rf.revolvermaps.com; style-src 'self' 'unsafe-inline' https://cdn.bootcdn.net https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' https: data:; connect-src 'self' https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com https://challenges.cloudflare.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.soundhelix.com; frame-src https://challenges.cloudflare.com; font-src 'self' https:; media-src *;">
