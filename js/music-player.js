@@ -1189,9 +1189,6 @@
         audio = new Audio();
         audio.volume = state.volume;
 
-        // 加载第一首
-        loadTrack(state.currentIndex);
-
         // 音频事件
         audio.addEventListener('ended', nextTrack);
         audio.addEventListener('timeupdate', updateProgress);
@@ -1203,6 +1200,23 @@
             showToast('音乐加载失败，自动切换到下一首');
             setTimeout(nextTrack, 1000);
         });
+
+        // 延迟加载：只更新UI，不预加载音频
+        updateTrackUI(state.currentIndex);
+    }
+
+    // 更新曲目UI（不加载音频）
+    function updateTrackUI(index) {
+        if (index < 0) index = playlist.length - 1;
+        if (index >= playlist.length) index = 0;
+
+        const track = playlist[index];
+        state.currentIndex = index;
+
+        document.getElementById('musicTitle').textContent = track.title;
+        document.getElementById('musicArtist').textContent = track.artist;
+
+        saveState();
     }
 
     // 加载曲目
@@ -1412,8 +1426,8 @@
                 state.currentIndex = savedState.currentIndex || 0;
                 state.volume = savedState.volume !== undefined ? savedState.volume : 0.5;
 
-                // 应用保存的状态
-                loadTrack(state.currentIndex);
+                // 应用保存的状态（只更新UI，不加载音频）
+                updateTrackUI(state.currentIndex);
                 document.getElementById('volumeSlider').value = state.volume * 100;
                 setVolume(state.volume * 100);
             }
