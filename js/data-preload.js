@@ -87,7 +87,9 @@ class DataPreloader {
      * 添加预加载任务到队列
      */
     queuePreload(endpoint, type) {
-        this.preloadQueue.add({ endpoint, type });
+        // 使用字符串作为 key 避免重复对象
+        const key = `${endpoint}:${type}`;
+        this.preloadQueue.add(key);
     }
 
     /**
@@ -109,14 +111,15 @@ class DataPreloader {
             }
 
             await Promise.all(
-                batch.map(async (item) => {
+                batch.map(async (key) => {
+                    const [endpoint, type] = key.split(':');
                     try {
-                        await apiClient.get(item.endpoint, { cache: true });
-                        console.log(`[DataPreloader] 预加载成功: ${item.type}`);
+                        await apiClient.get(endpoint, { cache: true });
+                        console.log(`[DataPreloader] 预加载成功: ${type}`);
                     } catch (error) {
-                        console.warn(`[DataPreloader] 预加载失败: ${item.type}`, error.message);
+                        console.warn(`[DataPreloader] 预加载失败: ${type}`, error.message);
                     }
-                    this.preloadQueue.delete(item);
+                    this.preloadQueue.delete(key);
                 })
             );
 
