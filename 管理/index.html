@@ -418,8 +418,7 @@
                             <th>用户名</th>
                             <th>角色</th>
                             <th>邮箱</th>
-                            <th>手机</th>
-                            <th>注册时间</th>
+                            <th>手机</th>`n                            <th>2FA</th>`n                            <th>注册时间</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -797,7 +796,7 @@
             tbody.innerHTML = '';
 
             if (users.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#999; padding:30px;">未找到匹配的用户</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#999; padding:30px;">未找到匹配的用户</td></tr>';
                 return;
             }
 
@@ -1443,3 +1442,5 @@
 </body>
 
 </html>
+
+
