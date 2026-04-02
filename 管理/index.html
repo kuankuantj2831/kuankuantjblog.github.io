@@ -808,9 +808,11 @@
                     <td><span style="background:${u.role === 'admin' ? '#ff4d4f' : '#1890ff'}; color:white; padding:2px 6px; border-radius:4px; font-size:12px;">${u.role}</span></td>
                     <td>${u.email || '-'}</td>
                     <td>${u.phone || '-'}</td>
+                    <td><span style="background:${u.is_2fa_enabled ? '#52c41a' : '#999'}; color:white; padding:2px 6px; border-radius:4px; font-size:12px;">${u.is_2fa_enabled ? '已启用' : '未启用'}</span></td>
                     <td>${new Date(u.created_at).toLocaleDateString()}</td>
                     <td>
                         <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteUser(${u.id})">删除</button>
+                        ${u.is_2fa_enabled ? `<button class="btn btn-warning" style="padding:4px 8px; font-size:12px; margin-left:4px;" onclick="toggle2FA(${u.id}, false)">禁用2FA</button>` : ''}
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -884,6 +886,30 @@
                     loadUsers();
                 } else {
                     alert('删除失败');
+                }
+            } catch (e) {
+                console.error(e);
+                alert('网络错误');
+            }
+        };
+
+        window.toggle2FA = async (id, enable) => {
+            const action = enable ? '启用' : '禁用';
+            if (!confirm(`确定要${action}该用户的二次验证吗？`)) return;
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/admin/users/${id}/2fa`, {
+                    method: 'PUT',
+                    headers: getHeaders(),
+                    body: JSON.stringify({ enabled: enable })
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    alert(data.message);
+                    loadUsers();
+                } else {
+                    alert(data.message || '操作失败');
                 }
             } catch (e) {
                 console.error(e);
@@ -1442,5 +1468,6 @@
 </body>
 
 </html>
+
 
 
