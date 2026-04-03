@@ -16,27 +16,68 @@
     <link rel="stylesheet" href="/css/tianjg-theme.css">
     <link rel="stylesheet" href="/css/auth.css">
     <style>
-        .editor-container {
-            max-width: 800px;
+        .editor-page-container {
+            max-width: 1200px;
             margin: 100px auto 50px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+            padding: 0 20px;
         }
 
         .editor-header {
-            margin-bottom: 30px;
             text-align: center;
+            margin-bottom: 30px;
         }
 
         .editor-title {
-            font-size: 24px;
+            font-size: 28px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: bold;
+        }
+
+        .editor-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .editor-layout {
+                grid-template-columns: 1fr;
+            }
+            .editor-sidebar {
+                order: -1;
+            }
+        }
+
+        .editor-main {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+        }
+
+        .editor-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+        }
+
+        .sidebar-card h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .form-group {
@@ -48,6 +89,7 @@
             margin-bottom: 8px;
             font-weight: 500;
             color: #333;
+            font-size: 14px;
         }
 
         .form-input,
@@ -57,7 +99,7 @@
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             transition: all 0.3s ease;
             background: #f9f9f9;
         }
@@ -71,13 +113,6 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .form-textarea {
-            min-height: 400px;
-            resize: vertical;
-            font-family: 'Consolas', 'Monaco', monospace;
-            line-height: 1.6;
-        }
-
         .btn-publish {
             width: 100%;
             padding: 15px;
@@ -85,10 +120,11 @@
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
         }
 
         .btn-publish:hover {
@@ -100,15 +136,223 @@
             background: #ccc;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
-        .preview-btn {
-            margin-top: 10px;
+        /* Markdown编辑器样式 */
+        #md-editor-container {
+            margin-bottom: 20px;
+        }
+
+        /* 协作面板 */
+        .collab-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .collab-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .collab-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .collab-info {
+            flex: 1;
+        }
+
+        .collab-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .collab-permission {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .btn-add-collab {
+            width: 100%;
+            padding: 10px;
+            border: 1px dashed #667eea;
             background: transparent;
-            border: 1px solid #667eea;
             color: #667eea;
-            padding: 8px 16px;
-            border-radius: 4px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-add-collab:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        /* 设置项 */
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #667eea;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* 模态框 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            max-height: 80vh;
+            overflow: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .btn-close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .btn-confirm:hover {
+            background: #5a6fd6;
+        }
+
+        /* 分享链接 */
+        .share-link-box {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .share-link-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            background: #f8f9fa;
+        }
+
+        .btn-copy {
+            padding: 10px 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
     </style>
     <link rel="stylesheet" href="/css/theme.css?v=3">
 </head>
@@ -125,180 +369,196 @@
             </div>
         </nav>
 
-        <div class="editor-container">
+        <div class="editor-page-container">
             <div class="editor-header">
-                <h1 class="editor-title">? 发布新文章</h1>
+                <h1 class="editor-title">✍️ 发布新文章</h1>
             </div>
 
-            <form id="articleForm">
-                <div class="form-group">
-                    <label class="form-label">文章标题</label>
-                    <input type="text" class="form-input" id="articleTitle" placeholder="请输入引人注目的标题" required>
+            <div class="editor-layout">
+                <div class="editor-main">
+                    <form id="articleForm">
+                        <div class="form-group">
+                            <label class="form-label">文章标题</label>
+                            <input type="text" class="form-input" id="articleTitle" 
+                                   placeholder="请输入引人注目的标题" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">正文内容</label>
+                            <div id="md-editor-container"></div>
+                            <textarea class="form-textarea" id="articleContent" 
+                                      placeholder="# 标题&#10;&#10;开始你的创作..." 
+                                      style="display: none;" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-publish" id="publishBtn">
+                            🚀 发布文章
+                        </button>
+                    </form>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">分类</label>
-                    <select class="form-select" id="articleCategory">
-                        <option value="编程技术">💻 编程技术</option>
-                        <option value="游戏资源">🎮 游戏资源</option>
-                        <option value="设计素材">🎨 设计素材</option>
-                        <option value="学习资料">📚 学习资料</option>
-                        <option value="天机工具">🔧 天机工具</option>
-                        <option value="生活随笔">📝 生活随笔</option>
-                    </select>
-                </div>
+                <div class="editor-sidebar">
+                    <!-- 基本信息 -->
+                    <div class="sidebar-card">
+                        <h3>📋 基本信息</h3>
+                        <div class="form-group">
+                            <label class="form-label">分类</label>
+                            <select class="form-select" id="articleCategory">
+                                <option value="编程技术">💻 编程技术</option>
+                                <option value="游戏资源">🎮 游戏资源</option>
+                                <option value="设计素材">🎨 设计素材</option>
+                                <option value="学习资料">📚 学习资料</option>
+                                <option value="天机工具">🔧 天机工具</option>
+                                <option value="生活随笔">📝 生活随笔</option>
+                            </select>
+                        </div>
 
-                <div class="form-group">
-                    <label class="form-label">标签 (用逗号分隔)</label>
-                    <input type="text" class="form-input" id="articleTags" placeholder="例如: Python, 教程, 入门">
-                </div>
+                        <div class="form-group">
+                            <label class="form-label">标签 (用逗号分隔)</label>
+                            <input type="text" class="form-input" id="articleTags" 
+                                   placeholder="例如: Python, 教程, 入门">
+                        </div>
 
-                <div class="form-group">
-                    <label class="form-label">文章摘要</label>
-                    <input type="text" class="form-input" id="articleSummary" placeholder="一句话描述文章内容（用于首页展示）" required>
-                </div>
+                        <div class="form-group">
+                            <label class="form-label">文章摘要</label>
+                            <input type="text" class="form-input" id="articleSummary" 
+                                   placeholder="一句话描述文章内容">
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label class="form-label">正文内容 (支持 Markdown)</label>
-                    <textarea class="form-textarea" id="articleContent" placeholder="# 标题&#10;&#10;开始你的创作..."
-                        required></textarea>
-                </div>
+                    <!-- 发布设置 -->
+                    <div class="sidebar-card">
+                        <h3>⚙️ 发布设置</h3>
+                        <div class="setting-item">
+                            <span>公开可见</span>
+                            <label class="switch">
+                                <input type="checkbox" id="settingPublic" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>允许评论</span>
+                            <label class="switch">
+                                <input type="checkbox" id="settingComments" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>允许投币</span>
+                            <label class="switch">
+                                <input type="checkbox" id="settingCoins" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
 
-                <button type="submit" class="btn-publish" id="publishBtn">🚀 发布文章</button>
-            </form>
+                    <!-- 协作分享 -->
+                    <div class="sidebar-card" id="collabCard" style="display: none;">
+                        <h3>🤝 协作分享</h3>
+                        <div class="collab-list" id="collabList">
+                            <!-- 动态加载协作者 -->
+                        </div>
+                        <button type="button" class="btn-add-collab" id="btnAddCollab">
+                            + 添加协作者
+                        </button>
+                        
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                            <label class="form-label">分享链接</label>
+                            <div class="share-link-box">
+                                <input type="text" class="share-link-input" id="shareLinkInput" readonly>
+                                <button type="button" class="btn-copy" id="btnCopyLink">复制</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script type="module" src="/js/editor.js?v=20260311"></script>
+    <!-- 添加协作者模态框 -->
+    <div class="modal-overlay" id="collabModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>添加协作者</h3>
+                <button type="button" class="btn-close-modal" id="btnCloseCollab">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">用户ID或用户名</label>
+                    <input type="text" class="form-input" id="collabUserId" 
+                           placeholder="请输入用户ID">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">权限</label>
+                    <select class="form-select" id="collabPermission">
+                        <option value="view">仅查看</option>
+                        <option value="comment">可评论</option>
+                        <option value="edit">可编辑</option>
+                    </select>
+                </div>
+                <button type="button" class="btn-confirm" id="btnConfirmCollab">添加</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入模块 -->
+    <script type="module" src="/js/editor-enhanced.js?v=20260403"></script>
     <script src="/js/theme.js?v=1"></script>
 
-<!-- Win7 Emoji 兼容性处理 -->
-<script>
-(function() {
-    // 检测是否为 Windows 7
-    function isWindows7() {
-        var ua = navigator.userAgent;
-        return ua.indexOf('Windows NT 6.1') !== -1 || 
-               ua.indexOf('Windows 7') !== -1;
-    }
-    
-    // Emoji 替换映射表
-    var emojiMap = {
-        "🐱": "猫",
-        "🏠": "首页",
-        "🎮": "游戏",
-        "☁️": "云",
-        "☀️": "太阳",
-        "❤️": "爱心",
-        "🎯": "关于",
-        "💬": "消息",
-        "🔔": "通知",
-        "👤": "用户",
-        "📝": "编辑",
-        "⬆️": "升级",
-        "🖼️": "图片",
-        "✍️": "写作",
-        "⚙️": "设置",
-        "🚪": "退出",
-        "💡": "提示",
-        "⚡": "经验",
-        "🚀": "发布",
-        "🎖️": "等级",
-        "💪": "加油",
-        "🔒": "锁定",
-        "📜": "协议",
-        "↑": "上",
-        "↓": "下",
-        "↩️": "撤销",
-        "❓": "帮助",
-        "🔄": "刷新",
-        "▶️": "开始",
-        "⏱️": "时间",
-        "🎨": "创意",
-        "💻": "电脑",
-        "📚": "学习",
-        "🛡️": "盾牌",
-        "✈️": "飞机",
-        "⭐": "星星",
-        "🕹️": "手柄",
-        "📧": "邮箱",
-        "📱": "手机",
-        "📑": "目录",
-        "📦": "压缩",
-        "📄": "文件",
-        "📙": "PPT",
-        "🔧": "工具",
-        "🪙": "硬币",
-        "💰": "金币",
-        "✅": "完成",
-        "🛠️": "工具",
-        "💫": "星光",
-        "🔍": "搜索",
-        "📖": "书籍",
-        "🏷️": "标签",
-        "🗑️": "删除"
-    };
-    
-    // 替换页面中的 emoji
-    function replaceEmojis() {
-        if (!isWindows7()) return;
-        
-        // 替换文本节点
-        var walker = document.createTreeWalker(
-            document.body,
-            NodeFilter.SHOW_TEXT,
-            null,
-            false
-        );
-        
-        var node;
-        while (node = walker.nextNode()) {
-            var text = node.textContent;
-            var hasEmoji = false;
-            for (var emoji in emojiMap) {
-                if (text.indexOf(emoji) !== -1) {
-                    text = text.split(emoji).join(emojiMap[emoji]);
-                    hasEmoji = true;
-                }
-            }
-            if (hasEmoji) {
-                node.textContent = text;
-            }
+    <!-- Win7 Emoji 兼容性处理 -->
+    <script>
+    (function() {
+        function isWindows7() {
+            var ua = navigator.userAgent;
+            return ua.indexOf('Windows NT 6.1') !== -1 || 
+                   ua.indexOf('Windows 7') !== -1;
         }
         
-        // 替换属性中的 emoji（如 title, alt 等）
-        var elements = document.querySelectorAll('*');
-        var attrs = ['title', 'alt', 'placeholder', 'value'];
-        for (var i = 0; i < elements.length; i++) {
-            var el = elements[i];
-            for (var j = 0; j < attrs.length; j++) {
-                var attr = attrs[j];
-                if (el.hasAttribute(attr)) {
-                    var val = el.getAttribute(attr);
-                    var hasEmoji = false;
+        var emojiMap = {
+            "🐱": "猫",
+            "🏠": "首页",
+            "🎮": "游戏",
+            "☁️": "云",
+            "☀️": "太阳",
+            "❤️": "爱心",
+            "🎯": "关于",
+            "💬": "消息",
+            "🔔": "通知",
+            "👤": "用户",
+            "📝": "编辑",
+            "⬆️": "升级",
+            "🖼️": "图片",
+            "✍️": "写作",
+            "🚀": "发布",
+            "📋": "列表",
+            "💻": "电脑",
+            "🎨": "设计",
+            "📚": "书本",
+            "🔧": "工具",
+            "⚙️": "设置",
+            "🤝": "合作"
+        };
+        
+        if (isWindows7()) {
+            function replaceEmoji() {
+                var elements = document.querySelectorAll('.editor-title, .nav-link, .btn-publish, label, h3');
+                elements.forEach(function(el) {
+                    var text = el.textContent;
                     for (var emoji in emojiMap) {
-                        if (val.indexOf(emoji) !== -1) {
-                            val = val.split(emoji).join(emojiMap[emoji]);
-                            hasEmoji = true;
-                        }
+                        text = text.split(emoji).join(emojiMap[emoji]);
                     }
-                    if (hasEmoji) {
-                        el.setAttribute(attr, val);
-                    }
-                }
+                    el.textContent = text;
+                });
+            }
+            
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', replaceEmoji);
+            } else {
+                replaceEmoji();
             }
         }
-    }
-    
-    // DOM 加载完成后执行替换
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', replaceEmojis);
-    } else {
-        replaceEmojis();
-    }
-})();
-</script>
-
+    })();
+    </script>
 </body>
 
 </html>
