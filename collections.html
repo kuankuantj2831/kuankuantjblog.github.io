@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的收藏夹 - Hakimi 的猫爬架</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/tianjg-theme.css">
+    <link rel="icon" href="favicon.ico">
+    <style>
+        .collections-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px 40px;
+        }
+
+        .collections-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .collections-title {
+            font-size: 2em;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-create-collection {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-create-collection:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .collections-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .collections-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 侧边栏 */
+        .collections-sidebar {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .sidebar-title {
+            font-size: 1.1em;
+            color: #fff;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .collections-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .collection-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .collection-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .collection-item.active {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            color: #fff;
+        }
+
+        .collection-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+        }
+
+        .collection-info {
+            flex: 1;
+        }
+
+        .collection-name {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .collection-count {
+            font-size: 0.85em;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .collection-item.active .collection-count {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .collection-actions {
+            display: none;
+            gap: 5px;
+        }
+
+        .collection-item:hover .collection-actions {
+            display: flex;
+        }
+
+        .btn-icon {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* 主内容区 */
+        .collections-main {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px;
+            min-height: 500px;
+        }
+
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .collection-title-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .collection-title-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+
+        .collection-title-text h2 {
+            color: #fff;
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .collection-title-text p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9em;
+        }
+
+        .collection-main-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .btn-danger {
+            background: rgba(244, 67, 54, 0.2);
+            border-color: rgba(244, 67, 54, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(244, 67, 54, 0.3);
+        }
+
+        /* 文章列表 */
+        .articles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .article-card {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .article-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
+        }
+
+        .article-checkbox {
+            display: flex;
+            align-items: center;
+        }
+
+        .article-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .article-content {
+            flex: 1;
+        }
+
+        .article-title {
+            color: #fff;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .article-title:hover {
+            color: #667eea;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9em;
+            color: rgba(255,255,255,0.6);
+            flex-wrap: wrap;
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* 批量操作栏 */
+        .batch-actions {
+            display: none;
+            position: sticky;
+            bottom: 20px;
+            background: rgba(30, 30, 40, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .batch-actions.show {
+            display: flex;
+        }
+
+        .batch-info {
+            color: #fff;
+        }
+
+        .batch-info span {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .batch-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-text {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.1em;
+            margin-bottom: 25px;
+        }
+
+        /* 模态框 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-header {
+            margin-bottom: 25px;
+        }
+
+        .modal-header h3 {
+            color: #fff;
+            font-size: 1.4em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.95em;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .icon-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .icon-option {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .icon-option:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .icon-option.selected {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        .color-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .color-option {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: #fff;
+            box-shadow: 0 0 0 2px #667eea;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .btn-cancel {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .btn-primary {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Toast 提示 */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(30, 30, 40, 0.95);
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="chinese-style-wrapper">
+        <nav class="top-nav">
+            <div class="nav-links">
+                <a href="/" class="nav-link">首页</a>
+                <a href="/profile.html" class="nav-link">个人中心</a>
+                <a href="/drive.html" class="nav-link">网盘</a>
+                <a href="/messages.html" class="nav-link">消息</a>
+            </div>
+        </nav>
+
+        <div class="collections-wrapper">
+            <div class="collections-header">
+                <h1 class="collections-title">
+                    <span>📚</span>
+                    我的收藏夹
+                </h1>
+                <button class="btn-create-collection" onclick="openCreateModal()">
+                    <span>+</span>
+                    新建收藏夹
+                </button>
+            </div>
+
+            <div class="collections-layout">
+                <!-- 侧边栏 -->
+                <aside class="collections-sidebar">
+                    <h3 class="sidebar-title">收藏夹列表</h3>
+                    <div class="collections-list" id="collectionsList">
+                        <!-- 动态生成 -->
+                    </div>
+                </aside>
+
+                <!-- 主内容区 -->
+                <main class="collections-main">
+                    <div class="collection-header">
+                        <div class="collection-title-section">
+                            <div class="collection-title-icon" id="currentIcon">📁</div>
+                            <div class="collection-title-text">
+                                <h2 id="currentCollectionName">全部文章</h2>
+                                <p id="currentCollectionDesc">所有收藏的文章</p>
+                            </div>
+                        </div>
+                        <div class="collection-main-actions">
+                            <button class="btn-secondary" onclick="editCurrentCollection()">
+                                <span>✏️</span> 编辑
+                            </button>
+                            <button class="btn-secondary btn-danger" onclick="deleteCurrentCollection()">
+                                <span>🗑️</span> 删除
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="articles-list" id="articlesList">
+                        <!-- 动态生成 -->
+                    </div>
+
+                    <!-- 批量操作栏 -->
+                    <div class="batch-actions" id="batchActions">
+                        <div class="batch-info">
+                            已选择 <span id="selectedCount">0</span> 篇文章
+                        </div>
+                        <div class="batch-buttons">
+                            <button class="btn-secondary" onclick="moveSelected()">
+                                <span>📂</span> 移动
+                            </button>
+                            <button class="btn-secondary btn-danger" onclick="deleteSelected()">
+                                <span>🗑️</span> 移除
+                            </button>
+                            <button class="btn-secondary" onclick="clearSelection()">
+                                取消选择
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 空状态 -->
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <div class="empty-icon">📭</div>
+                        <p class="empty-text">这个收藏夹还没有文章</p>
+                        <a href="/" class="btn-create-collection">去发现好文章</a>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- 创建/编辑收藏夹模态框 -->
+    <div class="modal-overlay" id="collectionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">新建收藏夹</h3>
+            </div>
+            <form id="collectionForm">
+                <div class="form-group">
+                    <label class="form-label">收藏夹名称</label>
+                    <input type="text" class="form-input" id="collectionName" placeholder="给收藏夹起个名字" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">描述（可选）</label>
+                    <textarea class="form-input form-textarea" id="collectionDesc" placeholder="简单描述一下这个收藏夹..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">选择图标</label>
+                    <div class="icon-selector" id="iconSelector">
+                        <div class="icon-option selected" data-icon="📁">📁</div>
+                        <div class="icon-option" data-icon="⭐">⭐</div>
+                        <div class="icon-option" data-icon="❤️">❤️</div>
+                        <div class="icon-option" data-icon="📖">📖</div>
+                        <div class="icon-option" data-icon="💡">💡</div>
+                        <div class="icon-option" data-icon="🎨">🎨</div>
+                        <div class="icon-option" data-icon="💻">💻</div>
+                        <div class="icon-option" data-icon="🎮">🎮</div>
+                        <div class="icon-option" data-icon="🎵">🎵</div>
+                        <div class="icon-option" data-icon="🎬">🎬</div>
+                        <div class="icon-option" data-icon="📚">📚</div>
+                        <div class="icon-option" data-icon="🔬">🔬</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">选择颜色</label>
+                    <div class="color-selector" id="colorSelector">
+                        <div class="color-option selected" style="background: linear-gradient(135deg, #667eea, #764ba2);" data-color="#667eea"></div>
+                        <div class="color-option" style="background: linear-gradient(135deg, #f093fb, #f5576c);" data-color="#f093fb"></div>
+                        <div class="color-option" style="background: linear-gradient(135deg, #4facfe, #00f2fe);" data-color="#4facfe"></div>
+                        <div class="color-option" style="background: linear-gradient(135deg, #43e97b, #38f9d7);" data-color="#43e97b"></div>
+                        <div class="color-option" style="background: linear-gradient(135deg, #fa709a, #fee140);" data-color="#fa709a"></div>
+                        <div class="color-option" style="background: linear-gradient(135deg, #30cfd0, #330867);" data-color="#30cfd0"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">取消</button>
+                    <button type="submit" class="btn-primary">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 移动文章模态框 -->
+    <div class="modal-overlay" id="moveModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>移动到收藏夹</h3>
+            </div>
+            <div class="collections-list" id="moveCollectionList" style="max-height: 300px; overflow-y: auto;">
+                <!-- 动态生成 -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeMoveModal()">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div class="toast" id="toast"></div>
+
+    <script src="js/supabase-auth.js"></script>
+    <script type="module">
+        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
+        
+        // 全局状态
+        let collections = [];
+        let currentCollectionId = null;
+        let selectedArticles = new Set();
+        let editingCollectionId = null;
+        let currentUser = null;
+
+        // 初始化
+        async function init() {
+            const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || 'null');
+            if (!user) {
+                window.location.href = '/?login=1';
+                return;
+            }
+            currentUser = user;
+            await loadCollections();
+            setupEventListeners();
+        }
+
+        // 加载收藏夹列表
+        async function loadCollections() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/collections`, {
+                    headers: {
+                        'Authorization': `Bearer ${currentUser.token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    collections = data.collections || [];
+                    renderCollectionsList();
+                    
+                    // 默认选择第一个收藏夹或"全部"
+                    if (collections.length > 0 && !currentCollectionId) {
+                        selectCollection(collections[0].id);
+                    } else if (currentCollectionId) {
+                        loadArticles(currentCollectionId);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading collections:', error);
+                showToast('加载失败，请刷新重试');
+            }
+        }
+
+        // 渲染收藏夹列表
+        function renderCollectionsList() {
+            const container = document.getElementById('collectionsList');
+            
+            let html = '';
+            
+            // "全部"选项
+            html += `
+                <div class="collection-item ${!currentCollectionId ? 'active' : ''}" onclick="selectCollection(null)">
+                    <div class="collection-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">📚</div>
+                    <div class="collection-info">
+                        <div class="collection-name">全部收藏</div>
+                        <div class="collection-count">${collections.reduce((sum, c) => sum + (c.article_count || 0), 0)} 篇文章</div>
+                    </div>
+                </div>
+            `;
+            
+            collections.forEach(collection => {
+                html += `
+                    <div class="collection-item ${currentCollectionId === collection.id ? 'active' : ''}" 
+                         onclick="selectCollection(${collection.id})">
+                        <div class="collection-icon" style="background: ${collection.color || 'linear-gradient(135deg, #667eea, #764ba2)'};">
+                            ${collection.icon || '📁'}
+                        </div>
+                        <div class="collection-info">
+                            <div class="collection-name">
+                                ${collection.name}
+                                ${collection.is_public ? '<span>🌐</span>' : '<span>🔒</span>'}
+                            </div>
+                            <div class="collection-count">${collection.article_count || 0} 篇文章</div>
+                        </div>
+                        <div class="collection-actions">
+                            <button class="btn-icon" onclick="event.stopPropagation(); editCollection(${collection.id})">✏️</button>
+                            <button class="btn-icon" onclick="event.stopPropagation(); deleteCollection(${collection.id})">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // 选择收藏夹
+        async function selectCollection(id) {
+            currentCollectionId = id;
+            selectedArticles.clear();
+            updateBatchActions();
+            renderCollectionsList();
+            
+            if (id) {
+                const collection = collections.find(c => c.id === id);
+                if (collection) {
+                    document.getElementById('currentIcon').textContent = collection.icon || '📁';
+                    document.getElementById('currentIcon').style.background = collection.color || 'linear-gradient(135deg, #667eea, #764ba2)';
+                    document.getElementById('currentCollectionName').textContent = collection.name;
+                    document.getElementById('currentCollectionDesc').textContent = collection.description || '暂无描述';
+                }
+            } else {
+                document.getElementById('currentIcon').textContent = '📚';
+                document.getElementById('currentIcon').style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                document.getElementById('currentCollectionName').textContent = '全部收藏';
+                document.getElementById('currentCollectionDesc').textContent = '所有收藏的文章';
+            }
+            
+            await loadArticles(id);
+        }
+
+        // 加载文章列表
+        async function loadArticles(collectionId) {
+            const container = document.getElementById('articlesList');
+            container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">加载中...</div>';
+            
+            try {
+                let url = `${API_BASE_URL}/collections`;
+                if (collectionId) {
+                    url = `${API_BASE_URL}/collections/${collectionId}/articles`;
+                }
+                
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': `Bearer ${currentUser.token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const articles = data.articles || [];
+                    
+                    if (articles.length === 0) {
+                        document.getElementById('emptyState').style.display = 'block';
+                        container.innerHTML = '';
+                        return;
+                    }
+                    
+                    document.getElementById('emptyState').style.display = 'none';
+                    renderArticles(articles);
+                }
+            } catch (error) {
+                console.error('Error loading articles:', error);
+                container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">加载失败</div>';
+            }
+        }
+
+        // 渲染文章列表
+        function renderArticles(articles) {
+            const container = document.getElementById('articlesList');
+            
+            container.innerHTML = articles.map(article => `
+                <div class="article-card">
+                    <div class="article-checkbox">
+                        <input type="checkbox" 
+                               ${selectedArticles.has(article.id) ? 'checked' : ''} 
+                               onchange="toggleArticle('${article.id}')">
+                    </div>
+                    <div class="article-content">
+                        <a href="/article.html?id=${article.id}" class="article-title">${article.title}</a>
+                        <div class="article-meta">
+                            <span>👤 ${article.author_name || '匿名'}</span>
+                            <span>📅 ${formatDate(article.created_at)}</span>
+                            <span>👁️ ${article.view_count || 0} 阅读</span>
+                        </div>
+                    </div>
+                    <div class="article-actions">
+                        <button class="btn-icon" onclick="moveArticle('${article.id}')" title="移动">📂</button>
+                        <button class="btn-icon" onclick="removeArticle('${article.id}')" title="移除">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 选择/取消选择文章
+        function toggleArticle(articleId) {
+            if (selectedArticles.has(articleId)) {
+                selectedArticles.delete(articleId);
+            } else {
+                selectedArticles.add(articleId);
+            }
+            updateBatchActions();
+        }
+
+        // 更新批量操作栏
+        function updateBatchActions() {
+            const batchActions = document.getElementById('batchActions');
+            const selectedCount = document.getElementById('selectedCount');
+            
+            selectedCount.textContent = selectedArticles.size;
+            
+            if (selectedArticles.size > 0) {
+                batchActions.classList.add('show');
+            } else {
+                batchActions.classList.remove('show');
+            }
+        }
+
+        // 清除选择
+        function clearSelection() {
+            selectedArticles.clear();
+            document.querySelectorAll('.article-checkbox input').forEach(cb => cb.checked = false);
+            updateBatchActions();
+        }
+
+        // 设置事件监听
+        function setupEventListeners() {
+            // 图标选择
+            document.querySelectorAll('#iconSelector .icon-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('#iconSelector .icon-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+            
+            // 颜色选择
+            document.querySelectorAll('#colorSelector .color-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('#colorSelector .color-option').forEach(o => o.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+            
+            // 表单提交
+            document.getElementById('collectionForm').addEventListener('submit', handleFormSubmit);
+        }
+
+        // 处理表单提交
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('collectionName').value;
+            const description = document.getElementById('collectionDesc').value;
+            const icon = document.querySelector('#iconSelector .icon-option.selected')?.dataset.icon || '📁';
+            const color = document.querySelector('#colorSelector .color-option.selected')?.dataset.color || '#667eea';
+            
+            const data = {
+                name,
+                description,
+                icon,
+                color: `linear-gradient(135deg, ${color}, ${adjustColor(color, -20)})`
+            };
+            
+            try {
+                const url = editingCollectionId 
+                    ? `${API_BASE_URL}/collections/${editingCollectionId}`
+                    : `${API_BASE_URL}/collections`;
+                
+                const response = await fetch(url, {
+                    method: editingCollectionId ? 'PUT' : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${currentUser.token}`
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    showToast(editingCollectionId ? '收藏夹已更新' : '收藏夹创建成功');
+                    closeModal();
+                    await loadCollections();
+                } else {
+                    const error = await response.json();
+                    showToast(error.message || '操作失败');
+                }
+            } catch (error) {
+                console.error('Error saving collection:', error);
+                showToast('保存失败，请重试');
+            }
+        }
+
+        // 编辑收藏夹
+        function editCollection(id) {
+            const collection = collections.find(c => c.id === id);
+            if (!collection) return;
+            
+            editingCollectionId = id;
+            document.getElementById('modalTitle').textContent = '编辑收藏夹';
+            document.getElementById('collectionName').value = collection.name;
+            document.getElementById('collectionDesc').value = collection.description || '';
+            
+            // 设置图标
+            document.querySelectorAll('#iconSelector .icon-option').forEach(o => {
+                o.classList.toggle('selected', o.dataset.icon === collection.icon);
+            });
+            
+            document.getElementById('collectionModal').classList.add('show');
+        }
+
+        // 编辑当前收藏夹
+        function editCurrentCollection() {
+            if (!currentCollectionId) {
+                showToast('无法编辑"全部收藏"');
+                return;
+            }
+            editCollection(currentCollectionId);
+        }
+
+        // 删除收藏夹
+        async function deleteCollection(id) {
+            if (!confirm('确定要删除这个收藏夹吗？其中的文章将被移到"全部收藏"。')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/collections/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${currentUser.token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    showToast('收藏夹已删除');
+                    if (currentCollectionId === id) {
+                        currentCollectionId = null;
+                    }
+                    await loadCollections();
+                } else {
+                    showToast('删除失败');
+                }
+            } catch (error) {
+                console.error('Error deleting collection:', error);
+                showToast('删除失败');
+            }
+        }
+
+        // 删除当前收藏夹
+        function deleteCurrentCollection() {
+            if (!currentCollectionId) {
+                showToast('无法删除"全部收藏"');
+                return;
+            }
+            deleteCollection(currentCollectionId);
+        }
+
+        // 移动文章
+        async function moveArticle(articleId) {
+            selectedArticles.clear();
+            selectedArticles.add(articleId);
+            openMoveModal();
+        }
+
+        // 批量移动
+        function moveSelected() {
+            if (selectedArticles.size === 0) return;
+            openMoveModal();
+        }
+
+        // 打开移动模态框
+        function openMoveModal() {
+            const list = document.getElementById('moveCollectionList');
+            list.innerHTML = collections.map(c => `
+                <div class="collection-item" onclick="confirmMove(${c.id})">
+                    <div class="collection-icon" style="background: ${c.color || 'linear-gradient(135deg, #667eea, #764ba2)'};">
+                        ${c.icon || '📁'}
+                    </div>
+                    <div class="collection-info">
+                        <div class="collection-name">${c.name}</div>
+                        <div class="collection-count">${c.article_count || 0} 篇文章</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('moveModal').classList.add('show');
+        }
+
+        // 确认移动
+        async function confirmMove(targetCollectionId) {
+            const articleIds = Array.from(selectedArticles);
+            
+            try {
+                for (const articleId of articleIds) {
+                    // 先从当前收藏夹移除
+                    if (currentCollectionId) {
+                        await fetch(`${API_BASE_URL}/collections/${currentCollectionId}/articles/${articleId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${currentUser.token}`
+                            }
+                        });
+                    }
+                    
+                    // 添加到目标收藏夹
+                    await fetch(`${API_BASE_URL}/collections/${targetCollectionId}/articles`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${currentUser.token}`
+                        },
+                        body: JSON.stringify({ article_id: articleId })
+                    });
+                }
+                
+                showToast(`成功移动 ${articleIds.length} 篇文章`);
+                closeMoveModal();
+                clearSelection();
+                await loadCollections();
+                await loadArticles(currentCollectionId);
+            } catch (error) {
+                console.error('Error moving articles:', error);
+                showToast('移动失败');
+            }
+        }
+
+        // 移除文章
+        async function removeArticle(articleId) {
+            if (!confirm('确定要移除这篇文章吗？')) return;
+            
+            try {
+                const url = currentCollectionId
+                    ? `${API_BASE_URL}/collections/${currentCollectionId}/articles/${articleId}`
+                    : `${API_BASE_URL}/collections/articles/${articleId}`;
+                
+                const response = await fetch(url, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${currentUser.token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    showToast('文章已移除');
+                    await loadCollections();
+                    await loadArticles(currentCollectionId);
+                } else {
+                    showToast('移除失败');
+                }
+            } catch (error) {
+                console.error('Error removing article:', error);
+                showToast('移除失败');
+            }
+        }
+
+        // 批量移除
+        async function deleteSelected() {
+            if (selectedArticles.size === 0) return;
+            if (!confirm(`确定要移除选中的 ${selectedArticles.size} 篇文章吗？`)) return;
+            
+            const articleIds = Array.from(selectedArticles);
+            for (const articleId of articleIds) {
+                await removeArticle(articleId);
+            }
+            clearSelection();
+        }
+
+        // 工具函数
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('zh-CN');
+        }
+
+        function adjustColor(color, amount) {
+            const num = parseInt(color.replace('#', ''), 16);
+            const r = Math.max(0, Math.min(255, (num >> 16) + amount));
+            const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amount));
+            const b = Math.max(0, Math.min(255, (num & 0x0000FF) + amount));
+            return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+        }
+
+        // 暴露全局函数
+        window.selectCollection = selectCollection;
+        window.openCreateModal = function() {
+            editingCollectionId = null;
+            document.getElementById('modalTitle').textContent = '新建收藏夹';
+            document.getElementById('collectionForm').reset();
+            document.querySelectorAll('#iconSelector .icon-option').forEach((o, i) => o.classList.toggle('selected', i === 0));
+            document.querySelectorAll('#colorSelector .color-option').forEach((o, i) => o.classList.toggle('selected', i === 0));
+            document.getElementById('collectionModal').classList.add('show');
+        };
+        window.closeModal = function() {
+            document.getElementById('collectionModal').classList.remove('show');
+        };
+        window.editCollection = editCollection;
+        window.editCurrentCollection = editCurrentCollection;
+        window.deleteCollection = deleteCollection;
+        window.deleteCurrentCollection = deleteCurrentCollection;
+        window.toggleArticle = toggleArticle;
+        window.clearSelection = clearSelection;
+        window.moveSelected = moveSelected;
+        window.moveArticle = moveArticle;
+        window.removeArticle = removeArticle;
+        window.deleteSelected = deleteSelected;
+        window.openMoveModal = openMoveModal;
+        window.closeMoveModal = function() {
+            document.getElementById('moveModal').classList.remove('show');
+        };
+        window.confirmMove = confirmMove;
+
+        // Toast
+        window.showToast = function(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        };
+
+        // 启动
+        init();
+    </script>
+</body>
+</html>
