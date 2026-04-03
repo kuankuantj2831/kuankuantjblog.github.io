@@ -189,6 +189,29 @@ class MarkdownEditor {
                     <div class="toolbar-divider"></div>
                     
                     <div class="toolbar-group">
+                        <button type="button" class="toolbar-btn ai-btn" data-action="ai-summary" title="AI生成摘要">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                <path d="M2 17l10 5 10-5"></path>
+                                <path d="M2 12l10 5 10-5"></path>
+                            </svg>
+                        </button>
+                        <button type="button" class="toolbar-btn ai-btn" data-action="ai-continue" title="AI续写">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
+                        <button type="button" class="toolbar-btn ai-btn" data-action="ai-polish" title="AI润色">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 20h9"></path>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="toolbar-divider"></div>
+                    
+                    <div class="toolbar-group">
                         <button type="button" class="toolbar-btn" data-action="undo" title="撤销 (Ctrl+Z)">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M3 7v6h6"></path>
@@ -880,6 +903,9 @@ class MarkdownEditor {
             'mode-edit': () => this.setMode('edit'),
             'mode-split': () => this.setMode('split'),
             'mode-preview': () => this.setMode('preview'),
+            'ai-summary': () => this.callAI('summary'),
+            'ai-continue': () => this.callAI('continue'),
+            'ai-polish': () => this.callAI('polish'),
         };
         
         if (actions[action]) {
@@ -1619,6 +1645,234 @@ class MarkdownEditor {
     destroy() {
         this.stopAutoSave();
         clearTimeout(this.previewTimer);
+    }
+    
+    // AI 辅助功能
+    async callAI(action) {
+        const textarea = this.container.querySelector('#md-textarea');
+        const content = textarea.value;
+        
+        if (!content.trim()) {
+            this.showToast('请先输入一些内容');
+            return;
+        }
+        
+        // 获取选中的文本
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selectedText = content.substring(start, end);
+        
+        // 使用选中的文本或全部内容
+        const textToProcess = selectedText || content;
+        
+        this.showToast('AI 正在处理中...');
+        
+        try {
+            const response = await fetch(`${API_BASE_URL}/ai/${action}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.token}`
+                },
+                body: JSON.stringify({
+                    content: textToProcess,
+                    max_length: action === 'summary' ? 200 : 500
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('AI 请求失败');
+            }
+            
+            const data = await response.json();
+            
+            if (action === 'continue') {
+                // 续写：追加到光标位置
+                const insertPosition = selectedText ? end : content.length;
+                textarea.setRangeText('\n\n' + data.result, insertPosition, insertPosition, 'end');
+            } else if (action === 'summary') {
+                // 摘要：显示弹窗让用户选择
+                this.showAIResultModal('文章摘要', data.result, (result) => {
+                    // 将摘要插入到文章开头或替换选中文本
+                    if (selectedText) {
+                        textarea.setRangeText(result, start, end, 'select');
+                    } else {
+                        textarea.setRangeText('> **摘要：** ' + result + '\n\n', 0, 0, 'end');
+                    }
+                });
+                return;
+            } else if (action === 'polish') {
+                // 润色：替换选中文本
+                this.showAIResultModal('润色结果', data.result, (result) => {
+                    if (selectedText) {
+                        textarea.setRangeText(result, start, end, 'select');
+                    } else {
+                        this.showToast('润色功能需要选中文字');
+                    }
+                });
+                return;
+            }
+            
+            this.handleInput();
+            this.showToast('AI 处理完成');
+            
+        } catch (error) {
+            console.error('AI 请求失败:', error);
+            this.showToast('AI 服务暂时不可用，请稍后重试');
+        }
+    }
+    
+    showAIResultModal(title, content, onConfirm) {
+        // 创建弹窗
+        const modal = document.createElement('div');
+        modal.className = 'ai-modal';
+        modal.innerHTML = `
+            <div class="ai-modal-overlay">
+                <div class="ai-modal-content">
+                    <div class="ai-modal-header">
+                        <h3>🤖 ${title}</h3>
+                        <button class="ai-modal-close">&times;</button>
+                    </div>
+                    <div class="ai-modal-body">
+                        <div class="ai-result-text">${this.escapeHtml(content)}</div>
+                    </div>
+                    <div class="ai-modal-footer">
+                        <button class="ai-btn-secondary ai-modal-close-btn">取消</button>
+                        <button class="ai-btn-primary ai-modal-confirm">使用此结果</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // 添加样式
+        if (!document.getElementById('ai-modal-styles')) {
+            const styles = document.createElement('style');
+            styles.id = 'ai-modal-styles';
+            styles.textContent = `
+                .ai-modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0,0,0,0.5);
+                    z-index: 3000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .ai-modal-content {
+                    background: #fff;
+                    border-radius: 12px;
+                    width: 90%;
+                    max-width: 600px;
+                    max-height: 80vh;
+                    display: flex;
+                    flex-direction: column;
+                    animation: ai-modal-in 0.3s ease;
+                }
+                @keyframes ai-modal-in {
+                    from { opacity: 0; transform: translateY(-20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .ai-modal-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 16px 20px;
+                    border-bottom: 1px solid #eee;
+                }
+                .ai-modal-header h3 {
+                    margin: 0;
+                    font-size: 16px;
+                    color: #333;
+                }
+                .ai-modal-close {
+                    background: none;
+                    border: none;
+                    font-size: 24px;
+                    cursor: pointer;
+                    color: #999;
+                }
+                .ai-modal-close:hover {
+                    color: #333;
+                }
+                .ai-modal-body {
+                    padding: 20px;
+                    overflow: auto;
+                    max-height: 400px;
+                }
+                .ai-result-text {
+                    line-height: 1.8;
+                    color: #333;
+                    white-space: pre-wrap;
+                }
+                .ai-modal-footer {
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 12px;
+                    padding: 16px 20px;
+                    border-top: 1px solid #eee;
+                }
+                .ai-btn-primary {
+                    padding: 8px 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: #fff;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    transition: all 0.2s;
+                }
+                .ai-btn-primary:hover {
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+                }
+                .ai-btn-secondary {
+                    padding: 8px 20px;
+                    background: #f5f5f5;
+                    color: #666;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    transition: all 0.2s;
+                }
+                .ai-btn-secondary:hover {
+                    background: #e8e8e8;
+                }
+                /* AI 按钮样式 */
+                .toolbar-btn.ai-btn {
+                    color: #667eea;
+                }
+                .toolbar-btn.ai-btn:hover {
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: #fff;
+                }
+            `;
+            document.head.appendChild(styles);
+        }
+        
+        // 绑定事件
+        const closeModal = () => {
+            modal.remove();
+        };
+        
+        modal.querySelector('.ai-modal-close').addEventListener('click', closeModal);
+        modal.querySelector('.ai-modal-close-btn').addEventListener('click', closeModal);
+        modal.querySelector('.ai-modal-confirm').addEventListener('click', () => {
+            onConfirm(content);
+            closeModal();
+            this.handleInput();
+        });
+        
+        modal.querySelector('.ai-modal-overlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeModal();
+            }
+        });
     }
 }
 
