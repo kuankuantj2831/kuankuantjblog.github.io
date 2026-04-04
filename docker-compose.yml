@@ -1,0 +1,235 @@
+# ============================================
+# Hakimi Blog - Docker Compose 配置
+# 完整开发/生产环境编排
+# ============================================
+
+version: '3.8'
+
+services:
+  # 主应用服务
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: hakimi-blog-app
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    environment:
+      - NODE_ENV=production
+      - PORT=9000
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - CORS_ORIGINS=${CORS_ORIGINS:-https://mcock.cn}
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - app_logs:/app/server/logs
+      - app_uploads:/app/server/uploads
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - hakimi-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # 开发模式
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: hakimi-blog-dev
+    restart: "no"
+    ports:
+      - "9000:9000"
+    environment:
+      - NODE_ENV=development
+      - PORT=9000
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+    volumes:
+      - ./:/app
+      - /app/server/node_modules
+    networks:
+      - hakimi-network
+    profiles:
+      - dev
+
+  # Redis 缓存服务
+  redis:
+    image: redis:7-alpine
+    container_name: hakimi-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - hakimi-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # PostgreSQL 数据库（本地开发用）
+  postgres:
+    image: postgres:15-alpine
+    container_name: hakimi-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${DB_USER:-hakimi}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-hakimi123}
+      - POSTGRES_DB=${DB_NAME:-hakimi_blog}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - hakimi-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-hakimi} -d ${DB_NAME:-hakimi_blog}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Nginx 反向代理
+  nginx:
+    image: nginx:alpine
+    container_name: hakimi-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./docker/nginx/ssl:/etc/nginx/ssl:ro
+      - ./frontend:/usr/share/nginx/html:ro
+    depends_on:
+      - app
+    networks:
+      - hakimi-network
+
+  # Elasticsearch 搜索引擎
+  elasticsearch:
+    image: elasticsearch:8.11.0
+    container_name: hakimi-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - hakimi-network
+    profiles:
+      - search
+
+  # MinIO 对象存储（本地S3兼容）
+  minio:
+    image: minio/minio:latest
+    container_name: hakimi-minio
+    restart: unless-stopped
+    ports:
+      - "9001:9000"
+      - "9002:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin123}
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - hakimi-network
+    profiles:
+      - storage
+
+  # RabbitMQ 消息队列
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: hakimi-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER:-hakimi}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS:-hakimi123}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - hakimi-network
+    profiles:
+      - queue
+
+  # Prometheus 监控
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: hakimi-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - hakimi-network
+    profiles:
+      - monitoring
+
+  # Grafana 可视化
+  grafana:
+    image: grafana/grafana:latest
+    container_name: hakimi-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./docker/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./docker/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    networks:
+      - hakimi-network
+    profiles:
+      - monitoring
+
+# 数据卷
+volumes:
+  app_logs:
+  app_uploads:
+  redis_data:
+  postgres_data:
+  elasticsearch_data:
+  minio_data:
+  rabbitmq_data:
+  prometheus_data:
+  grafana_data:
+
+# 网络
+networks:
+  hakimi-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

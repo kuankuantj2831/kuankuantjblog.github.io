@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>企业级数据大屏 - 管理后台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        .metric-card { background: linear-gradient(135deg, #fff 0%, #f8fafc 100%); }
+        .live-indicator { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .chart-container { position: relative; height: 300px; }
+        .map-container { background: #1a202c; border-radius: 12px; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航 -->
+    <nav class="gradient-bg text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i data-lucide="bar-chart-3" class="w-8 h-8 mr-3"></i>
+                    <h1 class="text-xl font-bold">企业级数据大屏</h1>
+                    <span class="ml-4 px-3 py-1 bg-white/20 rounded-full text-sm flex items-center">
+                        <span class="w-2 h-2 bg-green-400 rounded-full mr-2 live-indicator"></span>
+                        实时数据
+                    </span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="refreshData()" class="p-2 hover:bg-white/20 rounded-lg transition">
+                        <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                    </button>
+                    <button onclick="toggleFullscreen()" class="p-2 hover:bg-white/20 rounded-lg transition">
+                        <i data-lucide="maximize" class="w-5 h-5"></i>
+                    </button>
+                    <div class="relative">
+                        <button onclick="toggleUserMenu()" class="flex items-center space-x-2 p-2 hover:bg-white/20 rounded-lg">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=admin" class="w-8 h-8 rounded-full bg-white">
+                            <span class="hidden sm:block">管理员</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 时间筛选器 -->
+        <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <i data-lucide="calendar" class="w-5 h-5 text-gray-500"></i>
+                <span class="text-gray-700 font-medium">数据周期：</span>
+            </div>
+            <div class="flex space-x-2">
+                <button onclick="setTimeRange('today')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium bg-indigo-100 text-indigo-700" data-range="today">今日</button>
+                <button onclick="setTimeRange('week')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="week">本周</button>
+                <button onclick="setTimeRange('month')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="month">本月</button>
+                <button onclick="setTimeRange('quarter')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="quarter">本季度</button>
+                <button onclick="setTimeRange('year')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="year">全年</button>
+            </div>
+            <div class="flex items-center space-x-2">
+                <input type="date" id="startDate" class="px-3 py-2 border rounded-lg text-sm">
+                <span class="text-gray-400">至</span>
+                <input type="date" id="endDate" class="px-3 py-2 border rounded-lg text-sm">
+                <button onclick="applyCustomRange()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700">应用</button>
+            </div>
+        </div>
+
+        <!-- 核心指标卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- 用户指标 -->
+            <div class="metric-card rounded-xl shadow-sm p-6 card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-blue-100 rounded-lg">
+                        <i data-lucide="users" class="w-6 h-6 text-blue-600"></i>
+                    </div>
+                    <span class="flex items-center text-green-500 text-sm font-medium">
+                        <i data-lucide="trending-up" class="w-4 h-4 mr-1"></i>
+                        <span id="userGrowth">+12.5%</span>
+                    </span>
+                </div>
+                <h3 class="text-gray-500 text-sm font-medium">总用户数</h3>
+                <p class="text-3xl font-bold text-gray-900 mt-1" id="totalUsers">--</p>
+                <div class="mt-3 flex items-center text-sm text-gray-500">
+                    <span>今日新增：</span>
+                    <span class="text-blue-600 font-medium ml-1" id="newUsersToday">--</span>
+                </div>
+            </div>
+
+            <!-- 内容指标 -->
+            <div class="metric-card rounded-xl shadow-sm p-6 card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-green-100 rounded-lg">
+                        <i data-lucide="file-text" class="w-6 h-6 text-green-600"></i>
+                    </div>
+                    <span class="flex items-center text-green-500 text-sm font-medium">
+                        <i data-lucide="trending-up" class="w-4 h-4 mr-1"></i>
+                        <span id="contentGrowth">+8.3%</span>
+                    </span>
+                </div>
+                <h3 class="text-gray-500 text-sm font-medium">内容总数</h3>
+                <p class="text-3xl font-bold text-gray-900 mt-1" id="totalContent">--</p>
+                <div class="mt-3 flex items-center text-sm text-gray-500">
+                    <span>待审核：</span>
+                    <span class="text-orange-500 font-medium ml-1" id="pendingReview">--</span>
+                </div>
+            </div>
+
+            <!-- 互动指标 -->
+            <div class="metric-card rounded-xl shadow-sm p-6 card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-purple-100 rounded-lg">
+                        <i data-lucide="heart" class="w-6 h-6 text-purple-600"></i>
+                    </div>
+                    <span class="flex items-center text-green-500 text-sm font-medium">
+                        <i data-lucide="trending-up" class="w-4 h-4 mr-1"></i>
+                        <span id="interactionGrowth">+23.1%</span>
+                    </span>
+                </div>
+                <h3 class="text-gray-500 text-sm font-medium">总互动量</h3>
+                <p class="text-3xl font-bold text-gray-900 mt-1" id="totalInteractions">--</p>
+                <div class="mt-3 flex items-center text-sm text-gray-500">
+                    <span>今日活跃：</span>
+                    <span class="text-purple-600 font-medium ml-1" id="activeToday">--</span>
+                </div>
+            </div>
+
+            <!-- 营收指标 -->
+            <div class="metric-card rounded-xl shadow-sm p-6 card-hover">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-yellow-100 rounded-lg">
+                        <i data-lucide="dollar-sign" class="w-6 h-6 text-yellow-600"></i>
+                    </div>
+                    <span class="flex items-center text-green-500 text-sm font-medium">
+                        <i data-lucide="trending-up" class="w-4 h-4 mr-1"></i>
+                        <span id="revenueGrowth">+15.7%</span>
+                    </span>
+                </div>
+                <h3 class="text-gray-500 text-sm font-medium">总营收</h3>
+                <p class="text-3xl font-bold text-gray-900 mt-1" id="totalRevenue">¥--</p>
+                <div class="mt-3 flex items-center text-sm text-gray-500">
+                    <span>今日订单：</span>
+                    <span class="text-yellow-600 font-medium ml-1" id="ordersToday">--</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图表区域 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- 用户增长趋势 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900">用户增长趋势</h3>
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="userChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 内容发布统计 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900">内容发布统计</h3>
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="contentChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 营收趋势 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900">营收趋势</h3>
+                    <div class="flex space-x-2">
+                        <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded">会员</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded">商品</span>
+                        <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded">打赏</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+            <!-- 访问来源分布 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900">访问来源分布</h3>
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                    </button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="sourceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- 地域分布和设备统计 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- 地域分布 -->
+            <div class="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900">用户地域分布</h3>
+                    <button onclick="downloadGeoData()" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
+                        <i data-lucide="download" class="w-4 h-4 inline mr-1"></i>
+                        导出数据
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">排名</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">省份</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">用户数</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">占比</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">趋势</th>
+                            </tr>
+                        </thead>
+                        <tbody id="geoTableBody">
+                            <!-- 动态填充 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 设备统计 -->
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-6">设备分布</h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm text-gray-600">桌面端</span>
+                            <span class="text-sm font-medium" id="desktopPercent">45%</span>
+                        </div>
+                        <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-blue-500 rounded-full" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm text-gray-600">移动端</span>
+                            <span class="text-sm font-medium" id="mobilePercent">48%</span>
+                        </div>
+                        <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-green-500 rounded-full" style="width: 48%"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm text-gray-600">平板</span>
+                            <span class="text-sm font-medium" id="tabletPercent">7%</span>
+                        </div>
+                        <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-purple-500 rounded-full" style="width: 7%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-6 border-t">
+                    <h4 class="text-sm font-medium text-gray-700 mb-3">浏览器分布</h4>
+                    <div id="browserStats" class="space-y-2">
+                        <!-- 动态填充 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 实时监控面板 -->
+        <div class="bg-white rounded-xl shadow-sm p-6">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center">
+                    <span class="w-3 h-3 bg-green-500 rounded-full mr-2 live-indicator"></span>
+                    <h3 class="text-lg font-semibold text-gray-900">实时监控</h3>
+                </div>
+                <div class="flex items-center space-x-4 text-sm">
+                    <span class="flex items-center text-gray-500">
+                        <i data-lucide="zap" class="w-4 h-4 mr-1"></i>
+                        QPS: <span class="font-medium text-gray-900 ml-1" id="qpsValue">0</span>
+                    </span>
+                    <span class="flex items-center text-gray-500">
+                        <i data-lucide="clock" class="w-4 h-4 mr-1"></i>
+                        平均响应: <span class="font-medium text-gray-900 ml-1" id="avgResponse">0ms</span>
+                    </span>
+                    <span class="flex items-center text-gray-500">
+                        <i data-lucide="cpu" class="w-4 h-4 mr-1"></i>
+                        CPU: <span class="font-medium text-gray-900 ml-1" id="cpuUsage">0%</span>
+                    </span>
+                    <span class="flex items-center text-gray-500">
+                        <i data-lucide="hard-drive" class="w-4 h-4 mr-1"></i>
+                        内存: <span class="font-medium text-gray-900 ml-1" id="memoryUsage">0%</span>
+                    </span>
+                </div>
+            </div>
+            <div class="h-48">
+                <canvas id="realtimeChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 初始化图标
+        lucide.createIcons();
+
+        // 图表实例
+        let charts = {};
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            loadDashboardData();
+            startRealtimeUpdate();
+        });
+
+        // 初始化图表
+        function initCharts() {
+            // 用户增长趋势图
+            const userCtx = document.getElementById('userChart').getContext('2d');
+            charts.user = new Chart(userCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '新增用户',
+                        data: [],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: '活跃用户',
+                        data: [],
+                        borderColor: '#48bb78',
+                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // 内容发布统计图
+            const contentCtx = document.getElementById('contentChart').getContext('2d');
+            charts.content = new Chart(contentCtx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '文章',
+                        data: [],
+                        backgroundColor: '#667eea'
+                    }, {
+                        label: '评论',
+                        data: [],
+                        backgroundColor: '#48bb78'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // 营收趋势图
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            charts.revenue = new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: '会员订阅',
+                        data: [],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: '商品销售',
+                        data: [],
+                        borderColor: '#48bb78',
+                        backgroundColor: 'rgba(72, 187, 120, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: '打赏收入',
+                        data: [],
+                        borderColor: '#9f7aea',
+                        backgroundColor: 'rgba(159, 122, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // 访问来源分布图
+            const sourceCtx = document.getElementById('sourceChart').getContext('2d');
+            charts.source = new Chart(sourceCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['直接访问', '搜索引擎', '社交媒体', '外部链接', '其他'],
+                    datasets: [{
+                        data: [35, 30, 20, 10, 5],
+                        backgroundColor: ['#667eea', '#48bb78', '#9f7aea', '#ed8936', '#a0aec0']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'right' } }
+                }
+            });
+
+            // 实时数据图
+            const realtimeCtx = document.getElementById('realtimeChart').getContext('2d');
+            charts.realtime = new Chart(realtimeCtx, {
+                type: 'line',
+                data: {
+                    labels: Array(20).fill(''),
+                    datasets: [{
+                        label: '在线用户',
+                        data: Array(20).fill(0),
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { beginAtZero: true }
+                    },
+                    animation: { duration: 0 }
+                }
+            });
+        }
+
+        // 加载仪表盘数据
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/api/admin/dashboard/realtime', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const result = await response.json();
+
+                if (result) {
+                    updateMetrics(result);
+                    updateCharts(result);
+                    updateGeoTable(result);
+                    updateDeviceStats(result);
+                }
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                // 使用模拟数据
+                loadMockData();
+            }
+        }
+
+        // 更新指标卡片
+        function updateMetrics(data) {
+            if (data.users) {
+                document.getElementById('totalUsers').textContent = formatNumber(data.users.total || 0);
+                document.getElementById('newUsersToday').textContent = formatNumber(data.users.new_today || 0);
+            }
+            if (data.content) {
+                document.getElementById('totalContent').textContent = formatNumber(data.content.total || 0);
+                document.getElementById('pendingReview').textContent = formatNumber(data.content.pending_review || 0);
+            }
+            if (data.interactions) {
+                document.getElementById('totalInteractions').textContent = formatNumber(data.interactions.total || 0);
+                document.getElementById('activeToday').textContent = formatNumber(data.interactions.active_today || 0);
+            }
+            if (data.commerce) {
+                document.getElementById('totalRevenue').textContent = '¥' + formatNumber(data.commerce.total_revenue || 0);
+                document.getElementById('ordersToday').textContent = formatNumber(data.commerce.orders_today || 0);
+            }
+        }
+
+        // 更新图表
+        function updateCharts(data) {
+            // 这里根据实际数据结构更新图表
+            // 暂时使用模拟数据
+        }
+
+        // 更新地域表格
+        function updateGeoTable(data) {
+            const tbody = document.getElementById('geoTableBody');
+            const mockData = [
+                { rank: 1, province: '广东', users: 12580, percent: 18.5, trend: 'up' },
+                { rank: 2, province: '北京', users: 9860, percent: 14.5, trend: 'up' },
+                { rank: 3, province: '上海', users: 8750, percent: 12.9, trend: 'stable' },
+                { rank: 4, province: '浙江', users: 6540, percent: 9.6, trend: 'up' },
+                { rank: 5, province: '江苏', users: 5890, percent: 8.7, trend: 'down' }
+            ];
+
+            tbody.innerHTML = mockData.map(item => `
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="py-3 px-4">
+                        <span class="inline-flex items-center justify-center w-6 h-6 rounded-full ${item.rank <= 3 ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-600'} text-sm font-medium">
+                            ${item.rank}
+                        </span>
+                    </td>
+                    <td class="py-3 px-4 font-medium text-gray-900">${item.province}</td>
+                    <td class="py-3 px-4">${formatNumber(item.users)}</td>
+                    <td class="py-3 px-4">${item.percent}%</td>
+                    <td class="py-3 px-4">
+                        <i data-lucide="${item.trend === 'up' ? 'trending-up' : item.trend === 'down' ? 'trending-down' : 'minus'}" 
+                           class="w-4 h-4 ${item.trend === 'up' ? 'text-green-500' : item.trend === 'down' ? 'text-red-500' : 'text-gray-400'}"></i>
+                    </td>
+                </tr>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        // 更新设备统计
+        function updateDeviceStats(data) {
+            const browsers = [
+                { name: 'Chrome', percent: 52 },
+                { name: 'Safari', percent: 25 },
+                { name: 'Firefox', percent: 12 },
+                { name: 'Edge', percent: 8 },
+                { name: '其他', percent: 3 }
+            ];
+
+            document.getElementById('browserStats').innerHTML = browsers.map(b => `
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600">${b.name}</span>
+                    <div class="flex items-center">
+                        <div class="w-24 h-2 bg-gray-100 rounded-full mr-2">
+                            <div class="h-full bg-indigo-500 rounded-full" style="width: ${b.percent}%"></div>
+                        </div>
+                        <span class="text-sm text-gray-700 w-10 text-right">${b.percent}%</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 实时更新
+        function startRealtimeUpdate() {
+            setInterval(() => {
+                // 更新实时图表
+                const data = charts.realtime.data.datasets[0].data;
+                data.shift();
+                data.push(Math.floor(Math.random() * 500) + 500);
+                charts.realtime.update();
+
+                // 更新系统指标
+                document.getElementById('qpsValue').textContent = Math.floor(Math.random() * 100) + 50;
+                document.getElementById('avgResponse').textContent = Math.floor(Math.random() * 100) + 20 + 'ms';
+                document.getElementById('cpuUsage').textContent = Math.floor(Math.random() * 30) + 20 + '%';
+                document.getElementById('memoryUsage').textContent = Math.floor(Math.random() * 20) + 40 + '%';
+            }, 2000);
+        }
+
+        // 加载模拟数据
+        function loadMockData() {
+            const mockData = {
+                users: { total: 68540, new_today: 128, growth: 12.5 },
+                content: { total: 3256, pending_review: 23, growth: 8.3 },
+                interactions: { total: 125890, active_today: 3456, growth: 23.1 },
+                commerce: { total_revenue: 128560, orders_today: 45, growth: 15.7 }
+            };
+            updateMetrics(mockData);
+            updateGeoTable(mockData);
+            updateDeviceStats(mockData);
+        }
+
+        // 设置时间范围
+        function setTimeRange(range) {
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-100', 'text-indigo-700');
+                btn.classList.add('text-gray-600');
+            });
+            event.target.classList.remove('text-gray-600');
+            event.target.classList.add('bg-indigo-100', 'text-indigo-700');
+            
+            loadDashboardData();
+        }
+
+        // 刷新数据
+        function refreshData() {
+            loadDashboardData();
+        }
+
+        // 全屏切换
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // 格式化数字
+        function formatNumber(num) {
+            if (num >= 10000) {
+                return (num / 10000).toFixed(1) + '万';
+            }
+            return num.toLocaleString();
+        }
+
+        // 导出地域数据
+        function downloadGeoData() {
+            alert('导出功能开发中...');
+        }
+    </script>
+</body>
+</html>

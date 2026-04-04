@@ -1,0 +1,104 @@
+# ============================================
+# Kubernetes ConfigMap 配置
+# 应用配置与环境变量
+# ============================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hakimi-blog-config
+  namespace: hakimi-blog
+data:
+  NODE_ENV: "production"
+  PORT: "9000"
+  CORS_ORIGINS: "https://mcock.cn,https://www.mcock.cn"
+  LOG_LEVEL: "info"
+  RATE_LIMIT_WINDOW: "900000"
+  RATE_LIMIT_MAX: "100"
+  
+  # 缓存配置
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+  
+  # 邮件配置
+  SMTP_HOST: "smtp.mcock.cn"
+  SMTP_PORT: "587"
+  SMTP_SECURE: "false"
+  
+  # 上传配置
+  UPLOAD_MAX_SIZE: "10485760"
+  UPLOAD_ALLOWED_TYPES: "image/jpeg,image/png,image/webp,application/pdf"
+  
+  # 功能开关
+  ENABLE_AI_FEATURES: "true"
+  ENABLE_GAMIFICATION: "true"
+  ENABLE_ECOMMERCE: "true"
+  ENABLE_ANALYTICS: "true"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: hakimi-blog
+data:
+  nginx.conf: |
+    user nginx;
+    worker_processes auto;
+    error_log /var/log/nginx/error.log warn;
+    pid /var/run/nginx.pid;
+
+    events {
+        worker_connections 1024;
+    }
+
+    http {
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                       '$status $body_bytes_sent "$http_referer" '
+                       '"$http_user_agent" "$http_x_forwarded_for"';
+
+        access_log /var/log/nginx/access.log main;
+
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+
+        # Gzip compression
+        gzip on;
+        gzip_vary on;
+        gzip_proxied any;
+        gzip_comp_level 6;
+        gzip_types text/plain text/css text/xml application/json application/javascript application/rss+xml application/atom+xml image/svg+xml;
+
+        upstream app {
+            server hakimi-blog-app:9000;
+        }
+
+        server {
+            listen 80;
+            server_name mcock.cn www.mcock.cn;
+
+            location / {
+                proxy_pass http://app;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_cache_bypass $http_upgrade;
+                proxy_read_timeout 86400;
+            }
+
+            # Static files caching
+            location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+                expires 1y;
+                add_header Cache-Control "public, immutable";
+            }
+        }
+    }

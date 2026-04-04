@@ -1,0 +1,66 @@
+# ============================================
+# Kubernetes Service 配置
+# ============================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: hakimi-blog-app
+  namespace: hakimi-blog
+  labels:
+    app: hakimi-blog
+    component: app
+spec:
+  type: ClusterIP
+  ports:
+    - port: 9000
+      targetPort: 9000
+      protocol: TCP
+      name: http
+  selector:
+    app: hakimi-blog
+    component: app
+---
+# Redis Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: hakimi-blog
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: 6379
+  selector:
+    app: redis
+---
+# Nginx Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: hakimi-blog
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+    - port: 443
+      targetPort: 443
+  selector:
+    app: nginx
+---
+# Headless service for stateful sets
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: hakimi-blog
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres

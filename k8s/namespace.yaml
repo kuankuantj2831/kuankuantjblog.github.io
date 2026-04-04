@@ -1,0 +1,19 @@
+# ============================================
+# Kubernetes 命名空间配置
+# ============================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hakimi-blog
+  labels:
+    name: hakimi-blog
+    environment: production
+---
+# 开发环境命名空间
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hakimi-blog-dev
+  labels:
+    name: hakimi-blog-dev
+    environment: development
