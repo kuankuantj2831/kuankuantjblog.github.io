@@ -1,0 +1,145 @@
+<script>
+import device from '@system.device';
+import storage from '@system.storage';
+import fetch from '@system.fetch';
+
+export default {
+  onCreate() {
+    console.log('Quick App onCreate');
+    this.initDeviceInfo();
+    this.initStorage();
+    this.checkLoginStatus();
+  },
+
+  onDestroy() {
+    console.log('Quick App onDestroy');
+  },
+
+  // 全局数据
+  globalData: {
+    userInfo: null,
+    token: null,
+    apiBaseUrl: 'https://api.mcock.cn/v1',
+    deviceInfo: null,
+    appVersion: '1.0.0'
+  },
+
+  // 初始化设备信息
+  initDeviceInfo() {
+    device.getInfo({
+      success: (ret) => {
+        this.globalData.deviceInfo = ret;
+        console.log('Device Info:', ret);
+      }
+    });
+  },
+
+  // 初始化存储
+  initStorage() {
+    storage.get({
+      key: 'token',
+      success: (data) => {
+        if (data) {
+          this.globalData.token = data;
+        }
+      }
+    });
+
+    storage.get({
+      key: 'userInfo',
+      success: (data) => {
+        if (data) {
+          try {
+            this.globalData.userInfo = JSON.parse(data);
+          } catch (e) {
+            console.error('Parse userInfo failed:', e);
+          }
+        }
+      }
+    });
+  },
+
+  // 检查登录状态
+  checkLoginStatus() {
+    const token = this.globalData.token;
+    if (!token) {
+      return;
+    }
+
+    fetch.fetch({
+      url: `${this.globalData.apiBaseUrl}/auth/verify`,
+      method: 'GET',
+      header: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      success: (res) => {
+        if (res.code !== 200) {
+          this.clearLoginInfo();
+        }
+      },
+      fail: (err) => {
+        console.error('Check login status failed:', err);
+      }
+    });
+  },
+
+  // 清除登录信息
+  clearLoginInfo() {
+    this.globalData.token = null;
+    this.globalData.userInfo = null;
+    storage.delete({ key: 'token' });
+    storage.delete({ key: 'userInfo' });
+  },
+
+  // 保存登录信息
+  saveLoginInfo(token, userInfo) {
+    this.globalData.token = token;
+    this.globalData.userInfo = userInfo;
+    
+    storage.set({
+      key: 'token',
+      value: token
+    });
+    
+    storage.set({
+      key: 'userInfo',
+      value: JSON.stringify(userInfo)
+    });
+  },
+
+  // 全局请求方法
+  request(options) {
+    return new Promise((resolve, reject) => {
+      const url = options.url.startsWith('http') 
+        ? options.url 
+        : `${this.globalData.apiBaseUrl}${options.url}`;
+
+      fetch.fetch({
+        url: url,
+        method: options.method || 'GET',
+        data: options.data ? JSON.stringify(options.data) : '',
+        header: {
+          'Content-Type': 'application/json',
+          'Authorization': this.globalData.token ? `Bearer ${this.globalData.token}` : '',
+          ...options.header
+        },
+        success: (res) => {
+          const data = JSON.parse(res.data);
+          if (res.code === 200) {
+            resolve(data);
+          } else if (res.code === 401) {
+            this.clearLoginInfo();
+            reject(new Error('Unauthorized'));
+          } else {
+            reject(new Error(data.message || 'Request failed'));
+          }
+        },
+        fail: (err) => {
+          reject(err);
+        }
+      });
+    });
+  }
+};
+</script>
