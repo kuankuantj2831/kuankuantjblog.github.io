@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>每日任务 - Hakimi 的猫爬架</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <style>
+        .tasks-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 20px 40px;
+        }
+
+        /* 头部 */
+        .tasks-header {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .tasks-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .tasks-header p {
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .daily-progress {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .progress-ring {
+            width: 100px;
+            height: 100px;
+        }
+
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 8;
+        }
+
+        .progress-ring .bg {
+            stroke: rgba(255,255,255,0.2);
+        }
+
+        .progress-ring .progress {
+            stroke: white;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: left;
+        }
+
+        .progress-text .number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .progress-text .label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* 连续打卡 */
+        .streak-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .streak-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .streak-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .streak-number {
+            text-align: center;
+        }
+
+        .streak-number .days {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .streak-number .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* 任务列表 */
+        .tasks-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .task-item:hover {
+            background: #f0f0f0;
+        }
+
+        .task-item.completed {
+            opacity: 0.7;
+        }
+
+        .task-item.completed .task-name {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .task-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .task-info {
+            flex: 1;
+        }
+
+        .task-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .task-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .task-rewards {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .reward-tag {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+        }
+
+        .reward-tag.exp {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .reward-tag.coins {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .task-action {
+            margin-left: 15px;
+        }
+
+        .btn-task {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-task:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-task:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .completed-badge {
+            color: #4caf50;
+            font-size: 1.5rem;
+        }
+
+        /* 周历 */
+        .week-calendar {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .calendar-day {
+            text-align: center;
+            padding: 15px 5px;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+
+        .calendar-day.completed {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+        }
+
+        .calendar-day.today {
+            border: 2px solid #667eea;
+        }
+
+        .calendar-day .day-name {
+            font-size: 0.75rem;
+            margin-bottom: 5px;
+        }
+
+        .calendar-day .day-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 600px) {
+            .tasks-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .streak-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .task-item {
+                flex-wrap: wrap;
+            }
+
+            .task-action {
+                width: 100%;
+                margin-top: 15px;
+                margin-left: 0;
+            }
+
+            .btn-task {
+                width: 100%;
+            }
+
+            .calendar-grid {
+                gap: 5px;
+            }
+
+            .calendar-day {
+                padding: 10px 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chinese-style-wrapper">
+        <nav class="top-nav">
+            <div class="nav-links">
+                <a href="/" class="nav-link">首页</a>
+                <a href="/coins.html" class="nav-link">硬币中心</a>
+                <span class="nav-link active">每日任务</span>
+            </div>
+        </nav>
+
+        <div class="tasks-container">
+            <!-- 头部 -->
+            <div class="tasks-header">
+                <h1>📅 每日任务</h1>
+                <p>完成任务获取经验和硬币奖励</p>
+                <div class="daily-progress">
+                    <svg class="progress-ring" viewBox="0 0 100 100">
+                        <circle class="bg" cx="50" cy="50" r="42"/>
+                        <circle class="progress" id="progressCircle" cx="50" cy="50" r="42"
+                                stroke-dasharray="264" stroke-dashoffset="264"/>
+                    </svg>
+                    <div class="progress-text">
+                        <div class="number" id="progressPercent">0%</div>
+                        <div class="label">今日进度</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 连续打卡 -->
+            <div class="streak-card">
+                <div class="streak-info">
+                    <h3>🔥 连续打卡</h3>
+                    <p>坚持每日完成任务，解锁连续签到成就！</p>
+                </div>
+                <div class="streak-number">
+                    <div class="days" id="streakDays">0</div>
+                    <div class="label">天</div>
+                </div>
+            </div>
+
+            <!-- 周历 -->
+            <div class="week-calendar">
+                <h3 class="section-title">📆 本周完成情况</h3>
+                <div class="calendar-grid" id="weekCalendar">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+
+            <!-- 任务列表 -->
+            <div class="tasks-section">
+                <h3 class="section-title">✨ 今日任务</h3>
+                <div class="tasks-list" id="tasksList">
+                    <div class="empty-state">
+                        <div class="icon">⏳</div>
+                        <p>正在加载任务...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
+
+        class DailyTasksPage {
+            constructor() {
+                this.token = localStorage.getItem('token');
+                this.tasks = [];
+                this.streak = 0;
+            }
+
+            async init() {
+                if (!this.token) {
+                    window.location.href = '/?login=1';
+                    return;
+                }
+
+                await Promise.all([
+                    this.loadTasks(),
+                    this.loadStreak()
+                ]);
+
+                this.renderWeekCalendar();
+            }
+
+            async loadTasks() {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/tasks/daily`, {
+                        headers: { 'Authorization': `Bearer ${this.token}` }
+                    });
+                    if (!response.ok) throw new Error('加载任务失败');
+                    
+                    const data = await response.json();
+                    this.tasks = data.tasks || [];
+                    this.renderTasks();
+                    this.updateProgress();
+                } catch (error) {
+                    console.error('加载任务失败:', error);
+                    document.getElementById('tasksList').innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">😢</div>
+                            <p>加载失败，请刷新重试</p>
+                        </div>
+                    `;
+                }
+            }
+
+            async loadStreak() {
+                // 从本地存储或API获取连续打卡天数
+                const streak = localStorage.getItem('checkinStreak') || 0;
+                this.streak = parseInt(streak);
+                document.getElementById('streakDays').textContent = this.streak;
+            }
+
+            renderTasks() {
+                const list = document.getElementById('tasksList');
+                
+                if (this.tasks.length === 0) {
+                    list.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">🎉</div>
+                            <p>今日任务已全部完成！明天再来吧~</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const icons = {
+                    checkin: '📅',
+                    read: '📖',
+                    comment: '💬',
+                    like: '❤️',
+                    share: '📤',
+                    write: '✍️',
+                    default: '✨'
+                };
+
+                list.innerHTML = this.tasks.map(task => `
+                    <div class="task-item ${task.completed ? 'completed' : ''}">
+                        <div class="task-icon">${icons[task.task_type] || icons.default}</div>
+                        <div class="task-info">
+                            <div class="task-name">${task.task_name}</div>
+                            <div class="task-desc">${task.description}</div>
+                            <div class="task-rewards">
+                                <span class="reward-tag exp">+${task.reward_exp} XP</span>
+                                ${task.reward_coins ? `<span class="reward-tag coins">+${task.reward_coins} 🪙</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="task-action">
+                            ${task.completed ? 
+                                '<span class="completed-badge">✅</span>' :
+                                `<button class="btn-task" onclick="dailyTasksPage.doTask(${task.task_id}, '${task.task_type}')">
+                                    ${task.task_type === 'checkin' ? '签到' : '去完成'}
+                                </button>`
+                            }
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            renderWeekCalendar() {
+                const container = document.getElementById('weekCalendar');
+                const days = ['日', '一', '二', '三', '四', '五', '六'];
+                const today = new Date();
+                
+                let html = '';
+                for (let i = 0; i < 7; i++) {
+                    const date = new Date(today);
+                    date.setDate(today.getDate() - today.getDay() + i);
+                    const isToday = i === today.getDay();
+                    // 模拟已完成的数据，实际应从API获取
+                    const isCompleted = i < today.getDay(); 
+                    
+                    html += `
+                        <div class="calendar-day ${isCompleted ? 'completed' : ''} ${isToday ? 'today' : ''}">
+                            <div class="day-name">${days[i]}</div>
+                            <div class="day-number">${date.getDate()}</div>
+                        </div>
+                    `;
+                }
+                container.innerHTML = html;
+            }
+
+            updateProgress() {
+                const completed = this.tasks.filter(t => t.completed).length;
+                const total = this.tasks.length;
+                const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+                
+                document.getElementById('progressPercent').textContent = `${percent}%`;
+                
+                // 更新圆环进度
+                const circle = document.getElementById('progressCircle');
+                const circumference = 264;
+                const offset = circumference - (percent / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+            }
+
+            async doTask(taskId, taskType) {
+                if (taskType === 'checkin') {
+                    await this.completeTask(taskId);
+                } else {
+                    // 跳转到对应页面
+                    const routes = {
+                        read: '/',
+                        comment: '/',
+                        like: '/',
+                        share: '/',
+                        write: '/editor.html'
+                    };
+                    window.location.href = routes[taskType] || '/';
+                }
+            }
+
+            async completeTask(taskId) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/tasks/complete/${taskId}`, {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${this.token}` }
+                    });
+
+                    if (!response.ok) throw new Error('完成任务失败');
+                    
+                    const result = await response.json();
+                    alert(`🎉 任务完成！获得 ${result.exp_gained || 0} XP${result.coins_gained ? ' 和 ' + result.coins_gained + ' 硬币' : ''}`);
+                    
+                    await this.loadTasks();
+                } catch (error) {
+                    alert('任务完成失败，请重试');
+                }
+            }
+        }
+
+        const dailyTasksPage = new DailyTasksPage();
+        dailyTasksPage.init();
+        window.dailyTasksPage = dailyTasksPage;
+    </script>
+</body>
+</html>

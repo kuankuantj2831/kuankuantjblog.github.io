@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问答社区 - Hakimi 的猫爬架</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <style>
+        .qa-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px 40px;
+        }
+
+        /* 头部 */
+        .qa-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .qa-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .qa-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .btn-ask {
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 30px;
+            background: white;
+            color: #4facfe;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-ask:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* 统计栏 */
+        .qa-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .qa-stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .qa-stat-card h3 {
+            font-size: 2rem;
+            color: #4facfe;
+            margin-bottom: 5px;
+        }
+
+        .qa-stat-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Tab 筛选 */
+        .qa-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .qa-tab {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .qa-tab:hover,
+        .qa-tab.active {
+            background: #4facfe;
+            color: white;
+        }
+
+        /* 问题列表 */
+        .questions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .question-card.solved {
+            border-left: 4px solid #4caf50;
+        }
+
+        .question-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-width: 80px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .stat-box.has-answers {
+            background: #4caf5020;
+            color: #4caf50;
+        }
+
+        .stat-box.accepted {
+            background: #4caf50;
+            color: white;
+        }
+
+        .stat-box .count {
+            font-size: 1.3rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-box .label {
+            font-size: 0.75rem;
+        }
+
+        .question-content {
+            flex: 1;
+        }
+
+        .question-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .question-excerpt {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .question-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .question-tags {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tag {
+            padding: 4px 10px;
+            background: #f0f0f0;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .question-author {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .question-author img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .bounty-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .page-btn {
+            padding: 10px 15px;
+            border: none;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: #4facfe;
+            color: white;
+        }
+
+        /* 提问弹窗 */
+        .ask-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .ask-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .ask-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .ask-modal.active .ask-modal-content {
+            transform: scale(1);
+        }
+
+        .ask-modal h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .qa-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .question-card {
+                flex-direction: column;
+            }
+
+            .question-stats {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chinese-style-wrapper">
+        <nav class="top-nav">
+            <div class="nav-links">
+                <a href="/" class="nav-link">首页</a>
+                <a href="/circles.html" class="nav-link">圈子</a>
+                <span class="nav-link active">问答</span>
+            </div>
+        </nav>
+
+        <div class="qa-container">
+            <!-- 头部 -->
+            <div class="qa-header">
+                <h1>❓ 问答社区</h1>
+                <p>提出问题，分享知识，互相帮助成长</p>
+                <button class="btn-ask" onclick="qaCommunity.showAskModal()">我要提问</button>
+            </div>
+
+            <!-- 统计 -->
+            <div class="qa-stats">
+                <div class="qa-stat-card">
+                    <h3 id="totalQuestions">--</h3>
+                    <p>总问题</p>
+                </div>
+                <div class="qa-stat-card">
+                    <h3 id="solvedQuestions">--</h3>
+                    <p>已解决</p>
+                </div>
+                <div class="qa-stat-card">
+                    <h3 id="totalAnswers">--</h3>
+                    <p>总回答</p>
+                </div>
+                <div class="qa-stat-card">
+                    <h3 id="todayQuestions">--</h3>
+                    <p>今日提问</p>
+                </div>
+            </div>
+
+            <!-- Tab 筛选 -->
+            <div class="qa-tabs">
+                <button class="qa-tab active" data-status="open">🔓 待解决</button>
+                <button class="qa-tab" data-status="solved">✅ 已解决</button>
+                <button class="qa-tab" data-status="bounty">💰 有悬赏</button>
+                <button class="qa-tab" data-status="all">📋 全部</button>
+            </div>
+
+            <!-- 问题列表 -->
+            <div class="questions-list" id="questionsList">
+                <div class="empty-state">
+                    <div class="icon">📝</div>
+                    <p>正在加载问题...</p>
+                </div>
+            </div>
+
+            <!-- 分页 -->
+            <div class="pagination" id="pagination">
+                <!-- 动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 提问弹窗 -->
+    <div class="ask-modal" id="askModal">
+        <div class="ask-modal-content">
+            <h2>🙋 提出问题</h2>
+            <div class="form-group">
+                <label>问题标题 *</label>
+                <input type="text" id="questionTitle" placeholder="简明扼要地描述你的问题">
+            </div>
+            <div class="form-group">
+                <label>问题详情 *</label>
+                <textarea id="questionContent" placeholder="详细描述你的问题，包括相关背景、已尝试的解决方案等..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>标签（用逗号分隔）</label>
+                <input type="text" id="questionTags" placeholder="例如: JavaScript, React, 前端">
+            </div>
+            <div class="form-group">
+                <label>悬赏硬币（可选，吸引更多回答）</label>
+                <input type="number" id="questionBounty" min="0" placeholder="0">
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="qaCommunity.closeAskModal()">取消</button>
+                <button class="btn btn-primary" onclick="qaCommunity.submitQuestion()">发布问题</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
+
+        class QACommunity {
+            constructor() {
+                this.token = localStorage.getItem('token');
+                this.questions = [];
+                this.currentStatus = 'open';
+                this.currentPage = 1;
+                this.totalPages = 1;
+            }
+
+            async init() {
+                this.loadStats();
+                this.loadQuestions();
+                this.bindEvents();
+            }
+
+            async loadStats() {
+                // 简化统计，实际应从API获取
+                document.getElementById('totalQuestions').textContent = '0';
+                document.getElementById('solvedQuestions').textContent = '0';
+                document.getElementById('totalAnswers').textContent = '0';
+                document.getElementById('todayQuestions').textContent = '0';
+            }
+
+            async loadQuestions(status = this.currentStatus, page = 1) {
+                try {
+                    const response = await fetch(`${API_BASE_URL}/questions?status=${status}&page=${page}`);
+                    if (!response.ok) throw new Error('加载问题失败');
+                    
+                    const data = await response.json();
+                    this.questions = data.questions || [];
+                    this.currentPage = data.page || 1;
+                    this.totalPages = data.totalPages || 1;
+                    this.renderQuestions();
+                    this.renderPagination();
+                } catch (error) {
+                    console.error('加载问题失败:', error);
+                    document.getElementById('questionsList').innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">😢</div>
+                            <p>加载失败，请刷新重试</p>
+                        </div>
+                    `;
+                }
+            }
+
+            renderQuestions() {
+                const list = document.getElementById('questionsList');
+                
+                if (this.questions.length === 0) {
+                    list.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">📝</div>
+                            <p>暂无问题，来做第一个提问者吧！</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                list.innerHTML = this.questions.map(q => `
+                    <div class="question-card ${q.has_best_answer ? 'solved' : ''}" onclick="location.href='/qa-detail.html?id=${q.id}'">
+                        <div class="question-stats">
+                            <div class="stat-box ${q.votes > 0 ? 'has-votes' : ''}">
+                                <span class="count">${q.votes || 0}</span>
+                                <span class="label">投票</span>
+                            </div>
+                            <div class="stat-box ${q.answer_count > 0 ? 'has-answers' : ''} ${q.has_best_answer ? 'accepted' : ''}">
+                                <span class="count">${q.answer_count || 0}</span>
+                                <span class="label">回答</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="count">${this.formatNumber(q.views || 0)}</span>
+                                <span class="label">浏览</span>
+                            </div>
+                        </div>
+                        <div class="question-content">
+                            <h3>${this.escapeHtml(q.title)}</h3>
+                            <p class="question-excerpt">${this.escapeHtml(q.content).substring(0, 150)}...</p>
+                            <div class="question-meta">
+                                <div class="question-tags">
+                                    ${(q.tags || []).map(tag => `<span class="tag">${this.escapeHtml(tag)}</span>`).join('')}
+                                </div>
+                                <div class="question-author">
+                                    <img src="${q.author_avatar || '/images/default-avatar.png'}" alt="">
+                                    <span>${this.escapeHtml(q.author_name)}</span>
+                                    <span>·</span>
+                                    <span>${this.formatTimeAgo(q.created_at)}</span>
+                                </div>
+                                ${q.bounty_coins > 0 ? `
+                                    <span class="bounty-badge">💰 ${q.bounty_coins} 硬币</span>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            renderPagination() {
+                const container = document.getElementById('pagination');
+                if (this.totalPages <= 1) {
+                    container.innerHTML = '';
+                    return;
+                }
+
+                let html = '';
+                for (let i = 1; i <= this.totalPages; i++) {
+                    html += `
+                        <button class="page-btn ${i === this.currentPage ? 'active' : ''}" 
+                                onclick="qaCommunity.loadQuestions(qaCommunity.currentStatus, ${i})">
+                            ${i}
+                        </button>
+                    `;
+                }
+                container.innerHTML = html;
+            }
+
+            bindEvents() {
+                document.querySelectorAll('.qa-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        document.querySelectorAll('.qa-tab').forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+                        this.currentStatus = tab.dataset.status;
+                        this.loadQuestions(this.currentStatus, 1);
+                    });
+                });
+
+                // 点击弹窗外部关闭
+                document.getElementById('askModal').addEventListener('click', (e) => {
+                    if (e.target.id === 'askModal') this.closeAskModal();
+                });
+            }
+
+            showAskModal() {
+                if (!this.token) {
+                    alert('请先登录');
+                    window.location.href = '/?login=1';
+                    return;
+                }
+                document.getElementById('askModal').classList.add('active');
+            }
+
+            closeAskModal() {
+                document.getElementById('askModal').classList.remove('active');
+                document.getElementById('questionTitle').value = '';
+                document.getElementById('questionContent').value = '';
+                document.getElementById('questionTags').value = '';
+                document.getElementById('questionBounty').value = '';
+            }
+
+            async submitQuestion() {
+                const title = document.getElementById('questionTitle').value.trim();
+                const content = document.getElementById('questionContent').value.trim();
+                const tags = document.getElementById('questionTags').value.split(',').map(t => t.trim()).filter(Boolean);
+                const bounty = parseInt(document.getElementById('questionBounty').value) || 0;
+
+                if (!title || !content) {
+                    alert('请填写标题和内容');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/questions`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${this.token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ title, content, tags, bounty_coins: bounty })
+                    });
+
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.message || '发布失败');
+                    }
+
+                    this.closeAskModal();
+                    alert('问题发布成功！');
+                    this.loadQuestions();
+                } catch (error) {
+                    alert(error.message || '发布失败');
+                }
+            }
+
+            escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            formatNumber(num) {
+                if (num >= 10000) return (num / 10000).toFixed(1) + 'w';
+                if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+                return num;
+            }
+
+            formatTimeAgo(dateStr) {
+                const date = new Date(dateStr);
+                const now = new Date();
+                const diff = Math.floor((now - date) / 1000);
+
+                if (diff < 60) return '刚刚';
+                if (diff < 3600) return `${Math.floor(diff / 60)}分钟前`;
+                if (diff < 86400) return `${Math.floor(diff / 3600)}小时前`;
+                if (diff < 604800) return `${Math.floor(diff / 86400)}天前`;
+                return date.toLocaleDateString('zh-CN');
+            }
+        }
+
+        const qaCommunity = new QACommunity();
+        qaCommunity.init();
+        window.qaCommunity = qaCommunity;
+    </script>
+</body>
+</html>
