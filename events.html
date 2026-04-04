@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动聚会 - Hakimi 的猫爬架</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .events-container {
+            max-width: 1200px;
+            margin: 80px auto 40px;
+            padding: 20px;
+        }
+        
+        .events-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .events-header h1 {
+            font-size: 2.2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .events-header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .events-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .view-switcher {
+            display: flex;
+            gap: 10px;
+            background: white;
+            padding: 5px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .view-btn {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .create-event-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+        }
+        
+        .create-event-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+        
+        .event-image {
+            height: 180px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .event-date-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .event-date-day {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #667eea;
+            line-height: 1;
+        }
+        
+        .event-date-month {
+            font-size: 0.85em;
+            color: #666;
+        }
+        
+        .event-type-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        
+        .event-type-badge.online {
+            color: #4cd964;
+        }
+        
+        .event-type-badge.offline {
+            color: #ff9500;
+        }
+        
+        .event-content {
+            padding: 20px;
+        }
+        
+        .event-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .event-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .event-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .event-participants {
+            display: flex;
+            align-items: center;
+        }
+        
+        .participant-avatars {
+            display: flex;
+            margin-right: 10px;
+        }
+        
+        .participant-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-left: -8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .participant-avatar:first-child {
+            margin-left: 0;
+        }
+        
+        .participant-count {
+            font-size: 0.85em;
+            color: #888;
+        }
+        
+        .register-btn {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        .register-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .register-btn.registered {
+            background: #e8e8e8;
+            color: #888;
+        }
+        
+        /* 时间线视图 */
+        .timeline-view {
+            display: none;
+        }
+        
+        .timeline-view.active {
+            display: block;
+        }
+        
+        .timeline-month {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #333;
+            margin: 30px 0 20px;
+            padding-left: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .events-container {
+                margin-top: 60px;
+            }
+            
+            .events-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .view-switcher {
+                justify-content: center;
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chinese-style-wrapper">
+        <nav class="top-nav">
+            <a href="/" class="nav-logo">Hakimi 的猫爬架</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">首页</a>
+                <a href="/articles.html" class="nav-link">文章</a>
+                <a href="/groups.html" class="nav-link">群组</a>
+                <a href="/events.html" class="nav-link active">活动</a>
+                <a href="/messages.html" class="nav-link">消息</a>
+            </div>
+        </nav>
+
+        <div class="events-container">
+            <div class="events-header">
+                <h1>📅 活动聚会</h1>
+                <p>发现精彩活动，结识有趣的人</p>
+            </div>
+
+            <div class="events-toolbar">
+                <div class="view-switcher">
+                    <button class="view-btn active" onclick="switchView('grid', this)">⊞ 卡片</button>
+                    <button class="view-btn" onclick="switchView('timeline', this)">☰ 时间线</button>
+                    <button class="view-btn" onclick="switchView('calendar', this)">📅 日历</button>
+                </div>
+                <button class="create-event-btn" onclick="showCreateEventModal()">+ 发起活动</button>
+            </div>
+
+            <!-- 卡片视图 -->
+            <div class="events-grid" id="eventsGrid">
+                <div class="event-card">
+                    <div class="event-image">
+                        <div class="event-date-badge">
+                            <div class="event-date-day">15</div>
+                            <div class="event-date-month">4月</div>
+                        </div>
+                        <div class="event-type-badge online">线上活动</div>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-title">前端技术分享会 - Vue3 实战技巧</div>
+                        <div class="event-meta">
+                            <div class="event-meta-item">🕐 20:00 - 21:30</div>
+                            <div class="event-meta-item">📍 腾讯会议</div>
+                            <div class="event-meta-item">👤 主讲：技术大牛</div>
+                        </div>
+                        <div class="event-footer">
+                            <div class="event-participants">
+                                <div class="participant-avatars">
+                                    <div class="participant-avatar"></div>
+                                    <div class="participant-avatar"></div>
+                                    <div class="participant-avatar"></div>
+                                </div>
+                                <span class="participant-count">128 人已报名</span>
+                            </div>
+                            <button class="register-btn" onclick="registerEvent('1')">立即报名</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <div class="event-date-badge">
+                            <div class="event-date-day">20</div>
+                            <div class="event-date-month">4月</div>
+                        </div>
+                        <div class="event-type-badge offline">线下活动</div>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-title">摄影外拍活动 - 城市风光</div>
+                        <div class="event-meta">
+                            <div class="event-meta-item">🕐 14:00 - 18:00</div>
+                            <div class="event-meta-item">📍 市中心广场集合</div>
+                            <div class="event-meta-item">👤 组织者：摄影师小王</div>
+                        </div>
+                        <div class="event-footer">
+                            <div class="event-participants">
+                                <div class="participant-avatars">
+                                    <div class="participant-avatar"></div>
+                                    <div class="participant-avatar"></div>
+                                </div>
+                                <span class="participant-count">25 人已报名</span>
+                            </div>
+                            <button class="register-btn" onclick="registerEvent('2')">立即报名</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <div class="event-date-badge">
+                            <div class="event-date-day">25</div>
+                            <div class="event-date-month">4月</div>
+                        </div>
+                        <div class="event-type-badge online">线上活动</div>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-title">读书分享会 - 《黑客与画家》</div>
+                        <div class="event-meta">
+                            <div class="event-meta-item">🕐 19:30 - 21:00</div>
+                            <div class="event-meta-item">📍 Discord 语音频道</div>
+                            <div class="event-meta-item">👤 主持人：读书君</div>
+                        </div>
+                        <div class="event-footer">
+                            <div class="event-participants">
+                                <div class="participant-avatars">
+                                    <div class="participant-avatar"></div>
+                                    <div class="participant-avatar"></div>
+                                    <div class="participant-avatar"></div>
+                                    <div class="participant-avatar"></div>
+                                </div>
+                                <span class="participant-count">56 人已报名</span>
+                            </div>
+                            <button class="register-btn" onclick="registerEvent('3')">立即报名</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="event-card">
+                    <div class="event-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <div class="event-date-badge">
+                            <div class="event-date-day">01</div>
+                            <div class="event-date-month">5月</div>
+                        </div>
+                        <div class="event-type-badge offline">线下活动</div>
+                    </div>
+                    <div class="event-content">
+                        <div class="event-title">周末徒步 - 森林公园</div>
+                        <div class="event-meta">
+                            <div class="event-meta-item">🕐 08:00 - 16:00</div>
+                            <div class="event-meta-item">📍 森林公园北门</div>
+                            <div class="event-meta-item">👤 领队：户外达人</div>
+                        </div>
+                        <div class="event-footer">
+                            <div class="event-participants">
+                                <div class="participant-avatars">
+                                    <div class="participant-avatar"></div>
+                                    <div class="participant-avatar"></div>
+                                    <div class="participant-avatar"></div>
+                                </div>
+                                <span class="participant-count">18 人已报名</span>
+                            </div>
+                            <button class="register-btn" onclick="registerEvent('4')">立即报名</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 时间线视图 -->
+            <div class="timeline-view" id="timelineView">
+                <div class="timeline-month">2026年4月</div>
+                <!-- 时间线内容将动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 创建活动模态框 -->
+    <div class="modal" id="createEventModal" style="display: none;">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>发起新活动</h3>
+                <button class="close-btn" onclick="closeCreateEventModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>活动标题 *</label>
+                    <input type="text" id="eventTitle" placeholder="给活动起个吸引人的标题">
+                </div>
+                <div class="form-group">
+                    <label>活动类型</label>
+                    <select id="eventType">
+                        <option value="online">线上活动</option>
+                        <option value="offline">线下活动</option>
+                        <option value="hybrid">混合活动</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label>开始时间 *</label>
+                        <input type="datetime-local" id="eventStartTime">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>结束时间</label>
+                        <input type="datetime-local" id="eventEndTime">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>活动地点 / 链接</label>
+                    <input type="text" id="eventLocation" placeholder="线下地址或线上会议链接">
+                </div>
+                <div class="form-group">
+                    <label>活动简介</label>
+                    <textarea id="eventDescription" rows="3" placeholder="介绍活动内容..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>人数限制</label>
+                    <input type="number" id="eventMaxParticipants" placeholder="不限制请留空">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeCreateEventModal()">取消</button>
+                <button class="btn btn-primary" onclick="createEvent()">发布活动</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/community-circles.js"></script>
+    <script>
+        function switchView(view, btn) {
+            document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            document.getElementById('eventsGrid').style.display = view === 'grid' ? 'grid' : 'none';
+            document.getElementById('timelineView').classList.toggle('active', view === 'timeline');
+            
+            if (view === 'calendar') {
+                showToast('日历视图开发中');
+            }
+        }
+        
+        function showCreateEventModal() {
+            document.getElementById('createEventModal').style.display = 'flex';
+        }
+        
+        function closeCreateEventModal() {
+            document.getElementById('createEventModal').style.display = 'none';
+        }
+        
+        function createEvent() {
+            const title = document.getElementById('eventTitle').value;
+            if (!title) {
+                showToast('请输入活动标题');
+                return;
+            }
+            showToast('活动发布成功！');
+            closeCreateEventModal();
+        }
+        
+        function registerEvent(id) {
+            showToast('报名成功！请留意活动通知');
+        }
+        
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 0.9em;
+                z-index: 10000;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
