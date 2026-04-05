@@ -29,17 +29,35 @@ app.use(helmet({
 app.use(limiter); // Apply global limiter
 
 // CORS 安全配置：只允许指定域名访问
-const allowedOrigins = (process.env.CORS_ORIGINS || 'https://mcock.cn').split(',').map(s => s.trim());
+const allowedOrigins = (process.env.CORS_ORIGINS || 'https://mcock.cn,http://localhost:8080,http://localhost:3000').split(',').map(s => s.trim());
+
+// 手动处理 OPTIONS 预检请求（解决腾讯云 SCF CORS 问题）
+app.options('*', (req, res) => {
+    const origin = req.headers.origin;
+    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+        res.setHeader('Access-Control-Allow-Origin', origin || '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS,PATCH');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,Accept,Origin');
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Max-Age', '86400');
+    }
+    res.status(204).send();
+});
+
 app.use(cors({
     origin: function (origin, callback) {
         // 允许无 origin 的请求（如服务器间调用、curl）
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
             callback(null, true);
         } else {
+            console.warn(`CORS blocked for origin: ${origin}`);
             callback(new Error('CORS not allowed'));
         }
     },
-    credentials: true
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+    credentials: true,
+    maxAge: 86400
 }));
 
 // 使用 Express 内置 JSON 解析器（无需 body-parser）
