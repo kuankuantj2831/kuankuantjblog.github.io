@@ -165,6 +165,7 @@ const collaborationRoutes = require('./routes/collaboration');
 const gamificationSocialRoutes = require('./routes/gamification-social');
 const lowcodeRoutes = require('./routes/lowcode');
 const pwaEdgeRoutes = require('./routes/pwa-edge');
+const wechatAuthRoutes = require('./routes/wechat-auth');
 
 app.use('/web3', web3Routes); // Web3与区块链 - 钱包、NFT、代币、IPFS
 app.use('/ai', aiAdvancedRoutes); // AI大模型深度集成 - 智能客服、内容生成、代码审查
@@ -172,6 +173,7 @@ app.use('/collab', collaborationRoutes); // 实时协作系统 - 多人编辑、
 app.use('/social-game', gamificationSocialRoutes); // 游戏化社交 - 虚拟宠物、任务、排行榜
 app.use('/lowcode', lowcodeRoutes); // 低代码平台 - 页面构建、表单、工作流
 app.use('/pwa', pwaEdgeRoutes); // 边缘计算与PWA - Service Worker、离线优先、背景同步
+app.use('/wechat', wechatAuthRoutes); // 微信登录 - 扫码登录、公众号授权、小程序
 
 app.get('/', (req, res) => {
     res.send('My Blog API is running!');
