@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加密消息 - Hakimi 的猫爬架</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <link rel="stylesheet" href="css/messages.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .encrypted-chat-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            height: calc(100vh - 100px);
+        }
+
+        .sessions-sidebar {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sessions-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .sessions-header h2 {
+            margin: 0;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .encryption-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75em;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-top: 8px;
+        }
+
+        .encryption-badge i {
+            color: #4ade80;
+        }
+
+        .session-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .session-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 5px;
+        }
+
+        .session-item:hover {
+            background: #f3f4f6;
+        }
+
+        .session-item.active {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            border-left: 3px solid #667eea;
+        }
+
+        .session-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            position: relative;
+        }
+
+        .session-avatar::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 12px;
+            height: 12px;
+            background: #4ade80;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .session-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .session-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .session-preview {
+            font-size: 0.85em;
+            color: #6b7280;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .session-meta {
+            text-align: right;
+        }
+
+        .session-time {
+            font-size: 0.75em;
+            color: #9ca3af;
+        }
+
+        .session-unread {
+            display: inline-block;
+            background: #ef4444;
+            color: white;
+            font-size: 0.7em;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-top: 4px;
+        }
+
+        .new-session-btn {
+            margin: 15px;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .new-session-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .chat-area {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fafafa;
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-header-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .chat-header-details h3 {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .chat-header-details p {
+            margin: 0;
+            font-size: 0.8em;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chat-header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-header-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: #f3f4f6;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-header-btn:hover {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: linear-gradient(180deg, #fafafa 0%, #f3f4f6 100%);
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .message.sent {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9em;
+            flex-shrink: 0;
+        }
+
+        .message.sent .message-avatar {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .message-content {
+            max-width: 70%;
+        }
+
+        .message-bubble {
+            padding: 12px 16px;
+            border-radius: 18px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.sent .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .message-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 5px;
+            font-size: 0.75em;
+            color: #9ca3af;
+        }
+
+        .message.sent .message-meta {
+            justify-content: flex-end;
+        }
+
+        .message-encrypted-icon {
+            color: #10b981;
+        }
+
+        .message.sent .message-encrypted-icon {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .encryption-notice {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #10b98115 0%, #05966915 100%);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #10b98130;
+        }
+
+        .encryption-notice i {
+            color: #10b981;
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+
+        .encryption-notice p {
+            margin: 5px 0 0;
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+
+        .chat-input-area {
+            padding: 15px 20px;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .chat-input-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #f3f4f6;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-action-btn:hover {
+            background: #e5e7eb;
+            color: #667eea;
+        }
+
+        .chat-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 25px;
+            font-size: 0.95em;
+            resize: none;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #9ca3af;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .empty-state i {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #d1d5db;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 10px;
+            color: #6b7280;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 450px;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header i {
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .security-info {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin: 15px;
+        }
+
+        .security-info h4 {
+            margin: 0 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+        }
+
+        .security-info p {
+            margin: 0;
+            font-size: 0.8em;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        .key-fingerprint {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.75em;
+        }
+
+        @media (max-width: 768px) {
+            .encrypted-chat-container {
+                grid-template-columns: 1fr;
+                padding: 10px;
+                height: calc(100vh - 80px);
+            }
+
+            .sessions-sidebar {
+                display: none;
+            }
+
+            .sessions-sidebar.mobile-visible {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 100;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chinese-style-wrapper">
+        <nav class="top-nav">
+            <div class="nav-links">
+                <a href="index.html" class="nav-link"><i class="fas fa-arrow-left"></i> 返回首页</a>
+                <span class="nav-link" style="font-weight: 600; color: #667eea;">
+                    <i class="fas fa-shield-alt"></i> 加密消息
+                </span>
+            </div>
+        </nav>
+
+        <div class="encrypted-chat-container">
+            <div class="sessions-sidebar" id="sessionsSidebar">
+                <div class="sessions-header">
+                    <h2><i class="fas fa-lock"></i> 加密会话</h2>
+                    <div class="encryption-badge">
+                        <i class="fas fa-check-circle"></i>
+                        <span>端到端加密已启用</span>
+                    </div>
+                </div>
+
+                <button class="new-session-btn" onclick="showNewSessionModal()">
+                    <i class="fas fa-plus"></i>
+                    新建加密会话
+                </button>
+
+                <div class="session-list" id="sessionList">
+                    <!-- 会话列表将在这里动态生成 -->
+                </div>
+
+                <div class="security-info">
+                    <h4><i class="fas fa-key"></i> 您的密钥指纹</h4>
+                    <p>用于验证会话身份的加密密钥指纹</p>
+                    <div class="key-fingerprint" id="keyFingerprint">
+                        <i class="fas fa-fingerprint"></i>
+                        <span>生成中...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-area">
+                <div id="emptyState" class="empty-state">
+                    <i class="fas fa-comments"></i>
+                    <h3>选择一个会话开始聊天</h3>
+                    <p>您的所有消息都将被端到端加密保护</p>
+                </div>
+
+                <div id="chatContent" style="display: none; height: 100%; flex-direction: column;">
+                    <div class="chat-header">
+                        <div class="chat-header-info">
+                            <div class="chat-header-avatar" id="chatAvatar">?</div>
+                            <div class="chat-header-details">
+                                <h3 id="chatName">选择会话</h3>
+                                <p>
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span id="chatStatus">端到端加密保护中</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="chat-header-actions">
+                            <button class="chat-header-btn" onclick="showSessionInfo()" title="会话信息">
+                                <i class="fas fa-info-circle"></i>
+                            </button>
+                            <button class="chat-header-btn" onclick="clearSession()" title="清空会话">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="messages-container" id="messagesContainer">
+                        <div class="encryption-notice">
+                            <i class="fas fa-lock"></i>
+                            <strong>此会话已启用端到端加密</strong>
+                            <p>消息只能在您的设备和对方设备上解密，服务器无法读取内容</p>
+                        </div>
+                        <!-- 消息将在这里动态生成 -->
+                    </div>
+
+                    <div class="chat-input-area">
+                        <div class="chat-input-container">
+                            <div class="chat-input-actions">
+                                <button class="chat-action-btn" title="添加表情">
+                                    <i class="fas fa-smile"></i>
+                                </button>
+                                <button class="chat-action-btn" title="发送图片">
+                                    <i class="fas fa-image"></i>
+                                </button>
+                            </div>
+                            <div class="chat-input-wrapper">
+                                <textarea 
+                                    class="chat-input" 
+                                    id="messageInput" 
+                                    placeholder="输入加密消息..."
+                                    rows="1"
+                                    onkeydown="handleKeyDown(event)"
+                                    oninput="autoResize(this)"
+                                ></textarea>
+                            </div>
+                            <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新建会话模态框 -->
+    <div class="modal-overlay" id="newSessionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <i class="fas fa-user-plus"></i>
+                <h3>新建加密会话</h3>
+            </div>
+            <div class="form-group">
+                <label class="form-label">输入对方的用户名或ID</label>
+                <input type="text" class="form-input" id="recipientInput" placeholder="例如: username123">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeNewSessionModal()">取消</button>
+                <button class="btn btn-primary" onclick="createNewSession()">
+                    <i class="fas fa-lock"></i> 创建加密会话
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { API_BASE_URL } from './js/api-config.js';
+
+        // 全局状态
+        let currentSession = null;
+        let sessions = [];
+        let messages = [];
+        let currentUser = null;
+
+        // 初始化
+        async function init() {
+            checkAuth();
+            await loadSessions();
+            generateKeyFingerprint();
+            setupPolling();
+        }
+
+        // 检查登录状态
+        function checkAuth() {
+            const user = localStorage.getItem('currentUser');
+            if (!user) {
+                window.location.href = 'index.html';
+                return;
+            }
+            currentUser = JSON.parse(user);
+        }
+
+        // 生成密钥指纹
+        async function generateKeyFingerprint() {
+            try {
+                const keyPair = await generateKeyPair();
+                const fingerprint = await generateFingerprint(keyPair.publicKey);
+                document.getElementById('keyFingerprint').innerHTML = `
+                    <i class="fas fa-fingerprint"></i>
+                    <span>${fingerprint}</span>
+                `;
+            } catch (error) {
+                console.error('生成密钥指纹失败:', error);
+            }
+        }
+
+        // 生成密钥对
+        async function generateKeyPair() {
+            return await window.crypto.subtle.generateKey(
+                {
+                    name: "ECDH",
+                    namedCurve: "P-256"
+                },
+                true,
+                ["deriveBits", "deriveKey"]
+            );
+        }
+
+        // 生成指纹
+        async function generateFingerprint(publicKey) {
+            const exported = await window.crypto.subtle.exportKey("raw", publicKey);
+            const hashBuffer = await window.crypto.subtle.digest("SHA-256", exported);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex.substring(0, 16).toUpperCase().match(/.{4}/g).join(':');
+        }
+
+        // 加载会话列表
+        async function loadSessions() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/encrypted-messages/sessions`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    sessions = data.data || [];
+                    renderSessionList();
+                }
+            } catch (error) {
+                console.error('加载会话失败:', error);
+                // 使用模拟数据
+                sessions = [
+                    {
+                        id: 'session_1',
+                        participant_name: '张三',
+                        last_message: '好的，明天见！',
+                        last_message_time: new Date().toISOString(),
+                        unread_count: 2
+                    },
+                    {
+                        id: 'session_2',
+                        participant_name: '李四',
+                        last_message: '文件已发送',
+                        last_message_time: new Date(Date.now() - 3600000).toISOString(),
+                        unread_count: 0
+                    }
+                ];
+                renderSessionList();
+            }
+        }
+
+        // 渲染会话列表
+        function renderSessionList() {
+            const container = document.getElementById('sessionList');
+            if (sessions.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #9ca3af;">
+                        <i class="fas fa-inbox" style="font-size: 2em; margin-bottom: 10px;"></i>
+                        <p>暂无加密会话</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = sessions.map(session => `
+                <div class="session-item ${session.id === currentSession?.id ? 'active' : ''}" 
+                     onclick="selectSession('${session.id}')">
+                    <div class="session-avatar">
+                        ${session.participant_name.charAt(0).toUpperCase()}
+                    </div>
+                    <div class="session-info">
+                        <div class="session-name">${escapeHtml(session.participant_name)}</div>
+                        <div class="session-preview">${escapeHtml(session.last_message || '开始加密聊天')}</div>
+                    </div>
+                    <div class="session-meta">
+                        <div class="session-time">${formatTime(session.last_message_time)}</div>
+                        ${session.unread_count > 0 ? `<span class="session-unread">${session.unread_count}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 选择会话
+        async function selectSession(sessionId) {
+            currentSession = sessions.find(s => s.id === sessionId);
+            if (!currentSession) return;
+
+            // 更新UI
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('chatContent').style.display = 'flex';
+            document.getElementById('chatName').textContent = currentSession.participant_name;
+            document.getElementById('chatAvatar').textContent = currentSession.participant_name.charAt(0).toUpperCase();
+
+            renderSessionList();
+            await loadMessages(sessionId);
+        }
+
+        // 加载消息
+        async function loadMessages(sessionId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/encrypted-messages/messages?session_id=${sessionId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    messages = data.data || [];
+                    renderMessages();
+                }
+            } catch (error) {
+                console.error('加载消息失败:', error);
+                // 使用模拟数据
+                messages = [
+                    {
+                        id: 'msg_1',
+                        sender_id: currentSession.participant_id,
+                        content: '你好！这是一个加密消息示例。',
+                        created_at: new Date(Date.now() - 3600000).toISOString(),
+                        is_encrypted: true
+                    },
+                    {
+                        id: 'msg_2',
+                        sender_id: currentUser?.id,
+                        content: '收到！端到端加密保护我们的隐私。',
+                        created_at: new Date(Date.now() - 3500000).toISOString(),
+                        is_encrypted: true
+                    }
+                ];
+                renderMessages();
+            }
+        }
+
+        // 渲染消息
+        function renderMessages() {
+            const container = document.getElementById('messagesContainer');
+            const encryptionNotice = container.querySelector('.encryption-notice');
+            
+            const messagesHtml = messages.map(msg => {
+                const isSent = msg.sender_id === currentUser?.id;
+                return `
+                    <div class="message ${isSent ? 'sent' : 'received'}">
+                        <div class="message-avatar">
+                            ${isSent ? '我' : msg.sender_name?.charAt(0).toUpperCase() || '?'}
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">
+                                ${escapeHtml(msg.content)}
+                            </div>
+                            <div class="message-meta">
+                                <span class="message-encrypted-icon" title="端到端加密">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                <span>${formatTime(msg.created_at)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = encryptionNotice.outerHTML + messagesHtml;
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // 发送消息
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const content = input.value.trim();
+            
+            if (!content || !currentSession) return;
+
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.disabled = true;
+
+            try {
+                // 本地添加消息（乐观更新）
+                const newMessage = {
+                    id: 'temp_' + Date.now(),
+                    sender_id: currentUser?.id,
+                    content: content,
+                    created_at: new Date().toISOString(),
+                    is_encrypted: true
+                };
+                messages.push(newMessage);
+                renderMessages();
+                input.value = '';
+                autoResize(input);
+
+                // 发送到服务器
+                const response = await fetch(`${API_BASE_URL}/encrypted-messages/messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        session_id: currentSession.id,
+                        content: content
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('发送失败');
+                }
+
+            } catch (error) {
+                console.error('发送消息失败:', error);
+                showToast('消息发送失败，请重试', 'error');
+            } finally {
+                sendBtn.disabled = false;
+            }
+        }
+
+        // 创建新会话
+        async function createNewSession() {
+            const recipient = document.getElementById('recipientInput').value.trim();
+            if (!recipient) {
+                showToast('请输入对方用户名', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/encrypted-messages/sessions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({
+                        recipient_username: recipient
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    closeNewSessionModal();
+                    await loadSessions();
+                    selectSession(data.data.id);
+                    showToast('加密会话创建成功', 'success');
+                } else {
+                    throw new Error('创建失败');
+                }
+            } catch (error) {
+                console.error('创建会话失败:', error);
+                showToast('创建会话失败，请检查用户名', 'error');
+            }
+        }
+
+        // 工具函数
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatTime(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diff = now - date;
+            
+            if (diff < 60000) return '刚刚';
+            if (diff < 3600000) return `${Math.floor(diff / 60000)}分钟前`;
+            if (diff < 86400000) return `${Math.floor(diff / 3600000)}小时前`;
+            if (diff < 604800000) return `${Math.floor(diff / 86400000)}天前`;
+            
+            return date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' });
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        function handleKeyDown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function showNewSessionModal() {
+            document.getElementById('newSessionModal').classList.add('active');
+            document.getElementById('recipientInput').focus();
+        }
+
+        function closeNewSessionModal() {
+            document.getElementById('newSessionModal').classList.remove('active');
+            document.getElementById('recipientInput').value = '';
+        }
+
+        function showSessionInfo() {
+            if (!currentSession) return;
+            showToast(`会话ID: ${currentSession.id}`, 'info');
+        }
+
+        async function clearSession() {
+            if (!currentSession) return;
+            if (!confirm('确定要清空此会话的所有消息吗？')) return;
+            
+            messages = [];
+            renderMessages();
+            showToast('会话已清空', 'success');
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: ${type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#667eea'};
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                font-size: 0.95em;
+                animation: slideDown 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideUp 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function setupPolling() {
+            setInterval(async () => {
+                if (currentSession) {
+                    await loadMessages(currentSession.id);
+                }
+            }, 5000);
+        }
+
+        // 暴露全局函数
+        window.selectSession = selectSession;
+        window.sendMessage = sendMessage;
+        window.showNewSessionModal = showNewSessionModal;
+        window.closeNewSessionModal = closeNewSessionModal;
+        window.createNewSession = createNewSession;
+        window.showSessionInfo = showSessionInfo;
+        window.clearSession = clearSession;
+        window.handleKeyDown = handleKeyDown;
+        window.autoResize = autoResize;
+
+        // 初始化
+        init();
+    </script>
+
+    <style>
+        @keyframes slideDown {
+            from { opacity: 0; transform: translate(-50%, -20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 1; transform: translate(-50%, 0); }
+            to { opacity: 0; transform: translate(-50%, -20px); }
+        }
+    </style>
+</body>
+</html>

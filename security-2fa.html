@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双因素认证 - 安全中心 | Hakimi 的猫爬架</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <style>
+        .security-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .security-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .security-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .security-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+        .security-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        .security-subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .status-enabled {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-disabled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .setup-section {
+            margin-top: 24px;
+        }
+        .qr-container {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .qr-code {
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        .secret-key {
+            font-family: monospace;
+            background: #e9ecef;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+        .backup-codes {
+            background: #fff3cd;
+            border: 2px dashed #ffc107;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .backup-codes-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .backup-code {
+            font-family: monospace;
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffc107;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #28a745;
+        }
+        .methods-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .method-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        .method-item:hover {
+            border-color: #667eea;
+        }
+        .method-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .method-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="chinese-style-wrapper">
+        <nav class="top-nav">
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">🏠 首页</a>
+                <a href="profile.html" class="nav-link">👤 个人中心</a>
+                <a href="security-center.html" class="nav-link active">🛡️ 安全中心</a>
+            </div>
+        </nav>
+
+        <div class="security-container">
+            <div class="security-card">
+                <div class="security-header">
+                    <div class="security-icon">🔐</div>
+                    <div>
+                        <div class="security-title">双因素认证 (2FA)</div>
+                        <div class="security-subtitle">为您的账户添加额外的安全保护</div>
+                    </div>
+                </div>
+
+                <div id="statusSection">
+                    <p>当前状态：<span id="statusBadge" class="status-badge status-disabled">● 未启用</span></p>
+                    <p style="margin-top: 10px; color: #666;">启用 2FA 后，登录时需要输入验证码，大大提升账户安全性。</p>
+                </div>
+
+                <div class="methods-list" style="margin-top: 24px;">
+                    <div class="method-item" id="totpMethod">
+                        <div class="method-info">
+                            <div class="method-icon">📱</div>
+                            <div>
+                                <div style="font-weight: 600;">身份验证器应用</div>
+                                <div style="font-size: 0.85rem; color: #666;">使用 Google Authenticator、Microsoft Authenticator 等应用</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="setupTOTP()">设置</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOTP 设置模态框 -->
+            <div id="setupModal" class="security-card hidden">
+                <h3 style="margin-bottom: 20px;">设置身份验证器</h3>
+                
+                <div class="alert alert-warning">
+                    <strong>⚠️ 重要提示</strong><br>
+                    请妥善保管备用恢复码。如果您丢失了手机，可以使用恢复码来恢复账户访问。
+                </div>
+
+                <div id="step1">
+                    <p>1. 在手机上安装身份验证器应用（如 Google Authenticator）</p>
+                    <p>2. 扫描下方二维码或手动输入密钥</p>
+                    
+                    <div class="qr-container">
+                        <img id="qrCode" class="qr-code" src="" alt="QR Code">
+                        <div class="secret-key" id="secretKey"></div>
+                        <button class="btn btn-secondary" onclick="copySecret()">复制密钥</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">输入验证码以确认设置</label>
+                        <input type="text" id="verifyCode" class="form-input" placeholder="请输入6位验证码" maxlength="6">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="verifyAndEnable()">验证并启用</button>
+                </div>
+
+                <div id="step2" class="hidden">
+                    <div class="alert alert-success">
+                        <strong>✅ 2FA 已成功启用！</strong>
+                    </div>
+                    
+                    <div class="backup-codes">
+                        <h4>🔑 备用恢复码</h4>
+                        <p style="font-size: 0.9rem; color: #856404;">请将这些恢复码保存在安全的地方。每个恢复码只能使用一次。</p>
+                        <div class="backup-codes-grid" id="backupCodesGrid"></div>
+                        <button class="btn btn-secondary" onclick="downloadBackupCodes()" style="margin-top: 15px;">下载恢复码</button>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="finishSetup()">完成</button>
+                </div>
+            </div>
+
+            <!-- 禁用 2FA 模态框 -->
+            <div id="disableModal" class="security-card hidden">
+                <h3 style="margin-bottom: 20px; color: #dc3545;">禁用双因素认证</h3>
+                
+                <div class="alert alert-warning">
+                    <strong>⚠️ 警告</strong><br>
+                    禁用 2FA 会降低您账户的安全性。确定要继续吗？
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">输入密码确认</label>
+                    <input type="password" id="disablePassword" class="form-input" placeholder="请输入您的密码">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">输入 2FA 验证码（如已启用）</label>
+                    <input type="text" id="disableCode" class="form-input" placeholder="请输入6位验证码" maxlength="6">
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-danger" onclick="confirmDisable()">确认禁用</button>
+                    <button class="btn btn-secondary" onclick="cancelDisable()">取消</button>
+                </div>
+            </div>
+
+            <!-- 重新生成备用码 -->
+            <div class="security-card" id="backupSection" style="display: none;">
+                <h3 style="margin-bottom: 16px;">备用恢复码</h3>
+                <p style="color: #666; margin-bottom: 20px;">如果您丢失了手机，可以使用备用恢复码来访问您的账户。每个恢复码只能使用一次。</p>
+                <button class="btn btn-secondary" onclick="regenerateBackupCodes()">重新生成恢复码</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script type="module">
+        import { API_BASE_URL } from './js/api-config.js';
+
+        let setupData = null;
+        let backupCodes = [];
+
+        // 页面加载时检查 2FA 状态
+        async function checkStatus() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                const response = await fetch(`${API_BASE_URL}/2fa/status`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+                
+                if (data.success && data.data.enabled) {
+                    document.getElementById('statusBadge').className = 'status-badge status-enabled';
+                    document.getElementById('statusBadge').textContent = '● 已启用';
+                    document.getElementById('totpMethod').querySelector('button').textContent = '管理';
+                    document.getElementById('totpMethod').querySelector('button').onclick = showManageOptions;
+                    document.getElementById('backupSection').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Check 2FA status error:', error);
+            }
+        }
+
+        // 设置 TOTP
+        window.setupTOTP = async function() {
+            showLoading(true);
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${API_BASE_URL}/2fa/totp/setup`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    setupData = data.data;
+                    document.getElementById('qrCode').src = data.data.qrCode;
+                    document.getElementById('secretKey').textContent = data.data.secret;
+                    document.getElementById('setupModal').classList.remove('hidden');
+                } else {
+                    alert(data.message || '设置失败');
+                }
+            } catch (error) {
+                console.error('Setup TOTP error:', error);
+                alert('设置失败，请重试');
+            }
+            showLoading(false);
+        };
+
+        // 复制密钥
+        window.copySecret = function() {
+            if (setupData) {
+                navigator.clipboard.writeText(setupData.secret);
+                alert('密钥已复制到剪贴板');
+            }
+        };
+
+        // 验证并启用
+        window.verifyAndEnable = async function() {
+            const code = document.getElementById('verifyCode').value;
+            if (!code || code.length !== 6) {
+                alert('请输入6位验证码');
+                return;
+            }
+
+            showLoading(true);
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${API_BASE_URL}/2fa/totp/verify`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token: code })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    backupCodes = data.data.backupCodes;
+                    document.getElementById('step1').classList.add('hidden');
+                    document.getElementById('step2').classList.remove('hidden');
+                    
+                    // 显示备用码
+                    const grid = document.getElementById('backupCodesGrid');
+                    grid.innerHTML = backupCodes.map(code => 
+                        `<div class="backup-code">${code}</div>`
+                    ).join('');
+                } else {
+                    alert(data.message || '验证失败');
+                }
+            } catch (error) {
+                console.error('Verify error:', error);
+                alert('验证失败，请重试');
+            }
+            showLoading(false);
+        };
+
+        // 下载备用码
+        window.downloadBackupCodes = function() {
+            const content = `Hakimi Blog - 2FA 备用恢复码
+生成时间: ${new Date().toLocaleString()}
+
+${backupCodes.join('\n')}
+
+⚠️ 请妥善保管这些恢复码，每个恢复码只能使用一次。`;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '2fa-backup-codes.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        };
+
+        // 完成设置
+        window.finishSetup = function() {
+            location.reload();
+        };
+
+        // 显示管理选项
+        window.showManageOptions = function() {
+            const action = confirm('点击"确定"禁用 2FA，点击"取消"重新生成备用码');
+            if (action) {
+                document.getElementById('disableModal').classList.remove('hidden');
+            } else {
+                regenerateBackupCodes();
+            }
+        };
+
+        // 确认禁用
+        window.confirmDisable = async function() {
+            const password = document.getElementById('disablePassword').value;
+            const code = document.getElementById('disableCode').value;
+
+            if (!password) {
+                alert('请输入密码');
+                return;
+            }
+
+            showLoading(true);
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${API_BASE_URL}/2fa/totp/disable`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ password, token: code })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('2FA 已禁用');
+                    location.reload();
+                } else {
+                    alert(data.message || '禁用失败');
+                }
+            } catch (error) {
+                console.error('Disable error:', error);
+                alert('禁用失败，请重试');
+            }
+            showLoading(false);
+        };
+
+        // 取消禁用
+        window.cancelDisable = function() {
+            document.getElementById('disableModal').classList.add('hidden');
+        };
+
+        // 重新生成备用码
+        window.regenerateBackupCodes = async function() {
+            const code = prompt('请输入当前的 2FA 验证码：');
+            if (!code) return;
+
+            showLoading(true);
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${API_BASE_URL}/2fa/backup-codes/regenerate`, {
+                    method: 'POST',
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token: code })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    backupCodes = data.data.backupCodes;
+                    alert('新的备用码已生成，请妥善保管！\n\n' + backupCodes.join('\n'));
+                } else {
+                    alert(data.message || '生成失败');
+                }
+            } catch (error) {
+                console.error('Regenerate error:', error);
+                alert('生成失败，请重试');
+            }
+            showLoading(false);
+        };
+
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').classList.toggle('hidden', !show);
+        }
+
+        // 初始化
+        checkStatus();
+    </script>
+</body>
+</html>

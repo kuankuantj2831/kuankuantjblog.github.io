@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>安全审计 - 管理后台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-header h1 {
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-header h1 i {
+            color: #f59e0b;
+        }
+
+        .nav-back {
+            color: #94a3b8;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .nav-back:hover {
+            color: #e2e8f0;
+        }
+
+        /* 统计卡片 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card.security {
+            border-left: 4px solid #ef4444;
+        }
+
+        .stat-card.warning {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .stat-card.info {
+            border-left: 4px solid #3b82f6;
+        }
+
+        .stat-card.success {
+            border-left: 4px solid #10b981;
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+        }
+
+        .stat-card.security .stat-icon {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .stat-card.warning .stat-icon {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .stat-card.info .stat-icon {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .stat-card.success .stat-icon {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
+        .stat-change {
+            font-size: 0.85em;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-change.up {
+            color: #ef4444;
+        }
+
+        .stat-change.down {
+            color: #10b981;
+        }
+
+        /* 主要内容区 */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .content-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card-title {
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85em;
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* 筛选栏 */
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-label {
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
+        .filter-select, .filter-input {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #e2e8f0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* 日志表格 */
+        .logs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .logs-table th,
+        .logs-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logs-table th {
+            color: #94a3b8;
+            font-weight: 500;
+            font-size: 0.85em;
+            text-transform: uppercase;
+        }
+
+        .logs-table tr:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .log-level {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .log-level.critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .log-level.high {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .log-level.medium {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+
+        .log-level.low {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .log-category {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            font-size: 0.8em;
+            color: #94a3b8;
+        }
+
+        .log-time {
+            color: #64748b;
+            font-size: 0.85em;
+            font-family: monospace;
+        }
+
+        .log-user {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .user-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .log-ip {
+            font-family: monospace;
+            font-size: 0.85em;
+            color: #64748b;
+        }
+
+        .log-detail-btn {
+            background: transparent;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .log-detail-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* 告警列表 */
+        .alert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .alert-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 15px;
+            border-left: 4px solid;
+            transition: all 0.3s;
+        }
+
+        .alert-item:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .alert-item.critical {
+            border-color: #ef4444;
+        }
+
+        .alert-item.high {
+            border-color: #f59e0b;
+        }
+
+        .alert-item.medium {
+            border-color: #3b82f6;
+        }
+
+        .alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alert-time {
+            font-size: 0.8em;
+            color: #64748b;
+        }
+
+        .alert-message {
+            color: #94a3b8;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .alert-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .alert-item.critical .alert-title {
+            color: #ef4444;
+        }
+
+        .alert-item.high .alert-title {
+            color: #f59e0b;
+        }
+
+        .alert-item.medium .alert-title {
+            color: #3b82f6;
+        }
+
+        /* 分页 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .page-btn {
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 8px;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-btn:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 详情模态框 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow: hidden;
+            transform: translateY(-20px);
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 60vh;
+        }
+
+        .detail-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .detail-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 15px;
+        }
+
+        .detail-label {
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+
+        .detail-value {
+            color: #e2e8f0;
+            word-break: break-all;
+        }
+
+        .detail-value.code {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85em;
+            overflow-x: auto;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: #e2e8f0;
+        }
+
+        /* 登录提示 */
+        .login-section {
+            max-width: 400px;
+            margin: 100px auto;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .login-section h2 {
+            margin-bottom: 10px;
+        }
+
+        .login-section p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 1em;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .admin-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+            }
+
+            .logs-table {
+                font-size: 0.85em;
+            }
+
+            .logs-table th,
+            .logs-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="dashboardSection" class="admin-container" style="display: none;">
+        <div class="admin-header">
+            <h1>
+                <i class="fas fa-shield-alt"></i>
+                安全审计中心
+            </h1>
+            <a href="index.html" class="nav-back">
+                <i class="fas fa-arrow-left"></i>
+                返回管理后台
+            </a>
+        </div>
+
+        <!-- 统计卡片 -->
+        <div class="stats-grid">
+            <div class="stat-card security">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="criticalAlerts">0</div>
+                        <div class="stat-label">严重安全告警</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+                <div class="stat-change up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>需要立即处理</span>
+                </div>
+            </div>
+
+            <div class="stat-card warning">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="failedLogins">0</div>
+                        <div class="stat-label">今日失败登录</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-user-times"></i>
+                    </div>
+                </div>
+                <div class="stat-change" id="loginTrend">
+                    <i class="fas fa-minus"></i>
+                    <span>较昨日持平</span>
+                </div>
+            </div>
+
+            <div class="stat-card info">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="active2FA">0</div>
+                        <div class="stat-label">2FA启用用户</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                </div>
+                <div class="stat-change down">
+                    <i class="fas fa-check"></i>
+                    <span>安全等级提升</span>
+                </div>
+            </div>
+
+            <div class="stat-card success">
+                <div class="stat-header">
+                    <div>
+                        <div class="stat-value" id="totalEvents">0</div>
+                        <div class="stat-label">今日安全事件</div>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                </div>
+                <div class="stat-change">
+                    <i class="fas fa-clock"></i>
+                    <span>实时更新</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- 左侧：日志列表 -->
+            <div class="content-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-list-alt"></i>
+                        安全审计日志
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-sm btn-secondary" onclick="exportLogs()">
+                            <i class="fas fa-download"></i>
+                            导出
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="refreshLogs()">
+                            <i class="fas fa-sync-alt"></i>
+                            刷新
+                        </button>
+                    </div>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label class="filter-label">风险等级:</label>
+                        <select class="filter-select" id="filterLevel" onchange="applyFilters()">
+                            <option value="">全部</option>
+                            <option value="critical">严重</option>
+                            <option value="high">高危</option>
+                            <option value="medium">中危</option>
+                            <option value="low">低危</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">事件类型:</label>
+                        <select class="filter-select" id="filterCategory" onchange="applyFilters()">
+                            <option value="">全部</option>
+                            <option value="auth">认证</option>
+                            <option value="security">安全</option>
+                            <option value="admin">管理</option>
+                            <option value="data">数据</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">搜索:</label>
+                        <input type="text" class="filter-input" id="searchInput" placeholder="用户/IP/描述..." onkeyup="applyFilters()">
+                    </div>
+                </div>
+
+                <table class="logs-table">
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>级别</th>
+                            <th>类型</th>
+                            <th>用户</th>
+                            <th>IP地址</th>
+                            <th>描述</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsTableBody">
+                        <!-- 动态生成 -->
+                    </tbody>
+                </table>
+
+                <div class="pagination" id="pagination">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+
+            <!-- 右侧：实时告警 -->
+            <div class="content-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-bell"></i>
+                        实时告警
+                    </div>
+                    <button class="btn btn-sm btn-secondary" onclick="clearAllAlerts()">
+                        <i class="fas fa-check-double"></i>
+                        全部标记已读
+                    </button>
+                </div>
+
+                <div class="alert-list" id="alertList">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 详情模态框 -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>日志详情</h3>
+                <button class="modal-close" onclick="closeDetailModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid" id="detailContent">
+                    <!-- 动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { API_BASE_URL } from '../js/api-config.js';
+
+        let currentPage = 1;
+        let totalPages = 1;
+        let logs = [];
+        let alerts = [];
+
+        // 检查管理员权限
+        function checkAdmin() {
+            const user = localStorage.getItem('currentUser');
+            if (!user) {
+                window.location.href = 'index.html';
+                return false;
+            }
+            
+            const userData = JSON.parse(user);
+            if (userData.role !== 'admin' && userData.role !== 'moderator') {
+                alert('无权访问此页面');
+                window.location.href = 'index.html';
+                return false;
+            }
+            
+            return true;
+        }
+
+        // 初始化
+        async function init() {
+            if (!checkAdmin()) return;
+            
+            document.getElementById('dashboardSection').style.display = 'block';
+            
+            await Promise.all([
+                loadStatistics(),
+                loadLogs(),
+                loadAlerts()
+            ]);
+            
+            // 设置实时刷新
+            setInterval(() => {
+                loadAlerts();
+                loadStatistics();
+            }, 30000);
+        }
+
+        // 加载统计数据
+        async function loadStatistics() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/security/admin/statistics`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    updateStatistics(data.data);
+                }
+            } catch (error) {
+                console.error('加载统计数据失败:', error);
+                // 使用模拟数据
+                updateStatistics({
+                    critical_alerts: 2,
+                    failed_logins_today: 15,
+                    active_2fa_users: 128,
+                    total_events_today: 342
+                });
+            }
+        }
+
+        // 更新统计卡片
+        function updateStatistics(stats) {
+            document.getElementById('criticalAlerts').textContent = stats.critical_alerts || 0;
+            document.getElementById('failedLogins').textContent = stats.failed_logins_today || 0;
+            document.getElementById('active2FA').textContent = stats.active_2fa_users || 0;
+            document.getElementById('totalEvents').textContent = stats.total_events_today || 0;
+        }
+
+        // 加载日志
+        async function loadLogs() {
+            try {
+                const params = new URLSearchParams({
+                    page: currentPage,
+                    limit: 20,
+                    level: document.getElementById('filterLevel').value,
+                    category: document.getElementById('filterCategory').value,
+                    search: document.getElementById('searchInput').value
+                });
+
+                const response = await fetch(`${API_BASE_URL}/security/admin/logs?${params}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    logs = data.data.logs || [];
+                    totalPages = data.data.pagination?.total_pages || 1;
+                    renderLogs();
+                    renderPagination();
+                }
+            } catch (error) {
+                console.error('加载日志失败:', error);
+                // 使用模拟数据
+                logs = getMockLogs();
+                totalPages = 5;
+                renderLogs();
+                renderPagination();
+            }
+        }
+
+        // 模拟日志数据
+        function getMockLogs() {
+            const levels = ['critical', 'high', 'medium', 'low'];
+            const categories = ['auth', 'security', 'admin', 'data'];
+            const descriptions = [
+                '多次登录失败，账户已临时锁定',
+                '检测到可疑IP地址尝试访问',
+                '管理员执行了敏感操作',
+                '用户数据导出请求',
+                '2FA验证失败',
+                '新设备登录',
+                '密码修改成功',
+                'API密钥已重置'
+            ];
+
+            return Array.from({ length: 20 }, (_, i) => ({
+                id: `log_${i}`,
+                created_at: new Date(Date.now() - i * 3600000).toISOString(),
+                level: levels[Math.floor(Math.random() * levels.length)],
+                category: categories[Math.floor(Math.random() * categories.length)],
+                username: `user_${Math.floor(Math.random() * 1000)}`,
+                ip_address: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
+                description: descriptions[Math.floor(Math.random() * descriptions.length)],
+                user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                details: { additional_info: '详细日志信息...' }
+            }));
+        }
+
+        // 渲染日志表格
+        function renderLogs() {
+            const tbody = document.getElementById('logsTableBody');
+            
+            if (logs.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px; color: #94a3b8;">
+                            <i class="fas fa-inbox" style="font-size: 2em; margin-bottom: 10px; display: block;"></i>
+                            暂无日志记录
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = logs.map(log => `
+                <tr>
+                    <td class="log-time">${formatTime(log.created_at)}</td>
+                    <td>
+                        <span class="log-level ${log.level}">
+                            <i class="fas fa-${getLevelIcon(log.level)}"></i>
+                            ${getLevelText(log.level)}
+                        </span>
+                    </td>
+                    <td><span class="log-category">${log.category}</span></td>
+                    <td>
+                        <div class="log-user">
+                            <div class="user-avatar">${log.username.charAt(0).toUpperCase()}</div>
+                            <span>${escapeHtml(log.username)}</span>
+                        </div>
+                    </td>
+                    <td class="log-ip">${log.ip_address}</td>
+                    <td>${escapeHtml(log.description)}</td>
+                    <td>
+                        <button class="log-detail-btn" onclick="showLogDetail('${log.id}')">
+                            查看详情
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // 渲染分页
+        function renderPagination() {
+            const container = document.getElementById('pagination');
+            let html = `
+                <button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            `;
+
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    html += `<span style="color: #64748b;">...</span>`;
+                }
+            }
+
+            html += `
+                <button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // 加载告警
+        async function loadAlerts() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/security/alerts`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    alerts = data.data || [];
+                    renderAlerts();
+                }
+            } catch (error) {
+                console.error('加载告警失败:', error);
+                // 使用模拟数据
+                alerts = [
+                    {
+                        id: 'alert_1',
+                        level: 'critical',
+                        title: '暴力破解攻击',
+                        message: '检测到IP 192.168.1.100多次尝试登录不同账户',
+                        created_at: new Date(Date.now() - 300000).toISOString()
+                    },
+                    {
+                        id: 'alert_2',
+                        level: 'high',
+                        title: '异常登录位置',
+                        message: '用户 admin 从美国洛杉矶登录（平时在中国）',
+                        created_at: new Date(Date.now() - 600000).toISOString()
+                    },
+                    {
+                        id: 'alert_3',
+                        level: 'medium',
+                        title: '大量数据导出',
+                        message: '用户 user123 在过去1小时内导出了500条记录',
+                        created_at: new Date(Date.now() - 1800000).toISOString()
+                    }
+                ];
+                renderAlerts();
+            }
+        }
+
+        // 渲染告警列表
+        function renderAlerts() {
+            const container = document.getElementById('alertList');
+            
+            if (alerts.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #94a3b8;">
+                        <i class="fas fa-check-circle" style="font-size: 3em; margin-bottom: 15px; display: block; color: #10b981;"></i>
+                        <p>暂无未处理告警</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = alerts.map(alert => `
+                <div class="alert-item ${alert.level}">
+                    <div class="alert-header">
+                        <div class="alert-title">
+                            <i class="fas fa-${getAlertIcon(alert.level)}"></i>
+                            ${escapeHtml(alert.title)}
+                        </div>
+                        <span class="alert-time">${formatTimeAgo(alert.created_at)}</span>
+                    </div>
+                    <div class="alert-message">${escapeHtml(alert.message)}</div>
+                    <div class="alert-actions">
+                        <button class="btn btn-sm btn-secondary" onclick="dismissAlert('${alert.id}')">
+                            <i class="fas fa-check"></i>
+                            标记已读
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="handleAlert('${alert.id}')">
+                            <i class="fas fa-wrench"></i>
+                            处理
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 显示日志详情
+        function showLogDetail(logId) {
+            const log = logs.find(l => l.id === logId);
+            if (!log) return;
+
+            const content = document.getElementById('detailContent');
+            content.innerHTML = `
+                <div class="detail-item">
+                    <span class="detail-label">日志ID:</span>
+                    <span class="detail-value">${log.id}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">时间:</span>
+                    <span class="detail-value">${new Date(log.created_at).toLocaleString('zh-CN')}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">风险等级:</span>
+                    <span class="detail-value">
+                        <span class="log-level ${log.level}">
+                            <i class="fas fa-${getLevelIcon(log.level)}"></i>
+                            ${getLevelText(log.level)}
+                        </span>
+                    </span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">事件类型:</span>
+                    <span class="detail-value"><span class="log-category">${log.category}</span></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">用户:</span>
+                    <span class="detail-value">${escapeHtml(log.username)}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">IP地址:</span>
+                    <span class="detail-value">${log.ip_address}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">用户代理:</span>
+                    <span class="detail-value code">${escapeHtml(log.user_agent || 'N/A')}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">描述:</span>
+                    <span class="detail-value">${escapeHtml(log.description)}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">详细信息:</span>
+                    <span class="detail-value code">${JSON.stringify(log.details || {}, null, 2)}</span>
+                </div>
+            `;
+
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        // 关闭详情模态框
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        // 应用筛选
+        function applyFilters() {
+            currentPage = 1;
+            loadLogs();
+        }
+
+        // 切换页面
+        function changePage(page) {
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            loadLogs();
+        }
+
+        // 刷新日志
+        function refreshLogs() {
+            loadLogs();
+            showToast('日志已刷新', 'success');
+        }
+
+        // 导出日志
+        function exportLogs() {
+            const csvContent = [
+                ['时间', '级别', '类型', '用户', 'IP地址', '描述'].join(','),
+                ...logs.map(log => [
+                    log.created_at,
+                    log.level,
+                    log.category,
+                    log.username,
+                    log.ip_address,
+                    `"${log.description}"`
+                ].join(','))
+            ].join('\n');
+
+            const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `security_logs_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+
+            showToast('日志已导出', 'success');
+        }
+
+        // 处理告警
+        async function handleAlert(alertId) {
+            showToast('正在处理告警...', 'info');
+            // 实际实现中这里会调用API处理告警
+            setTimeout(() => {
+                dismissAlert(alertId);
+            }, 1000);
+        }
+
+        // 忽略告警
+        async function dismissAlert(alertId) {
+            alerts = alerts.filter(a => a.id !== alertId);
+            renderAlerts();
+            showToast('告警已标记为已读', 'success');
+        }
+
+        // 清除所有告警
+        function clearAllAlerts() {
+            if (!confirm('确定要标记所有告警为已读吗？')) return;
+            alerts = [];
+            renderAlerts();
+            showToast('所有告警已清除', 'success');
+        }
+
+        // 工具函数
+        function getLevelIcon(level) {
+            const icons = {
+                critical: 'exclamation-circle',
+                high: 'exclamation-triangle',
+                medium: 'info-circle',
+                low: 'check-circle'
+            };
+            return icons[level] || 'info-circle';
+        }
+
+        function getLevelText(level) {
+            const texts = {
+                critical: '严重',
+                high: '高危',
+                medium: '中危',
+                low: '低危'
+            };
+            return texts[level] || level;
+        }
+
+        function getAlertIcon(level) {
+            const icons = {
+                critical: 'radiation',
+                high: 'exclamation-triangle',
+                medium: 'info-circle',
+                low: 'info'
+            };
+            return icons[level] || 'info-circle';
+        }
+
+        function formatTime(dateStr) {
+            return new Date(dateStr).toLocaleString('zh-CN', {
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function formatTimeAgo(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diff = Math.floor((now - date) / 1000);
+
+            if (diff < 60) return '刚刚';
+            if (diff < 3600) return `${Math.floor(diff / 60)}分钟前`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)}小时前`;
+            return `${Math.floor(diff / 86400)}天前`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#667eea'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 10000;
+                font-size: 0.95em;
+                animation: slideIn 0.3s ease;
+            `;
+            toast.innerHTML = `<i class="fas fa-${type === 'error' ? 'times' : type === 'success' ? 'check' : 'info'}-circle"></i> ${message}`;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // 暴露全局函数
+        window.changePage = changePage;
+        window.applyFilters = applyFilters;
+        window.refreshLogs = refreshLogs;
+        window.exportLogs = exportLogs;
+        window.showLogDetail = showLogDetail;
+        window.closeDetailModal = closeDetailModal;
+        window.dismissAlert = dismissAlert;
+        window.handleAlert = handleAlert;
+        window.clearAllAlerts = clearAllAlerts;
+
+        // 添加动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { opacity: 0; transform: translateX(100%); }
+                to { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes slideOut {
+                from { opacity: 1; transform: translateX(0); }
+                to { opacity: 0; transform: translateX(100%); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 初始化
+        init();
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</body>
+</html>

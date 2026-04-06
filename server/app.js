@@ -200,6 +200,17 @@ const groupsRoutes = require('./routes/groups');
 app.use('/qna', qnaBountyRoutes); // 问答悬赏系统 - 提问、回答、采纳、金币悬赏
 app.use('/groups', groupsRoutes); // 话题圈子系统 - 创建圈子、发帖、评论
 
+// 第八轮功能 - 安全与隐私增强 - 2FA、加密消息、安全审计、隐私保护
+const twoFactorRoutes = require('./routes/2fa');
+const { router: securityAuditRouter } = require('./routes/security-audit');
+const privacyRoutes = require('./routes/privacy');
+const encryptedMessageRoutes = require('./routes/encrypted-messages');
+
+app.use('/2fa', twoFactorRoutes); // 双因素认证 - TOTP、备用码
+app.use('/security', securityAuditRouter); // 安全审计日志
+app.use('/privacy', privacyRoutes); // 隐私设置与GDPR
+app.use('/encrypted-messages', encryptedMessageRoutes); // 端到端加密消息
+
 app.get('/', (req, res) => {
     res.send('My Blog API is running!');
 });
