@@ -829,9 +829,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 调用公众号授权登录
                 wechatLogin.mpAuthLogin();
             } else {
-                // 非微信浏览器，提示用户使用微信扫一扫
-                alert('请使用微信扫一扫功能扫描此页面二维码，或在微信内打开此页面进行登录');
-                // 可选：显示一个二维码弹窗
+                // 非微信浏览器，直接显示二维码弹窗
                 showWechatQRModal();
             }
         });
