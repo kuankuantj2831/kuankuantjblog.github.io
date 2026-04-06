@@ -122,14 +122,14 @@ const adminDashboardRoutes = require('./routes/admin-dashboard');
 const aiFeaturesRoutes = require('./routes/ai-features');
 const multimediaRoutes = require('./routes/multimedia');
 const socialEnhancedRoutes = require('./routes/social-enhanced');
-const seoMarketingRoutes = require('./routes/seo-marketing');
-const securityBackupRoutes = require('./routes/security-backup');
+// const seoMarketingRoutes = require('./routes/seo-marketing'); // 依赖 @supabase/supabase-js
+// const securityBackupRoutes = require('./routes/security-backup'); // 依赖 @supabase/supabase-js
 
 // 第四轮功能 - 电商、付费内容、数据分析、国际化、第三方集成
-const ecommerceRoutes = require('./routes/ecommerce');
-const premiumContentRoutes = require('./routes/premium-content');
-const analyticsAdvancedRoutes = require('./routes/analytics-advanced');
-const integrationsRoutes = require('./routes/integrations');
+// const ecommerceRoutes = require('./routes/ecommerce'); // 依赖 @supabase/supabase-js
+// const premiumContentRoutes = require('./routes/premium-content'); // 依赖 @supabase/supabase-js
+// const analyticsAdvancedRoutes = require('./routes/analytics-advanced'); // 依赖 @supabase/supabase-js
+// const integrationsRoutes = require('./routes/integrations'); // 依赖 @supabase/supabase-js
 
 app.use('/auth', authLimiter, authRoutes);
 app.use('/articles', articleRoutes);
@@ -154,51 +154,53 @@ app.use('/', readingRoutes); // 阅读体验 - 进度、偏好设置
 app.use('/', gamificationRouter); // 用户成长系统 - 等级、徽章、任务、商城
 app.use('/', recommendationRoutes); // 内容推荐 - 个性化推荐、热门、专题
 app.use('/', communityRoutes); // 社区互动 - 投票、问答、评论置顶
-app.use('/admin-dashboard', adminDashboardRoutes); // 管理后台 - 数据、审核、监控
+app.use('/admin-dashboard', adminDashboardRoutes.router); // 管理后台 - 数据、审核、监控
 
 // 第三轮功能 - AI增强、多媒体、社交深化、SEO营销、安全备份
 app.use('/ai', aiFeaturesRoutes); // AI功能 - 写作助手、翻译、摘要
 app.use('/', multimediaRoutes); // 多媒体 - 视频、音频、直播
 app.use('/', socialEnhancedRoutes); // 社交深化 - 私信、群组、活动
-app.use('/', seoMarketingRoutes); // SEO与营销 - 订阅、分享、推荐
-app.use('/security', securityBackupRoutes); // 安全与备份 - 2FA、设备、加密
+// app.use('/', seoMarketingRoutes); // SEO与营销 - 订阅、分享、推荐 (已禁用，依赖 @supabase/supabase-js)
+// app.use('/security', securityBackupRoutes); // 安全与备份 - 2FA、设备、加密 (已禁用，依赖 @supabase/supabase-js)
 
 // 第四轮功能 - 电商系统、付费内容、数据分析、第三方集成
-app.use('/', ecommerceRoutes); // 电子商务 - 商品、购物车、订单
-app.use('/', premiumContentRoutes); // 付费内容 - 会员、付费文章、打赏
-app.use('/', analyticsAdvancedRoutes); // 高级分析 - 热力图、漏斗、A/B测试
-app.use('/', integrationsRoutes); // 第三方集成 - 社交登录、支付、推送
+// app.use('/', ecommerceRoutes); // 电子商务 - 商品、购物车、订单 (已禁用，依赖 @supabase/supabase-js)
+// app.use('/', premiumContentRoutes); // 付费内容 - 会员、付费文章、打赏 (已禁用，依赖 @supabase/supabase-js)
+// app.use('/', analyticsAdvancedRoutes); // 高级分析 - 热力图、漏斗、A/B测试 (已禁用，依赖 @supabase/supabase-js)
+// app.use('/', integrationsRoutes); // 第三方集成 - 社交登录、支付、推送 (已禁用，依赖 @supabase/supabase-js)
 
 // 第五轮功能 - 企业级后台、RBAC权限、部署运维
-const adminEnterpriseRoutes = require('./routes/admin-enterprise');
-const { router: rbacRouter } = require('./routes/rbac');
+// const adminEnterpriseRoutes = require('./routes/admin-enterprise'); // 依赖 @supabase/supabase-js
+// const { router: rbacRouter } = require('./routes/rbac'); // 依赖 @supabase/supabase-js
 
-app.use('/admin-enterprise', adminEnterpriseRoutes); // 企业级后台 - 数据大屏、审核、配置
-app.use('/rbac', rbacRouter); // RBAC权限管理 - 角色、权限、部门、审计
+// app.use('/admin-enterprise', adminEnterpriseRoutes); // 企业级后台 - 数据大屏、审核、配置 (已禁用)
+// app.use('/rbac', rbacRouter); // RBAC权限管理 - 角色、权限、部门、审计 (已禁用)
 
 // 第六轮功能 - Web3/区块链、AI大模型、实时协作、游戏化社交、低代码、边缘计算PWA
-const web3Routes = require('./routes/web3');
+// const web3Routes = require('./routes/web3'); // 依赖 @supabase/supabase-js
 const aiAdvancedRoutes = require('./routes/ai-advanced');
-const collaborationRoutes = require('./routes/collaboration');
-const gamificationSocialRoutes = require('./routes/gamification-social');
-const lowcodeRoutes = require('./routes/lowcode');
-const pwaEdgeRoutes = require('./routes/pwa-edge');
-const wechatAuthRoutes = require('./routes/wechat-auth');
+// const collaborationRoutes = require('./routes/collaboration'); // 依赖 @supabase/supabase-js
+// const gamificationSocialRoutes = require('./routes/gamification-social'); // 依赖 @supabase/supabase-js
+// const lowcodeRoutes = require('./routes/lowcode'); // 依赖 @supabase/supabase-js
+// const pwaEdgeRoutes = require('./routes/pwa-edge'); // 依赖 @supabase/supabase-js
+const wechatAuthRoutes = require('./routes/wechat-auth'); // 微信登录 - 已改为MySQL版本
 
-app.use('/web3', web3Routes); // Web3与区块链 - 钱包、NFT、代币、IPFS
+// app.use('/web3', web3Routes); // Web3与区块链 - 钱包、NFT、代币、IPFS (已禁用)
 app.use('/ai', aiAdvancedRoutes); // AI大模型深度集成 - 智能客服、内容生成、代码审查
-app.use('/collab', collaborationRoutes); // 实时协作系统 - 多人编辑、白板、视频会议
-app.use('/social-game', gamificationSocialRoutes); // 游戏化社交 - 虚拟宠物、任务、排行榜
-app.use('/lowcode', lowcodeRoutes); // 低代码平台 - 页面构建、表单、工作流
-app.use('/pwa', pwaEdgeRoutes); // 边缘计算与PWA - Service Worker、离线优先、背景同步
+// app.use('/collab', collaborationRoutes); // 实时协作系统 - 多人编辑、白板、视频会议 (已禁用)
+// app.use('/social-game', gamificationSocialRoutes); // 游戏化社交 - 虚拟宠物、任务、排行榜 (已禁用)
+// app.use('/lowcode', lowcodeRoutes); // 低代码平台 - 页面构建、表单、工作流 (已禁用)
+// app.use('/pwa', pwaEdgeRoutes); // 边缘计算与PWA - Service Worker、离线优先、背景同步 (已禁用)
 app.use('/wechat', wechatAuthRoutes); // 微信登录 - 扫码登录、公众号授权、小程序
+const wechatQRLoginRoutes = require('./routes/wechat-qr-login'); // 微信公众号扫码登录（关注即登录）
+app.use('/wechat-qr', wechatQRLoginRoutes);
 
 // 第七轮功能 - 社区互动升级 - 问答悬赏、话题圈子、实时弹幕
-const qnaBountyRoutes = require('./routes/qna-bounty');
-const groupsRoutes = require('./routes/groups');
+// const qnaBountyRoutes = require('./routes/qna-bounty'); // 依赖 @supabase/supabase-js
+// const groupsRoutes = require('./routes/groups'); // 依赖 @supabase/supabase-js
 
-app.use('/qna', qnaBountyRoutes); // 问答悬赏系统 - 提问、回答、采纳、金币悬赏
-app.use('/groups', groupsRoutes); // 话题圈子系统 - 创建圈子、发帖、评论
+// app.use('/qna', qnaBountyRoutes); // 问答悬赏系统 - 提问、回答、采纳、金币悬赏 (已禁用)
+// app.use('/groups', groupsRoutes); // 话题圈子系统 - 创建圈子、发帖、评论 (已禁用)
 
 // 第八轮功能 - 安全与隐私增强 - 2FA、加密消息、安全审计、隐私保护
 const twoFactorRoutes = require('./routes/2fa');

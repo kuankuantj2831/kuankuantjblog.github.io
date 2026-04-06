@@ -813,7 +813,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (isWechat) {
                 // 在微信浏览器内，使用公众号授权登录
                 const wechatLogin = new WechatLogin({
-                    apiBaseUrl: window.API_BASE_URL || '',
+                    apiBaseUrl: 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com',
                     redirectUrl: window.location.pathname,
                     onSuccess: function(data) {
                         console.log('微信登录成功:', data);
