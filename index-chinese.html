@@ -800,16 +800,16 @@
     }
 })();
 </script>
-<!-- 微信扫码登录组件（关注公众号即登录） -->
-<script src="js/wechat-qr-login.js?v=2"></script>
+<!-- 微信公众号登录组件（个人订阅号方案） -->
+<script src="js/wechat-mp-login.js?v=1"></script>
 <script>
-// 初始化微信扫码登录功能
+// 初始化微信登录功能
 document.addEventListener('DOMContentLoaded', function() {
     const wechatLoginBtn = document.getElementById('wechatLoginBtn');
     if (wechatLoginBtn) {
         wechatLoginBtn.addEventListener('click', function() {
-            // 使用新的扫码登录组件（关注公众号即登录）
-            const qrLogin = new WechatQRLogin({
+            // 使用微信公众号登录组件（扫码关注+回复"登录"）
+            const mpLogin = new WechatMPLogin({
                 apiBaseUrl: 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com',
                 redirectUrl: window.location.pathname,
                 onSuccess: function(data) {
@@ -823,7 +823,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert('微信登录失败: ' + (error.message || '未知错误'));
                 }
             });
-            qrLogin.openModal();
+            mpLogin.openModal();
         });
     }
 });
