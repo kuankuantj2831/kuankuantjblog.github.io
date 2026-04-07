@@ -800,70 +800,31 @@
     }
 })();
 </script>
-<!-- 微信登录组件 -->
-<script src="js/wechat-login.js"></script>
+<!-- 微信扫码登录组件（关注公众号即登录） -->
+<script src="js/wechat-qr-login.js?v=2"></script>
 <script>
-// 初始化微信登录功能
+// 初始化微信扫码登录功能
 document.addEventListener('DOMContentLoaded', function() {
     const wechatLoginBtn = document.getElementById('wechatLoginBtn');
     if (wechatLoginBtn) {
         wechatLoginBtn.addEventListener('click', function() {
-            const isWechat = /MicroMessenger/i.test(navigator.userAgent);
-            
-            if (isWechat) {
-                // 在微信浏览器内，使用公众号授权登录
-                const wechatLogin = new WechatLogin({
-                    apiBaseUrl: 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com',
-                    redirectUrl: window.location.pathname,
-                    onSuccess: function(data) {
-                        console.log('微信登录成功:', data);
-                        localStorage.setItem('token', data.token);
-                        localStorage.setItem('user', JSON.stringify(data.user));
-                        window.location.reload();
-                    },
-                    onError: function(error) {
-                        console.error('微信登录失败:', error);
-                        alert('微信登录失败: ' + (error.message || '未知错误'));
-                    }
-                });
-                // 调用公众号授权登录
-                wechatLogin.mpAuthLogin();
-            } else {
-                // 非微信浏览器，直接显示二维码弹窗
-                showWechatQRModal();
-            }
-        });
-    }
-    
-    // 显示微信扫码提示弹窗
-    function showWechatQRModal() {
-        const modal = document.createElement('div');
-        modal.className = 'wechat-qr-modal';
-        modal.innerHTML = `
-            <div class="wechat-qr-overlay" style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:10000;display:flex;align-items:center;justify-content:center;">
-                <div class="wechat-qr-container" style="background:#fff;border-radius:12px;padding:30px;text-align:center;max-width:320px;">
-                    <h3 style="margin:0 0 15px 0;color:#333;">微信登录</h3>
-                    <p style="color:#666;font-size:14px;margin-bottom:20px;">请使用微信扫一扫<br>扫描下方二维码打开页面</p>
-                    <div id="wechatPageQR" style="margin:20px 0;"></div>
-                    <p style="color:#999;font-size:12px;margin-top:15px;">或在微信内搜索公众号<br><strong>Hakimi的猫爬架</strong></p>
-                    <button onclick="this.closest('.wechat-qr-modal').remove()" style="margin-top:20px;padding:8px 24px;border:1px solid #ddd;background:#fff;border-radius:4px;cursor:pointer;">关闭</button>
-                </div>
-            </div>
-        `;
-        document.body.appendChild(modal);
-        
-        // 生成当前页面二维码
-        if (typeof QRCode !== 'undefined') {
-            new QRCode(document.getElementById('wechatPageQR'), {
-                text: window.location.href,
-                width: 180,
-                height: 180,
-                colorDark: '#000000',
-                colorLight: '#ffffff'
+            // 使用新的扫码登录组件（关注公众号即登录）
+            const qrLogin = new WechatQRLogin({
+                apiBaseUrl: 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com',
+                redirectUrl: window.location.pathname,
+                onSuccess: function(data) {
+                    console.log('微信登录成功:', data);
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.reload();
+                },
+                onError: function(error) {
+                    console.error('微信登录失败:', error);
+                    alert('微信登录失败: ' + (error.message || '未知错误'));
+                }
             });
-        } else {
-            document.getElementById('wechatPageQR').innerHTML = '<p style="padding:20px;background:#f5f5f5;">' + window.location.href + '</p>';
-        }
+            qrLogin.openModal();
+        });
     }
 });
 </script>
