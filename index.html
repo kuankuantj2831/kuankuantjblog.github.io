@@ -876,47 +876,47 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // GitHub 登录按钮
-    const githubLoginBtn = document.getElementById('githubLoginBtn');
-    if (githubLoginBtn) {
-        githubLoginBtn.addEventListener('click', function() {
-            // 检查是否是 GitHub 回调
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('code') && urlParams.get('state')) {
-                // 是回调，处理登录
-                const githubLogin = new GitHubLogin({
-                    clientId: '', // 请填写 GitHub OAuth App 的 Client ID
-                    onSuccess: function(data) {
-                        console.log('GitHub 登录成功:', data);
-                        localStorage.setItem('token', data.token);
-                        localStorage.setItem('user', JSON.stringify(data.user));
-                        window.location.reload();
-                    },
-                    onError: function(error) {
-                        console.error('GitHub 登录失败:', error);
-                        alert('GitHub 登录失败: ' + (error.message || '未知错误'));
-                    }
-                });
-                githubLogin.isCallback();
-            } else {
-                // 开始 GitHub 登录流程
-                const githubLogin = new GitHubLogin({
-                    clientId: '', // 请填写 GitHub OAuth App 的 Client ID
-                    redirectUri: 'https://mcock.cn',
-                    onSuccess: function(data) {
-                        console.log('GitHub 登录成功:', data);
-                        localStorage.setItem('token', data.token);
-                        localStorage.setItem('user', JSON.stringify(data.user));
-                        window.location.reload();
-                    },
-                    onError: function(error) {
-                        console.error('GitHub 登录失败:', error);
-                        alert('GitHub 登录失败: ' + (error.message || '未知错误'));
-                    }
-                });
-                githubLogin.login();
-            }
-        });
-    }
+const githubLoginBtn = document.getElementById('githubLoginBtn');
+if (githubLoginBtn) {
+    githubLoginBtn.addEventListener('click', function() {
+        // 检查是否是 GitHub 回调
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('code') && urlParams.get('state')) {
+            // 是回调，处理登录
+            const githubLogin = new GitHubLogin({
+                clientId: 'Ov23liWGtpI712WHoq3E',
+                onSuccess: function(data) {
+                    console.log('GitHub 登录成功:', data);
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.reload();
+                },
+                onError: function(error) {
+                    console.error('GitHub 登录失败:', error);
+                    alert('GitHub 登录失败: ' + (error.message || '未知错误'));
+                }
+            });
+            githubLogin.isCallback();
+        } else {
+            // 开始 GitHub 登录流程
+            const githubLogin = new GitHubLogin({
+                clientId: 'Ov23liWGtpI712WHoq3E',
+                redirectUri: 'https://mcock.cn',
+                onSuccess: function(data) {
+                    console.log('GitHub 登录成功:', data);
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.reload();
+                },
+                onError: function(error) {
+                    console.error('GitHub 登录失败:', error);
+                    alert('GitHub 登录失败: ' + (error.message || '未知错误'));
+                }
+            });
+            githubLogin.login();
+        }
+    });
+}
 });
 </script>
 <!-- GitHub OAuth 登录组件 -->
