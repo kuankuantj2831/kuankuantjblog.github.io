@@ -196,6 +196,8 @@ const wechatQRLoginRoutes = require('./routes/wechat-qr-login'); // 微信公众
 app.use('/wechat-qr', wechatQRLoginRoutes);
 const wechatMPLoginRoutes = require('./routes/wechat-mp-login'); // 微信公众号登录（个人订阅号方案）
 app.use('/wechat-mp', wechatMPLoginRoutes);
+const githubAuthRoutes = require('./routes/github-auth'); // GitHub OAuth 登录
+app.use('/auth/github', githubAuthRoutes);
 
 // 第七轮功能 - 社区互动升级 - 问答悬赏、话题圈子、实时弹幕
 // const qnaBountyRoutes = require('./routes/qna-bounty'); // 依赖 @supabase/supabase-js
