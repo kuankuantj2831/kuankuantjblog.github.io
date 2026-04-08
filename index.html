@@ -855,24 +855,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 检查是否是微信登录回调（页面加载时）
+    // 检查登录回调（页面加载时）
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('code') && urlParams.get('state')) {
-        // 是回调，处理登录
-        const webLogin = new WechatWebLogin({
-            appId: '', // 请填写微信开放平台的网站应用 AppID
-            onSuccess: function(data) {
-                console.log('微信登录成功:', data);
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
-                window.location.reload();
-            },
-            onError: function(error) {
-                console.error('微信登录失败:', error);
-                alert('微信登录失败: ' + (error.message || '未知错误'));
-            }
-        });
-        webLogin.checkCallback();
+    const code = urlParams.get('code');
+    const state = urlParams.get('state');
+    
+    if (code && state) {
+        // 检查是否是 GitHub 回调（通过检查 sessionStorage 中的 state）
+        const savedGithubState = sessionStorage.getItem('github_oauth_state');
+        
+        if (savedGithubState && state === savedGithubState) {
+            // 是 GitHub 回调
+            const githubLogin = new GitHubLogin({
+                clientId: 'Ov23liWGtpI712WHoq3E',
+                onSuccess: function(data) {
+                    console.log('GitHub 登录成功:', data);
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    window.location.reload();
+                },
+                onError: function(error) {
+                    console.error('GitHub 登录失败:', error);
+                    alert('GitHub 登录失败: ' + (error.message || '未知错误'));
+                }
+            });
+            githubLogin.isCallback();
+        }
     }
     
     // GitHub 登录按钮
