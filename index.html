@@ -821,22 +821,18 @@
     }
 })();
 </script>
-<!-- 微信网站应用登录组件（内嵌二维码） -->
-<script src="js/wechat-web-login.js?v=1"></script>
+<!-- 微信公众号登录组件（个人订阅号方案） -->
+<script src="js/wechat-mp-login.js?v=2"></script>
 <script>
 // 初始化微信登录功能
 document.addEventListener('DOMContentLoaded', function() {
     const wechatLoginBtn = document.getElementById('wechatLoginBtn');
     if (wechatLoginBtn) {
         wechatLoginBtn.addEventListener('click', function() {
-            // 使用微信网站应用登录（内嵌二维码）
-            // 注意：需要在微信开放平台注册网站应用并填写正确的 AppID
-            const webLogin = new WechatWebLogin({
-                appId: '', // 请填写微信开放平台的网站应用 AppID
-                redirectUri: 'https://mcock.cn/auth/wechat/callback',
-                scope: 'snsapi_login',
-                style: 'black',
-                selfRedirect: true, // 在 iframe 内跳转
+            // 使用微信公众号登录（扫码关注+回复"登录"）
+            const mpLogin = new WechatMPLogin({
+                apiBaseUrl: 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com',
+                redirectUrl: window.location.pathname,
                 onSuccess: function(data) {
                     console.log('微信登录成功:', data);
                     localStorage.setItem('token', data.token);
@@ -846,12 +842,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 onError: function(error) {
                     console.error('微信登录失败:', error);
                     alert('微信登录失败: ' + (error.message || '未知错误'));
-                },
-                onReady: function(isReady) {
-                    console.log('微信登录组件加载状态:', isReady);
                 }
             });
-            webLogin.openModal();
+            mpLogin.openModal();
         });
     }
     
