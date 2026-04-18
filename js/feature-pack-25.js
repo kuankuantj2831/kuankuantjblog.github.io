@@ -1,7 +1,7 @@
 /**
  * 功能包 #25: 游戏与娱乐 (121-125)
  */
-import FeaturePack from './feature-pack-core.js';
+import FeaturePack from './feature-pack-core.js?v=20260418c';
 const { util } = FeaturePack;
 const el = util.el;
 

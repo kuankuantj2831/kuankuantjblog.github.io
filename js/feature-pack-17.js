@@ -1,7 +1,7 @@
 /**
  * 功能包 #17: 内容发现 (81-85)
  */
-import FeaturePack from './feature-pack-core.js';
+import FeaturePack from './feature-pack-core.js?v=20260418c';
 const { util } = FeaturePack;
 const el = util.el;
 

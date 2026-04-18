@@ -1,7 +1,7 @@
 /**
  * 功能包 #21: AI与智能 (101-105)
  */
-import FeaturePack from './feature-pack-core.js';
+import FeaturePack from './feature-pack-core.js?v=20260418c';
 const { util } = FeaturePack;
 const el = util.el;
 

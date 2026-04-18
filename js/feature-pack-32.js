@@ -1,7 +1,7 @@
 /**
  * 功能包 #32: 任务与待办 (156-160)
  */
-import FeaturePack from './feature-pack-core.js';
+import FeaturePack from './feature-pack-core.js?v=20260418c';
 const { util } = FeaturePack;
 const el = util.el;
 

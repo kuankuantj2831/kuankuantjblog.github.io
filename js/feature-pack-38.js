@@ -1,4 +1,4 @@
-import { FeaturePack } from './feature-pack-core.js';
+import { FeaturePack } from './feature-pack-core.js?v=20260418c';
 
 const el = FeaturePack.util.el;
 

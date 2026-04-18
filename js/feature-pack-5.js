@@ -1,7 +1,7 @@
 /**
  * 功能包 #5: 搜索增强 (21-25)
  */
-import FeaturePack from './feature-pack-core.js';
+import FeaturePack from './feature-pack-core.js?v=20260418c';
 const { util } = FeaturePack;
 const el = util.el;
 

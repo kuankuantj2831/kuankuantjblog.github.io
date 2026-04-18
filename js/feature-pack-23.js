@@ -1,7 +1,7 @@
 /**
  * 功能包 #23: 图表与数据可视化 (111-115)
  */
-import FeaturePack from './feature-pack-core.js';
+import FeaturePack from './feature-pack-core.js?v=20260418c';
 const { util } = FeaturePack;
 const el = util.el;
 

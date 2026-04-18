@@ -1,7 +1,7 @@
 /**
  * 功能包 #35: 颜色与主题 (171-175)
  */
-import FeaturePack from './feature-pack-core.js';
+import FeaturePack from './feature-pack-core.js?v=20260418c';
 const { util } = FeaturePack;
 const el = util.el;
 

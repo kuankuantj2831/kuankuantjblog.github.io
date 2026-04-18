@@ -1,7 +1,7 @@
 /**
  * 功能包 #29: 投票与问卷 (141-145)
  */
-import FeaturePack from './feature-pack-core.js';
+import FeaturePack from './feature-pack-core.js?v=20260418c';
 const { util } = FeaturePack;
 const el = util.el;
 
