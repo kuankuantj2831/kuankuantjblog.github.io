@@ -470,6 +470,11 @@
             </ul>
         </div>
 
+        <!-- 幸运大转盘 -->
+        <div class="lucky-wheel-card" id="luckyWheelCard" style="background:white;border-radius:16px;padding:25px;margin-bottom:30px;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+            <div id="luckyWheelContainer"></div>
+        </div>
+
         <!-- 交易记录 -->
         <div class="transactions-card">
             <div class="transactions-header">
@@ -502,6 +507,21 @@
     </div>
 
     <script type="module" src="js/coins.js?v=20260227a"></script>
+
+    <!-- 幸运大转盘 -->
+    <script type="module">
+        import LuckyWheel from './js/lucky-wheel.js?v=20260227a';
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                const wheel = new LuckyWheel({
+                    containerId: 'luckyWheelContainer',
+                    cost: 10
+                });
+                wheel.init();
+            }
+        });
+    </script>
 
 <!-- Win7 Emoji 兼容性处理 -->
 <script>
@@ -629,6 +649,9 @@
     }
 })();
 </script>
+
+<!-- 200功能包加载器 -->
+<script type="module" src="js/feature-loader.js?v=20260418a"></script>
 
 </body>
 

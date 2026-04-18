@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://static.cloudflareinsights.com https://cdn.jsdelivr.net https://unpkg.com https://registry.npmmirror.com https://cdnjs.cloudflare.com https://cdn.bootcdn.net https://rf.revolvermaps.com; style-src 'self' 'unsafe-inline' https://cdn.bootcdn.net https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' https: data:; connect-src 'self' https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com https://challenges.cloudflare.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.soundhelix.com; frame-src https://challenges.cloudflare.com; font-src 'self' https:; media-src *;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://static.cloudflareinsights.com https://cdn.jsdelivr.net https://unpkg.com https://registry.npmmirror.com https://cdnjs.cloudflare.com https://cdn.bootcdn.net https://rf.revolvermaps.com; style-src 'self' 'unsafe-inline' https://cdn.bootcdn.net https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' https: data:; connect-src 'self' http://localhost:9000 https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com https://api.ipify.org https://ipapi.co https://challenges.cloudflare.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.soundhelix.com; frame-src https://challenges.cloudflare.com; font-src 'self' https:; media-src *;">
     <meta name="description" content="Hakimi 的猫爬架 - 一个分享编程技术、游戏资源、设计素材与学习资料的个人博客。分享是一种美德，它不求回报，只为真诚。">
     <meta name="keywords" content="Hakimi,猫爬架,个人博客,编程技术,游戏资源,mcock.cn">
     <meta name="author" content="Hakimi">
@@ -47,6 +47,7 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#667eea">
     <!-- iOS PWA 专属 -->
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="猫爬架">
@@ -313,6 +314,16 @@
 
         </section>
 
+        <!-- 游戏化组件区域 -->
+        <section class="gamification-widgets" style="padding:0 20px 20px;max-width:1200px;margin:0 auto;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:20px;">
+                <!-- 每日一题 -->
+                <div id="dailyQuizContainer" style="background:rgba(255,255,255,0.95);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);"></div>
+                <!-- 阅读打卡 -->
+                <div id="readingChallengeContainer" style="background:rgba(255,255,255,0.95);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);"></div>
+            </div>
+        </section>
+
         <!-- 资源展示区域 -->
         <section class="resource-showcase">
             <div id="searchResultInfo" style="display:none;"></div>
@@ -397,11 +408,6 @@
                         <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #eee; z-index: 0;"></div>
                     </div>
                     <div class="social-login-buttons" style="text-align: center; display: flex; justify-content: center; gap: 16px;">
-                        <button type="button" id="wechatLoginBtn" class="wechat-login-btn-icon" title="微信登录" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
-                            <svg viewBox="0 0 24 24" width="24" height="24">
-                                <path fill="#07C160" d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-6.656-6.088V8.89c-.135-.01-.27-.027-.407-.03zm-2.53 3.274c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.97-.982zm4.844 0c.535 0 .969.44.969.982a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.542.434-.982.969-.982z"/>
-                            </svg>
-                        </button>
                         <button type="button" id="githubLoginBtn" class="github-login-btn-icon" title="GitHub 登录" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
                             <svg viewBox="0 0 24 24" width="24" height="24">
                                 <path fill="#24292f" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -624,12 +630,14 @@
         (async function loadOnlineCount() {
             try {
                 const apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
-                // 发送匿名访客心跳
-                fetch(apiBase + '/online/visitor-heartbeat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }).catch(() => {});
-                // 每60秒持续发送心跳
-                setInterval(() => {
+                // 仅在本地开发或同域环境下发送心跳，避免向生产环境触发 CORS 报错
+                const isLocalDev = apiBase.includes('localhost') || apiBase.includes('127.0.0.1');
+                if (isLocalDev) {
                     fetch(apiBase + '/online/visitor-heartbeat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }).catch(() => {});
-                }, 60000);
+                    setInterval(() => {
+                        fetch(apiBase + '/online/visitor-heartbeat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }).catch(() => {});
+                    }, 60000);
+                }
                 const res = await fetch(apiBase + '/online/count');
                 if (res.ok) {
                     const data = await res.json();
@@ -821,42 +829,17 @@
     }
 })();
 </script>
-<!-- 微信公众号登录组件（个人订阅号方案） -->
-<script src="js/wechat-mp-login.js?v=2"></script>
 <script>
-// 初始化微信登录功能
 document.addEventListener('DOMContentLoaded', function() {
-    const wechatLoginBtn = document.getElementById('wechatLoginBtn');
-    if (wechatLoginBtn) {
-        wechatLoginBtn.addEventListener('click', function() {
-            // 使用微信公众号登录（扫码关注+回复"登录"）
-            const mpLogin = new WechatMPLogin({
-                apiBaseUrl: 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com',
-                redirectUrl: window.location.pathname,
-                onSuccess: function(data) {
-                    console.log('微信登录成功:', data);
-                    localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    window.location.reload();
-                },
-                onError: function(error) {
-                    console.error('微信登录失败:', error);
-                    alert('微信登录失败: ' + (error.message || '未知错误'));
-                }
-            });
-            mpLogin.openModal();
-        });
-    }
-    
     // 检查登录回调（页面加载时）
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     const state = urlParams.get('state');
-    
+
     if (code && state) {
         // 检查是否是 GitHub 回调（通过检查 sessionStorage 中的 state）
         const savedGithubState = sessionStorage.getItem('github_oauth_state');
-        
+
         if (savedGithubState && state === savedGithubState) {
             // 是 GitHub 回调
             const githubLogin = new GitHubLogin({
@@ -875,7 +858,7 @@ document.addEventListener('DOMContentLoaded', function() {
             githubLogin.isCallback();
         }
     }
-    
+
     // GitHub 登录按钮
 const githubLoginBtn = document.getElementById('githubLoginBtn');
 if (githubLoginBtn) {
@@ -920,9 +903,58 @@ if (githubLoginBtn) {
 }
 });
 </script>
-<!-- GitHub OAuth 登录组件 -->
 <script src="js/github-login.js?v=1"></script>
 <script src="js/music-player.js?v=2"></script>
+
+<!-- 游戏化组件：每日一题 -->
+<script type="module">
+    import DailyQuiz from './js/daily-quiz.js?v=20260227a';
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const quiz = new DailyQuiz({ containerId: 'dailyQuizContainer' });
+            quiz.init();
+        }
+    });
+</script>
+
+<!-- 游戏化组件：阅读打卡挑战 -->
+<script type="module">
+    import ReadingChallenge from './js/reading-challenge.js?v=20260227a';
+    document.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const challenge = new ReadingChallenge({ containerId: 'readingChallengeContainer' });
+            challenge.init();
+        }
+    });
+</script>
+
+<!-- Konami 秘籍彩蛋 - 触发隐藏成就 -->
+<script type="module">
+    import { AchievementSystem } from './js/achievement-system.js';
+    document.addEventListener('DOMContentLoaded', () => {
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.key);
+            if (konamiCode.length > konamiSequence.length) konamiCode.shift();
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const user = JSON.parse(localStorage.getItem('user') || '{}');
+                    const sys = new AchievementSystem(user.id || 'default');
+                    sys.init().then(() => sys.checkAndUnlock('konami_code'));
+                }
+                konamiCode = [];
+            }
+        });
+    });
+</script>
+
+<!-- 200功能包加载器 -->
+<script type="module" src="js/feature-loader.js?v=20260418a"></script>
+
 </body>
 
 </html>
