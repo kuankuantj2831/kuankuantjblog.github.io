@@ -1,4 +1,4 @@
-//**
+/**
  * 功能包 #18: 社交互动 (86-90)
  */
 import FeaturePack from './feature-pack-core.js';

@@ -184,6 +184,80 @@ class AchievementSystem {
                 icon: '🔥',
                 points: 100,
                 category: 'special'
+            },
+
+            // 隐藏成就 - 需要特殊条件触发
+            'hidden_explorer': {
+                id: 'hidden_explorer',
+                name: '探索者',
+                description: '发现网站彩蛋（在页面输入 konami 秘籍）',
+                icon: '🕵️',
+                points: 50,
+                category: 'hidden',
+                hidden: true
+            },
+            'hidden_speed_reader': {
+                id: 'hidden_speed_reader',
+                name: '一目十行',
+                description: '在1分钟内阅读完任意一篇文章',
+                icon: '⚡',
+                points: 30,
+                category: 'hidden',
+                hidden: true
+            },
+            'hidden_daily_expert': {
+                id: 'hidden_daily_expert',
+                name: '答题王',
+                description: '连续答对每日一题7天',
+                icon: '🎓',
+                points: 80,
+                category: 'hidden',
+                hidden: true
+            },
+            'hidden_wheel_master': {
+                id: 'hidden_wheel_master',
+                name: '大转盘高手',
+                description: '在幸运大转盘中获得最高奖（200经验）',
+                icon: '🎯',
+                points: 100,
+                category: 'hidden',
+                hidden: true
+            },
+            'hidden_perfect_week': {
+                id: 'hidden_perfect_week',
+                name: '完美一周',
+                description: '在一周内完成所有每日任务',
+                icon: '🏅',
+                points: 60,
+                category: 'hidden',
+                hidden: true
+            },
+            'hidden_coin_collector': {
+                id: 'hidden_coin_collector',
+                name: '硬币收集者',
+                description: '累计获得1000硬币',
+                icon: '💰',
+                points: 40,
+                category: 'hidden',
+                hidden: true
+            },
+            'hidden_social_butterfly': {
+                id: 'hidden_social_butterfly',
+                name: '社交达人',
+                description: '在5个不同的文章下发表评论',
+                icon: '🦋',
+                points: 35,
+                category: 'hidden',
+                hidden: true
+            },
+            'hidden_archaeologist': {
+                id: 'hidden_archaeologist',
+                name: '考古学家',
+                description: '阅读一篇发布超过一年的文章',
+                icon: '🏺',
+                points: 25,
+                category: 'hidden',
+                hidden: true
             }
         };
         
@@ -276,6 +350,8 @@ class AchievementSystem {
                 const commentCount = data.count || (await this.getCommentCount());
                 if (commentCount >= 1 && await this.unlock('first_comment')) unlocks.push('first_comment');
                 if (commentCount >= 10 && await this.unlock('comment_10')) unlocks.push('comment_10');
+                // 隐藏成就：在5个不同文章下评论
+                if (data.uniqueArticles >= 5 && await this.unlock('hidden_social_butterfly')) unlocks.push('hidden_social_butterfly');
                 break;
                 
             case 'checkin':
@@ -293,6 +369,7 @@ class AchievementSystem {
                 const totalCoins = data.total || (await this.getTotalCoinsDonated());
                 if (totalCoins >= 1 && await this.unlock('first_coin')) unlocks.push('first_coin');
                 if (totalCoins >= 100 && await this.unlock('coin_100')) unlocks.push('coin_100');
+                if (totalCoins >= 1000 && await this.unlock('hidden_coin_collector')) unlocks.push('hidden_coin_collector');
                 break;
                 
             case 'favorite':
@@ -303,6 +380,24 @@ class AchievementSystem {
                 
             case 'article_view':
                 if (data.views >= 100 && await this.unlock('popular_article')) unlocks.push('popular_article');
+                if (data.isOldArticle && await this.unlock('hidden_archaeologist')) unlocks.push('hidden_archaeologist');
+                break;
+
+            // 隐藏成就触发器
+            case 'quiz_streak':
+                if (data.streak >= 7 && await this.unlock('hidden_daily_expert')) unlocks.push('hidden_daily_expert');
+                break;
+                
+            case 'wheel_jackpot':
+                if (await this.unlock('hidden_wheel_master')) unlocks.push('hidden_wheel_master');
+                break;
+                
+            case 'konami_code':
+                if (await this.unlock('hidden_explorer')) unlocks.push('hidden_explorer');
+                break;
+                
+            case 'speed_read':
+                if (await this.unlock('hidden_speed_reader')) unlocks.push('hidden_speed_reader');
                 break;
         }
         

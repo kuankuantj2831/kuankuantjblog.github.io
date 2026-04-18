@@ -9,7 +9,7 @@ class WechatWebLogin {
         // 微信开放平台网站应用配置
         this.appId = options.appId || '';
         this.scope = options.scope || 'snsapi_login';
-        this.redirectUri = options.redirectUri || 'https://mcock.cn/auth/wechat/callback';
+        this.redirectUri = options.redirectUri || 'https://mcock.cn/wechat/callback';
         this.state = options.state || this.generateState();
         this.style = options.style || 'black'; // 'black' 或 'white'
         this.href = options.href || '';
@@ -153,18 +153,18 @@ class WechatWebLogin {
     /**
      * 加载微信登录脚本
      */
-    loadWxLoginScript() {
+    async loadWxLoginScript() {
         // 如果已经加载过，直接初始化
         if (typeof WxLogin !== 'undefined') {
-            this.initWxLogin();
+            await this.initWxLogin();
             return;
         }
 
         // 动态加载微信登录脚本
         const script = document.createElement('script');
         script.src = 'https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js';
-        script.onload = () => {
-            this.initWxLogin();
+        script.onload = async () => {
+            await this.initWxLogin();
         };
         script.onerror = () => {
             const container = document.getElementById('wechat-login-qr-container');
@@ -179,9 +179,20 @@ class WechatWebLogin {
     /**
      * 初始化微信登录
      */
-    initWxLogin() {
+    async initWxLogin() {
         const container = document.getElementById('wechat-login-qr-container');
         if (!container) return;
+
+        // 先从后端获取合法的 state（避免回调时 state 验证失败）
+        try {
+            const stateRes = await fetch(`${this.getApiBaseUrl()}/wechat/login-url?redirectUrl=${encodeURIComponent(window.location.origin + '/wechat-callback.html')}`);
+            const stateData = await stateRes.json();
+            if (stateData.success && stateData.data && stateData.data.state) {
+                this.state = stateData.data.state;
+            }
+        } catch (err) {
+            console.warn('获取后端 state 失败，使用本地生成的 state:', err);
+        }
 
         // 清空容器
         container.innerHTML = '';
@@ -224,10 +235,10 @@ class WechatWebLogin {
         // 如果设置了 self_redirect: true，登录成功后在 iframe 内跳转
         
         if (this.selfRedirect) {
-            // 在 iframe 内跳转的情况，需要轮询检查
+            // 在 iframe 内跳转的情况，需要轮询检查 iframe URL
             this.checkInterval = setInterval(() => {
                 this.checkLoginStatus();
-            }, 2000);
+            }, 1500);
         } else {
             // 在父页面跳转的情况，监听当前页面 URL 变化
             this.monitorUrlChange();
@@ -236,15 +247,63 @@ class WechatWebLogin {
 
     /**
      * 检查登录状态
+     * selfRedirect=true 时：尝试读取 iframe 的 URL，检测是否已跳转至回调页
      */
-    checkLoginStatus() {
-        // 这里可以通过后端 API 检查登录状态
-        // 或者检查 localStorage/cookie 中是否有登录信息
-        const token = localStorage.getItem('token');
-        if (token) {
-            this.closeModal();
-            this.onSuccess({ token });
+    async checkLoginStatus() {
+        if (!this.selfRedirect) return;
+
+        const container = document.getElementById('wechat-login-qr-container');
+        if (!container) return;
+
+        const iframe = container.querySelector('iframe');
+        if (!iframe) return;
+
+        let iframeUrl = null;
+        try {
+            iframeUrl = iframe.contentWindow.location.href;
+        } catch (e) {
+            // 跨域或被安全策略阻止，正常情况，继续等待
+            return;
         }
+
+        if (!iframeUrl) return;
+
+        // 检测是否已进入回调页面（wechat-callback.html 或带 login=success 的 URL）
+        if (iframeUrl.includes('wechat-callback.html') || iframeUrl.includes('login=success')) {
+            const urlObj = new URL(iframeUrl);
+            const token = urlObj.searchParams.get('token');
+
+            if (token) {
+                clearInterval(this.checkInterval);
+                this.checkInterval = null;
+
+                // 尝试获取用户信息
+                let user = null;
+                try {
+                    user = await this.fetchUserInfo(token);
+                } catch (err) {
+                    console.warn('获取用户信息失败，仅返回 token:', err);
+                }
+
+                this.closeModal();
+                this.onSuccess({ token, user });
+            }
+        }
+    }
+
+    /**
+     * 使用 token 获取当前用户信息
+     */
+    async fetchUserInfo(token) {
+        const response = await fetch(`${this.getApiBaseUrl()}/auth/me`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            throw new Error('获取用户信息失败');
+        }
+        return await response.json();
     }
 
     /**
