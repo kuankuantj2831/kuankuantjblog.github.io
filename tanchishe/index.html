@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>贪吃蛇</title>
+    <title>贪吃�?/title>
     
     <!-- 优化：预连接到字体服务器 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
     <canvas id="backgroundCanvas"></canvas>
     <div class="main-container">
         <div class="inner-frame">
-            <h1>贪吃蛇</h1>
+            <h1>贪吃�?/h1>
             <div class="stats-container">
                 <div class="score-container">
                     <span>分数: </span><span id="score">0</span>
@@ -25,7 +25,7 @@
                     <span>时间: </span><span id="time">0</span>s
                 </div>
                 <div class="highscore-container">
-                    <span>最高: </span><span id="highScore">0</span>
+                    <span>最�? </span><span id="highScore">0</span>
                 </div>
             </div>
             <canvas id="gameCanvas" width="400" height="400"></canvas>
@@ -33,12 +33,12 @@
                 <button id="saveButton">生成存档</button>
                 <input type="text" id="saveCodeInput" placeholder="在此处粘贴存档码...">
                 <button id="loadButton">读取存档</button>
-                <button id="newGameButton">新游戏</button>
+                <button id="newGameButton">新游�?/button>
                 <button id="achievementsButton">成就</button>
             </div>
             <div id="gameOverScreen" class="hidden">
                 <h2>No signal!</h2>
-                <p>最终得分: <span id="finalScore">0</span></p>
+                <p>最终得�? <span id="finalScore">0</span></p>
                 <button id="restartButton">重新连接</button>
             </div>
         </div>
@@ -53,22 +53,22 @@
         </div>
     </div>
 
-    <!-- 优化：延迟执行脚本 -->
+    <!-- 优化：延迟执行脚�?-->
     <script src="script.js" defer></script>
     
     <div id="achievement-container"></div>
 
-    <!-- 移动端虚拟按键 -->
+    <!-- 移动端虚拟按�?-->
     <div id="mobile-controls" class="hidden">
         <div class="d-pad">
-            <button id="up-button" class="d-pad-button up">↑</button>
-            <button id="down-button" class="d-pad-button down">↓</button>
-            <button id="left-button" class="d-pad-button left">←</button>
-            <button id="right-button" class="d-pad-button right">→</button>
+            <button id="up-button" class="d-pad-button up">�?/button>
+            <button id="down-button" class="d-pad-button down">�?/button>
+            <button id="left-button" class="d-pad-button left">�?/button>
+            <button id="right-button" class="d-pad-button right">�?/button>
         </div>
     </div>
 
-<!-- Win7 Emoji 兼容性处理 -->
+<!-- Win7 Emoji 兼容性处�?-->
 <script>
 (function() {
     // 检测是否为 Windows 7
@@ -78,13 +78,13 @@
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji 替换映射表
+    // Emoji 替换映射�?
     var emojiMap = {
-        "🐱": "猫",
+        "🐱": "�?,
         "🏠": "首页",
         "🎮": "游戏",
-        "☁️": "云",
-        "☀️": "太阳",
+        "☁️": "�?,
+        "☀�?: "太阳",
         "❤️": "爱心",
         "🎯": "关于",
         "💬": "消息",
@@ -92,31 +92,31 @@
         "👤": "用户",
         "📝": "编辑",
         "⬆️": "升级",
-        "🖼️": "图片",
+        "🖼�?: "图片",
         "✍️": "写作",
         "⚙️": "设置",
-        "🚪": "退出",
+        "🚪": "退�?,
         "💡": "提示",
-        "⚡": "经验",
+        "�?: "经验",
         "🚀": "发布",
-        "🎖️": "等级",
+        "🎖�?: "等级",
         "💪": "加油",
         "🔒": "锁定",
         "📜": "协议",
-        "↑": "上",
-        "↓": "下",
+        "�?: "�?,
+        "�?: "�?,
         "↩️": "撤销",
-        "❓": "帮助",
+        "�?: "帮助",
         "🔄": "刷新",
-        "▶️": "开始",
+        "▶️": "开�?,
         "⏱️": "时间",
         "🎨": "创意",
         "💻": "电脑",
         "📚": "学习",
-        "🛡️": "盾牌",
+        "🛡�?: "盾牌",
         "✈️": "飞机",
-        "⭐": "星星",
-        "🕹️": "手柄",
+        "�?: "星星",
+        "🕹�?: "手柄",
         "📧": "邮箱",
         "📱": "手机",
         "📑": "目录",
@@ -126,13 +126,13 @@
         "🔧": "工具",
         "🪙": "硬币",
         "💰": "金币",
-        "✅": "完成",
-        "🛠️": "工具",
+        "�?: "完成",
+        "🛠�?: "工具",
         "💫": "星光",
         "🔍": "搜索",
         "📖": "书籍",
-        "🏷️": "标签",
-        "🗑️": "删除"
+        "🏷�?: "标签",
+        "🗑�?: "删除"
     };
     
     // 替换页面中的 emoji
@@ -162,7 +162,7 @@
             }
         }
         
-        // 替换属性中的 emoji（如 title, alt 等）
+        // 替换属性中�?emoji（如 title, alt 等）
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -186,7 +186,7 @@
         }
     }
     
-    // DOM 加载完成后执行替换
+    // DOM 加载完成后执行替�?
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {

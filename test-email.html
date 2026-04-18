@@ -1,10 +1,10 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2FA é‚®ä»¶æµ‹è¯• - Hakimi çš„çŒ«çˆ¬æ¶</title>
+    <title>2FA ÓÊ¼ş²âÊÔ - Hakimi µÄÃ¨ÅÀ¼Ü</title>
     <link rel="stylesheet" href="css/chinese-style.css?v=2">
     <style>
         body {
@@ -91,28 +91,28 @@
 <body>
 
     <div class="test-container">
-        <h2 style="text-align:center; color:#5e35b1;">ğŸ› ï¸ é‚®ä»¶åŠ 2FA æµ‹è¯•</h2>
+        <h2 style="text-align:center; color:#5e35b1;">??? ÓÊ¼ş¼° 2FA ²âÊÔ</h2>
         <p style="text-align:center; color:#666; font-size:14px; margin-bottom:20px;">
-            ä¸é€šè¿‡ç™»å½•é¡µé¢ï¼Œç›´æ¥æµ‹è¯•é‚®ä»¶å‘é€ä¸éªŒè¯åŠŸèƒ½ã€‚
+            ²»Í¨¹ıµÇÂ¼Ò³Ãæ£¬Ö±½Ó²âÊÔÓÊ¼ş·¢ËÍÓëÑéÖ¤¹¦ÄÜ¡£
         </p>
 
         <div class="input-group">
-            <label>ğŸ“§ æµ‹è¯•é‚®ç®±</label>
-            <input type="email" id="testEmail" value="kuankuantj@126.com" placeholder="è¯·è¾“å…¥æ¥æ”¶éªŒè¯ç çš„é‚®ç®±">
-            <button class="btn btn-send" onclick="sendCode()" id="btnSend">ğŸš€ å‘é€éªŒè¯ç </button>
+            <label>?? ²âÊÔÓÊÏä</label>
+            <input type="email" id="testEmail" value="kuankuantj@126.com" placeholder="ÇëÊäÈë½ÓÊÕÑéÖ¤ÂëµÄÓÊÏä">
+            <button class="btn btn-send" onclick="sendCode()" id="btnSend">?? ·¢ËÍÑéÖ¤Âë</button>
         </div>
 
         <div class="input-group" style="border-top: 1px solid #eee; padding-top: 20px;">
-            <label>ğŸ”‘ è¾“å…¥éªŒè¯ç </label>
-            <input type="text" id="testCode" placeholder="æŸ¥çœ‹é‚®ç®±ï¼Œè¾“å…¥6ä½æ•°å­—">
-            <button class="btn btn-verify" onclick="verifyCode()" id="btnVerify">âœ… éªŒè¯</button>
+            <label>?? ÊäÈëÑéÖ¤Âë</label>
+            <input type="text" id="testCode" placeholder="²é¿´ÓÊÏä£¬ÊäÈë6Î»Êı×Ö">
+            <button class="btn btn-verify" onclick="verifyCode()" id="btnVerify">? ÑéÖ¤</button>
         </div>
 
-        <div class="log-area" id="logOutput">// æ—¥å¿—å°†æ˜¾ç¤ºåœ¨è¿™é‡Œ...</div>
+        <div class="log-area" id="logOutput">// ÈÕÖ¾½«ÏÔÊ¾ÔÚÕâÀï...</div>
     </div>
 
     <script type="module">
-        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
+        import { API_BASE_URL } from './js/api-config.js?v=20260418a';
 
         const logEl = document.getElementById('logOutput');
         const btnSend = document.getElementById('btnSend');
@@ -130,11 +130,11 @@
 
         window.sendCode = async () => {
             const email = document.getElementById('testEmail').value.trim();
-            if (!email) return alert('è¯·è¾“å…¥é‚®ç®±');
+            if (!email) return alert('ÇëÊäÈëÓÊÏä');
 
             btnSend.disabled = true;
-            btnSend.textContent = 'å‘é€ä¸­...';
-            log(`æ­£åœ¨å‘é€é‚®ä»¶ç»™ ${email}...`);
+            btnSend.textContent = '·¢ËÍÖĞ...';
+            log(`ÕıÔÚ·¢ËÍÓÊ¼ş¸ø ${email}...`);
 
             try {
                 const res = await fetch(`${API_BASE_URL}/test/send`, {
@@ -146,27 +146,27 @@
 
                 if (res.ok) {
                     log(data.message, 'success');
-                    alert('å‘é€æˆåŠŸï¼è¯·æŸ¥æ”¶é‚®ä»¶ã€‚');
+                    alert('·¢ËÍ³É¹¦£¡Çë²éÊÕÓÊ¼ş¡£');
                 } else {
-                    log(`å‘é€å¤±è´¥: ${data.message}`, 'error');
-                    alert('å‘é€å¤±è´¥ï¼Œè¯·çœ‹æ—¥å¿—');
+                    log(`·¢ËÍÊ§°Ü: ${data.message}`, 'error');
+                    alert('·¢ËÍÊ§°Ü£¬Çë¿´ÈÕÖ¾');
                 }
             } catch (e) {
-                log(`ç½‘ç»œé”™è¯¯: ${e.message}`, 'error');
+                log(`ÍøÂç´íÎó: ${e.message}`, 'error');
             } finally {
                 btnSend.disabled = false;
-                btnSend.textContent = 'ğŸš€ å‘é€éªŒè¯ç ';
+                btnSend.textContent = '?? ·¢ËÍÑéÖ¤Âë';
             }
         };
 
         window.verifyCode = async () => {
             const email = document.getElementById('testEmail').value.trim();
             const code = document.getElementById('testCode').value.trim();
-            if (!code) return alert('è¯·è¾“å…¥éªŒè¯ç ');
+            if (!code) return alert('ÇëÊäÈëÑéÖ¤Âë');
 
             btnVerify.disabled = true;
-            btnVerify.textContent = 'éªŒè¯ä¸­...';
-            log(`æ­£åœ¨å‘æœåŠ¡å™¨éªŒè¯ä»£ç  ${code}...`);
+            btnVerify.textContent = 'ÑéÖ¤ÖĞ...';
+            log(`ÕıÔÚÏò·şÎñÆ÷ÑéÖ¤´úÂë ${code}...`);
 
             try {
                 const res = await fetch(`${API_BASE_URL}/test/verify`, {
@@ -178,93 +178,93 @@
 
                 if (res.ok) {
                     log(data.message, 'success');
-                    log('âœ… æµ‹è¯•é€šè¿‡ï¼2FA åŠŸèƒ½æ­£å¸¸ã€‚', 'success');
-                    alert('éªŒè¯æˆåŠŸï¼');
+                    log('? ²âÊÔÍ¨¹ı£¡2FA ¹¦ÄÜÕı³£¡£', 'success');
+                    alert('ÑéÖ¤³É¹¦£¡');
                 } else {
-                    log(`éªŒè¯å¤±è´¥: ${data.message}`, 'error');
+                    log(`ÑéÖ¤Ê§°Ü: ${data.message}`, 'error');
                 }
             } catch (e) {
-                log(`ç½‘ç»œé”™è¯¯: ${e.message}`, 'error');
+                log(`ÍøÂç´íÎó: ${e.message}`, 'error');
             } finally {
                 btnVerify.disabled = false;
-                btnVerify.textContent = 'âœ… éªŒè¯';
+                btnVerify.textContent = '? ÑéÖ¤';
             }
         };
     </script>
 
 
-<!-- Win7 Emoji å…¼å®¹æ€§å¤„ç† -->
+<!-- Win7 Emoji ¼æÈİĞÔ´¦Àí -->
 <script>
 (function() {
-    // æ£€æµ‹æ˜¯å¦ä¸º Windows 7
+    // ¼ì²âÊÇ·ñÎª Windows 7
     function isWindows7() {
         var ua = navigator.userAgent;
         return ua.indexOf('Windows NT 6.1') !== -1 || 
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji æ›¿æ¢æ˜ å°„è¡¨
+    // Emoji Ìæ»»Ó³Éä±í
     var emojiMap = {
-        "ğŸ±": "çŒ«",
-        "ğŸ ": "é¦–é¡µ",
-        "ğŸ®": "æ¸¸æˆ",
-        "â˜ï¸": "äº‘",
-        "â˜€ï¸": "å¤ªé˜³",
-        "â¤ï¸": "çˆ±å¿ƒ",
-        "ğŸ¯": "å…³äº",
-        "ğŸ’¬": "æ¶ˆæ¯",
-        "ğŸ””": "é€šçŸ¥",
-        "ğŸ‘¤": "ç”¨æˆ·",
-        "ğŸ“": "ç¼–è¾‘",
-        "â¬†ï¸": "å‡çº§",
-        "ğŸ–¼ï¸": "å›¾ç‰‡",
-        "âœï¸": "å†™ä½œ",
-        "âš™ï¸": "è®¾ç½®",
-        "ğŸšª": "é€€å‡º",
-        "ğŸ’¡": "æç¤º",
-        "âš¡": "ç»éªŒ",
-        "ğŸš€": "å‘å¸ƒ",
-        "ğŸ–ï¸": "ç­‰çº§",
-        "ğŸ’ª": "åŠ æ²¹",
-        "ğŸ”’": "é”å®š",
-        "ğŸ“œ": "åè®®",
-        "â†‘": "ä¸Š",
-        "â†“": "ä¸‹",
-        "â†©ï¸": "æ’¤é”€",
-        "â“": "å¸®åŠ©",
-        "ğŸ”„": "åˆ·æ–°",
-        "â–¶ï¸": "å¼€å§‹",
-        "â±ï¸": "æ—¶é—´",
-        "ğŸ¨": "åˆ›æ„",
-        "ğŸ’»": "ç”µè„‘",
-        "ğŸ“š": "å­¦ä¹ ",
-        "ğŸ›¡ï¸": "ç›¾ç‰Œ",
-        "âœˆï¸": "é£æœº",
-        "â­": "æ˜Ÿæ˜Ÿ",
-        "ğŸ•¹ï¸": "æ‰‹æŸ„",
-        "ğŸ“§": "é‚®ç®±",
-        "ğŸ“±": "æ‰‹æœº",
-        "ğŸ“‘": "ç›®å½•",
-        "ğŸ“¦": "å‹ç¼©",
-        "ğŸ“„": "æ–‡ä»¶",
-        "ğŸ“™": "PPT",
-        "ğŸ”§": "å·¥å…·",
-        "ğŸª™": "ç¡¬å¸",
-        "ğŸ’°": "é‡‘å¸",
-        "âœ…": "å®Œæˆ",
-        "ğŸ› ï¸": "å·¥å…·",
-        "ğŸ’«": "æ˜Ÿå…‰",
-        "ğŸ”": "æœç´¢",
-        "ğŸ“–": "ä¹¦ç±",
-        "ğŸ·ï¸": "æ ‡ç­¾",
-        "ğŸ—‘ï¸": "åˆ é™¤"
+        "??": "Ã¨",
+        "??": "Ê×Ò³",
+        "??": "ÓÎÏ·",
+        "??": "ÔÆ",
+        "??": "Ì«Ñô",
+        "??": "°®ĞÄ",
+        "??": "¹ØÓÚ",
+        "??": "ÏûÏ¢",
+        "??": "Í¨Öª",
+        "??": "ÓÃ»§",
+        "??": "±à¼­",
+        "??": "Éı¼¶",
+        "???": "Í¼Æ¬",
+        "??": "Ğ´×÷",
+        "??": "ÉèÖÃ",
+        "??": "ÍË³ö",
+        "??": "ÌáÊ¾",
+        "?": "¾­Ñé",
+        "??": "·¢²¼",
+        "???": "µÈ¼¶",
+        "??": "¼ÓÓÍ",
+        "??": "Ëø¶¨",
+        "??": "Ğ­Òé",
+        "¡ü": "ÉÏ",
+        "¡ı": "ÏÂ",
+        "??": "³·Ïú",
+        "?": "°ïÖú",
+        "??": "Ë¢ĞÂ",
+        "??": "¿ªÊ¼",
+        "??": "Ê±¼ä",
+        "??": "´´Òâ",
+        "??": "µçÄÔ",
+        "??": "Ñ§Ï°",
+        "???": "¶ÜÅÆ",
+        "??": "·É»ú",
+        "?": "ĞÇĞÇ",
+        "???": "ÊÖ±ú",
+        "??": "ÓÊÏä",
+        "??": "ÊÖ»ú",
+        "??": "Ä¿Â¼",
+        "??": "Ñ¹Ëõ",
+        "??": "ÎÄ¼ş",
+        "??": "PPT",
+        "??": "¹¤¾ß",
+        "??": "Ó²±Ò",
+        "??": "½ğ±Ò",
+        "?": "Íê³É",
+        "???": "¹¤¾ß",
+        "??": "ĞÇ¹â",
+        "??": "ËÑË÷",
+        "??": "Êé¼®",
+        "???": "±êÇ©",
+        "???": "É¾³ı"
     };
     
-    // æ›¿æ¢é¡µé¢ä¸­çš„ emoji
+    // Ìæ»»Ò³ÃæÖĞµÄ emoji
     function replaceEmojis() {
         if (!isWindows7()) return;
         
-        // æ›¿æ¢æ–‡æœ¬èŠ‚ç‚¹
+        // Ìæ»»ÎÄ±¾½Úµã
         var walker = document.createTreeWalker(
             document.body,
             NodeFilter.SHOW_TEXT,
@@ -287,7 +287,7 @@
             }
         }
         
-        // æ›¿æ¢å±æ€§ä¸­çš„ emojiï¼ˆå¦‚ title, alt ç­‰ï¼‰
+        // Ìæ»»ÊôĞÔÖĞµÄ emoji£¨Èç title, alt µÈ£©
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -311,7 +311,7 @@
         }
     }
     
-    // DOM åŠ è½½å®Œæˆåæ‰§è¡Œæ›¿æ¢
+    // DOM ¼ÓÔØÍê³ÉºóÖ´ĞĞÌæ»»
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {

@@ -346,7 +346,7 @@
             transform: none;
         }
         
-        /* 空状态 */
+        /* 空状�?*/
         .empty-state {
             flex: 1;
             display: flex;
@@ -366,7 +366,7 @@
             font-size: 1.1em;
         }
         
-        /* 响应式 */
+        /* 响应�?*/
         @media (max-width: 768px) {
             .messages-container {
                 grid-template-columns: 1fr;
@@ -423,7 +423,7 @@
                     </button>
                 </div>
                 <div class="conversations-list" id="conversationsList">
-                    <!-- 会话列表将动态加载 -->
+                    <!-- 会话列表将动态加�?-->
                 </div>
             </div>
 
@@ -431,7 +431,7 @@
             <div class="chat-area">
                 <div class="empty-state" id="emptyState">
                     <div class="empty-state-icon">💬</div>
-                    <p class="empty-state-text">选择一个会话开始聊天</p>
+                    <p class="empty-state-text">选择一个会话开始聊�?/p>
                 </div>
                 
                 <div class="chat-header" id="chatHeader" style="display: none;">
@@ -445,24 +445,24 @@
                     <div class="chat-actions">
                         <button class="chat-action-btn" title="语音通话" onclick="startVoiceCall()">📞</button>
                         <button class="chat-action-btn" title="视频通话" onclick="startVideoCall()">📹</button>
-                        <button class="chat-action-btn" title="更多" onclick="showChatMenu()">⋮</button>
+                        <button class="chat-action-btn" title="更多" onclick="showChatMenu()">�?/button>
                     </div>
                 </div>
 
                 <div class="messages-list" id="messagesList" style="display: none;">
-                    <!-- 消息将动态加载 -->
+                    <!-- 消息将动态加�?-->
                 </div>
 
                 <div class="chat-input-area" id="chatInputArea" style="display: none;">
                     <div class="input-toolbar">
                         <button class="toolbar-btn" title="表情" onclick="showEmojiPicker()">😊</button>
-                        <button class="toolbar-btn" title="图片" onclick="selectImage()">🖼️</button>
+                        <button class="toolbar-btn" title="图片" onclick="selectImage()">🖼�?/button>
                         <button class="toolbar-btn" title="文件" onclick="selectFile()">📎</button>
                         <button class="toolbar-btn" title="@提及" onclick="showMentionPicker()">@</button>
                     </div>
                     <div class="chat-input-wrapper">
                         <textarea class="chat-input" id="messageInput" placeholder="输入消息..." rows="1"></textarea>
-                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">�?/button>
                     </div>
                 </div>
             </div>
@@ -473,13 +473,13 @@
     <div class="modal" id="newMessageModal" style="display: none;">
         <div class="modal-content" style="max-width: 400px;">
             <div class="modal-header">
-                <h3>发送私信</h3>
+                <h3>发送私�?/h3>
                 <button class="close-btn" onclick="closeNewMessageModal()">×</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label>搜索用户</label>
-                    <input type="text" id="userSearchInput" placeholder="输入用户名..." oninput="searchUsers(this.value)">
+                    <input type="text" id="userSearchInput" placeholder="输入用户�?.." oninput="searchUsers(this.value)">
                 </div>
                 <div id="userSearchResults" style="max-height: 200px; overflow-y: auto;">
                     <!-- 搜索结果 -->
@@ -500,7 +500,7 @@
         }
         
         function showEmojiPicker() {
-            // 实现表情选择器
+            // 实现表情选择�?
             console.log('Show emoji picker');
         }
         
@@ -560,7 +560,7 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        // 模拟发送消息
+        // 模拟发送消�?
         let currentConversationId = null;
         
         function sendMessage() {
@@ -569,7 +569,7 @@
             
             if (!content) return;
             
-            // 添加到消息列表
+            // 添加到消息列�?
             const messagesList = document.getElementById('messagesList');
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message own';
@@ -592,13 +592,13 @@
             return div.innerHTML;
         }
         
-        // 输入框自动调整高度
+        // 输入框自动调整高�?
         document.getElementById('messageInput')?.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 120) + 'px';
         });
         
-        // 回车发送
+        // 回车发�?
         document.getElementById('messageInput')?.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();

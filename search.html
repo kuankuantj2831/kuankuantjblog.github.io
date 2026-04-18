@@ -446,7 +446,7 @@
                             type="text" 
                             class="search-input" 
                             id="searchInput" 
-                            placeholder="搜索文章、标签、作者..."
+                            placeholder="搜索文章、标签、作�?.."
                             autocomplete="off"
                         >
                         <button class="search-btn" id="searchBtn">
@@ -460,14 +460,14 @@
                 </div>
             </div>
             
-            <!-- 搜索筛选 -->
+            <!-- 搜索筛�?-->
             <div class="search-filters">
                 <div class="filter-row">
                     <div class="filter-group">
                         <label class="filter-label">分类</label>
                         <select class="filter-select" id="categoryFilter">
                             <option value="">全部分类</option>
-                            <option value="tech">技术</option>
+                            <option value="tech">技�?/option>
                             <option value="life">生活</option>
                             <option value="tutorial">教程</option>
                             <option value="note">笔记</option>
@@ -477,19 +477,19 @@
                         <label class="filter-label">发布时间</label>
                         <select class="filter-select" id="dateFilter">
                             <option value="">全部时间</option>
-                            <option value="day">最近24小时</option>
-                            <option value="week">最近一周</option>
-                            <option value="month">最近一月</option>
-                            <option value="year">最近一年</option>
+                            <option value="day">最�?4小时</option>
+                            <option value="week">最近一�?/option>
+                            <option value="month">最近一�?/option>
+                            <option value="year">最近一�?/option>
                         </select>
                     </div>
                     <div class="filter-group">
                         <label class="filter-label">排序方式</label>
                         <select class="filter-select" id="sortFilter">
-                            <option value="relevance">相关度</option>
-                            <option value="newest">最新发布</option>
-                            <option value="popular">最受欢迎</option>
-                            <option value="views">最多阅读</option>
+                            <option value="relevance">相关�?/option>
+                            <option value="newest">最新发�?/option>
+                            <option value="popular">最受欢�?/option>
+                            <option value="views">最多阅�?/option>
                         </select>
                     </div>
                 </div>
@@ -497,7 +497,7 @@
                     <div class="filter-group" style="flex: 2;">
                         <label class="filter-label">热门标签</label>
                         <div class="filter-tags" id="popularTags">
-                            <!-- 动态生成 -->
+                            <!-- 动态生�?-->
                         </div>
                     </div>
                 </div>
@@ -506,33 +506,33 @@
             <!-- 搜索统计 -->
             <div class="search-stats" id="searchStats" style="display: none;">
                 <span class="search-stats-text">
-                    找到 <strong id="resultCount">0</strong> 个结果
-                    <span id="searchTime">(0.12秒)</span>
+                    找到 <strong id="resultCount">0</strong> 个结�?
+                    <span id="searchTime">(0.12�?</span>
                 </span>
             </div>
             
             <!-- 搜索结果 -->
             <div class="search-results" id="searchResults">
-                <!-- 动态生成 -->
+                <!-- 动态生�?-->
             </div>
             
             <!-- 分页 -->
             <div class="pagination" id="pagination" style="display: none;">
-                <!-- 动态生成 -->
+                <!-- 动态生�?-->
             </div>
             
             <!-- 热门搜索 -->
             <div class="trending-searches" id="trendingSearches">
                 <h3 class="trending-title">🔥 热门搜索</h3>
                 <div class="trending-tags" id="trendingTags">
-                    <!-- 动态生成 -->
+                    <!-- 动态生�?-->
                 </div>
             </div>
         </div>
     </div>
     
     <script type="module">
-        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
+        import { API_BASE_URL } from './js/api-config.js?v=20260418a';
         
         let currentPage = 1;
         let currentQuery = '';
@@ -545,7 +545,7 @@
         const searchStats = document.getElementById('searchStats');
         const pagination = document.getElementById('pagination');
         
-        // 获取筛选条件
+        // 获取筛选条�?
         function getFilters() {
             return {
                 category: document.getElementById('categoryFilter').value,
@@ -564,7 +564,7 @@
             
             const filters = getFilters();
             
-            // 显示加载状态
+            // 显示加载状�?
             searchResults.innerHTML = '<div class="loading-spinner"></div>';
             searchStats.style.display = 'none';
             pagination.style.display = 'none';
@@ -613,7 +613,7 @@
                             <path d="m21 21-4.35-4.35"></path>
                         </svg>
                         <h3>没有找到相关结果</h3>
-                        <p>试试其他关键词或调整筛选条件</p>
+                        <p>试试其他关键词或调整筛选条�?/p>
                     </div>
                 `;
                 pagination.style.display = 'none';
@@ -641,7 +641,7 @@
                             <span>${result.views || 0}</span>
                         </div>
                         <div class="result-meta-item">
-                            <span>❤</span>
+                            <span>�?/span>
                             <span>${result.likes || 0}</span>
                         </div>
                         ${result.tags ? `
@@ -659,7 +659,7 @@
             renderPagination(data.total, data.page, data.totalPages);
         }
         
-        // 高亮搜索词
+        // 高亮搜索�?
         function highlightText(text, query) {
             if (!query || !text) return text;
             const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
@@ -680,8 +680,8 @@
             
             let html = '';
             
-            // 上一页
-            html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">上一页</button>`;
+            // 上一�?
+            html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">上一�?/button>`;
             
             // 页码
             const startPage = Math.max(1, currentPage - 2);
@@ -691,8 +691,8 @@
                 html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
             }
             
-            // 下一页
-            html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">下一页</button>`;
+            // 下一�?
+            html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">下一�?/button>`;
             
             pagination.innerHTML = html;
             pagination.style.display = 'flex';
@@ -768,7 +768,7 @@
             }
         }
         
-        // 搜索热门词
+        // 搜索热门�?
         window.searchTrending = function(query) {
             searchInput.value = query;
             performSearch(1);
@@ -832,7 +832,7 @@
             }
         });
         
-        // 初始化
+        // 初始�?
         function init() {
             loadPopularTags();
             loadTrendingSearches();

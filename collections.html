@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>我的收藏夹 - Hakimi 的猫爬架</title>
+    <title>我的收藏�?- Hakimi 的猫爬架</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/tianjg-theme.css">
@@ -63,7 +63,7 @@
             }
         }
 
-        /* 侧边栏 */
+        /* 侧边�?*/
         .collections-sidebar {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
@@ -302,7 +302,7 @@
             align-items: center;
         }
 
-        /* 批量操作栏 */
+        /* 批量操作�?*/
         .batch-actions {
             display: none;
             position: sticky;
@@ -335,7 +335,7 @@
             gap: 10px;
         }
 
-        /* 空状态 */
+        /* 空状�?*/
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -551,20 +551,20 @@
             <div class="collections-header">
                 <h1 class="collections-title">
                     <span>📚</span>
-                    我的收藏夹
+                    我的收藏�?
                 </h1>
                 <button class="btn-create-collection" onclick="openCreateModal()">
                     <span>+</span>
-                    新建收藏夹
+                    新建收藏�?
                 </button>
             </div>
 
             <div class="collections-layout">
-                <!-- 侧边栏 -->
+                <!-- 侧边�?-->
                 <aside class="collections-sidebar">
-                    <h3 class="sidebar-title">收藏夹列表</h3>
+                    <h3 class="sidebar-title">收藏夹列�?/h3>
                     <div class="collections-list" id="collectionsList">
-                        <!-- 动态生成 -->
+                        <!-- 动态生�?-->
                     </div>
                 </aside>
 
@@ -583,26 +583,26 @@
                                 <span>✏️</span> 编辑
                             </button>
                             <button class="btn-secondary btn-danger" onclick="deleteCurrentCollection()">
-                                <span>🗑️</span> 删除
+                                <span>🗑�?/span> 删除
                             </button>
                         </div>
                     </div>
 
                     <div class="articles-list" id="articlesList">
-                        <!-- 动态生成 -->
+                        <!-- 动态生�?-->
                     </div>
 
-                    <!-- 批量操作栏 -->
+                    <!-- 批量操作�?-->
                     <div class="batch-actions" id="batchActions">
                         <div class="batch-info">
-                            已选择 <span id="selectedCount">0</span> 篇文章
+                            已选择 <span id="selectedCount">0</span> 篇文�?
                         </div>
                         <div class="batch-buttons">
                             <button class="btn-secondary" onclick="moveSelected()">
                                 <span>📂</span> 移动
                             </button>
                             <button class="btn-secondary btn-danger" onclick="deleteSelected()">
-                                <span>🗑️</span> 移除
+                                <span>🗑�?/span> 移除
                             </button>
                             <button class="btn-secondary" onclick="clearSelection()">
                                 取消选择
@@ -610,7 +610,7 @@
                         </div>
                     </div>
 
-                    <!-- 空状态 -->
+                    <!-- 空状�?-->
                     <div class="empty-state" id="emptyState" style="display: none;">
                         <div class="empty-icon">📭</div>
                         <p class="empty-text">这个收藏夹还没有文章</p>
@@ -625,11 +625,11 @@
     <div class="modal-overlay" id="collectionModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle">新建收藏夹</h3>
+                <h3 id="modalTitle">新建收藏�?/h3>
             </div>
             <form id="collectionForm">
                 <div class="form-group">
-                    <label class="form-label">收藏夹名称</label>
+                    <label class="form-label">收藏夹名�?/label>
                     <input type="text" class="form-input" id="collectionName" placeholder="给收藏夹起个名字" required>
                 </div>
                 <div class="form-group">
@@ -640,7 +640,7 @@
                     <label class="form-label">选择图标</label>
                     <div class="icon-selector" id="iconSelector">
                         <div class="icon-option selected" data-icon="📁">📁</div>
-                        <div class="icon-option" data-icon="⭐">⭐</div>
+                        <div class="icon-option" data-icon="�?>�?/div>
                         <div class="icon-option" data-icon="❤️">❤️</div>
                         <div class="icon-option" data-icon="📖">📖</div>
                         <div class="icon-option" data-icon="💡">💡</div>
@@ -679,7 +679,7 @@
                 <h3>移动到收藏夹</h3>
             </div>
             <div class="collections-list" id="moveCollectionList" style="max-height: 300px; overflow-y: auto;">
-                <!-- 动态生成 -->
+                <!-- 动态生�?-->
             </div>
             <div class="modal-footer">
                 <button class="btn-cancel" onclick="closeMoveModal()">取消</button>
@@ -692,16 +692,16 @@
 
     <script src="js/supabase-auth.js"></script>
     <script type="module">
-        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
+        import { API_BASE_URL } from './js/api-config.js?v=20260418a';
         
-        // 全局状态
+        // 全局状�?
         let collections = [];
         let currentCollectionId = null;
         let selectedArticles = new Set();
         let editingCollectionId = null;
         let currentUser = null;
 
-        // 初始化
+        // 初始�?
         async function init() {
             const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || 'null');
             if (!user) {
@@ -713,7 +713,7 @@
             setupEventListeners();
         }
 
-        // 加载收藏夹列表
+        // 加载收藏夹列�?
         async function loadCollections() {
             try {
                 const response = await fetch(`${API_BASE_URL}/collections`, {
@@ -727,7 +727,7 @@
                     collections = data.collections || [];
                     renderCollectionsList();
                     
-                    // 默认选择第一个收藏夹或"全部"
+                    // 默认选择第一个收藏夹�?全部"
                     if (collections.length > 0 && !currentCollectionId) {
                         selectCollection(collections[0].id);
                     } else if (currentCollectionId) {
@@ -740,7 +740,7 @@
             }
         }
 
-        // 渲染收藏夹列表
+        // 渲染收藏夹列�?
         function renderCollectionsList() {
             const container = document.getElementById('collectionsList');
             
@@ -752,7 +752,7 @@
                     <div class="collection-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">📚</div>
                     <div class="collection-info">
                         <div class="collection-name">全部收藏</div>
-                        <div class="collection-count">${collections.reduce((sum, c) => sum + (c.article_count || 0), 0)} 篇文章</div>
+                        <div class="collection-count">${collections.reduce((sum, c) => sum + (c.article_count || 0), 0)} 篇文�?/div>
                     </div>
                 </div>
             `;
@@ -769,11 +769,11 @@
                                 ${collection.name}
                                 ${collection.is_public ? '<span>🌐</span>' : '<span>🔒</span>'}
                             </div>
-                            <div class="collection-count">${collection.article_count || 0} 篇文章</div>
+                            <div class="collection-count">${collection.article_count || 0} 篇文�?/div>
                         </div>
                         <div class="collection-actions">
                             <button class="btn-icon" onclick="event.stopPropagation(); editCollection(${collection.id})">✏️</button>
-                            <button class="btn-icon" onclick="event.stopPropagation(); deleteCollection(${collection.id})">🗑️</button>
+                            <button class="btn-icon" onclick="event.stopPropagation(); deleteCollection(${collection.id})">🗑�?/button>
                         </div>
                     </div>
                 `;
@@ -782,7 +782,7 @@
             container.innerHTML = html;
         }
 
-        // 选择收藏夹
+        // 选择收藏�?
         async function selectCollection(id) {
             currentCollectionId = id;
             selectedArticles.clear();
@@ -810,7 +810,7 @@
         // 加载文章列表
         async function loadArticles(collectionId) {
             const container = document.getElementById('articlesList');
-            container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">加载中...</div>';
+            container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">加载�?..</div>';
             
             try {
                 let url = `${API_BASE_URL}/collections`;
@@ -859,12 +859,12 @@
                         <div class="article-meta">
                             <span>👤 ${article.author_name || '匿名'}</span>
                             <span>📅 ${formatDate(article.created_at)}</span>
-                            <span>👁️ ${article.view_count || 0} 阅读</span>
+                            <span>👁�?${article.view_count || 0} 阅读</span>
                         </div>
                     </div>
                     <div class="article-actions">
                         <button class="btn-icon" onclick="moveArticle('${article.id}')" title="移动">📂</button>
-                        <button class="btn-icon" onclick="removeArticle('${article.id}')" title="移除">🗑️</button>
+                        <button class="btn-icon" onclick="removeArticle('${article.id}')" title="移除">🗑�?/button>
                     </div>
                 </div>
             `).join('');
@@ -880,7 +880,7 @@
             updateBatchActions();
         }
 
-        // 更新批量操作栏
+        // 更新批量操作�?
         function updateBatchActions() {
             const batchActions = document.getElementById('batchActions');
             const selectedCount = document.getElementById('selectedCount');
@@ -954,7 +954,7 @@
                 });
                 
                 if (response.ok) {
-                    showToast(editingCollectionId ? '收藏夹已更新' : '收藏夹创建成功');
+                    showToast(editingCollectionId ? '收藏夹已更新' : '收藏夹创建成�?);
                     closeModal();
                     await loadCollections();
                 } else {
@@ -967,13 +967,13 @@
             }
         }
 
-        // 编辑收藏夹
+        // 编辑收藏�?
         function editCollection(id) {
             const collection = collections.find(c => c.id === id);
             if (!collection) return;
             
             editingCollectionId = id;
-            document.getElementById('modalTitle').textContent = '编辑收藏夹';
+            document.getElementById('modalTitle').textContent = '编辑收藏�?;
             document.getElementById('collectionName').value = collection.name;
             document.getElementById('collectionDesc').value = collection.description || '';
             
@@ -985,7 +985,7 @@
             document.getElementById('collectionModal').classList.add('show');
         }
 
-        // 编辑当前收藏夹
+        // 编辑当前收藏�?
         function editCurrentCollection() {
             if (!currentCollectionId) {
                 showToast('无法编辑"全部收藏"');
@@ -994,9 +994,9 @@
             editCollection(currentCollectionId);
         }
 
-        // 删除收藏夹
+        // 删除收藏�?
         async function deleteCollection(id) {
-            if (!confirm('确定要删除这个收藏夹吗？其中的文章将被移到"全部收藏"。')) return;
+            if (!confirm('确定要删除这个收藏夹吗？其中的文章将被移�?全部收藏"�?)) return;
             
             try {
                 const response = await fetch(`${API_BASE_URL}/collections/${id}`, {
@@ -1021,7 +1021,7 @@
             }
         }
 
-        // 删除当前收藏夹
+        // 删除当前收藏�?
         function deleteCurrentCollection() {
             if (!currentCollectionId) {
                 showToast('无法删除"全部收藏"');
@@ -1053,7 +1053,7 @@
                     </div>
                     <div class="collection-info">
                         <div class="collection-name">${c.name}</div>
-                        <div class="collection-count">${c.article_count || 0} 篇文章</div>
+                        <div class="collection-count">${c.article_count || 0} 篇文�?/div>
                     </div>
                 </div>
             `).join('');
@@ -1067,7 +1067,7 @@
             
             try {
                 for (const articleId of articleIds) {
-                    // 先从当前收藏夹移除
+                    // 先从当前收藏夹移�?
                     if (currentCollectionId) {
                         await fetch(`${API_BASE_URL}/collections/${currentCollectionId}/articles/${articleId}`, {
                             method: 'DELETE',
@@ -1101,7 +1101,7 @@
 
         // 移除文章
         async function removeArticle(articleId) {
-            if (!confirm('确定要移除这篇文章吗？')) return;
+            if (!confirm('确定要移除这篇文章吗�?)) return;
             
             try {
                 const url = currentCollectionId
@@ -1116,7 +1116,7 @@
                 });
                 
                 if (response.ok) {
-                    showToast('文章已移除');
+                    showToast('文章已移�?);
                     await loadCollections();
                     await loadArticles(currentCollectionId);
                 } else {
@@ -1131,7 +1131,7 @@
         // 批量移除
         async function deleteSelected() {
             if (selectedArticles.size === 0) return;
-            if (!confirm(`确定要移除选中的 ${selectedArticles.size} 篇文章吗？`)) return;
+            if (!confirm(`确定要移除选中�?${selectedArticles.size} 篇文章吗？`)) return;
             
             const articleIds = Array.from(selectedArticles);
             for (const articleId of articleIds) {
@@ -1159,7 +1159,7 @@
         window.selectCollection = selectCollection;
         window.openCreateModal = function() {
             editingCollectionId = null;
-            document.getElementById('modalTitle').textContent = '新建收藏夹';
+            document.getElementById('modalTitle').textContent = '新建收藏�?;
             document.getElementById('collectionForm').reset();
             document.querySelectorAll('#iconSelector .icon-option').forEach((o, i) => o.classList.toggle('selected', i === 0));
             document.querySelectorAll('#colorSelector .color-option').forEach((o, i) => o.classList.toggle('selected', i === 0));

@@ -65,7 +65,7 @@
             margin-bottom: 20px;
         }
 
-        /* 经验进度条 */
+        /* 经验进度�?*/
         .exp-section {
             background: white;
             border-radius: 15px;
@@ -287,7 +287,7 @@
             font-size: 0.9rem;
         }
 
-        /* 响应式 */
+        /* 响应�?*/
         @media (max-width: 768px) {
             .level-hero-content {
                 flex-direction: column;
@@ -320,7 +320,7 @@
                 <div class="level-hero-content">
                     <div class="level-badge-large" id="levelBadge">🐱</div>
                     <div class="level-info">
-                        <h1 id="levelTitle">等级加载中...</h1>
+                        <h1 id="levelTitle">等级加载�?..</h1>
                         <p class="title" id="levelSubtitle">--</p>
                         <p>继续积累经验，解锁更多特权！</p>
                     </div>
@@ -330,7 +330,7 @@
             <!-- 经验进度 -->
             <div class="exp-section">
                 <div class="exp-header">
-                    <h3>经验值</h3>
+                    <h3>经验�?/h3>
                     <span id="expText">0 / 100 XP</span>
                 </div>
                 <div class="exp-bar-container">
@@ -339,7 +339,7 @@
                 <div class="exp-stats">
                     <div class="exp-stat">
                         <div class="number" id="totalExp">0</div>
-                        <div class="label">总经验</div>
+                        <div class="label">总经�?/div>
                     </div>
                     <div class="exp-stat">
                         <div class="number" id="weeklyExp">0</div>
@@ -363,8 +363,8 @@
                     <span id="badgeCount">0 / 0</span>
                 </div>
                 <div class="badges-grid" id="badgesGrid">
-                    <!-- 动态加载 -->
-                    <div class="loading">加载中...</div>
+                    <!-- 动态加�?-->
+                    <div class="loading">加载�?..</div>
                 </div>
             </div>
 
@@ -374,14 +374,14 @@
                     <h2>📊 等级体系</h2>
                 </div>
                 <div id="levelsList">
-                    <!-- 动态加载 -->
+                    <!-- 动态加�?-->
                 </div>
             </div>
         </div>
     </div>
 
     <script type="module">
-        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
+        import { API_BASE_URL } from './js/api-config.js?v=20260418a';
 
         class LevelProfile {
             constructor() {
@@ -424,8 +424,8 @@
                 const { level, current_exp, next_level_exp, total_exp, weekly_exp } = this.userLevel;
                 const progress = Math.floor((current_exp / next_level_exp) * 100);
                 const titles = [
-                    '新手猫奴', '见习铲屎官', '熟练铲屎官', '资深猫奴', '猫咪专家',
-                    '猫语翻译官', '喵星人导师', '猫爬架守护者', '猫界传奇', '喵神'
+                    '新手猫奴', '见习铲屎�?, '熟练铲屎�?, '资深猫奴', '猫咪专家',
+                    '猫语翻译�?, '喵星人导�?, '猫爬架守护�?, '猫界传奇', '喵神'
                 ];
                 const icons = ['🐱', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾'];
 
@@ -478,7 +478,7 @@
                             </div>
                             <div class="badge-name">${badge.name}</div>
                             <div class="badge-desc">${badge.description}</div>
-                            ${isEquipped ? '<div class="equipped-label">✓ 展示中</div>' : ''}
+                            ${isEquipped ? '<div class="equipped-label">�?展示�?/div>' : ''}
                         </div>
                     `;
                 }).join('');
@@ -487,7 +487,7 @@
             async equipBadge(badgeId) {
                 const hasBadge = this.userBadges.some(b => b.badge_id === badgeId);
                 if (!hasBadge) {
-                    alert('你还没有获得这个徽章！');
+                    alert('你还没有获得这个徽章�?);
                     return;
                 }
 
@@ -514,8 +514,8 @@
                 const container = document.getElementById('levelsList');
                 const currentLevel = this.userLevel?.level || 1;
                 const titles = [
-                    '新手猫奴', '见习铲屎官', '熟练铲屎官', '资深猫奴', '猫咪专家',
-                    '猫语翻译官', '喵星人导师', '猫爬架守护者', '猫界传奇', '喵神'
+                    '新手猫奴', '见习铲屎�?, '熟练铲屎�?, '资深猫奴', '猫咪专家',
+                    '猫语翻译�?, '喵星人导�?, '猫爬架守护�?, '猫界传奇', '喵神'
                 ];
 
                 let html = '';
@@ -529,10 +529,10 @@
                             <div class="level-number">${i}</div>
                             <div class="level-details">
                                 <h4>${titles[i-1]}</h4>
-                                <p>需要 ${expNeeded} XP</p>
+                                <p>需�?${expNeeded} XP</p>
                             </div>
                             <div class="level-reward">
-                                ${isCurrent ? '🎯 当前等级' : isPassed ? '✓ 已达成' : '🔒 未解锁'}
+                                ${isCurrent ? '🎯 当前等级' : isPassed ? '�?已达�? : '🔒 未解�?}
                             </div>
                         </div>
                     `;

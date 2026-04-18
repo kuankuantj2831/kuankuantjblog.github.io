@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>云端网盘 - Hakimi 的猫爬架</title>
 
-    <!-- 性能优化：预连接 API 服务器 -->
+    <!-- 性能优化：预连接 API 服务�?-->
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
@@ -259,13 +259,13 @@
             </div>
         </nav>
 
-        <!-- 未登录提示 -->
+        <!-- 未登录提�?-->
         <div class="drive-container" id="loginPrompt" style="display:none;">
             <div class="login-prompt">
                 <div class="icon">🔒</div>
                 <h2>请先登录</h2>
                 <p>云端网盘是您的私人文件空间，登录后即可上传和管理文件</p>
-                <a href="index.html" class="login-btn">去登录</a>
+                <a href="index.html" class="login-btn">去登�?/a>
             </div>
         </div>
 
@@ -276,19 +276,19 @@
                 <div class="drive-user-info">
                     <span>👤 <span class="username" id="driveUsername"></span></span>
                     <span>·</span>
-                    <span><span id="fileCount">0</span> 个文件</span>
+                    <span><span id="fileCount">0</span> 个文�?/span>
                 </div>
             </div>
 
             <div class="upload-area" id="dropZone">
                 <div class="upload-icon">📤</div>
                 <h3>点击或拖拽文件到这里上传</h3>
-                <p style="color:#999; font-size:0.9em;">支持任意格式，最大 200MB · 文件仅自己可见</p>
+                <p style="color:#999; font-size:0.9em;">支持任意格式，最�?200MB · 文件仅自己可�?/p>
                 <input type="file" id="fileInput" hidden>
 
                 <div id="progressContainer">
                     <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:0.85em;">
-                        <span id="uploadStatus">上传中...</span>
+                        <span id="uploadStatus">上传�?..</span>
                         <span id="uploadPercent">0%</span>
                     </div>
                     <div class="progress-bar">
@@ -306,7 +306,7 @@
     </div>
 
     <script type="module">
-        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
+        import { API_BASE_URL } from './js/api-config.js?v=20260418a';
 
         // 获取登录信息
         const token = localStorage.getItem('token');
@@ -316,10 +316,10 @@
         const driveMain = document.getElementById('driveMain');
 
         if (!token || !user) {
-            // 未登录
+            // 未登�?
             loginPrompt.style.display = 'block';
         } else {
-            // 已登录
+            // 已登�?
             driveMain.style.display = 'block';
             document.getElementById('driveUsername').textContent = user.username || '用户';
 
@@ -328,7 +328,7 @@
             const dropZone = document.getElementById('dropZone');
             const fileInput = document.getElementById('fileInput');
 
-            // 通用请求头
+            // 通用请求�?
             const authHeaders = () => ({
                 'Authorization': `Bearer ${token}`
             });
@@ -383,7 +383,7 @@
                     });
 
                     if (res.status === 401 || res.status === 403) {
-                        // Token 过期或无效
+                        // Token 过期或无�?
                         localStorage.removeItem('token');
                         localStorage.removeItem('user');
                         loginPrompt.style.display = 'block';
@@ -399,12 +399,12 @@
                         fileListEl.innerHTML = `<div style="text-align:center;color:red;padding:20px;">无法加载文件列表: ${data.message}</div>`;
                     }
                 } catch (e) {
-                    fileListEl.innerHTML = `<div style="text-align:center;color:#999;padding:20px;">连接服务器失败</div>`;
+                    fileListEl.innerHTML = `<div style="text-align:center;color:#999;padding:20px;">连接服务器失�?/div>`;
                 }
             }
 
-            const MAX_DIRECT_SIZE = 5 * 1024 * 1024; // 5MB 以下走后端中转
-            const MAX_FILE_SIZE = 200 * 1024 * 1024; // 最大 200MB
+            const MAX_DIRECT_SIZE = 5 * 1024 * 1024; // 5MB 以下走后端中�?
+            const MAX_FILE_SIZE = 200 * 1024 * 1024; // 最�?200MB
 
             async function uploadFile(file) {
                 if (file.size > MAX_FILE_SIZE) {
@@ -414,19 +414,19 @@
 
                 document.getElementById('progressContainer').style.display = 'block';
                 updateProgress(0);
-                document.getElementById('uploadStatus').textContent = '上传中...';
+                document.getElementById('uploadStatus').textContent = '上传�?..';
 
                 try {
                     if (file.size <= MAX_DIRECT_SIZE) {
-                        // 小文件：走后端中转（兼容原有逻辑）
+                        // 小文件：走后端中转（兼容原有逻辑�?
                         await uploadViaBackend(file);
                     } else {
-                        // 大文件：获取签名 URL 后直传 COS
+                        // 大文件：获取签名 URL 后直�?COS
                         await uploadViaCOS(file);
                     }
                 } catch (e) {
                     console.error('上传出错:', e);
-                    alert('上传失败：' + (e.message || '未知错误'));
+                    alert('上传失败�? + (e.message || '未知错误'));
                     document.getElementById('progressContainer').style.display = 'none';
                 }
             }
@@ -453,7 +453,7 @@
                             resolve();
                         } else {
                             const resp = JSON.parse(xhr.responseText || '{}');
-                            reject(new Error(resp.message || '服务器返回错误'));
+                            reject(new Error(resp.message || '服务器返回错�?));
                         }
                     };
 
@@ -465,14 +465,14 @@
                         reject(new Error('上传超时，请重试'));
                     };
 
-                    xhr.timeout = 60000; // 60 秒超时
+                    xhr.timeout = 60000; // 60 秒超�?
                     xhr.send(formData);
                 });
             }
 
             // 大文件：COS 直传
             async function uploadViaCOS(file) {
-                // 1. 从后端获取签名 URL
+                // 1. 从后端获取签�?URL
                 document.getElementById('uploadStatus').textContent = '准备上传...';
                 const signRes = await fetch(`${API_BASE_URL}/drive/sign`, {
                     method: 'POST',
@@ -490,8 +490,8 @@
 
                 const { signedUrl } = await signRes.json();
 
-                // 2. 用签名 URL 直传到 COS
-                document.getElementById('uploadStatus').textContent = '上传中...';
+                // 2. 用签�?URL 直传�?COS
+                document.getElementById('uploadStatus').textContent = '上传�?..';
                 await new Promise((resolve, reject) => {
                     const xhr = new XMLHttpRequest();
                     xhr.open('PUT', signedUrl, true);
@@ -516,10 +516,10 @@
                     };
 
                     xhr.ontimeout = function () {
-                        reject(new Error('上传超时，文件可能过大，请重试'));
+                        reject(new Error('上传超时，文件可能过大，请重�?));
                     };
 
-                    xhr.timeout = 600000; // 大文件 10 分钟超时
+                    xhr.timeout = 600000; // 大文�?10 分钟超时
                     xhr.send(file);
                 });
 
@@ -528,7 +528,7 @@
 
             function onUploadSuccess() {
                 updateProgress(100);
-                document.getElementById('uploadStatus').textContent = '✅ 上传成功!';
+                document.getElementById('uploadStatus').textContent = '�?上传成功!';
                 setTimeout(() => {
                     document.getElementById('progressContainer').style.display = 'none';
                     fileInput.value = '';
@@ -565,7 +565,7 @@
             }
 
             async function deleteFile(key, name) {
-                if (!confirm(`确定要删除「${name}」吗？此操作不可恢复。`)) return;
+                if (!confirm(`确定要删除�?{name}」吗？此操作不可恢复。`)) return;
 
                 try {
                     const res = await fetch(`${API_BASE_URL}/drive/delete`, {
@@ -618,9 +618,9 @@
                             <div class="file-meta">${sizeStr} · ${dateStr}</div>
                         </div>
                         <div class="file-actions">
-                            <button class="action-btn btn-download" onclick="downloadFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">↓ 下载</button>
+                            <button class="action-btn btn-download" onclick="downloadFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">�?下载</button>
                             <button class="action-btn btn-share" onclick="openShareModal('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">🔗 分享</button>
-                            <button class="action-btn btn-delete" onclick="deleteFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">🗑️ 删除</button>
+                            <button class="action-btn btn-delete" onclick="deleteFile('${safeKey.replace(/'/g, "\\'")}', '${safeName.replace(/'/g, "\\'")}')">🗑�?删除</button>
                         </div>
                     </li>
                     `;
@@ -644,7 +644,7 @@
 
             function getFileIcon(name) {
                 const ext = (name || '').split('.').pop().toLowerCase();
-                if (['jpg', 'png', 'gif', 'jpeg', 'webp', 'svg'].includes(ext)) return '🖼️';
+                if (['jpg', 'png', 'gif', 'jpeg', 'webp', 'svg'].includes(ext)) return '🖼�?;
                 if (['zip', 'rar', '7z', 'tar', 'gz'].includes(ext)) return '📦';
                 if (['mp3', 'wav', 'flac', 'aac'].includes(ext)) return '🎵';
                 if (['mp4', 'mov', 'avi', 'mkv'].includes(ext)) return '🎬';
@@ -663,7 +663,7 @@
             window.openShareModal = function(key, name) {
                 shareFileKey = key;
                 shareFileName = name;
-                document.getElementById('shareModalTitle').textContent = `分享「${name}」`;
+                document.getElementById('shareModalTitle').textContent = `分享�?{name}」`;
                 document.getElementById('sharePassword').value = '';
                 document.getElementById('shareExpires').value = '0';
                 document.getElementById('shareMaxDownloads').value = '';
@@ -691,7 +691,7 @@
                     if (res.ok) {
                         const fullUrl = location.origin + data.shareUrl;
                         const resultEl = document.getElementById('shareResult');
-                        resultEl.innerHTML = `? 分享链接已创建！<br><a href="${data.shareUrl}" target="_blank" style="color:#1890ff;">${fullUrl}</a><br><button onclick="navigator.clipboard.writeText('${fullUrl}');this.textContent='已复制!'" style="margin-top:8px;padding:4px 12px;border:1px solid #1890ff;background:white;color:#1890ff;border-radius:6px;cursor:pointer;">复制链接</button>`;
+                        resultEl.innerHTML = `? 分享链接已创建！<br><a href="${data.shareUrl}" target="_blank" style="color:#1890ff;">${fullUrl}</a><br><button onclick="navigator.clipboard.writeText('${fullUrl}');this.textContent='已复�?'" style="margin-top:8px;padding:4px 12px;border:1px solid #1890ff;background:white;color:#1890ff;border-radius:6px;cursor:pointer;">复制链接</button>`;
                         resultEl.style.display = 'block';
                     } else {
                         alert(data.message || '创建失败');
@@ -709,16 +709,16 @@
             <h3 id="shareModalTitle">分享文件</h3>
             <label>提取密码（可选）</label>
             <input type="text" id="sharePassword" placeholder="留空则无需密码" maxlength="32">
-            <label>有效期</label>
+            <label>有效�?/label>
             <select id="shareExpires">
                 <option value="0">永久有效</option>
                 <option value="1">1小时</option>
-                <option value="24">1天</option>
-                <option value="168">7天</option>
-                <option value="720">30天</option>
+                <option value="24">1�?/option>
+                <option value="168">7�?/option>
+                <option value="720">30�?/option>
             </select>
             <label>最大下载次数（可选）</label>
-            <input type="number" id="shareMaxDownloads" placeholder="留空则不限" min="1" max="9999">
+            <input type="number" id="shareMaxDownloads" placeholder="留空则不�? min="1" max="9999">
             <div class="share-result" id="shareResult"></div>
             <div class="share-modal-btns">
                 <button class="share-cancel-btn" onclick="closeShareModal()">取消</button>
@@ -728,7 +728,7 @@
     </div>
     <script src="js/theme.js?v=1"></script>
 
-<!-- Win7 Emoji 兼容性处理 -->
+<!-- Win7 Emoji 兼容性处�?-->
 <script>
 (function() {
     // 检测是否为 Windows 7
@@ -738,13 +738,13 @@
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji 替换映射表
+    // Emoji 替换映射�?
     var emojiMap = {
-        "🐱": "猫",
+        "🐱": "�?,
         "🏠": "首页",
         "🎮": "游戏",
-        "☁️": "云",
-        "☀️": "太阳",
+        "☁️": "�?,
+        "☀�?: "太阳",
         "❤️": "爱心",
         "🎯": "关于",
         "💬": "消息",
@@ -752,31 +752,31 @@
         "👤": "用户",
         "📝": "编辑",
         "⬆️": "升级",
-        "🖼️": "图片",
+        "🖼�?: "图片",
         "✍️": "写作",
         "⚙️": "设置",
-        "🚪": "退出",
+        "🚪": "退�?,
         "💡": "提示",
-        "⚡": "经验",
+        "�?: "经验",
         "🚀": "发布",
-        "🎖️": "等级",
+        "🎖�?: "等级",
         "💪": "加油",
         "🔒": "锁定",
         "📜": "协议",
-        "↑": "上",
-        "↓": "下",
+        "�?: "�?,
+        "�?: "�?,
         "↩️": "撤销",
-        "❓": "帮助",
+        "�?: "帮助",
         "🔄": "刷新",
-        "▶️": "开始",
+        "▶️": "开�?,
         "⏱️": "时间",
         "🎨": "创意",
         "💻": "电脑",
         "📚": "学习",
-        "🛡️": "盾牌",
+        "🛡�?: "盾牌",
         "✈️": "飞机",
-        "⭐": "星星",
-        "🕹️": "手柄",
+        "�?: "星星",
+        "🕹�?: "手柄",
         "📧": "邮箱",
         "📱": "手机",
         "📑": "目录",
@@ -786,13 +786,13 @@
         "🔧": "工具",
         "🪙": "硬币",
         "💰": "金币",
-        "✅": "完成",
-        "🛠️": "工具",
+        "�?: "完成",
+        "🛠�?: "工具",
         "💫": "星光",
         "🔍": "搜索",
         "📖": "书籍",
-        "🏷️": "标签",
-        "🗑️": "删除"
+        "🏷�?: "标签",
+        "🗑�?: "删除"
     };
     
     // 替换页面中的 emoji
@@ -822,7 +822,7 @@
             }
         }
         
-        // 替换属性中的 emoji（如 title, alt 等）
+        // 替换属性中�?emoji（如 title, alt 等）
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -846,7 +846,7 @@
         }
     }
     
-    // DOM 加载完成后执行替换
+    // DOM 加载完成后执行替�?
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {

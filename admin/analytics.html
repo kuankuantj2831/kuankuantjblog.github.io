@@ -22,7 +22,7 @@
             min-height: 100vh;
         }
 
-        /* 侧边栏 */
+        /* 侧边�?*/
         .admin-sidebar {
             width: 260px;
             background: #1a1f37;
@@ -357,7 +357,7 @@
         .level-badge.warning { background: #fff3e0; color: #f57c00; }
         .level-badge.error { background: #ffebee; color: #d32f2f; }
 
-        /* 响应式 */
+        /* 响应�?*/
         @media (max-width: 1024px) {
             .admin-sidebar {
                 transform: translateX(-100%);
@@ -376,7 +376,7 @@
 </head>
 <body>
     <div class="admin-layout">
-        <!-- 侧边栏 -->
+        <!-- 侧边�?-->
         <aside class="admin-sidebar">
             <div class="sidebar-header">
                 <h1>🐱 管理后台</h1>
@@ -385,7 +385,7 @@
                 <div class="nav-section">
                     <div class="nav-section-title">概览</div>
                     <div class="nav-item active" onclick="adminApp.switchPanel('dashboard')">
-                        <span>📊</span> 仪表板
+                        <span>📊</span> 仪表�?
                     </div>
                     <div class="nav-item" onclick="adminApp.switchPanel('analytics')">
                         <span>📈</span> 数据分析
@@ -394,7 +394,7 @@
                 <div class="nav-section">
                     <div class="nav-section-title">内容管理</div>
                     <div class="nav-item" onclick="adminApp.switchPanel('moderation')">
-                        <span>🛡️</span> 内容审核
+                        <span>🛡�?/span> 内容审核
                     </div>
                     <div class="nav-item" onclick="adminApp.switchPanel('articles')">
                         <span>📝</span> 文章管理
@@ -420,12 +420,12 @@
             </nav>
         </aside>
 
-        <!-- 主内容 -->
+        <!-- 主内�?-->
         <main class="admin-main">
-            <!-- 仪表板 -->
+            <!-- 仪表�?-->
             <div class="content-panel active" id="dashboardPanel">
                 <div class="admin-header">
-                    <h2>仪表板</h2>
+                    <h2>仪表�?/h2>
                     <div class="admin-actions">
                         <button class="btn-refresh" onclick="adminApp.refreshData()">
                             <span>🔄</span> 刷新数据
@@ -438,26 +438,26 @@
                     <div class="stat-card users">
                         <div class="stat-card-header">
                             <div class="stat-icon">👥</div>
-                            <span class="stat-trend up">↑ 12%</span>
+                            <span class="stat-trend up">�?12%</span>
                         </div>
                         <div class="stat-value" id="statUsers">--</div>
-                        <div class="stat-label">总用户</div>
+                        <div class="stat-label">总用�?/div>
                     </div>
                     <div class="stat-card articles">
                         <div class="stat-card-header">
                             <div class="stat-icon">📝</div>
-                            <span class="stat-trend up">↑ 8%</span>
+                            <span class="stat-trend up">�?8%</span>
                         </div>
                         <div class="stat-value" id="statArticles">--</div>
-                        <div class="stat-label">总文章</div>
+                        <div class="stat-label">总文�?/div>
                     </div>
                     <div class="stat-card comments">
                         <div class="stat-card-header">
                             <div class="stat-icon">💬</div>
-                            <span class="stat-trend up">↑ 15%</span>
+                            <span class="stat-trend up">�?15%</span>
                         </div>
                         <div class="stat-value" id="statComments">--</div>
-                        <div class="stat-label">总评论</div>
+                        <div class="stat-label">总评�?/div>
                     </div>
                     <div class="stat-card online">
                         <div class="stat-card-header">
@@ -473,13 +473,13 @@
                     <div class="chart-card">
                         <h3>用户增长趋势</h3>
                         <div class="chart-placeholder" id="userGrowthChart">
-                            图表加载中...
+                            图表加载�?..
                         </div>
                     </div>
                     <div class="chart-card">
                         <h3>内容分布</h3>
                         <div class="chart-placeholder" id="contentDistributionChart">
-                            图表加载中...
+                            图表加载�?..
                         </div>
                     </div>
                 </div>
@@ -488,13 +488,13 @@
                 <div class="moderation-section">
                     <div class="section-header">
                         <h3>
-                            🛡️ 待审核内容
+                            🛡�?待审核内�?
                             <span class="badge" id="moderationCount">0</span>
                         </h3>
-                        <a href="#" onclick="adminApp.switchPanel('moderation')">查看全部 →</a>
+                        <a href="#" onclick="adminApp.switchPanel('moderation')">查看全部 �?/a>
                     </div>
                     <div class="moderation-list" id="moderationList">
-                        <p style="text-align:center;color:#999;padding:20px;">暂无待审核内容</p>
+                        <p style="text-align:center;color:#999;padding:20px;">暂无待审核内�?/p>
                     </div>
                 </div>
             </div>
@@ -512,7 +512,7 @@
                     <h2>内容审核</h2>
                 </div>
                 <div class="moderation-list" id="fullModerationList">
-                    <p style="text-align:center;color:#999;padding:40px;">加载中...</p>
+                    <p style="text-align:center;color:#999;padding:40px;">加载�?..</p>
                 </div>
             </div>
 
@@ -532,7 +532,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- 动态加载 -->
+                            <!-- 动态加�?-->
                         </tbody>
                     </table>
                 </div>
@@ -562,7 +562,7 @@
     </div>
 
     <script type="module">
-        import { API_BASE_URL } from '../js/api-config.js?v=20260223b';
+        import { API_BASE_URL } from '../js/api-config.js?v=20260418a';
 
         class AdminApp {
             constructor() {
@@ -621,7 +621,7 @@
             renderModerationList(items, containerId) {
                 const container = document.getElementById(containerId);
                 if (items.length === 0) {
-                    container.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">暂无待审核内容</p>';
+                    container.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">暂无待审核内�?/p>';
                     return;
                 }
 
@@ -635,11 +635,11 @@
                     <div class="moderation-item ${item.ai_flagged ? 'ai-flagged' : ''}">
                         <div class="item-type">${icons[item.content_type] || '📄'}</div>
                         <div class="item-content">
-                            <h4>${item.title || '无标题'}</h4>
+                            <h4>${item.title || '无标�?}</h4>
                             <p>${item.content_preview?.substring(0, 100)}...</p>
                             <div class="item-meta">
-                                作者: ${item.author_name} | 
-                                举报: ${item.report_count} 次 | 
+                                作�? ${item.author_name} | 
+                                举报: ${item.report_count} �?| 
                                 ${new Date(item.created_at).toLocaleString('zh-CN')}
                             </div>
                         </div>
@@ -672,7 +672,7 @@
 
                     if (!response.ok) throw new Error('操作失败');
                     
-                    alert(action === 'approved' ? '已通过' : '已拒绝');
+                    alert(action === 'approved' ? '已通过' : '已拒�?);
                     this.loadModerationQueue();
                 } catch (error) {
                     alert('操作失败');
