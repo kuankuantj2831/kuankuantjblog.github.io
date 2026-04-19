@@ -5,27 +5,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://static.cloudflareinsights.com https://cdn.jsdelivr.net https://unpkg.com https://registry.npmmirror.com https://cdnjs.cloudflare.com https://cdn.bootcdn.net https://rf.revolvermaps.com; style-src 'self' 'unsafe-inline' https://cdn.bootcdn.net https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; img-src 'self' https: data:; connect-src 'self' http://localhost:9000 https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com https://api.ipify.org https://ipapi.co https://challenges.cloudflare.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.soundhelix.com; frame-src https://challenges.cloudflare.com; font-src 'self' https:; media-src *;">
-    <meta name="description" content="Hakimi 的猫爬架 - 一个分享编程技术、游戏资源、设计素材与学习资料的个人博客。分享是一种美德，它不求回报，只为真诚�?>
-    <meta name="keywords" content="Hakimi,猫爬�?个人博客,编程技�?游戏资源,mcock.cn">
+    <meta name="description" content="Hakimi 的猫爬架 - 一个分享编程技术、游戏资源、设计素材与学习资料的个人博客。分享是一种美德，它不求回报，只为真诚。">
+    <meta name="keywords" content="Hakimi,猫爬架,个人博客,编程技术,游戏资源,mcock.cn">
     <meta name="author" content="Hakimi">
     <meta name="msvalidate.01" content="E5A901AA24687146D9F8D47CE949EEAC" />
 
     <!-- Open Graph 社交分享标签 -->
     <meta property="og:title" content="Hakimi 的猫爬架">
-    <meta property="og:description" content="分享编程技术、游戏资源、设计素材与学习资料的个人博�?>
+    <meta property="og:description" content="分享编程技术、游戏资源、设计素材与学习资料的个人博客">
     <meta property="og:image" content="https://mcock.cn/images/forrestgump.png">
     <meta property="og:url" content="https://mcock.cn">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Hakimi 的猫爬架">
 
-    <!-- JSON-LD 结构化数�?-->
+    <!-- JSON-LD 结构化数据 -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Hakimi 的猫爬架",
         "url": "https://mcock.cn",
-        "description": "分享编程技术、游戏资源、设计素材与学习资料的个人博�?,
+        "description": "分享编程技术、游戏资源、设计素材与学习资料的个人博客",
         "author": { "@type": "Person", "name": "Hakimi" },
         "potentialAction": {
             "@type": "SearchAction",
@@ -50,7 +50,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="猫爬�?>
+    <meta name="apple-mobile-web-app-title" content="猫爬架">
     <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/icon-192x192.png">
     <!-- iOS 启动画面 -->
@@ -62,7 +62,7 @@
     <link rel="apple-touch-startup-image" href="/images/icons/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px)">
     <link rel="alternate" type="application/rss+xml" title="Hakimi 的猫爬架 RSS" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/articles/feed/rss">
     <link rel="stylesheet" href="css/chinese-style.css?v=5">
-    <!-- 非关�?CSS 异步加载 -->
+    <!-- 非关键 CSS 异步加载 -->
     <link rel="stylesheet" href="css/auth.css?v=3" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/tianjg-theme.css?v=3" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/theme.css?v=4">
@@ -80,22 +80,22 @@
         @media(max-width:600px){.notif-dropdown{width:290px;right:-40px;}}
     </style>
 
-    <!-- 兼容�?polyfill：为旧浏览器提供现代 JS 特性支�?-->
+    <!-- 兼容性 polyfill：为旧浏览器提供现代 JS 特性支持 -->
     <script src="js/polyfill.js"></script>
-    <!-- 性能优化：pace 加载指示器使�?async 避免阻塞渲染 -->
+    <!-- 性能优化：pace 加载指示器使用 async 避免阻塞渲染 -->
     <script src="js/pace.min.js" async></script>
-    <!-- Cloudflare Turnstile 延迟到用户点击登�?注册时才加载 -->
+    <!-- Cloudflare Turnstile 延迟到用户点击登录/注册时才加载 -->
     <script>window.__turnstileReady = false; function onTurnstileLoad() { window.__turnstileReady = true; console.log('Turnstile SDK loaded'); }
     function loadTurnstile() { if (document.getElementById('turnstileScript')) return; var s = document.createElement('script'); s.id = 'turnstileScript'; s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad'; s.async = true; document.head.appendChild(s); }</script>
 </head>
 
 <body>
-    <!-- iOS PWA 开屏动�?-->
+    <!-- iOS PWA 开屏动画 -->
     <div id="pwa-splash" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);align-items:center;justify-content:center;flex-direction:column;transition:opacity .5s;">
         <div style="text-align:center;animation:splash-in .8s ease">
             <div style="font-size:80px;margin-bottom:16px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.2))">🐱</div>
             <div style="font-size:26px;font-weight:700;color:#fff;letter-spacing:2px;margin-bottom:8px">Hakimi 的猫爬架</div>
-            <div style="font-size:14px;color:rgba(255,255,255,.7)">分享是一种美�?/div>
+            <div style="font-size:14px;color:rgba(255,255,255,.7)">分享是一种美德</div>
             <div style="margin-top:30px;width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:splash-spin 1s linear infinite;margin-left:auto;margin-right:auto"></div>
         </div>
     </div>
@@ -123,7 +123,7 @@
             } else {
                 window.addEventListener('load', dismissSplash);
             }
-            // 绝对保底�?秒后无论如何都消�?
+            // 绝对保底：5秒后无论如何都消失
             setTimeout(function(){
                 if (!dismissed) { dismissed = true; splash.style.opacity = '0'; setTimeout(function(){ splash.remove(); }, 500); }
             }, 5000);
@@ -140,8 +140,8 @@
 
         <!-- 顶部导航 -->
         <nav class="top-nav">
-            <div class="logo">Hakimi 的猫爬架 <span id="onlineCount" style="font-size:12px;color:#4CAF50;margin-left:8px;display:none;">🟢 <span id="onlineNum">0</span>人在�?/span></div>
-            <!-- 移动端汉堡菜单按�?-->
+            <div class="logo">Hakimi 的猫爬架 <span id="onlineCount" style="font-size:12px;color:#4CAF50;margin-left:8px;display:none;">🟢 <span id="onlineNum">0</span>人在线</span></div>
+            <!-- 移动端汉堡菜单按钮 -->
             <button class="hamburger-btn" id="hamburgerBtn" aria-label="菜单">
                 <span></span><span></span><span></span>
             </button>
@@ -176,8 +176,8 @@
                         <!-- Header / Greeting -->
                         <div class="user-card-header-bg">
                             <div class="user-card-info">
-                                <div class="user-dropdown-name">用户�?/div>
-                                <div class="user-level-badge" id="userCardLevel">加载�?..</div>
+                                <div class="user-dropdown-name">用户名</div>
+                                <div class="user-level-badge" id="userCardLevel">加载中...</div>
                             </div>
                         </div>
 
@@ -222,40 +222,40 @@
                         <!-- List Menu -->
                         <div class="user-dropdown-menu">
                             <a href="profile.html" class="user-dropdown-item">⚙️ 设置</a>
-                            <a href="#" class="user-dropdown-item" id="logoutBtn">🚪 退出登�?/a>
+                            <a href="#" class="user-dropdown-item" id="logoutBtn">🚪 退出登录</a>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <!-- 主标题区�?-->
+        <!-- 主标题区域 -->
         <section class="hero-section">
-            <h1 class="main-title" id="heroTitle">分享是一种美�?/h1>
+            <h1 class="main-title" id="heroTitle">分享是一种美德</h1>
             <p class="sub-title" id="heroSub">它不求回报，只为真诚</p>
             <script>
             (function(){
                 var q=[
-                    ['海内存知�?,'天涯若比�?],
-                    ['长风破浪会有�?,'直挂云帆济沧�?],
-                    ['山重水复疑无�?,'柳暗花明又一�?],
-                    ['落红不是无情�?,'化作春泥更护�?],
+                    ['海内存知己','天涯若比邻'],
+                    ['长风破浪会有时','直挂云帆济沧海'],
+                    ['山重水复疑无路','柳暗花明又一村'],
+                    ['落红不是无情物','化作春泥更护花'],
                     ['千里之行','始于足下'],
-                    ['不畏浮云遮望�?,'自缘身在最高层'],
-                    ['会当凌绝�?,'一览众山小'],
-                    ['路漫漫其修远�?,'吾将上下而求�?],
-                    ['宝剑锋从磨砺�?,'梅花香自苦寒�?],
-                    ['天生我材必有�?,'千金散尽还复�?],
-                    ['欲穷千里�?,'更上一层楼'],
-                    ['莫愁前路无知�?,'天下谁人不识�?],
-                    ['沉舟侧畔千帆�?,'病树前头万木�?],
-                    ['人生自古谁无�?,'留取丹心照汗�?],
-                    ['春风得意马蹄�?,'一日看尽长安花'],
-                    ['读书破万�?,'下笔如有�?],
-                    ['少壮不努�?,'老大徒伤�?],
-                    ['纸上得来终觉�?,'绝知此事要躬�?],
-                    ['博观而约�?,'厚积而薄�?],
-                    ['分享是一种美�?,'它不求回报，只为真诚']
+                    ['不畏浮云遮望眼','自缘身在最高层'],
+                    ['会当凌绝顶','一览众山小'],
+                    ['路漫漫其修远兮','吾将上下而求索'],
+                    ['宝剑锋从磨砺出','梅花香自苦寒来'],
+                    ['天生我材必有用','千金散尽还复来'],
+                    ['欲穷千里目','更上一层楼'],
+                    ['莫愁前路无知己','天下谁人不识君'],
+                    ['沉舟侧畔千帆过','病树前头万木春'],
+                    ['人生自古谁无死','留取丹心照汗青'],
+                    ['春风得意马蹄疾','一日看尽长安花'],
+                    ['读书破万卷','下笔如有神'],
+                    ['少壮不努力','老大徒伤悲'],
+                    ['纸上得来终觉浅','绝知此事要躬行'],
+                    ['博观而约取','厚积而薄发'],
+                    ['分享是一种美德','它不求回报，只为真诚']
                 ];
                 var r=q[Math.floor(Math.random()*q.length)];
                 document.getElementById('heroTitle').textContent=r[0];
@@ -273,14 +273,14 @@
                         <span class="tutorial-desc">签到、发文、评论赚经验</span>
                     </a>
                     <a href="/profile.html" class="tutorial-card">
-                        <span class="tutorial-icon">🖼�?/span>
+                        <span class="tutorial-icon">🖼️</span>
                         <span class="tutorial-title">更改头像</span>
-                        <span class="tutorial-desc">个人中心上传自定义头�?/span>
+                        <span class="tutorial-desc">个人中心上传自定义头像</span>
                     </a>
                     <a href="/editor.html" class="tutorial-card">
                         <span class="tutorial-icon">✍️</span>
                         <span class="tutorial-title">发布文章</span>
-                        <span class="tutorial-desc">Markdown 编辑器写作投�?/span>
+                        <span class="tutorial-desc">Markdown 编辑器写作投稿</span>
                     </a>
                     <a href="/coins.html" class="tutorial-card">
                         <span class="tutorial-icon">🪙</span>
@@ -300,24 +300,24 @@
             <div class="search-section">
                 <div class="search-container">
                     <select class="search-select" id="searchSelect">
-                        <option>选择标签 �?/option>
-                        <option value="编程技�?>编程技�?/option>
+                        <option>选择标签 ⬇</option>
+                        <option value="编程技术">编程技术</option>
                         <option value="游戏资源">游戏资源</option>
                         <option value="设计素材">设计素材</option>
                         <option value="学习资料">学习资料</option>
                         <option value="生活随笔">生活随笔</option>
                     </select>
-                    <input type="text" class="search-input" id="searchInput" placeholder="开启精彩搜�?..">
+                    <input type="text" class="search-input" id="searchInput" placeholder="开启精彩搜索...">
                     <button class="search-btn" id="searchBtn">🔍</button>
                 </div>
             </div>
 
         </section>
 
-        <!-- 游戏化组件区�?-->
+        <!-- 游戏化组件区域 -->
         <section class="gamification-widgets" style="padding:0 20px 20px;max-width:1200px;margin:0 auto;">
             <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:20px;">
-                <!-- 每日一�?-->
+                <!-- 每日一题 -->
                 <div id="dailyQuizContainer" style="background:rgba(255,255,255,0.95);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);"></div>
                 <!-- 阅读打卡 -->
                 <div id="readingChallengeContainer" style="background:rgba(255,255,255,0.95);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);"></div>
@@ -328,7 +328,7 @@
         <section class="resource-showcase">
             <div id="searchResultInfo" style="display:none;"></div>
             <div class="resource-scroll" id="articles-container">
-                <!-- 骨架屏加载占�?-->
+                <!-- 骨架屏加载占位 -->
                 <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line" style="width:70%"></div><div class="skeleton-line" style="width:50%"></div><div class="skeleton-line" style="width:90%"></div></div></div>
                 <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line" style="width:60%"></div><div class="skeleton-line" style="width:45%"></div><div class="skeleton-line" style="width:80%"></div></div></div>
                 <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line" style="width:75%"></div><div class="skeleton-line" style="width:55%"></div><div class="skeleton-line" style="width:85%"></div></div></div>
@@ -344,7 +344,7 @@
             <a href="/privacy.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">隐私政策</a>
             <a href="/about.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">关于我们</a>
             <p style="margin-top:8px;">© 2026 Hakimi 的猫爬架</p>
-            <p style="margin-top:5px;" id="siteRuntime">🚀 网站已运�?0 �?/p>
+            <p style="margin-top:5px;" id="siteRuntime">🚀 网站已运行 0 天</p>
         </footer>
     </div>
 
@@ -355,7 +355,7 @@
             <div class="auth-modal-body">
                 <!-- Logo Area -->
                 <div class="auth-logo">
-                    <span class="auth-logo-text">✨Hakimi 的猫爬架�?/span>
+                    <span class="auth-logo-text">✨Hakimi 的猫爬架✨</span>
                 </div>
 
                 <!-- Header -->
@@ -364,7 +364,7 @@
                     <span class="auth-header-divider"></span>
                 </div>
                 <div class="auth-subtitle">
-                    没有账号�?<a href="#" class="auth-link" id="switchToRegister">立即注册 ></a>
+                    没有账号？ <a href="#" class="auth-link" id="switchToRegister">立即注册 ></a>
                 </div>
 
                 <div class="auth-error" id="loginError"></div>
@@ -378,7 +378,7 @@
 
                     <div class="tianjg-input-group">
                         <input type="password" class="tianjg-input" id="loginPassword" placeholder="登录密码" required>
-                        <span class="password-eye-icon">👁�?/span>
+                        <span class="password-eye-icon">👁️</span>
                     </div>
 
                     <div class="tianjg-input-group" id="login2faGroup" style="display: none;">
@@ -398,9 +398,9 @@
                     <!-- Cloudflare Turnstile 人机验证 -->
                     <div id="loginTurnstile" class="cf-turnstile" style="margin-bottom: 15px;"></div>
 
-                    <p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">登录即表示同�?<a href="/terms.html" target="_blank" style="color:#667eea;">用户协议</a> �?<a href="/privacy.html" target="_blank" style="color:#667eea;">隐私政策</a></p>
+                    <p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">登录即表示同意 <a href="/terms.html" target="_blank" style="color:#667eea;">用户协议</a> 和 <a href="/privacy.html" target="_blank" style="color:#667eea;">隐私政策</a></p>
 
-                    <button type="submit" class="tianjg-btn">�?登录</button>
+                    <button type="submit" class="tianjg-btn">➔ 登录</button>
 
                     <!-- 微信登录 -->
                     <div class="social-login-divider" style="margin: 20px 0; text-align: center; position: relative;">
@@ -419,20 +419,20 @@
             <!-- Reset Password Form (Hidden) -->
             <form id="resetPasswordForm" style="display: none;">
                 <div class="tianjg-input-group">
-                    <input type="email" class="tianjg-input" id="resetEmail" placeholder="请输入注册邮�? required>
+                    <input type="email" class="tianjg-input" id="resetEmail" placeholder="请输入注册邮箱" required>
                 </div>
 
                 <div class="tianjg-input-group" style="display: flex; gap: 10px;">
-                    <input type="text" class="tianjg-input" id="resetCode" placeholder="验证�? required>
+                    <input type="text" class="tianjg-input" id="resetCode" placeholder="验证码" required>
                     <button type="button" class="tianjg-btn" id="sendResetCodeBtn"
-                        style="width: 120px; font-size: 0.9em; padding: 0;">获取验证�?/button>
+                        style="width: 120px; font-size: 0.9em; padding: 0;">获取验证码</button>
                 </div>
 
                 <div class="tianjg-input-group">
-                    <input type="password" class="tianjg-input" id="resetNewPassword" placeholder="新密�? required>
+                    <input type="password" class="tianjg-input" id="resetNewPassword" placeholder="新密码" required>
                 </div>
 
-                <button type="submit" class="tianjg-btn">�?重置密码</button>
+                <button type="submit" class="tianjg-btn">➔ 重置密码</button>
                 <div style="text-align: center; margin-top: 15px;">
                     <a href="#" class="auth-link-grey" id="backToLogin">返回登录</a>
                 </div>
@@ -448,7 +448,7 @@
             <div class="auth-modal-body">
                 <!-- Logo Area -->
                 <div class="auth-logo">
-                    <span class="auth-logo-text">✨Hakimi 的猫爬架�?/span>
+                    <span class="auth-logo-text">✨Hakimi 的猫爬架✨</span>
                 </div>
 
                 <!-- Header -->
@@ -457,7 +457,7 @@
                     <span class="auth-header-divider"></span>
                 </div>
                 <div class="auth-subtitle">
-                    已有账号�?<a href="#" class="auth-link" id="switchToLogin">立即登录 ></a>
+                    已有账号？ <a href="#" class="auth-link" id="switchToLogin">立即登录 ></a>
                 </div>
 
                 <div class="auth-error" id="registerError"></div>
@@ -474,7 +474,7 @@
                     </div>
 
                     <div class="tianjg-input-group">
-                        <input type="password" class="tianjg-input" id="registerPassword" placeholder="密码（至�?个字符）"
+                        <input type="password" class="tianjg-input" id="registerPassword" placeholder="密码（至少6个字符）"
                             required>
                     </div>
 
@@ -487,9 +487,9 @@
                     <div id="registerTurnstile" class="cf-turnstile" style="margin-bottom: 15px;"></div>
                     <label style="display:flex;align-items:flex-start;gap:6px;margin-bottom:15px;font-size:12px;color:#888;cursor:pointer;line-height:1.5;">
                         <input type="checkbox" id="agreeTerms" style="margin-top:3px;flex-shrink:0;">
-                        <span>注册即表示同�?<a href="/terms.html" target="_blank" style="color:#667eea;">用户协议</a> �?<a href="/privacy.html" target="_blank" style="color:#667eea;">隐私政策</a></span>
+                        <span>注册即表示同意 <a href="/terms.html" target="_blank" style="color:#667eea;">用户协议</a> 和 <a href="/privacy.html" target="_blank" style="color:#667eea;">隐私政策</a></span>
                     </label>
-                    <button type="submit" class="tianjg-btn">�?立即注册</button>
+                    <button type="submit" class="tianjg-btn">➔ 立即注册</button>
                 </form>
             </div>
         </div>
@@ -512,17 +512,17 @@
         // 初始化数据预加载
         dataPreloader.init();
         
-        // 将性能监控暴露到全局，方便调�?
+        // 将性能监控暴露到全局，方便调试
         window.perfMonitor = perfMonitor;
         
-        // �?0秒打印一次性能报告
+        // 每30秒打印一次性能报告
         setInterval(() => {
             if (perfMonitor.metrics.apiRequests.length > 0) {
                 perfMonitor.printReport();
             }
         }, 30000);
     </script>
-    <!-- 性能优化：主题增强脚本使�?defer 延迟加载 -->
+    <!-- 性能优化：主题增强脚本使用 defer 延迟加载 -->
     <script src="js/theme-enhancements.js" defer></script>
     <script>
         // 汉堡菜单切换
@@ -533,7 +533,7 @@
                 this.classList.toggle('active');
                 navLinks.classList.toggle('mobile-open');
             });
-            // 点击导航链接后自动关闭菜�?
+            // 点击导航链接后自动关闭菜单
             navLinks.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', () => {
                     hamburgerBtn.classList.remove('active');
@@ -542,7 +542,7 @@
             });
         }
 
-        // 标签切换（文�?用户�?
+        // 标签切换（文章/用户）
         (function initTabSwitch() {
             var currentTab = 'articles';
             var apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
@@ -567,7 +567,7 @@
             }
 
             async function searchUsers(keyword) {
-                container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">🔍 搜索�?..</div>';
+                container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">🔍 搜索中...</div>';
                 try {
                     var url = apiBase + '/profiles/search' + (keyword ? '?q=' + encodeURIComponent(keyword) : '');
                     var res = await fetch(url);
@@ -587,7 +587,7 @@
                             ? '<img src="' + escapeHTML(u.avatar_url) + '" style="width:72px;height:72px;border-radius:50%;object-fit:cover;box-shadow:0 2px 12px rgba(102,126,234,0.3);">'
                             : '<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;box-shadow:0 2px 12px rgba(102,126,234,0.3);">' + escapeHTML(initial) + '</div>';
                         var date = new Date(u.created_at).toLocaleDateString('zh-CN');
-                        card.innerHTML = avatarHtml + '<div style="margin-top:12px;font-size:15px;font-weight:600;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;">' + escapeHTML(u.username) + '</div><div style="margin-top:4px;font-size:12px;color:#999;">加入�?' + date + '</div>';
+                        card.innerHTML = avatarHtml + '<div style="margin-top:12px;font-size:15px;font-weight:600;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;">' + escapeHTML(u.username) + '</div><div style="margin-top:4px;font-size:12px;color:#999;">加入于 ' + date + '</div>';
                         card.onclick = function() { window.location.href = '/profile.html?id=' + u.id; };
                         container.appendChild(card);
                     });
@@ -612,7 +612,7 @@
                 });
             });
 
-            // 搜索框支持搜索用户（当用户tab激活时�?
+            // 搜索框支持搜索用户（当用户tab激活时）
             if (searchBtn && searchInput) {
                 var origClick = searchBtn.onclick;
                 searchBtn.addEventListener('click', function(e) {
@@ -626,11 +626,11 @@
             }
         })();
 
-        // 加载在线人数 & 发送访客心�?
+        // 加载在线人数 & 发送访客心跳
         (async function loadOnlineCount() {
             try {
                 const apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
-                // 仅在本地开发或同域环境下发送心跳，避免向生产环境触�?CORS 报错
+                // 仅在本地开发或同域环境下发送心跳，避免向生产环境触发 CORS 报错
                 const isLocalDev = apiBase.includes('localhost') || apiBase.includes('127.0.0.1');
                 if (isLocalDev) {
                     fetch(apiBase + '/online/visitor-heartbeat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }).catch(() => {});
@@ -677,7 +677,7 @@
     </script>
     <!-- 网站运行时间计算 -->
     <script>
-        // 网站启动时间�?024�?�?9�?
+        // 网站启动时间：2024年5月19日
         (function initSiteRuntime() {
             const startDate = new Date('2024-05-19T00:00:00');
             const runtimeEl = document.getElementById('siteRuntime');
@@ -691,19 +691,19 @@
                 const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
                 if (runtimeEl) {
-                    runtimeEl.textContent = `🚀 网站已运�?${days} �?${hours} 小时 ${minutes} 分`;
+                    runtimeEl.textContent = `🚀 网站已运行 ${days} 天 ${hours} 小时 ${minutes} 分`;
                 }
             }
 
             updateRuntime();
-            // 每分钟更新一�?
+            // 每分钟更新一次
             setInterval(updateRuntime, 60000);
         })();
     </script>
     <!-- PWA 安装引导 -->
     <script src="js/pwa-install.js"></script>
 
-<!-- Win7 Emoji 兼容性处�?-->
+<!-- Win7 Emoji 兼容性处理 -->
 <script>
 (function() {
     // 检测是否为 Windows 7
@@ -713,13 +713,13 @@
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji 替换映射�?
+    // Emoji 替换映射表
     var emojiMap = {
-        "🐱": "�?,
+        "🐱": "猫",
         "🏠": "首页",
         "🎮": "游戏",
-        "☁️": "�?,
-        "☀�?: "太阳",
+        "☁️": "云",
+        "☀️": "太阳",
         "❤️": "爱心",
         "🎯": "关于",
         "💬": "消息",
@@ -727,31 +727,31 @@
         "👤": "用户",
         "📝": "编辑",
         "⬆️": "升级",
-        "🖼�?: "图片",
+        "🖼️": "图片",
         "✍️": "写作",
         "⚙️": "设置",
-        "🚪": "退�?,
+        "🚪": "退出",
         "💡": "提示",
-        "�?: "经验",
+        "⚡": "经验",
         "🚀": "发布",
-        "🎖�?: "等级",
+        "🎖️": "等级",
         "💪": "加油",
         "🔒": "锁定",
         "📜": "协议",
-        "�?: "�?,
-        "�?: "�?,
+        "↑": "上",
+        "↓": "下",
         "↩️": "撤销",
-        "�?: "帮助",
+        "❓": "帮助",
         "🔄": "刷新",
-        "▶️": "开�?,
+        "▶️": "开始",
         "⏱️": "时间",
         "🎨": "创意",
         "💻": "电脑",
         "📚": "学习",
-        "🛡�?: "盾牌",
+        "🛡️": "盾牌",
         "✈️": "飞机",
-        "�?: "星星",
-        "🕹�?: "手柄",
+        "⭐": "星星",
+        "🕹️": "手柄",
         "📧": "邮箱",
         "📱": "手机",
         "📑": "目录",
@@ -761,13 +761,13 @@
         "🔧": "工具",
         "🪙": "硬币",
         "💰": "金币",
-        "�?: "完成",
-        "🛠�?: "工具",
+        "✅": "完成",
+        "🛠️": "工具",
         "💫": "星光",
         "🔍": "搜索",
         "📖": "书籍",
-        "🏷�?: "标签",
-        "🗑�?: "删除"
+        "🏷️": "标签",
+        "🗑️": "删除"
     };
     
     // 替换页面中的 emoji
@@ -797,7 +797,7 @@
             }
         }
         
-        // 替换属性中�?emoji（如 title, alt 等）
+        // 替换属性中的 emoji（如 title, alt 等）
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -821,7 +821,7 @@
         }
     }
     
-    // DOM 加载完成后执行替�?
+    // DOM 加载完成后执行替换
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {
@@ -837,11 +837,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const state = urlParams.get('state');
 
     if (code && state) {
-        // 检查是否是 GitHub 回调（通过检�?sessionStorage 中的 state�?
+        // 检查是否是 GitHub 回调（通过检查 sessionStorage 中的 state）
         const savedGithubState = sessionStorage.getItem('github_oauth_state');
 
         if (savedGithubState && state === savedGithubState) {
-            // �?GitHub 回调
+            // 是 GitHub 回调
             const githubLogin = new GitHubLogin({
                 clientId: 'Ov23liWGtpI712WHoq3E',
                 onSuccess: function(data) {
@@ -882,7 +882,7 @@ if (githubLoginBtn) {
             });
             githubLogin.isCallback();
         } else {
-            // 开�?GitHub 登录流程
+            // 开始 GitHub 登录流程
             const githubLogin = new GitHubLogin({
                 clientId: 'Ov23liWGtpI712WHoq3E',
                 redirectUri: 'https://mcock.cn',
@@ -906,7 +906,7 @@ if (githubLoginBtn) {
 <script src="js/github-login.js?v=1"></script>
 <script src="js/music-player.js?v=2"></script>
 
-<!-- 游戏化组件：每日一�?-->
+<!-- 游戏化组件：每日一题 -->
 <script type="module">
     import DailyQuiz from './js/daily-quiz.js?v=20260227a';
     document.addEventListener('DOMContentLoaded', () => {
