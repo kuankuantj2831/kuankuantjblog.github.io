@@ -15,7 +15,7 @@ FeaturePack.register('fp246_on_this_day', {
 FeaturePack.register('fp247_reading_streak', {
     name: '阅读连击', desc: '显示连续阅读天数和最长记录', page: 'index',
     initFn() {
-        const streak = el("div",{position:"fixed",top:"150px",right:"20px",padding:"10px 15px",background:"linear-gradient(135deg,#f9ca24,#f0932b)",color:"#fff",borderRadius:"12px",fontSize:"13px",zIndex:"9999",boxShadow:"0 4px 15px rgba(249,202,36,0.3)"}); const days = parseInt(localStorage.getItem("read_streak") || "1"); streak.innerHTML = "🔥 " + days + "天连击<br><span style="font-size:11px">最长: 30天</span>"; document.body.appendChild(streak);
+        const streak = el("div",{position:"fixed",top:"150px",right:"20px",padding:"10px 15px",background:"linear-gradient(135deg,#f9ca24,#f0932b)",color:"#fff",borderRadius:"12px",fontSize:"13px",zIndex:"9999",boxShadow:"0 4px 15px rgba(249,202,36,0.3)"}); const days = parseInt(localStorage.getItem("read_streak") || "1"); streak.innerHTML = "🔥 " + days + "天连击<br><span style='font-size:11px'>最长: 30天</span>"; document.body.appendChild(streak);
     }
 });
 
