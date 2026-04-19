@@ -1,7 +1,7 @@
 /**
  * 功能包 #2: 阅读体验 (6-10)
  */
-import FeaturePack from './feature-pack-core.js?v=20260418c';
+import FeaturePack from './feature-pack-core.js?v=20260419a';
 const { util } = FeaturePack;
 const el = util.el;
 

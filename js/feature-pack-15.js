@@ -1,7 +1,7 @@
 /**
  * 功能包 #15: 动效与动画 (71-75)
  */
-import FeaturePack from './feature-pack-core.js?v=20260418c';
+import FeaturePack from './feature-pack-core.js?v=20260419a';
 const { util } = FeaturePack;
 const el = util.el;
 

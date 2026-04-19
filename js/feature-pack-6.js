@@ -1,7 +1,7 @@
 /**
  * 功能包 #6: 文章增强 (26-30)
  */
-import FeaturePack from './feature-pack-core.js?v=20260418c';
+import FeaturePack from './feature-pack-core.js?v=20260419a';
 const { util } = FeaturePack;
 const el = util.el;
 

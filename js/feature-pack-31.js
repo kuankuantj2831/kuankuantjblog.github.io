@@ -1,7 +1,7 @@
 /**
  * 功能包 #31: 天气与时钟 (151-155)
  */
-import FeaturePack from './feature-pack-core.js?v=20260418c';
+import FeaturePack from './feature-pack-core.js?v=20260419a';
 const { util } = FeaturePack;
 const el = util.el;
 
