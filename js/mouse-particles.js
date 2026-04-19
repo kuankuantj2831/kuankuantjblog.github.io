@@ -97,4 +97,3 @@ document.addEventListener('DOMContentLoaded', () => {
     const mp = new MouseParticles();
     mp.init();
 });
-export default MouseParticles;
