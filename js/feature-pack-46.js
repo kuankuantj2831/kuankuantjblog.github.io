@@ -1,4 +1,4 @@
-import FeaturePack from './feature-pack-core.js?v=20260418c';
+import FeaturePack from './feature-pack-core.js?v=20260419a';
 const { util } = FeaturePack;
 const el = util.el;
 
@@ -8,19 +8,7 @@ const el = util.el;
 FeaturePack.register('fp226_templates', {
     name: '文章模板', desc: '编辑器中添加常用文章模板选择', page: 'editor',
     initFn() {
-        const sel = document.querySelector("textarea, .editor"); if(sel){ const tpl = el("div",{position:"absolute",top:"10px",right:"10px",padding:"8px",background:"#667eea",color:"#fff",borderRadius:"8px",cursor:"pointer",zIndex:"100"}); tpl.textContent = "📄 模板"; sel.parentElement.style.position = "relative"; sel.parentElement.appendChild(tpl); tpl.onclick = () => { const templates = {"教程":"# 教程标题
-
-## 步骤一
-
-详细说明...
-
-## 步骤二
-
-详细说明...","笔记":"# 笔记
-
-## 要点
-- 要点1
-- 要点2"}; const choice = prompt("选择模板: 教程/笔记"); if(templates[choice]) sel.value = templates[choice]; }; }
+        const sel = document.querySelector("textarea, .editor"); if(sel){ const tpl = el("div",{position:"absolute",top:"10px",right:"10px",padding:"8px",background:"#667eea",color:"#fff",borderRadius:"8px",cursor:"pointer",zIndex:"100"}); tpl.textContent = "📄 模板"; sel.parentElement.style.position = "relative"; sel.parentElement.appendChild(tpl); tpl.onclick = () => { const templates = {"教程":"# 教程标题\n\n## 步骤一\n\n详细说明...\n\n## 步骤二\n\n详细说明...","笔记":"# 笔记\n\n## 要点\n- 要点1\n- 要点2"}; const choice = prompt("选择模板: 教程/笔记"); if(templates[choice]) sel.value = templates[choice]; }; }
     }
 });
 
@@ -48,7 +36,6 @@ FeaturePack.register('fp229_auto_save', {
 FeaturePack.register('fp230_markdown_preview', {
     name: 'MD预览', desc: '编辑器旁实时预览Markdown渲染效果', page: 'editor',
     initFn() {
-        const editor = document.querySelector("textarea"); if(editor && editor.parentElement){ const preview = el("div",{position:"absolute",top:0,right:"-50%",width:"48%",height:"100%",background:"#fff",border:"1px solid #eee",borderRadius:"8px",padding:"15px",overflow:"auto",fontSize:"14px",lineHeight:"1.6"}); editor.parentElement.style.position = "relative"; editor.parentElement.appendChild(preview); editor.addEventListener("input", () => { let html = editor.value.replace(/# (.*)/g, "<h1>$1</h1>").replace(/## (.*)/g, "<h2>$1</h2>").replace(/**(.*?)**/g, "<strong>$1</strong>").replace(/*(.*?)*/g, "<em>$1</em>").replace(/- (.*)/g, "<li>$1</li>").replace(/
-/g, "<br>"); preview.innerHTML = html; }); }
+        const editor = document.querySelector("textarea"); if(editor && editor.parentElement){ const preview = el("div",{position:"absolute",top:0,right:"-50%",width:"48%",height:"100%",background:"#fff",border:"1px solid #eee",borderRadius:"8px",padding:"15px",overflow:"auto",fontSize:"14px",lineHeight:"1.6"}); editor.parentElement.style.position = "relative"; editor.parentElement.appendChild(preview); editor.addEventListener("input", () => { let html = editor.value.replace(/# (.*)/g, "<h1>$1</h1>").replace(/## (.*)/g, "<h2>$1</h2>").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\*(.*?)\*/g, "<em>$1</em>").replace(/- (.*)/g, "<li>$1</li>").replace(/\n/g, "<br>"); preview.innerHTML = html; }); }
     }
 });
