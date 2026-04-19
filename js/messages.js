@@ -49,6 +49,7 @@ window.switchTab = function (tab) {
 // --- 会话列表 ---
 async function loadConversations() {
     const listEl = document.getElementById('conversationList');
+    if (!listEl) { console.warn('[Messages] conversationList not found'); return; }
     try {
         const res = await fetch(`${API_BASE_URL}/messages/conversations`, {
             headers: getAuthHeaders()
@@ -109,13 +110,17 @@ async function loadConversations() {
 // --- 聊天视图 ---
 window.openChat = async function (userId, username) {
     currentChatUserId = userId;
-    document.getElementById('chatTitle').textContent = username;
-    document.getElementById('conversationList').style.display = 'none';
-    document.querySelector('.new-chat-bar').style.display = 'none';
-    document.getElementById('searchResults').innerHTML = '';
+    const chatTitle = document.getElementById('chatTitle');
+    if (chatTitle) chatTitle.textContent = username;
+    const convList = document.getElementById('conversationList');
+    if (convList) convList.style.display = 'none';
+    const newChatBar = document.querySelector('.new-chat-bar');
+    if (newChatBar) newChatBar.style.display = 'none';
+    const searchResults = document.getElementById('searchResults');
+    if (searchResults) searchResults.innerHTML = '';
 
     const chatView = document.getElementById('chatView');
-    chatView.classList.add('active');
+    if (chatView) chatView.classList.add('active');
 
     await loadChatMessages(userId);
 
@@ -126,7 +131,8 @@ window.openChat = async function (userId, username) {
     }, 5000);
 
     // 聚焦输入框
-    document.getElementById('chatInput').focus();
+    const chatInput = document.getElementById('chatInput');
+    if (chatInput) chatInput.focus();
 };
 
 window.closeChatView = function () {
@@ -135,9 +141,12 @@ window.closeChatView = function () {
         clearInterval(chatRefreshTimer);
         chatRefreshTimer = null;
     }
-    document.getElementById('chatView').classList.remove('active');
-    document.getElementById('conversationList').style.display = '';
-    document.querySelector('.new-chat-bar').style.display = '';
+    const chatView = document.getElementById('chatView');
+    if (chatView) chatView.classList.remove('active');
+    const convList = document.getElementById('conversationList');
+    if (convList) convList.style.display = '';
+    const newChatBar = document.querySelector('.new-chat-bar');
+    if (newChatBar) newChatBar.style.display = '';
 
     // 刷新会话列表和未读数
     loadConversations();
@@ -238,6 +247,7 @@ function bindEvents() {
 
 async function searchUsers(keyword) {
     const resultsEl = document.getElementById('searchResults');
+    if (!resultsEl) return;
     if (!keyword || keyword.trim().length < 1) {
         resultsEl.innerHTML = '';
         return;
@@ -272,6 +282,7 @@ async function searchUsers(keyword) {
 // --- 通知 ---
 async function loadNotifications() {
     const listEl = document.getElementById('notificationList');
+    if (!listEl) { console.warn('[Messages] notificationList not found'); return; }
     try {
         const res = await fetch(`${API_BASE_URL}/messages/notifications`, {
             headers: getAuthHeaders()
