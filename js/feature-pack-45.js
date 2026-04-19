@@ -29,7 +29,7 @@ FeaturePack.register('fp223_reading_together', {
 FeaturePack.register('fp224_mention_user', {
     name: '@用户高亮', desc: '评论中@用户名自动高亮并添加链接', page: 'article',
     initFn() {
-        document.querySelectorAll(".comment-text, .comment-content").forEach(c => { c.innerHTML = c.innerHTML.replace(/@(w+)/g, '<span style="color:#667eea;font-weight:bold;cursor:pointer" onclick="alert('用户主页: /profile/$1')">@$1</span>'); });
+        document.querySelectorAll(".comment-text, .comment-content").forEach(c => { c.innerHTML = c.innerHTML.replace(/@(\w+)/g, '<span style="color:#667eea;font-weight:bold;cursor:pointer" onclick="alert(\'用户主页: /profile/$1\')">@$1</span>'); });
     }
 });
 
