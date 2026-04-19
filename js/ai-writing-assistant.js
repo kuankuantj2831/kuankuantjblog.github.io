@@ -2,7 +2,7 @@
  * AI智能写作助手
  * 功能：生成摘要、续写、润色、生成标题、生成标签
  */
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 
 class AIWritingAssistant {
     constructor(options = {}) {

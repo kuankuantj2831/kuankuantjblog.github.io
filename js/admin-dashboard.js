@@ -3,7 +3,7 @@
  * 数据可视化、内容审核、用户分析、系统日志
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 import { escapeHtml } from './utils.js';
 
 class AdminDashboard {

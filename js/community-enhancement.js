@@ -3,7 +3,7 @@
  * 文章投票、问答社区、评论置顶
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 import { escapeHtml } from './utils.js';
 
 class CommunityEnhancement {

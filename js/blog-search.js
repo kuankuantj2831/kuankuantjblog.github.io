@@ -4,7 +4,7 @@
  * 与 index-chinese.html 的搜索 UI 绑定
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 import { escapeHtml, sanitizeUrl, renderTitleBadge } from './utils.js';
 
 class BlogSearch {

@@ -3,7 +3,7 @@
  * 结合硬币系统，每天生成任务，完成获奖励
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 import { escapeHtml } from './utils.js';
 
 class DailyTasks {

@@ -3,7 +3,7 @@
  * 功能：签到、日历、排行榜、交易记录
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 import { escapeHtml, formatTime } from './utils.js';
 
 // 头像颜色池

@@ -1,7 +1,7 @@
 // API 配置
-// 备案期间通过本地代理访问腾讯云API，解决CORS问题
-// 代理服务器: node proxy.js (启动后访问 localhost:9000)
-const isProxyMode = true; // 设为 false 则直连腾讯云
+// 自动检测环境：localhost 使用代理，GitHub Pages 直连腾讯云
+const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const isProxyMode = isLocalhost; // 仅本地开发使用代理
 
 export const API_BASE_URL = isProxyMode
     ? 'http://localhost:9000'

@@ -29,7 +29,7 @@ class ArticleVote {
      */
     async loadVoteData() {
         try {
-            const { API_BASE_URL } = await import('./api-config.js?v=20260223b');
+            const { API_BASE_URL } = await import('./api-config.js?v=20260419b');
             const response = await fetch(`${API_BASE_URL}/articles/${this.articleId}/votes`);
             
             if (response.ok) {
@@ -251,7 +251,7 @@ class ArticleVote {
         }
 
         try {
-            const { API_BASE_URL } = await import('./api-config.js?v=20260223b');
+            const { API_BASE_URL } = await import('./api-config.js?v=20260419b');
             const response = await fetch(`${API_BASE_URL}/articles/${this.articleId}/votes`, {
                 method: 'POST',
                 headers: {

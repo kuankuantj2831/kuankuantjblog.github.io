@@ -1,5 +1,5 @@
 ﻿
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 
 // 安全解析 localStorage 中的用户数据
 function getSafeUser() {

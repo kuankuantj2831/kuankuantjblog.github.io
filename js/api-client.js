@@ -3,7 +3,7 @@
  * 提供缓存、去重、重试、批量请求等功能
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 
 class ApiClient {
     constructor() {

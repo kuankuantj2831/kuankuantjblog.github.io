@@ -2,7 +2,7 @@
  * 高级编辑功能模块
  * 包含：数学公式、流程图、代码运行、导入导出
  */
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 
 class AdvancedEditor {
     constructor() {

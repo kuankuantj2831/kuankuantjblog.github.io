@@ -300,7 +300,7 @@ class AchievementSystem {
             // 从服务器同步
             const token = localStorage.getItem('token');
             if (token) {
-                const { API_BASE_URL } = await import('./api-config.js?v=20260223b');
+                const { API_BASE_URL } = await import('./api-config.js?v=20260419b');
                 const response = await fetch(`${API_BASE_URL}/users/${this.userId}/achievements`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -513,7 +513,7 @@ class AchievementSystem {
             const token = localStorage.getItem('token');
             if (!token) return;
             
-            const { API_BASE_URL } = await import('./api-config.js?v=20260223b');
+            const { API_BASE_URL } = await import('./api-config.js?v=20260419b');
             await fetch(`${API_BASE_URL}/users/${this.userId}/achievements`, {
                 method: 'PUT',
                 headers: {

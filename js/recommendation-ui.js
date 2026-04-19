@@ -3,7 +3,7 @@
  * 智能推荐、相关文章、热门趋势、专题合集
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 import { escapeHtml } from './utils.js';
 
 class RecommendationUI {

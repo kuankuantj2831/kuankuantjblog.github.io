@@ -3,7 +3,7 @@
  * 提供标签云、热门标签、标签文章聚合等功能
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 
 class TagsSystem {
     constructor() {

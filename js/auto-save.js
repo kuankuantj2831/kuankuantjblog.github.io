@@ -142,7 +142,7 @@ class AutoSave {
         if (!token) return;
 
         try {
-            const { API_BASE_URL } = await import('./api-config.js?v=20260223b');
+            const { API_BASE_URL } = await import('./api-config.js?v=20260419b');
             
             const response = await fetch(`${API_BASE_URL}/drafts`, {
                 method: 'POST',
@@ -303,7 +303,7 @@ class AutoSave {
         // 清除服务器草稿
         const token = localStorage.getItem('token');
         if (token && this.draftId) {
-            import('./api-config.js?v=20260223b').then(({ API_BASE_URL }) => {
+            import('./api-config.js?v=20260419b').then(({ API_BASE_URL }) => {
                 fetch(`${API_BASE_URL}/drafts/${this.draftId}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }

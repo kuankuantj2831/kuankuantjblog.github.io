@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 import { escapeHtml, formatTime } from './utils.js';
 
 const NOTIF_ICONS = {

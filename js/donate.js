@@ -5,7 +5,7 @@
  * 用户扫码付款 → 站长后台确认 → 累计赞助金额 → 获得头衔
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 import { escapeHtml, formatTime } from './utils.js';
 
 class DonateApp {

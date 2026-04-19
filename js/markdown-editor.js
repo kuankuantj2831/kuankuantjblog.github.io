@@ -2,7 +2,7 @@
  * 增强版Markdown编辑器
  * 功能：Markdown工具栏、实时预览、自动保存、版本历史
  */
-import { API_BASE_URL } from './api-config.js?v=20260223b';
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 
 class MarkdownEditor {
     constructor(options = {}) {
