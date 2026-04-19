@@ -29,7 +29,7 @@ app.use(helmet({
 app.use(limiter); // Apply global limiter
 
 // CORS 安全配置：只允许指定域名访问
-const allowedOrigins = (process.env.CORS_ORIGINS || 'https://mcock.cn,https://kuankuantj2831.github.io,http://localhost:8080,http://localhost:3000,http://localhost:8000').split(',').map(s => s.trim());
+const allowedOrigins = (process.env.CORS_ORIGINS || 'https://mcock.cn,https://kuankuantj2831.github.io,http://localhost:8080,http://localhost:3000,http://localhost:8000,http://127.0.0.1:8000,http://127.0.0.1:8080').split(',').map(s => s.trim());
 
 // 手动处理 OPTIONS 预检请求（解决腾讯云 SCF CORS 问题）
 app.options('*', (req, res) => {
