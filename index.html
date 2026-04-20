@@ -66,6 +66,7 @@
     <link rel="stylesheet" href="css/auth.css?v=3" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/tianjg-theme.css?v=3" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/theme.css?v=4">
+    <link rel="stylesheet" href="css/apple-animations.css?v=1">
     <style>
         /* 通知下拉面板 */
         .notif-dropdown{position:absolute;top:100%;right:0;width:340px;max-height:420px;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:999;overflow:hidden;}
@@ -139,7 +140,7 @@
         <div class="bg-decoration"></div>
 
         <!-- 顶部导航 -->
-        <nav class="top-nav">
+        <nav class="top-nav nav-glass" data-animate="fade" data-delay="1">
             <div class="logo">Hakimi 的猫爬架 <span id="onlineCount" style="font-size:12px;color:#4CAF50;margin-left:8px;display:none;">🟢 <span id="onlineNum">0</span>人在线</span></div>
             <!-- 移动端汉堡菜单按钮 -->
             <button class="hamburger-btn" id="hamburgerBtn" aria-label="菜单">
@@ -230,9 +231,9 @@
         </nav>
 
         <!-- 主标题区域 -->
-        <section class="hero-section">
-            <h1 class="main-title" id="heroTitle">分享是一种美德</h1>
-            <p class="sub-title" id="heroSub">它不求回报，只为真诚</p>
+        <section class="hero-section" data-animate="fade-up" data-delay="2">
+            <h1 class="main-title" id="heroTitle" data-char-reveal>分享是一种美德</h1>
+            <p class="sub-title" id="heroSub" data-animate="fade-up" data-delay="3">它不求回报，只为真诚</p>
             <script>
             (function(){
                 var q=[
@@ -264,25 +265,25 @@
             </script>
 
             <!-- 教程板块 -->
-            <section class="tutorial-section">
-                <h2 class="tutorial-heading">📖 新手指南</h2>
+            <section class="tutorial-section" data-animate="fade-up" data-delay="2">
+                <h2 class="tutorial-heading" data-animate="fade-left" data-delay="1">📖 新手指南</h2>
                 <div class="tutorial-cards">
-                    <a href="/level-guide.html" class="tutorial-card">
+                    <a href="/level-guide.html" class="tutorial-card card-3d" data-animate="fade-up" data-delay="2">
                         <span class="tutorial-icon">⬆️</span>
                         <span class="tutorial-title">如何升级</span>
                         <span class="tutorial-desc">签到、发文、评论赚经验</span>
                     </a>
-                    <a href="/profile.html" class="tutorial-card">
+                    <a href="/profile.html" class="tutorial-card card-3d" data-animate="fade-up" data-delay="3">
                         <span class="tutorial-icon">🖼️</span>
                         <span class="tutorial-title">更改头像</span>
                         <span class="tutorial-desc">个人中心上传自定义头像</span>
                     </a>
-                    <a href="/editor.html" class="tutorial-card">
+                    <a href="/editor.html" class="tutorial-card card-3d" data-animate="fade-up" data-delay="4">
                         <span class="tutorial-icon">✍️</span>
                         <span class="tutorial-title">发布文章</span>
                         <span class="tutorial-desc">Markdown 编辑器写作投稿</span>
                     </a>
-                    <a href="/coins.html" class="tutorial-card">
+                    <a href="/coins.html" class="tutorial-card card-3d" data-animate="fade-up" data-delay="5">
                         <span class="tutorial-icon">🪙</span>
                         <span class="tutorial-title">赚取硬币</span>
                         <span class="tutorial-desc">每日签到、完成任务得奖励</span>
@@ -325,7 +326,7 @@
         </section>
 
         <!-- 资源展示区域 -->
-        <section class="resource-showcase">
+        <section class="resource-showcase" data-animate="fade-up" data-delay="2">
             <div id="searchResultInfo" style="display:none;"></div>
             <div class="resource-scroll" id="articles-container">
                 <!-- 骨架屏加载占位 -->
@@ -339,7 +340,7 @@
         </section>
 
         <!-- 页脚 -->
-        <footer style="text-align:center;padding:20px 0 30px;font-size:12px;color:rgba(255,255,255,.5);">
+        <footer style="text-align:center;padding:20px 0 30px;font-size:12px;color:rgba(255,255,255,.5);" data-animate="fade" data-delay="3">
             <a href="/terms.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">用户协议</a>
             <a href="/privacy.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">隐私政策</a>
             <a href="/about.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">关于我们</a>
@@ -957,6 +958,7 @@ if (githubLoginBtn) {
 <script type="module" src="js/feature-loader.js?v=20260419a"></script>
 
     <script src="js/mouse-particles.js?v=20260419a"></script>
+    <script src="js/apple-animations.js?v=1"></script>
 </body>
 
 </html>
