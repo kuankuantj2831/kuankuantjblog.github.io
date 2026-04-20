@@ -1,8 +1,7 @@
 // API 配置
-// 自动检测环境：localhost 使用代理，GitHub Pages 直连腾讯云
-// 如需强制直连腾讯云，将下方 isProxyMode 改为 false
+// 自动检测环境：localhost 使用代理，其他域名直连腾讯云
 const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-const isProxyMode = false; // 临时改为 false 直连腾讯云（备案期间代理未运行）
+const isProxyMode = isLocalhost;
 
 export const API_BASE_URL = isProxyMode
     ? 'http://localhost:9000'
