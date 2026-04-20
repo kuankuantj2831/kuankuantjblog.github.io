@@ -154,7 +154,8 @@ window.closeChatView = function () {
 };
 
 async function loadChatMessages(userId) {
-    const container = document.getElementById('chatMessages');
+    const container = document.getElementById('messagesList');
+    if (!container) { console.warn('[Messages] messagesList not found'); return; }
     try {
         const res = await fetch(`${API_BASE_URL}/messages/conversation/${userId}`, {
             headers: getAuthHeaders()
