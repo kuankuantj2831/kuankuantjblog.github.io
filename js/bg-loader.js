@@ -4,11 +4,9 @@
  */
 (function () {
     var SOURCES = [
-        // jsdelivr GitHub 加速
-        'https://cdn.jsdelivr.net/gh/kuankuantj2831/kuankuantjblog.github.io@main/images/chinese-bg.webp',
-        // 本站直连
+        // 本站直连（优先）
         '/images/chinese-bg.webp',
-        // npmmirror 静态资源（jsdelivr 国内镜像）
+        // npmmirror 静态资源
         'https://registry.npmmirror.com/gh/kuankuantj2831/kuankuantjblog.github.io@main/images/chinese-bg.webp',
         // Statically CDN
         'https://cdn.statically.io/gh/kuankuantj2831/kuankuantjblog.github.io@main/images/chinese-bg.webp'

@@ -24,16 +24,16 @@ class AdvancedEditor {
             // 加载CSS
             const link = document.createElement('link');
             link.rel = 'stylesheet';
-            link.href = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css';
+            link.href = 'https://unpkg.com/katex@0.16.9/dist/katex.min.css';
             document.head.appendChild(link);
             
             // 加载JS
             const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';
+            script.src = 'https://unpkg.com/katex@0.16.9/dist/katex.min.js';
             script.onload = () => {
                 // 加载auto-render
                 const autoRender = document.createElement('script');
-                autoRender.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js';
+                autoRender.src = 'https://unpkg.com/katex@0.16.9/dist/contrib/auto-render.min.js';
                 autoRender.onload = () => {
                     this.katexLoaded = true;
                     resolve();
@@ -65,7 +65,7 @@ class AdvancedEditor {
         
         return new Promise((resolve) => {
             const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js';
+            script.src = 'https://unpkg.com/mermaid@10/dist/mermaid.min.js';
             script.onload = () => {
                 window.mermaid.initialize({
                     startOnLoad: false,

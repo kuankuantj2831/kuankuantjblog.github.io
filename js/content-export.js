@@ -210,7 +210,7 @@ tags: ${article.tags ? article.tags.join(', ') : ''}
         try {
             // 使用 html2canvas 或类似库
             if (typeof html2canvas === 'undefined') {
-                await this.loadScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js');
+                await this.loadScript('https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js');
             }
 
             const article = await this.fetchArticle(articleId);

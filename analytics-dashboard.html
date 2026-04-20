@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>数据分析中心 - Hakimi 的猫爬架</title>
     <link rel="stylesheet" href="css/chinese-style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/chart.js"></script>
     <style>
         .analytics-wrapper {
             max-width: 1200px;
@@ -298,7 +298,7 @@
         <div class="analytics-wrapper">
             <div class="analytics-header">
                 <h1>📊 数据分析中心</h1>
-                <p>洞察文章表现，优化创作策�?/p>
+                <p>洞察文章表现，优化创作策�?/p>
             </div>
             
             <!-- 数据概览 -->
@@ -310,7 +310,7 @@
                     <div class="stat-change up" id="viewsChange">+0%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon likes">�?/div>
+                    <div class="stat-icon likes">�?/div>
                     <div class="stat-value" id="totalLikes">-</div>
                     <div class="stat-label">总点赞数</div>
                     <div class="stat-change up" id="likesChange">+0%</div>
@@ -322,7 +322,7 @@
                     <div class="stat-change up" id="commentsChange">+0%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon favorites">�?/div>
+                    <div class="stat-icon favorites">�?/div>
                     <div class="stat-value" id="totalFavorites">-</div>
                     <div class="stat-label">总收藏数</div>
                     <div class="stat-change up" id="favoritesChange">+0%</div>
@@ -334,12 +334,12 @@
                 </div>
             </div>
             
-            <!-- 时间筛�?-->
+            <!-- 时间筛�?-->
             <div class="date-filter">
-                <button class="active" data-range="7">�?�?/button>
-                <button data-range="30">�?0�?/button>
-                <button data-range="90">�?0�?/button>
-                <button data-range="365">近一�?/button>
+                <button class="active" data-range="7">�?�?/button>
+                <button data-range="30">�?0�?/button>
+                <button data-range="90">�?0�?/button>
+                <button data-range="365">近一�?/button>
             </div>
             
             <!-- 趋势图表 -->
@@ -376,13 +376,13 @@
                                 <th>排名</th>
                                 <th>文章标题</th>
                                 <th>发布时间</th>
-                                <th>阅读�?/th>
+                                <th>阅读�?/th>
                                 <th>点赞</th>
                                 <th>评论</th>
                             </tr>
                         </thead>
                         <tbody id="articlesTableBody">
-                            <!-- 动态生�?-->
+                            <!-- 动态生�?-->
                         </tbody>
                     </table>
                 </div>
@@ -407,7 +407,7 @@
             return userJson ? JSON.parse(userJson) : null;
         }
         
-        // 检查登录状�?
+        // 检查登录状�?
         function checkAuth() {
             const user = getCurrentUser();
             const token = getToken();
@@ -419,7 +419,7 @@
             return true;
         }
         
-        // 格式化数�?
+        // 格式化数�?
         function formatNumber(num) {
             if (num >= 10000) {
                 return (num / 10000).toFixed(1) + 'w';
@@ -463,7 +463,7 @@
             }
         }
         
-        // 更新趋势指示�?
+        // 更新趋势指示�?
         function updateTrendIndicator(id, value) {
             const el = document.getElementById(id);
             if (!el || value === undefined) return;
@@ -498,7 +498,7 @@
             }
         }
         
-        // 更新阅读量图�?
+        // 更新阅读量图�?
         function updateViewsChart(dates, views) {
             const ctx = document.getElementById('viewsChart').getContext('2d');
             
@@ -511,7 +511,7 @@
                 data: {
                     labels: dates.map(d => d.slice(5)), // 显示 MM-DD
                     datasets: [{
-                        label: '阅读�?,
+                        label: '阅读�?,
                         data: views,
                         borderColor: '#667eea',
                         backgroundColor: 'rgba(102, 126, 234, 0.1)',
@@ -630,7 +630,7 @@
                         </td>
                         <td>
                             <span class="metric-badge likes">
-                                �?${formatNumber(article.likes)}
+                                �?${formatNumber(article.likes)}
                             </span>
                         </td>
                         <td>
@@ -673,7 +673,7 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        // 初始�?
+        // 初始�?
         function init() {
             if (!checkAuth()) return;
             
@@ -681,7 +681,7 @@
             loadTrends(7);
             loadPopularArticles();
             
-            // 绑定时间筛选按�?
+            // 绑定时间筛选按�?
             document.querySelectorAll('.date-filter button').forEach(btn => {
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('.date-filter button').forEach(b => b.classList.remove('active'));

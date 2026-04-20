@@ -1,8 +1,8 @@
 /**
- * CDN 多源回退加载器 v2
+ * CDN 多源回退加载器 v3
  * 主 CDN 挂掉时自动切换备用 CDN，支持 JS 和 CSS
- * 源优先级：BootCDN(国内) > jsdelivr > npmmirror > unpkg > cdnjs
- * 
+ * 源优先级：BootCDN(国内) > npmmirror > unpkg > cdnjs
+ *
  * 用法：在 <head> 中引入此脚本，然后用 cdnLoad() 加载资源
  * <script src="/js/cdn-fallback.js"></script>
  * <script>
@@ -13,9 +13,8 @@
 (function () {
     'use strict';
 
-    // jsdelivr npm / unpkg / npmmirror 共用同一路径格式
+    // npmmirror / unpkg 共用同一路径格式
     var NPM_CDNS = [
-        'https://cdn.jsdelivr.net/npm/',
         'https://registry.npmmirror.com/',
         'https://unpkg.com/'
     ];
@@ -52,7 +51,7 @@
         var urls = [];
         // BootCDN 优先（国内最快）
         if (ALTCDN_MAP[npmPath]) urls.push(ALTCDN_MAP[npmPath][0]);
-        // 然后 jsdelivr / npmmirror / unpkg
+        // 然后 npmmirror / unpkg
         for (var i = 0; i < NPM_CDNS.length; i++) {
             urls.push(NPM_CDNS[i] + npmPath);
         }
