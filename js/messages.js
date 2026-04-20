@@ -110,17 +110,18 @@ async function loadConversations() {
 // --- 聊天视图 ---
 window.openChat = async function (userId, username) {
     currentChatUserId = userId;
-    const chatTitle = document.getElementById('chatTitle');
-    if (chatTitle) chatTitle.textContent = username;
-    const convList = document.getElementById('conversationList');
-    if (convList) convList.style.display = 'none';
-    const newChatBar = document.querySelector('.new-chat-bar');
-    if (newChatBar) newChatBar.style.display = 'none';
-    const searchResults = document.getElementById('searchResults');
-    if (searchResults) searchResults.innerHTML = '';
+    const chatUserName = document.getElementById('chatUserName');
+    if (chatUserName) chatUserName.textContent = username;
 
-    const chatView = document.getElementById('chatView');
-    if (chatView) chatView.classList.add('active');
+    // 隐藏空状态，显示聊天界面
+    const emptyState = document.getElementById('emptyState');
+    if (emptyState) emptyState.style.display = 'none';
+    const chatHeader = document.getElementById('chatHeader');
+    if (chatHeader) chatHeader.style.display = 'flex';
+    const messagesList = document.getElementById('messagesList');
+    if (messagesList) messagesList.style.display = 'block';
+    const chatInputArea = document.getElementById('chatInputArea');
+    if (chatInputArea) chatInputArea.style.display = 'block';
 
     await loadChatMessages(userId);
 
@@ -131,8 +132,8 @@ window.openChat = async function (userId, username) {
     }, 5000);
 
     // 聚焦输入框
-    const chatInput = document.getElementById('chatInput');
-    if (chatInput) chatInput.focus();
+    const messageInput = document.getElementById('messageInput');
+    if (messageInput) messageInput.focus();
 };
 
 window.closeChatView = function () {
@@ -141,12 +142,16 @@ window.closeChatView = function () {
         clearInterval(chatRefreshTimer);
         chatRefreshTimer = null;
     }
-    const chatView = document.getElementById('chatView');
-    if (chatView) chatView.classList.remove('active');
-    const convList = document.getElementById('conversationList');
-    if (convList) convList.style.display = '';
-    const newChatBar = document.querySelector('.new-chat-bar');
-    if (newChatBar) newChatBar.style.display = '';
+
+    // 显示空状态，隐藏聊天界面
+    const emptyState = document.getElementById('emptyState');
+    if (emptyState) emptyState.style.display = 'flex';
+    const chatHeader = document.getElementById('chatHeader');
+    if (chatHeader) chatHeader.style.display = 'none';
+    const messagesList = document.getElementById('messagesList');
+    if (messagesList) messagesList.style.display = 'none';
+    const chatInputArea = document.getElementById('chatInputArea');
+    if (chatInputArea) chatInputArea.style.display = 'none';
 
     // 刷新会话列表和未读数
     loadConversations();
@@ -193,12 +198,13 @@ async function loadChatMessages(userId) {
 
 // --- 发送消息 ---
 window.sendMessage = async function () {
-    const input = document.getElementById('chatInput');
+    const input = document.getElementById('messageInput');
+    if (!input) return;
     const content = input.value.trim();
     if (!content || !currentChatUserId) return;
 
-    const sendBtn = document.getElementById('chatSendBtn');
-    sendBtn.disabled = true;
+    const sendBtn = document.getElementById('sendBtn');
+    if (sendBtn) sendBtn.disabled = true;
 
     try {
         const res = await fetch(`${API_BASE_URL}/messages/send`, {
@@ -218,7 +224,7 @@ window.sendMessage = async function () {
         console.error('发送失败:', e);
         alert(e.message || '发送失败，请重试');
     } finally {
-        sendBtn.disabled = false;
+        if (sendBtn) sendBtn.disabled = false;
         input.focus();
     }
 };
@@ -235,9 +241,9 @@ function bindEvents() {
         });
     }
 
-    const chatInput = document.getElementById('chatInput');
-    if (chatInput) {
-        chatInput.addEventListener('keydown', (e) => {
+    const messageInput = document.getElementById('messageInput');
+    if (messageInput) {
+        messageInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
