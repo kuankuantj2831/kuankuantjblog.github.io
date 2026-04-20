@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>举报管理后台 - Hakimi 的猫爬架</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f7; color: #1d1d1f; }
+        .admin-header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px 40px; }
+        .admin-header h1 { font-size: 24px; font-weight: 600; }
+        .admin-header p { opacity: 0.8; margin-top: 4px; font-size: 14px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px 40px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .stat-card .label { font-size: 13px; color: #86868b; margin-bottom: 8px; }
+        .stat-card .value { font-size: 32px; font-weight: 700; }
+        .stat-card.pending .value { color: #f59e0b; }
+        .stat-card.processing .value { color: #3b82f6; }
+        .stat-card.resolved .value { color: #10b981; }
+        .stat-card.total .value { color: #667eea; }
+        .filter-bar { background: white; border-radius: 12px; padding: 16px 24px; margin-bottom: 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .filter-bar select { padding: 8px 16px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 14px; background: white; cursor: pointer; }
+        .filter-bar button { padding: 8px 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; }
+        .reports-table { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .reports-table table { width: 100%; border-collapse: collapse; }
+        .reports-table th { background: #fafafa; padding: 14px 16px; text-align: left; font-size: 13px; font-weight: 600; color: #666; border-bottom: 1px solid #eee; }
+        .reports-table td { padding: 14px 16px; font-size: 13px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+        .reports-table tr:hover { background: #fafafa; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 500; }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+        .badge-processing { background: #dbeafe; color: #1e40af; }
+        .badge-resolved { background: #d1fae5; color: #065f46; }
+        .badge-rejected { background: #fee2e2; color: #991b1b; }
+        .badge-type { background: #f3f4f6; color: #374151; }
+        .detail-text { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #666; }
+        .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+        .actions button { padding: 5px 12px; border: none; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+        .btn-process { background: #dbeafe; color: #1e40af; }
+        .btn-resolve { background: #d1fae5; color: #065f46; }
+        .btn-reject { background: #fee2e2; color: #991b1b; }
+        .actions button:hover { opacity: 0.8; transform: translateY(-1px); }
+        .empty-state { text-align: center; padding: 60px 20px; color: #999; }
+        .login-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 99999; }
+        .login-box { background: white; padding: 40px; border-radius: 20px; width: 400px; max-width: 90%; }
+        .login-box h2 { margin-bottom: 20px; }
+        .login-box input { width: 100%; padding: 12px 16px; margin-bottom: 12px; border: 1px solid #e5e5e5; border-radius: 10px; font-size: 14px; }
+        .login-box button { width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }
+        .pagination { display: flex; justify-content: center; gap: 8px; padding: 20px; }
+        .pagination button { padding: 6px 14px; border: 1px solid #e5e5e5; background: white; border-radius: 8px; cursor: pointer; font-size: 13px; }
+        .pagination button.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-color: transparent; }
+        .pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div id="loginMask" class="login-mask">
+        <div class="login-box">
+            <h2>🔐 管理员登录</h2>
+            <input type="password" id="adminToken" placeholder="输入管理员 Token">
+            <button onclick="doLogin()">登录</button>
+        </div>
+    </div>
+
+    <div id="adminContent" class="hidden">
+        <div class="admin-header">
+            <h1>🚨 举报管理后台</h1>
+            <p>查看和处理用户提交的投诉举报</p>
+        </div>
+        <div class="container">
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card total"><div class="label">总举报数</div><div class="value" id="statTotal">-</div></div>
+                <div class="stat-card pending"><div class="label">待处理</div><div class="value" id="statPending">-</div></div>
+                <div class="stat-card processing"><div class="label">处理中</div><div class="value" id="statProcessing">-</div></div>
+                <div class="stat-card resolved"><div class="label">已解决</div><div class="value" id="statResolved">-</div></div>
+            </div>
+            <div class="filter-bar">
+                <span>状态筛选：</span>
+                <select id="filterStatus" onchange="loadReports()">
+                    <option value="all">全部</option>
+                    <option value="pending">待处理</option>
+                    <option value="processing">处理中</option>
+                    <option value="resolved">已解决</option>
+                    <option value="rejected">已驳回</option>
+                </select>
+                <button onclick="loadReports()">🔄 刷新</button>
+            </div>
+            <div class="reports-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>类型</th>
+                            <th>目标</th>
+                            <th>原因</th>
+                            <th>详细说明</th>
+                            <th>举报人</th>
+                            <th>联系</th>
+                            <th>时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportsBody">
+                        <tr><td colspan="10" class="empty-state">加载中...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <script>
+    const API_BASE = 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+    let token = localStorage.getItem('admin_token');
+    let currentPage = 1;
+    const REASON_MAP = {
+        spam: '垃圾广告', illegal: '违法违规', abuse: '人身攻击',
+        porn: '色情低俗', plagiarism: '抄袭侵权', misinfo: '虚假信息', other: '其他原因'
+    };
+    const TYPE_MAP = { article: '文章', comment: '评论', user: '用户', other: '其他' };
+
+    if (token) { checkAuth(); }
+
+    function doLogin() {
+        token = document.getElementById('adminToken').value.trim();
+        if (!token) return alert('请输入 Token');
+        checkAuth();
+    }
+
+    async function checkAuth() {
+        try {
+            const res = await fetch(`${API_BASE}/reports/stats`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            if (res.ok) {
+                localStorage.setItem('admin_token', token);
+                document.getElementById('loginMask').classList.add('hidden');
+                document.getElementById('adminContent').classList.remove('hidden');
+                loadStats();
+                loadReports();
+            } else {
+                alert('认证失败，请检查 Token');
+                token = null;
+            }
+        } catch (e) {
+            alert('网络错误');
+        }
+    }
+
+    async function loadStats() {
+        try {
+            const res = await fetch(`${API_BASE}/reports/stats`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const data = await res.json();
+            if (data.success) {
+                document.getElementById('statTotal').textContent = data.data.overview.total;
+                document.getElementById('statPending').textContent = data.data.overview.pending;
+                document.getElementById('statProcessing').textContent = data.data.overview.processing;
+                document.getElementById('statResolved').textContent = data.data.overview.resolved;
+            }
+        } catch (e) { console.error(e); }
+    }
+
+    async function loadReports(page = 1) {
+        currentPage = page;
+        const status = document.getElementById('filterStatus').value;
+        document.getElementById('reportsBody').innerHTML = '<tr><td colspan="10" class="empty-state">加载中...</td></tr>';
+        try {
+            const res = await fetch(`${API_BASE}/reports?status=${status}&page=${page}&limit=20`, {
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const data = await res.json();
+            if (data.success) {
+                renderReports(data.data.list);
+                renderPagination(data.data.total, data.data.page, data.data.limit);
+            }
+        } catch (e) {
+            document.getElementById('reportsBody').innerHTML = '<tr><td colspan="10" class="empty-state">加载失败</td></tr>';
+        }
+    }
+
+    function renderReports(list) {
+        if (!list.length) {
+            document.getElementById('reportsBody').innerHTML = '<tr><td colspan="10" class="empty-state">暂无举报数据</td></tr>';
+            return;
+        }
+        document.getElementById('reportsBody').innerHTML = list.map(r => `
+            <tr>
+                <td>#${r.id}</td>
+                <td><span class="badge badge-type">${TYPE_MAP[r.target_type] || r.target_type}</span></td>
+                <td>${r.target_id}${r.target_title ? '<br><small style="color:#999;">' + escapeHtml(r.target_title).substring(0,30) + '</small>' : ''}</td>
+                <td>${REASON_MAP[r.reason] || r.reason}</td>
+                <td><div class="detail-text" title="${escapeHtml(r.detail)}">${escapeHtml(r.detail) || '-'}</div></td>
+                <td>${r.reporter_name || '<span style="color:#999;">匿名</span>'}</td>
+                <td>${r.reporter_email || '-'}<br>${r.reporter_contact || ''}</td>
+                <td>${new Date(r.created_at).toLocaleString('zh-CN')}</td>
+                <td><span class="badge badge-${r.status}">${getStatusText(r.status)}</span></td>
+                <td>
+                    <div class="actions">
+                        ${r.status !== 'processing' ? `<button class="btn-process" onclick="updateStatus(${r.id},'processing')">处理中</button>` : ''}
+                        ${r.status !== 'resolved' ? `<button class="btn-resolve" onclick="updateStatus(${r.id},'resolved')">已解决</button>` : ''}
+                        ${r.status !== 'rejected' ? `<button class="btn-reject" onclick="updateStatus(${r.id},'rejected')">驳回</button>` : ''}
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function renderPagination(total, page, limit) {
+        const totalPages = Math.ceil(total / limit);
+        if (totalPages <= 1) { document.getElementById('pagination').innerHTML = ''; return; }
+        let html = `<button ${page <= 1 ? 'disabled' : ''} onclick="loadReports(${page - 1})">上一页</button>`;
+        for (let i = 1; i <= totalPages; i++) {
+            if (Math.abs(i - page) <= 2 || i === 1 || i === totalPages) {
+                html += `<button class="${i === page ? 'active' : ''}" onclick="loadReports(${i})">${i}</button>`;
+            } else if (Math.abs(i - page) === 3) {
+                html += `<span style="padding:6px;">...</span>`;
+            }
+        }
+        html += `<button ${page >= totalPages ? 'disabled' : ''} onclick="loadReports(${page + 1})">下一页</button>`;
+        document.getElementById('pagination').innerHTML = html;
+    }
+
+    async function updateStatus(id, status) {
+        if (!confirm(`确定将举报 #${id} 状态改为「${getStatusText(status)}」吗？`)) return;
+        try {
+            const res = await fetch(`${API_BASE}/reports/${id}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                body: JSON.stringify({ status })
+            });
+            const data = await res.json();
+            if (data.success) {
+                loadStats();
+                loadReports(currentPage);
+            } else {
+                alert(data.message);
+            }
+        } catch (e) { alert('操作失败'); }
+    }
+
+    function getStatusText(s) {
+        return { pending: '待处理', processing: '处理中', resolved: '已解决', rejected: '已驳回' }[s] || s;
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+    </script>
+</body>
+</html>

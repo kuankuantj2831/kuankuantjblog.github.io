@@ -437,6 +437,7 @@
         }
     </style>
     <link rel="stylesheet" href="/css/theme.css?v=3">
+    <link rel="stylesheet" href="/css/report-modal.css?v=1">
     <!-- 代码高亮 -->
     <link rel="stylesheet" href="https://unpkg.com/highlight.js@11/styles/github.min.css">
     <style>
@@ -495,6 +496,7 @@
                         <span id="artDate"></span>
                         <span id="artAuthor"></span>
                         <span id="artViews" style="color:#999;">👁 0</span>
+                        <button id="reportArticleBtn" class="article-report-btn" title="投诉举报" style="margin-left:8px;">🚨 举报</button>
                         <span id="readingTime" style="color:#667eea;">⏱️ 计算中...</span>
                         <span id="deleteBtnContainer" style="display: none;">
                             <button id="deleteArticleBtn"
@@ -941,6 +943,26 @@
 
 <!-- 100功能包加载器 -->
 <script type="module" src="/js/feature-loader.js?v=20260419a"></script>
+<script src="/js/report-modal.js?v=1"></script>
+<script>
+// 文章举报按钮绑定
+document.addEventListener('DOMContentLoaded', function() {
+    const reportBtn = document.getElementById('reportArticleBtn');
+    if (reportBtn) {
+        reportBtn.addEventListener('click', function() {
+            const articleId = new URLSearchParams(location.search).get('id');
+            const articleTitle = document.getElementById('artTitle')?.textContent || '未知文章';
+            if (window.reportModalInstance && articleId) {
+                window.reportModalInstance.open({
+                    targetType: 'article',
+                    targetId: articleId,
+                    targetTitle: articleTitle
+                });
+            }
+        });
+    }
+});
+</script>
 
 </body>
 

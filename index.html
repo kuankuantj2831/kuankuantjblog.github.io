@@ -67,6 +67,7 @@
     <link rel="stylesheet" href="css/tianjg-theme.css?v=3" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/theme.css?v=4">
     <link rel="stylesheet" href="css/apple-animations.css?v=1">
+    <link rel="stylesheet" href="css/report-modal.css?v=1">
     <style>
         /* 通知下拉面板 */
         .notif-dropdown{position:absolute;top:100%;right:0;width:340px;max-height:420px;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:999;overflow:hidden;}
@@ -344,6 +345,7 @@
             <a href="/terms.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">用户协议</a>
             <a href="/privacy.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">隐私政策</a>
             <a href="/about.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">关于我们</a>
+            <a href="#" onclick="window.reportModalInstance.open({targetType:'other',targetId:'site',targetTitle:'网站整体'});return false;" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">投诉举报</a>
             <p style="margin-top:8px;">© 2026 Hakimi 的猫爬架</p>
             <p style="margin-top:5px;"><a href="https://beian.miit.gov.cn/" target="_blank" style="color:rgba(255,255,255,.6);text-decoration:none;">津ICP备2026004287号-1</a></p>
             <p style="margin-top:5px;" id="siteRuntime">🚀 网站已运行 0 天</p>
@@ -959,6 +961,7 @@ if (githubLoginBtn) {
 
     <script src="js/mouse-particles.js?v=20260419a"></script>
     <script src="js/apple-animations.js?v=1"></script>
+    <script src="js/report-modal.js?v=1"></script>
 </body>
 
 </html>

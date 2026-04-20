@@ -184,6 +184,7 @@ const aiAdvancedRoutes = require('./routes/ai-advanced');
 // const lowcodeRoutes = require('./routes/lowcode'); // 依赖 @supabase/supabase-js
 // const pwaEdgeRoutes = require('./routes/pwa-edge'); // 依赖 @supabase/supabase-js
 const wechatAuthRoutes = require('./routes/wechat-auth'); // 微信登录 - 已改为MySQL版本
+const reportRoutes = require('./routes/reports'); // 投诉举报系统
 
 // app.use('/web3', web3Routes); // Web3与区块链 - 钱包、NFT、代币、IPFS (已禁用)
 app.use('/ai', aiAdvancedRoutes); // AI大模型深度集成 - 智能客服、内容生成、代码审查
@@ -198,6 +199,7 @@ const wechatMPLoginRoutes = require('./routes/wechat-mp-login'); // 微信公众
 app.use('/wechat-mp', wechatMPLoginRoutes);
 const githubAuthRoutes = require('./routes/github-auth'); // GitHub OAuth 登录
 app.use('/auth/github', githubAuthRoutes);
+app.use('/reports', reportRoutes); // 投诉举报 - 文章/评论/用户举报
 
 // 第七轮功能 - 社区互动升级 - 问答悬赏、话题圈子、实时弹幕
 // const qnaBountyRoutes = require('./routes/qna-bounty'); // 依赖 @supabase/supabase-js
