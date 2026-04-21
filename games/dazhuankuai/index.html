@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打砖块游戏</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <button onclick="window.location.href='../../games.html'" class="btn btn-small" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-home"></i> 返回主页
+                </button>
+                <button onclick="window.location.href='../../games.html#leaderboard'" class="btn btn-small" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-trophy"></i> 排行榜
+                </button>
+            </div>
+            <h1><i class="fas fa-gamepad"></i> 打砖块</h1>
+            <p class="subtitle">使用 HTML5 Canvas 和 JavaScript 构建的经典街机游戏</p>
+        </header>
+
+        <div class="game-area">
+            <div class="stats-panel">
+                <div class="stat">
+                    <span class="stat-label"><i class="fas fa-heart"></i> 生命:</span>
+                    <span id="lives" class="stat-value">3</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label"><i class="fas fa-star"></i> 分数:</span>
+                    <span id="score" class="stat-value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label"><i class="fas fa-layer-group"></i> 关卡:</span>
+                    <span id="level" class="stat-value">1</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label"><i class="fas fa-tachometer-alt"></i> 速度:</span>
+                    <span id="speed" class="stat-value">普通</span>
+                </div>
+            </div>
+
+            <div class="canvas-container">
+                <canvas id="gameCanvas" width="800" height="500"></canvas>
+                <div id="gameOverlay" class="overlay">
+                    <div class="overlay-content">
+                        <h2 id="overlayTitle">准备好了吗？</h2>
+                        <p id="overlayText">点击开始游戏！</p>
+                        <button id="startButton" class="btn btn-start"><i class="fas fa-play"></i> 开始游戏</button>
+                        <button id="pauseButton" class="btn btn-pause hidden"><i class="fas fa-pause"></i> 暂停</button>
+                        <button id="restartButton" class="btn btn-restart"><i class="fas fa-redo"></i> 重新开始</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <h3><i class="fas fa-keyboard"></i> 控制方式</h3>
+                    <p><strong>鼠标移动</strong> – 控制挡板左右移动</p>
+                    <p><strong>鼠标左键</strong> – 发射小球</p>
+                    <p><strong>Enter键</strong> – 暂停 / 继续游戏</p>
+                </div>
+                <div class="control-group">
+                    <h3><i class="fas fa-sliders-h"></i> 游戏设置</h3>
+                    <div class="slider-container">
+                        <label for="volumeSlider">音量 <i class="fas fa-volume-up"></i></label>
+                        <input type="range" id="volumeSlider" min="0" max="100" value="80">
+                    </div>
+                    <div class="slider-container">
+                        <label for="difficultySlider">难度 <i class="fas fa-cogs"></i></label>
+                        <input type="range" id="difficultySlider" min="1" max="5" value="3">
+                    </div>
+                    <button id="muteButton" class="btn btn-small"><i class="fas fa-volume-mute"></i> 静音</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> 游戏说明</h3>
+            <ul>
+                <li>使用挡板反弹小球，击碎所有砖块。</li>
+                <li>每击碎一个砖块获得分数。</li>
+                <li>不要让小球掉落到挡板下方，否则会损失一条生命。</li>
+                <li>清除所有砖块进入下一关。</li>
+                <li>特殊砖块具有特殊效果（加速、额外生命等）。</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>使用 <i class="fas fa-heart" style="color:#e74c3c;"></i> 制作 | &copy; 2023 打砖块游戏</p>
+        </footer>
+    </div>
+
+    <!-- 音效元素 -->
+    <audio id="bounceSound" src="assets/sounds/bounce.wav" preload="auto"></audio>
+    <audio id="breakSound" src="assets/sounds/break.wav" preload="auto"></audio>
+    <audio id="gameOverSound" src="assets/sounds/gameover.wav" preload="auto"></audio>
+    <audio id="levelUpSound" src="assets/sounds/levelup.wav" preload="auto"></audio>
+
+    <script src="game.js"></script>
+</body>
+</html>
