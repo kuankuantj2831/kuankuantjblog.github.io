@@ -173,8 +173,9 @@ async function loadChatMessages(userId) {
         container.innerHTML = messages.map(msg => {
             const isSent = msg.sender_id === currentUser.id;
             const timeStr = formatTime(msg.created_at);
+            const safeContent = escapeHtml(msg.content); // 转义消息内容
             return `<div class="chat-bubble ${isSent ? 'sent' : 'received'}">
-                ${escapeHtml(msg.content)}
+                ${safeContent}
                 <div class="chat-bubble-time">${timeStr}</div>
             </div>`;
         }).join('');

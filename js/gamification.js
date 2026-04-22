@@ -10,12 +10,17 @@ class GamificationSystem {
     constructor() {
         this.userLevel = null;
         this.badges = [];
-        self.userBadges = [];
+        this.userBadges = [];
         this.dailyTasks = [];
         this.shopItems = [];
         this.expHistory = [];
         this.purchases = [];
-        this.token = localStorage.getItem('token');
+        this.token = null;
+        try {
+            this.token = localStorage.getItem('token');
+        } catch (e) {
+            console.warn('localStorage 访问失败:', e);
+        }
     }
 
     init() {

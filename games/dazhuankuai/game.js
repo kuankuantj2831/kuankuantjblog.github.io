@@ -67,37 +67,78 @@ const restartButton = document.getElementById('restartButton');
 const volumeSlider = document.getElementById('volumeSlider');
 const difficultySlider = document.getElementById('difficultySlider');
 const muteButton = document.getElementById('muteButton');
+
+// 音频资源（添加加载失败处理）
 const bounceSound = document.getElementById('bounceSound');
 const breakSound = document.getElementById('breakSound');
 const gameOverSound = document.getElementById('gameOverSound');
 const levelUpSound = document.getElementById('levelUpSound');
 
+// 音频加载失败处理
+function setupAudioErrorHandling() {
+    const sounds = [bounceSound, breakSound, gameOverSound, levelUpSound];
+    sounds.forEach(sound => {
+        if (sound) {
+            sound.onerror = function() {
+                console.warn(`音频资源加载失败: ${this.src}`);
+            };
+            sound.onended = function() {
+                // 音频播放完毕后的清理（如果需要）
+            };
+        }
+    });
+}
+
+// 安全的音频播放函数
+function safePlaySound(sound) {
+    try {
+        if (sound && !isMuted) {
+            sound.currentTime = 0;
+            sound.play().catch(error => {
+                console.warn('音频播放失败:', error);
+            });
+        }
+    } catch (error) {
+        console.warn('音频播放失败:', error);
+    }
+}
+
 // 初始化游戏
 function init() {
-    canvas = document.getElementById('gameCanvas');
-    ctx = canvas.getContext('2d');
+    try {
+        canvas = document.getElementById('gameCanvas');
+        ctx = canvas.getContext('2d');
 
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
+        canvas.width = CANVAS_WIDTH;
+        canvas.height = CANVAS_HEIGHT;
 
-    generateBricks();
+        generateBricks();
 
-    // 事件监听
-    document.addEventListener('keydown', keyDown);
-    canvas.addEventListener('mousemove', mouseMove);
-    // 点击canvas发射小球或开始游戏
-    canvas.addEventListener('click', handleCanvasClick);
-    // 覆盖层上的按钮
-    startButton.addEventListener('click', startGame);
-    pauseButton.addEventListener('click', togglePause);
-    restartButton.addEventListener('click', resetGame);
-    volumeSlider.addEventListener('input', updateVolume);
-    difficultySlider.addEventListener('input', updateDifficulty);
-    muteButton.addEventListener('click', toggleMute);
+        // 设置音频错误处理
+        setupAudioErrorHandling();
 
-    updateUI();
-    showOverlay('打砖块', '点击开始游戏按钮或点击下方区域开始！');
-    requestAnimationFrame(gameLoop);
+        // 事件监听
+        document.addEventListener('keydown', keyDown);
+        canvas.addEventListener('mousemove', mouseMove);
+        // 点击canvas发射小球或开始游戏
+        canvas.addEventListener('click', handleCanvasClick);
+        // 覆盖层上的按钮
+        startButton.addEventListener('click', startGame);
+        pauseButton.addEventListener('click', togglePause);
+        restartButton.addEventListener('click', resetGame);
+        volumeSlider.addEventListener('input', updateVolume);
+        difficultySlider.addEventListener('input', updateDifficulty);
+        muteButton.addEventListener('click', toggleMute);
+
+        updateUI();
+        showOverlay('打砖块', '点击开始游戏按钮或点击下方区域开始！');
+        requestAnimationFrame(gameLoop);
+        
+        console.log('游戏初始化成功');
+    } catch (error) {
+        console.error('游戏初始化失败:', error);
+        showOverlay('初始化失败', `游戏加载失败: ${error.message}`);
+    }
 }
 
 // 生成砖块

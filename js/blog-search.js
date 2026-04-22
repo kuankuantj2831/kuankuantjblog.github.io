@@ -130,15 +130,31 @@ class BlogSearch {
             const url = `${API_BASE_URL}/articles/search?${params.toString()}`;
             console.log('搜索请求:', url);
 
+            // 设置请求超时
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000); // 15秒超时
+
             let response;
             try {
-                response = await fetch(url);
+                response = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
             } catch (networkError) {
+                clearTimeout(timeoutId);
+                if (networkError.name === 'AbortError') {
+                    throw new Error('搜索超时，请稍后重试');
+                }
                 throw new Error('网络连接失败，请检查网络后重试');
             }
 
             if (!response.ok) {
-                throw new Error(`搜索失败 (${response.status})`);
+                let errorMsg = `搜索失败 (${response.status})`;
+                try {
+                    const errorData = await response.json();
+                    errorMsg = errorData.message || errorMsg;
+                } catch (parseError) {
+                    // 忽略解析错误，使用默认错误信息
+                }
+                throw new Error(errorMsg);
             }
 
             let result;

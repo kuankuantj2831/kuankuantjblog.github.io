@@ -5,13 +5,13 @@
 
 // HTML 转义工具函数，防止 XSS
 export function escapeHtml(str) {
-    if (!str) return '';
+    if (!str || typeof str !== 'string') return '';
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 // URL 安全清理函数 — 只允许 http/https/相对路径，防止 javascript: 等注入
 export function sanitizeUrl(url) {
-    if (!url) return '';
+    if (!url || typeof url !== 'string') return '';
     const s = String(url).trim();
     if (s.startsWith('http://') || s.startsWith('https://') || s.startsWith('/')) {
         return s;
@@ -25,7 +25,7 @@ export function sanitizeUrl(url) {
  * @returns {string} 徽章 HTML 字符串
  */
 export function renderTitleBadge(title) {
-    if (!title) return '';
+    if (!title || typeof title !== 'string') return '';
     const styles = {
         '站长': 'background:#d32f2f;color:#fff;',
         'MVP':  'background:#fce4ec;color:#c62828;',
@@ -42,7 +42,7 @@ export function renderTitleBadge(title) {
  * @returns {string} 等级徽章 HTML 字符串
  */
 export function renderLevelBadge(level) {
-    const lv = level || 1;
+    const lv = typeof level === 'number' ? level : 1;
     const lvClass = 'level-' + Math.min(lv, 5);
     return `<span class="user-level-badge ${lvClass}">Lv${lv}</span>`;
 }
@@ -53,7 +53,7 @@ export function renderLevelBadge(level) {
  * @returns {string} 格式化后的时间字符串
  */
 export function formatTime(dateStr) {
-    if (!dateStr) return '';
+    if (!dateStr || typeof dateStr !== 'string') return '';
     try {
         const date = new Date(dateStr);
         const now = new Date();

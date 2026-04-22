@@ -15,24 +15,37 @@ class AIAssistant {
      * 生成文章摘要
      */
     async generateSummary(content, maxLength = 150) {
-        const cacheKey = `summary_${this.hash(content)}`;
-        const cached = this.getCache(cacheKey);
-        if (cached) return cached;
+        try {
+            // 验证输入
+            if (!content || typeof content !== 'string') {
+                return '';
+            }
 
-        const prompt = `请为以下文章生成一个${maxLength}字以内的摘要，要求简洁明了：
+            const cacheKey = `summary_${this.hash(content)}`;
+            const cached = this.getCache(cacheKey);
+            if (cached) return cached;
 
-${content.substring(0, 3000)}
+            // 截断过长的内容
+            const truncatedContent = content.substring(0, 3000);
+            
+            const prompt = `请为以下文章生成一个${maxLength}字以内的摘要，要求简洁明了：
+
+${truncatedContent}
 
 摘要：`;
 
-        try {
-            const result = await this.callAI(prompt, 200);
-            const summary = result.trim();
-            this.setCache(cacheKey, summary);
-            return summary;
-        } catch (error) {
-            console.error('生成摘要失败:', error);
-            return this.fallbackSummary(content, maxLength);
+            try {
+                const result = await this.callAI(prompt, 200);
+                const summary = result.trim();
+                this.setCache(cacheKey, summary);
+                return summary;
+            } catch (error) {
+                console.error('[AIAssistant] 生成摘要失败:', error);
+                return this.fallbackSummary(content, maxLength);
+            }
+        } catch (outerError) {
+            console.error('[AIAssistant] 生成摘要过程异常:', outerError);
+            return this.fallbackSummary(content || '', maxLength);
         }
     }
 
@@ -160,119 +173,208 @@ ${content}
      * 调用 AI API
      */
     async callAI(prompt, maxTokens = 200) {
-        // 这里替换为你朋友的 API
-        const response = await fetch(this.apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.apiKey}`
-            },
-            body: JSON.stringify({
+        try {
+            // 验证 API 配置
+            if (!this.apiUrl || !this.apiKey) {
+                throw new Error('API URL 或 Key 未配置');
+            }
+
+            // 构建请求
+            const requestBody = {
                 model: 'gpt-4',
                 messages: [{ role: 'user', content: prompt }],
                 max_tokens: maxTokens,
                 temperature: 0.7
-            })
-        });
+            };
 
-        if (!response.ok) {
-            throw new Error(`API 错误: ${response.status}`);
+            // 发送请求
+            const response = await fetch(this.apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.apiKey}`
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            // 检查响应状态
+            if (!response.ok) {
+                let errorMessage = `API 错误: ${response.status}`;
+                try {
+                    const errorData = await response.json();
+                    if (errorData.error && errorData.error.message) {
+                        errorMessage = errorData.error.message;
+                    }
+                } catch (parseError) {
+                    // 忽略解析错误
+                }
+                throw new Error(errorMessage);
+            }
+
+            // 解析响应数据
+            const data = await response.json();
+
+            // 验证响应结构
+            if (!data || !data.choices || !Array.isArray(data.choices) || data.choices.length === 0) {
+                throw new Error('API 响应格式无效: 缺少 choices 数据');
+            }
+
+            if (!data.choices[0].message || !data.choices[0].message.content) {
+                throw new Error('API 响应格式无效: 缺少消息内容');
+            }
+
+            return data.choices[0].message.content;
+        } catch (error) {
+            console.error('[AIAssistant] AI 调用失败:', error);
+            throw error;
         }
-
-        const data = await response.json();
-        return data.choices[0].message.content;
     }
 
     /**
      * 本地摘要生成（降级方案）
      */
     fallbackSummary(content, maxLength) {
-        // 简单的摘要算法
-        const sentences = content.match(/[^。！？.!?]+[。！？.!?]+/g) || [];
-        let summary = '';
-        
-        for (const sentence of sentences.slice(0, 3)) {
-            if ((summary + sentence).length <= maxLength) {
-                summary += sentence;
-            } else {
-                break;
+        try {
+            // 验证输入
+            if (!content || typeof content !== 'string') {
+                return '';
+            }
+            
+            // 简单的摘要算法
+            const sentences = content.match(/[^。！？.!?]+[。！？.!?]+/g) || [];
+            let summary = '';
+            
+            for (const sentence of sentences.slice(0, 3)) {
+                if ((summary + sentence).length <= maxLength) {
+                    summary += sentence;
+                } else {
+                    break;
+                }
+            }
+            
+            return summary || content.substring(0, Math.min(maxLength, content.length)) + '...';
+        } catch (error) {
+            console.warn('[AIAssistant] 本地摘要生成失败:', error);
+            try {
+                return (content || '').substring(0, Math.min(maxLength, (content || '').length)) + '...';
+            } catch (e) {
+                return '';
             }
         }
-        
-        return summary || content.substring(0, maxLength) + '...';
     }
 
     /**
      * 本地标签生成（降级方案）
      */
     fallbackTags(content, title, count) {
-        const commonTags = {
-            '编程': ['编程', '代码', '开发', '技术'],
-            '教程': ['教程', '学习', '入门', '指南'],
-            '游戏': ['游戏', '娱乐', '攻略', '评测'],
-            '设计': ['设计', 'UI', 'UX', '创意'],
-            '工具': ['工具', '软件', '效率', '推荐']
-        };
+        try {
+            // 验证输入
+            if (typeof content !== 'string') content = '';
+            if (typeof title !== 'string') title = '';
+            if (typeof count !== 'number' || count <= 0) count = 5;
 
-        const text = (title + ' ' + content).toLowerCase();
-        const tags = [];
+            const commonTags = {
+                '编程': ['编程', '代码', '开发', '技术'],
+                '教程': ['教程', '学习', '入门', '指南'],
+                '游戏': ['游戏', '娱乐', '攻略', '评测'],
+                '设计': ['设计', 'UI', 'UX', '创意'],
+                '工具': ['工具', '软件', '效率', '推荐']
+            };
 
-        for (const [keyword, tagList] of Object.entries(commonTags)) {
-            if (text.includes(keyword.toLowerCase())) {
-                tags.push(...tagList);
+            const text = (title + ' ' + content).toLowerCase();
+            const tags = [];
+
+            for (const [keyword, tagList] of Object.entries(commonTags)) {
+                if (text.includes(keyword.toLowerCase())) {
+                    tags.push(...tagList);
+                }
             }
+
+            // 提取高频词作为标签
+            const words = text.match(/[\u4e00-\u9fa5]{2,4}/g) || [];
+            const wordCount = {};
+            words.forEach(word => {
+                wordCount[word] = (wordCount[word] || 0) + 1;
+            });
+
+            const topWords = Object.entries(wordCount)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, count)
+                .map(([word]) => word);
+
+            return [...new Set([...tags, ...topWords])].slice(0, count);
+        } catch (error) {
+            console.warn('[AIAssistant] 本地标签生成失败:', error);
+            return ['技术', '分享'];
         }
-
-        // 提取高频词作为标签
-        const words = text.match(/[\u4e00-\u9fa5]{2,4}/g) || [];
-        const wordCount = {};
-        words.forEach(word => {
-            wordCount[word] = (wordCount[word] || 0) + 1;
-        });
-
-        const topWords = Object.entries(wordCount)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, count)
-            .map(([word]) => word);
-
-        return [...new Set([...tags, ...topWords])].slice(0, count);
     }
 
     /**
      * 缓存相关
      */
     getCache(key) {
-        const cached = this.cache.get(key);
-        if (!cached) return null;
-        if (Date.now() > cached.expiry) {
-            this.cache.delete(key);
+        try {
+            if (!key) return null;
+            const cached = this.cache.get(key);
+            if (!cached) return null;
+            if (Date.now() > cached.expiry) {
+                try {
+                    this.cache.delete(key);
+                } catch (e) {
+                    console.warn('[AIAssistant] 删除过期缓存失败:', e);
+                }
+                return null;
+            }
+            return cached.data;
+        } catch (error) {
+            console.warn('[AIAssistant] 读取缓存失败:', error);
             return null;
         }
-        return cached.data;
     }
 
     setCache(key, data) {
-        this.cache.set(key, {
-            data,
-            expiry: Date.now() + this.cacheTime
-        });
+        try {
+            if (!key) return;
+            this.cache.set(key, {
+                data,
+                expiry: Date.now() + this.cacheTime
+            });
+        } catch (error) {
+            console.warn('[AIAssistant] 设置缓存失败:', error);
+        }
     }
 
     hash(str) {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            const char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash;
+        try {
+            if (!str || typeof str !== 'string') return 'default_hash';
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return hash.toString(36);
+        } catch (error) {
+            console.warn('[AIAssistant] 哈希计算失败:', error);
+            return 'fallback_hash_' + Date.now();
         }
-        return hash.toString(36);
+    }
+}
+
+// 安全的 localStorage 访问
+function safeGetLocalStorage(key, defaultValue = '') {
+    try {
+        return localStorage.getItem(key) || defaultValue;
+    } catch (e) {
+        console.warn('[AIAssistant] localStorage 读取失败:', e);
+        return defaultValue;
     }
 }
 
 // 创建单例
 const aiAssistant = new AIAssistant(
-    localStorage.getItem('ai_api_key') || '',
-    localStorage.getItem('ai_api_url') || ''
+    safeGetLocalStorage('ai_api_key', ''),
+    safeGetLocalStorage('ai_api_url', '')
 );
 
 // 导出

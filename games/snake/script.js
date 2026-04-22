@@ -102,26 +102,58 @@ function checkAchievements() {
 
 // --- Save/Load Functions ---
 function saveGame() {
-    if (gameOver) { alert("游戏已结束，无法存档！"); return; }
-    pauseGame();
-    const saveData = { 
-        snake, food, direction, score, time, highestScore, gameStartedOnce, playerStats,
-        unlockedAchievements: Object.keys(achievements).filter(id => achievements[id].unlocked) 
-    };
-    const saveCode = btoa(JSON.stringify(saveData));
-    saveCodeInput.value = saveCode;
-    navigator.clipboard.writeText(saveCode).then(() => { alert('游戏已暂停，存档码已复制到剪贴板！'); }).catch(err => { console.error('无法复制存档码: ', err); alert('游戏已暂停，存档码已生成，请手动复制。'); });
+    try {
+        if (gameOver) { alert("游戏已结束，无法存档！"); return; }
+        pauseGame();
+        const saveData = { 
+            snake: JSON.parse(JSON.stringify(snake)), // 深拷贝避免引用问题
+            food: JSON.parse(JSON.stringify(food)), 
+            direction: direction, 
+            score: score, 
+            time: time, 
+            highestScore: highestScore, 
+            gameStartedOnce: gameStartedOnce, 
+            playerStats: JSON.parse(JSON.stringify(playerStats)),
+            unlockedAchievements: Object.keys(achievements).filter(id => achievements[id].unlocked) 
+        };
+        const saveCode = btoa(unescape(encodeURIComponent(JSON.stringify(saveData))));
+        saveCodeInput.value = saveCode;
+        navigator.clipboard.writeText(saveCode).then(() => { 
+            alert('游戏已暂停，存档码已复制到剪贴板！'); 
+        }).catch(err => { 
+            console.error('无法复制存档码: ', err); 
+            alert('游戏已暂停，存档码已生成，请手动复制。'); 
+        });
+    } catch (error) {
+        console.error('存档失败:', error);
+        alert('存档失败: ' + error.message);
+        if (!isPaused) resumeGame();
+    }
 }
 
 function loadGame() {
-    const saveCode = saveCodeInput.value.trim();
-    if (!saveCode) { alert('请输入存档码！'); return; }
     try {
-        const decodedString = atob(saveCode);
-        const saveData = JSON.parse(decodedString);
-        if (!saveData.snake || !saveData.food || !saveData.direction || saveData.score === undefined || saveData.time === undefined) { throw new Error('存档数据无效或不完整'); }
+        const saveCode = saveCodeInput.value.trim();
+        if (!saveCode) { alert('请输入存档码！'); return; }
         
-        snake = saveData.snake; food = saveData.food; direction = saveData.direction; score = saveData.score; time = saveData.time;
+        const decodedString = decodeURIComponent(escape(atob(saveCode)));
+        const saveData = JSON.parse(decodedString);
+        
+        if (!saveData.snake || !saveData.food || !saveData.direction || saveData.score === undefined || saveData.time === undefined) { 
+            throw new Error('存档数据无效或不完整'); 
+        }
+        
+        // 验证数据类型
+        if (!Array.isArray(saveData.snake) || typeof saveData.direction !== 'string' || 
+            typeof saveData.score !== 'number' || typeof saveData.time !== 'number') {
+            throw new Error('存档数据类型无效');
+        }
+        
+        snake = JSON.parse(JSON.stringify(saveData.snake));
+        food = JSON.parse(JSON.stringify(saveData.food)); 
+        direction = saveData.direction; 
+        score = saveData.score; 
+        time = saveData.time;
         highestScore = saveData.highestScore || highestScore;
         gameStartedOnce = saveData.gameStartedOnce || gameStartedOnce;
         playerStats = saveData.playerStats || createNewPlayerStats();
@@ -134,8 +166,10 @@ function loadGame() {
         saveData.unlockedAchievements.forEach(id => { if(achievements[id]) achievements[id].unlocked = true; });
         localStorage.setItem('unlockedAchievements', JSON.stringify(saveData.unlockedAchievements));
         
-        isPaused = false; gameOver = false;
-        scoreElement.textContent = score; timeElement.textContent = time;
+        isPaused = false; 
+        gameOver = false;
+        scoreElement.textContent = score; 
+        timeElement.textContent = time;
         gameOverScreen.classList.add('hidden');
         resumeGame(); 
         draw();

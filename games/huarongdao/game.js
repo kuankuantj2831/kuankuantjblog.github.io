@@ -356,47 +356,55 @@ class HuarongdaoGame {
 
     // 重置游戏
     reset() {
-        this.clearTimer();
-        this.moves = 0;
-        this.seconds = 0;
-        this.history = [];
-        this.isWon = false;
-        this.movesEl.textContent = '0';
-        this.timerEl.textContent = '00:00';
-        this.winModal.classList.add('hidden');
+        try {
+            this.clearTimer();
+            this.moves = 0;
+            this.seconds = 0;
+            this.history = [];
+            this.isWon = false;
+            this.movesEl.textContent = '0';
+            this.timerEl.textContent = '00:00';
+            this.winModal.classList.add('hidden');
 
-        // 清空棋盘
-        this.boardEl.innerHTML = '';
-        this.pieces = [];
-        this.grid = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+            // 清空棋盘
+            this.boardEl.innerHTML = '';
+            this.pieces = [];
+            this.grid = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
 
-        // 加载布局
-        const layoutKey = this.layoutSelect.value;
-        const layout = LAYOUTS[layoutKey];
+            // 加载布局
+            const layoutKey = this.layoutSelect.value;
+            const layout = LAYOUTS[layoutKey];
+            if (!layout) {
+                throw new Error('无效的布局');
+            }
 
-        // 显示最少步数
-        this.minStepsEl.textContent = layout.minSteps || '-';
+            // 显示最少步数
+            this.minStepsEl.textContent = layout.minSteps || '-';
 
-        layout.pieces.forEach((p, index) => {
-            const typeInfo = PIECE_TYPES[p.type];
-            const piece = {
-                id: index,
-                type: p.type,
-                col: p.col,
-                row: p.row,
-                w: typeInfo.w,
-                h: typeInfo.h,
-                cls: typeInfo.cls,
-                name: typeInfo.name,
-                el: null
-            };
+            layout.pieces.forEach((p, index) => {
+                const typeInfo = PIECE_TYPES[p.type];
+                if (!typeInfo) {
+                    throw new Error(`无效的棋子类型: ${p.type}`);
+                }
+                
+                const piece = {
+                    id: index,
+                    type: p.type,
+                    col: p.col,
+                    row: p.row,
+                    w: typeInfo.w,
+                    h: typeInfo.h,
+                    cls: typeInfo.cls,
+                    name: typeInfo.name,
+                    el: null
+                };
 
-            // 创建 DOM 元素
-            const el = document.createElement('div');
-            el.className = `piece ${typeInfo.cls}`;
-            el.innerHTML = `<span class="piece-name">${typeInfo.name}</span>`;
-            el.style.left = this.colToPixel(p.col) + 'px';
-            el.style.top = this.rowToPixel(p.row) + 'px';
+                // 创建 DOM 元素
+                const el = document.createElement('div');
+                el.className = `piece ${typeInfo.cls}`;
+                el.innerHTML = `<span class="piece-name">${typeInfo.name}</span>`;
+                el.style.left = this.colToPixel(p.col) + 'px';
+                el.style.top = this.rowToPixel(p.row) + 'px';
 
             // 绑定拖拽
             el.addEventListener('mousedown', (e) => this.onDragStart(e, piece));
@@ -411,6 +419,10 @@ class HuarongdaoGame {
         });
 
         this.startTimer();
+    } catch (error) {
+        console.error('游戏重置失败:', error);
+        alert(`游戏加载失败: ${error.message}`);
+    }
     }
 
     // ============ 网格操作 ============
