@@ -261,8 +261,26 @@
                     ['分享是一种美德','它不求回报，只为真诚']
                 ];
                 var r=q[Math.floor(Math.random()*q.length)];
-                document.getElementById('heroTitle').textContent=r[0];
-                document.getElementById('heroSub').textContent=r[1];
+                
+                // 正确地处理标题文字的替换，保留动画效果
+                var heroTitle = document.getElementById('heroTitle');
+                var heroSub = document.getElementById('heroSub');
+                
+                // 如果已存在 char-animate 元素，则替换它们
+                if (heroTitle.querySelector('.char-animate')) {
+                    heroTitle.innerHTML = '';
+                    r[0].split('').forEach((char, i) => {
+                      const span = document.createElement('span');
+                      span.className = 'char-animate';
+                      span.textContent = char === ' ' ? '\u00A0' : char;
+                      span.style.animationDelay = `${i * 0.03}s`;
+                      heroTitle.appendChild(span);
+                    });
+                } else {
+                    heroTitle.textContent = r[0];
+                }
+                
+                heroSub.textContent = r[1];
             })();
             </script>
 
