@@ -46,7 +46,7 @@ async function fetchWeatherData(city) {
         const { latitude, longitude, name } = geocodingData.results[0];
         
         // 使用获取到的经纬度请求天气数据
-        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation_probability`;
+        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&wind_speed_unit=ms&timezone=auto`;
         
         const weatherResponse = await fetch(weatherUrl);
         
@@ -56,14 +56,32 @@ async function fetchWeatherData(city) {
         
         const weatherData = await weatherResponse.json();
         
+        // 为了获取湿度和气压，我们需要使用另一个API端点
+        const airQualityUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&current=relative_humidity_2m,pressure_msl,visibility`;
+        
+        const airQualityResponse = await fetch(airQualityUrl);
+        
+        let humidity = 0;
+        let pressure = 0;
+        let visibility = 0;
+        
+        if (airQualityResponse.ok) {
+            const airQualityData = await airQualityResponse.json();
+            if (airQualityData.current) {
+                humidity = airQualityData.current.relative_humidity_2m;
+                pressure = airQualityData.current.pressure_msl;
+                visibility = airQualityData.current.visibility;
+            }
+        }
+        
         // 处理Open-Meteo API返回的数据结构
         if (weatherData.current_weather) {
             const processedData = {
                 name: name,
                 main: {
                     temp: Math.round(weatherData.current_weather.temperature),
-                    humidity: 0, // Open-Meteo需要单独请求湿度数据
-                    pressure: 0 // Open-Meteo需要单独请求气压数据
+                    humidity: humidity,
+                    pressure: pressure
                 },
                 wind: {
                     speed: weatherData.current_weather.windspeed
@@ -74,7 +92,7 @@ async function fetchWeatherData(city) {
                         icon: getWeatherIcon(weatherData.current_weather.weathercode)
                     }
                 ],
-                visibility: 0 // Open-Meteo需要单独请求可见度数据
+                visibility: visibility
             };
             
             weatherState.currentWeatherData = processedData;
