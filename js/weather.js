@@ -27,37 +27,50 @@ async function fetchWeatherData(city) {
         weatherState.isLoading = true;
         showLoading();
         
-        // 模拟天气数据（用于演示，当API密钥无效时使用）
-        const mockData = {
-            name: city,
-            main: {
-                temp: Math.floor(Math.random() * 30) + 10, // 10-40摄氏度
-                humidity: Math.floor(Math.random() * 60) + 40, // 40-100%
-                pressure: Math.floor(Math.random() * 100) + 1000 // 1000-1100 hPa
-            },
-            wind: {
-                speed: Math.floor(Math.random() * 20) + 1 // 1-21 m/s
-            },
-            weather: [
-                {
-                    description: '晴',
-                    icon: '01d'
-                }
-            ],
-            visibility: Math.floor(Math.random() * 10000) + 5000 // 5000-15000 meters
-        };
+        // 使用和风天气API获取真实天气数据
+        const apiKey = 'your-api-key'; // 请替换为您自己的API密钥
+        const apiUrl = `https://devapi.qweather.com/v7/weather/now?location=${encodeURIComponent(city)}&key=${apiKey}`;
         
-        // 模拟网络延迟
-        await new Promise(resolve => setTimeout(resolve, 500));
+        const response = await fetch(apiUrl);
         
-        weatherState.currentWeatherData = mockData;
-        weatherState.currentCity = city;
+        if (!response.ok) {
+            throw new Error(`API请求失败: ${response.status}`);
+        }
         
-        // 添加到搜索历史
-        addToSearchHistory(city);
+        const data = await response.json();
         
-        hideLoading();
-        showWeather(mockData);
+        // 处理和风天气API返回的数据结构
+        if (data.code === '200') {
+            const weatherData = {
+                name: data.location.name,
+                main: {
+                    temp: data.now.temp,
+                    humidity: data.now.humidity,
+                    pressure: data.now.pressure
+                },
+                wind: {
+                    speed: data.now.windSpeed
+                },
+                weather: [
+                    {
+                        description: data.now.text,
+                        icon: data.now.icon
+                    }
+                ],
+                visibility: data.now.visibility
+            };
+            
+            weatherState.currentWeatherData = weatherData;
+            weatherState.currentCity = city;
+            
+            // 添加到搜索历史
+            addToSearchHistory(city);
+            
+            hideLoading();
+            showWeather(weatherData);
+        } else {
+            throw new Error(`获取天气数据失败: ${data.code}`);
+        }
     } catch (error) {
         console.error('获取天气数据失败:', error);
         hideLoading();
