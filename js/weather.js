@@ -27,55 +27,121 @@ async function fetchWeatherData(city) {
         weatherState.isLoading = true;
         showLoading();
         
-        // 使用和风天气API获取真实天气数据
-        const apiKey = 'your-api-key'; // 请替换为您自己的API密钥
-        const apiUrl = `https://devapi.qweather.com/v7/weather/now?location=${encodeURIComponent(city)}&key=${apiKey}`;
+        // 使用Open-Meteo API获取真实天气数据（无需API密钥，完全免费）
+        // 首先需要通过城市名称获取经纬度坐标
+        const geocodingUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=zh&format=json`;
         
-        const response = await fetch(apiUrl);
+        const geocodingResponse = await fetch(geocodingUrl);
         
-        if (!response.ok) {
-            throw new Error(`API请求失败: ${response.status}`);
+        if (!geocodingResponse.ok) {
+            throw new Error(`获取坐标失败: ${geocodingResponse.status}`);
         }
         
-        const data = await response.json();
+        const geocodingData = await geocodingResponse.json();
         
-        // 处理和风天气API返回的数据结构
-        if (data.code === '200') {
-            const weatherData = {
-                name: data.location.name,
+        if (!geocodingData.results || geocodingData.results.length === 0) {
+            throw new Error(`未找到城市: ${city}`);
+        }
+        
+        const { latitude, longitude, name } = geocodingData.results[0];
+        
+        // 使用获取到的经纬度请求天气数据
+        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation_probability`;
+        
+        const weatherResponse = await fetch(weatherUrl);
+        
+        if (!weatherResponse.ok) {
+            throw new Error(`获取天气数据失败: ${weatherResponse.status}`);
+        }
+        
+        const weatherData = await weatherResponse.json();
+        
+        // 处理Open-Meteo API返回的数据结构
+        if (weatherData.current_weather) {
+            const processedData = {
+                name: name,
                 main: {
-                    temp: data.now.temp,
-                    humidity: data.now.humidity,
-                    pressure: data.now.pressure
+                    temp: Math.round(weatherData.current_weather.temperature),
+                    humidity: 0, // Open-Meteo需要单独请求湿度数据
+                    pressure: 0 // Open-Meteo需要单独请求气压数据
                 },
                 wind: {
-                    speed: data.now.windSpeed
+                    speed: weatherData.current_weather.windspeed
                 },
                 weather: [
                     {
-                        description: data.now.text,
-                        icon: data.now.icon
+                        description: getWeatherDescription(weatherData.current_weather.weathercode),
+                        icon: getWeatherIcon(weatherData.current_weather.weathercode)
                     }
                 ],
-                visibility: data.now.visibility
+                visibility: 0 // Open-Meteo需要单独请求可见度数据
             };
             
-            weatherState.currentWeatherData = weatherData;
+            weatherState.currentWeatherData = processedData;
             weatherState.currentCity = city;
             
             // 添加到搜索历史
             addToSearchHistory(city);
             
             hideLoading();
-            showWeather(weatherData);
+            showWeather(processedData);
         } else {
-            throw new Error(`获取天气数据失败: ${data.code}`);
+            throw new Error('未获取到天气数据');
         }
     } catch (error) {
         console.error('获取天气数据失败:', error);
         hideLoading();
         showError(`获取天气数据失败: ${error.message}`);
     }
+}
+
+// 根据天气代码获取天气描述
+function getWeatherDescription(weatherCode) {
+    const weatherDescriptions = {
+        0: '晴',
+        1: '多云',
+        2: '多云',
+        3: '阴天',
+        45: '雾',
+        48: '雾',
+        51: '小雨',
+        53: '中雨',
+        55: '大雨',
+        61: '小雨',
+        63: '中雨',
+        65: '大雨',
+        71: '小雪',
+        73: '中雪',
+        75: '大雪',
+        95: '雷暴'
+    };
+    
+    return weatherDescriptions[weatherCode] || '未知天气';
+}
+
+// 根据天气代码获取天气图标
+function getWeatherIcon(weatherCode) {
+    // 简单的天气图标映射，根据实际情况可以扩展
+    const weatherIcons = {
+        0: '01d',
+        1: '02d',
+        2: '03d',
+        3: '04d',
+        45: '50d',
+        48: '50d',
+        51: '09d',
+        53: '09d',
+        55: '09d',
+        61: '10d',
+        63: '10d',
+        65: '10d',
+        71: '13d',
+        73: '13d',
+        75: '13d',
+        95: '11d'
+    };
+    
+    return weatherIcons[weatherCode] || '01d';
 }
 
 // 显示加载状态
