@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>笔记 - 更多功能</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .note-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .note-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .note-search-section {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .note-search-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .note-search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .note-search-btn {
+            padding: 10px 20px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .note-search-btn:hover {
+            background-color: #5a6fd6;
+            transform: translateY(-2px);
+        }
+        
+        .note-add-btn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .note-add-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .note-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .note-filter-btn {
+            padding: 8px 15px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .note-filter-btn:hover {
+            background-color: #dee2e6;
+        }
+        
+        .note-filter-btn.active {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .note-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .note-item {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            border-left: 4px solid #667eea;
+        }
+        
+        .note-item:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .note-item.selected {
+            background-color: #e3f2fd;
+            border-left-color: #2196f3;
+        }
+        
+        .note-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 16px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .note-preview {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .note-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .note-tags {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        
+        .note-tag {
+            background-color: #e9ecef;
+            color: #6c757d;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+        }
+        
+        .note-content-section {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .note-content-section.active {
+            display: block;
+        }
+        
+        .note-editor {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .note-title-input {
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            outline: none;
+            font-weight: bold;
+        }
+        
+        .note-title-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .note-content-textarea {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            outline: none;
+            min-height: 200px;
+            resize: vertical;
+        }
+        
+        .note-content-textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .note-editor-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .note-save-btn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .note-save-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .note-cancel-btn {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .note-cancel-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+        
+        .note-delete-btn {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .note-delete-btn:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+        
+        .note-empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
+        }
+        
+        .note-empty-state svg {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+        
+        .note-empty-state p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #5a6fd6;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .note-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .note-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .note-search-section {
+                min-width: 100%;
+            }
+            
+            .note-filters {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="note-container">
+        <h1>📝 笔记功能</h1>
+        
+        <div class="note-toolbar">
+            <div class="note-search-section">
+                <input type="text" id="noteSearchInput" class="note-search-input" placeholder="搜索笔记标题或内容...">
+                <button id="noteSearchBtn" class="note-search-btn">🔍 搜索</button>
+            </div>
+            <button id="noteAddBtn" class="note-add-btn">➕ 新建笔记</button>
+        </div>
+        
+        <div class="note-filters">
+            <button id="allNotesBtn" class="note-filter-btn active" data-filter="all">全部笔记</button>
+            <button id="recentNotesBtn" class="note-filter-btn" data-filter="recent">最近笔记</button>
+            <button id="favoritesBtn" class="note-filter-btn" data-filter="favorites">收藏笔记</button>
+        </div>
+        
+        <div id="noteList" class="note-list"></div>
+        
+        <div id="noteEmptyState" class="note-empty-state" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <p>暂无笔记</p>
+            <p>点击"新建笔记"开始创建您的第一篇笔记</p>
+        </div>
+        
+        <div id="noteContentSection" class="note-content-section">
+            <div class="note-editor">
+                <input type="text" id="noteTitleInput" class="note-title-input" placeholder="笔记标题...">
+                <textarea id="noteContentInput" class="note-content-textarea" placeholder="笔记内容..."></textarea>
+                <div class="note-editor-actions">
+                    <button id="noteSaveBtn" class="note-save-btn">💾 保存笔记</button>
+                    <button id="noteCancelBtn" class="note-cancel-btn">❌ 取消</button>
+                    <button id="noteDeleteBtn" class="note-delete-btn" style="display: none;">🗑️ 删除笔记</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <a href="features.html" class="back-btn">返回更多功能</a>
+    
+    <script src="js/note.js"></script>
+</body>
+</html>
