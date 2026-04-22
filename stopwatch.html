@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>秒表功能 - 更多功能</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .stopwatch-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .stopwatch-display {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .stopwatch-time {
+            font-size: 48px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        
+        .stopwatch-milliseconds {
+            font-size: 24px;
+            color: #6c757d;
+        }
+        
+        .stopwatch-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .stopwatch-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .start-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .start-btn:hover {
+            background-color: #218838;
+        }
+        
+        .stop-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .stop-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .reset-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background-color: #5a6268;
+        }
+        
+        .lap-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+        
+        .lap-btn:hover {
+            background-color: #e0a800;
+        }
+        
+        .stopwatch-laps {
+            margin-top: 30px;
+        }
+        
+        .laps-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .laps-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .lap-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .lap-item:last-child {
+            border-bottom: none;
+        }
+        
+        .lap-number {
+            font-weight: bold;
+            color: #6c757d;
+        }
+        
+        .lap-time {
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        @media (max-width: 768px) {
+            .stopwatch-container {
+                margin: 20px;
+                padding: 20px;
+            }
+            
+            .stopwatch-time {
+                font-size: 36px;
+            }
+            
+            .stopwatch-milliseconds {
+                font-size: 18px;
+            }
+            
+            .stopwatch-btn {
+                padding: 8px 16px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch-container">
+        <h1>⏱️ 秒表功能</h1>
+        
+        <div class="stopwatch-display">
+            <div class="stopwatch-time" id="stopwatchTime">00:00:00</div>
+            <div class="stopwatch-milliseconds" id="stopwatchMilliseconds">00</div>
+        </div>
+        
+        <div class="stopwatch-controls">
+            <button id="startBtn" class="stopwatch-btn start-btn">开始</button>
+            <button id="stopBtn" class="stopwatch-btn stop-btn" disabled>停止</button>
+            <button id="resetBtn" class="stopwatch-btn reset-btn" disabled>重置</button>
+            <button id="lapBtn" class="stopwatch-btn lap-btn" disabled>计次</button>
+        </div>
+        
+        <div class="stopwatch-laps">
+            <div class="laps-title">计次记录</div>
+            <ul class="laps-list" id="lapsList"></ul>
+        </div>
+    </div>
+    
+    <a href="features.html" class="back-btn">返回更多功能</a>
+    
+    <script src="js/stopwatch.js"></script>
+</body>
+</html>
