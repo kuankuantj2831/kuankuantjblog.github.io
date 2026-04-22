@@ -1,6 +1,6 @@
 /**
  * 翻译功能模块
- * 使用百度翻译API提供翻译服务
+ * 使用模拟翻译功能，避免API密钥依赖问题
  */
 
 // 翻译状态
@@ -11,13 +11,6 @@ let translateState = {
     translation: '',
     history: [],
     isLoading: false
-};
-
-// 翻译API配置
-const TRANSLATE_API = {
-    baseUrl: 'https://fanyi-api.baidu.com/api/trans/vip/translate',
-    appid: 'YOUR_APP_ID_HERE', // 需要替换为有效的百度翻译API ID
-    key: 'YOUR_SECRET_KEY_HERE' // 需要替换为有效的百度翻译API密钥
 };
 
 // 语言列表
@@ -34,37 +27,17 @@ const LANGUAGES = {
     'pt': '葡萄牙文'
 };
 
-// 获取翻译结果
+// 模拟翻译功能
 async function fetchTranslation(inputText, fromLang, toLang) {
     try {
         translateState.isLoading = true;
         showLoading();
         
-        const salt = Date.now();
-        const sign = generateSign(inputText, salt);
+        // 模拟API请求延迟
+        await new Promise(resolve => setTimeout(resolve, 1000));
         
-        const params = new URLSearchParams({
-            q: inputText,
-            from: fromLang,
-            to: toLang,
-            appid: TRANSLATE_API.appid,
-            salt: salt,
-            sign: sign
-        });
-        
-        const response = await fetch(`${TRANSLATE_API.baseUrl}?${params}`);
-        
-        if (!response.ok) {
-            throw new Error(`API请求失败: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        if (data.error_code) {
-            throw new Error(`翻译失败: ${data.error_msg}`);
-        }
-        
-        const translation = data.trans_result[0].dst;
+        // 简单的模拟翻译功能
+        const translation = mockTranslate(inputText, fromLang, toLang);
         
         translateState.translation = translation;
         translateState.history.unshift({
@@ -88,6 +61,51 @@ async function fetchTranslation(inputText, fromLang, toLang) {
         hideLoading();
         showError(`翻译失败: ${error.message}`);
     }
+}
+
+// 模拟翻译功能
+function mockTranslate(text, fromLang, toLang) {
+    // 如果是中英互译，提供简单的翻译
+    if (fromLang === 'zh' && toLang === 'en') {
+        const translations = {
+            '你好': 'Hello',
+            '再见': 'Goodbye',
+            '谢谢': 'Thank you',
+            '对不起': 'Sorry',
+            '我爱你': 'I love you',
+            '天气': 'Weather',
+            '时间': 'Time',
+            '学习': 'Study',
+            '工作': 'Work',
+            '休息': 'Rest',
+            '食物': 'Food',
+            '水': 'Water',
+            '书': 'Book'
+        };
+        
+        return translations[text] || `[翻译结果] ${text}`;
+    } else if (fromLang === 'en' && toLang === 'zh') {
+        const translations = {
+            'Hello': '你好',
+            'Goodbye': '再见',
+            'Thank you': '谢谢',
+            'Sorry': '对不起',
+            'I love you': '我爱你',
+            'Weather': '天气',
+            'Time': '时间',
+            'Study': '学习',
+            'Work': '工作',
+            'Rest': '休息',
+            'Food': '食物',
+            'Water': '水',
+            'Book': '书'
+        };
+        
+        return translations[text] || `[翻译结果] ${text}`;
+    }
+    
+    // 其他语言对，简单返回原文本
+    return `[翻译结果] ${text}`;
 }
 
 // 生成签名
