@@ -56,22 +56,35 @@ async function fetchWeatherData(city) {
         
         const weatherData = await weatherResponse.json();
         
-        // 为了获取湿度和气压，我们需要使用另一个API端点
-        const airQualityUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&current=relative_humidity_2m,pressure_msl,visibility`;
-        
-        const airQualityResponse = await fetch(airQualityUrl);
-        
+        // 为了获取湿度、气压和能见度，我们需要使用主API的additional_variables参数
+        // 或者从其他气象数据API获取
+        // 这里我们暂时使用默认值，因为Open-Meteo的API可能不可用
         let humidity = 0;
         let pressure = 0;
         let visibility = 0;
         
-        if (airQualityResponse.ok) {
-            const airQualityData = await airQualityResponse.json();
-            if (airQualityData.current) {
-                humidity = airQualityData.current.relative_humidity_2m;
-                pressure = airQualityData.current.pressure_msl;
-                visibility = airQualityData.current.visibility;
+        // 尝试使用Open-Meteo的主API获取更多数据
+        const additionalWeatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=relative_humidity_2m,pressure_msl,visibility`;
+        
+        try {
+            const additionalWeatherResponse = await fetch(additionalWeatherUrl);
+            
+            if (additionalWeatherResponse.ok) {
+                const additionalWeatherData = await additionalWeatherResponse.json();
+                if (additionalWeatherData.current) {
+                    if (additionalWeatherData.current.relative_humidity_2m !== null && additionalWeatherData.current.relative_humidity_2m !== undefined) {
+                        humidity = additionalWeatherData.current.relative_humidity_2m;
+                    }
+                    if (additionalWeatherData.current.pressure_msl !== null && additionalWeatherData.current.pressure_msl !== undefined) {
+                        pressure = additionalWeatherData.current.pressure_msl;
+                    }
+                    if (additionalWeatherData.current.visibility !== null && additionalWeatherData.current.visibility !== undefined) {
+                        visibility = additionalWeatherData.current.visibility;
+                    }
+                }
             }
+        } catch (error) {
+            console.error('获取额外天气数据失败:', error);
         }
         
         // 处理Open-Meteo API返回的数据结构
