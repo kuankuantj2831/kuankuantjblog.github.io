@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>翻译功能 - 更多功能</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .translate-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .translate-input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .translate-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .translate-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .translate-lang-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .translate-lang-from, .translate-lang-to {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .translate-switch-btn {
+            padding: 10px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .translate-switch-btn:hover {
+            background-color: #dee2e6;
+        }
+        
+        .translate-submit-btn {
+            padding: 10px 20px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .translate-submit-btn:hover {
+            background-color: #5a6fd6;
+            transform: translateY(-2px);
+        }
+        
+        .translate-submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .translate-loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        .translate-loading.active {
+            display: block;
+        }
+        
+        .translate-loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .translate-error {
+            display: none;
+            padding: 20px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .translate-error.active {
+            display: block;
+        }
+        
+        .translate-result {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .translate-result.active {
+            display: block;
+        }
+        
+        .translate-result-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .translate-result-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .translate-copy-btn {
+            padding: 8px 15px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .translate-copy-btn:hover {
+            background-color: #dee2e6;
+        }
+        
+        .translate-history {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .translate-history-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .translate-history-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .translate-history-item {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .translate-history-item:hover {
+            background-color: #e9ecef;
+        }
+        
+        .translate-history-text {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .translate-history-lang {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #5a6fd6;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .translate-lang-selector {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .translate-input-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="translate-container">
+        <h1>🌍 翻译功能</h1>
+        
+        <div class="translate-input-section">
+            <input type="text" id="translateInput" class="translate-input" placeholder="请输入要翻译的文本...">
+            <button id="translateSubmitBtn" class="translate-submit-btn">翻译</button>
+        </div>
+        
+        <div class="translate-lang-selector">
+            <select id="translateLangFrom" class="translate-lang-from">
+                <option value="zh">中文</option>
+                <option value="en">英文</option>
+                <option value="ja">日文</option>
+                <option value="ko">韩文</option>
+                <option value="fr">法文</option>
+                <option value="de">德文</option>
+                <option value="ru">俄文</option>
+                <option value="es">西班牙文</option>
+                <option value="it">意大利文</option>
+                <option value="pt">葡萄牙文</option>
+            </select>
+            
+            <button id="translateSwitchBtn" class="translate-switch-btn">🔄 交换</button>
+            
+            <select id="translateLangTo" class="translate-lang-to">
+                <option value="en">英文</option>
+                <option value="zh">中文</option>
+                <option value="ja">日文</option>
+                <option value="ko">韩文</option>
+                <option value="fr">法文</option>
+                <option value="de">德文</option>
+                <option value="ru">俄文</option>
+                <option value="es">西班牙文</option>
+                <option value="it">意大利文</option>
+                <option value="pt">葡萄牙文</option>
+            </select>
+        </div>
+        
+        <div id="translateLoading" class="translate-loading">
+            <div class="translate-loading-spinner"></div>
+            <p>正在翻译中...</p>
+        </div>
+        
+        <div id="translateError" class="translate-error"></div>
+        
+        <div id="translateResult" class="translate-result">
+            <div id="translateResultText" class="translate-result-text"></div>
+            <div class="translate-result-meta">
+                <div id="translateResultMeta"></div>
+                <button id="translateCopyBtn" class="translate-copy-btn">复制</button>
+            </div>
+        </div>
+        
+        <div class="translate-history">
+            <div class="translate-history-title">翻译历史</div>
+            <ul id="translateHistoryList" class="translate-history-list"></ul>
+        </div>
+    </div>
+    
+    <a href="features.html" class="back-btn">返回更多功能</a>
+    
+    <script src="js/translate.js"></script>
+</body>
+</html>
