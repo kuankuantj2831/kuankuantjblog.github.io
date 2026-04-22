@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算器 - 更多功能</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .calculator-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .calculator-display {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: right;
+            font-size: 28px;
+            min-height: 60px;
+            line-height: 60px;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+        
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .calculator-btn {
+            padding: 15px;
+            font-size: 18px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .calculator-btn:hover {
+            background-color: #dee2e6;
+            transform: translateY(-2px);
+        }
+        
+        .calculator-btn:active {
+            transform: translateY(0);
+        }
+        
+        .calculator-btn.operator {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .calculator-btn.operator:hover {
+            background-color: #5a6fd6;
+        }
+        
+        .calculator-btn.equal {
+            background-color: #28a745;
+            color: white;
+            grid-column: 4 / 5;
+            grid-row: 4 / 6;
+        }
+        
+        .calculator-btn.equal:hover {
+            background-color: #218838;
+        }
+        
+        .calculator-btn.clear {
+            background-color: #dc3545;
+            color: white;
+            grid-column: 1 / 3;
+        }
+        
+        .calculator-btn.clear:hover {
+            background-color: #c82333;
+        }
+        
+        .calculator-btn.backspace {
+            background-color: #ffc107;
+            color: black;
+        }
+        
+        .calculator-btn.backspace:hover {
+            background-color: #e0a800;
+        }
+        
+        .calculator-history {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .calculator-history h3 {
+            margin-top: 0;
+            color: #666;
+        }
+        
+        .calculator-history-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .calculator-history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #5a6fd6;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 600px) {
+            .calculator-container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+            
+            .calculator-display {
+                font-size: 24px;
+                min-height: 50px;
+                line-height: 50px;
+            }
+            
+            .calculator-btn {
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <h1>计算器</h1>
+        <div class="calculator-display" id="display">0</div>
+        <div class="calculator-buttons">
+            <button class="calculator-btn clear" onclick="clearDisplay()">清除</button>
+            <button class="calculator-btn backspace" onclick="backspace()">←</button>
+            <button class="calculator-btn operator" onclick="appendOperator('/')">÷</button>
+            <button class="calculator-btn operator" onclick="appendOperator('*')">×</button>
+            
+            <button class="calculator-btn" onclick="appendNumber('7')">7</button>
+            <button class="calculator-btn" onclick="appendNumber('8')">8</button>
+            <button class="calculator-btn" onclick="appendNumber('9')">9</button>
+            <button class="calculator-btn operator" onclick="appendOperator('-')">-</button>
+            
+            <button class="calculator-btn" onclick="appendNumber('4')">4</button>
+            <button class="calculator-btn" onclick="appendNumber('5')">5</button>
+            <button class="calculator-btn" onclick="appendNumber('6')">6</button>
+            <button class="calculator-btn operator" onclick="appendOperator('+')">+</button>
+            
+            <button class="calculator-btn" onclick="appendNumber('1')">1</button>
+            <button class="calculator-btn" onclick="appendNumber('2')">2</button>
+            <button class="calculator-btn" onclick="appendNumber('3')">3</button>
+            <button class="calculator-btn equal" onclick="calculate()">=</button>
+            
+            <button class="calculator-btn" onclick="appendNumber('0')">0</button>
+            <button class="calculator-btn" onclick="appendDot()">.</button>
+            <button class="calculator-btn" onclick="appendPercent()">%</button>
+        </div>
+        
+        <div class="calculator-history">
+            <h3>计算历史</h3>
+            <div id="history"></div>
+        </div>
+    </div>
+    
+    <a href="features.html" class="back-btn">返回更多功能</a>
+    
+    <script src="js/calculator.js"></script>
+</body>
+</html>

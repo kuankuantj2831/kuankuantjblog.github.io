@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>待办事项 - 更多功能</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .todo-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .todo-input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .todo-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .todo-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .todo-add-btn {
+            padding: 10px 20px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .todo-add-btn:hover {
+            background-color: #5a6fd6;
+            transform: translateY(-2px);
+        }
+        
+        .todo-add-btn:active {
+            transform: translateY(0);
+        }
+        
+        .todo-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .todo-filter-btn {
+            padding: 8px 15px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .todo-filter-btn:hover {
+            background-color: #dee2e6;
+        }
+        
+        .todo-filter-btn.active {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .todo-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .todo-item:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .todo-item.completed {
+            opacity: 0.7;
+            background-color: #d4edda;
+        }
+        
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        
+        .todo-checkbox {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .todo-text {
+            flex: 1;
+            font-size: 16px;
+            word-wrap: break-word;
+        }
+        
+        .todo-actions {
+            display: flex;
+            gap: 10px;
+            margin-left: 10px;
+        }
+        
+        .todo-edit-btn, .todo-delete-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .todo-edit-btn:hover {
+            color: #667eea;
+        }
+        
+        .todo-delete-btn:hover {
+            color: #dc3545;
+        }
+        
+        .todo-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .todo-clear-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .todo-clear-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .todo-edit-input {
+            flex: 1;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #667eea;
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        .todo-edit-input:focus {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .todo-save-btn, .todo-cancel-btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .todo-save-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .todo-save-btn:hover {
+            background-color: #218838;
+        }
+        
+        .todo-cancel-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .todo-cancel-btn:hover {
+            background-color: #c82333;
+        }
+        
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #5a6fd6;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 600px) {
+            .todo-container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+            
+            .todo-filters {
+                justify-content: center;
+            }
+            
+            .todo-stats {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="todo-container">
+        <h1>待办事项</h1>
+        
+        <div class="todo-input-section">
+            <input type="text" id="todoInput" class="todo-input" placeholder="输入待办事项..." maxlength="200">
+            <button id="todoAddBtn" class="todo-add-btn">添加</button>
+        </div>
+        
+        <div class="todo-filters">
+            <button id="allFilter" class="todo-filter-btn active" data-filter="all">全部</button>
+            <button id="activeFilter" class="todo-filter-btn" data-filter="active">未完成</button>
+            <button id="completedFilter" class="todo-filter-btn" data-filter="completed">已完成</button>
+        </div>
+        
+        <ul id="todoList" class="todo-list"></ul>
+        
+        <div class="todo-stats">
+            <div>
+                <span id="todoCount">0</span> 个待办事项
+                <span id="completedCount" style="margin-left: 10px; color: #28a745;">0 个已完成</span>
+            </div>
+            <button id="clearCompletedBtn" class="todo-clear-btn">清除已完成</button>
+        </div>
+    </div>
+    
+    <a href="features.html" class="back-btn">返回更多功能</a>
+    
+    <script src="js/todo.js"></script>
+</body>
+</html>
