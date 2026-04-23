@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二维码生成器 - 更多功能</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .qr-generator-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .qr-input-section {
+            margin-bottom: 20px;
+        }
+        
+        .qr-input-section label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .qr-input-section input[type="text"],
+        .qr-input-section textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 80px;
+            outline: none;
+        }
+        
+        .qr-input-section input[type="text"]:focus,
+        .qr-input-section textarea:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+        
+        .qr-options {
+            margin-bottom: 20px;
+        }
+        
+        .option-group {
+            margin-bottom: 15px;
+        }
+        
+        .option-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .option-group input[type="range"] {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        
+        .option-group .range-value {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .option-group input[type="color"] {
+            width: 50px;
+            height: 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .option-group select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .generate-btn:hover {
+            background-color: #218838;
+        }
+        
+        .qr-result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        
+        .qr-result.hidden {
+            display: none;
+        }
+        
+        #qrCodeCanvas {
+            margin: 0 auto;
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .qr-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .qr-action-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+        
+        .qr-action-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .qr-history {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        
+        .history-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .history-list {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        .history-item-content {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 10px;
+        }
+        
+        .history-item-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .history-item-actions button {
+            padding: 5px 10px;
+            background-color: transparent;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .history-item-actions button:hover {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        @media (max-width: 768px) {
+            .qr-generator-container {
+                margin: 20px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="qr-generator-container">
+        <h1>📱 二维码生成器</h1>
+        
+        <div class="qr-input-section">
+            <label for="qrContent">二维码内容</label>
+            <textarea id="qrContent" placeholder="请输入要生成二维码的内容，支持文本、URL、邮箱、电话等"></textarea>
+        </div>
+        
+        <div class="qr-options">
+            <div class="option-group">
+                <label for="qrSize">二维码尺寸</label>
+                <input type="range" id="qrSize" min="100" max="500" value="256">
+                <div class="range-value">当前尺寸: <span id="sizeValue">256</span> x <span id="sizeValue2">256</span> 像素</div>
+            </div>
+            
+            <div class="option-group">
+                <label for="qrLevel">纠错等级</label>
+                <select id="qrLevel">
+                    <option value="L">低 (L)</option>
+                    <option value="M">中 (M)</option>
+                    <option value="Q">高 (Q)</option>
+                    <option value="H">极高 (H)</option>
+                </select>
+            </div>
+            
+            <div class="option-group">
+                <label for="qrForeColor">前景颜色</label>
+                <input type="color" id="qrForeColor" value="#000000">
+                <span id="foreColorValue">#000000</span>
+            </div>
+            
+            <div class="option-group">
+                <label for="qrBackColor">背景颜色</label>
+                <input type="color" id="qrBackColor" value="#FFFFFF">
+                <span id="backColorValue">#FFFFFF</span>
+            </div>
+        </div>
+        
+        <button class="generate-btn" id="generateBtn">生成二维码</button>
+        
+        <div class="qr-result hidden" id="qrResult">
+            <canvas id="qrCodeCanvas"></canvas>
+            
+            <div class="qr-actions">
+                <button class="qr-action-btn" id="downloadBtn">下载图片</button>
+                <button class="qr-action-btn" id="copyBtn">复制到剪贴板</button>
+            </div>
+        </div>
+        
+        <div class="qr-history">
+            <div class="history-title">生成历史</div>
+            <div class="history-list" id="historyList"></div>
+        </div>
+    </div>
+    
+    <a href="features.html" class="back-btn">返回更多功能</a>
+    
+    <script src="js/qr-generator.js"></script>
+</body>
+</html>
