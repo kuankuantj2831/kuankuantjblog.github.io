@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本对比工具 - 更多功能</title>
+    <link rel="stylesheet" href="css/chinese-style.css">
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .text-compare-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .text-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .text-input-container {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .text-input-container label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .text-input-container textarea {
+            width: 100%;
+            height: 300px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            resize: vertical;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+        
+        .compare-button {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .compare-button button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .compare-button button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .compare-results {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        
+        .result-diff {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+        }
+        
+        .diff-add {
+            background-color: #e6ffed;
+            color: #237804;
+        }
+        
+        .diff-remove {
+            background-color: #ffe6e6;
+            color: #c53030;
+        }
+        
+        .diff-equal {
+            background-color: #f6f8fa;
+            color: #24292e;
+        }
+        
+        @media (max-width: 768px) {
+            .text-inputs {
+                grid-template-columns: 1fr;
+            }
+            
+            .text-compare-container {
+                margin: 20px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="text-compare-container">
+        <h1>📝 文本对比工具</h1>
+        
+        <div class="text-inputs">
+            <div class="text-input-container">
+                <label for="text1">原始文本</label>
+                <textarea id="text1" placeholder="请输入原始文本..."></textarea>
+            </div>
+            
+            <div class="text-input-container">
+                <label for="text2">对比文本</label>
+                <textarea id="text2" placeholder="请输入对比文本..."></textarea>
+            </div>
+        </div>
+        
+        <div class="compare-button">
+            <button id="compareBtn">开始对比</button>
+        </div>
+        
+        <div class="compare-results" id="compareResults">
+            <h3>对比结果</h3>
+            <div id="resultContent">
+                <p>请输入文本并点击"开始对比"按钮查看差异</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('compareBtn').addEventListener('click', function() {
+            const text1 = document.getElementById('text1').value;
+            const text2 = document.getElementById('text2').value;
+            
+            if (!text1 || !text2) {
+                alert('请输入要对比的两段文本');
+                return;
+            }
+            
+            const diffResult = diff(text1, text2);
+            displayDiff(diffResult);
+        });
+        
+        // 简单的文本对比算法
+        function diff(text1, text2) {
+            const lines1 = text1.split('\n');
+            const lines2 = text2.split('\n');
+            const diffs = [];
+            
+            let i = 0, j = 0;
+            
+            while (i < lines1.length || j < lines2.length) {
+                if (i < lines1.length && j < lines2.length && lines1[i] === lines2[j]) {
+                    diffs.push({ type: 'equal', value: lines1[i] });
+                    i++;
+                    j++;
+                } else if (i < lines1.length && j < lines2.length) {
+                    // 检查是否有匹配的行
+                    const matchIndex = lines2.slice(j).indexOf(lines1[i]);
+                    if (matchIndex !== -1) {
+                        for (let k = j; k < j + matchIndex; k++) {
+                            diffs.push({ type: 'add', value: lines2[k] });
+                        }
+                        j += matchIndex;
+                    } else {
+                        diffs.push({ type: 'remove', value: lines1[i] });
+                        i++;
+                    }
+                } else if (i < lines1.length) {
+                    diffs.push({ type: 'remove', value: lines1[i] });
+                    i++;
+                } else {
+                    diffs.push({ type: 'add', value: lines2[j] });
+                    j++;
+                }
+            }
+            
+            return diffs;
+        }
+        
+        function displayDiff(diffs) {
+            const resultContent = document.getElementById('resultContent');
+            resultContent.innerHTML = '';
+            
+            const diffCount = {
+                add: 0,
+                remove: 0,
+                equal: 0
+            };
+            
+            diffs.forEach(diff => {
+                const div = document.createElement('div');
+                div.className = `result-diff diff-${diff.type}`;
+                div.textContent = diff.value;
+                resultContent.appendChild(div);
+                
+                diffCount[diff.type]++;
+            });
+            
+            // 显示统计信息
+            const stats = document.createElement('div');
+            stats.className = 'diff-stats';
+            stats.innerHTML = `
+                <p>
+                    <strong>统计信息:</strong> 
+                    新增 ${diffCount.add} 行, 删除 ${diffCount.remove} 行, 相同 ${diffCount.equal} 行
+                </p>
+            `;
+            resultContent.insertBefore(stats, resultContent.firstChild);
+        }
+    </script>
+</body>
+</html>
