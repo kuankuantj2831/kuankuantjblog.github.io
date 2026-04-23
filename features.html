@@ -136,17 +136,17 @@
             font-size: 0.9rem;
         }
 
-        /* 链接样式 */
-        .feature-list a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
+        /* 链接样式 - 确保优先级足够高 */
+        .feature-categories .feature-list a {
+            color: #667eea !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
+            transition: color 0.3s ease !important;
         }
 
-        .feature-list a:hover {
-            color: #764ba2;
-            text-decoration: underline;
+        .feature-categories .feature-list a:hover {
+            color: #764ba2 !important;
+            text-decoration: underline !important;
         }
 
         /* ===== 特色功能区域 ===== */
