@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>天气查询功能测试</title>
+    <title>澶╂皵鏌ヨ鍔熻兘娴嬭瘯</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -97,54 +97,51 @@
 </head>
 <body>
     <div class="container">
-        <h1>天气查询功能测试</h1>
+        <h1>澶╂皵鏌ヨ鍔熻兘娴嬭瘯</h1>
         <div class="test-form">
-            <input type="text" id="cityInput" placeholder="输入城市名称，如：北京">
-            <button id="testButton">测试天气查询功能</button>
+            <input type="text" id="cityInput" placeholder="杈撳叆鍩庡競鍚嶇О锛屽锛氬寳浜?>
+            <button id="testButton">娴嬭瘯澶╂皵鏌ヨ鍔熻兘</button>
         </div>
-        <div class="loading" id="loading">正在获取天气数据...</div>
+        <div class="loading" id="loading">姝ｅ湪鑾峰彇澶╂皵鏁版嵁...</div>
         <div id="results" class="results"></div>
     </div>
 
     <script>
-        // 复制自weather.js的核心函数
-        async function fetchWeatherData(city) {
+        // 澶嶅埗鑷獁eather.js鐨勬牳蹇冨嚱鏁?        async function fetchWeatherData(city) {
             try {
-                // 使用Open-Meteo API获取真实天气数据（无需API密钥，完全免费）
-                // 首先需要通过城市名称获取经纬度坐标
-                const geocodingUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=zh&format=json`;
+                // 浣跨敤Open-Meteo API鑾峰彇鐪熷疄澶╂皵鏁版嵁锛堟棤闇€API瀵嗛挜锛屽畬鍏ㄥ厤璐癸級
+                // 棣栧厛闇€瑕侀€氳繃鍩庡競鍚嶇О鑾峰彇缁忕含搴﹀潗鏍?                const geocodingUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=zh&format=json`;
                 
                 const geocodingResponse = await fetch(geocodingUrl);
                 
                 if (!geocodingResponse.ok) {
-                    throw new Error(`获取坐标失败: ${geocodingResponse.status}`);
+                    throw new Error(`鑾峰彇鍧愭爣澶辫触: ${geocodingResponse.status}`);
                 }
                 
                 const geocodingData = await geocodingResponse.json();
                 
                 if (!geocodingData.results || geocodingData.results.length === 0) {
-                    throw new Error(`未找到城市: ${city}`);
+                    throw new Error(`鏈壘鍒板煄甯? ${city}`);
                 }
                 
                 const { latitude, longitude, name } = geocodingData.results[0];
                 
-                // 使用获取到的经纬度请求天气数据
-                const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&wind_speed_unit=ms&timezone=auto`;
+                // 浣跨敤鑾峰彇鍒扮殑缁忕含搴﹁姹傚ぉ姘旀暟鎹?                const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&wind_speed_unit=ms&timezone=auto`;
                 
                 const weatherResponse = await fetch(weatherUrl);
                 
                 if (!weatherResponse.ok) {
-                    throw new Error(`获取天气数据失败: ${weatherResponse.status}`);
+                    throw new Error(`鑾峰彇澶╂皵鏁版嵁澶辫触: ${weatherResponse.status}`);
                 }
                 
                 const weatherData = await weatherResponse.json();
                 
-                // 为了获取湿度、气压和能见度，我们需要使用主API的additional_variables参数
+                // 涓轰簡鑾峰彇婀垮害銆佹皵鍘嬪拰鑳借搴︼紝鎴戜滑闇€瑕佷娇鐢ㄤ富API鐨刟dditional_variables鍙傛暟
                 let humidity = 0;
                 let pressure = 0;
                 let visibility = 0;
                 
-                // 尝试使用Open-Meteo的主API获取更多数据
+                // 灏濊瘯浣跨敤Open-Meteo鐨勪富API鑾峰彇鏇村鏁版嵁
                 const additionalWeatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=relative_humidity_2m,pressure_msl,visibility`;
                 
                 try {
@@ -165,11 +162,10 @@
                         }
                     }
                 } catch (error) {
-                    console.error('获取额外天气数据失败:', error);
+                    console.error('鑾峰彇棰濆澶╂皵鏁版嵁澶辫触:', error);
                 }
                 
-                // 处理Open-Meteo API返回的数据结构
-                if (weatherData.current_weather) {
+                // 澶勭悊Open-Meteo API杩斿洖鐨勬暟鎹粨鏋?                if (weatherData.current_weather) {
                     const processedData = {
                         name: name,
                         main: {
@@ -191,35 +187,35 @@
                     
                     return processedData;
                 } else {
-                    throw new Error('未获取到天气数据');
+                    throw new Error('鏈幏鍙栧埌澶╂皵鏁版嵁');
                 }
             } catch (error) {
-                console.error('获取天气数据失败:', error);
+                console.error('鑾峰彇澶╂皵鏁版嵁澶辫触:', error);
                 throw error;
             }
         }
 
         function getWeatherDescription(weatherCode) {
             const weatherDescriptions = {
-                0: '晴',
-                1: '多云',
-                2: '多云',
-                3: '阴天',
-                45: '雾',
-                48: '雾',
-                51: '小雨',
-                53: '中雨',
-                55: '大雨',
-                61: '小雨',
-                63: '中雨',
-                65: '大雨',
-                71: '小雪',
-                73: '中雪',
-                75: '大雪',
-                95: '雷暴'
+                0: '鏅?,
+                1: '澶氫簯',
+                2: '澶氫簯',
+                3: '闃村ぉ',
+                45: '闆?,
+                48: '闆?,
+                51: '灏忛洦',
+                53: '涓洦',
+                55: '澶ч洦',
+                61: '灏忛洦',
+                63: '涓洦',
+                65: '澶ч洦',
+                71: '灏忛洩',
+                73: '涓洩',
+                75: '澶ч洩',
+                95: '闆锋毚'
             };
             
-            return weatherDescriptions[weatherCode] || '未知天气';
+            return weatherDescriptions[weatherCode] || '鏈煡澶╂皵';
         }
 
         function getWeatherIcon(weatherCode) {
@@ -245,13 +241,13 @@
             return weatherIcons[weatherCode] || '01d';
         }
 
-        // 测试函数
+        // 娴嬭瘯鍑芥暟
         async function testWeatherFunction() {
             const cityInput = document.getElementById('cityInput');
             const city = cityInput.value.trim();
             
             if (!city) {
-                alert('请输入城市名称');
+                alert('璇疯緭鍏ュ煄甯傚悕绉?);
                 return;
             }
             
@@ -265,30 +261,30 @@
                 const weatherData = await fetchWeatherData(city);
                 
                 const weatherInfo = `
-                    <div style="font-weight: bold; margin-bottom: 10px;">${weatherData.name}天气信息</div>
+                    <div style="font-weight: bold; margin-bottom: 10px;">${weatherData.name}澶╂皵淇℃伅</div>
                     <div class="weather-info">
                         <div class="weather-item">
-                            <label>温度</label>
-                            <span>${weatherData.main.temp}°C</span>
+                            <label>娓╁害</label>
+                            <span>${weatherData.main.temp}掳C</span>
                         </div>
                         <div class="weather-item">
-                            <label>湿度</label>
+                            <label>婀垮害</label>
                             <span>${weatherData.main.humidity}%</span>
                         </div>
                         <div class="weather-item">
-                            <label>气压</label>
+                            <label>姘斿帇</label>
                             <span>${weatherData.main.pressure} hPa</span>
                         </div>
                         <div class="weather-item">
-                            <label>风速</label>
+                            <label>椋庨€?/label>
                             <span>${weatherData.wind.speed} m/s</span>
                         </div>
                         <div class="weather-item">
-                            <label>能见度</label>
+                            <label>鑳借搴?/label>
                             <span>${(weatherData.visibility / 1000).toFixed(1)} km</span>
                         </div>
                         <div class="weather-item">
-                            <label>天气</label>
+                            <label>澶╂皵</label>
                             <span>${weatherData.weather[0].description}</span>
                         </div>
                     </div>
@@ -302,7 +298,7 @@
             }
         }
 
-        // 事件监听
+        // 浜嬩欢鐩戝惉
         document.getElementById('testButton').addEventListener('click', testWeatherFunction);
         document.getElementById('cityInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {

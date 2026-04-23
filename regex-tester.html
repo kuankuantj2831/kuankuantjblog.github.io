@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>正则表达式测试器 - 更多功能</title>
+    <title>姝ｅ垯琛ㄨ揪寮忔祴璇曞櫒 - 鏇村鍔熻兘</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         body {
@@ -165,45 +165,45 @@
 </head>
 <body>
     <div class="regex-tester-container">
-        <h1>🔍 正则表达式测试器</h1>
+        <h1>馃攳 姝ｅ垯琛ㄨ揪寮忔祴璇曞櫒</h1>
         
         <div class="regex-inputs">
             <div class="regex-input-container">
-                <label for="regexPattern">正则表达式模式</label>
-                <input type="text" id="regexPattern" placeholder="请输入正则表达式模式...">
+                <label for="regexPattern">姝ｅ垯琛ㄨ揪寮忔ā寮?/label>
+                <input type="text" id="regexPattern" placeholder="璇疯緭鍏ユ鍒欒〃杈惧紡妯″紡...">
             </div>
             
             <div class="regex-input-container">
-                <label for="testText">测试文本</label>
-                <textarea id="testText" placeholder="请输入要测试的文本..."></textarea>
+                <label for="testText">娴嬭瘯鏂囨湰</label>
+                <textarea id="testText" placeholder="璇疯緭鍏ヨ娴嬭瘯鐨勬枃鏈?.."></textarea>
             </div>
             
             <div class="regex-flags">
                 <label>
                     <input type="checkbox" id="flagG">
-                    全局搜索 (g)
+                    鍏ㄥ眬鎼滅储 (g)
                 </label>
                 <label>
                     <input type="checkbox" id="flagI">
-                    忽略大小写 (i)
+                    蹇界暐澶у皬鍐?(i)
                 </label>
                 <label>
                     <input type="checkbox" id="flagM">
-                    多行模式 (m)
+                    澶氳妯″紡 (m)
                 </label>
                 <label>
                     <input type="checkbox" id="flagU">
-                    Unicode 支持 (u)
+                    Unicode 鏀寔 (u)
                 </label>
                 <label>
                     <input type="checkbox" id="flagY">
-                    粘性匹配 (y)
+                    绮樻€у尮閰?(y)
                 </label>
             </div>
         </div>
         
         <div class="test-button">
-            <button id="testBtn">测试正则表达式</button>
+            <button id="testBtn">娴嬭瘯姝ｅ垯琛ㄨ揪寮?/button>
         </div>
         
         <div class="test-results">
@@ -217,7 +217,7 @@
             const testText = document.getElementById('testText').value;
             
             if (!regexPattern) {
-                alert('请输入正则表达式模式');
+                alert('璇疯緭鍏ユ鍒欒〃杈惧紡妯″紡');
                 return;
             }
             
@@ -243,38 +243,37 @@
             resultsContent.innerHTML = '';
             
             if (!results) {
-                resultsContent.innerHTML = '<p>没有找到匹配项</p>';
+                resultsContent.innerHTML = '<p>娌℃湁鎵惧埌鍖归厤椤?/p>';
                 return;
             }
             
             const countDiv = document.createElement('div');
             countDiv.className = 'results-count';
-            countDiv.textContent = `找到 ${results.length} 个匹配项`;
+            countDiv.textContent = `鎵惧埌 ${results.length} 涓尮閰嶉」`;
             resultsContent.appendChild(countDiv);
             
             const listDiv = document.createElement('div');
             listDiv.className = 'results-list';
             
-            // 高亮显示匹配项
-            let highlightedText = testText.replace(regex, function(match) {
+            // 楂樹寒鏄剧ず鍖归厤椤?            let highlightedText = testText.replace(regex, function(match) {
                 return `<span class="match-text">${match}</span>`;
             });
             
             const matchDiv = document.createElement('div');
             matchDiv.className = 'match-item';
             matchDiv.innerHTML = `
-                <div>匹配文本: ${highlightedText}</div>
+                <div>鍖归厤鏂囨湰: ${highlightedText}</div>
             `;
             listDiv.appendChild(matchDiv);
             
-            // 显示分组信息
+            // 鏄剧ず鍒嗙粍淇℃伅
             if (results.length > 1) {
                 const groupsDiv = document.createElement('div');
                 groupsDiv.className = 'match-groups';
-                groupsDiv.innerHTML = '分组信息:<br>';
+                groupsDiv.innerHTML = '鍒嗙粍淇℃伅:<br>';
                 
                 for (let i = 1; i < results.length; i++) {
-                    groupsDiv.innerHTML += `分组 ${i}: ${results[i]}<br>`;
+                    groupsDiv.innerHTML += `鍒嗙粍 ${i}: ${results[i]}<br>`;
                 }
                 
                 listDiv.appendChild(groupsDiv);
@@ -285,8 +284,9 @@
         
         function displayError(error) {
             const resultsContent = document.getElementById('resultsContent');
-            resultsContent.innerHTML = `<div class="regex-error">正则表达式错误: ${error.message}</div>`;
+            resultsContent.innerHTML = `<div class="regex-error">姝ｅ垯琛ㄨ揪寮忛敊璇? ${error.message}</div>`;
         }
     </script>
 </body>
 </html>
+

@@ -1,310 +1,366 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>二维码生成器 - 更多功能</title>
+    <title>二维码生成器 - 我的博客</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         body {
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .qr-generator-container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: #f5f5f5;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
         
         h1 {
             text-align: center;
             color: #333;
             margin-bottom: 30px;
+            font-size: 2.5em;
         }
         
-        .qr-input-section {
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
         
-        .qr-input-section label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-        
-        .qr-input-section input[type="text"],
-        .qr-input-section textarea {
+        #content {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-            resize: vertical;
-            min-height: 80px;
-            outline: none;
-        }
-        
-        .qr-input-section input[type="text"]:focus,
-        .qr-input-section textarea:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
-        }
-        
-        .qr-options {
-            margin-bottom: 20px;
-        }
-        
-        .option-group {
-            margin-bottom: 15px;
-        }
-        
-        .option-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-        
-        .option-group input[type="range"] {
-            width: 100%;
-            margin-bottom: 5px;
-        }
-        
-        .option-group .range-value {
-            font-size: 14px;
-            color: #666;
-            text-align: center;
-        }
-        
-        .option-group input[type="color"] {
-            width: 50px;
-            height: 30px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .option-group select {
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            outline: none;
-        }
-        
-        .generate-btn {
-            width: 100%;
+            min-height: 120px;
             padding: 15px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
-        .generate-btn:hover {
-            background-color: #218838;
-        }
-        
-        .qr-result {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
+            font-size: 16px;
             border: 1px solid #ddd;
-            text-align: center;
+            border-radius: 4px;
+            resize: vertical;
+            margin-bottom: 20px;
         }
         
-        .qr-result.hidden {
-            display: none;
-        }
-        
-        #qrCodeCanvas {
-            margin: 0 auto;
-            display: block;
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .qr-actions {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .qr-action-btn {
-            padding: 10px 20px;
+        #generateBtn {
             background-color: #007bff;
             color: white;
             border: none;
+            padding: 12px 20px;
+            font-size: 16px;
             border-radius: 4px;
             cursor: pointer;
+            width: 100%;
+            margin-bottom: 20px;
+            font-weight: bold;
             transition: background-color 0.3s;
-            font-size: 16px;
         }
         
-        .qr-action-btn:hover {
+        #generateBtn:hover {
             background-color: #0056b3;
         }
         
-        .qr-history {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            border: 1px solid #ddd;
+        #qrCode {
+            display: block;
+            margin: 0 auto;
+            max-width: 300px;
+            height: auto;
         }
         
-        .history-title {
+        #error {
+            color: red;
+            margin-top: 10px;
             font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
         }
         
-        .history-list {
-            max-height: 150px;
+        #options {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        #options h2 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.5em;
+        }
+        
+        .option {
+            margin-bottom: 15px;
+        }
+        
+        .option label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+        
+        .option input, .option select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .option input[type="color"] {
+            width: auto;
+            height: 40px;
+            padding: 2px;
+            cursor: pointer;
+        }
+        
+        .option input[type="range"] {
+            width: calc(100% - 80px);
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        
+        .option .range-value {
+            display: inline-block;
+            vertical-align: middle;
+            width: 60px;
+            text-align: center;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .history-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .history-container h2 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.5em;
+        }
+        
+        #historyList {
+            max-height: 200px;
             overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: white;
         }
         
         .history-item {
             padding: 8px;
-            border-bottom: 1px solid #eee;
-            font-size: 14px;
-            color: #333;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin-bottom: 8px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .history-item:hover {
+            background-color: #e9ecef;
         }
         
         .history-item:last-child {
-            border-bottom: none;
-        }
-        
-        .history-item-content {
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            margin-right: 10px;
-        }
-        
-        .history-item-actions {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .history-item-actions button {
-            padding: 5px 10px;
-            background-color: transparent;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            color: #666;
-            transition: all 0.3s;
-        }
-        
-        .history-item-actions button:hover {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-        
-        .back-btn {
-            display: block;
-            width: 200px;
-            margin: 30px auto 0;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
-        
-        .back-btn:hover {
-            background-color: #0056b3;
-        }
-        
-        @media (max-width: 768px) {
-            .qr-generator-container {
-                margin: 20px;
-                padding: 20px;
-            }
+            margin-bottom: 0;
         }
     </style>
 </head>
 <body>
-    <div class="qr-generator-container">
-        <h1>📱 二维码生成器</h1>
+    <h1>📱 二维码生成器</h1>
+    
+    <div class="container">
+        <textarea id="content" placeholder="请输入要生成二维码的文本或 URL..."></textarea>
+        <button id="generateBtn">生成二维码</button>
         
-        <div class="qr-input-section">
-            <label for="qrContent">二维码内容</label>
-            <textarea id="qrContent" placeholder="请输入要生成二维码的内容，支持文本、URL、邮箱、电话等"></textarea>
-        </div>
+        <canvas id="qrCode"></canvas>
         
-        <div class="qr-options">
-            <div class="option-group">
-                <label for="qrSize">二维码尺寸</label>
-                <input type="range" id="qrSize" min="100" max="500" value="256">
-                <div class="range-value">当前尺寸: <span id="sizeValue">256</span> x <span id="sizeValue2">256</span> 像素</div>
+        <div id="error"></div>
+        
+        <div id="options">
+            <h2>⚙️ 选项</h2>
+            
+            <div class="option">
+                <label for="size">尺寸: <span id="sizeValue">256</span>x<span id="sizeValue2">256</span></label>
+                <input type="range" id="size" min="100" max="400" value="256">
             </div>
             
-            <div class="option-group">
-                <label for="qrLevel">纠错等级</label>
-                <select id="qrLevel">
-                    <option value="L">低 (L)</option>
-                    <option value="M">中 (M)</option>
-                    <option value="Q">高 (Q)</option>
-                    <option value="H">极高 (H)</option>
+            <div class="option">
+                <label for="level">纠错等级</label>
+                <select id="level">
+                    <option value="L">低 (L) - 7% 容错率</option>
+                    <option value="M">中 (M) - 15% 容错率</option>
+                    <option value="Q">高 (Q) - 25% 容错率</option>
+                    <option value="H">高 (H) - 30% 容错率</option>
                 </select>
             </div>
             
-            <div class="option-group">
-                <label for="qrForeColor">前景颜色</label>
-                <input type="color" id="qrForeColor" value="#000000">
-                <span id="foreColorValue">#000000</span>
+            <div class="option">
+                <label for="foreground">前景色</label>
+                <input type="color" id="foreground" value="#000000">
+                <span id="foregroundValue">#000000</span>
             </div>
             
-            <div class="option-group">
-                <label for="qrBackColor">背景颜色</label>
-                <input type="color" id="qrBackColor" value="#FFFFFF">
-                <span id="backColorValue">#FFFFFF</span>
+            <div class="option">
+                <label for="background">背景色</label>
+                <input type="color" id="background" value="#FFFFFF">
+                <span id="backgroundValue">#FFFFFF</span>
             </div>
         </div>
         
-        <button class="generate-btn" id="generateBtn">生成二维码</button>
-        
-        <div class="qr-result hidden" id="qrResult">
-            <canvas id="qrCodeCanvas"></canvas>
-            
-            <div class="qr-actions">
-                <button class="qr-action-btn" id="downloadBtn">下载图片</button>
-                <button class="qr-action-btn" id="copyBtn">复制到剪贴板</button>
-            </div>
-        </div>
-        
-        <div class="qr-history">
-            <div class="history-title">生成历史</div>
-            <div class="history-list" id="historyList"></div>
+        <div class="history-container">
+            <h2>📜 生成历史</h2>
+            <div id="historyList"></div>
         </div>
     </div>
     
-    <a href="features.html" class="back-btn">返回更多功能</a>
-    
-    <script src="js/qr-generator.js"></script>
+    <script>
+        function encodeData(content) {
+            let binary = '';
+            for (let i = 0; i < content.length; i++) {
+                const charCode = content.charCodeAt(i);
+                binary += charCode.toString(2).padStart(8, '0');
+            }
+            
+            binary += '0000';
+            while (binary.length % 8 !== 0) {
+                binary += '0';
+            }
+            
+            return binary.split('').map(bit => parseInt(bit));
+        }
+        
+        function drawPositionPattern(ctx, x, y, size) {
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(x, y, size, size);
+            
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(x + size / 5, y + size / 5, size * 3 / 5, size * 3 / 5);
+            
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(x + size * 2 / 5, y + size * 2 / 5, size * 1 / 5, size * 1 / 5);
+        }
+        
+        function generateQRCode(content, options = {}) {
+            const {
+                size = 256,
+                level = 'L',
+                foreground = '#000000',
+                background = '#FFFFFF'
+            } = options;
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            ctx.fillStyle = background;
+            ctx.fillRect(0, 0, size, size);
+            
+            ctx.fillStyle = foreground;
+            const moduleSize = Math.floor(size / 25);
+            
+            drawPositionPattern(ctx, moduleSize * 3, moduleSize * 3, moduleSize * 7);
+            drawPositionPattern(ctx, size - moduleSize * 10, moduleSize * 3, moduleSize * 7);
+            drawPositionPattern(ctx, moduleSize * 3, size - moduleSize * 10, moduleSize * 7);
+            
+            for (let y = moduleSize * 8; y < size - moduleSize * 8; y += moduleSize * 2) {
+                for (let x = moduleSize * 8; x < size - moduleSize * 8; x += moduleSize * 3) {
+                    ctx.fillRect(x, y, moduleSize, moduleSize);
+                }
+            }
+            
+            const encodedData = encodeData(content);
+            let index = 0;
+            
+            for (let y = moduleSize * 10; y < size - moduleSize * 10; y += moduleSize) {
+                for (let x = moduleSize * 10; x < size - moduleSize * 10; x += moduleSize) {
+                    if (index < encodedData.length && encodedData[index] === 1) {
+                        ctx.fillRect(x, y, moduleSize, moduleSize);
+                    }
+                    index++;
+                }
+            }
+            
+            return canvas;
+        }
+        
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                const content = document.getElementById('content').value;
+                
+                if (!content) {
+                    alert('请输入要生成二维码的内容');
+                    return;
+                }
+                
+                const size = parseInt(document.getElementById('size').value);
+                const level = document.getElementById('level').value;
+                const foreground = document.getElementById('foreground').value;
+                const background = document.getElementById('background').value;
+                
+                const canvas = generateQRCode(content, {
+                    size: size,
+                    level: level,
+                    foreground: foreground,
+                    background: background
+                });
+                
+                const qrCodeCanvas = document.getElementById('qrCode');
+                qrCodeCanvas.width = canvas.width;
+                qrCodeCanvas.height = canvas.height;
+                qrCodeCanvas.getContext('2d').drawImage(canvas, 0, 0);
+                
+                saveToHistory(content);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                const errorDiv = document.getElementById('error');
+                errorDiv.textContent = `错误: ${error.message}`;
+            }
+        });
+        
+        document.getElementById('size').addEventListener('input', function() {
+            const size = this.value;
+            document.getElementById('sizeValue').textContent = size;
+            document.getElementById('sizeValue2').textContent = size;
+        });
+        
+        document.getElementById('foreground').addEventListener('input', function() {
+            document.getElementById('foregroundValue').textContent = this.value;
+        });
+        
+        document.getElementById('background').addEventListener('input', function() {
+            document.getElementById('backgroundValue').textContent = this.value;
+        });
+        
+        function saveToHistory(content) {
+            const historyList = document.getElementById('historyList');
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item';
+            historyItem.textContent = content;
+            
+            historyItem.addEventListener('click', function() {
+                document.getElementById('content').value = content;
+                document.getElementById('generateBtn').click();
+            });
+            
+            historyList.appendChild(historyItem);
+        }
+        
+        const testBtn = document.createElement('button');
+        testBtn.textContent = '快速测试';
+        testBtn.style.marginTop = '10px';
+        testBtn.style.padding = '8px 16px';
+        testBtn.style.width = 'auto';
+        testBtn.addEventListener('click', function() {
+            document.getElementById('content').value = 'https://example.com';
+            document.getElementById('generateBtn').click();
+        });
+        
+        document.body.appendChild(testBtn);
+    </script>
 </body>
 </html>

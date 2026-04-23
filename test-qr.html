@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR 鐮佺敓鎴愬櫒娴嬭瘯</title>
+    <style>
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+            margin: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+        
+        .test-section h2 {
+            margin-bottom: 10px;
+            color: #555;
+        }
+        
+        .test-result {
+            font-family: monospace;
+            font-size: 14px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        
+        .success {
+            color: green;
+        }
+        
+        .error {
+            color: red;
+        }
+        
+        .test-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            margin: 10px;
+        }
+        
+        .test-button:hover {
+            background-color: #0056b3;
+        }
+        
+        .qr-preview {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        #qrCode {
+            margin: 0 auto;
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>馃摫 QR 鐮佺敓鎴愬櫒鍔熻兘娴嬭瘯</h1>
+        
+        <div class="test-section">
+            <h2>1. 鏂囦欢璁块棶娴嬭瘯</h2>
+            <div class="test-result" id="fileTest">娴嬭瘯涓?..</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>2. JavaScript 璇硶娴嬭瘯</h2>
+            <div class="test-result" id="jsTest">娴嬭瘯涓?..</div>
+        </div>
+        
+        <div class="test-section">
+            <h2>3. QR 鐮佺敓鎴愬姛鑳芥祴璇?/h2>
+            <div class="qr-preview">
+                <canvas id="qrCode" width="256" height="256"></canvas>
+            </div>
+            <div class="test-result" id="qrTest">鍑嗗娴嬭瘯...</div>
+            <button class="test-button" id="generateTest">鐢熸垚娴嬭瘯 QR 鐮?/button>
+        </div>
+        
+        <div class="test-section">
+            <h2>4. 椤甸潰璁块棶娴嬭瘯</h2>
+            <div class="test-result" id="pageTest">
+                <a href="qr-generator.html" target="_blank">鐐瑰嚮璁块棶 QR 鐮佺敓鎴愬櫒</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 鏂囦欢璁块棶娴嬭瘯
+        fetch('js/qr-generator.js')
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                }
+                throw new Error('鏂囦欢鏃犳硶璁块棶');
+            })
+            .then(text => {
+                const resultDiv = document.getElementById('fileTest');
+                resultDiv.textContent = `鉁?鏂囦欢璁块棶鎴愬姛锛屾枃浠跺ぇ灏? ${text.length} 瀛楃`;
+                resultDiv.className = 'test-result success';
+            })
+            .catch(error => {
+                const resultDiv = document.getElementById('fileTest');
+                resultDiv.textContent = `鉂?鏂囦欢璁块棶澶辫触: ${error.message}`;
+                resultDiv.className = 'test-result error';
+            });
+        
+        // JavaScript 璇硶娴嬭瘯
+        try {
+            // 鐩存帴娴嬭瘯绠€鍗曠殑 QR 鐮佺敓鎴愬嚱鏁?            const testCanvas = document.getElementById('qrCode');
+            const ctx = testCanvas.getContext('2d');
+            
+            // 绠€鍗曠粯鍒舵祴璇?            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, 256, 256);
+            
+            // 缁樺埗涓€浜涘浘妗?            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(10, 10, 236, 236);
+            
+            // 缁樺埗绠€鍗曠殑 QR 鐮佹ā鎷?            ctx.fillStyle = '#000000';
+            for (let x = 30; x < 220; x += 20) {
+                for (let y = 30; y < 220; y += 20) {
+                    if (Math.random() > 0.7) {
+                        ctx.fillRect(x, y, 15, 15);
+                    }
+                }
+            }
+            
+            const resultDiv = document.getElementById('jsTest');
+            resultDiv.textContent = '鉁?JavaScript 璇硶鍜?Canvas 缁樺浘鍔熻兘姝ｅ父';
+            resultDiv.className = 'test-result success';
+        } catch (error) {
+            const resultDiv = document.getElementById('jsTest');
+            resultDiv.textContent = `鉂?JavaScript 閿欒: ${error.message}`;
+            resultDiv.className = 'test-result error';
+            console.error(error);
+        }
+        
+        // QR 鐮佺敓鎴愬姛鑳芥祴璇?        document.getElementById('generateTest').addEventListener('click', function() {
+            const resultDiv = document.getElementById('qrTest');
+            
+            try {
+                // 鍔犺浇骞舵祴璇?QR 鐮佺敓鎴愬櫒
+                const script = document.createElement('script');
+                script.src = 'js/qr-generator.js';
+                script.onload = function() {
+                    try {
+                        // 璋冪敤 QR 鐮佺敓鎴愬櫒鍑芥暟
+                        if (typeof generateQRCode === 'function') {
+                            resultDiv.textContent = '鉁?QR 鐮佺敓鎴愬櫒鍑芥暟鍔犺浇鎴愬姛';
+                            resultDiv.className = 'test-result success';
+                            
+                            // 鐢熸垚绠€鍗曠殑 QR 鐮?                            const canvas = generateQRCode('娴嬭瘯鍐呭');
+                            const qrCode = document.getElementById('qrCode');
+                            qrCode.width = canvas.width;
+                            qrCode.height = canvas.height;
+                            qrCode.getContext('2d').drawImage(canvas, 0, 0);
+                        } else {
+                            throw new Error('generateQRCode 鍑芥暟鏈壘鍒?);
+                        }
+                    } catch (error) {
+                        resultDiv.textContent = `鉂?QR 鐮佺敓鎴愬嚱鏁伴敊璇? ${error.message}`;
+                        resultDiv.className = 'test-result error';
+                        console.error(error);
+                    }
+                };
+                
+                script.onerror = function() {
+                    throw new Error('JavaScript 鍔犺浇澶辫触');
+                };
+                
+                document.body.appendChild(script);
+            } catch (error) {
+                resultDiv.textContent = `鉂?${error.message}`;
+                resultDiv.className = 'test-result error';
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>

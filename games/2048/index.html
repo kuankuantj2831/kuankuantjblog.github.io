@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048 游戏</title>
+    <title>2048 娓告垙</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,31 +11,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- 返回按钮 -->
+    <!-- 杩斿洖鎸夐挳 -->
     <a href="/games.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i> 返回游戏中心
+        <i class="fas fa-arrow-left"></i> 杩斿洖娓告垙涓績
     </a>
     <div class="container">
         <header>
             <h1><i class="fas fa-th-large"></i> 2048</h1>
             <div class="scores">
                 <div class="score-box">
-                    <div class="score-label">分数</div>
+                    <div class="score-label">鍒嗘暟</div>
                     <div class="score-value" id="score">0</div>
                 </div>
                 <div class="score-box">
-                    <div class="score-label">最高分</div>
+                    <div class="score-label">鏈€楂樺垎</div>
                     <div class="score-value" id="best">0</div>
                 </div>
             </div>
         </header>
 
         <div class="game-info">
-            <p>合并数字，拼出<strong>2048方块</strong>！</p>
+            <p>鍚堝苟鏁板瓧锛屾嫾鍑?strong>2048鏂瑰潡</strong>锛?/p>
             <div class="controls">
-                <button id="new-game">🔄 新游戏</button>
-                <button id="undo">↩️ 撤销</button>
-                <button id="how-to-play">📖 游戏规则</button>
+                <button id="new-game">馃攧 鏂版父鎴?/button>
+                <button id="undo">鈫╋笍 鎾ら攢</button>
+                <button id="how-to-play">馃摉 娓告垙瑙勫垯</button>
             </div>
         </div>
 
@@ -48,39 +48,40 @@
                 <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
             </div>
             <div class="game-over" id="game-over">
-                <h2>游戏结束！</h2>
-                <p>你的分数：<span id="final-score">0</span></p>
-                <button id="try-again">再试一次</button>
+                <h2>娓告垙缁撴潫锛?/h2>
+                <p>浣犵殑鍒嗘暟锛?span id="final-score">0</span></p>
+                <button id="try-again">鍐嶈瘯涓€娆?/button>
             </div>
             <div class="win" id="win">
-                <h2>你赢了！</h2>
-                <p>你成功合出了2048！</p>
-                <button id="continue">继续游戏</button>
+                <h2>浣犺耽浜嗭紒</h2>
+                <p>浣犳垚鍔熷悎鍑轰簡2048锛?/p>
+                <button id="continue">缁х画娓告垙</button>
             </div>
         </div>
 
         <footer>
-            <p>用 <i class="fas fa-heart"></i> 制作 | 2048 游戏 |
+            <p>鐢?<i class="fas fa-heart"></i> 鍒朵綔 | 2048 娓告垙 |
                 <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a> |
-                <a href="https://en.wikipedia.org/wiki/2048_(video_game)" target="_blank"><i class="fas fa-external-link-alt"></i> 关于 2048</a>
+                <a href="https://en.wikipedia.org/wiki/2048_(video_game)" target="_blank"><i class="fas fa-external-link-alt"></i> 鍏充簬 2048</a>
             </p>
         </footer>
     </div>
 
-    <!-- 游戏规则面板 -->
+    <!-- 娓告垙瑙勫垯闈㈡澘 -->
     <div class="instructions" id="instructions">
-        <h3>📖 游戏规则</h3>
+        <h3>馃摉 娓告垙瑙勫垯</h3>
         <ul>
-            <li>使用<strong>方向键</strong>或<strong>滑动</strong>移动方块。</li>
-            <li>当两个相同数字的方块相触，它们会<strong>合并为一个</strong>，数字相加。</li>
-            <li>每次移动后，一个随机空单元格中会出现新方块（2或4）。</li>
-            <li>尝试合成<strong>2048</strong>方块来获胜！</li>
-            <li>当无法继续移动时，游戏结束。</li>
+            <li>浣跨敤<strong>鏂瑰悜閿?/strong>鎴?strong>婊戝姩</strong>绉诲姩鏂瑰潡銆?/li>
+            <li>褰撲袱涓浉鍚屾暟瀛楃殑鏂瑰潡鐩歌Е锛屽畠浠細<strong>鍚堝苟涓轰竴涓?/strong>锛屾暟瀛楃浉鍔犮€?/li>
+            <li>姣忔绉诲姩鍚庯紝涓€涓殢鏈虹┖鍗曞厓鏍间腑浼氬嚭鐜版柊鏂瑰潡锛?鎴?锛夈€?/li>
+            <li>灏濊瘯鍚堟垚<strong>2048</strong>鏂瑰潡鏉ヨ幏鑳滐紒</li>
+            <li>褰撴棤娉曠户缁Щ鍔ㄦ椂锛屾父鎴忕粨鏉熴€?/li>
         </ul>
-        <button id="close-instructions">明白了！</button>
+        <button id="close-instructions">鏄庣櫧浜嗭紒</button>
     </div>
 
     <script src="script.js"></script>
 
 </body>
 </html>
+

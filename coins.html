@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="签到领硬币 - Hakimi 的猫爬架">
+    <meta name="description" content="绛惧埌棰嗙‖甯?- Hakimi 鐨勭尗鐖灦">
 
-    <title>签到领硬币 - Hakimi 的猫爬架</title>
+    <title>绛惧埌棰嗙‖甯?- Hakimi 鐨勭尗鐖灦</title>
 
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
@@ -38,7 +38,7 @@
             max-width: 900px; margin: 0 auto; padding: 30px 20px 60px;
         }
 
-        /* ===== 页面标题 ===== */
+        /* ===== 椤甸潰鏍囬 ===== */
         .page-header {
             text-align: center; padding: 30px 0 20px;
         }
@@ -47,7 +47,7 @@
         .page-header h1 span { color: #f5af19; }
         .page-header .slogan { font-size: 14px; color: #aaa; margin-top: 8px; letter-spacing: 4px; }
 
-        /* ===== 签到主卡片（深色） ===== */
+        /* ===== 绛惧埌涓诲崱鐗囷紙娣辫壊锛?===== */
         .checkin-hero {
             background: linear-gradient(135deg, #2d2d2d 0%, #1a1a2e 50%, #3d2e1f 100%);
             border-radius: 20px; padding: 30px; color: white;
@@ -122,7 +122,7 @@
         .checkin-stat-item .stat-value { font-size: 24px; font-weight: 700; }
         .checkin-stat-item .stat-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; }
 
-        /* ===== 签到日历 ===== */
+        /* ===== 绛惧埌鏃ュ巻 ===== */
         .calendar-card {
             background: white; border-radius: 16px; padding: 25px;
             margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -189,7 +189,7 @@
         .legend-dot.gray { background: #f0f0f0; }
         .legend-dot.blue { width: 14px; height: 14px; border: 2px solid #2196f3; background: transparent; border-radius: 4px; }
 
-        /* ===== 硬币排行榜 ===== */
+        /* ===== 纭竵鎺掕姒?===== */
         .leaderboard-card {
             background: white; border-radius: 16px; padding: 25px;
             margin-bottom: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -242,7 +242,7 @@
         .lb-balance-value { font-size: 20px; font-weight: 700; color: #333; }
         .lb-balance-label { font-size: 11px; color: #999; }
 
-        /* ===== 交易记录 ===== */
+        /* ===== 浜ゆ槗璁板綍 ===== */
         .transactions-card {
             background: white; border-radius: 16px; padding: 25px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -288,7 +288,7 @@
         }
         .load-more-btn:hover { background: #f8f9ff; border-color: #667eea; }
 
-        /* ===== 未登录提示 ===== */
+        /* ===== 鏈櫥褰曟彁绀?===== */
         .login-prompt {
             text-align: center; padding: 120px 20px; color: #666;
         }
@@ -314,7 +314,7 @@
         .toast.success { background: #4caf50; }
         .toast.error { background: #e53935; }
 
-        /* ===== 签到奖励弹窗 ===== */
+        /* ===== 绛惧埌濂栧姳寮圭獥 ===== */
         .reward-popup {
             display: none; text-align: center; padding: 15px; margin-top: 15px;
             background: rgba(255,255,255,0.1); border-radius: 10px;
@@ -332,7 +332,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== 响应式 ===== */
+        /* ===== 鍝嶅簲寮?===== */
         @media (max-width: 600px) {
             .coins-wrapper { padding: 20px 15px 40px; }
             .checkin-stats { grid-template-columns: repeat(2, 1fr); }
@@ -347,168 +347,168 @@
 </head>
 
 <body>
-    <a href="/index-chinese.html" class="back-to-home" title="返回首页">🏠</a>
+    <a href="/index-chinese.html" class="back-to-home" title="杩斿洖棣栭〉">馃彔</a>
     <div class="toast" id="toast"></div>
 
-    <!-- 主内容 -->
+    <!-- 涓诲唴瀹?-->
     <div class="coins-wrapper" id="mainContent" style="display:none;">
 
-        <!-- 页面标题 -->
+        <!-- 椤甸潰鏍囬 -->
         <div class="page-header">
-            <div class="subtitle">每日打卡</div>
-            <h1>签到<span>领硬币</span></h1>
-            <div class="slogan">坚持 · 积累 · 收获</div>
+            <div class="subtitle">姣忔棩鎵撳崱</div>
+            <h1>绛惧埌<span>棰嗙‖甯?/span></h1>
+            <div class="slogan">鍧氭寔 路 绉疮 路 鏀惰幏</div>
         </div>
 
-        <!-- 签到主卡片 -->
+        <!-- 绛惧埌涓诲崱鐗?-->
         <div class="checkin-hero">
             <div class="checkin-hero-top">
                 <div class="checkin-date-info">
-                    <div class="checkin-date-icon" id="dateIcon">☀️</div>
+                    <div class="checkin-date-icon" id="dateIcon">鈽€锔?/div>
                     <div class="checkin-date-text">
                         <div class="date-str" id="dateStr"></div>
-                        <div class="date-type" id="dateType">工作日签到</div>
+                        <div class="date-type" id="dateType">宸ヤ綔鏃ョ鍒?/div>
                     </div>
                 </div>
                 <div class="checkin-reward-info">
-                    <div class="reward-label">今日可获得</div>
-                    <div><span class="reward-value" id="todayReward">+0.5</span> <span class="reward-unit">硬币</span></div>
+                    <div class="reward-label">浠婃棩鍙幏寰?/div>
+                    <div><span class="reward-value" id="todayReward">+0.5</span> <span class="reward-unit">纭竵</span></div>
                 </div>
             </div>
 
             <div class="checkin-status-row">
                 <div class="checkin-status">
-                    <div class="status-label">今日签到状态</div>
-                    <div class="status-text" id="statusText">未签到</div>
+                    <div class="status-label">浠婃棩绛惧埌鐘舵€?/div>
+                    <div class="status-text" id="statusText">鏈鍒?/div>
                     <div class="status-sub" id="statusSub"></div>
                 </div>
                 <button class="checkin-btn" id="checkinBtn" onclick="window.coinsApp.checkin()">
-                    ✨ 立即签到
+                    鉁?绔嬪嵆绛惧埌
                 </button>
             </div>
 
             <div class="reward-popup" id="rewardPopup">
-                <div>🎉 签到成功！获得</div>
-                <div class="reward-amount">+<span id="rewardAmount">0</span> 硬币</div>
+                <div>馃帀 绛惧埌鎴愬姛锛佽幏寰?/div>
+                <div class="reward-amount">+<span id="rewardAmount">0</span> 纭竵</div>
             </div>
 
             <div class="checkin-stats">
                 <div class="checkin-stat-item">
-                    <div class="stat-icon">🔥</div>
+                    <div class="stat-icon">馃敟</div>
                     <div class="stat-value" id="statStreak">0</div>
-                    <div class="stat-label">连续签到</div>
+                    <div class="stat-label">杩炵画绛惧埌</div>
                 </div>
                 <div class="checkin-stat-item">
-                    <div class="stat-icon">📅</div>
+                    <div class="stat-icon">馃搮</div>
                     <div class="stat-value" id="statMonthDays">0</div>
-                    <div class="stat-label">本月签到</div>
+                    <div class="stat-label">鏈湀绛惧埌</div>
                 </div>
                 <div class="checkin-stat-item">
-                    <div class="stat-icon">🏆</div>
+                    <div class="stat-icon">馃弳</div>
                     <div class="stat-value" id="statTotalDays">0</div>
-                    <div class="stat-label">累计签到</div>
+                    <div class="stat-label">绱绛惧埌</div>
                 </div>
                 <div class="checkin-stat-item">
-                    <div class="stat-icon">⭐</div>
+                    <div class="stat-icon">猸?/div>
                     <div class="stat-value" id="statTotalEarned">0</div>
-                    <div class="stat-label">累计硬币</div>
+                    <div class="stat-label">绱纭竵</div>
                 </div>
             </div>
         </div>
 
-        <!-- 签到日历 -->
+        <!-- 绛惧埌鏃ュ巻 -->
         <div class="calendar-card">
             <div class="calendar-header">
                 <div class="calendar-header-left">
-                    <h3>签到日历</h3>
-                    <div class="calendar-rate">本月签到率 <span id="calendarRate">0</span>%</div>
+                    <h3>绛惧埌鏃ュ巻</h3>
+                    <div class="calendar-rate">鏈湀绛惧埌鐜?<span id="calendarRate">0</span>%</div>
                 </div>
                 <div class="calendar-nav">
-                    <button id="prevMonth" onclick="window.coinsApp.changeMonth(-1)">‹</button>
-                    <span class="month-label" id="monthLabel">2026年2月</span>
-                    <button id="nextMonth" onclick="window.coinsApp.changeMonth(1)">›</button>
+                    <button id="prevMonth" onclick="window.coinsApp.changeMonth(-1)">鈥?/button>
+                    <span class="month-label" id="monthLabel">2026骞?鏈?/span>
+                    <button id="nextMonth" onclick="window.coinsApp.changeMonth(1)">鈥?/button>
                 </div>
             </div>
 
             <div class="calendar-weekdays">
-                <div class="weekday weekend">日</div>
-                <div class="weekday">一</div>
-                <div class="weekday">二</div>
-                <div class="weekday">三</div>
-                <div class="weekday">四</div>
-                <div class="weekday">五</div>
-                <div class="weekday weekend">六</div>
+                <div class="weekday weekend">鏃?/div>
+                <div class="weekday">涓€</div>
+                <div class="weekday">浜?/div>
+                <div class="weekday">涓?/div>
+                <div class="weekday">鍥?/div>
+                <div class="weekday">浜?/div>
+                <div class="weekday weekend">鍏?/div>
             </div>
 
             <div class="calendar-grid" id="calendarGrid"></div>
 
             <div class="calendar-legend">
-                <div class="legend-item"><div class="legend-dot green"></div>已签到</div>
-                <div class="legend-item"><div class="legend-dot pink"></div>未签到</div>
-                <div class="legend-item"><div class="legend-dot gray"></div>未来日期</div>
-                <div class="legend-item"><div class="legend-dot blue"></div>今天</div>
+                <div class="legend-item"><div class="legend-dot green"></div>宸茬鍒?/div>
+                <div class="legend-item"><div class="legend-dot pink"></div>鏈鍒?/div>
+                <div class="legend-item"><div class="legend-dot gray"></div>鏈潵鏃ユ湡</div>
+                <div class="legend-item"><div class="legend-dot blue"></div>浠婂ぉ</div>
             </div>
         </div>
 
-        <!-- 硬币排行榜 -->
+        <!-- 纭竵鎺掕姒?-->
         <div class="leaderboard-card">
             <div class="leaderboard-header">
                 <div class="leaderboard-header-left">
-                    <div class="lb-icon">📈</div>
+                    <div class="lb-icon">馃搱</div>
                     <div>
-                        <h3>硬币排行榜</h3>
-                        <div class="lb-sub">与小伙伴们比一比</div>
+                        <h3>纭竵鎺掕姒?/h3>
+                        <div class="lb-sub">涓庡皬浼欎即浠瘮涓€姣?/div>
                     </div>
                 </div>
                 <div class="lb-badge">TOP 10</div>
             </div>
             <ul class="leaderboard-list" id="leaderboardList">
                 <li class="transaction-empty">
-                    <div class="empty-icon">🏆</div>
-                    <div>加载中...</div>
+                    <div class="empty-icon">馃弳</div>
+                    <div>鍔犺浇涓?..</div>
                 </li>
             </ul>
         </div>
 
-        <!-- 幸运大转盘 -->
+        <!-- 骞歌繍澶ц浆鐩?-->
         <div class="lucky-wheel-card" id="luckyWheelCard" style="background:white;border-radius:16px;padding:25px;margin-bottom:30px;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
             <div id="luckyWheelContainer"></div>
         </div>
 
-        <!-- 交易记录 -->
+        <!-- 浜ゆ槗璁板綍 -->
         <div class="transactions-card">
             <div class="transactions-header">
-                <div class="transactions-title">📋 交易记录</div>
+                <div class="transactions-title">馃搵 浜ゆ槗璁板綍</div>
                 <div class="transactions-filter">
-                    <button class="filter-btn active" data-type="">全部</button>
-                    <button class="filter-btn" data-type="checkin">签到</button>
-                    <button class="filter-btn" data-type="donate">投币</button>
-                    <button class="filter-btn" data-type="receive">收到</button>
+                    <button class="filter-btn active" data-type="">鍏ㄩ儴</button>
+                    <button class="filter-btn" data-type="checkin">绛惧埌</button>
+                    <button class="filter-btn" data-type="donate">鎶曞竵</button>
+                    <button class="filter-btn" data-type="receive">鏀跺埌</button>
                 </div>
             </div>
             <ul class="transaction-list" id="transactionList">
                 <li class="transaction-empty">
-                    <div class="empty-icon">📭</div>
-                    <div>暂无交易记录</div>
+                    <div class="empty-icon">馃摥</div>
+                    <div>鏆傛棤浜ゆ槗璁板綍</div>
                 </li>
             </ul>
             <button class="load-more-btn" id="loadMoreBtn" style="display:none;" onclick="window.coinsApp.loadMore()">
-                加载更多...
+                鍔犺浇鏇村...
             </button>
         </div>
     </div>
 
-    <!-- 未登录提示 -->
+    <!-- 鏈櫥褰曟彁绀?-->
     <div class="login-prompt" id="loginPrompt" style="display:none;">
-        <div class="prompt-icon">⭐</div>
-        <h2>签到领硬币</h2>
-        <p>登录后即可每日签到获取硬币，查看排行榜</p>
-        <a href="/index-chinese.html" class="login-link">返回首页登录</a>
+        <div class="prompt-icon">猸?/div>
+        <h2>绛惧埌棰嗙‖甯?/h2>
+        <p>鐧诲綍鍚庡嵆鍙瘡鏃ョ鍒拌幏鍙栫‖甯侊紝鏌ョ湅鎺掕姒?/p>
+        <a href="/index-chinese.html" class="login-link">杩斿洖棣栭〉鐧诲綍</a>
     </div>
 
     <script type="module" src="js/coins.js?v=20260227a"></script>
 
-    <!-- 幸运大转盘 -->
+    <!-- 骞歌繍澶ц浆鐩?-->
     <script type="module">
         import LuckyWheel from './js/lucky-wheel.js?v=20260227a';
         document.addEventListener('DOMContentLoaded', () => {
@@ -523,78 +523,78 @@
         });
     </script>
 
-<!-- Win7 Emoji 兼容性处理 -->
+<!-- Win7 Emoji 鍏煎鎬у鐞?-->
 <script>
 (function() {
-    // 检测是否为 Windows 7
+    // 妫€娴嬫槸鍚︿负 Windows 7
     function isWindows7() {
         var ua = navigator.userAgent;
         return ua.indexOf('Windows NT 6.1') !== -1 || 
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji 替换映射表
+    // Emoji 鏇挎崲鏄犲皠琛?
     var emojiMap = {
-        "🐱": "猫",
-        "🏠": "首页",
-        "🎮": "游戏",
-        "☁️": "云",
-        "☀️": "太阳",
-        "❤️": "爱心",
-        "🎯": "关于",
-        "💬": "消息",
-        "🔔": "通知",
-        "👤": "用户",
-        "📝": "编辑",
-        "⬆️": "升级",
-        "🖼️": "图片",
-        "✍️": "写作",
-        "⚙️": "设置",
-        "🚪": "退出",
-        "💡": "提示",
-        "⚡": "经验",
-        "🚀": "发布",
-        "🎖️": "等级",
-        "💪": "加油",
-        "🔒": "锁定",
-        "📜": "协议",
-        "↑": "上",
-        "↓": "下",
-        "↩️": "撤销",
-        "❓": "帮助",
-        "🔄": "刷新",
-        "▶️": "开始",
-        "⏱️": "时间",
-        "🎨": "创意",
-        "💻": "电脑",
-        "📚": "学习",
-        "🛡️": "盾牌",
-        "✈️": "飞机",
-        "⭐": "星星",
-        "🕹️": "手柄",
-        "📧": "邮箱",
-        "📱": "手机",
-        "📑": "目录",
-        "📦": "压缩",
-        "📄": "文件",
-        "📙": "PPT",
-        "🔧": "工具",
-        "🪙": "硬币",
-        "💰": "金币",
-        "✅": "完成",
-        "🛠️": "工具",
-        "💫": "星光",
-        "🔍": "搜索",
-        "📖": "书籍",
-        "🏷️": "标签",
-        "🗑️": "删除"
+        "馃惐": "鐚?,
+        "馃彔": "棣栭〉",
+        "馃幃": "娓告垙",
+        "鈽侊笍": "浜?,
+        "鈽€锔?: "澶槼",
+        "鉂わ笍": "鐖卞績",
+        "馃幆": "鍏充簬",
+        "馃挰": "娑堟伅",
+        "馃敂": "閫氱煡",
+        "馃懁": "鐢ㄦ埛",
+        "馃摑": "缂栬緫",
+        "猬嗭笍": "鍗囩骇",
+        "馃柤锔?: "鍥剧墖",
+        "鉁嶏笍": "鍐欎綔",
+        "鈿欙笍": "璁剧疆",
+        "馃毆": "閫€鍑?,
+        "馃挕": "鎻愮ず",
+        "鈿?: "缁忛獙",
+        "馃殌": "鍙戝竷",
+        "馃帠锔?: "绛夌骇",
+        "馃挭": "鍔犳补",
+        "馃敀": "閿佸畾",
+        "馃摐": "鍗忚",
+        "鈫?: "涓?,
+        "鈫?: "涓?,
+        "鈫╋笍": "鎾ら攢",
+        "鉂?: "甯姪",
+        "馃攧": "鍒锋柊",
+        "鈻讹笍": "寮€濮?,
+        "鈴憋笍": "鏃堕棿",
+        "馃帹": "鍒涙剰",
+        "馃捇": "鐢佃剳",
+        "馃摎": "瀛︿範",
+        "馃洝锔?: "鐩剧墝",
+        "鉁堬笍": "椋炴満",
+        "猸?: "鏄熸槦",
+        "馃暪锔?: "鎵嬫焺",
+        "馃摟": "閭",
+        "馃摫": "鎵嬫満",
+        "馃搼": "鐩綍",
+        "馃摝": "鍘嬬缉",
+        "馃搫": "鏂囦欢",
+        "馃摍": "PPT",
+        "馃敡": "宸ュ叿",
+        "馃獧": "纭竵",
+        "馃挵": "閲戝竵",
+        "鉁?: "瀹屾垚",
+        "馃洜锔?: "宸ュ叿",
+        "馃挮": "鏄熷厜",
+        "馃攳": "鎼滅储",
+        "馃摉": "涔︾睄",
+        "馃彿锔?: "鏍囩",
+        "馃棏锔?: "鍒犻櫎"
     };
     
-    // 替换页面中的 emoji
+    // 鏇挎崲椤甸潰涓殑 emoji
     function replaceEmojis() {
         if (!isWindows7()) return;
         
-        // 替换文本节点
+        // 鏇挎崲鏂囨湰鑺傜偣
         var walker = document.createTreeWalker(
             document.body,
             NodeFilter.SHOW_TEXT,
@@ -617,7 +617,7 @@
             }
         }
         
-        // 替换属性中的 emoji（如 title, alt 等）
+        // 鏇挎崲灞炴€т腑鐨?emoji锛堝 title, alt 绛夛級
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -641,7 +641,7 @@
         }
     }
     
-    // DOM 加载完成后执行替换
+    // DOM 鍔犺浇瀹屾垚鍚庢墽琛屾浛鎹?
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {
@@ -650,9 +650,10 @@
 })();
 </script>
 
-<!-- 200功能包加载器 -->
+<!-- 200鍔熻兘鍖呭姞杞藉櫒 -->
 <script type="module" src="js/feature-loader.js?v=20260419a"></script>
 
 </body>
 
 </html>
+

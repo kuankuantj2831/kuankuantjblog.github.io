@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="个人中心 - kuankuantj的个人博客">
+    <meta name="description" content="涓汉涓績 - kuankuantj鐨勪釜浜哄崥瀹?>
 
-    <title>个人中心 - kuankuantj的个人博客</title>
+    <title>涓汉涓績 - kuankuantj鐨勪釜浜哄崥瀹?/title>
 
-    <!-- 性能优化：预连接 API 服务器 -->
+    <!-- 鎬ц兘浼樺寲锛氶杩炴帴 API 鏈嶅姟鍣?-->
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
@@ -25,26 +25,26 @@
 </head>
 
 <body>
-    <!-- 返回首页按钮 -->
-    <a href="/index-chinese.html" class="back-to-home" title="返回首页">
-        🏠
+    <!-- 杩斿洖棣栭〉鎸夐挳 -->
+    <a href="/index-chinese.html" class="back-to-home" title="杩斿洖棣栭〉">
+        馃彔
     </a>
 
     <div class="profile-wrapper">
         <div class="profile-container">
-            <!-- 用户头部 -->
+            <!-- 鐢ㄦ埛澶撮儴 -->
             <div class="profile-header">
                 <div class="profile-avatar-section">
                     <div class="profile-avatar" id="profileAvatar">
                         U
                     </div>
                     <button class="avatar-upload-btn" onclick="document.getElementById('avatarInput').click()">
-                        📷
+                        馃摲
                     </button>
                     <input type="file" id="avatarInput" class="avatar-upload-input" accept="image/*">
                 </div>
                 <div class="profile-info">
-                    <h1 class="profile-name" id="profileName">加载中...</h1>
+                    <h1 class="profile-name" id="profileName">鍔犺浇涓?..</h1>
                     <div id="profileLevelBar" style="display:none;margin:8px 0;">
                         <span id="profileLevelBadge" class="user-level-badge level-1">Lv1</span>
                         <span id="profileLevelExp" style="font-size:0.82em;color:#888;margin-left:6px;"></span>
@@ -52,88 +52,88 @@
                             <div id="profileLevelProgress" style="height:100%;border-radius:6px;background:linear-gradient(90deg,#667eea,#764ba2);width:0%;transition:width .5s;"></div>
                         </div>
                     </div>
-                    <p class="profile-email" id="profileEmail">加载中...</p>
-                    <p class="profile-date" id="profileDate">注册时间：加载中...</p>
+                    <p class="profile-email" id="profileEmail">鍔犺浇涓?..</p>
+                    <p class="profile-date" id="profileDate">娉ㄥ唽鏃堕棿锛氬姞杞戒腑...</p>
                 </div>
             </div>
 
-            <!-- 个人信息卡片 -->
+            <!-- 涓汉淇℃伅鍗＄墖 -->
             <div class="profile-card">
-                <h2 class="profile-card-title">个人信息</h2>
+                <h2 class="profile-card-title">涓汉淇℃伅</h2>
 
                 <div class="profile-message success" id="infoSuccessMsg">
-                    ? 信息更新成功！
+                    ? 淇℃伅鏇存柊鎴愬姛锛?
                 </div>
                 <div class="profile-message error" id="infoErrorMsg">
-                    ? 更新失败，请重试
+                    ? 鏇存柊澶辫触锛岃閲嶈瘯
                 </div>
 
                 <form id="profileInfoForm">
                     <div class="profile-form-group">
-                        <label class="profile-form-label">用户名</label>
-                        <input type="text" class="profile-form-input" id="displayName" placeholder="请输入用户名" required>
+                        <label class="profile-form-label">鐢ㄦ埛鍚?/label>
+                        <input type="text" class="profile-form-input" id="displayName" placeholder="璇疯緭鍏ョ敤鎴峰悕" required>
                     </div>
 
                     <div class="profile-form-group">
-                        <label class="profile-form-label">邮箱地址</label>
+                        <label class="profile-form-label">閭鍦板潃</label>
                         <input type="email" class="profile-form-input" id="email" disabled>
                     </div>
 
                     <div class="profile-form-group">
-                        <label class="profile-form-label">个人简介</label>
-                        <textarea class="profile-form-textarea" id="bio" placeholder="介绍一下自己吧..."></textarea>
+                        <label class="profile-form-label">涓汉绠€浠?/label>
+                        <textarea class="profile-form-textarea" id="bio" placeholder="浠嬬粛涓€涓嬭嚜宸卞惂..."></textarea>
                     </div>
 
                     <button type="submit" class="profile-btn profile-btn-primary">
-                        💾 保存信息
+                        馃捑 淇濆瓨淇℃伅
                     </button>
                 </form>
             </div>
 
-            <!-- 安全设置卡片 -->
+            <!-- 瀹夊叏璁剧疆鍗＄墖 -->
             <div class="profile-card">
-                <h2 class="profile-card-title">安全设置</h2>
+                <h2 class="profile-card-title">瀹夊叏璁剧疆</h2>
 
                 <div class="profile-message success" id="passwordSuccessMsg">
-                    ? 密码修改成功！
+                    ? 瀵嗙爜淇敼鎴愬姛锛?
                 </div>
                 <div class="profile-message error" id="passwordErrorMsg">
-                    ? 密码修改失败
+                    ? 瀵嗙爜淇敼澶辫触
                 </div>
 
                 <form id="changePasswordForm">
                     <div class="profile-form-group">
-                        <label class="profile-form-label">当前密码</label>
-                        <input type="password" class="profile-form-input" id="currentPassword" placeholder="请输入当前密码"
+                        <label class="profile-form-label">褰撳墠瀵嗙爜</label>
+                        <input type="password" class="profile-form-input" id="currentPassword" placeholder="璇疯緭鍏ュ綋鍓嶅瘑鐮?
                             required>
                     </div>
 
                     <div class="profile-form-group">
-                        <label class="profile-form-label">新密码</label>
-                        <input type="password" class="profile-form-input" id="newPassword" placeholder="请输入新密码（至少6个字符）"
+                        <label class="profile-form-label">鏂板瘑鐮?/label>
+                        <input type="password" class="profile-form-input" id="newPassword" placeholder="璇疯緭鍏ユ柊瀵嗙爜锛堣嚦灏?涓瓧绗︼級"
                             required>
                     </div>
 
                     <div class="profile-form-group">
-                        <label class="profile-form-label">确认新密码</label>
-                        <input type="password" class="profile-form-input" id="confirmPassword" placeholder="请再次输入新密码"
+                        <label class="profile-form-label">纭鏂板瘑鐮?/label>
+                        <input type="password" class="profile-form-input" id="confirmPassword" placeholder="璇峰啀娆¤緭鍏ユ柊瀵嗙爜"
                             required>
                     </div>
 
                     <button type="submit" class="profile-btn profile-btn-primary">
-                        🔒 修改密码
+                        馃敀 淇敼瀵嗙爜
                     </button>
                 </form>
                 </form>
             </div>
 
-            <!-- 2FA 设置卡片 -->
+            <!-- 2FA 璁剧疆鍗＄墖 -->
             <div class="profile-card">
-                <h2 class="profile-card-title">双重验证 (2FA)</h2>
+                <h2 class="profile-card-title">鍙岄噸楠岃瘉 (2FA)</h2>
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 15px;">
                     <div>
-                        <p style="font-weight: bold; margin-bottom: 5px;">登录保护</p>
-                        <p style="color: #666; font-size: 14px;">开启后，登录时需要输入邮箱验证码</p>
+                        <p style="font-weight: bold; margin-bottom: 5px;">鐧诲綍淇濇姢</p>
+                        <p style="color: #666; font-size: 14px;">寮€鍚悗锛岀櫥褰曟椂闇€瑕佽緭鍏ラ偖绠遍獙璇佺爜</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="toggle2fa">
@@ -189,40 +189,40 @@
                 </style>
             </div>
 
-            <!-- 账号统计 -->
+            <!-- 璐﹀彿缁熻 -->
             <div class="profile-card">
-                <h2 class="profile-card-title">账号统计</h2>
+                <h2 class="profile-card-title">璐﹀彿缁熻</h2>
                 <div class="profile-stats">
                     <div class="stat-item">
                         <div class="stat-value" id="statDays">0</div>
-                        <div class="stat-label">注册天数</div>
+                        <div class="stat-label">娉ㄥ唽澶╂暟</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="statLogins">1</div>
-                        <div class="stat-label">登录次数</div>
+                        <div class="stat-label">鐧诲綍娆℃暟</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="statPosts">0</div>
-                        <div class="stat-label">发布文章</div>
+                        <div class="stat-label">鍙戝竷鏂囩珷</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-value" id="statFavorites">0</div>
-                        <div class="stat-label">收藏文章</div>
+                        <div class="stat-label">鏀惰棌鏂囩珷</div>
                     </div>
                 </div>
             </div>
 
-            <!-- 安全与隐私 -->
+            <!-- 瀹夊叏涓庨殣绉?-->
             <div class="profile-card">
-                <h2 class="profile-card-title">🔒 安全与隐私</h2>
+                <h2 class="profile-card-title">馃敀 瀹夊叏涓庨殣绉?/h2>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                     <a href="security-2fa.html" class="security-link" style="display: flex; align-items: center; gap: 12px; padding: 15px; background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s; border: 1px solid #667eea30;">
                         <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2em;">
                             <i class="fas fa-shield-alt"></i>
                         </div>
                         <div>
-                            <div style="font-weight: 600;">双重认证</div>
-                            <div style="font-size: 0.8em; color: #888;">保护账户安全</div>
+                            <div style="font-weight: 600;">鍙岄噸璁よ瘉</div>
+                            <div style="font-size: 0.8em; color: #888;">淇濇姢璐︽埛瀹夊叏</div>
                         </div>
                     </a>
                     <a href="privacy-settings.html" class="security-link" style="display: flex; align-items: center; gap: 12px; padding: 15px; background: linear-gradient(135deg, #10b98115 0%, #05966915 100%); border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s; border: 1px solid #10b98130;">
@@ -230,8 +230,8 @@
                             <i class="fas fa-user-shield"></i>
                         </div>
                         <div>
-                            <div style="font-weight: 600;">隐私设置</div>
-                            <div style="font-size: 0.8em; color: #888;">管理数据隐私</div>
+                            <div style="font-weight: 600;">闅愮璁剧疆</div>
+                            <div style="font-size: 0.8em; color: #888;">绠＄悊鏁版嵁闅愮</div>
                         </div>
                     </a>
                     <a href="encrypted-chat.html" class="security-link" style="display: flex; align-items: center; gap: 12px; padding: 15px; background: linear-gradient(135deg, #f59e0b15 0%, #d9770615 100%); border-radius: 12px; text-decoration: none; color: inherit; transition: all 0.3s; border: 1px solid #f59e0b30;">
@@ -239,42 +239,42 @@
                             <i class="fas fa-lock"></i>
                         </div>
                         <div>
-                            <div style="font-weight: 600;">加密消息</div>
-                            <div style="font-size: 0.8em; color: #888;">端到端加密聊天</div>
+                            <div style="font-weight: 600;">鍔犲瘑娑堟伅</div>
+                            <div style="font-size: 0.8em; color: #888;">绔埌绔姞瀵嗚亰澶?/div>
                         </div>
                     </a>
                 </div>
             </div>
 
-            <!-- 我的收藏 -->
+            <!-- 鎴戠殑鏀惰棌 -->
             <div class="profile-card">
-                <h2 class="profile-card-title">⭐ 我的收藏</h2>
+                <h2 class="profile-card-title">猸?鎴戠殑鏀惰棌</h2>
                 <div id="favoritesList" style="min-height: 60px;">
-                    <p style="text-align:center;color:#999;">加载中...</p>
+                    <p style="text-align:center;color:#999;">鍔犺浇涓?..</p>
                 </div>
                 <div id="favoritesLoadMore" style="text-align:center;margin-top:15px;display:none;">
-                    <button onclick="window.profileManager.loadMoreFavorites()" style="background:#1890ff;color:white;border:none;padding:8px 24px;border-radius:20px;cursor:pointer;font-size:14px;">加载更多</button>
+                    <button onclick="window.profileManager.loadMoreFavorites()" style="background:#1890ff;color:white;border:none;padding:8px 24px;border-radius:20px;cursor:pointer;font-size:14px;">鍔犺浇鏇村</button>
                 </div>
             </div>
 
-            <!-- 我的关注卡片 -->
+            <!-- 鎴戠殑鍏虫敞鍗＄墖 -->
             <div class="profile-card">
-                <h2 class="profile-card-title">👥 我的关注</h2>
+                <h2 class="profile-card-title">馃懃 鎴戠殑鍏虫敞</h2>
                 <div id="followListContainer">
-                    <p style="color:#999;text-align:center;padding:20px;">加载中...</p>
+                    <p style="color:#999;text-align:center;padding:20px;">鍔犺浇涓?..</p>
                 </div>
             </div>
 
-            <!-- 勋章墙 -->
+            <!-- 鍕嬬珷澧?-->
             <div class="profile-card">
                 <div id="badgeWallContainer"></div>
             </div>
 
-            <!-- 浏览历史 -->
+            <!-- 娴忚鍘嗗彶 -->
             <div class="profile-card">
-                <h2 class="profile-card-title">📖 最近浏览</h2>
+                <h2 class="profile-card-title">馃摉 鏈€杩戞祻瑙?/h2>
                 <div id="readingHistoryContainer">
-                    <p style="text-align:center;color:#999;padding:20px;">加载中...</p>
+                    <p style="text-align:center;color:#999;padding:20px;">鍔犺浇涓?..</p>
                 </div>
             </div>
         </div>
@@ -282,23 +282,23 @@
 
     <script type="module" src="/js/profile.js?v=20260311c"></script>
     <script src="/js/follow.js"></script>
-    <!-- 勋章系统 -->
+    <!-- 鍕嬬珷绯荤粺 -->
     <script src="/js/badge-system.js"></script>
-    <!-- 浏览历史 -->
+    <!-- 娴忚鍘嗗彶 -->
     <script src="/js/reading-history.js"></script>
     <script>
-        // 页面加载完成后渲染关注列表
+        // 椤甸潰鍔犺浇瀹屾垚鍚庢覆鏌撳叧娉ㄥ垪琛?
         document.addEventListener('DOMContentLoaded', function() {
             if (window.Follow && window.Follow.renderList) {
                 window.Follow.renderList('followListContainer');
             }
             
-            // 初始化勋章墙
+            // 鍒濆鍖栧媼绔犲
             if (window.BadgeSystem) {
                 BadgeSystem.renderBadgeWall('badgeWallContainer');
             }
             
-            // 初始化浏览历史
+            // 鍒濆鍖栨祻瑙堝巻鍙?
             if (window.ReadingHistory) {
                 ReadingHistory.renderHistory('readingHistoryContainer', 5);
             }
@@ -307,78 +307,78 @@
     <script src="/js/bg-loader.js"></script>
     <script src="/js/theme.js?v=1"></script>
 
-<!-- Win7 Emoji 兼容性处理 -->
+<!-- Win7 Emoji 鍏煎鎬у鐞?-->
 <script>
 (function() {
-    // 检测是否为 Windows 7
+    // 妫€娴嬫槸鍚︿负 Windows 7
     function isWindows7() {
         var ua = navigator.userAgent;
         return ua.indexOf('Windows NT 6.1') !== -1 || 
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji 替换映射表
+    // Emoji 鏇挎崲鏄犲皠琛?
     var emojiMap = {
-        "🐱": "猫",
-        "🏠": "首页",
-        "🎮": "游戏",
-        "☁️": "云",
-        "☀️": "太阳",
-        "❤️": "爱心",
-        "🎯": "关于",
-        "💬": "消息",
-        "🔔": "通知",
-        "👤": "用户",
-        "📝": "编辑",
-        "⬆️": "升级",
-        "🖼️": "图片",
-        "✍️": "写作",
-        "⚙️": "设置",
-        "🚪": "退出",
-        "💡": "提示",
-        "⚡": "经验",
-        "🚀": "发布",
-        "🎖️": "等级",
-        "💪": "加油",
-        "🔒": "锁定",
-        "📜": "协议",
-        "↑": "上",
-        "↓": "下",
-        "↩️": "撤销",
-        "❓": "帮助",
-        "🔄": "刷新",
-        "▶️": "开始",
-        "⏱️": "时间",
-        "🎨": "创意",
-        "💻": "电脑",
-        "📚": "学习",
-        "🛡️": "盾牌",
-        "✈️": "飞机",
-        "⭐": "星星",
-        "🕹️": "手柄",
-        "📧": "邮箱",
-        "📱": "手机",
-        "📑": "目录",
-        "📦": "压缩",
-        "📄": "文件",
-        "📙": "PPT",
-        "🔧": "工具",
-        "🪙": "硬币",
-        "💰": "金币",
-        "✅": "完成",
-        "🛠️": "工具",
-        "💫": "星光",
-        "🔍": "搜索",
-        "📖": "书籍",
-        "🏷️": "标签",
-        "🗑️": "删除"
+        "馃惐": "鐚?,
+        "馃彔": "棣栭〉",
+        "馃幃": "娓告垙",
+        "鈽侊笍": "浜?,
+        "鈽€锔?: "澶槼",
+        "鉂わ笍": "鐖卞績",
+        "馃幆": "鍏充簬",
+        "馃挰": "娑堟伅",
+        "馃敂": "閫氱煡",
+        "馃懁": "鐢ㄦ埛",
+        "馃摑": "缂栬緫",
+        "猬嗭笍": "鍗囩骇",
+        "馃柤锔?: "鍥剧墖",
+        "鉁嶏笍": "鍐欎綔",
+        "鈿欙笍": "璁剧疆",
+        "馃毆": "閫€鍑?,
+        "馃挕": "鎻愮ず",
+        "鈿?: "缁忛獙",
+        "馃殌": "鍙戝竷",
+        "馃帠锔?: "绛夌骇",
+        "馃挭": "鍔犳补",
+        "馃敀": "閿佸畾",
+        "馃摐": "鍗忚",
+        "鈫?: "涓?,
+        "鈫?: "涓?,
+        "鈫╋笍": "鎾ら攢",
+        "鉂?: "甯姪",
+        "馃攧": "鍒锋柊",
+        "鈻讹笍": "寮€濮?,
+        "鈴憋笍": "鏃堕棿",
+        "馃帹": "鍒涙剰",
+        "馃捇": "鐢佃剳",
+        "馃摎": "瀛︿範",
+        "馃洝锔?: "鐩剧墝",
+        "鉁堬笍": "椋炴満",
+        "猸?: "鏄熸槦",
+        "馃暪锔?: "鎵嬫焺",
+        "馃摟": "閭",
+        "馃摫": "鎵嬫満",
+        "馃搼": "鐩綍",
+        "馃摝": "鍘嬬缉",
+        "馃搫": "鏂囦欢",
+        "馃摍": "PPT",
+        "馃敡": "宸ュ叿",
+        "馃獧": "纭竵",
+        "馃挵": "閲戝竵",
+        "鉁?: "瀹屾垚",
+        "馃洜锔?: "宸ュ叿",
+        "馃挮": "鏄熷厜",
+        "馃攳": "鎼滅储",
+        "馃摉": "涔︾睄",
+        "馃彿锔?: "鏍囩",
+        "馃棏锔?: "鍒犻櫎"
     };
     
-    // 替换页面中的 emoji
+    // 鏇挎崲椤甸潰涓殑 emoji
     function replaceEmojis() {
         if (!isWindows7()) return;
         
-        // 替换文本节点
+        // 鏇挎崲鏂囨湰鑺傜偣
         var walker = document.createTreeWalker(
             document.body,
             NodeFilter.SHOW_TEXT,
@@ -401,7 +401,7 @@
             }
         }
         
-        // 替换属性中的 emoji（如 title, alt 等）
+        // 鏇挎崲灞炴€т腑鐨?emoji锛堝 title, alt 绛夛級
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -425,7 +425,7 @@
         }
     }
     
-    // DOM 加载完成后执行替换
+    // DOM 鍔犺浇瀹屾垚鍚庢墽琛屾浛鎹?
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {
@@ -435,7 +435,7 @@
 </script>
 <script src="/js/music-player.js?v=2"></script>
 
-<!-- 200功能包加载器 -->
+<!-- 200鍔熻兘鍖呭姞杞藉櫒 -->
 <script type="module" src="js/feature-loader.js?v=20260419a"></script>
 
 </body>

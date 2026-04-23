@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="更多功能 - Hakimi 的猫爬架">
-    <title>更多功能 - Hakimi 的猫爬架</title>
+    <meta name="description" content="鏇村鍔熻兘 - Hakimi 鐨勭尗鐖灦">
+    <title>鏇村鍔熻兘 - Hakimi 鐨勭尗鐖灦</title>
 
     <link rel="shortcut icon" href="/favicon.ico">
     <script src="/js/pace.min.js" async></script>
@@ -21,7 +21,7 @@
             color: #333;
         }
 
-        /* 背景装饰 */
+        /* 鑳屾櫙瑁呴グ */
         body::before {
             content: '';
             position: fixed;
@@ -47,7 +47,7 @@
             position: relative; z-index: 1;
         }
 
-        /* ===== Hero 区域 ===== */
+        /* ===== Hero 鍖哄煙 ===== */
         .hero {
             text-align: center;
             padding: 60px 20px;
@@ -74,7 +74,7 @@
             margin: 0 auto 30px;
         }
 
-        /* ===== 功能分类区域 ===== */
+        /* ===== 鍔熻兘鍒嗙被鍖哄煙 ===== */
         .feature-categories {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -129,14 +129,14 @@
         }
 
         .feature-list li::before {
-            content: '✨';
+            content: '鉁?;
             position: absolute;
             left: 0;
             top: 8px;
             font-size: 0.9rem;
         }
 
-        /* 链接样式 - 确保优先级足够高 */
+        /* 閾炬帴鏍峰紡 - 纭繚浼樺厛绾ц冻澶熼珮 */
         .feature-categories .feature-list a {
             color: #667eea !important;
             text-decoration: none !important;
@@ -149,7 +149,7 @@
             text-decoration: underline !important;
         }
 
-        /* ===== 特色功能区域 ===== */
+        /* ===== 鐗硅壊鍔熻兘鍖哄煙 ===== */
         .highlight-section {
             background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
             padding: 40px;
@@ -197,7 +197,7 @@
             line-height: 1.5;
         }
 
-        /* ===== 快速访问区域 ===== */
+        /* ===== 蹇€熻闂尯鍩?===== */
         .quick-access {
             background: rgba(255,255,255,0.8);
             padding: 30px;
@@ -239,7 +239,7 @@
             box-shadow: 0 6px 20px rgba(102,126,234,0.4);
         }
 
-        /* ===== 响应式设计 ===== */
+        /* ===== 鍝嶅簲寮忚璁?===== */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -259,7 +259,7 @@
             }
         }
 
-        /* ===== 动画效果 ===== */
+        /* ===== 鍔ㄧ敾鏁堟灉 ===== */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -282,292 +282,291 @@
 </head>
 
 <body>
-    <a href="javascript:history.back()" class="back-btn">←</a>
+    <a href="javascript:history.back()" class="back-btn">鈫?/a>
 
     <div class="features-wrapper">
-        <!-- Hero 区域 -->
+        <!-- Hero 鍖哄煙 -->
         <div class="hero">
-            <h1>✨ 更多功能</h1>
-            <p>探索 Hakimi 的猫爬架提供的丰富功能，让您的体验更加精彩和便捷。我们致力于为用户提供全方位的服务和功能。</p>
+            <h1>鉁?鏇村鍔熻兘</h1>
+            <p>鎺㈢储 Hakimi 鐨勭尗鐖灦鎻愪緵鐨勪赴瀵屽姛鑳斤紝璁╂偍鐨勪綋楠屾洿鍔犵簿褰╁拰渚挎嵎銆傛垜浠嚧鍔涗簬涓虹敤鎴锋彁渚涘叏鏂逛綅鐨勬湇鍔″拰鍔熻兘銆?/p>
         </div>
 
-        <!-- 功能分类区域 -->
+        <!-- 鍔熻兘鍒嗙被鍖哄煙 -->
         <div class="feature-categories">
-            <!-- 工具类功能分类 -->
+            <!-- 宸ュ叿绫诲姛鑳藉垎绫?-->
             <div class="category-card">
-                <span class="category-icon">🧮</span>
-                <h3>工具类功能</h3>
-                <p>提供各种实用工具功能</p>
+                <span class="category-icon">馃М</span>
+                <h3>宸ュ叿绫诲姛鑳?/h3>
+                <p>鎻愪緵鍚勭瀹炵敤宸ュ叿鍔熻兘</p>
                 <ul class="feature-list">
-                    <li><a href="calculator.html">计算器</a> - 提供基础的四则运算、百分比计算、历史记录等功能</li>
-                    <li><a href="todo.html">待办事项</a> - 提供待办事项的添加、编辑、删除、标记完成等功能</li>
-                    <li><a href="note.html">笔记功能</a> - 提供笔记的创建、编辑、删除、搜索等功能，支持标签分类和搜索</li>
-                    <li><a href="weather.html">天气查询</a> - 提供实时天气查询功能，支持常用城市和搜索功能</li>
-                    <li><a href="translate.html">翻译功能</a> - 提供多语言翻译服务，支持翻译历史记录</li>
-                    <li><a href="countdown.html">倒计时功能</a> - 提供倒计时的创建、启动、暂停、重置等功能，支持历史记录</li>
-                    <li><a href="stopwatch.html">秒表功能</a> - 提供秒表的基本功能，包括开始、停止、重置和计次功能</li>
-                    <li><a href="unit-converter.html">单位转换器</a> - 提供长度、重量、温度、面积、体积等多种单位的转换功能</li>
-                    <li><a href="password-generator.html">密码生成器</a> - 提供安全的密码生成功能，支持各种密码选项和强度检测</li>
-                    <li><a href="qr-generator.html">二维码生成器</a> - 生成各种类型的二维码，支持自定义颜色和尺寸</li>
-                    <li><a href="text-compare.html">文本对比工具</a> - 比较两段文本的差异，支持高亮显示</li>
-                    <li><a href="json-formatter.html">JSON格式化工具</a> - 格式化和验证JSON数据</li>
-                    <li><a href="regex-tester.html">正则表达式测试器</a> - 测试和调试正则表达式</li>
-                    <li>颜色选择器 - 选择和转换不同颜色格式</li>
-                    <li>Base64编码解码 - 进行Base64编码和解码操作</li>
+                    <li><a href="calculator.html">璁＄畻鍣?/a> - 鎻愪緵鍩虹鐨勫洓鍒欒繍绠椼€佺櫨鍒嗘瘮璁＄畻銆佸巻鍙茶褰曠瓑鍔熻兘</li>
+                    <li><a href="todo.html">寰呭姙浜嬮」</a> - 鎻愪緵寰呭姙浜嬮」鐨勬坊鍔犮€佺紪杈戙€佸垹闄ゃ€佹爣璁板畬鎴愮瓑鍔熻兘</li>
+                    <li><a href="note.html">绗旇鍔熻兘</a> - 鎻愪緵绗旇鐨勫垱寤恒€佺紪杈戙€佸垹闄ゃ€佹悳绱㈢瓑鍔熻兘锛屾敮鎸佹爣绛惧垎绫诲拰鎼滅储</li>
+                    <li><a href="weather.html">澶╂皵鏌ヨ</a> - 鎻愪緵瀹炴椂澶╂皵鏌ヨ鍔熻兘锛屾敮鎸佸父鐢ㄥ煄甯傚拰鎼滅储鍔熻兘</li>
+                    <li><a href="translate.html">缈昏瘧鍔熻兘</a> - 鎻愪緵澶氳瑷€缈昏瘧鏈嶅姟锛屾敮鎸佺炕璇戝巻鍙茶褰?/li>
+                    <li><a href="countdown.html">鍊掕鏃跺姛鑳?/a> - 鎻愪緵鍊掕鏃剁殑鍒涘缓銆佸惎鍔ㄣ€佹殏鍋溿€侀噸缃瓑鍔熻兘锛屾敮鎸佸巻鍙茶褰?/li>
+                    <li><a href="stopwatch.html">绉掕〃鍔熻兘</a> - 鎻愪緵绉掕〃鐨勫熀鏈姛鑳斤紝鍖呮嫭寮€濮嬨€佸仠姝€侀噸缃拰璁℃鍔熻兘</li>
+                    <li><a href="unit-converter.html">鍗曚綅杞崲鍣?/a> - 鎻愪緵闀垮害銆侀噸閲忋€佹俯搴︺€侀潰绉€佷綋绉瓑澶氱鍗曚綅鐨勮浆鎹㈠姛鑳?/li>
+                    <li><a href="password-generator.html">瀵嗙爜鐢熸垚鍣?/a> - 鎻愪緵瀹夊叏鐨勫瘑鐮佺敓鎴愬姛鑳斤紝鏀寔鍚勭瀵嗙爜閫夐」鍜屽己搴︽娴?/li>
+                    <li><a href="qr-generator.html">浜岀淮鐮佺敓鎴愬櫒</a> - 鐢熸垚鍚勭绫诲瀷鐨勪簩缁寸爜锛屾敮鎸佽嚜瀹氫箟棰滆壊鍜屽昂瀵?/li>
+                    <li><a href="text-compare.html">鏂囨湰瀵规瘮宸ュ叿</a> - 姣旇緝涓ゆ鏂囨湰鐨勫樊寮傦紝鏀寔楂樹寒鏄剧ず</li>
+                    <li><a href="json-formatter.html">JSON鏍煎紡鍖栧伐鍏?/a> - 鏍煎紡鍖栧拰楠岃瘉JSON鏁版嵁</li>
+                    <li><a href="regex-tester.html">姝ｅ垯琛ㄨ揪寮忔祴璇曞櫒</a> - 娴嬭瘯鍜岃皟璇曟鍒欒〃杈惧紡</li>
+                    <li>棰滆壊閫夋嫨鍣?- 閫夋嫨鍜岃浆鎹笉鍚岄鑹叉牸寮?/li>
+                    <li>Base64缂栫爜瑙ｇ爜 - 杩涜Base64缂栫爜鍜岃В鐮佹搷浣?/li>
                 </ul>
             </div>
 
-            <!-- 内容创作分类 -->
+            <!-- 鍐呭鍒涗綔鍒嗙被 -->
             <div class="category-card">
-                <span class="category-icon">📝</span>
-                <h3>内容创作</h3>
-                <p>强大的内容创作工具，助您轻松发布和分享精彩内容。</p>
+                <span class="category-icon">馃摑</span>
+                <h3>鍐呭鍒涗綔</h3>
+                <p>寮哄ぇ鐨勫唴瀹瑰垱浣滃伐鍏凤紝鍔╂偍杞绘澗鍙戝竷鍜屽垎浜簿褰╁唴瀹广€?/p>
                 <ul class="feature-list">
-                    <li><a href="editor.html">Markdown 编辑器</a> - 支持Markdown语法的富文本编辑器</li>
-                    <li>富文本编辑器 - 提供所见即所得的编辑体验</li>
-                    <li>代码高亮 - 支持多种编程语言的代码高亮显示</li>
-                    <li>实时预览 - 编辑时实时预览内容效果</li>
-                    <li>自动保存 - 自动保存编辑内容，防止数据丢失</li>
-                    <li>图片上传 - 支持本地和云存储图片上传</li>
-                    <li>文件附件 - 上传和管理各种类型的文件附件</li>
-                    <li>标签管理 - 为内容添加和管理标签</li>
-                    <li>分类管理 - 对内容进行分类和整理</li>
-                    <li>草稿管理 - 保存和管理草稿内容</li>
-                    <li>定时发布 - 预约发布时间，自动发布内容</li>
-                    <li>内容导出 - 支持多种格式的内容导出</li>
+                    <li><a href="editor.html">Markdown 缂栬緫鍣?/a> - 鏀寔Markdown璇硶鐨勫瘜鏂囨湰缂栬緫鍣?/li>
+                    <li>瀵屾枃鏈紪杈戝櫒 - 鎻愪緵鎵€瑙佸嵆鎵€寰楃殑缂栬緫浣撻獙</li>
+                    <li>浠ｇ爜楂樹寒 - 鏀寔澶氱缂栫▼璇█鐨勪唬鐮侀珮浜樉绀?/li>
+                    <li>瀹炴椂棰勮 - 缂栬緫鏃跺疄鏃堕瑙堝唴瀹规晥鏋?/li>
+                    <li>鑷姩淇濆瓨 - 鑷姩淇濆瓨缂栬緫鍐呭锛岄槻姝㈡暟鎹涪澶?/li>
+                    <li>鍥剧墖涓婁紶 - 鏀寔鏈湴鍜屼簯瀛樺偍鍥剧墖涓婁紶</li>
+                    <li>鏂囦欢闄勪欢 - 涓婁紶鍜岀鐞嗗悇绉嶇被鍨嬬殑鏂囦欢闄勪欢</li>
+                    <li>鏍囩绠＄悊 - 涓哄唴瀹规坊鍔犲拰绠＄悊鏍囩</li>
+                    <li>鍒嗙被绠＄悊 - 瀵瑰唴瀹硅繘琛屽垎绫诲拰鏁寸悊</li>
+                    <li>鑽夌绠＄悊 - 淇濆瓨鍜岀鐞嗚崏绋垮唴瀹?/li>
+                    <li>瀹氭椂鍙戝竷 - 棰勭害鍙戝竷鏃堕棿锛岃嚜鍔ㄥ彂甯冨唴瀹?/li>
+                    <li>鍐呭瀵煎嚭 - 鏀寔澶氱鏍煎紡鐨勫唴瀹瑰鍑?/li>
                 </ul>
             </div>
 
-            <!-- 社区互动分类 -->
+            <!-- 绀惧尯浜掑姩鍒嗙被 -->
             <div class="category-card">
-                <span class="category-icon">💬</span>
-                <h3>社区互动</h3>
-                <p>丰富的社交功能，让您与其他用户互动交流。</p>
+                <span class="category-icon">馃挰</span>
+                <h3>绀惧尯浜掑姩</h3>
+                <p>涓板瘜鐨勭ぞ浜ゅ姛鑳斤紝璁╂偍涓庡叾浠栫敤鎴蜂簰鍔ㄤ氦娴併€?/p>
                 <ul class="feature-list">
-                    <li><a href="messages.html">消息系统</a> - 实时聊天和私信功能</li>
-                    <li>评论系统 - 对文章和内容进行评论</li>
-                    <li>社区圈子 - 加入和创建兴趣圈子</li>
-                    <li>用户关注 - 关注和被关注功能</li>
-                    <li>点赞功能 - 为内容点赞和收藏</li>
-                    <li>分享功能 - 分享内容到社交媒体</li>
-                    <li>举报功能 - 举报不当内容和用户</li>
-                    <li>黑名单 - 管理黑名单用户</li>
-                    <li>@提到 - 在评论和消息中提到其他用户</li>
-                    <li>通知系统 - 接收各种通知和提醒</li>
-                    <li>在线状态 - 显示用户在线状态</li>
-                    <li>用户等级 - 根据活跃度提升用户等级</li>
+                    <li><a href="messages.html">娑堟伅绯荤粺</a> - 瀹炴椂鑱婂ぉ鍜岀淇″姛鑳?/li>
+                    <li>璇勮绯荤粺 - 瀵规枃绔犲拰鍐呭杩涜璇勮</li>
+                    <li>绀惧尯鍦堝瓙 - 鍔犲叆鍜屽垱寤哄叴瓒ｅ湀瀛?/li>
+                    <li>鐢ㄦ埛鍏虫敞 - 鍏虫敞鍜岃鍏虫敞鍔熻兘</li>
+                    <li>鐐硅禐鍔熻兘 - 涓哄唴瀹圭偣璧炲拰鏀惰棌</li>
+                    <li>鍒嗕韩鍔熻兘 - 鍒嗕韩鍐呭鍒扮ぞ浜ゅ獟浣?/li>
+                    <li>涓炬姤鍔熻兘 - 涓炬姤涓嶅綋鍐呭鍜岀敤鎴?/li>
+                    <li>榛戝悕鍗?- 绠＄悊榛戝悕鍗曠敤鎴?/li>
+                    <li>@鎻愬埌 - 鍦ㄨ瘎璁哄拰娑堟伅涓彁鍒板叾浠栫敤鎴?/li>
+                    <li>閫氱煡绯荤粺 - 鎺ユ敹鍚勭閫氱煡鍜屾彁閱?/li>
+                    <li>鍦ㄧ嚎鐘舵€?- 鏄剧ず鐢ㄦ埛鍦ㄧ嚎鐘舵€?/li>
+                    <li>鐢ㄦ埛绛夌骇 - 鏍规嵁娲昏穬搴︽彁鍗囩敤鎴风瓑绾?/li>
                 </ul>
             </div>
 
-            <!-- 娱乐功能分类 -->
+            <!-- 濞变箰鍔熻兘鍒嗙被 -->
             <div class="category-card">
-                <span class="category-icon">🎮</span>
-                <h3>娱乐功能</h3>
-                <p>各种有趣的小游戏和娱乐功能，让您放松身心。</p>
+                <span class="category-icon">馃幃</span>
+                <h3>濞变箰鍔熻兘</h3>
+                <p>鍚勭鏈夎叮鐨勫皬娓告垙鍜屽ū涔愬姛鑳斤紝璁╂偍鏀炬澗韬績銆?/p>
                 <ul class="feature-list">
-                    <li><a href="games.html">游戏中心</a> - 提供多种有趣的小游戏</li>
-                    <li>贪吃蛇游戏 - 经典的贪吃蛇游戏</li>
-                    <li>华容道 - 智力挑战游戏</li>
-                    <li>打砖块 - 经典的打砖块游戏</li>
-                    <li>2048 - 数字合成游戏</li>
-                    <li>每日签到 - 每日签到领取奖励</li>
-                    <li>幸运转盘 - 抽奖和转盘功能</li>
-                    <li>阅读打卡 - 记录阅读进度和习惯</li>
-                    <li>每日一题 - 知识问答挑战</li>
-                    <li>成就系统 - 完成任务获得成就</li>
-                    <li>积分商城 - 积分兑换各种奖励</li>
-                    <li>排行榜 - 显示各种排行榜</li>
+                    <li><a href="games.html">娓告垙涓績</a> - 鎻愪緵澶氱鏈夎叮鐨勫皬娓告垙</li>
+                    <li>璐悆铔囨父鎴?- 缁忓吀鐨勮椽鍚冭泧娓告垙</li>
+                    <li>鍗庡閬?- 鏅哄姏鎸戞垬娓告垙</li>
+                    <li>鎵撶爾鍧?- 缁忓吀鐨勬墦鐮栧潡娓告垙</li>
+                    <li>2048 - 鏁板瓧鍚堟垚娓告垙</li>
+                    <li>姣忔棩绛惧埌 - 姣忔棩绛惧埌棰嗗彇濂栧姳</li>
+                    <li>骞歌繍杞洏 - 鎶藉鍜岃浆鐩樺姛鑳?/li>
+                    <li>闃呰鎵撳崱 - 璁板綍闃呰杩涘害鍜屼範鎯?/li>
+                    <li>姣忔棩涓€棰?- 鐭ヨ瘑闂瓟鎸戞垬</li>
+                    <li>鎴愬氨绯荤粺 - 瀹屾垚浠诲姟鑾峰緱鎴愬氨</li>
+                    <li>绉垎鍟嗗煄 - 绉垎鍏戞崲鍚勭濂栧姳</li>
+                    <li>鎺掕姒?- 鏄剧ず鍚勭鎺掕姒?/li>
                 </ul>
             </div>
 
-            <!-- 实用工具分类 -->
+            <!-- 瀹炵敤宸ュ叿鍒嗙被 -->
             <div class="category-card">
-                <span class="category-icon">🛠️</span>
-                <h3>实用工具</h3>
-                <p>各种实用工具，提升您的使用体验。</p>
+                <span class="category-icon">馃洜锔?/span>
+                <h3>瀹炵敤宸ュ叿</h3>
+                <p>鍚勭瀹炵敤宸ュ叿锛屾彁鍗囨偍鐨勪娇鐢ㄤ綋楠屻€?/p>
                 <ul class="feature-list">
-                    <li><a href="drive.html">网盘存储</a> - 云端存储和文件管理</li>
-                    <li><a href="index.html">搜索功能</a> - 全站内容搜索功能</li>
-                    <li>翻译工具 - 多语言翻译服务</li>
-                    <li>天气查询 - 实时天气信息</li>
-                    <li>阅读统计 - 记录阅读时间和进度</li>
-                    <li>书签管理 - 管理和分类书签</li>
-                    <li>历史记录 - 查看浏览和操作历史</li>
-                    <li>数据备份 - 备份和恢复个人数据</li>
-                    <li>清理工具 - 清理浏览器缓存和历史</li>
-                    <li>性能监控 - 监控页面加载和响应时间</li>
-                    <li>浏览器检测 - 检测浏览器类型和版本</li>
-                    <li>屏幕录制 - 录制屏幕和操作过程</li>
+                    <li><a href="drive.html">缃戠洏瀛樺偍</a> - 浜戠瀛樺偍鍜屾枃浠剁鐞?/li>
+                    <li><a href="index.html">鎼滅储鍔熻兘</a> - 鍏ㄧ珯鍐呭鎼滅储鍔熻兘</li>
+                    <li>缈昏瘧宸ュ叿 - 澶氳瑷€缈昏瘧鏈嶅姟</li>
+                    <li>澶╂皵鏌ヨ - 瀹炴椂澶╂皵淇℃伅</li>
+                    <li>闃呰缁熻 - 璁板綍闃呰鏃堕棿鍜岃繘搴?/li>
+                    <li>涔︾绠＄悊 - 绠＄悊鍜屽垎绫讳功绛?/li>
+                    <li>鍘嗗彶璁板綍 - 鏌ョ湅娴忚鍜屾搷浣滃巻鍙?/li>
+                    <li>鏁版嵁澶囦唤 - 澶囦唤鍜屾仮澶嶄釜浜烘暟鎹?/li>
+                    <li>娓呯悊宸ュ叿 - 娓呯悊娴忚鍣ㄧ紦瀛樺拰鍘嗗彶</li>
+                    <li>鎬ц兘鐩戞帶 - 鐩戞帶椤甸潰鍔犺浇鍜屽搷搴旀椂闂?/li>
+                    <li>娴忚鍣ㄦ娴?- 妫€娴嬫祻瑙堝櫒绫诲瀷鍜岀増鏈?/li>
+                    <li>灞忓箷褰曞埗 - 褰曞埗灞忓箷鍜屾搷浣滆繃绋?/li>
                 </ul>
             </div>
 
-            <!-- 个人管理分类 -->
+            <!-- 涓汉绠＄悊鍒嗙被 -->
             <div class="category-card">
-                <span class="category-icon">👤</span>
-                <h3>个人管理</h3>
-                <p>管理个人信息和设置</p>
+                <span class="category-icon">馃懁</span>
+                <h3>涓汉绠＄悊</h3>
+                <p>绠＄悊涓汉淇℃伅鍜岃缃?/p>
                 <ul class="feature-list">
-                    <li><a href="profile.html">个人中心</a> - 管理个人信息和设置</li>
-                    <li>用户资料 - 编辑和完善个人资料</li>
-                    <li>头像上传 - 上传和更换头像</li>
-                    <li>密码修改 - 修改登录密码</li>
-                    <li>安全设置 - 配置账号安全选项</li>
-                    <li>通知设置 - 管理通知偏好</li>
-                    <li>隐私设置 - 控制个人信息可见性</li>
-                    <li>主题设置 - 选择和自定义主题</li>
-                    <li>语言设置 - 选择界面语言</li>
-                    <li>字体设置 - 调整文字大小和字体</li>
-                    <li>快捷键 - 配置和使用快捷键</li>
-                    <li>帮助中心 - 查看帮助文档和教程</li>
+                    <li><a href="profile.html">涓汉涓績</a> - 绠＄悊涓汉淇℃伅鍜岃缃?/li>
+                    <li>鐢ㄦ埛璧勬枡 - 缂栬緫鍜屽畬鍠勪釜浜鸿祫鏂?/li>
+                    <li>澶村儚涓婁紶 - 涓婁紶鍜屾洿鎹㈠ご鍍?/li>
+                    <li>瀵嗙爜淇敼 - 淇敼鐧诲綍瀵嗙爜</li>
+                    <li>瀹夊叏璁剧疆 - 閰嶇疆璐﹀彿瀹夊叏閫夐」</li>
+                    <li>閫氱煡璁剧疆 - 绠＄悊閫氱煡鍋忓ソ</li>
+                    <li>闅愮璁剧疆 - 鎺у埗涓汉淇℃伅鍙鎬?/li>
+                    <li>涓婚璁剧疆 - 閫夋嫨鍜岃嚜瀹氫箟涓婚</li>
+                    <li>璇█璁剧疆 - 閫夋嫨鐣岄潰璇█</li>
+                    <li>瀛椾綋璁剧疆 - 璋冩暣鏂囧瓧澶у皬鍜屽瓧浣?/li>
+                    <li>蹇嵎閿?- 閰嶇疆鍜屼娇鐢ㄥ揩鎹烽敭</li>
+                    <li>甯姪涓績 - 鏌ョ湅甯姪鏂囨。鍜屾暀绋?/li>
                 </ul>
             </div>
 
-            <!-- 学习功能分类 -->
+            <!-- 瀛︿範鍔熻兘鍒嗙被 -->
             <div class="category-card">
-                <span class="category-icon">📚</span>
-                <h3>学习功能</h3>
-                <p>提供学习和教育相关功能</p>
+                <span class="category-icon">馃摎</span>
+                <h3>瀛︿範鍔熻兘</h3>
+                <p>鎻愪緵瀛︿範鍜屾暀鑲茬浉鍏冲姛鑳?/p>
                 <ul class="feature-list">
-                    <li><a href="articles.html">文章阅读</a> - 阅读和学习文章</li>
-                    <li>收藏功能 - 收藏喜欢的文章和内容</li>
-                    <li>笔记功能 - 添加笔记和标注</li>
-                    <li>高亮功能 - 高亮和标记重要内容</li>
-                    <li>朗读功能 - 文本转语音朗读</li>
-                    <li>翻译功能 - 文章内容翻译</li>
-                    <li>阅读统计 - 统计阅读时长和进度</li>
-                    <li>阅读计划 - 制定和执行阅读计划</li>
-                    <li>学习笔记 - 整理和管理学习笔记</li>
-                    <li>考试模拟 - 提供模拟考试功能</li>
-                    <li>学习记录 - 记录学习过程和进度</li>
-                    <li>知识图谱 - 展示知识关联和结构</li>
+                    <li><a href="articles.html">鏂囩珷闃呰</a> - 闃呰鍜屽涔犳枃绔?/li>
+                    <li>鏀惰棌鍔熻兘 - 鏀惰棌鍠滄鐨勬枃绔犲拰鍐呭</li>
+                    <li>绗旇鍔熻兘 - 娣诲姞绗旇鍜屾爣娉?/li>
+                    <li>楂樹寒鍔熻兘 - 楂樹寒鍜屾爣璁伴噸瑕佸唴瀹?/li>
+                    <li>鏈楄鍔熻兘 - 鏂囨湰杞闊虫湕璇?/li>
+                    <li>缈昏瘧鍔熻兘 - 鏂囩珷鍐呭缈昏瘧</li>
+                    <li>闃呰缁熻 - 缁熻闃呰鏃堕暱鍜岃繘搴?/li>
+                    <li>闃呰璁″垝 - 鍒跺畾鍜屾墽琛岄槄璇昏鍒?/li>
+                    <li>瀛︿範绗旇 - 鏁寸悊鍜岀鐞嗗涔犵瑪璁?/li>
+                    <li>鑰冭瘯妯℃嫙 - 鎻愪緵妯℃嫙鑰冭瘯鍔熻兘</li>
+                    <li>瀛︿範璁板綍 - 璁板綍瀛︿範杩囩▼鍜岃繘搴?/li>
+                    <li>鐭ヨ瘑鍥捐氨 - 灞曠ず鐭ヨ瘑鍏宠仈鍜岀粨鏋?/li>
                 </ul>
             </div>
 
-            <!-- 开发工具分类 -->
+            <!-- 寮€鍙戝伐鍏峰垎绫?-->
             <div class="category-card">
-                <span class="category-icon">💻</span>
-                <h3>开发工具</h3>
-                <p>为开发者提供的工具和功能</p>
+                <span class="category-icon">馃捇</span>
+                <h3>寮€鍙戝伐鍏?/h3>
+                <p>涓哄紑鍙戣€呮彁渚涚殑宸ュ叿鍜屽姛鑳?/p>
                 <ul class="feature-list">
-                    <li>代码编辑器 - 支持多种编程语言的代码编辑</li>
-                    <li>代码调试 - 调试和测试代码</li>
-                    <li>API文档 - 查看和测试API文档</li>
-                    <li>网络请求 - 发送和测试网络请求</li>
-                    <li>数据库管理 - 管理和查询数据库</li>
-                    <li>日志查看 - 查看和分析日志文件</li>
-                    <li>性能分析 - 分析代码性能</li>
-                    <li>错误监控 - 监控和报告错误</li>
-                    <li>版本控制 - 代码版本管理</li>
-                    <li>部署工具 - 自动化部署和发布</li>
-                    <li>开发文档 - 查看和管理开发文档</li>
-                    <li>协作开发 - 团队协作开发功能</li>
+                    <li>浠ｇ爜缂栬緫鍣?- 鏀寔澶氱缂栫▼璇█鐨勪唬鐮佺紪杈?/li>
+                    <li>浠ｇ爜璋冭瘯 - 璋冭瘯鍜屾祴璇曚唬鐮?/li>
+                    <li>API鏂囨。 - 鏌ョ湅鍜屾祴璇旳PI鏂囨。</li>
+                    <li>缃戠粶璇锋眰 - 鍙戦€佸拰娴嬭瘯缃戠粶璇锋眰</li>
+                    <li>鏁版嵁搴撶鐞?- 绠＄悊鍜屾煡璇㈡暟鎹簱</li>
+                    <li>鏃ュ織鏌ョ湅 - 鏌ョ湅鍜屽垎鏋愭棩蹇楁枃浠?/li>
+                    <li>鎬ц兘鍒嗘瀽 - 鍒嗘瀽浠ｇ爜鎬ц兘</li>
+                    <li>閿欒鐩戞帶 - 鐩戞帶鍜屾姤鍛婇敊璇?/li>
+                    <li>鐗堟湰鎺у埗 - 浠ｇ爜鐗堟湰绠＄悊</li>
+                    <li>閮ㄧ讲宸ュ叿 - 鑷姩鍖栭儴缃插拰鍙戝竷</li>
+                    <li>寮€鍙戞枃妗?- 鏌ョ湅鍜岀鐞嗗紑鍙戞枃妗?/li>
+                    <li>鍗忎綔寮€鍙?- 鍥㈤槦鍗忎綔寮€鍙戝姛鑳?/li>
                 </ul>
             </div>
         </div>
 
-        <!-- 特色功能区域 -->
+        <!-- 鐗硅壊鍔熻兘鍖哄煙 -->
         <div class="highlight-section">
-            <h2>⭐ 特色功能</h2>
-            <p style="margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">我们提供一些独特的特色功能，让您的体验与众不同。</p>
+            <h2>猸?鐗硅壊鍔熻兘</h2>
+            <p style="margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">鎴戜滑鎻愪緵涓€浜涚嫭鐗圭殑鐗硅壊鍔熻兘锛岃鎮ㄧ殑浣撻獙涓庝紬涓嶅悓銆?/p>
             
             <div class="highlight-grid">
                 <div class="highlight-item">
-                    <h4>AI 助手</h4>
-                    <p>智能 AI 助手为您提供24小时在线帮助，回答各种问题。</p>
+                    <h4>AI 鍔╂墜</h4>
+                    <p>鏅鸿兘 AI 鍔╂墜涓烘偍鎻愪緵24灏忔椂鍦ㄧ嚎甯姪锛屽洖绛斿悇绉嶉棶棰樸€?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>积分系统</h4>
-                    <p>通过各种活动获得积分，兑换丰富的奖励和特权。</p>
+                    <h4>绉垎绯荤粺</h4>
+                    <p>閫氳繃鍚勭娲诲姩鑾峰緱绉垎锛屽厬鎹赴瀵岀殑濂栧姳鍜岀壒鏉冦€?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>成就系统</h4>
-                    <p>完成各种任务和挑战，获得成就和称号。</p>
+                    <h4>鎴愬氨绯荤粺</h4>
+                    <p>瀹屾垚鍚勭浠诲姟鍜屾寫鎴橈紝鑾峰緱鎴愬氨鍜岀О鍙枫€?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>每日任务</h4>
-                    <p>每日完成简单任务，获得额外的奖励和积分。</p>
+                    <h4>姣忔棩浠诲姟</h4>
+                    <p>姣忔棩瀹屾垚绠€鍗曚换鍔★紝鑾峰緱棰濆鐨勫鍔卞拰绉垎銆?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>阅读挑战</h4>
-                    <p>参与阅读挑战，培养良好的阅读习惯。</p>
+                    <h4>闃呰鎸戞垬</h4>
+                    <p>鍙備笌闃呰鎸戞垬锛屽煿鍏昏壇濂界殑闃呰涔犳儻銆?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>夜间模式</h4>
-                    <p>支持深色模式，保护视力，提供更好的阅读体验。</p>
+                    <h4>澶滈棿妯″紡</h4>
+                    <p>鏀寔娣辫壊妯″紡锛屼繚鎶よ鍔涳紝鎻愪緵鏇村ソ鐨勯槄璇讳綋楠屻€?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>离线阅读</h4>
-                    <p>下载文章和内容，支持离线阅读功能。</p>
+                    <h4>绂荤嚎闃呰</h4>
+                    <p>涓嬭浇鏂囩珷鍜屽唴瀹癸紝鏀寔绂荤嚎闃呰鍔熻兘銆?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>多端同步</h4>
-                    <p>在不同设备间同步数据和设置。</p>
+                    <h4>澶氱鍚屾</h4>
+                    <p>鍦ㄤ笉鍚岃澶囬棿鍚屾鏁版嵁鍜岃缃€?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>个性化推荐</h4>
-                    <p>根据您的兴趣和阅读习惯推荐内容。</p>
+                    <h4>涓€у寲鎺ㄨ崘</h4>
+                    <p>鏍规嵁鎮ㄧ殑鍏磋叮鍜岄槄璇讳範鎯帹鑽愬唴瀹广€?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>自定义主题</h4>
-                    <p>支持多种主题和自定义颜色方案。</p>
+                    <h4>鑷畾涔変富棰?/h4>
+                    <p>鏀寔澶氱涓婚鍜岃嚜瀹氫箟棰滆壊鏂规銆?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>数据统计</h4>
-                    <p>提供详细的数据统计和分析功能。</p>
+                    <h4>鏁版嵁缁熻</h4>
+                    <p>鎻愪緵璇︾粏鐨勬暟鎹粺璁″拰鍒嗘瀽鍔熻兘銆?/p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>内容分享</h4>
-                    <p>一键分享内容到各种社交媒体平台。</p>
+                    <h4>鍐呭鍒嗕韩</h4>
+                    <p>涓€閿垎浜唴瀹瑰埌鍚勭绀句氦濯掍綋骞冲彴銆?/p>
                 </div>
             </div>
         </div>
 
-        <!-- 快速访问区域 -->
+        <!-- 蹇€熻闂尯鍩?-->
         <div class="quick-access">
-            <h3>🚀 快速访问</h3>
-            <p style="margin-bottom: 20px; color: #666;">直接访问常用功能，节省您的时间。</p>
+            <h3>馃殌 蹇€熻闂?/h3>
+            <p style="margin-bottom: 20px; color: #666;">鐩存帴璁块棶甯哥敤鍔熻兘锛岃妭鐪佹偍鐨勬椂闂淬€?/p>
             
             <div class="quick-links">
-                <a href="index.html" class="quick-link">🏠 主页</a>
-                <a href="games.html" class="quick-link">🎮 游戏中心</a>
-                <a href="drive.html" class="quick-link">☁️ 网盘</a>
-                <a href="donate.html" class="quick-link">❤️ 捐助</a>
-                <a href="about.html" class="quick-link">🎯 关于我们</a>
-                <a href="messages.html" class="quick-link">💬 消息</a>
-                <a href="calculator.html" class="quick-link">🧮 计算器</a>
-                <a href="todo.html" class="quick-link">📝 待办事项</a>
-                <a href="note.html" class="quick-link">📔 笔记功能</a>
-                <a href="weather.html" class="quick-link">🌤️ 天气查询</a>
-                <a href="translate.html" class="quick-link">🌍 翻译功能</a>
-                <a href="countdown.html" class="quick-link">⏱️ 倒计时功能</a>
-                <a href="stopwatch.html" class="quick-link">⏱️ 秒表功能</a>
-                <a href="unit-converter.html" class="quick-link">📏 单位转换器</a>
-                <a href="password-generator.html" class="quick-link">🔐 密码生成器</a>
-                <a href="qr-generator.html" class="quick-link">📱 二维码生成器</a>
-                <a href="editor.html" class="quick-link">✍️ 内容创作</a>
-                <a href="profile.html" class="quick-link">👤 个人中心</a>
-                <a href="articles.html" class="quick-link">📚 文章阅读</a>
-                <a href="features.html" class="quick-link">✨ 更多功能</a>
+                <a href="index.html" class="quick-link">馃彔 涓婚〉</a>
+                <a href="games.html" class="quick-link">馃幃 娓告垙涓績</a>
+                <a href="drive.html" class="quick-link">鈽侊笍 缃戠洏</a>
+                <a href="donate.html" class="quick-link">鉂わ笍 鎹愬姪</a>
+                <a href="about.html" class="quick-link">馃幆 鍏充簬鎴戜滑</a>
+                <a href="messages.html" class="quick-link">馃挰 娑堟伅</a>
+                <a href="calculator.html" class="quick-link">馃М 璁＄畻鍣?/a>
+                <a href="todo.html" class="quick-link">馃摑 寰呭姙浜嬮」</a>
+                <a href="note.html" class="quick-link">馃摂 绗旇鍔熻兘</a>
+                <a href="weather.html" class="quick-link">馃尋锔?澶╂皵鏌ヨ</a>
+                <a href="translate.html" class="quick-link">馃實 缈昏瘧鍔熻兘</a>
+                <a href="countdown.html" class="quick-link">鈴憋笍 鍊掕鏃跺姛鑳?/a>
+                <a href="stopwatch.html" class="quick-link">鈴憋笍 绉掕〃鍔熻兘</a>
+                <a href="unit-converter.html" class="quick-link">馃搹 鍗曚綅杞崲鍣?/a>
+                <a href="password-generator.html" class="quick-link">馃攼 瀵嗙爜鐢熸垚鍣?/a>
+                <a href="qr-generator.html" class="quick-link">馃摫 浜岀淮鐮佺敓鎴愬櫒</a>
+                <a href="editor.html" class="quick-link">鉁嶏笍 鍐呭鍒涗綔</a>
+                <a href="profile.html" class="quick-link">馃懁 涓汉涓績</a>
+                <a href="articles.html" class="quick-link">馃摎 鏂囩珷闃呰</a>
+                <a href="features.html" class="quick-link">鉁?鏇村鍔熻兘</a>
             </div>
         </div>
     </div>
 
     <script>
-        // 页面加载完成后的动画效果
+        // 椤甸潰鍔犺浇瀹屾垚鍚庣殑鍔ㄧ敾鏁堟灉
         document.addEventListener('DOMContentLoaded', function() {
-            // 为所有卡片添加动画
-            const cards = document.querySelectorAll('.category-card, .highlight-item');
+            // 涓烘墍鏈夊崱鐗囨坊鍔犲姩鐢?            const cards = document.querySelectorAll('.category-card, .highlight-item');
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'

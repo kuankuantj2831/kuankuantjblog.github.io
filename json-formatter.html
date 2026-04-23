@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON格式化工具 - 更多功能</title>
+    <title>JSON鏍煎紡鍖栧伐鍏?- 鏇村鍔熻兘</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         body {
@@ -123,22 +123,22 @@
 </head>
 <body>
     <div class="json-formatter-container">
-        <h1>📄 JSON格式化工具</h1>
+        <h1>馃搫 JSON鏍煎紡鍖栧伐鍏?/h1>
         
         <div class="json-input">
-            <label for="jsonInput">JSON输入</label>
-            <textarea id="jsonInput" placeholder="请输入要格式化的JSON数据..."></textarea>
+            <label for="jsonInput">JSON杈撳叆</label>
+            <textarea id="jsonInput" placeholder="璇疯緭鍏ヨ鏍煎紡鍖栫殑JSON鏁版嵁..."></textarea>
         </div>
         
         <div class="json-buttons">
-            <button id="formatBtn">格式化</button>
-            <button id="validateBtn">验证</button>
-            <button id="minifyBtn">压缩</button>
-            <button id="copyBtn">复制</button>
+            <button id="formatBtn">鏍煎紡鍖?/button>
+            <button id="validateBtn">楠岃瘉</button>
+            <button id="minifyBtn">鍘嬬缉</button>
+            <button id="copyBtn">澶嶅埗</button>
         </div>
         
         <div class="json-result">
-            <label for="jsonOutput">JSON输出</label>
+            <label for="jsonOutput">JSON杈撳嚭</label>
             <pre id="jsonOutput"></pre>
         </div>
     </div>
@@ -153,7 +153,7 @@
                 document.getElementById('jsonOutput').textContent = formattedJSON;
                 document.getElementById('jsonOutput').className = '';
             } catch (error) {
-                document.getElementById('jsonOutput').textContent = `JSON解析错误: ${error.message}`;
+                document.getElementById('jsonOutput').textContent = `JSON瑙ｆ瀽閿欒: ${error.message}`;
                 document.getElementById('jsonOutput').className = 'json-error';
             }
         });
@@ -163,10 +163,10 @@
             
             try {
                 JSON.parse(jsonInput);
-                document.getElementById('jsonOutput').textContent = 'JSON格式有效';
+                document.getElementById('jsonOutput').textContent = 'JSON鏍煎紡鏈夋晥';
                 document.getElementById('jsonOutput').className = 'json-valid';
             } catch (error) {
-                document.getElementById('jsonOutput').textContent = `JSON格式无效: ${error.message}`;
+                document.getElementById('jsonOutput').textContent = `JSON鏍煎紡鏃犳晥: ${error.message}`;
                 document.getElementById('jsonOutput').className = 'json-error';
             }
         });
@@ -180,7 +180,7 @@
                 document.getElementById('jsonOutput').textContent = minifiedJSON;
                 document.getElementById('jsonOutput').className = '';
             } catch (error) {
-                document.getElementById('jsonOutput').textContent = `JSON解析错误: ${error.message}`;
+                document.getElementById('jsonOutput').textContent = `JSON瑙ｆ瀽閿欒: ${error.message}`;
                 document.getElementById('jsonOutput').className = 'json-error';
             }
         });
@@ -189,18 +189,19 @@
             const jsonOutput = document.getElementById('jsonOutput').textContent;
             
             if (!jsonOutput) {
-                alert('没有内容可复制');
+                alert('娌℃湁鍐呭鍙鍒?);
                 return;
             }
             
             navigator.clipboard.writeText(jsonOutput)
                 .then(() => {
-                    alert('已成功复制到剪贴板');
+                    alert('宸叉垚鍔熷鍒跺埌鍓创鏉?);
                 })
                 .catch(err => {
-                    alert('复制失败: ' + err);
+                    alert('澶嶅埗澶辫触: ' + err);
                 });
         });
     </script>
 </body>
 </html>
+

@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>企业级数据大�?- 管理后台</title>
+    <title>浼佷笟绾ф暟鎹ぇ灞? 绠＄悊鍚庡彴</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/chart.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -21,16 +21,16 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- 顶部导航 -->
+    <!-- 椤堕儴瀵艰埅 -->
     <nav class="gradient-bg text-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <i data-lucide="bar-chart-3" class="w-8 h-8 mr-3"></i>
-                    <h1 class="text-xl font-bold">企业级数据大�?/h1>
+                    <h1 class="text-xl font-bold">浼佷笟绾ф暟鎹ぇ灞?/h1>
                     <span class="ml-4 px-3 py-1 bg-white/20 rounded-full text-sm flex items-center">
                         <span class="w-2 h-2 bg-green-400 rounded-full mr-2 live-indicator"></span>
-                        实时数据
+                        瀹炴椂鏁版嵁
                     </span>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -43,7 +43,7 @@
                     <div class="relative">
                         <button onclick="toggleUserMenu()" class="flex items-center space-x-2 p-2 hover:bg-white/20 rounded-lg">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=admin" class="w-8 h-8 rounded-full bg-white">
-                            <span class="hidden sm:block">管理�?/span>
+                            <span class="hidden sm:block">绠＄悊鍛?span>
                         </button>
                     </div>
                 </div>
@@ -52,30 +52,30 @@
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- 时间筛选器 -->
+        <!-- 鏃堕棿绛涢€夊櫒 -->
         <div class="bg-white rounded-xl shadow-sm p-4 mb-6 flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center space-x-2">
                 <i data-lucide="calendar" class="w-5 h-5 text-gray-500"></i>
-                <span class="text-gray-700 font-medium">数据周期�?/span>
+                <span class="text-gray-700 font-medium">鏁版嵁鍛ㄦ湡锟?/span>
             </div>
             <div class="flex space-x-2">
-                <button onclick="setTimeRange('today')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium bg-indigo-100 text-indigo-700" data-range="today">今日</button>
-                <button onclick="setTimeRange('week')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="week">本周</button>
-                <button onclick="setTimeRange('month')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="month">本月</button>
-                <button onclick="setTimeRange('quarter')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="quarter">本季�?/button>
-                <button onclick="setTimeRange('year')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="year">全年</button>
+                <button onclick="setTimeRange('today')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium bg-indigo-100 text-indigo-700" data-range="today">浠婃棩</button>
+                <button onclick="setTimeRange('week')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="week">鏈懆</button>
+                <button onclick="setTimeRange('month')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="month">鏈湀</button>
+                <button onclick="setTimeRange('quarter')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="quarter">鏈锟?/button>
+                <button onclick="setTimeRange('year')" class="time-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100" data-range="year">鍏ㄥ勾</button>
             </div>
             <div class="flex items-center space-x-2">
                 <input type="date" id="startDate" class="px-3 py-2 border rounded-lg text-sm">
-                <span class="text-gray-400">�?/span>
+                <span class="text-gray-400">锟?/span>
                 <input type="date" id="endDate" class="px-3 py-2 border rounded-lg text-sm">
-                <button onclick="applyCustomRange()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700">应用</button>
+                <button onclick="applyCustomRange()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700">搴旂敤</button>
             </div>
         </div>
 
-        <!-- 核心指标卡片 -->
+        <!-- 鏍稿績鎸囨爣鍗＄墖 -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <!-- 用户指标 -->
+            <!-- 鐢ㄦ埛鎸囨爣 -->
             <div class="metric-card rounded-xl shadow-sm p-6 card-hover">
                 <div class="flex items-center justify-between mb-4">
                     <div class="p-3 bg-blue-100 rounded-lg">
@@ -86,15 +86,15 @@
                         <span id="userGrowth">+12.5%</span>
                     </span>
                 </div>
-                <h3 class="text-gray-500 text-sm font-medium">总用户数</h3>
+                <h3 class="text-gray-500 text-sm font-medium">鎬荤敤鎴锋暟</h3>
                 <p class="text-3xl font-bold text-gray-900 mt-1" id="totalUsers">--</p>
                 <div class="mt-3 flex items-center text-sm text-gray-500">
-                    <span>今日新增�?/span>
+                    <span>浠婃棩鏂板锟?/span>
                     <span class="text-blue-600 font-medium ml-1" id="newUsersToday">--</span>
                 </div>
             </div>
 
-            <!-- 内容指标 -->
+            <!-- 鍐呭鎸囨爣 -->
             <div class="metric-card rounded-xl shadow-sm p-6 card-hover">
                 <div class="flex items-center justify-between mb-4">
                     <div class="p-3 bg-green-100 rounded-lg">
@@ -105,15 +105,15 @@
                         <span id="contentGrowth">+8.3%</span>
                     </span>
                 </div>
-                <h3 class="text-gray-500 text-sm font-medium">内容总数</h3>
+                <h3 class="text-gray-500 text-sm font-medium">鍐呭鎬绘暟</h3>
                 <p class="text-3xl font-bold text-gray-900 mt-1" id="totalContent">--</p>
                 <div class="mt-3 flex items-center text-sm text-gray-500">
-                    <span>待审核：</span>
+                    <span>寰呭鏍革細</span>
                     <span class="text-orange-500 font-medium ml-1" id="pendingReview">--</span>
                 </div>
             </div>
 
-            <!-- 互动指标 -->
+            <!-- 浜掑姩鎸囨爣 -->
             <div class="metric-card rounded-xl shadow-sm p-6 card-hover">
                 <div class="flex items-center justify-between mb-4">
                     <div class="p-3 bg-purple-100 rounded-lg">
@@ -124,15 +124,15 @@
                         <span id="interactionGrowth">+23.1%</span>
                     </span>
                 </div>
-                <h3 class="text-gray-500 text-sm font-medium">总互动量</h3>
+                <h3 class="text-gray-500 text-sm font-medium">鎬讳簰鍔ㄩ噺</h3>
                 <p class="text-3xl font-bold text-gray-900 mt-1" id="totalInteractions">--</p>
                 <div class="mt-3 flex items-center text-sm text-gray-500">
-                    <span>今日活跃�?/span>
+                    <span>浠婃棩娲昏穬锟?/span>
                     <span class="text-purple-600 font-medium ml-1" id="activeToday">--</span>
                 </div>
             </div>
 
-            <!-- 营收指标 -->
+            <!-- 钀ユ敹鎸囨爣 -->
             <div class="metric-card rounded-xl shadow-sm p-6 card-hover">
                 <div class="flex items-center justify-between mb-4">
                     <div class="p-3 bg-yellow-100 rounded-lg">
@@ -143,21 +143,21 @@
                         <span id="revenueGrowth">+15.7%</span>
                     </span>
                 </div>
-                <h3 class="text-gray-500 text-sm font-medium">总营�?/h3>
-                <p class="text-3xl font-bold text-gray-900 mt-1" id="totalRevenue">¥--</p>
+                <h3 class="text-gray-500 text-sm font-medium">鎬昏惀锟?/h3>
+                <p class="text-3xl font-bold text-gray-900 mt-1" id="totalRevenue">楼--</p>
                 <div class="mt-3 flex items-center text-sm text-gray-500">
-                    <span>今日订单�?/span>
+                    <span>浠婃棩璁㈠崟锟?/span>
                     <span class="text-yellow-600 font-medium ml-1" id="ordersToday">--</span>
                 </div>
             </div>
         </div>
 
-        <!-- 图表区域 -->
+        <!-- 鍥捐〃鍖哄煙 -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <!-- 用户增长趋势 -->
+            <!-- 鐢ㄦ埛澧為暱瓒嬪娍 -->
             <div class="bg-white rounded-xl shadow-sm p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">用户增长趋势</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">鐢ㄦ埛澧為暱瓒嬪娍</h3>
                     <button class="text-gray-400 hover:text-gray-600">
                         <i data-lucide="more-horizontal" class="w-5 h-5"></i>
                     </button>
@@ -167,10 +167,10 @@
                 </div>
             </div>
 
-            <!-- 内容发布统计 -->
+            <!-- 鍐呭鍙戝竷缁熻 -->
             <div class="bg-white rounded-xl shadow-sm p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">内容发布统计</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">鍐呭鍙戝竷缁熻</h3>
                     <button class="text-gray-400 hover:text-gray-600">
                         <i data-lucide="more-horizontal" class="w-5 h-5"></i>
                     </button>
@@ -180,14 +180,14 @@
                 </div>
             </div>
 
-            <!-- 营收趋势 -->
+            <!-- 钀ユ敹瓒嬪娍 -->
             <div class="bg-white rounded-xl shadow-sm p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">营收趋势</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">钀ユ敹瓒嬪娍</h3>
                     <div class="flex space-x-2">
-                        <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded">会员</span>
-                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded">商品</span>
-                        <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded">打赏</span>
+                        <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded">浼氬憳</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded">鍟嗗搧</span>
+                        <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded">鎵撹祻</span>
                     </div>
                 </div>
                 <div class="chart-container">
@@ -195,10 +195,10 @@
                 </div>
             </div>
 
-            <!-- 访问来源分布 -->
+            <!-- 璁块棶鏉ユ簮鍒嗗竷 -->
             <div class="bg-white rounded-xl shadow-sm p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">访问来源分布</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">璁块棶鏉ユ簮鍒嗗竷</h3>
                     <button class="text-gray-400 hover:text-gray-600">
                         <i data-lucide="more-horizontal" class="w-5 h-5"></i>
                     </button>
@@ -209,42 +209,42 @@
             </div>
         </div>
 
-        <!-- 地域分布和设备统�?-->
+        <!-- 鍦板煙鍒嗗竷鍜岃澶囩粺锟?-->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            <!-- 地域分布 -->
+            <!-- 鍦板煙鍒嗗竷 -->
             <div class="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-lg font-semibold text-gray-900">用户地域分布</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">鐢ㄦ埛鍦板煙鍒嗗竷</h3>
                     <button onclick="downloadGeoData()" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium">
                         <i data-lucide="download" class="w-4 h-4 inline mr-1"></i>
-                        导出数据
+                        瀵煎嚭鏁版嵁
                     </button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full">
                         <thead>
                             <tr class="border-b">
-                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">排名</th>
-                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">省份</th>
-                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">用户�?/th>
-                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">占比</th>
-                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">趋势</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">鎺掑悕</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">鐪佷唤</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">鐢ㄦ埛锟?/th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">鍗犳瘮</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">瓒嬪娍</th>
                             </tr>
                         </thead>
                         <tbody id="geoTableBody">
-                            <!-- 动态填�?-->
+                            <!-- 鍔ㄦ€佸～锟?-->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- 设备统计 -->
+            <!-- 璁惧缁熻 -->
             <div class="bg-white rounded-xl shadow-sm p-6">
-                <h3 class="text-lg font-semibold text-gray-900 mb-6">设备分布</h3>
+                <h3 class="text-lg font-semibold text-gray-900 mb-6">璁惧鍒嗗竷</h3>
                 <div class="space-y-4">
                     <div>
                         <div class="flex justify-between mb-2">
-                            <span class="text-sm text-gray-600">桌面�?/span>
+                            <span class="text-sm text-gray-600">妗岄潰锟?/span>
                             <span class="text-sm font-medium" id="desktopPercent">45%</span>
                         </div>
                         <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -253,7 +253,7 @@
                     </div>
                     <div>
                         <div class="flex justify-between mb-2">
-                            <span class="text-sm text-gray-600">移动�?/span>
+                            <span class="text-sm text-gray-600">绉诲姩锟?/span>
                             <span class="text-sm font-medium" id="mobilePercent">48%</span>
                         </div>
                         <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -262,7 +262,7 @@
                     </div>
                     <div>
                         <div class="flex justify-between mb-2">
-                            <span class="text-sm text-gray-600">平板</span>
+                            <span class="text-sm text-gray-600">骞虫澘</span>
                             <span class="text-sm font-medium" id="tabletPercent">7%</span>
                         </div>
                         <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
@@ -272,20 +272,20 @@
                 </div>
 
                 <div class="mt-6 pt-6 border-t">
-                    <h4 class="text-sm font-medium text-gray-700 mb-3">浏览器分�?/h4>
+                    <h4 class="text-sm font-medium text-gray-700 mb-3">娴忚鍣ㄥ垎锟?/h4>
                     <div id="browserStats" class="space-y-2">
-                        <!-- 动态填�?-->
+                        <!-- 鍔ㄦ€佸～锟?-->
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 实时监控面板 -->
+        <!-- 瀹炴椂鐩戞帶闈㈡澘 -->
         <div class="bg-white rounded-xl shadow-sm p-6">
             <div class="flex items-center justify-between mb-6">
                 <div class="flex items-center">
                     <span class="w-3 h-3 bg-green-500 rounded-full mr-2 live-indicator"></span>
-                    <h3 class="text-lg font-semibold text-gray-900">实时监控</h3>
+                    <h3 class="text-lg font-semibold text-gray-900">瀹炴椂鐩戞帶</h3>
                 </div>
                 <div class="flex items-center space-x-4 text-sm">
                     <span class="flex items-center text-gray-500">
@@ -294,7 +294,7 @@
                     </span>
                     <span class="flex items-center text-gray-500">
                         <i data-lucide="clock" class="w-4 h-4 mr-1"></i>
-                        平均响应: <span class="font-medium text-gray-900 ml-1" id="avgResponse">0ms</span>
+                        骞冲潎鍝嶅簲: <span class="font-medium text-gray-900 ml-1" id="avgResponse">0ms</span>
                     </span>
                     <span class="flex items-center text-gray-500">
                         <i data-lucide="cpu" class="w-4 h-4 mr-1"></i>
@@ -302,7 +302,7 @@
                     </span>
                     <span class="flex items-center text-gray-500">
                         <i data-lucide="hard-drive" class="w-4 h-4 mr-1"></i>
-                        内存: <span class="font-medium text-gray-900 ml-1" id="memoryUsage">0%</span>
+                        鍐呭瓨: <span class="font-medium text-gray-900 ml-1" id="memoryUsage">0%</span>
                     </span>
                 </div>
             </div>
@@ -313,36 +313,36 @@
     </div>
 
     <script>
-        // 初始化图�?
+        // 鍒濆鍖栧浘锟?
         lucide.createIcons();
 
-        // 图表实例
+        // 鍥捐〃瀹炰緥
         let charts = {};
 
-        // 初始�?
+        // 鍒濆锟?
         document.addEventListener('DOMContentLoaded', () => {
             initCharts();
             loadDashboardData();
             startRealtimeUpdate();
         });
 
-        // 初始化图�?
+        // 鍒濆鍖栧浘锟?
         function initCharts() {
-            // 用户增长趋势�?
+            // 鐢ㄦ埛澧為暱瓒嬪娍锟?
             const userCtx = document.getElementById('userChart').getContext('2d');
             charts.user = new Chart(userCtx, {
                 type: 'line',
                 data: {
                     labels: [],
                     datasets: [{
-                        label: '新增用户',
+                        label: '鏂板鐢ㄦ埛',
                         data: [],
                         borderColor: '#667eea',
                         backgroundColor: 'rgba(102, 126, 234, 0.1)',
                         tension: 0.4,
                         fill: true
                     }, {
-                        label: '活跃用户',
+                        label: '娲昏穬鐢ㄦ埛',
                         data: [],
                         borderColor: '#48bb78',
                         backgroundColor: 'rgba(72, 187, 120, 0.1)',
@@ -358,18 +358,18 @@
                 }
             });
 
-            // 内容发布统计�?
+            // 鍐呭鍙戝竷缁熻锟?
             const contentCtx = document.getElementById('contentChart').getContext('2d');
             charts.content = new Chart(contentCtx, {
                 type: 'bar',
                 data: {
                     labels: [],
                     datasets: [{
-                        label: '文章',
+                        label: '鏂囩珷',
                         data: [],
                         backgroundColor: '#667eea'
                     }, {
-                        label: '评论',
+                        label: '璇勮',
                         data: [],
                         backgroundColor: '#48bb78'
                     }]
@@ -382,28 +382,28 @@
                 }
             });
 
-            // 营收趋势�?
+            // 钀ユ敹瓒嬪娍锟?
             const revenueCtx = document.getElementById('revenueChart').getContext('2d');
             charts.revenue = new Chart(revenueCtx, {
                 type: 'line',
                 data: {
                     labels: [],
                     datasets: [{
-                        label: '会员订阅',
+                        label: '浼氬憳璁㈤槄',
                         data: [],
                         borderColor: '#667eea',
                         backgroundColor: 'rgba(102, 126, 234, 0.1)',
                         tension: 0.4,
                         fill: true
                     }, {
-                        label: '商品销�?,
+                        label: '鍟嗗搧閿€锟?,
                         data: [],
                         borderColor: '#48bb78',
                         backgroundColor: 'rgba(72, 187, 120, 0.1)',
                         tension: 0.4,
                         fill: true
                     }, {
-                        label: '打赏收入',
+                        label: '鎵撹祻鏀跺叆',
                         data: [],
                         borderColor: '#9f7aea',
                         backgroundColor: 'rgba(159, 122, 234, 0.1)',
@@ -419,12 +419,12 @@
                 }
             });
 
-            // 访问来源分布�?
+            // 璁块棶鏉ユ簮鍒嗗竷锟?
             const sourceCtx = document.getElementById('sourceChart').getContext('2d');
             charts.source = new Chart(sourceCtx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['直接访问', '搜索引擎', '社交媒体', '外部链接', '其他'],
+                    labels: ['鐩存帴璁块棶', '鎼滅储寮曟搸', '绀句氦濯掍綋', '澶栭儴閾炬帴', '鍏朵粬'],
                     datasets: [{
                         data: [35, 30, 20, 10, 5],
                         backgroundColor: ['#667eea', '#48bb78', '#9f7aea', '#ed8936', '#a0aec0']
@@ -437,14 +437,14 @@
                 }
             });
 
-            // 实时数据�?
+            // 瀹炴椂鏁版嵁锟?
             const realtimeCtx = document.getElementById('realtimeChart').getContext('2d');
             charts.realtime = new Chart(realtimeCtx, {
                 type: 'line',
                 data: {
                     labels: Array(20).fill(''),
                     datasets: [{
-                        label: '在线用户',
+                        label: '鍦ㄧ嚎鐢ㄦ埛',
                         data: Array(20).fill(0),
                         borderColor: '#667eea',
                         backgroundColor: 'rgba(102, 126, 234, 0.1)',
@@ -466,7 +466,7 @@
             });
         }
 
-        // 加载仪表盘数�?
+        // 鍔犺浇浠〃鐩樻暟锟?
         async function loadDashboardData() {
             try {
                 const response = await fetch('/api/admin/dashboard/realtime', {
@@ -483,13 +483,13 @@
                     updateDeviceStats(result);
                 }
             } catch (error) {
-                console.error('加载数据失败:', error);
-                // 使用模拟数据
+                console.error('鍔犺浇鏁版嵁澶辫触:', error);
+                // 浣跨敤妯℃嫙鏁版嵁
                 loadMockData();
             }
         }
 
-        // 更新指标卡片
+        // 鏇存柊鎸囨爣鍗＄墖
         function updateMetrics(data) {
             if (data.users) {
                 document.getElementById('totalUsers').textContent = formatNumber(data.users.total || 0);
@@ -504,26 +504,26 @@
                 document.getElementById('activeToday').textContent = formatNumber(data.interactions.active_today || 0);
             }
             if (data.commerce) {
-                document.getElementById('totalRevenue').textContent = '¥' + formatNumber(data.commerce.total_revenue || 0);
+                document.getElementById('totalRevenue').textContent = '楼' + formatNumber(data.commerce.total_revenue || 0);
                 document.getElementById('ordersToday').textContent = formatNumber(data.commerce.orders_today || 0);
             }
         }
 
-        // 更新图表
+        // 鏇存柊鍥捐〃
         function updateCharts(data) {
-            // 这里根据实际数据结构更新图表
-            // 暂时使用模拟数据
+            // 杩欓噷鏍规嵁瀹為檯鏁版嵁缁撴瀯鏇存柊鍥捐〃
+            // 鏆傛椂浣跨敤妯℃嫙鏁版嵁
         }
 
-        // 更新地域表格
+        // 鏇存柊鍦板煙琛ㄦ牸
         function updateGeoTable(data) {
             const tbody = document.getElementById('geoTableBody');
             const mockData = [
-                { rank: 1, province: '广东', users: 12580, percent: 18.5, trend: 'up' },
-                { rank: 2, province: '北京', users: 9860, percent: 14.5, trend: 'up' },
-                { rank: 3, province: '上海', users: 8750, percent: 12.9, trend: 'stable' },
-                { rank: 4, province: '浙江', users: 6540, percent: 9.6, trend: 'up' },
-                { rank: 5, province: '江苏', users: 5890, percent: 8.7, trend: 'down' }
+                { rank: 1, province: '骞夸笢', users: 12580, percent: 18.5, trend: 'up' },
+                { rank: 2, province: '鍖椾含', users: 9860, percent: 14.5, trend: 'up' },
+                { rank: 3, province: '涓婃捣', users: 8750, percent: 12.9, trend: 'stable' },
+                { rank: 4, province: '娴欐睙', users: 6540, percent: 9.6, trend: 'up' },
+                { rank: 5, province: '姹熻嫃', users: 5890, percent: 8.7, trend: 'down' }
             ];
 
             tbody.innerHTML = mockData.map(item => `
@@ -546,14 +546,14 @@
             lucide.createIcons();
         }
 
-        // 更新设备统计
+        // 鏇存柊璁惧缁熻
         function updateDeviceStats(data) {
             const browsers = [
                 { name: 'Chrome', percent: 52 },
                 { name: 'Safari', percent: 25 },
                 { name: 'Firefox', percent: 12 },
                 { name: 'Edge', percent: 8 },
-                { name: '其他', percent: 3 }
+                { name: '鍏朵粬', percent: 3 }
             ];
 
             document.getElementById('browserStats').innerHTML = browsers.map(b => `
@@ -569,16 +569,16 @@
             `).join('');
         }
 
-        // 实时更新
+        // 瀹炴椂鏇存柊
         function startRealtimeUpdate() {
             setInterval(() => {
-                // 更新实时图表
+                // 鏇存柊瀹炴椂鍥捐〃
                 const data = charts.realtime.data.datasets[0].data;
                 data.shift();
                 data.push(Math.floor(Math.random() * 500) + 500);
                 charts.realtime.update();
 
-                // 更新系统指标
+                // 鏇存柊绯荤粺鎸囨爣
                 document.getElementById('qpsValue').textContent = Math.floor(Math.random() * 100) + 50;
                 document.getElementById('avgResponse').textContent = Math.floor(Math.random() * 100) + 20 + 'ms';
                 document.getElementById('cpuUsage').textContent = Math.floor(Math.random() * 30) + 20 + '%';
@@ -586,7 +586,7 @@
             }, 2000);
         }
 
-        // 加载模拟数据
+        // 鍔犺浇妯℃嫙鏁版嵁
         function loadMockData() {
             const mockData = {
                 users: { total: 68540, new_today: 128, growth: 12.5 },
@@ -599,7 +599,7 @@
             updateDeviceStats(mockData);
         }
 
-        // 设置时间范围
+        // 璁剧疆鏃堕棿鑼冨洿
         function setTimeRange(range) {
             document.querySelectorAll('.time-btn').forEach(btn => {
                 btn.classList.remove('bg-indigo-100', 'text-indigo-700');
@@ -611,12 +611,12 @@
             loadDashboardData();
         }
 
-        // 刷新数据
+        // 鍒锋柊鏁版嵁
         function refreshData() {
             loadDashboardData();
         }
 
-        // 全屏切换
+        // 鍏ㄥ睆鍒囨崲
         function toggleFullscreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen();
@@ -625,18 +625,19 @@
             }
         }
 
-        // 格式化数�?
+        // 鏍煎紡鍖栨暟锟?
         function formatNumber(num) {
             if (num >= 10000) {
-                return (num / 10000).toFixed(1) + '�?;
+                return (num / 10000).toFixed(1) + '锟?;
             }
             return num.toLocaleString();
         }
 
-        // 导出地域数据
+        // 瀵煎嚭鍦板煙鏁版嵁
         function downloadGeoData() {
-            alert('导出功能开发中...');
+            alert('瀵煎嚭鍔熻兘寮€鍙戜腑...');
         }
     </script>
 </body>
 </html>
+

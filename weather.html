@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>天气查询 - 更多功能</title>
+    <title>澶╂皵鏌ヨ - 鏇村鍔熻兘</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         body {
@@ -275,25 +275,25 @@
 </head>
 <body>
     <div class="weather-container">
-        <h1>🌤️ 天气查询</h1>
+        <h1>馃尋锔?澶╂皵鏌ヨ</h1>
         
         <div class="weather-search-section">
-            <input type="text" id="weatherSearchInput" class="weather-search-input" placeholder="输入城市名称或邮编...">
-            <button id="weatherSearchBtn" class="weather-search-btn">🔍 查询天气</button>
+            <input type="text" id="weatherSearchInput" class="weather-search-input" placeholder="杈撳叆鍩庡競鍚嶇О鎴栭偖缂?..">
+            <button id="weatherSearchBtn" class="weather-search-btn">馃攳 鏌ヨ澶╂皵</button>
         </div>
         
         <div class="weather-location-list">
-            <button class="weather-location-btn active" data-city="北京">北京</button>
-            <button class="weather-location-btn" data-city="上海">上海</button>
-            <button class="weather-location-btn" data-city="广州">广州</button>
-            <button class="weather-location-btn" data-city="深圳">深圳</button>
-            <button class="weather-location-btn" data-city="成都">成都</button>
-            <button class="weather-location-btn" data-city="杭州">杭州</button>
+            <button class="weather-location-btn active" data-city="鍖椾含">鍖椾含</button>
+            <button class="weather-location-btn" data-city="涓婃捣">涓婃捣</button>
+            <button class="weather-location-btn" data-city="骞垮窞">骞垮窞</button>
+            <button class="weather-location-btn" data-city="娣卞湷">娣卞湷</button>
+            <button class="weather-location-btn" data-city="鎴愰兘">鎴愰兘</button>
+            <button class="weather-location-btn" data-city="鏉窞">鏉窞</button>
         </div>
         
         <div id="weatherLoading" class="weather-loading">
             <div class="weather-loading-spinner"></div>
-            <p>正在获取天气数据...</p>
+            <p>姝ｅ湪鑾峰彇澶╂皵鏁版嵁...</p>
         </div>
         
         <div id="weatherError" class="weather-error"></div>
@@ -304,7 +304,7 @@
                     <div id="weatherCityName" class="weather-city-name"></div>
                     <div id="weatherDate" class="weather-date"></div>
                 </div>
-                <button id="weatherRefreshBtn" class="weather-search-btn">🔄 刷新</button>
+                <button id="weatherRefreshBtn" class="weather-search-btn">馃攧 鍒锋柊</button>
             </div>
             
             <div class="weather-main">
@@ -312,38 +312,38 @@
                     <div id="weatherTemperature" class="weather-temperature"></div>
                     <div id="weatherDescription" class="weather-description"></div>
                 </div>
-                <img id="weatherIcon" class="weather-icon" src="" alt="天气图标">
+                <img id="weatherIcon" class="weather-icon" src="" alt="澶╂皵鍥炬爣">
             </div>
             
             <div class="weather-details">
                 <div class="weather-detail-item">
-                    <div class="weather-detail-icon">💨</div>
+                    <div class="weather-detail-icon">馃挩</div>
                     <div class="weather-detail-content">
-                        <div class="weather-detail-label">风速</div>
+                        <div class="weather-detail-label">椋庨€?/div>
                         <div id="weatherWindSpeed" class="weather-detail-value"></div>
                     </div>
                 </div>
                 
                 <div class="weather-detail-item">
-                    <div class="weather-detail-icon">💧</div>
+                    <div class="weather-detail-icon">馃挧</div>
                     <div class="weather-detail-content">
-                        <div class="weather-detail-label">湿度</div>
+                        <div class="weather-detail-label">婀垮害</div>
                         <div id="weatherHumidity" class="weather-detail-value"></div>
                     </div>
                 </div>
                 
                 <div class="weather-detail-item">
-                    <div class="weather-detail-icon">🌡️</div>
+                    <div class="weather-detail-icon">馃尅锔?/div>
                     <div class="weather-detail-content">
-                        <div class="weather-detail-label">气压</div>
+                        <div class="weather-detail-label">姘斿帇</div>
                         <div id="weatherPressure" class="weather-detail-value"></div>
                     </div>
                 </div>
                 
                 <div class="weather-detail-item">
-                    <div class="weather-detail-icon">👁️</div>
+                    <div class="weather-detail-icon">馃憗锔?/div>
                     <div class="weather-detail-content">
-                        <div class="weather-detail-label">能见度</div>
+                        <div class="weather-detail-label">鑳借搴?/div>
                         <div id="weatherVisibility" class="weather-detail-value"></div>
                     </div>
                 </div>
@@ -351,7 +351,7 @@
         </div>
     </div>
     
-    <a href="features.html" class="back-btn">返回更多功能</a>
+    <a href="features.html" class="back-btn">杩斿洖鏇村鍔熻兘</a>
     
     <script src="js/weather.js"></script>
 </body>

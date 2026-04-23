@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>消息中心 - Hakimi 的猫爬架</title>
+    <title>娑堟伅涓績 - Hakimi 鐨勭尗鐖灦</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <link rel="stylesheet" href="css/messages.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* 消息中心样式 */
+        /* 娑堟伅涓績鏍峰紡 */
         .messages-container {
             max-width: 1200px;
             margin: 80px auto 40px;
@@ -134,7 +134,7 @@
             padding: 0 6px;
         }
         
-        /* 聊天区域 */
+        /* 鑱婂ぉ鍖哄煙 */
         .chat-area {
             background: white;
             border-radius: 16px;
@@ -346,7 +346,7 @@
             transform: none;
         }
         
-        /* 空状态 */
+        /* 绌虹姸鎬?*/
         .empty-state {
             flex: 1;
             display: flex;
@@ -366,7 +366,7 @@
             font-size: 1.1em;
         }
         
-        /* 响应式 */
+        /* 鍝嶅簲寮?*/
         @media (max-width: 768px) {
             .messages-container {
                 grid-template-columns: 1fr;
@@ -388,7 +388,7 @@
             }
         }
         
-        /* 提及样式 */
+        /* 鎻愬強鏍峰紡 */
         .mention {
             color: #667eea;
             font-weight: 600;
@@ -403,35 +403,35 @@
 <body>
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
-            <a href="/" class="nav-logo">Hakimi 的猫爬架</a>
+            <a href="/" class="nav-logo">Hakimi 鐨勭尗鐖灦</a>
             <div class="nav-links">
-                <a href="/" class="nav-link">首页</a>
-                <a href="/articles.html" class="nav-link">文章</a>
-                <a href="/groups.html" class="nav-link">群组</a>
-                <a href="/events.html" class="nav-link">活动</a>
-                <a href="/messages.html" class="nav-link active">消息</a>
+                <a href="/" class="nav-link">棣栭〉</a>
+                <a href="/articles.html" class="nav-link">鏂囩珷</a>
+                <a href="/groups.html" class="nav-link">缇ょ粍</a>
+                <a href="/events.html" class="nav-link">娲诲姩</a>
+                <a href="/messages.html" class="nav-link active">娑堟伅</a>
             </div>
         </nav>
 
         <div class="messages-container">
-            <!-- 会话列表 -->
+            <!-- 浼氳瘽鍒楄〃 -->
             <div class="conversations-sidebar">
                 <div class="sidebar-header">
-                    <h2>💬 消息中心</h2>
+                    <h2>馃挰 娑堟伅涓績</h2>
                     <button class="new-message-btn" onclick="startNewConversation()">
-                        ✉️ 新建私信
+                        鉁夛笍 鏂板缓绉佷俊
                     </button>
                 </div>
                 <div class="conversations-list" id="conversationList">
-                    <!-- 会话列表将动态加载 -->
+                    <!-- 浼氳瘽鍒楄〃灏嗗姩鎬佸姞杞?-->
                 </div>
             </div>
 
-            <!-- 聊天区域 -->
+            <!-- 鑱婂ぉ鍖哄煙 -->
             <div class="chat-area">
                 <div class="empty-state" id="emptyState">
-                    <div class="empty-state-icon">💬</div>
-                    <p class="empty-state-text">选择一个会话开始聊天</p>
+                    <div class="empty-state-icon">馃挰</div>
+                    <p class="empty-state-text">閫夋嫨涓€涓細璇濆紑濮嬭亰澶?/p>
                 </div>
                 
                 <div class="chat-header" id="chatHeader" style="display: none;">
@@ -439,50 +439,50 @@
                         <img src="" alt="" class="chat-user-avatar" id="chatUserAvatar">
                         <div>
                             <div class="chat-user-name" id="chatUserName"></div>
-                            <div class="chat-user-status" id="chatUserStatus">在线</div>
+                            <div class="chat-user-status" id="chatUserStatus">鍦ㄧ嚎</div>
                         </div>
                     </div>
                     <div class="chat-actions">
-                        <button class="chat-action-btn" title="语音通话" onclick="startVoiceCall()">📞</button>
-                        <button class="chat-action-btn" title="视频通话" onclick="startVideoCall()">📹</button>
-                        <button class="chat-action-btn" title="更多" onclick="showChatMenu()">⋮</button>
+                        <button class="chat-action-btn" title="璇煶閫氳瘽" onclick="startVoiceCall()">馃摓</button>
+                        <button class="chat-action-btn" title="瑙嗛閫氳瘽" onclick="startVideoCall()">馃摴</button>
+                        <button class="chat-action-btn" title="鏇村" onclick="showChatMenu()">鈰?/button>
                     </div>
                 </div>
 
                 <div class="messages-list" id="messagesList" style="display: none;">
-                    <!-- 消息将动态加载 -->
+                    <!-- 娑堟伅灏嗗姩鎬佸姞杞?-->
                 </div>
 
                 <div class="chat-input-area" id="chatInputArea" style="display: none;">
                     <div class="input-toolbar">
-                        <button class="toolbar-btn" title="表情" onclick="showEmojiPicker()">😊</button>
-                        <button class="toolbar-btn" title="图片" onclick="selectImage()">🖼️</button>
-                        <button class="toolbar-btn" title="文件" onclick="selectFile()">📎</button>
-                        <button class="toolbar-btn" title="@提及" onclick="showMentionPicker()">@</button>
+                        <button class="toolbar-btn" title="琛ㄦ儏" onclick="showEmojiPicker()">馃槉</button>
+                        <button class="toolbar-btn" title="鍥剧墖" onclick="selectImage()">馃柤锔?/button>
+                        <button class="toolbar-btn" title="鏂囦欢" onclick="selectFile()">馃搸</button>
+                        <button class="toolbar-btn" title="@鎻愬強" onclick="showMentionPicker()">@</button>
                     </div>
                     <div class="chat-input-wrapper">
-                        <textarea class="chat-input" id="messageInput" placeholder="输入消息..." rows="1"></textarea>
-                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+                        <textarea class="chat-input" id="messageInput" placeholder="杈撳叆娑堟伅..." rows="1"></textarea>
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">鉃?/button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 新建私信模态框 -->
+    <!-- 鏂板缓绉佷俊妯℃€佹 -->
     <div class="modal" id="newMessageModal" style="display: none;">
         <div class="modal-content" style="max-width: 400px;">
             <div class="modal-header">
-                <h3>发送私信</h3>
-                <button class="close-btn" onclick="closeNewMessageModal()">×</button>
+                <h3>鍙戦€佺淇?/h3>
+                <button class="close-btn" onclick="closeNewMessageModal()">脳</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>搜索用户</label>
-                    <input type="text" id="userSearchInput" placeholder="输入用户名..." oninput="searchUsers(this.value)">
+                    <label>鎼滅储鐢ㄦ埛</label>
+                    <input type="text" id="userSearchInput" placeholder="杈撳叆鐢ㄦ埛鍚?.." oninput="searchUsers(this.value)">
                 </div>
                 <div id="userSearchResults" style="max-height: 200px; overflow-y: auto;">
-                    <!-- 搜索结果 -->
+                    <!-- 鎼滅储缁撴灉 -->
                 </div>
             </div>
         </div>
@@ -490,7 +490,7 @@
 
     <script type="module" src="js/messages.js"></script>
     <script>
-        // 全局函数
+        // 鍏ㄥ眬鍑芥暟
         function startNewConversation() {
             document.getElementById('newMessageModal').style.display = 'flex';
         }
@@ -500,47 +500,47 @@
         }
         
         function showEmojiPicker() {
-            // 实现表情选择器
+            // 瀹炵幇琛ㄦ儏閫夋嫨鍣?
             console.log('Show emoji picker');
         }
         
         function selectImage() {
-            // 实现图片选择
+            // 瀹炵幇鍥剧墖閫夋嫨
             console.log('Select image');
         }
         
         function selectFile() {
-            // 实现文件选择
+            // 瀹炵幇鏂囦欢閫夋嫨
             console.log('Select file');
         }
         
         function showMentionPicker() {
-            // 实现@提及选择
+            // 瀹炵幇@鎻愬強閫夋嫨
             const input = document.getElementById('messageInput');
             input.value += '@';
             input.focus();
         }
         
         function startVoiceCall() {
-            showToast('语音通话功能开发中');
+            showToast('璇煶閫氳瘽鍔熻兘寮€鍙戜腑');
         }
         
         function startVideoCall() {
-            showToast('视频通话功能开发中');
+            showToast('瑙嗛閫氳瘽鍔熻兘寮€鍙戜腑');
         }
         
         function showChatMenu() {
-            // 显示聊天菜单
+            // 鏄剧ず鑱婂ぉ鑿滃崟
             console.log('Show chat menu');
         }
         
         function searchUsers(query) {
-            // 搜索用户
+            // 鎼滅储鐢ㄦ埛
             console.log('Search users:', query);
         }
         
         function showToast(message) {
-            // 简单的toast提示
+            // 绠€鍗曠殑toast鎻愮ず
             const toast = document.createElement('div');
             toast.style.cssText = `
                 position: fixed;
@@ -560,7 +560,7 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        // 模拟发送消息
+        // 妯℃嫙鍙戦€佹秷鎭?
         let currentConversationId = null;
         
         function sendMessage() {
@@ -569,14 +569,14 @@
             
             if (!content) return;
             
-            // 添加到消息列表
+            // 娣诲姞鍒版秷鎭垪琛?
             const messagesList = document.getElementById('messagesList');
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message own';
             messageDiv.innerHTML = `
                 <div class="message-content">
                     <div class="message-bubble">${escapeHtml(content)}</div>
-                    <div class="message-time">刚刚</div>
+                    <div class="message-time">鍒氬垰</div>
                 </div>
             `;
             messagesList.appendChild(messageDiv);
@@ -592,13 +592,13 @@
             return div.innerHTML;
         }
         
-        // 输入框自动调整高度
+        // 杈撳叆妗嗚嚜鍔ㄨ皟鏁撮珮搴?
         document.getElementById('messageInput')?.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 120) + 'px';
         });
         
-        // 回车发送
+        // 鍥炶溅鍙戦€?
         document.getElementById('messageInput')?.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -608,3 +608,4 @@
     </script>
 </body>
 </html>
+

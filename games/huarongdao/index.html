@@ -1,25 +1,25 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>华容道 - 经典益智游戏</title>
+    <title>鍗庡閬?- 缁忓吀鐩婃櫤娓告垙</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="game-container">
-        <h1>华容道</h1>
+        <h1>鍗庡閬?/h1>
         <div class="game-info">
             <div class="info-item">
-                <span class="label">步数：</span>
+                <span class="label">姝ユ暟锛?/span>
                 <span id="moves-count">0</span>
             </div>
             <div class="info-item">
-                <span class="label">最少：</span>
+                <span class="label">鏈€灏戯細</span>
                 <span id="min-steps">-</span>
             </div>
             <div class="info-item">
-                <span class="label">时间：</span>
+                <span class="label">鏃堕棿锛?/span>
                 <span id="timer">00:00</span>
             </div>
         </div>
@@ -27,30 +27,31 @@
             <div class="board-border">
                 <div id="board" class="board"></div>
                 <div class="exit-gate">
-                    <span>出口</span>
+                    <span>鍑哄彛</span>
                 </div>
             </div>
         </div>
         <div class="controls">
             <div class="layout-selector">
-                <label for="layout-select">选择布局：</label>
+                <label for="layout-select">閫夋嫨甯冨眬锛?/label>
                 <select id="layout-select"></select>
             </div>
             <div class="button-group">
-                <button id="btn-reset" class="btn btn-reset">重新开始</button>
-                <button id="btn-undo" class="btn btn-undo">撤销</button>
+                <button id="btn-reset" class="btn btn-reset">閲嶆柊寮€濮?/button>
+                <button id="btn-undo" class="btn btn-undo">鎾ら攢</button>
             </div>
         </div>
         <div id="win-modal" class="modal hidden">
             <div class="modal-content">
-                <h2>🎉 恭喜通关！</h2>
-                <p>曹操成功逃出华容道！</p>
-                <p>总步数：<span id="win-moves"></span> 步</p>
-                <p>用时：<span id="win-time"></span></p>
-                <button id="btn-play-again" class="btn btn-reset">再来一局</button>
+                <h2>馃帀 鎭枩閫氬叧锛?/h2>
+                <p>鏇规搷鎴愬姛閫冨嚭鍗庡閬擄紒</p>
+                <p>鎬绘鏁帮細<span id="win-moves"></span> 姝?/p>
+                <p>鐢ㄦ椂锛?span id="win-time"></span></p>
+                <button id="btn-play-again" class="btn btn-reset">鍐嶆潵涓€灞€</button>
             </div>
         </div>
     </div>
     <script src="game.js"></script>
 </body>
 </html>
+

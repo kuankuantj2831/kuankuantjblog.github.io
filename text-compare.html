@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文本对比工具 - 更多功能</title>
+    <title>鏂囨湰瀵规瘮宸ュ叿 - 鏇村鍔熻兘</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         body {
@@ -126,28 +126,28 @@
 </head>
 <body>
     <div class="text-compare-container">
-        <h1>📝 文本对比工具</h1>
+        <h1>馃摑 鏂囨湰瀵规瘮宸ュ叿</h1>
         
         <div class="text-inputs">
             <div class="text-input-container">
-                <label for="text1">原始文本</label>
-                <textarea id="text1" placeholder="请输入原始文本..."></textarea>
+                <label for="text1">鍘熷鏂囨湰</label>
+                <textarea id="text1" placeholder="璇疯緭鍏ュ師濮嬫枃鏈?.."></textarea>
             </div>
             
             <div class="text-input-container">
-                <label for="text2">对比文本</label>
-                <textarea id="text2" placeholder="请输入对比文本..."></textarea>
+                <label for="text2">瀵规瘮鏂囨湰</label>
+                <textarea id="text2" placeholder="璇疯緭鍏ュ姣旀枃鏈?.."></textarea>
             </div>
         </div>
         
         <div class="compare-button">
-            <button id="compareBtn">开始对比</button>
+            <button id="compareBtn">寮€濮嬪姣?/button>
         </div>
         
         <div class="compare-results" id="compareResults">
-            <h3>对比结果</h3>
+            <h3>瀵规瘮缁撴灉</h3>
             <div id="resultContent">
-                <p>请输入文本并点击"开始对比"按钮查看差异</p>
+                <p>璇疯緭鍏ユ枃鏈苟鐐瑰嚮"寮€濮嬪姣?鎸夐挳鏌ョ湅宸紓</p>
             </div>
         </div>
     </div>
@@ -158,7 +158,7 @@
             const text2 = document.getElementById('text2').value;
             
             if (!text1 || !text2) {
-                alert('请输入要对比的两段文本');
+                alert('璇疯緭鍏ヨ瀵规瘮鐨勪袱娈垫枃鏈?);
                 return;
             }
             
@@ -166,7 +166,7 @@
             displayDiff(diffResult);
         });
         
-        // 简单的文本对比算法
+        // 绠€鍗曠殑鏂囨湰瀵规瘮绠楁硶
         function diff(text1, text2) {
             const lines1 = text1.split('\n');
             const lines2 = text2.split('\n');
@@ -180,7 +180,7 @@
                     i++;
                     j++;
                 } else if (i < lines1.length && j < lines2.length) {
-                    // 检查是否有匹配的行
+                    // 妫€鏌ユ槸鍚︽湁鍖归厤鐨勮
                     const matchIndex = lines2.slice(j).indexOf(lines1[i]);
                     if (matchIndex !== -1) {
                         for (let k = j; k < j + matchIndex; k++) {
@@ -222,17 +222,17 @@
                 diffCount[diff.type]++;
             });
             
-            // 显示统计信息
+            // 鏄剧ず缁熻淇℃伅
             const stats = document.createElement('div');
             stats.className = 'diff-stats';
             stats.innerHTML = `
                 <p>
-                    <strong>统计信息:</strong> 
-                    新增 ${diffCount.add} 行, 删除 ${diffCount.remove} 行, 相同 ${diffCount.equal} 行
-                </p>
+                    <strong>缁熻淇℃伅:</strong> 
+                    鏂板 ${diffCount.add} 琛? 鍒犻櫎 ${diffCount.remove} 琛? 鐩稿悓 ${diffCount.equal} 琛?                </p>
             `;
             resultContent.insertBefore(stats, resultContent.firstChild);
         }
     </script>
 </body>
 </html>
+
