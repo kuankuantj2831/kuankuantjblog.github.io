@@ -272,9 +272,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const qrContent = document.getElementById('qrContent');
     const qrSize = document.getElementById('qrSize');
     const qrLevel = document.getElementById('qrLevel');
-    const qrForeground = document.getElementById('qrForeground');
-    const qrBackground = document.getElementById('qrBackground');
-    const qrCanvas = document.getElementById('qrCanvas');
+    const qrForeground = document.getElementById('qrForeColor');
+    const qrBackground = document.getElementById('qrBackColor');
+    const qrCanvas = document.getElementById('qrCodeCanvas');
     const sizeValue = document.getElementById('sizeValue');
     
     // 更新尺寸显示
