@@ -1,0 +1,5 @@
+/**
+ * 功能 67: 自动折叠长内容
+ * 超过一定高度的内容自动折叠，显示"展开更多"
+ */
+(function(){function init(){document.querySelectorAll('.auto-collapse,[data-collapse]').forEach(function(el){if(el.dataset.collapsed)return;var maxH=parseInt(el.dataset.collapse)||300;if(el.scrollHeight<=maxH)return;el.dataset.collapsed='true';el.style.maxHeight=maxH+'px';el.style.overflow='hidden';el.style.position='relative';var mask=document.createElement('div');mask.style.cssText='position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,white);pointer-events:none;';el.appendChild(mask);var btn=document.createElement('button');btn.textContent='展开更多 ▼';btn.style.cssText='display:block;margin:10px auto;padding:8px 20px;border:1px solid #ddd;border-radius:20px;background:#fff;cursor:pointer;font-size:13px;color:#667eea;';btn.addEventListener('click',function(){el.style.maxHeight='none';mask.remove();btn.remove();});el.parentNode.insertBefore(btn,el.nextSibling);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();

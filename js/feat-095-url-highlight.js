@@ -1,0 +1,5 @@
+/**
+ * 功能 95: 页面内容搜索高亮（URL参数）
+ * 支持 ?highlight=关键词 自动高亮
+ */
+(function(){var params=new URLSearchParams(location.search);var kw=params.get('highlight')||params.get('q');if(kw&&window.highlightText)window.highlightText(kw);else if(kw){var style=document.createElement('style');style.textContent='mark.url-highlight{background:#feca57;padding:1px 3px;border-radius:3px;}';document.head.appendChild(style);function init(){var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);var nodes=[];while(walker.nextNode()){if(walker.currentNode.textContent.includes(kw))nodes.push(walker.currentNode);}nodes.forEach(function(n){var p=n.parentNode;if(p.tagName==='SCRIPT'||p.tagName==='STYLE')return;var s=document.createElement('span');s.innerHTML=n.textContent.replace(new RegExp('('+kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark class="url-highlight">$1</mark>');p.replaceChild(s,n);});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();}})();

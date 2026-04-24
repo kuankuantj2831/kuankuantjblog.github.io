@@ -1,0 +1,4 @@
+/**
+ * 功能 94: 自动生成面包屑导航
+ */
+(function(){function init(){var path=location.pathname.split('/').filter(Boolean);if(path.length<2)return;var nav=document.createElement('nav');nav.setAttribute('aria-label','breadcrumb');nav.style.cssText='padding:10px 20px;font-size:12px;color:#999;';var html='<a href="/" style="color:#667eea;text-decoration:none;">首页</a>';path.forEach(function(p,i){var href='/'+path.slice(0,i+1).join('/');var name=p.replace(/\.html$/,'').replace(/-/g,' ');html+=' / '+(i===path.length-1?'<span>'+name+'</span>':'<a href="'+href+'" style="color:#667eea;text-decoration:none;">'+name+'</a>');});nav.innerHTML=html;var main=document.querySelector('main,.article-container,.features-wrapper,.games-container');if(main)main.parentNode.insertBefore(nav,main);}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
