@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>发布文章 - Hakimi 的猫爬架</title>
 
-    <!-- 性能优化：预连接 API 服务�?-->
+    <!-- 性能优化：预连接 API 服务�?-->
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
@@ -139,7 +139,7 @@
             box-shadow: none;
         }
 
-        /* Markdown编辑器样�?*/
+        /* Markdown编辑器样�?*/
         #md-editor-container {
             margin-bottom: 20px;
         }
@@ -203,7 +203,7 @@
             background: rgba(102, 126, 234, 0.05);
         }
 
-        /* 设置�?*/
+        /* 设置�?*/
         .setting-item {
             display: flex;
             justify-content: space-between;
@@ -371,7 +371,7 @@
 
         <div class="editor-page-container">
             <div class="editor-header">
-                <h1 class="editor-title">✍️ 发布新文�?/h1>
+                <h1 class="editor-title">✍️ 发布新文章</h1>
             </div>
 
             <div class="editor-layout">
@@ -387,7 +387,7 @@
                             <label class="form-label">正文内容</label>
                             <div id="md-editor-container"></div>
                             <textarea class="form-textarea" id="articleContent" 
-                                      placeholder="# 标题&#10;&#10;开始你的创�?.." 
+                                      placeholder="# 标题&#10;&#10;开始你的创�?.." 
                                       style="display: none;" required></textarea>
                         </div>
 
@@ -404,7 +404,7 @@
                         <div class="form-group">
                             <label class="form-label">分类</label>
                             <select class="form-select" id="articleCategory">
-                                <option value="编程技�?>💻 编程技�?/option>
+                                <option value="编程技�?>💻 编程技�?/option>
                                 <option value="游戏资源">🎮 游戏资源</option>
                                 <option value="设计素材">🎨 设计素材</option>
                                 <option value="学习资料">📚 学习资料</option>
@@ -456,10 +456,10 @@
                     <div class="sidebar-card" id="collabCard" style="display: none;">
                         <h3>🤝 协作分享</h3>
                         <div class="collab-list" id="collabList">
-                            <!-- 动态加载协作�?-->
+                            <!-- 动态加载协作�?-->
                         </div>
                         <button type="button" class="btn-add-collab" id="btnAddCollab">
-                            + 添加协作�?
+                            + 添加协作�?
                         </button>
                         
                         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
@@ -479,7 +479,7 @@
     <div class="modal-overlay" id="collabModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>添加协作�?/h3>
+                <h3>添加协作�?/h3>
                 <button type="button" class="btn-close-modal" id="btnCloseCollab">&times;</button>
             </div>
             <div class="modal-body">
@@ -491,9 +491,9 @@
                 <div class="form-group">
                     <label class="form-label">权限</label>
                     <select class="form-select" id="collabPermission">
-                        <option value="view">仅查�?/option>
-                        <option value="comment">可评�?/option>
-                        <option value="edit">可编�?/option>
+                        <option value="view">仅查�?/option>
+                        <option value="comment">可评�?/option>
+                        <option value="edit">可编�?/option>
                     </select>
                 </div>
                 <button type="button" class="btn-confirm" id="btnConfirmCollab">添加</button>
@@ -505,60 +505,7 @@
     <script type="module" src="/js/editor-enhanced.js?v=20260403"></script>
     <script src="/js/theme.js?v=1"></script>
 
-    <!-- Win7 Emoji 兼容性处�?-->
-    <script>
-    (function() {
-        function isWindows7() {
-            var ua = navigator.userAgent;
-            return ua.indexOf('Windows NT 6.1') !== -1 || 
-                   ua.indexOf('Windows 7') !== -1;
-        }
-        
-        var emojiMap = {
-            "🐱": "�?,
-            "🏠": "首页",
-            "🎮": "游戏",
-            "☁️": "�?,
-            "☀�?: "太阳",
-            "❤️": "爱心",
-            "🎯": "关于",
-            "💬": "消息",
-            "🔔": "通知",
-            "👤": "用户",
-            "📝": "编辑",
-            "⬆️": "升级",
-            "🖼�?: "图片",
-            "✍️": "写作",
-            "🚀": "发布",
-            "📋": "列表",
-            "💻": "电脑",
-            "🎨": "设计",
-            "📚": "书本",
-            "🔧": "工具",
-            "⚙️": "设置",
-            "🤝": "合作"
-        };
-        
-        if (isWindows7()) {
-            function replaceEmoji() {
-                var elements = document.querySelectorAll('.editor-title, .nav-link, .btn-publish, label, h3');
-                elements.forEach(function(el) {
-                    var text = el.textContent;
-                    for (var emoji in emojiMap) {
-                        text = text.split(emoji).join(emojiMap[emoji]);
-                    }
-                    el.textContent = text;
-                });
-            }
-            
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', replaceEmoji);
-            } else {
-                replaceEmoji();
-            }
-        }
-    })();
-    </script>
+    
 </body>
 
 </html>
