@@ -1,0 +1,2 @@
+/** 功能 115: 渐变边框动画 */
+(function(){var s=document.createElement('style');s.textContent='@keyframes borderRotate{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}.gradient-border{position:relative;border-radius:12px;padding:3px;background:linear-gradient(90deg,#667eea,#764ba2,#f093fb,#667eea);background-size:300% 100%;animation:borderRotate 3s ease infinite;}.gradient-border>*{background:#fff;border-radius:10px;padding:inherit;}';document.head.appendChild(s);})();

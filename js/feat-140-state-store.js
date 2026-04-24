@@ -1,0 +1,2 @@
+/** 功能 140: 简易状态管理 */
+(function(){window.createStore=function(initialState){var state=JSON.parse(JSON.stringify(initialState||{}));var listeners=[];return{getState:function(){return JSON.parse(JSON.stringify(state));},setState:function(partial){Object.assign(state,partial);listeners.forEach(function(fn){fn(state);});},subscribe:function(fn){listeners.push(fn);return function(){listeners=listeners.filter(function(f){return f!==fn;});};},reset:function(){state=JSON.parse(JSON.stringify(initialState||{}));listeners.forEach(function(fn){fn(state);});}};};})();

@@ -1,0 +1,2 @@
+/** 功能 177: 简易UUID生成器 */
+(function(){window.uuid=function(){if(crypto.randomUUID)return crypto.randomUUID();return'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0;return(c==='x'?r:r&0x3|0x8).toString(16);});};window.shortId=function(len){len=len||8;var chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';var id='';for(var i=0;i<len;i++)id+=chars[Math.floor(Math.random()*chars.length)];return id;};})();

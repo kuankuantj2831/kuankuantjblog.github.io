@@ -1,0 +1,2 @@
+/** 功能 119: 剪贴板历史 */
+(function(){var history=JSON.parse(localStorage.getItem('clipHistory')||'[]');document.addEventListener('copy',function(){var text=window.getSelection().toString().trim();if(text&&text.length>2){history.unshift({text:text.substring(0,200),time:Date.now()});if(history.length>20)history.pop();localStorage.setItem('clipHistory',JSON.stringify(history));}});window.getClipHistory=function(){return history;};})();

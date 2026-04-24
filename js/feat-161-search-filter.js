@@ -1,0 +1,2 @@
+/** 功能 161: 简易搜索过滤 */
+(function(){window.createFilter=function(inputSel,listSel){var input=document.querySelector(inputSel);var list=document.querySelector(listSel);if(!input||!list)return;input.addEventListener('input',function(){var kw=input.value.toLowerCase();Array.from(list.children).forEach(function(item){var text=(item.textContent||'').toLowerCase();item.style.display=text.includes(kw)?'':'none';});});};})();

@@ -1,0 +1,2 @@
+/** 功能 185: 简易防XSS工具 */
+(function(){window.sanitize={html:function(str){var d=document.createElement('div');d.textContent=str;return d.innerHTML;},url:function(url){try{var u=new URL(url);if(['http:','https:','mailto:'].includes(u.protocol))return url;return'';}catch(e){return'';}},attr:function(str){return str.replace(/['"<>&]/g,function(c){return{'\'':'&#39;','"':'&quot;','<':'&lt;','>':'&gt;','&':'&amp;'}[c];});}};})();

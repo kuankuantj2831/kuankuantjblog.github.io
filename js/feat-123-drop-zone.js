@@ -1,0 +1,2 @@
+/** 功能 123: 拖拽上传区域 */
+(function(){window.createDropZone=function(sel,callback){var el=typeof sel==='string'?document.querySelector(sel):sel;if(!el)return;el.addEventListener('dragover',function(e){e.preventDefault();el.style.border='2px dashed #667eea';el.style.background='rgba(102,126,234,0.05)';});el.addEventListener('dragleave',function(){el.style.border='';el.style.background='';});el.addEventListener('drop',function(e){e.preventDefault();el.style.border='';el.style.background='';if(callback)callback(Array.from(e.dataTransfer.files));});};})();

@@ -1,0 +1,2 @@
+/** 功能 125: 颜色选择器 */
+(function(){window.showColorPicker=function(callback){var picker=document.createElement('input');picker.type='color';picker.style.cssText='position:fixed;top:-100px;';document.body.appendChild(picker);picker.addEventListener('input',function(){if(callback)callback(picker.value);});picker.addEventListener('change',function(){if(callback)callback(picker.value);picker.remove();});picker.click();};})();

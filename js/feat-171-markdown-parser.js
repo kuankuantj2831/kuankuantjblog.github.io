@@ -1,0 +1,2 @@
+/** 功能 171: 简易Markdown解析器 */
+(function(){window.parseMarkdown=function(md){return md.replace(/^### (.*$)/gm,'<h3>$1</h3>').replace(/^## (.*$)/gm,'<h2>$1</h2>').replace(/^# (.*$)/gm,'<h1>$1</h1>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/`(.*?)`/g,'<code style="background:#f0f0f0;padding:2px 6px;border-radius:4px;">$1</code>').replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>').replace(/^- (.*$)/gm,'<li>$1</li>').replace(/(<li>.*<\/li>)/s,'<ul>$1</ul>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');};})();

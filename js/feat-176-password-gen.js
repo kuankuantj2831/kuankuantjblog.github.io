@@ -1,0 +1,2 @@
+/** 功能 176: 简易密码生成器 */
+(function(){window.generatePassword=function(length,opts){length=length||16;opts=opts||{};var chars='abcdefghijklmnopqrstuvwxyz';if(opts.uppercase!==false)chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';if(opts.numbers!==false)chars+='0123456789';if(opts.symbols!==false)chars+='!@#$%^&*()_+-=[]{}|;:,.<>?';var pw='';var arr=new Uint32Array(length);crypto.getRandomValues(arr);for(var i=0;i<length;i++)pw+=chars[arr[i]%chars.length];return pw;};})();

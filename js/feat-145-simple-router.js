@@ -1,0 +1,2 @@
+/** 功能 145: 简易路由器 */
+(function(){window.simpleRouter={routes:{},current:'',register:function(path,handler){this.routes[path]=handler;},navigate:function(path){history.pushState(null,'',path);this.current=path;if(this.routes[path])this.routes[path]();},init:function(){var self=this;window.addEventListener('popstate',function(){self.current=location.pathname;if(self.routes[self.current])self.routes[self.current]();});}};})();

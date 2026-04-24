@@ -1,0 +1,4 @@
+/**
+ * 功能 103: 文字雨效果（Matrix风格）
+ */
+(function(){window.startMatrixRain=function(duration){duration=duration||5000;var c=document.createElement('canvas');Object.assign(c.style,{position:'fixed',inset:'0',zIndex:'999998',pointerEvents:'none'});document.body.appendChild(c);var ctx=c.getContext('2d');c.width=innerWidth;c.height=innerHeight;var cols=Math.floor(c.width/14);var drops=Array(cols).fill(1);var chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*';function draw(){ctx.fillStyle='rgba(0,0,0,0.05)';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#0f0';ctx.font='14px monospace';for(var i=0;i<drops.length;i++){var ch=chars[Math.floor(Math.random()*chars.length)];ctx.fillText(ch,i*14,drops[i]*14);if(drops[i]*14>c.height&&Math.random()>0.975)drops[i]=0;drops[i]++;}requestAnimationFrame(draw);}draw();setTimeout(function(){c.remove();},duration);};})();

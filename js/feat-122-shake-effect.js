@@ -1,0 +1,2 @@
+/** 功能 122: 页面震动效果 */
+(function(){window.shakeElement=function(sel,intensity,duration){var el=typeof sel==='string'?document.querySelector(sel):sel;if(!el)return;intensity=intensity||5;duration=duration||500;el.style.transition='transform 0.05s';var start=Date.now();var t=setInterval(function(){if(Date.now()-start>duration){clearInterval(t);el.style.transform='';return;}var x=(Math.random()-0.5)*intensity*2;var y=(Math.random()-0.5)*intensity*2;el.style.transform='translate('+x+'px,'+y+'px)';},50);};})();

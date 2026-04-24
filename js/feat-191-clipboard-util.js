@@ -1,0 +1,2 @@
+/** 功能 191: 简易剪贴板工具 */
+(function(){window.clipboard={copy:function(text){return navigator.clipboard.writeText(text);},paste:function(){return navigator.clipboard.readText();},copyElement:function(sel){var el=typeof sel==='string'?document.querySelector(sel):sel;if(!el)return Promise.reject('元素不存在');var range=document.createRange();range.selectNodeContents(el);var selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);return navigator.clipboard.writeText(el.textContent);}};})();

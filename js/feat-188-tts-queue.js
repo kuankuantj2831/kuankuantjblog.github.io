@@ -1,0 +1,2 @@
+/** 功能 188: 简易文本转语音队列 */
+(function(){var queue=[];var speaking=false;window.ttsQueue={add:function(text,lang){queue.push({text:text,lang:lang||'zh-CN'});if(!speaking)this.next();},next:function(){if(!queue.length){speaking=false;return;}speaking=true;var item=queue.shift();var u=new SpeechSynthesisUtterance(item.text);u.lang=item.lang;u.onend=function(){window.ttsQueue.next();};speechSynthesis.speak(u);},stop:function(){speechSynthesis.cancel();queue=[];speaking=false;},pause:function(){speechSynthesis.pause();},resume:function(){speechSynthesis.resume();}};})();

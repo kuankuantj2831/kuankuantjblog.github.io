@@ -1,0 +1,2 @@
+/** 功能 181: 简易发布订阅 */
+(function(){window.pubsub=(function(){var topics={};return{subscribe:function(topic,fn){if(!topics[topic])topics[topic]=[];topics[topic].push(fn);return function(){topics[topic]=topics[topic].filter(function(f){return f!==fn;});};},publish:function(topic,data){if(!topics[topic])return;topics[topic].forEach(function(fn){try{fn(data);}catch(e){console.error('[PubSub]',e);}});},clear:function(topic){if(topic)delete topics[topic];else topics={};}};})();})();

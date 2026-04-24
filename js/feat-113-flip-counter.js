@@ -1,0 +1,2 @@
+/** 功能 113: 数字翻牌器 */
+(function(){window.flipCounter=function(el,target,duration){duration=duration||2000;if(typeof el==='string')el=document.querySelector(el);if(!el)return;var start=parseInt(el.textContent)||0;var startTime=performance.now();function update(now){var p=Math.min((now-startTime)/duration,1);var eased=1-Math.pow(1-p,3);el.textContent=Math.round(start+(target-start)*eased);if(p<1)requestAnimationFrame(update);}requestAnimationFrame(update);};})();

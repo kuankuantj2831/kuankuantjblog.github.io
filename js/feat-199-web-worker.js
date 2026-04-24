@@ -1,0 +1,2 @@
+/** 功能 199: 简易Web Worker创建器 */
+(function(){window.createWorker=function(fn){var blob=new Blob(['self.onmessage=function(e){var result=('+fn.toString()+')(e.data);self.postMessage(result);};'],{type:'application/javascript'});var url=URL.createObjectURL(blob);var worker=new Worker(url);URL.revokeObjectURL(url);return{run:function(data){return new Promise(function(resolve){worker.onmessage=function(e){resolve(e.data);};worker.postMessage(data);});},terminate:function(){worker.terminate();}};};})();

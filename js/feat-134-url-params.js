@@ -1,0 +1,2 @@
+/** 功能 134: URL参数解析器 */
+(function(){window.urlParams={get:function(name){return new URLSearchParams(location.search).get(name);},getAll:function(){var p={};new URLSearchParams(location.search).forEach(function(v,k){p[k]=v;});return p;},set:function(name,value){var p=new URLSearchParams(location.search);p.set(name,value);history.replaceState(null,'',location.pathname+'?'+p.toString());},remove:function(name){var p=new URLSearchParams(location.search);p.delete(name);var s=p.toString();history.replaceState(null,'',location.pathname+(s?'?'+s:''));}};})();

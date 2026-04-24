@@ -1,0 +1,2 @@
+/** 功能 169: 简易倒计时器 */
+(function(){window.createTimer=function(seconds,onTick,onDone){var remaining=seconds;var timer=null;return{start:function(){if(timer)return;timer=setInterval(function(){remaining--;if(onTick)onTick(remaining);if(remaining<=0){clearInterval(timer);timer=null;if(onDone)onDone();}},1000);},pause:function(){clearInterval(timer);timer=null;},reset:function(s){clearInterval(timer);timer=null;remaining=s||seconds;},getRemaining:function(){return remaining;}};};})();

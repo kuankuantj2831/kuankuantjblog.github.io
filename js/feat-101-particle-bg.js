@@ -1,0 +1,4 @@
+/**
+ * 功能 101: 随机背景粒子效果
+ */
+(function(){if(window.matchMedia('(hover:none)').matches)return;var c=document.createElement('canvas');c.id='particleBg';Object.assign(c.style,{position:'fixed',inset:'0',zIndex:'0',pointerEvents:'none',opacity:'0.3'});document.body.prepend(c);var ctx=c.getContext('2d');function resize(){c.width=innerWidth;c.height=innerHeight;}resize();window.addEventListener('resize',resize);var particles=[];for(var i=0;i<40;i++)particles.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5,r:Math.random()*2+1});function draw(){ctx.clearRect(0,0,c.width,c.height);particles.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>c.width)p.vx*=-1;if(p.y<0||p.y>c.height)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(102,126,234,0.4)';ctx.fill();});requestAnimationFrame(draw);}draw();})();

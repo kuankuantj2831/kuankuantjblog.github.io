@@ -1,0 +1,2 @@
+/** 功能 195: 简易屏幕方向检测 */
+(function(){window.getOrientation=function(){if(screen.orientation)return screen.orientation.type;return window.innerWidth>window.innerHeight?'landscape':'portrait';};window.addEventListener('orientationchange',function(){document.documentElement.dataset.orientation=window.getOrientation();console.log('[方向] '+window.getOrientation());});document.documentElement.dataset.orientation=window.getOrientation?window.getOrientation():'unknown';})();

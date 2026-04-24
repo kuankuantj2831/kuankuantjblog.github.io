@@ -1,0 +1,2 @@
+/** 功能 126: 本地JSON编辑器 */
+(function(){window.editJSON=function(key){var data=localStorage.getItem(key)||'{}';var val=prompt('编辑 JSON ('+key+'):',data);if(val!==null){try{JSON.parse(val);localStorage.setItem(key,val);return true;}catch(e){alert('JSON格式错误');return false;}}return false;};window.viewJSON=function(key){var data=localStorage.getItem(key);if(data){try{console.log(JSON.parse(data));}catch(e){console.log(data);}}};})();

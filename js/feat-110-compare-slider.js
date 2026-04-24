@@ -1,0 +1,4 @@
+/**
+ * 功能 110: 页面截屏对比（前后对比滑块）
+ */
+(function(){window.createCompareSlider=function(container,imgBefore,imgAfter){var el=document.querySelector(container);if(!el)return;el.style.cssText='position:relative;overflow:hidden;cursor:col-resize;';el.innerHTML='<img src="'+imgAfter+'" style="width:100%;display:block;"><div style="position:absolute;inset:0;overflow:hidden;width:50%;"><img src="'+imgBefore+'" style="width:'+el.offsetWidth+'px;height:100%;object-fit:cover;"></div><div style="position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;box-shadow:0 0 10px rgba(0,0,0,0.5);"></div>';var slider=el.children[1];var line=el.children[2];el.addEventListener('mousemove',function(e){var r=el.getBoundingClientRect();var x=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));slider.style.width=x*100+'%';line.style.left=x*100+'%';});};})();

@@ -1,0 +1,2 @@
+/** 功能 139: 事件总线 */
+(function(){var events={};window.eventBus={on:function(name,fn){if(!events[name])events[name]=[];events[name].push(fn);},off:function(name,fn){if(!events[name])return;if(fn)events[name]=events[name].filter(function(f){return f!==fn;});else delete events[name];},emit:function(name,data){if(!events[name])return;events[name].forEach(function(fn){try{fn(data);}catch(e){console.error('[EventBus]',e);}});},once:function(name,fn){var self=this;var wrapper=function(data){fn(data);self.off(name,wrapper);};this.on(name,wrapper);}};})();

@@ -1,0 +1,2 @@
+/** 功能 194: 简易振动反馈 */
+(function(){window.vibrate=function(pattern){if(!navigator.vibrate)return false;if(typeof pattern==='number')navigator.vibrate(pattern);else navigator.vibrate(pattern);return true;};window.haptic={light:function(){window.vibrate(10);},medium:function(){window.vibrate(30);},heavy:function(){window.vibrate(50);},success:function(){window.vibrate([30,50,30]);},error:function(){window.vibrate([50,30,50,30,50]);}};})();
