@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048 炴挸鎲￠?/title>
+    <title>2048 游戏</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,31 +11,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- 閺夆晜鏌ú鏍箰舵劖灏?-->
+    <!-- 返回按钮 -->
     <a href="/games.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i> 閺夆晜鏌ú鏍с掗崨濠傜搩鍘肩缓?
+        <i class="fas fa-arrow-left"></i> 返回游戏中心
     </a>
     <div class="container">
         <header>
             <h1><i class="fas fa-th-large"></i> 2048</h1>
             <div class="scores">
                 <div class="score-box">
-                    <div class="score-label">告帒妫欓弳?/div>
+                    <div class="score-label">分数</div>
                     <div class="score-value" id="score">0</div>
                 </div>
                 <div class="score-box">
-                    <div class="score-label">哄牃Δ鍌浢?/div>
+                    <div class="score-label">最高分</div>
                     <div class="score-value" id="best">0</div>
                 </div>
             </div>
         </header>
 
         <div class="game-info">
-            <p>告艾鐗嗛懟鐔煎极閺夎法鎽熼柨樻湰氶箖宕?strong>2048哄倻鎳?/strong>?/p>
+            <p>合并数字，拼出<strong>2048方块</strong>！</p>
             <div class="controls">
-                <button id="new-game">妫啯鏁?哄倻澧楃埇鏋跺爼骞?/button>
-                <button id="undo">愁偀鏅?逛勘濋弨?/button>
-                <button id="how-to-play">妫啯鎲?游戏开发喆曨鐏?/button>
+                <button id="new-game">🔄 新游戏</button>
+                <button id="undo">↩️ 撤销</button>
+                <button id="how-to-play">📖 游戏规则</button>
             </div>
         </div>
 
@@ -48,41 +48,39 @@
                 <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
             </div>
             <div class="game-over" id="game-over">
-                <h2>游戏开发磼瓨灏嗛柨?/h2>
-                <p>达絿▓鎴礆ɑ娈堕柨?span id="final-score">0</span></p>
-                <button id="try-again">告劕绉烽惁顖涚▔鈻?/button>
+                <h2>游戏结束！</h2>
+                <p>你的分数：<span id="final-score">0</span></p>
+                <button id="try-again">再试一次</button>
             </div>
             <div class="win" id="win">
-                <h2>达絿鹃鑺ョ☆厾纾?/h2>
-                <p>达絿跺礉旈攱ら柛鎴ｆ〃?048?/p>
-                <button id="continue">備綀鍛暰炴挸鎲￠?/button>
+                <h2>你赢了！</h2>
+                <p>你成功合出了2048！</p>
+                <button id="continue">继续游戏</button>
             </div>
         </div>
 
         <footer>
-            <p>?<i class="fas fa-heart"></i> 告帗婀圭紞?| 2048 炴挸鎲￠?|
+            <p>用 <i class="fas fa-heart"></i> 制作 | 2048 游戏 |
                 <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a> |
-                <a href="https://en.wikipedia.org/wiki/2048_(video_game)" target="_blank"><i class="fas fa-external-link-alt"></i> 稿繐鍘栫花?2048</a>
+                <a href="https://en.wikipedia.org/wiki/2048_(video_game)" target="_blank"><i class="fas fa-external-link-alt"></i> 关于 2048</a>
             </p>
         </footer>
     </div>
 
-    <!-- 游戏开发喆曨鐏熼梻涘灪濠?-->
+    <!-- 游戏规则面板 -->
     <div class="instructions" id="instructions">
-        <h3>妫啯鎲?游戏开发喆曨鐏?/h3>
+        <h3>📖 游戏规则</h3>
         <ul>
-            <li>达綀娉曢弫?strong>哄倻鎳撻幃堟煥?/strong>?strong>犲﹥鍨垫慨?/strong>佸ф慨鈺呭棘熺増柕?/li>
-            <li>滅増风悮杈ㄧ▔棙绁查柛湰閺嗙喓鈧稒顨堝▓鎴棘熺増鈺傜摃琚濋柨樿嫰姵掗璺ㄧ獥<strong>告艾鐗嗛懟鐔哥▔炴壆顏卞?/strong>挎稑鏈弳鐔衡偓欘殘村宕濋悩顔瑰?/li>
-            <li>絽绻戦鑲矓彃袟告艾鍑界▔剚绋夐燁吂哄牐娅ｉ埞鏍础閺偛甯柡宥夋？垫垶煎姣夐呭閺屽﹪悷鐗堝仴??挎稑顦埀?/li>
-            <li>繑绻嗛惁顖炲触喎鐏?strong>2048</strong>哄倻鎳锟犲閵夈绠柤铏玻?/li>
-            <li>滅増诲Λ呪枖閺姵涚紓囧幘浜涢柛鏂诲妽濡炲倿鏁嶇仦鍓у煑规潙绻掔划銊╁旂补?/li>
+            <li>使用<strong>方向键</strong>或<strong>滑动</strong>移动方块。</li>
+            <li>当两个相同数字的方块相触，它们会<strong>合并为一个</strong>，数字相加。</li>
+            <li>每次移动后，一个随机空单元格中会出现新方块（2或4）。</li>
+            <li>尝试合成<strong>2048</strong>方块来获胜！</li>
+            <li>当无法继续移动时，游戏结束。</li>
         </ul>
-        <button id="close-instructions">哄▍褎崱顓犵＜</button>
+        <button id="close-instructions">明白了！</button>
     </div>
 
     <script src="script.js"></script>
 
 </body>
 </html>
-
-

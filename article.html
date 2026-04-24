@@ -1,20 +1,20 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" id="metaDescription" content="Hakimi 的个人博客- 哄倸娲ㄩ悵椋庢嫚閿旇棄鍓?>
+    <meta name="description" id="metaDescription" content="Hakimi 的猫爬架 - 文章详情">
     <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Hakimi 的个人博客>
-    <meta property="og:title" id="ogTitle" content="哄倸娲ㄩ悵?- Hakimi 的个人博客>
+    <meta property="og:site_name" content="Hakimi 的猫爬架">
+    <meta property="og:title" id="ogTitle" content="文章 - Hakimi 的猫爬架">
     <meta property="og:description" id="ogDescription" content="">
     <meta property="og:url" id="ogUrl" content="">
     <meta property="og:image" content="https://mcock.cn/images/forrestgump.png">
     <link rel="canonical" id="canonicalUrl" href="">
-    <title>哄倸娲ㄩ悵鐑藉礉樼儤绁板?.. - Hakimi 的个人博客/title>
+    <title>文章加载中... - Hakimi 的猫爬架</title>
 
-    <!-- 诡儸鍡楀幋村吋锚垫煡鏁嶅棰濇殨閺夆晝炵敮?API 哄牆绉存慨鐔煎闯?-->
+    <!-- 性能优化：预连接 API 服务器 -->
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
@@ -59,7 +59,7 @@
             color: #2c3e50;
         }
 
-        /* Markdown 炴挸堕悡瀣冀瀹勬壆纭 */
+        /* Markdown 渲染样式 */
         .article-content h1,
         .article-content h2,
         .article-content h3,
@@ -176,7 +176,7 @@
             background: #fafafa;
         }
 
-        /* 活潿鍔崺氱驳跺矂鐛垫壆鏅悵?*/
+        /* 用户等级徽章 */
         .user-level-badge {
             display: inline-block;
             padding: 1px 7px;
@@ -192,7 +192,7 @@
         .level-4 { background: #fce4ec; color: #e53935; }
         .level-5 { background: linear-gradient(135deg,#667eea,#764ba2); color: #fff; }
 
-        /* °倝妫块懙鎴澪旈懝鎵?*/
+        /* 楼中楼评论 */
         .comment-item{padding:15px 0;border-bottom:1px solid #eee;}
         .comment-replies{margin-left:32px;border-left:2px solid #e8e8e8;padding-left:16px;margin-top:10px;}
         .comment-replies .comment-item{border-bottom:1px solid #f5f5f5;padding:10px 0;}
@@ -203,7 +203,7 @@
         .reply-form button{margin-top:6px;background:#667eea;color:#fff;border:none;padding:5px 16px;border-radius:4px;cursor:pointer;font-size:13px;}
         .reply-to-hint{font-size:12px;color:#999;margin-bottom:4px;}
 
-        /* 埖娲栫粩鐢稿箰舵劖灏?hover 轰礁鐗婇悘?*/
+        /* 投币按钮 hover 效果 */
         #coinBtn:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(247, 151, 30, 0.4);
@@ -232,7 +232,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 埖娲栫粩鐢稿箣顫犻柛鏂诲妿閺?*/
+        /* 投币成功动画 */
         @keyframes coinDrop {
             0% { transform: translateY(-20px) rotate(0deg); opacity: 0; }
             50% { opacity: 1; }
@@ -243,7 +243,7 @@
             animation: coinDrop 0.6s ease-out;
         }
 
-        /* 庢稒銇炵紞瀣緞瑜惃傛愵厼螡规悶遍崣鍧楀冀?*/
+        /* 字体大小调节工具栏 */
         .font-size-toolbar {
             position: fixed;
             top: 80px;
@@ -293,7 +293,7 @@
         .font-size-btn[data-size="medium"] { font-size: 14px; }
         .font-size-btn[data-size="large"] { font-size: 16px; }
 
-        /* 庢稒銇炵紞瀣緞瑜惃傜尵?*/
+        /* 字体大小类 */
         .article-content.font-small { font-size: 16px; }
         .article-content.font-small h1 { font-size: 1.6em; }
         .article-content.font-small h2 { font-size: 1.35em; }
@@ -317,7 +317,7 @@
             }
         }
 
-        /* 稿繈鍔岄惈鍡涙⒓涢偊鍤㈡顖椻偓宕哄秴鍢茬?*/
+        /* 全屏阅读模式样式 */
         .fullscreen-read-mode {
             position: fixed !important;
             top: 0 !important;
@@ -346,7 +346,7 @@
             margin: 0 auto;
         }
 
-        /* 稿繈鍔岄惈鍡椢熼垾宕挸夊▓锝夋寠韫洘鐣遍柛蹇暟?*/
+        /* 全屏模式下隐藏的元素 */
         body.fullscreen-active .top-nav,
         body.fullscreen-active .toc-sidebar,
         body.fullscreen-active #fontSizeToolbar,
@@ -356,7 +356,7 @@
             display: none !important;
         }
 
-        /* 稿繈鍔岄惈鍡椢熼垾宕矇鍐ㄧ厬?*/
+        /* 全屏模式控制栏 */
         .fullscreen-controls {
             position: fixed;
             bottom: 20px;
@@ -395,7 +395,7 @@
             color: white;
         }
 
-        /* 哄澧介妵跺礂閵娿儳娼岄绋款樀?*/
+        /* 显示全屏按钮 */
         body:not(.fullscreen-active) .fullscreen-controls {
             display: none;
         }
@@ -438,22 +438,22 @@
     </style>
     <link rel="stylesheet" href="/css/theme.css?v=3">
     <link rel="stylesheet" href="/css/report-modal.css?v=1">
-    <!-- 寸媴绲跨埇鏋舵粍顨囧Ο扮槰 -->
+    <!-- 代码高亮 -->
     <link rel="stylesheet" href="https://unpkg.com/highlight.js@11/styles/github.min.css">
     <style>
-        /* 哄倸娲ㄩ悵鐑芥儎旇偐绉垮〒鍡欑彾?*/
+        /* 文章目录侧边栏 */
         .toc-sidebar { position: fixed; right: 20px; top: 120px; width: 220px; max-height: 60vh; overflow-y: auto; background: rgba(255,255,255,0.95); border-radius: 12px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); font-size: 13px; display: none; z-index: 50; }
         .toc-sidebar h4 { margin: 0 0 10px; font-size: 14px; color: #333; }
         .toc-sidebar a { display: block; color: #666; text-decoration: none; padding: 4px 0; border-left: 2px solid transparent; padding-left: 8px; transition: all 0.2s; }
         .toc-sidebar a:hover, .toc-sidebar a.active { color: #667eea; border-left-color: #667eea; }
         .toc-sidebar .toc-h3 { padding-left: 20px; font-size: 12px; }
-        /* 搞儳涢崺灞俱亜洖鍔绋款樀?*/
+        /* 回到顶部按钮 */
         .back-to-top { position: fixed; bottom: 30px; right: 30px; width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; cursor: pointer; font-size: 20px; box-shadow: 0 4px 15px rgba(102,126,234,0.4); opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 100; }
         .back-to-top.visible { opacity: 1; visibility: visible; }
         .back-to-top:hover { transform: translateY(-3px); }
-        /* 寸媴绲跨埇鏋舵粓宕稿Δ浣哄殿喖绻愰·鍐嚕?*/
+        /* 代码块样式增强 */
         .article-content pre code { font-size: 14px; line-height: 1.6; }
-        /* 稿繗娅曢弫鐐哄箰舵劖灏柡宥呭槻?*/
+        /* 关注按钮样式 */
         .follow-btn { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: 1px solid #667eea; display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
         .follow-btn.not-following { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
         .follow-btn.not-following:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(102,126,234,0.4); }
@@ -467,25 +467,25 @@
         <div class="bg-decoration"></div>
 
         <nav class="top-nav">
-            <div class="logo">Hakimi 的个人博客/div>
+            <div class="logo">Hakimi 的猫爬架</div>
             <div class="nav-links">
-                <a href="/index-chinese.html" class="nav-link">妫啫缍?閺夆晜鏌ú鏍純閺嶎厹鈧?/a>
-                <a href="/games.html" class="nav-link">妫啫绠?炴挸鎲￠?/a>
+                <a href="/index-chinese.html" class="nav-link">🏠 返回首页</a>
+                <a href="/games.html" class="nav-link">🎮 游戏</a>
             </div>
         </nav>
 
-        <!-- 庢稒銇炵紞瀣緞瑜惃傛愵厼螡规悶遍崣鍧楀冀?-->
+        <!-- 字体大小调节工具栏 -->
         <div class="font-size-toolbar" id="fontSizeToolbar">
-            <span class="font-size-label">庢稒銇炵紞瀣緞瑜惃?/span>
-            <button class="font-size-btn" data-size="small" title="繐绻愰悺褎鎷?>A-</button>
-            <button class="font-size-btn active" data-size="medium" title="搩鍘奸悺褎鎷?>A</button>
-            <button class="font-size-btn" data-size="large" title="濠㈠爢鍐憻?>A+</button>
+            <span class="font-size-label">字体大小</span>
+            <button class="font-size-btn" data-size="small" title="小字体">A-</button>
+            <button class="font-size-btn active" data-size="medium" title="中字体">A</button>
+            <button class="font-size-btn" data-size="large" title="大字体">A+</button>
         </div>
 
         <div class="article-container">
             <div id="loading" style="text-align: center; padding: 50px;">
                 <div class="loading-spinner"></div>
-                <p>繐绲藉﹢顏堝礉樼儤绁伴柡鍌氭川?..</p>
+                <p>正在加载文章...</p>
             </div>
 
             <article id="articleContent" style="display: none;">
@@ -495,12 +495,12 @@
                         <span id="artCategory"></span>
                         <span id="artDate"></span>
                         <span id="artAuthor"></span>
-                        <span id="artViews" style="color:#999;">妫啯?0</span>
-                        <button id="reportArticleBtn" class="article-report-btn" title="埖娲濋惁鏃绋夐悙袚" style="margin-left:8px;">妫啯鐦?挾撴慨?/button>
-                        <span id="readingTime" style="color:#667eea;">冲瓨鍞?犱緤绱曢悾樼▔?..</span>
+                        <span id="artViews" style="color:#999;">👁 0</span>
+                        <button id="reportArticleBtn" class="article-report-btn" title="投诉举报" style="margin-left:8px;">🚨 举报</button>
+                        <span id="readingTime" style="color:#667eea;">⏱️ 计算中...</span>
                         <span id="deleteBtnContainer" style="display: none;">
                             <button id="deleteArticleBtn"
-                                style="background: #ff4d4f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px;">逛勘曞ú鏍棘モ晝褰?/button>
+                                style="background: #ff4d4f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-left: 10px;">撤回文章</button>
                         </span>
                     </div>
                 </div>
@@ -512,37 +512,37 @@
                     <div style="text-align: center; margin-bottom: 40px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; align-items: center;">
                         <button id="likeBtn"
                             style="background: white; border: 2px solid #ff4d4f; color: #ff4d4f; padding: 10px 30px; border-radius: 30px; cursor: pointer; font-size: 18px; transition: all 0.3s;">
-                            <span id="likeIcon">妫喚妲?/span> 绘劗顢粋?<span id="likeCount">0</span>
+                            <span id="likeIcon">🤍</span> 点赞 <span id="likeCount">0</span>
                         </button>
                         <button id="coinBtn"
                             style="background: linear-gradient(135deg, #f7971e, #ffd200); border: none; color: white; padding: 10px 30px; border-radius: 30px; cursor: pointer; font-size: 18px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(247, 151, 30, 0.3);">
-                            妫啰宕?埖娲栫粩?<span id="coinCount">0</span>
+                            🪙 投币 <span id="coinCount">0</span>
                         </button>
                         <button id="shareBtn"
                             style="background: white; border: 2px solid #07c160; color: #07c160; padding: 10px 30px; border-radius: 30px; cursor: pointer; font-size: 18px; transition: all 0.3s;">
-                            妫啯鎲?告帒妫旈棅?
+                            📤 分享
                         </button>
                         <button id="favoriteBtn"
                             style="background: white; border: 2px solid #faad14; color: #faad14; padding: 10px 30px; border-radius: 30px; cursor: pointer; font-size: 18px; transition: all 0.3s;">
-                            ?衡偓増顥?<span id="favoriteCount">0</span>
+                            ☆ 收藏 <span id="favoriteCount">0</span>
                         </button>
                     </div>
 
                     <!-- Coin Modal -->
                     <div id="coinModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
                         <div style="background:white; border-radius:16px; padding:30px; max-width:360px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation: fadeInUp 0.3s ease;">
-                            <div style="font-size:48px; margin-bottom:10px;">妫啰宕?/div>
-                            <h3 style="margin-bottom:20px; color:#333;">備焦ょ紞鏃堟嚀涱喖顫岄悽?/h3>
+                            <div style="font-size:48px; margin-bottom:10px;">🪙</div>
+                            <h3 style="margin-bottom:20px; color:#333;">给作者投币</h3>
                             <div style="display:flex; justify-content:center; gap:10px; margin-bottom:20px; flex-wrap:wrap;">
                                 <button class="coin-amount-btn" data-amount="1" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">1</button>
                                 <button class="coin-amount-btn" data-amount="2" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">2</button>
                                 <button class="coin-amount-btn" data-amount="5" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">5</button>
                                 <button class="coin-amount-btn" data-amount="10" style="width:60px; height:60px; border-radius:50%; border:2px solid #f7971e; background:white; color:#f7971e; font-size:18px; font-weight:bold; cursor:pointer; transition:all 0.2s;">10</button>
                             </div>
-                            <p id="coinModalBalance" style="font-size:13px; color:#999; margin-bottom:15px;">瑰瓨鍨瑰▓鎴炴媴搩洪柨欒壘偞娼幋鎺曞幀...</p>
+                            <p id="coinModalBalance" style="font-size:13px; color:#999; margin-bottom:15px;">我的余额：加载中...</p>
                             <div style="display:flex; gap:10px; justify-content:center;">
-                                <button id="coinConfirmBtn" style="background:linear-gradient(135deg, #f7971e, #ffd200); color:white; border:none; padding:10px 30px; border-radius:25px; font-size:16px; cursor:pointer; font-weight:bold;">绢収鍠涢濠氬閺偟顏?/button>
-                                <button id="coinCancelBtn" style="background:#f0f0f0; color:#666; border:none; padding:10px 30px; border-radius:25px; font-size:16px; cursor:pointer;">告瑦鐗楃粔?/button>
+                                <button id="coinConfirmBtn" style="background:linear-gradient(135deg, #f7971e, #ffd200); color:white; border:none; padding:10px 30px; border-radius:25px; font-size:16px; cursor:pointer; font-weight:bold;">确认投币</button>
+                                <button id="coinCancelBtn" style="background:#f0f0f0; color:#666; border:none; padding:10px 30px; border-radius:25px; font-size:16px; cursor:pointer;">取消</button>
                             </div>
                         </div>
                     </div>
@@ -550,34 +550,34 @@
                     <!-- Share QR Modal -->
                     <div id="shareModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
                         <div style="background:white; border-radius:16px; padding:30px; max-width:360px; width:90%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation: fadeInUp 0.3s ease;">
-                            <div style="font-size:36px; margin-bottom:10px;">妫啯鎳?/div>
-                            <h3 style="margin-bottom:5px; color:#333;">偊鍠曟穱濠囧箥愩倗鍨抽柛鎺闂?/h3>
-                            <p style="font-size:13px; color:#999; margin-bottom:15px;">活潿鍔屾禍鏇熺┍╁啫顥囧鎾规呮晶锕ｉ埀棘モ晝褰块柨樼灱斞囧触鎼淬倖绁柛娆愬灩増绺介挊婂嚑</p>
+                            <div style="font-size:36px; margin-bottom:10px;">📱</div>
+                            <h3 style="margin-bottom:5px; color:#333;">微信扫码分享</h3>
+                            <p style="font-size:13px; color:#999; margin-bottom:15px;">用微信扫一扫打开文章，然后转发给好友</p>
                             <div id="shareQrCode" style="display:flex; justify-content:center; margin-bottom:15px;"></div>
                             <p id="shareArticleTitle" style="font-size:14px; color:#666; margin-bottom:15px; padding:0 10px; word-break:break-all;"></p>
                             <div style="display:flex; gap:10px; justify-content:center;">
-                                <button id="copyLinkBtn" style="background:#07c160; color:white; border:none; padding:10px 25px; border-radius:25px; font-size:14px; cursor:pointer; font-weight:bold;">妫啯鎯?濠㈣泛绉撮崺呮煣愵?/button>
-                                <button id="closeShareBtn" style="background:#f0f0f0; color:#666; border:none; padding:10px 25px; border-radius:25px; font-size:14px; cursor:pointer;">稿繑婂Λ?/button>
+                                <button id="copyLinkBtn" style="background:#07c160; color:white; border:none; padding:10px 25px; border-radius:25px; font-size:14px; cursor:pointer; font-weight:bold;">📋 复制链接</button>
+                                <button id="closeShareBtn" style="background:#f0f0f0; color:#666; border:none; padding:10px 25px; border-radius:25px; font-size:14px; cursor:pointer;">关闭</button>
                             </div>
                         </div>
                     </div>
 
                     <!-- Comments Section -->
                     <div class="comments-section">
-                        <h3 style="margin-bottom: 20px;">犲洤瀚鎴礌?/h3>
+                        <h3 style="margin-bottom: 20px;">评论区</h3>
 
                         <!-- Comment Form -->
                         <div id="commentFormContainer" style="margin-bottom: 30px;">
-                            <textarea id="commentInput" placeholder="告劖ょ鍛媴樺灚鐣遍鍥у?.."
+                            <textarea id="commentInput" placeholder="写下你的评论..."
                                 style="width: 100%; height: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; resize: vertical; margin-bottom: 10px;"></textarea>
                             <button id="submitCommentBtn"
-                                style="background: #1890ff; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">告瑦鍨电粩椋庢嫚曨噮?/button>
+                                style="background: #1890ff; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">发布评论</button>
                         </div>
                         <div id="loginToComment"
                             style="display: none; text-align: center; padding: 20px; background: #f9f9f9; border-radius: 8px; margin-bottom: 30px;">
-                            <p>?<a href="#"
+                            <p>请 <a href="#"
                                     onclick="document.getElementById('loginModal').style.display='block'; return false;"
-                                    style="color: #1890ff;">谎嗩嚙?/a> 告艾楠歌ぐ鍌滄偘閵娿劎妲戦?/p>
+                                    style="color: #1890ff;">登录</a> 后发表评论</p>
                         </div>
 
                         <!-- Comments List -->
@@ -590,28 +590,28 @@
         </div>
     </div>
 
-    <!-- 哄倸娲ㄩ悵鐑芥儎旇偐绉垮〒鍡欑彾?-->
-    <nav class="toc-sidebar" id="tocSidebar"><h4>妫啯鎯?烩晩鍠栫紞?/h4><div id="tocContent"></div></nav>
-    <!-- 搞儳涢崺灞俱亜洖鍔?-->
-    <button class="back-to-top" id="backToTop" title="搞儳涢崺灞俱亜洖鍔?>?/button>
-    <!-- 稿繈鍔岄惈鍡涙⒓涢偊鍤绋款樀?-->
-    <button class="fullscreen-toggle-btn" id="fullscreenToggleBtn" title="稿繈鍔岄惈鍡涙⒓涢偊鍤?>粹偓?/button>
-    <!-- 稿繈鍔岄惈鍡椢熼垾宕矇鍐ㄧ厬?-->
+    <!-- 文章目录侧边栏 -->
+    <nav class="toc-sidebar" id="tocSidebar"><h4>📑 目录</h4><div id="tocContent"></div></nav>
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="backToTop" title="回到顶部">↑</button>
+    <!-- 全屏阅读按钮 -->
+    <button class="fullscreen-toggle-btn" id="fullscreenToggleBtn" title="全屏阅读">⛶</button>
+    <!-- 全屏模式控制栏 -->
     <div class="fullscreen-controls" id="fullscreenControls">
-        <button class="fullscreen-btn" id="exitFullscreenBtn" title="闂偀撻柛鎴濇惈欏繒?>粹偓?/button>
+        <button class="fullscreen-btn" id="exitFullscreenBtn" title="退出全屏">⛶</button>
     </div>
 
     <script src="/js/polyfill.js"></script>
     <script src="/js/cdn-fallback.js"></script>
     <script src="/js/follow.js"></script>
     <script>
-        // 庢稒銇炵紞瀣緞瑜惃傛愵厼螡告梻鍠曢崗?
+        // 字体大小调节功能
         (function initFontSize() {
             const FONT_SIZE_KEY = 'article_font_size';
             const artBody = document.getElementById('artBody');
             const toolbar = document.getElementById('fontSizeToolbar');
 
-            // 寸姴绐卭calStorage犲洩цぐ鍥┾偓欍仦嶅勮剟宕戣箛鎾卞仺
+            // 从localStorage读取字体大小偏好
             function getSavedFontSize() {
                 try {
                     return localStorage.getItem(FONT_SIZE_KEY) || 'medium';
@@ -620,31 +620,31 @@
                 }
             }
 
-            // 洦绻傞悺銊р偓欍仦嶅勮剟宕戣箛鎾卞仺
+            // 保存字体大小偏好
             function saveFontSize(size) {
                 try {
                     localStorage.setItem(FONT_SIZE_KEY, size);
                 } catch (e) {
-                    console.warn('洦绻傞悺銊р偓欍仦嶅勮剛鎷崜褏鏋傚鎯扮簿?', e);
+                    console.warn('保存字体大小设置失败:', e);
                 }
             }
 
-            // 煎瓨姊婚弫団偓欍仦嶅勮?
+            // 应用字体大小
             function applyFontSize(size) {
                 if (!artBody) return;
                 artBody.classList.remove('font-small', 'font-medium', 'font-large');
                 artBody.classList.add('font-' + size);
 
-                // 哄洤鐡ㄩ弻濠囧箰舵劖灏垮煐?
+                // 更新按钮状态
                 toolbar.querySelectorAll('.font-size-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.size === size);
                 });
             }
 
-            // 告帗绻傞～鎰板礌?
+            // 初始化
             const savedSize = getSavedFontSize();
 
-            // 烩晜鍨幆愬箰舵劖灏鎰嚀?
+            // 监听按钮点击
             toolbar.querySelectorAll('.font-size-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     const size = btn.dataset.size;
@@ -653,14 +653,14 @@
                 });
             });
 
-            // 濡炪倗鏁诲浼村礉樼儤绁伴版湰ㄦ岸宕ユ惔锛畨活潿鍔嬬换扁偓欘焽堟垹鈧稒銇炵紞瀣緞瑜惃?
+            // 页面加载完成后应用保存的字体大小
             document.addEventListener('article-loaded', () => {
                 applyFontSize(savedSize);
             });
         })();
     </script>
     <script>
-        // 哄倸娲ㄩ悵鐑藉礉樼儤绁伴版湰ㄦ岸宕ユ惔鈥仴濠殿喖呯垫煡宕搹顐ｆ殘圭顦幐?
+        // 文章加载完成后初始化关注按钮
         document.addEventListener('article-loaded', function() {
             const authorEl = document.getElementById('artAuthor');
             if (authorEl && window.currentArticleAuthor) {
@@ -677,71 +677,71 @@
     <script>cdnLoad('qrcodejs2@0.0.2/qrcode.min.js', 'js');</script>
     <script src="https://unpkg.com/highlight.js@11/highlight.min.js" defer></script>
 
-    <!-- 炴潙绻～宥夊闯閵婏富姊炬繛戭儎楀矂宕畝鈧晶呭嫉掑啫澹栭柡墮偞娼?-->
+    <!-- 浏览器检测与双版本脚本加载 -->
     <script src="/js/browser-detect.js"></script>
     <script>
-        // 哄秷顫夊畵浣该箛兼綌革絻鍔弫骞愭担板壈告劙娼ф慨鐐存姜閽樺鍤犻幖瀛樻⒒ф鍌涚暠煎瓨纰嶅﹢?
+        // 根据浏览器支持情况加载对应版本的脚本
         (function() {
             var script = document.createElement('script');
 
             if (window.BrowserDetect && window.BrowserDetect.needLegacyMode()) {
-                // 哄唲鍛暭炴潙绻～宥夊闯帞绐楀ù锝堟硶閺併倝宕悡晣绘鐗婂﹢浼存晬喐锟?ES Module挎稑鑻崥瀣偓?IE11?
+                // 旧版浏览器：使用兼容版本（无 ES Module，兼容 IE11）
                 script.src = '/js/article-display-legacy.js?v=20260326';
-                console.log('[BrowserDetect] 告梻ù鍥礂寒囬鐗婂﹢浼存嚇橆厽鎷?(Legacy Mode)');
+                console.log('[BrowserDetect] 加载兼容版本脚本 (Legacy Mode)');
             } else {
-                // 绘粓顣崬霉韫凹娼旈柛锝厜辩増鎷呯捄銊︽殢 ES Module 绘鐗婂﹢?
+                // 现代浏览器：使用 ES Module 版本
                 script.type = 'module';
                 script.src = '/js/article-display.js?v=20260326';
-                console.log('[BrowserDetect] 告梻ù鍥偝妫颁礁鏁╅鐗婂﹢浼存嚇橆厽鎷?(ES Module)');
+                console.log('[BrowserDetect] 加载现代版本脚本 (ES Module)');
             }
 
             document.head.appendChild(script);
         })();
     </script>
-    <!-- 炴潙绻～宥夊储钑夐浣规緲?-->
+    <!-- 浏览历史记录 -->
     <script src="/js/reading-history.js?v=20260329"></script>
-    <!-- 哄倸娲ㄩ悵椋庘偓鐢靛帶ゎ參宕濋悢插幋 -->
+    <!-- 文章导出功能 -->
     <script src="/js/article-export.js?v=20260329"></script>
     <script>
-        // 稿繈鍔岄惈鍡涙⒓涢偊鍤㈡顖椻偓宕告梻鍠曢崗?
+        // 全屏阅读模式功能
         (function initFullscreenMode() {
             const fullscreenToggleBtn = document.getElementById('fullscreenToggleBtn');
             const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
             const articleContainer = document.querySelector('.article-container');
             const fullscreenControls = document.getElementById('fullscreenControls');
 
-            // 閺夆晜绋戦崣鍡涘礂閵娿儳娼岄梻鍐ㄦ嚀曟澘螣ュ磭纭
+            // 进入全屏阅读模式
             function enterFullscreenMode() {
                 document.body.classList.add('fullscreen-active');
                 articleContainer.classList.add('fullscreen-read-mode');
 
-                // 繐妫欓弸鍐博樺樊囬柛锝冨妿浜涢柛鏂诲妼╁異ody挸勬禍鎺楁焼喖甯抽悘鐐插绘鍥⒒曗偓?
+                // 将文章容器移动到body下以避免层级问题
                 if (articleContainer.parentElement !== document.body) {
                     articleContainer.dataset.originalParent = '';
                     articleContainer._originalParent = articleContainer.parentElement;
                     document.body.appendChild(articleContainer);
                 }
 
-                // 犱焦樼紞宥咁煥橆袟达絽绉堕悿?
+                // 记录滚动位置
                 sessionStorage.setItem('fullscreen_scroll', window.scrollY);
                 window.scrollTo(0, 0);
 
-                // 烇綀ф慨玈C闂佹鍣ｉ埀藉?
+                // 添加ESC键退出
                 document.addEventListener('keydown', handleEscKey);
             }
 
-            // 闂偀撻柛鎴濇惈欏繒﹁箛欘潐犲洨绮啯?
+            // 退出全屏阅读模式
             function exitFullscreenMode() {
                 document.body.classList.remove('fullscreen-active');
                 articleContainer.classList.remove('fullscreen-read-mode');
 
-                // 诡厹鍨归ˇ鏌ュ储斿墎绉寸紓?
+                // 恢复原位置
                 if (articleContainer._originalParent) {
                     articleContainer._originalParent.appendChild(articleContainer);
                     delete articleContainer._originalParent;
                 }
 
-                // 诡厹鍨归ˇ鎻掝煥橆袟达絽绉堕悿?
+                // 恢复滚动位置
                 const savedScroll = sessionStorage.getItem('fullscreen_scroll');
                 if (savedScroll) {
                     setTimeout(() => window.scrollTo(0, parseInt(savedScroll)), 10);
@@ -751,14 +751,14 @@
                 document.removeEventListener('keydown', handleEscKey);
             }
 
-            // ESC闂佹鍠栭ˇ鈺呮偠?
+            // ESC键处理
             function handleEscKey(e) {
                 if (e.key === 'Escape' && document.body.classList.contains('fullscreen-active')) {
                     exitFullscreenMode();
                 }
             }
 
-            // 備焦鍨悾鐐ｂ晜顐?
+            // 绑定事件
             if (fullscreenToggleBtn) {
                 fullscreenToggleBtn.addEventListener('click', enterFullscreenMode);
             }
@@ -775,20 +775,20 @@
         })();
     </script>
     <script>
-        // 搞儳涢崺灞俱亜洖鍔?
+        // 回到顶部
         const backToTop = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
             backToTop.classList.toggle('visible', window.scrollY > 300);
         });
         backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-        // 哄倸娲ㄩ悵鐑藉礉樼儤绁伴版湰ㄦ岸宕ユ惔锝櫢瑰瓨鍔楀ú鎷屻閺偞瀚插Δ鍌浢肩垫帗掗敐鍥╁灣
+        // 文章加载完成后生成目录和高亮代码
         document.addEventListener('article-loaded', () => {
-            // 寸媴绲跨埇鏋舵粍顨囧Ο扮槰
+            // 代码高亮
             if (window.hljs) {
                 document.querySelectorAll('.article-content pre code').forEach(el => hljs.highlightElement(el));
             }
-            // 汇垻鍠愰舵儎旇偐绉?
+            // 生成目录
             const headings = document.querySelectorAll('.article-content h1, .article-content h2, .article-content h3');
             const tocContent = document.getElementById('tocContent');
             const tocSidebar = document.getElementById('tocSidebar');
@@ -808,78 +808,78 @@
     </script>
     <script src="/js/theme.js?v=1"></script>
 
-<!-- Win7 Emoji 稿繒鍘鎰板箑瑜ˇ鈺呮偠?-->
+<!-- Win7 Emoji 兼容性处理 -->
 <script>
 (function() {
-    // ☆偀撴繛戭儐濡叉悂宕敂鑳 Windows 7
+    // 检测是否为 Windows 7
     function isWindows7() {
         var ua = navigator.userAgent;
         return ua.indexOf('Windows NT 6.1') !== -1 || 
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji 哄洦у畷鏌ュ及樿尙娈悶?
+    // Emoji 替换映射表
     var emojiMap = {
-        "妫啯?: "?,
-        "妫啫缍?: "濡鐗犻妴?,
-        "妫啫绠?: "炴挸鎲￠?,
-        "虫垝绶ょ?: "?,
-        "宠В撻柨?: "濠浜Σ?,
-        "村倶х?: "绘牕宕缓?,
-        "妫啫绠?: "稿繐鍘栫花?,
-        "妫啯灏?: "炴垵鐗婃导?,
-        "妫啯鏅?: "闂偅ㄩ悡?,
-        "妫啯鍣?: "活潿鍔崺?,
-        "妫啯鎲?: "傚倹鐗炵欢?,
-        "氼妫寸?: "告娲ㄦ?,
-        "妫啯鐓犻柨?: "搞儱澧芥晶?,
-        "翠礁绋?: "告劖ょ紞?,
-        "虫寧辩?: "犱礁澧介悿?,
-        "妫啯鐦?: "闂偀撻柛?,
-        "妫啯?: "圭粯鍔妵?,
-        "?: "備礁绻橀悰?,
-        "妫啯鐣?: "告瑦鍨电粩?,
-        "妫啫绗柨?: "佹稑顦辨?,
-        "妫啯灏?: "告梻电悰?,
-        "妫啯鏅?: "闂佸じ侀悾?,
-        "妫啯鎲?: "告绻?,
-        "?: "?,
-        "?: "?,
-        "愁偀鏅?: "逛勘濋弨?,
-        "?: "㈩垼鍠栨慨?,
-        "妫啯鏁?: "告帡鏀遍弻?,
-        "虫槒顔愮?: "殿喒┑?,
-        "冲瓨鍞?: "哄啫鐖煎Λ?,
-        "妫啫鑵?: "告帗绋掗崜?,
-        "妫啯宕?: "活澀绲婚崜?,
-        "妫啯鎲?: "庢冻氱弧?,
-        "妫啯夐柨?: "烩晛澧芥晶?,
-        "翠礁鐗炵?: "濡炲炲┃鈧?,
-        "?: "哄鍠愬Σ?,
-        "妫啯姣嗛柨?: "归潧嗛悞?,
-        "妫啯鎲?: "闂収鍠氶?,
-        "妫啯鎳?: "归潧┃鈧?,
-        "妫啯鎯?: "烩晩鍠栫紞?,
-        "妫啯鎲?: "告ê紓?,
-        "妫啯鎯?: "哄倸娲▎?,
-        "妫啯鎲?: "PPT",
-        "妫啯鏆?: "规悶遍崣?,
-        "妫啰宕?: "绢収鍓欑粩?,
-        "妫啯灏?: "闂佸弶鍨电粩?,
-        "?: "鏈?,
-        "妫啯堥柨?: "规悶遍崣?,
-        "妫啯灏?: "哄鍠崢?,
-        "妫啯鏁?: "瑰吋绮?,
-        "妫啯鎲?: "棑濡囬惈?,
-        "妫啫囬柨?: "哄秴娲ㄩ?,
-        "妫啯顥旈柨?: "告帞?
+        "🐱": "猫",
+        "🏠": "首页",
+        "🎮": "游戏",
+        "☁️": "云",
+        "☀️": "太阳",
+        "❤️": "爱心",
+        "🎯": "关于",
+        "💬": "消息",
+        "🔔": "通知",
+        "👤": "用户",
+        "📝": "编辑",
+        "⬆️": "升级",
+        "🖼️": "图片",
+        "✍️": "写作",
+        "⚙️": "设置",
+        "🚪": "退出",
+        "💡": "提示",
+        "⚡": "经验",
+        "🚀": "发布",
+        "🎖️": "等级",
+        "💪": "加油",
+        "🔒": "锁定",
+        "📜": "协议",
+        "↑": "上",
+        "↓": "下",
+        "↩️": "撤销",
+        "❓": "帮助",
+        "🔄": "刷新",
+        "▶️": "开始",
+        "⏱️": "时间",
+        "🎨": "创意",
+        "💻": "电脑",
+        "📚": "学习",
+        "🛡️": "盾牌",
+        "✈️": "飞机",
+        "⭐": "星星",
+        "🕹️": "手柄",
+        "📧": "邮箱",
+        "📱": "手机",
+        "📑": "目录",
+        "📦": "压缩",
+        "📄": "文件",
+        "📙": "PPT",
+        "🔧": "工具",
+        "🪙": "硬币",
+        "💰": "金币",
+        "✅": "完成",
+        "🛠️": "工具",
+        "💫": "星光",
+        "🔍": "搜索",
+        "📖": "书籍",
+        "🏷️": "标签",
+        "🗑️": "删除"
     };
     
-    // 哄洦у畷鍙夈亜㈠憡妗冨幘?emoji
+    // 替换页面中的 emoji
     function replaceEmojis() {
         if (!isWindows7()) return;
         
-        // 哄洦у畷鏌ュ棘ャ劍鎷遍柤鍝婚崑?
+        // 替换文本节点
         var walker = document.createTreeWalker(
             document.body,
             NodeFilter.SHOW_TEXT,
@@ -902,7 +902,7 @@
             }
         }
         
-        // 哄洦у畷鑼沪愮补撹垫垿鎯?emoji挎稑鐗嗛々?title, alt 佹稑顧?
+        // 替换属性中的 emoji（如 title, alt 等）
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -926,7 +926,7 @@
         }
     }
     
-    // DOM 告梻ù鍥┾偓版湰ㄦ岸宕ユ惔銏犫挃炴稑鏈ù㈠箲?
+    // DOM 加载完成后执行替换
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {
@@ -935,23 +935,23 @@
 })();
 </script>
 <script src="/js/music-player.js?v=2"></script>
-<!-- 寸媴绲跨埇鏋舵粓宕稿Δ鈧ˇ鏌ュ礆潧鐦婚梺?-->
+<!-- 代码块复制按钮 -->
 <script src="/js/code-copy-lite.js"></script>
 
-<!-- 殿喚鎳粻椋庢嫚曨噮堢顖吹?-->
+<!-- 弹幕评论系统 -->
 <script type="module" src="/js/danmaku-comments.js?v=20260227a"></script>
 
-<!-- 100告梻鍠曢崗姗宕犻崨顓烆潱閺夌偠妫▍?-->
+<!-- 100功能包加载器 -->
 <script type="module" src="/js/feature-loader.js?v=20260419a"></script>
 <script src="/js/report-modal.js?v=1"></script>
 <script>
-// 哄倸娲ㄩ悵閿嬬▔愵袚圭顦幐宕磼存繄鏆?
+// 文章举报按钮绑定
 document.addEventListener('DOMContentLoaded', function() {
     const reportBtn = document.getElementById('reportArticleBtn');
     if (reportBtn) {
         reportBtn.addEventListener('click', function() {
             const articleId = new URLSearchParams(location.search).get('id');
-            const articleTitle = document.getElementById('artTitle')?.textContent || '哄牜浜為悡锟犲棘モ晝褰?;
+            const articleTitle = document.getElementById('artTitle')?.textContent || '未知文章';
             if (window.reportModalInstance && articleId) {
                 window.reportModalInstance.open({
                     targetType: 'article',
@@ -967,4 +967,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 
 </html>
-

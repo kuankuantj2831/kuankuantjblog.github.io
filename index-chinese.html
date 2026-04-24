@@ -1,35 +1,35 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
     <script>
-        // 煎浜滄慨鈺冩崉圭姵绁柛?index.html挎稑濂旂换舵偩劗鍙犲洢鍨瑰极?
+        // 自动跳转到 index.html，保留查询参数
         window.location.replace('/index.html' + window.location.search);
     </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://static.cloudflareinsights.com https://unpkg.com https://registry.npmmirror.com https://cdnjs.cloudflare.com https://cdn.bootcdn.net https://rf.revolvermaps.com; style-src 'self' 'unsafe-inline' https://cdn.bootcdn.net https://cdnjs.cloudflare.com; img-src 'self' https: data:; connect-src 'self' http://localhost:9000 https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com https://api.ipify.org https://ipapi.co https://challenges.cloudflare.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.soundhelix.com; frame-src https://challenges.cloudflare.com; font-src 'self' https:; media-src *;">
-    <meta name="description" content="Hakimi 的个人博客- 分享技术内容文章分享技术分享学习交流编程技术相关开发工具前端开发后端开发全栈开发工具编程学习学习资料技术教程编程知识编程濡?>
-    <meta name="keywords" content="Hakimi,首页几?技术博客博客学习分享游戏开发编程项目mcock.cn">
+    <meta name="description" content="Hakimi 的猫爬架 - 一个分享编程技术、游戏资源、设计素材与学习资料的个人博客。分享是一种美德，它不求回报，只为真诚。">
+    <meta name="keywords" content="Hakimi,猫爬架,个人博客,编程技术,游戏资源,mcock.cn">
     <meta name="author" content="Hakimi">
     <meta name="msvalidate.01" content="E5A901AA24687146D9F8D47CE949EEAC" />
 
-    <!-- Open Graph 佲偓欍儲鍞夐柛鎺闂娾晠介崶鈺婂姰 -->
-    <meta property="og:title" content="Hakimi 的个人博客>
-    <meta property="og:description" content="Hakimi个人博客编程爬架开发程序员开发者学习分享编程开发分享>
+    <!-- Open Graph 社交分享标签 -->
+    <meta property="og:title" content="Hakimi 的猫爬架">
+    <meta property="og:description" content="分享编程技术、游戏资源、设计素材与学习资料的个人博客">
     <meta property="og:image" content="https://mcock.cn/images/forrestgump.png">
     <meta property="og:url" content="https://mcock.cn">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Hakimi 的个人博客>
+    <meta property="og:site_name" content="Hakimi 的猫爬架">
 
-    <!-- JSON-LD 備焦婚顖炲礌閺嶃劍娈堕?-->
+    <!-- JSON-LD 结构化数据 -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Hakimi 的个人博客,
+        "name": "Hakimi 的猫爬架",
         "url": "https://mcock.cn",
-        "description": "Hakimi个人博客编程爬架开发程序员开发者学习分享编程开发分享,
+        "description": "分享编程技术、游戏资源、设计素材与学习资料的个人博客",
         "author": { "@type": "Person", "name": "Hakimi" },
         "potentialAction": {
             "@type": "SearchAction",
@@ -39,10 +39,10 @@
     }
     </script>
 
-    <title>Hakimi 的个人博客/title>
+    <title>Hakimi 的猫爬架</title>
     <link rel="canonical" href="https://mcock.cn/index-chinese.html">
 
-    <!-- 诡儸鍡楀幋村吋锚垫煡鏁嶅棰濇殨閺夆晝炵敮?API 哄牆绉存慨鐔煎闯帞夐柤鍝诲〒?DNS 熸瑱绲鹃?+ TLS 圭儵鍓濇晶堝籍洘锛?-->
+    <!-- 性能优化：预连接 API 服务器，节省 DNS 解析 + TLS 握手时间 -->
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
@@ -50,30 +50,30 @@
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#667eea">
-    <!-- iOS PWA 挻惈?-->
+    <!-- iOS PWA 专属 -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="首页几?>
+    <meta name="apple-mobile-web-app-title" content="猫爬架">
     <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/icon-192x192.png">
-    <!-- iOS 告凹鍨版慨鈺呮偨犳碍妗?-->
+    <!-- iOS 启动画面 -->
     <link rel="apple-touch-startup-image" href="/images/icons/splash-640x1136.png" media="(device-width: 320px) and (device-height: 568px)">
     <link rel="apple-touch-startup-image" href="/images/icons/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px)">
     <link rel="apple-touch-startup-image" href="/images/icons/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px)">
     <link rel="apple-touch-startup-image" href="/images/icons/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px)">
     <link rel="apple-touch-startup-image" href="/images/icons/splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px)">
     <link rel="apple-touch-startup-image" href="/images/icons/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px)">
-    <link rel="alternate" type="application/rss+xml" title="Hakimi 的个人博客RSS" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/articles/feed/rss">
+    <link rel="alternate" type="application/rss+xml" title="Hakimi 的猫爬架 RSS" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/articles/feed/rss">
     <link rel="stylesheet" href="css/chinese-style.css?v=5">
-    <!-- 闂傚牏涢崣鏌?CSS 殿喖归鐐哄礉樼儤绁?-->
+    <!-- 非关键 CSS 异步加载 -->
     <link rel="stylesheet" href="css/auth.css?v=3" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/tianjg-theme.css?v=3" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/theme.css?v=4">
     <link rel="stylesheet" href="css/apple-animations.css?v=1">
     <link rel="stylesheet" href="css/report-modal.css?v=1">
     <style>
-        /* 闂偅ㄩ悡鈩冪▔ｎ顎欓梻涘灪濠?*/
+        /* 通知下拉面板 */
         .notif-dropdown{position:absolute;top:100%;right:0;width:340px;max-height:420px;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:999;overflow:hidden;}
         .notif-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #eee;font-weight:600;font-size:15px;}
         .notif-list{max-height:360px;overflow-y:auto;}
@@ -86,22 +86,22 @@
         @media(max-width:600px){.notif-dropdown{width:290px;right:-40px;}}
     </style>
 
-    <!-- 稿繒鍘鎰板箑?polyfill挎稒鐭拹鐔煎籍瑜粊鑽ゆ喆繃鐝ら樺姃剁敻鎮虫０浣告暕 JS 绘顫夐埀嫭鏆滈?-->
+    <!-- 兼容性 polyfill：为旧浏览器提供现代 JS 特性支持 -->
     <script src="js/polyfill.js"></script>
-    <!-- 诡儸鍡楀幋村吋锚垫煡鏁嶅鐩縞e 告梻ù鍥箰モ斂涢柛锝冨妺炲洭鎮?async 闂鐏濋崢夋⒓囧樊鏁氭繛鎾冲?-->
+    <!-- 性能优化：pace 加载指示器使用 async 避免阻塞渲染 -->
     <script src="js/pace.min.js" async></script>
-    <!-- Cloudflare Turnstile 点倖肩换堝礆殿喗鏆忛鎾棑嬶綁宕欓懡嗩仮?炲鍔岄崬籍潧顤呴柛鏃傚Ь?-->
+    <!-- Cloudflare Turnstile 延迟到用户点击登录/注册时才加载 -->
     <script>window.__turnstileReady = false; function onTurnstileLoad() { window.__turnstileReady = true; console.log('Turnstile SDK loaded'); }
     function loadTurnstile() { if (document.getElementById('turnstileScript')) return; var s = document.createElement('script'); s.id = 'turnstileScript'; s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad'; s.async = true; document.head.appendChild(s); }</script>
 </head>
 
 <body>
-    <!-- iOS PWA 殿喒撻悘鐐茬箰晠鎮?-->
+    <!-- iOS PWA 开屏动画 -->
     <div id="pwa-splash" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);align-items:center;justify-content:center;flex-direction:column;transition:opacity .5s;">
         <div style="text-align:center;animation:splash-in .8s ease">
-            <div style="font-size:80px;margin-bottom:16px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.2))">妫啯?/div>
-            <div style="font-size:26px;font-weight:700;color:#fff;letter-spacing:2px;margin-bottom:8px">Hakimi 的个人博客/div>
-            <div style="font-size:14px;color:rgba(255,255,255,.7)">告帒妫旈棅鈺呭及栨瑧顏辩?/div>
+            <div style="font-size:80px;margin-bottom:16px;filter:drop-shadow(0 4px 12px rgba(0,0,0,.2))">🐱</div>
+            <div style="font-size:26px;font-weight:700;color:#fff;letter-spacing:2px;margin-bottom:8px">Hakimi 的猫爬架</div>
+            <div style="font-size:14px;color:rgba(255,255,255,.7)">分享是一种美德</div>
             <div style="margin-top:30px;width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:splash-spin 1s linear infinite;margin-left:auto;margin-right:auto"></div>
         </div>
     </div>
@@ -129,7 +129,7 @@
             } else {
                 window.addEventListener('load', dismissSplash);
             }
-            // 備焦绻傞顔界┍濠靛棛淇洪柨?佸甯掗幃呭籍樹警堝┑鈥冲风紞宥夋焾恒儳啸濠?
+            // 绝对保底：5秒后无论如何都消失
             setTimeout(function(){
                 if (!dismissed) { dismissed = true; splash.style.opacity = '0'; setTimeout(function(){ splash.remove(); }, 500); }
             }, 5000);
@@ -141,49 +141,49 @@
 
     <div class="chinese-style-wrapper">
         <script src="/js/bg-loader.js" defer></script>
-        <!-- 煎啿鏈▍娆啑涙番?-->
+        <!-- 背景装饰 -->
         <div class="bg-decoration"></div>
 
-        <!-- 濡炪倕鐖奸崕糕偓浣冨?-->
+        <!-- 顶部导航 -->
         <nav class="top-nav nav-glass" data-animate="fade" data-delay="1">
-            <div class="logo">Hakimi 的个人博客<span id="onlineCount" style="font-size:12px;color:#4CAF50;margin-left:8px;display:none;">妫啰鍘?<span id="onlineNum">0</span>存粌鎼﹢顏嗙棯?/span></div>
-            <!-- 佸ф慨鈺冪博栨稓婧勯柛顏裤倕缍呴柛佹礃垫粓鏌?-->
-            <button class="hamburger-btn" id="hamburgerBtn" aria-label="兼寧绮屽畷?>
+            <div class="logo">Hakimi 的猫爬架 <span id="onlineCount" style="font-size:12px;color:#4CAF50;margin-left:8px;display:none;">🟢 <span id="onlineNum">0</span>人在线</span></div>
+            <!-- 移动端汉堡菜单按钮 -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="菜单">
                 <span></span><span></span><span></span>
             </button>
             <div class="nav-links" id="navLinks">
-                <a href="#" class="nav-link active">妫啫缍?挸顭烽妴?/a>
-                <a href="games.html" class="nav-link">妫啫绠?炴挸鎲￠?/a>
-                <a href="drive.html" class="nav-link">虫垝绶ょ?傚啯鍨瑰ú?/a>
-                <a href="donate.html" class="nav-link" style="color:#ff6b6b;">村倶х?鍔曟慨?/a>
-                <a href="about.html" class="nav-link">妫啫绠?稿繐鍘栫花箣存粍绮?/a>
-                <a href="messages.html" class="nav-link msg-nav-link" style="display:none;position:relative;">妫啯灏?炴垵鐗婃导?<span id="navUnreadBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span></a>
+                <a href="#" class="nav-link active">🏠 主页</a>
+                <a href="games.html" class="nav-link">🎮 游戏</a>
+                <a href="drive.html" class="nav-link">☁️ 网盘</a>
+                <a href="donate.html" class="nav-link" style="color:#ff6b6b;">❤️ 捐助</a>
+                <a href="about.html" class="nav-link">🎯 关于我们</a>
+                <a href="messages.html" class="nav-link msg-nav-link" style="display:none;position:relative;">💬 消息 <span id="navUnreadBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span></a>
                 <div class="nav-link notification-bell-wrap" style="display:none;position:relative;cursor:pointer;" id="notificationBell">
-                    妫啯鏅?<span id="notifBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span>
-                    <!-- 闂偅ㄩ悡鈩冪▔ｎ顎欓梻涘灪濠?-->
+                    🔔 <span id="notifBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span>
+                    <!-- 通知下拉面板 -->
                     <div id="notifDropdown" class="notif-dropdown" style="display:none;">
                         <div class="notif-header">
-                            <span>闂偅ㄩ悡?/span>
-                            <a href="#" id="notifReadAll" style="font-size:12px;color:#667eea;">稿繈鍔戦崕戭啅奸鍤?/a>
+                            <span>通知</span>
+                            <a href="#" id="notifReadAll" style="font-size:12px;color:#667eea;">全部已读</a>
                         </div>
                         <div id="notifList" class="notif-list">
-                            <p style="text-align:center;color:#999;padding:20px;">哄棗瑰Λ夋焻樿京鍙</p>
+                            <p style="text-align:center;color:#999;padding:20px;">暂无通知</p>
                         </div>
                     </div>
                 </div>
                 <a href="#" class="nav-link login-btn" style="cursor: pointer;"
-                    onclick="loadTurnstile();document.getElementById('loginModal').classList.add('active')">妫啯鍣?谎嗩嚙?/a>
-                <a href="#" class="nav-link register-btn" style="cursor: pointer;" onclick="loadTurnstile()">妫啯鎲?炲鍔岄崬?/a>
+                    onclick="loadTurnstile();document.getElementById('loginModal').classList.add('active')">👤 登录</a>
+                <a href="#" class="nav-link register-btn" style="cursor: pointer;" onclick="loadTurnstile()">📝 注册</a>
 
-                <!-- 活潿鍔崺㈡嚕濠婂啫?-->
+                <!-- 用户菜单 -->
                 <div class="user-menu" style="display: none;">
                     <div class="user-avatar">U</div>
                     <div class="user-dropdown">
                         <!-- Header / Greeting -->
                         <div class="user-card-header-bg">
                             <div class="user-card-info">
-                                <div class="user-dropdown-name">活潿鍔崺㈠触?/div>
-                                <div class="user-level-badge" id="userCardLevel">告梻ù鍥ㄧ▔?..</div>
+                                <div class="user-dropdown-name">用户名</div>
+                                <div class="user-level-badge" id="userCardLevel">加载中...</div>
                             </div>
                         </div>
 
@@ -191,35 +191,35 @@
                         <div class="user-card-stats">
                             <div class="stat-item">
                                 <div class="stat-num" id="userStatArticles">-</div>
-                                <div class="stat-label">哄倸娲ㄩ悵?/div>
+                                <div class="stat-label">文章</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-num" id="userStatComments">-</div>
-                                <div class="stat-label">犲洤瀚?/div>
+                                <div class="stat-label">评论</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-num" id="userStatLikes">-</div>
-                                <div class="stat-label">煎墽鏌夌粋?/div>
+                                <div class="stat-label">获赞</div>
                             </div>
                         </div>
 
                         <!-- Quick Actions Grid -->
                         <div class="user-card-grid">
                             <a href="profile.html" class="grid-item">
-                                <div class="grid-icon">妫啯鍣?/div>
-                                <div class="grid-label">搩浜欏Ч嬬▔偟濡?/div>
+                                <div class="grid-icon">👤</div>
+                                <div class="grid-label">个人中心</div>
                             </a>
                             <a href="editor.html" class="grid-item">
-                                <div class="grid-icon">翠礁绋?/div>
-                                <div class="grid-label">告劕鎳鎰板閺媭鐒?/div>
+                                <div class="grid-icon">✍️</div>
+                                <div class="grid-label">内容投稿</div>
                             </a>
                             <a href="coins.html" class="grid-item">
-                                <div class="grid-icon">妫啰宕?/div>
-                                <div class="grid-label">瑰瓨鍨瑰▓鎴犳兜掆偓?/div>
+                                <div class="grid-icon">🪙</div>
+                                <div class="grid-label">我的硬币</div>
                             </a>
                             <a href="drive.html" class="grid-item">
-                                <div class="grid-icon">虫垝绶ょ?/div>
-                                <div class="grid-label">存粍鍨归傜磾寸姵纾?/div>
+                                <div class="grid-icon">☁️</div>
+                                <div class="grid-label">云端网盘</div>
                             </a>
                         </div>
 
@@ -227,49 +227,49 @@
 
                         <!-- List Menu -->
                         <div class="user-dropdown-menu">
-                            <a href="profile.html" class="user-dropdown-item">虫寧辩?犱礁澧介悿?/a>
-                            <a href="#" class="user-dropdown-item" id="logoutBtn">妫啯鐦?闂偀撻柛鎴ｆ呫儴銇?/a>
+                            <a href="profile.html" class="user-dropdown-item">⚙️ 设置</a>
+                            <a href="#" class="user-dropdown-item" id="logoutBtn">🚪 退出登录</a>
                         </div>
                     </div>
                 </div>
             </div>
         </nav>
 
-        <!-- 挾绮埇鏋讹锛愬Ο鍝勯殬?-->
+        <!-- 主标题区域 -->
         <section class="hero-section" data-animate="fade-up" data-delay="2">
-            <h1 class="main-title" id="heroTitle" data-char-reveal>告帒妫旈棅鈺呭及栨瑧顏辩?/h1>
-            <p class="sub-title" id="heroSub" data-animate="fade-up" data-delay="3">技术教程编程知识顏?/p>
+            <h1 class="main-title" id="heroTitle" data-char-reveal>分享是一种美德</h1>
+            <p class="sub-title" id="heroSub" data-animate="fade-up" data-delay="3">它不求回报，只为真诚</p>
             <script>
             (function(){
                 var q=[
-                    ['炴潙鍢查崬糕偓欘焽撯愁啅?,'濠㈠灈鏅滈崝銊╂嚐閵夛妇妲烽梺?],
-                    ['闂傗偓ф妫戦顔肩摠橆喗煎顓熺畳?,'烩晛鐡ㄧ垫洘幋堫伖炴潙瀛╅柦闈浢?],
-                    ['忕偤浜堕崳绋款潩閺夋埈妲婚濡倗鎹?,'哄矁娅曞▓顐︽嚍堛劍顫栭柛娆忕墔旀挳?],
-                    ['解偓苯㈠鎾У濡叉悂悩鍐插壈?,'告牗鐗旂紞鏃堝及閵夛箑浼╅柡鍥х摠垽鎳?],
-                    ['告撮崳閿嬬▕ｎ収鏀?,'濠殿喖花傛惥懐?],
-                    ['挸绉堕弲鍗灻归鑽ら殬闂剦鍠楀﹢堟儑?,'煎浜炵顓叕愩垺韬柡氬濡ゅ倹锚?],
-                    ['村吋鑹剧紞瀣礄瀹鈧划閿嬨亜?,'撻悷娆忕墔鳖剛崡鐐垫瘓'],
-                    ['犱警鍨遍弸浣割煶愩垹ǎ鍥跺枦绘瑩宕?,'告碍抽惃銏＄▔犱撻柤挎湰壆妲?],
-                    ['庤绻傛晶夋煥ｂ晝鐭ょ痪淇卞妿楀爼宕?,'﹤鎳撴慨铏純帒娈伴柤浼欑畱︺劑?],
-                    ['濠㈠灈鏅濋弫鎾诲箣寸偞缍忛煫鍥ф噺濠鎮?,'告撮崳楣冨极閿懏鏅奸弶鈺偯ˇ鏌ュ?],
-                    ['炲棜灏欓埞鎾诲础愵喖娅￠?,'哄洨绻濈鍌涚▔剛栧仹'],
-                    ['肩虎呴崜跺礈瀹ュ牏鐔呴柡鍐Х撯愁啅?,'濠㈠灈鏅欑鍛ｉ攱鐪藉鎾Х︽垿宕?],
-                    ['炲苯顦抽閿嬬瑹瑜忛弲褰掑础愩劎顏归弶?,'汇儱鎳忕埇鏋舵煡宕滃鍛粓挸娲﹢顏堝及?],
-                    ['存粏娅ｉ弫鎾绘嚊缍旈瀣劍濡倕顫?,'伙ヨぐ鍥ㄧ▔熸壆濡囬鎾楀娼栭梻?],
-                    ['哄嫨ˉ鎾愁嚗濡や礁澹堝墲犳﹢鎮?,'撻柡鍐劤濠鍛焊犲姣愰槼?],
-                    ['犲洩顔婇崝鐔兼儘堢姷顏婚柛?,'挸囬悷顏呬繆屾稒绠掔?],
-                    ['繑鍨敍▔瀹ュ懎袡?,'奸侀妵鍥嚗哄秵绺洪?],
-                    ['侀箖鏅茬鍌氼嚗濡や焦闄嶇紓浣哥墣骸霉?,'備焦绻勯悡鈥愁潰閵堝鐨戦悷鏇氭祰氼偆鎮?],
-                    ['告淇洪～鍥嚀瀹鈧规娊宕?,'告ɑㄨⅶ兼澘鐭侀弶?],
-                    ['告帒妫旈棅鈺呭及栨瑧顏辩?,'技术教程编程知识顏?]
+                    ['海内存知己','天涯若比邻'],
+                    ['长风破浪会有时','直挂云帆济沧海'],
+                    ['山重水复疑无路','柳暗花明又一村'],
+                    ['落红不是无情物','化作春泥更护花'],
+                    ['千里之行','始于足下'],
+                    ['不畏浮云遮望眼','自缘身在最高层'],
+                    ['会当凌绝顶','一览众山小'],
+                    ['路漫漫其修远兮','吾将上下而求索'],
+                    ['宝剑锋从磨砺出','梅花香自苦寒来'],
+                    ['天生我材必有用','千金散尽还复来'],
+                    ['欲穷千里目','更上一层楼'],
+                    ['莫愁前路无知己','天下谁人不识君'],
+                    ['沉舟侧畔千帆过','病树前头万木春'],
+                    ['人生自古谁无死','留取丹心照汗青'],
+                    ['春风得意马蹄疾','一日看尽长安花'],
+                    ['读书破万卷','下笔如有神'],
+                    ['少壮不努力','老大徒伤悲'],
+                    ['纸上得来终觉浅','绝知此事要躬行'],
+                    ['博观而约取','厚积而薄发'],
+                    ['分享是一种美德','它不求回报，只为真诚']
                 ];
                 var r=q[Math.floor(Math.random()*q.length)];
                 
-                // 繐绲块垾姗宕烽弶娆炬П偛妫欑埇鏋讹锛愬Ο樼欘殘堟垿撮幐簥挎稑濂旂换舵偩繐袟汇垻绮弲銉╁几?
+                // 正确地处理标题文字的替换，保留动画效果
                 var heroTitle = document.getElementById('heroTitle');
                 var heroSub = document.getElementById('heroSub');
                 
-                // 濠碘冲归悘婎啅绘帞鎽犻柛?char-animate 稿繐扮粈勬晬鐏炶棄鐏熼柡鍥瀹曡尙鈧╁?
+                // 如果已存在 char-animate 元素，则替换它们
                 if (heroTitle.querySelector('.char-animate')) {
                     heroTitle.innerHTML = '';
                     r[0].split('').forEach((char, i) => {
@@ -287,68 +287,68 @@
             })();
             </script>
 
-            <!-- 轰焦埢濂稿喗?-->
+            <!-- 教程板块 -->
             <section class="tutorial-section">
-                <h2 class="tutorial-heading">妫啯鎲?哄倻澧楁晶堝箰パ冪</h2>
+                <h2 class="tutorial-heading">📖 新手指南</h2>
                 <div class="tutorial-cards">
                     <a href="/level-guide.html" class="tutorial-card">
-                        <span class="tutorial-icon">氼妫寸?/span>
-                        <span class="tutorial-title">濠碘冲风紞宥夊础モ晠鐛?/span>
-                        <span class="tutorial-desc">佹稒抽崺Υ绲洪柡鍌氭储兛囬惁ｆ媼﹁法顩扮紓浣哥箻?/span>
+                        <span class="tutorial-icon">⬆️</span>
+                        <span class="tutorial-title">如何升级</span>
+                        <span class="tutorial-desc">签到、发文、评论赚经验</span>
                     </a>
                     <a href="/profile.html" class="tutorial-card">
-                        <span class="tutorial-icon">妫啯鐓犻柨?/span>
-                        <span class="tutorial-title">哄洤鐡ㄩ弫鍏煎緞閺夋垵鍓?/span>
-                        <span class="tutorial-desc">搩浜欏Ч嬬▔偟濡囧鎾筹梗卞爼鎳涢鍕毎柨顦妵鏃堝磽?/span>
+                        <span class="tutorial-icon">🖼️</span>
+                        <span class="tutorial-title">更改头像</span>
+                        <span class="tutorial-desc">个人中心上传自定义头像</span>
                     </a>
                     <a href="/editor.html" class="tutorial-card">
-                        <span class="tutorial-icon">翠礁绋?/span>
-                        <span class="tutorial-title">告瑦鍨电粩鐑藉棘モ晝褰?/span>
-                        <span class="tutorial-desc">Markdown 傚倹鐗炵欢顐闯閵娿儱鏅稿ù锝嗙矋洨绮?/span>
+                        <span class="tutorial-icon">✍️</span>
+                        <span class="tutorial-title">发布文章</span>
+                        <span class="tutorial-desc">Markdown 编辑器写作投稿</span>
                     </a>
                     <a href="/coins.html" class="tutorial-card">
-                        <span class="tutorial-icon">妫啰宕?/span>
-                        <span class="tutorial-title">犙勮壘瑜板洨鈧粩?/span>
-                        <span class="tutorial-desc">絽绻戝Λ鈺冪驳冪厒靛棔侀悾箣亝宕查柛鏂衡偓宕箒濠靛倹鐗曟慨?/span>
+                        <span class="tutorial-icon">🪙</span>
+                        <span class="tutorial-title">赚取硬币</span>
+                        <span class="tutorial-desc">每日签到、完成任务得奖励</span>
                     </a>
                 </div>
             </section>
 
-            <!-- 哄秴娲ㄩ椋庘偓浣冨?-->
+            <!-- 标签导航 -->
             <div class="tab-navigation">
-                <button class="tab-btn active" data-tab="articles">哄倸娲ㄩ悵?/button>
-                <button class="tab-btn" data-tab="users">活潿鍔崺?/button>
+                <button class="tab-btn active" data-tab="articles">文章</button>
+                <button class="tab-btn" data-tab="users">用户</button>
             </div>
 
-            <!-- 瑰吋绮銊╁礌鍘?-->
+            <!-- 搜索区域 -->
             <div class="search-section">
                 <div class="search-container">
                     <select class="search-select" id="searchSelect">
-                        <option>闂顦扮氥劑介崶鈺婂姰 ?/option>
-                        <option value="学习分享>学习分享/option>
-                        <option value="游戏开发编程项目>游戏开发编程项目/option>
-                        <option value="犱焦宕橀鍝ユ樿櫕缍?>犱焦宕橀鍝ユ樿櫕缍?/option>
-                        <option value="庢冻氱弧鍕導曨剚鐏?>庢冻氱弧鍕導曨剚鐏?/option>
-                        <option value="汇垻鍠愬鍧楁⒕韫洜鎳?>汇垻鍠愬鍧楁⒕韫洜鎳?/option>
+                        <option>选择标签 ⬇</option>
+                        <option value="编程技术">编程技术</option>
+                        <option value="游戏资源">游戏资源</option>
+                        <option value="设计素材">设计素材</option>
+                        <option value="学习资料">学习资料</option>
+                        <option value="生活随笔">生活随笔</option>
                     </select>
-                    <input type="text" class="search-input" id="searchInput" placeholder="殿喒撻柛煎灣ㄨ儻銇愰埡鍌涘仢?..">
-                    <button class="search-btn" id="searchBtn">妫啯鏁?/button>
+                    <input type="text" class="search-input" id="searchInput" placeholder="开启精彩搜索...">
+                    <button class="search-btn" id="searchBtn">🔍</button>
                 </div>
             </div>
 
         </section>
 
-        <!-- 游戏开发礌閺嶎偆鐭ù鐘烘硾鐏忣垶宕?-->
+        <!-- 游戏化组件区域 -->
         <section class="gamification-widgets" style="padding:0 20px 20px;max-width:1200px;margin:0 auto;">
             <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:20px;">
-                <!-- 絽绻戝Λ鈺傜▔剚锛?-->
+                <!-- 每日一题 -->
                 <div id="dailyQuizContainer" style="background:rgba(255,255,255,0.95);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);"></div>
-                <!-- 闂傚啫鎳撻浼村箥啿骞?-->
+                <!-- 阅读打卡 -->
                 <div id="readingChallengeContainer" style="background:rgba(255,255,255,0.95);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);"></div>
             </div>
         </section>
 
-        <!-- 闂叏绲介鐐犲啯锛?+ 闂傚懎绻戝┃鈧鏇亝爬架?-->
+        <!-- 那年今日 + 随机漫游 -->
         <section style="padding:0 20px 20px;max-width:1200px;margin:0 auto;">
             <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:20px;">
                 <div id="onThisDayContainer"></div>
@@ -356,49 +356,49 @@
             </div>
         </section>
 
-        <!-- 犙冨喚弴鐘粵告牕鎼悡?-->
+        <!-- 资源展示区域 -->
         <section class="resource-showcase" data-animate="fade-up" data-delay="2">
             <div id="searchResultInfo" style="display:none;"></div>
             <div class="resource-scroll" id="articles-container">
-                <!-- 濡ょ姰鍔悘锔句沪韫挸顫ｉ弶鐐舵瀹曠増鎷?-->
+                <!-- 骨架屏加载占位 -->
                 <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line" style="width:70%"></div><div class="skeleton-line" style="width:50%"></div><div class="skeleton-line" style="width:90%"></div></div></div>
                 <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line" style="width:60%"></div><div class="skeleton-line" style="width:45%"></div><div class="skeleton-line" style="width:80%"></div></div></div>
                 <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line" style="width:75%"></div><div class="skeleton-line" style="width:55%"></div><div class="skeleton-line" style="width:85%"></div></div></div>
             </div>
             <div id="loadMoreContainer" style="text-align:center;padding:20px;display:none;">
-                <button id="loadMoreBtn" style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;padding:10px 30px;border-radius:25px;cursor:pointer;font-size:14px;transition:all 0.3s;">告梻ù鍥即閺夋埈?/button>
+                <button id="loadMoreBtn" style="background:linear-gradient(135deg,#667eea,#764ba2);color:white;border:none;padding:10px 30px;border-radius:25px;cursor:pointer;font-size:14px;transition:all 0.3s;">加载更多</button>
             </div>
         </section>
 
-        <!-- 濡炪倓绲婚崜?-->
+        <!-- 页脚 -->
         <footer style="text-align:center;padding:20px 0 30px;font-size:12px;color:rgba(255,255,255,.5);" data-animate="fade" data-delay="3">
-            <a href="/terms.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">活潿鍔崺㈠础韫凹鍞?/a>
-            <a href="/privacy.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">闂傚懏鍔～鍡涘绩恒劎鎽?/a>
-            <a href="/about.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">稿繐鍘栫花箣存粍绮?/a>
-            <a href="#" onclick="window.reportModalInstance.open({targetType:'other',targetId:'site',targetTitle:'傚啯鍨归悵顖炲极堢姷绉?});return false;" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">埖娲濋惁鏃绋夐悙袚</a>
-            <p style="margin-top:8px;">濠?2026 Hakimi 的个人博客/p>
-            <p style="margin-top:5px;"><a href="https://beian.miit.gov.cn/" target="_blank" style="color:rgba(255,255,255,.6);text-decoration:none;">炲樊妾笴P濠?026004287?1</a></p>
-            <p style="margin-top:5px;" id="siteRuntime">妫啯鐣?傚啯鍨归悵顖氼啅煎墎绠悶?0 濠?/p>
+            <a href="/terms.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">用户协议</a>
+            <a href="/privacy.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">隐私政策</a>
+            <a href="/about.html" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">关于我们</a>
+            <a href="#" onclick="window.reportModalInstance.open({targetType:'other',targetId:'site',targetTitle:'网站整体'});return false;" style="color:rgba(255,255,255,.6);text-decoration:none;margin:0 8px;">投诉举报</a>
+            <p style="margin-top:8px;">© 2026 Hakimi 的猫爬架</p>
+            <p style="margin-top:5px;"><a href="https://beian.miit.gov.cn/" target="_blank" style="color:rgba(255,255,255,.6);text-decoration:none;">津ICP备2026004287号-1</a></p>
+            <p style="margin-top:5px;" id="siteRuntime">🚀 网站已运行 0 天</p>
         </footer>
     </div>
 
-    <!-- 谎嗩嚙嶅秴ｉ崷顓犲炊 -->
+    <!-- 登录弹窗 -->
     <div class="auth-modal-overlay" id="loginModal">
         <div class="auth-modal tianjg-modal">
-            <button class="auth-modal-close">?/button>
+            <button class="auth-modal-close">×</button>
             <div class="auth-modal-body">
                 <!-- Logo Area -->
                 <div class="auth-logo">
-                    <span class="auth-logo-text">翠讲鍓kimi 汇瀚呮柎?/span>
+                    <span class="auth-logo-text">✨Hakimi 的猫爬架✨</span>
                 </div>
 
                 <!-- Header -->
                 <div class="auth-header-row">
-                    <h2 class="auth-title">谎嗩嚙?/h2>
+                    <h2 class="auth-title">登录</h2>
                     <span class="auth-header-divider"></span>
                 </div>
                 <div class="auth-subtitle">
-                    炲备鍓﹢浣烘嫻閿曗偓瑜板潡鏁?<a href="#" class="auth-link" id="switchToRegister">佹柨呭畵鍡椻枖閵娿儱鏂 ></a>
+                    没有账号？ <a href="#" class="auth-link" id="switchToRegister">立即注册 ></a>
                 </div>
 
                 <div class="auth-error" id="loginError"></div>
@@ -407,42 +407,42 @@
                 <form id="loginForm">
 
                     <div class="tianjg-input-group">
-                        <input type="text" class="tianjg-input" id="loginUsername" placeholder="活潿鍔崺㈠触瀹ュ棗鐏梺顓у枤? required>
+                        <input type="text" class="tianjg-input" id="loginUsername" placeholder="用户名或邮箱" required>
                     </div>
 
                     <div class="tianjg-input-group">
-                        <input type="password" class="tianjg-input" id="loginPassword" placeholder="谎嗩嚙嶅秶鈧潧妫涚埇鏋? required>
-                        <span class="password-eye-icon">妫啯戦柨?/span>
+                        <input type="password" class="tianjg-input" id="loginPassword" placeholder="登录密码" required>
+                        <span class="password-eye-icon">👁️</span>
                     </div>
 
                     <div class="tianjg-input-group" id="login2faGroup" style="display: none;">
-                        <input type="text" class="tianjg-input" id="login2faCode" placeholder="犲洨鏌夌欢顓㈠礂閵夆晛忕鐘讳憾涙瑧鎷犳担铏瑰灣">
+                        <input type="text" class="tianjg-input" id="login2faCode" placeholder="请输入邮箱验证码">
                     </div>
 
                     <div class="auth-options-row">
                         <div class="auth-remember">
                             <input type="checkbox" id="loginRemember" class="tianjg-checkbox">
-                            <label for="loginRemember">犱線顣︾紞鍥儌囪尙绉?/label>
+                            <label for="loginRemember">记住登录</label>
                         </div>
                     </div>
                     <div class="auth-links">
-                        <a href="#" class="auth-link-grey" id="forgotPasswordLink">瑰灚冲ú鏍偓闈涙爬架?/a>
+                        <a href="#" class="auth-link-grey" id="forgotPasswordLink">找回密码</a>
                     </div>
 
-                    <!-- Cloudflare Turnstile 存粎ゅ┃鈧Δ鐘茬焷?-->
+                    <!-- Cloudflare Turnstile 人机验证 -->
                     <div id="loginTurnstile" class="cf-turnstile" style="margin-bottom: 15px;"></div>
 
-                    <p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">谎嗩嚙嶅秹宕＄圭姰鈧啰绮堥崫鍕遍?<a href="/terms.html" target="_blank" style="color:#667eea;">活潿鍔崺㈠础韫凹鍞?/a> ?<a href="/privacy.html" target="_blank" style="color:#667eea;">闂傚懏鍔～鍡涘绩恒劎鎽?/a></p>
+                    <p style="font-size:12px;color:#888;text-align:center;margin-bottom:12px;">登录即表示同意 <a href="/terms.html" target="_blank" style="color:#667eea;">用户协议</a> 和 <a href="/privacy.html" target="_blank" style="color:#667eea;">隐私政策</a></p>
 
-                    <button type="submit" class="tianjg-btn">?谎嗩嚙?/button>
+                    <button type="submit" class="tianjg-btn">➔ 登录</button>
 
-                    <!-- 偊鍠曟穱濠儌囪尙绉?-->
+                    <!-- 微信登录 -->
                     <div class="social-login-divider" style="margin: 20px 0; text-align: center; position: relative;">
-                        <span style="background: #fff; padding: 0 15px; color: #999; font-size: 12px; position: relative; z-index: 1;">稿繑婀圭划棘熸壆纭谎嗩嚙?/span>
+                        <span style="background: #fff; padding: 0 15px; color: #999; font-size: 12px; position: relative; z-index: 1;">其他方式登录</span>
                         <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #eee; z-index: 0;"></div>
                     </div>
                     <div class="social-login-buttons" style="text-align: center;">
-                        <button type="button" id="githubLoginBtn" class="github-login-btn-icon" title="GitHub 谎嗩嚙? style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
+                        <button type="button" id="githubLoginBtn" class="github-login-btn-icon" title="GitHub 登录" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;">
                             <svg viewBox="0 0 24 24" width="24" height="24">
                                 <path fill="#24292f" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                             </svg>
@@ -453,45 +453,45 @@
             <!-- Reset Password Form (Hidden) -->
             <form id="resetPasswordForm" style="display: none;">
                 <div class="tianjg-input-group">
-                    <input type="email" class="tianjg-input" id="resetEmail" placeholder="犲洨鏌夌欢顓㈠礂閵夛附鏆堥柛鎰焸嬫牜绮? required>
+                    <input type="email" class="tianjg-input" id="resetEmail" placeholder="请输入注册邮箱" required>
                 </div>
 
                 <div class="tianjg-input-group" style="display: flex; gap: 10px;">
-                    <input type="text" class="tianjg-input" id="resetCode" placeholder="濡ょ姴鐭侀惁愭儘? required>
+                    <input type="text" class="tianjg-input" id="resetCode" placeholder="验证码" required>
                     <button type="button" class="tianjg-btn" id="sendResetCodeBtn"
-                        style="width: 120px; font-size: 0.9em; padding: 0;">兼儳鍢茶ぐ鍥殽瀹鍐?/button>
+                        style="width: 120px; font-size: 0.9em; padding: 0;">获取验证码</button>
                 </div>
 
                 <div class="tianjg-input-group">
-                    <input type="password" class="tianjg-input" id="resetNewPassword" placeholder="哄倹橀惁鎴︽儘? required>
+                    <input type="password" class="tianjg-input" id="resetNewPassword" placeholder="新密码" required>
                 </div>
 
-                <button type="submit" class="tianjg-btn">?闂佹彃绉堕悿鍡欌偓闈涙爬架?/button>
+                <button type="submit" class="tianjg-btn">➔ 重置密码</button>
                 <div style="text-align: center; margin-top: 15px;">
-                    <a href="#" class="auth-link-grey" id="backToLogin">閺夆晜鏌ú鏍儌囪尙绉?/a>
+                    <a href="#" class="auth-link-grey" id="backToLogin">返回登录</a>
                 </div>
             </form>
         </div>
     </div>
     </div>
 
-    <!-- 炲鍔岄崬钘夘嚕︻厾宕?-->
+    <!-- 注册弹窗 -->
     <div class="auth-modal-overlay" id="registerModal">
         <div class="auth-modal tianjg-modal">
-            <button class="auth-modal-close">?/button>
+            <button class="auth-modal-close">×</button>
             <div class="auth-modal-body">
                 <!-- Logo Area -->
                 <div class="auth-logo">
-                    <span class="auth-logo-text">翠讲鍓kimi 汇瀚呮柎?/span>
+                    <span class="auth-logo-text">✨Hakimi 的猫爬架✨</span>
                 </div>
 
                 <!-- Header -->
                 <div class="auth-header-row">
-                    <h2 class="auth-title">炲鍔岄崬?/h2>
+                    <h2 class="auth-title">注册</h2>
                     <span class="auth-header-divider"></span>
                 </div>
                 <div class="auth-subtitle">
-                    圭跺﹢浣烘嫻閿曗偓瑜板潡鏁?<a href="#" class="auth-link" id="switchToLogin">佹柨呭畵鍡涙儌囪尙绉?></a>
+                    已有账号？ <a href="#" class="auth-link" id="switchToLogin">立即登录 ></a>
                 </div>
 
                 <div class="auth-error" id="registerError"></div>
@@ -499,36 +499,36 @@
 
                 <form id="registerForm">
                     <div class="tianjg-input-group">
-                        <input type="text" class="tianjg-input" id="registerUsername" placeholder="活潿鍔崺㈠触瀹ュ繒勯柤宄板暱?搩浜滈悺褏绮敂鑲"
+                        <input type="text" class="tianjg-input" id="registerUsername" placeholder="用户名（至少3个字符）"
                             required>
                     </div>
 
                     <div class="tianjg-input-group">
-                        <input type="email" class="tianjg-input" id="registerEmail" placeholder="闂収鍠氶ュ捶閺夋寧绲? required>
+                        <input type="email" class="tianjg-input" id="registerEmail" placeholder="邮箱地址" required>
                     </div>
 
                     <div class="tianjg-input-group">
-                        <input type="password" class="tianjg-input" id="registerPassword" placeholder="潧妫涚埇鏋舵粓鏁崼锝呮?搩浜滈悺褏绮敂鑲"
+                        <input type="password" class="tianjg-input" id="registerPassword" placeholder="密码（至少6个字符）"
                             required>
                     </div>
 
                     <div class="tianjg-input-group">
-                        <input type="password" class="tianjg-input" id="registerConfirmPassword" placeholder="绢収鍠涢鑽も偓闈涙爬架?
+                        <input type="password" class="tianjg-input" id="registerConfirmPassword" placeholder="确认密码"
                             required>
                     </div>
 
-                    <!-- Cloudflare Turnstile 存粎ゅ┃鈧Δ鐘茬焷?-->
+                    <!-- Cloudflare Turnstile 人机验证 -->
                     <div id="registerTurnstile" class="cf-turnstile" style="margin-bottom: 15px;"></div>
                     <label style="display:flex;align-items:flex-start;gap:6px;margin-bottom:15px;font-size:12px;color:#888;cursor:pointer;line-height:1.5;">
                         <input type="checkbox" id="agreeTerms" style="margin-top:3px;flex-shrink:0;">
-                        <span>炲鍔岄崬础圭姰鈧啰绮堥崫鍕遍?<a href="/terms.html" target="_blank" style="color:#667eea;">活潿鍔崺㈠础韫凹鍞?/a> ?<a href="/privacy.html" target="_blank" style="color:#667eea;">闂傚懏鍔～鍡涘绩恒劎鎽?/a></span>
+                        <span>注册即表示同意 <a href="/terms.html" target="_blank" style="color:#667eea;">用户协议</a> 和 <a href="/privacy.html" target="_blank" style="color:#667eea;">隐私政策</a></span>
                     </label>
-                    <button type="submit" class="tianjg-btn">?佹柨呭畵鍡椻枖閵娿儱鏂</button>
+                    <button type="submit" class="tianjg-btn">➔ 立即注册</button>
                 </form>
             </div>
         </div>
     </div>
-    <!-- supabase.js 规瓕灏欎簺闂傚嫨х娆嫉啫鈻忛銏厜辨岸鏁嶇瑰窓th 垵宕电划鍝勵嚈壆绠块柛鏃傚Ь?-->
+    <!-- supabase.js 已移除（未使用），auth 系统延迟加载 -->
     <script type="module" src="js/supabase-auth.js?v=20260311"></script>
     <script type="module" src="js/load-articles.js?v=20260310a"></script>
     <script type="module" src="js/blog-search.js?v=20260310a"></script>
@@ -536,10 +536,10 @@
         import { initNotifications } from './js/notifications.js';
         document.addEventListener('DOMContentLoaded', () => setTimeout(initNotifications, 500));
     </script>
-    <!-- 诡儸鍡楀幋村吋锚垫煡鏁嶅顐槣濡増锚ゅ啫ｆウ鍨哄牜鍏涙繛鍥偨?defer 点倖肩换堝礉樼儤绁?-->
+    <!-- 性能优化：主题增强脚本使用 defer 延迟加载 -->
     <script src="js/theme-enhancements.js" defer></script>
     <script>
-        // 顦悧ㄦ嚕濠婂啫柛鎺处瀹?
+        // 汉堡菜单切换
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const navLinks = document.getElementById('navLinks');
         if (hamburgerBtn && navLinks) {
@@ -547,7 +547,7 @@
                 this.classList.toggle('active');
                 navLinks.classList.toggle('mobile-open');
             });
-            // 绘劗鎳撻崵顔锯偓浣冨╁懘鏌悙柛唉ゆ粓宕濋妸銉ュ綘闂傚偆鍙瑜板秹宕?
+            // 点击导航链接后自动关闭菜单
             navLinks.querySelectorAll('.nav-link').forEach(link => {
                 link.addEventListener('click', () => {
                     hamburgerBtn.classList.remove('active');
@@ -556,7 +556,7 @@
             });
         }
 
-        // 哄秴娲ㄩ鐑藉礆ャ婇柨樼墛閺啰绮?活潿鍔崺㈡晬?
+        // 标签切换（文章/用户）
         (function initTabSwitch() {
             var currentTab = 'articles';
             var apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
@@ -571,7 +571,7 @@
             function showArticlesUI() {
                 if (searchSection) searchSection.style.display = '';
                 if (loadMoreContainer) loadMoreContainer.style.display = '';
-                // 诡厹鍨归ˇ鏌ュ棘モ晝褰块柛鎺擃殙閵?
+                // 恢复文章列表
                 if (window._loadArticles) window._loadArticles(1);
             }
 
@@ -581,14 +581,14 @@
             }
 
             async function searchUsers(keyword) {
-                container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">妫啯鏁?瑰吋绮銊︾▔?..</div>';
+                container.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">🔍 搜索中...</div>';
                 try {
                     var url = apiBase + '/profiles/search' + (keyword ? '?q=' + encodeURIComponent(keyword) : '');
                     var res = await fetch(url);
                     var data = await res.json();
                     var users = data.data || [];
                     if (users.length === 0) {
-                        container.innerHTML = '<div style="text-align:center;padding:40px;color:#999;min-width:100%;"><div style="font-size:48px;margin-bottom:15px;">妫啯鍣?/div><div>哄棗瑰Λ夋偨閵婏箑鐓?/div></div>';
+                        container.innerHTML = '<div style="text-align:center;padding:40px;color:#999;min-width:100%;"><div style="font-size:48px;margin-bottom:15px;">👤</div><div>暂无用户</div></div>';
                         return;
                     }
                     container.innerHTML = '';
@@ -601,12 +601,12 @@
                             ? '<img src="' + escapeHTML(u.avatar_url) + '" style="width:72px;height:72px;border-radius:50%;object-fit:cover;box-shadow:0 2px 12px rgba(102,126,234,0.3);">'
                             : '<div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:28px;font-weight:700;box-shadow:0 2px 12px rgba(102,126,234,0.3);">' + escapeHTML(initial) + '</div>';
                         var date = new Date(u.created_at).toLocaleDateString('zh-CN');
-                        card.innerHTML = avatarHtml + '<div style="margin-top:12px;font-size:15px;font-weight:600;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;">' + escapeHTML(u.username) + '</div><div style="margin-top:4px;font-size:12px;color:#999;">告梻撮崣鍡樼?' + date + '</div>';
+                        card.innerHTML = avatarHtml + '<div style="margin-top:12px;font-size:15px;font-weight:600;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;">' + escapeHTML(u.username) + '</div><div style="margin-top:4px;font-size:12px;color:#999;">加入于 ' + date + '</div>';
                         card.onclick = function() { window.location.href = '/profile.html?id=' + u.id; };
                         container.appendChild(card);
                     });
                 } catch(e) {
-                    container.innerHTML = '<div style="text-align:center;padding:30px;color:#e74c3c;">告梻ù鍥緞堫袝挎稑鐭侀傜矙瀹ュ懏梺鎻掔Х?/div>';
+                    container.innerHTML = '<div style="text-align:center;padding:30px;color:#e74c3c;">加载失败，请稍后重试</div>';
                 }
             }
 
@@ -626,7 +626,7 @@
                 });
             });
 
-            // 瑰吋绮銊ヮ浖ɑ鏆滈闀愮劍磭妲愰姀銏殢规潙鍤栫娆掋捐埖鏆忛割熁ab犵撴繛鑼帛濡炲倿鏁?
+            // 搜索框支持搜索用户（当用户tab激活时）
             if (searchBtn && searchInput) {
                 var origClick = searchBtn.onclick;
                 searchBtn.addEventListener('click', function(e) {
@@ -640,11 +640,11 @@
             }
         })();
 
-        // 告梻ù鍥捶閵娧冩疇存粎ら弳?& 告瑦鍨块埀挎祰旀牜鈧箍鍨圭缓鍓ф崉?
+        // 加载在线人数 & 发送访客心跳
         (async function loadOnlineCount() {
             try {
                 const apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
-                // 寸姴鎳庡﹢顏堝嫉掆偓濠戭嚕剟宕ｉ幋鐐茬仐告艾鑻悡娆撴偝栨凹鏆斿鎾愁儏瑜板倿鏌呮担鍝ュ犺櫣茬嬫焼喖甯抽柛灩閺佹挻嶈楠炲棙鏅堕崘顓夋洟宕?CORS 弫?
+                // 仅在本地开发或同域环境下发送心跳，避免向生产环境触发 CORS 报错
                 const isLocalDev = apiBase.includes('localhost') || apiBase.includes('127.0.0.1');
                 if (isLocalDev) {
                     fetch(apiBase + '/online/visitor-heartbeat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }).catch(() => {});
@@ -665,9 +665,9 @@
             } catch (e) { /* ignore */ }
         })();
     </script>
-    <!-- 傚啯鍨归悵顖涙交垼鏀介柡鍐ㄧ埣濡法鎷敍鍕毈 -->
+    <!-- 网站运行时间计算 -->
     <script>
-        // 傚啯鍨归悵顖炲触栨艾袟哄啫鐖煎Λ鍧楁晬?024??9?
+        // 网站启动时间：2024年5月19日
         (function initSiteRuntime() {
             const startDate = new Date('2024-05-19T00:00:00');
             const runtimeEl = document.getElementById('siteRuntime');
@@ -681,24 +681,24 @@
                 const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
                 if (runtimeEl) {
-                    runtimeEl.textContent = `妫啯鐣?傚啯鍨归悵顖氼啅煎墎绠悶?${days} 濠?${hours} 繐绻戝?${minutes} 告帒鎽?
+                    runtimeEl.textContent = `🚀 网站已运行 ${days} 天 ${hours} 小时 ${minutes} 分`;
                 }
             }
 
             updateRuntime();
-            // 絽绻愰ㄦ煢斿憡绾柡鍌烆暒旀潙鈻?
+            // 每分钟更新一次
             setInterval(updateRuntime, 60000);
         })();
     </script>
     <script src="js/theme.js?v=1"></script>
-    <!-- PWA Service Worker 炲鍔岄崬?-->
+    <!-- PWA Service Worker 注册 -->
     <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js?v=20260419a')
                 .then(reg => {
                     console.log('SW registered:', reg.scope);
-                    // 寸姴鎳庡﹢顏堝即涙ɑ鐓哄娉涢崺㈠棘鐢喚勯梻㈠仱╄鈻垾宕殧熶礁鎷?
+                    // 仅在更新时刷新（非首次安装）
                     reg.addEventListener('updatefound', () => {
                         var newSW = reg.installing;
                         if (newSW && navigator.serviceWorker.controller) {
@@ -714,81 +714,81 @@
         });
     }
     </script>
-    <!-- PWA 顦抽ˉ濠傤嚕閺儐鍤?-->
+    <!-- PWA 安装引导 -->
     <script src="js/pwa-install.js"></script>
 
-<!-- Win7 Emoji 稿繒鍘鎰板箑瑜ˇ鈺呮偠?-->
+<!-- Win7 Emoji 兼容性处理 -->
 <script>
 (function() {
-    // ☆偀撴繛戭儐濡叉悂宕敂鑳 Windows 7
+    // 检测是否为 Windows 7
     function isWindows7() {
         var ua = navigator.userAgent;
         return ua.indexOf('Windows NT 6.1') !== -1 || 
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji 哄洦у畷鏌ュ及樿尙娈悶?
+    // Emoji 替换映射表
     var emojiMap = {
-        "妫啯?: "?,
-        "妫啫缍?: "濡鐗犻妴?,
-        "妫啫绠?: "炴挸鎲￠?,
-        "虫垝绶ょ?: "?,
-        "宠В撻柨?: "濠浜Σ?,
-        "村倶х?: "绘牕宕缓?,
-        "妫啫绠?: "稿繐鍘栫花?,
-        "妫啯灏?: "炴垵鐗婃导?,
-        "妫啯鏅?: "闂偅ㄩ悡?,
-        "妫啯鍣?: "活潿鍔崺?,
-        "妫啯鎲?: "傚倹鐗炵欢?,
-        "氼妫寸?: "告娲ㄦ?,
-        "妫啯鐓犻柨?: "搞儱澧芥晶?,
-        "翠礁绋?: "告劖ょ紞?,
-        "虫寧辩?: "犱礁澧介悿?,
-        "妫啯鐦?: "闂偀撻柛?,
-        "妫啯?: "圭粯鍔妵?,
-        "?: "備礁绻橀悰?,
-        "妫啯鐣?: "告瑦鍨电粩?,
-        "妫啫绗柨?: "佹稑顦辨?,
-        "妫啯灏?: "告梻电悰?,
-        "妫啯鏅?: "闂佸じ侀悾?,
-        "妫啯鎲?: "告绻?,
-        "?: "?,
-        "?: "?,
-        "愁偀鏅?: "逛勘濋弨?,
-        "?: "㈩垼鍠栨慨?,
-        "妫啯鏁?: "告帡鏀遍弻?,
-        "虫槒顔愮?: "殿喒┑?,
-        "冲瓨鍞?: "哄啫鐖煎Λ?,
-        "妫啫鑵?: "告帗绋掗崜?,
-        "妫啯宕?: "活澀绲婚崜?,
-        "妫啯鎲?: "庢冻氱弧?,
-        "妫啯夐柨?: "烩晛澧芥晶?,
-        "翠礁鐗炵?: "濡炲炲┃鈧?,
-        "?: "哄鍠愬Σ?,
-        "妫啯姣嗛柨?: "归潧嗛悞?,
-        "妫啯鎲?: "闂収鍠氶?,
-        "妫啯鎳?: "归潧┃鈧?,
-        "妫啯鎯?: "烩晩鍠栫紞?,
-        "妫啯鎲?: "告ê紓?,
-        "妫啯鎯?: "哄倸娲▎?,
-        "妫啯鎲?: "PPT",
-        "妫啯鏆?: "规悶遍崣?,
-        "妫啰宕?: "绢収鍓欑粩?,
-        "妫啯灏?: "闂佸弶鍨电粩?,
-        "?: "鏈?,
-        "妫啯堥柨?: "规悶遍崣?,
-        "妫啯灏?: "哄鍠崢?,
-        "妫啯鏁?: "瑰吋绮?,
-        "妫啯鎲?: "棑濡囬惈?,
-        "妫啫囬柨?: "哄秴娲ㄩ?,
-        "妫啯顥旈柨?: "告帞?
+        "🐱": "猫",
+        "🏠": "首页",
+        "🎮": "游戏",
+        "☁️": "云",
+        "☀️": "太阳",
+        "❤️": "爱心",
+        "🎯": "关于",
+        "💬": "消息",
+        "🔔": "通知",
+        "👤": "用户",
+        "📝": "编辑",
+        "⬆️": "升级",
+        "🖼️": "图片",
+        "✍️": "写作",
+        "⚙️": "设置",
+        "🚪": "退出",
+        "💡": "提示",
+        "⚡": "经验",
+        "🚀": "发布",
+        "🎖️": "等级",
+        "💪": "加油",
+        "🔒": "锁定",
+        "📜": "协议",
+        "↑": "上",
+        "↓": "下",
+        "↩️": "撤销",
+        "❓": "帮助",
+        "🔄": "刷新",
+        "▶️": "开始",
+        "⏱️": "时间",
+        "🎨": "创意",
+        "💻": "电脑",
+        "📚": "学习",
+        "🛡️": "盾牌",
+        "✈️": "飞机",
+        "⭐": "星星",
+        "🕹️": "手柄",
+        "📧": "邮箱",
+        "📱": "手机",
+        "📑": "目录",
+        "📦": "压缩",
+        "📄": "文件",
+        "📙": "PPT",
+        "🔧": "工具",
+        "🪙": "硬币",
+        "💰": "金币",
+        "✅": "完成",
+        "🛠️": "工具",
+        "💫": "星光",
+        "🔍": "搜索",
+        "📖": "书籍",
+        "🏷️": "标签",
+        "🗑️": "删除"
     };
     
-    // 哄洦у畷鍙夈亜㈠憡妗冨幘?emoji
+    // 替换页面中的 emoji
     function replaceEmojis() {
         if (!isWindows7()) return;
         
-        // 哄洦у畷鏌ュ棘ャ劍鎷遍柤鍝婚崑?
+        // 替换文本节点
         var walker = document.createTreeWalker(
             document.body,
             NodeFilter.SHOW_TEXT,
@@ -811,7 +811,7 @@
             }
         }
         
-        // 哄洦у畷鑼沪愮补撹垫垿鎯?emoji挎稑鐗嗛々?title, alt 佹稑顧?
+        // 替换属性中的 emoji（如 title, alt 等）
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -835,7 +835,7 @@
         }
     }
     
-    // DOM 告梻ù鍥┾偓版湰ㄦ岸宕ユ惔銏犫挃炴稑鏈ù㈠箲?
+    // DOM 加载完成后执行替换
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {
@@ -845,70 +845,70 @@
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // ☆偀撻柡灞诲劤呫儴銇愰弴鐐寸犲鍠涚娆愩亜㈠憡妗ㄩ柛鏃傚Ь村洭拋鍦
+    // 检查登录回调（页面加载时）
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     const state = urlParams.get('state');
 
     if (code && state) {
-        // ☆偀撻柡灞诲劜濡叉悂宕敂鑺バ?GitHub 搞儳犻惃鐔兼晬儮宕畺☆偀撻柡?sessionStorage 搩鍘▓?state?
+        // 检查是否是 GitHub 回调（通过检查 sessionStorage 中的 state）
         const savedGithubState = sessionStorage.getItem('github_oauth_state');
 
         if (savedGithubState && state === savedGithubState) {
-            // ?GitHub 搞儳犻惃?
+            // 是 GitHub 回调
             const githubLogin = new GitHubLogin({
                 clientId: 'Ov23liWGtpI712WHoq3E',
                 onSuccess: function(data) {
-                    console.log('GitHub 谎嗩嚙嶅秹骞顫?', data);
+                    console.log('GitHub 登录成功:', data);
                     localStorage.setItem('token', data.token);
                     localStorage.setItem('user', JSON.stringify(data.user));
                     window.location.reload();
                 },
                 onError: function(error) {
-                    console.error('GitHub 谎嗩嚙嶅秵勬潏顐バ?', error);
-                    alert('GitHub 谎嗩嚙嶅秵勬潏顐バ? ' + (error.message || '哄牜浜為悡锟犳煥帩鍤?));
+                    console.error('GitHub 登录失败:', error);
+                    alert('GitHub 登录失败: ' + (error.message || '未知错误'));
                 }
             });
             githubLogin.isCallback();
         }
     }
 
-    // GitHub 谎嗩嚙嶅秹骞愭径鎰唉
+    // GitHub 登录按钮
     const githubLoginBtn = document.getElementById('githubLoginBtn');
     if (githubLoginBtn) {
         githubLoginBtn.addEventListener('click', function() {
-            // ☆偀撻柡灞诲劜濡叉悂宕敂鑺バ?GitHub 搞儳犻惃?
+            // 检查是否是 GitHub 回调
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('code') && urlParams.get('state')) {
-                // 哄嫷鍨板ú鏍愯法夊璺哄﹪鎯傜拠鑼Э
+                // 是回调，处理登录
                 const githubLogin = new GitHubLogin({
                     clientId: 'Ov23liWGtpI712WHoq3E',
                     onSuccess: function(data) {
-                        console.log('GitHub 谎嗩嚙嶅秹骞顫?', data);
+                        console.log('GitHub 登录成功:', data);
                         localStorage.setItem('token', data.token);
                         localStorage.setItem('user', JSON.stringify(data.user));
                         window.location.reload();
                     },
                     onError: function(error) {
-                        console.error('GitHub 谎嗩嚙嶅秵勬潏顐バ?', error);
-                        alert('GitHub 谎嗩嚙嶅秵勬潏顐バ? ' + (error.message || '哄牜浜為悡锟犳煥帩鍤?));
+                        console.error('GitHub 登录失败:', error);
+                        alert('GitHub 登录失败: ' + (error.message || '未知错误'));
                     }
                 });
                 githubLogin.isCallback();
             } else {
-                // 殿喒┑?GitHub 谎嗩嚙嶅秴霉ｈ　鏌?
+                // 开始 GitHub 登录流程
                 const githubLogin = new GitHubLogin({
                     clientId: 'Ov23liWGtpI712WHoq3E',
                     redirectUri: 'https://mcock.cn',
                     onSuccess: function(data) {
-                        console.log('GitHub 谎嗩嚙嶅秹骞顫?', data);
+                        console.log('GitHub 登录成功:', data);
                         localStorage.setItem('token', data.token);
                         localStorage.setItem('user', JSON.stringify(data.user));
                         window.location.reload();
                     },
                     onError: function(error) {
-                        console.error('GitHub 谎嗩嚙嶅秵勬潏顐バ?', error);
-                        alert('GitHub 谎嗩嚙嶅秵勬潏顐バ? ' + (error.message || '哄牜浜為悡锟犳煥帩鍤?));
+                        console.error('GitHub 登录失败:', error);
+                        alert('GitHub 登录失败: ' + (error.message || '未知错误'));
                     }
                 });
                 githubLogin.login();
@@ -919,10 +919,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <script src="js/music-player.js?v=2"></script>
 
-<!-- 100告梻鍠曢崗姗宕犻崨顓烆潱閺夌偠妫▍?-->
+<!-- 100功能包加载器 -->
 <script type="module" src="js/feature-loader.js?v=20260419a"></script>
 
-<!-- 闂叏绲介鐐犲啯锛?-->
+<!-- 那年今日 -->
 <script type="module">
     import OnThisDay from './js/on-this-day.js?v=20260227a';
     document.addEventListener('DOMContentLoaded', () => {
@@ -931,7 +931,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 
-<!-- 闂傚懎绻戝┃鈧鏇亝爬架?-->
+<!-- 随机漫游 -->
 <script type="module">
     import RandomWalk from './js/random-walk.js?v=20260227a';
     document.addEventListener('DOMContentLoaded', () => {
@@ -940,7 +940,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 
-<!-- 游戏开发礌閺嶎偆鐭ù鐘侯啇辨澘袙韫梹锛夊鎾濡?-->
+<!-- 游戏化组件：每日一题 -->
 <script type="module">
     import DailyQuiz from './js/daily-quiz.js?v=20260227a';
     document.addEventListener('DOMContentLoaded', () => {
@@ -952,7 +952,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 
-<!-- 游戏开发礌閺嶎偆鐭ù鐘侯啇变即姊奸崨閭殺瑰灚稿畷閬嶅箰寸偛鐏?-->
+<!-- 游戏化组件：阅读打卡挑战 -->
 <script type="module">
     import ReadingChallenge from './js/reading-challenge.js?v=20260227a';
     document.addEventListener('DOMContentLoaded', () => {
@@ -964,7 +964,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 
-<!-- Konami 佸顭囬惈鍕哄嫭宸?- 熸瑱绠戣ぐ鍌炴⒕垱顥戦瀛樺姇?-->
+<!-- Konami 秘籍彩蛋 - 触发隐藏成就 -->
 <script type="module">
     import { AchievementSystem } from './js/achievement-system.js';
     document.addEventListener('DOMContentLoaded', () => {
@@ -991,4 +991,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 
 </html>
-

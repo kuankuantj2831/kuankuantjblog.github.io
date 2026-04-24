@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
@@ -129,27 +129,14 @@
         }
 
         .feature-list li::before {
-            content: ';
+            content: '✨';
             position: absolute;
             left: 0;
             top: 8px;
             font-size: 0.9rem;
         }
 
-        /* 剧偓甯撮弽宄扮础 - 绾喕绻氭导哄帥狙喕剁喖鐝?*/
-        .feature-categories .feature-list a {
-            color: #667eea !important;
-            text-decoration: none !important;
-            font-weight: 600 !important;
-            transition: color 0.3s ease !important;
-        }
-
-        .feature-categories .feature-list a:hover {
-            color: #764ba2 !important;
-            text-decoration: underline !important;
-        }
-
-        /* ===== 鐗壊功能鍏橀崠鍝厵 ===== */
+        /* ===== 特色功能区域 ===== */
         .highlight-section {
             background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
             padding: 40px;
@@ -197,7 +184,7 @@
             line-height: 1.5;
         }
 
-        /* ===== 韫囶偊鈧喕顔栭梻顔煎隘?===== */
+        /* ===== 快速访问区域 ===== */
         .quick-access {
             background: rgba(255,255,255,0.8);
             padding: 30px;
@@ -239,7 +226,7 @@
             box-shadow: 0 6px 20px rgba(102,126,234,0.4);
         }
 
-        /* ===== 秴绨插蹇氼啎?===== */
+        /* ===== 响应式设计 ===== */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -259,7 +246,7 @@
             }
         }
 
-        /* ===== 动画弫熺亯 ===== */
+        /* ===== 动画效果 ===== */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -282,283 +269,124 @@
 </head>
 
 <body>
-    <a href="javascript:history.back()" class="back-btn">?/a>
+    <a href="javascript:history.back()" class="back-btn">←</a>
 
     <div class="features-wrapper">
-        <!-- Hero 区域?-->
+        <!-- Hero 区域 -->
         <div class="hero">
-            <h1>📋更多功能</h1>
-            <p>探索?Hakimi 的猫猫爬架鐏幓鎰返嫪璧寸靛苯涢懗鏂ょ礉佲晜惃鍕秼犲本娲块崝鐘电翱瑜扳晛鎷版笟庡祹閵倹鍨滄禒冨毀旀稐绨稉铏规暏撮攱褰佹笟樺弿閺傞涚秴嫭婀囬崝鈥虫嫲功能鍏橀妴?/p>
+            <h1>✨ 更多功能</h1>
+            <p>探索 Hakimi 的猫爬架提供的丰富功能，让您的体验更加精彩和便捷。我们致力于为用户提供全方位的服务和功能。</p>
         </div>
 
-        <!-- 功能鍏橀崚鍡欒区域?-->
+        <!-- 功能分类区域 -->
         <div class="feature-categories">
-            <!-- 瀹搞儱鍙跨猾插宠棄鍨猾?-->
+            <!-- 内容创作分类 -->
             <div class="category-card">
-                <span class="category-icon">📌?/span>
-                <h3>瀹搞儱鍙跨猾插?/h3>
-                <p>提供崥鍕潚圭偟鏁ゅ銉ュ徔功能鍏?/p>
+                <span class="category-icon">📝</span>
+                <h3>内容创作</h3>
+                <p>强大的内容创作工具，助您轻松发布和分享精彩内容。</p>
                 <ul class="feature-list">
-                    <li><a href="calculator.html">计算崳?/a> - 提供崺铏诡攨娲撻崚娆掔箥犳ぜ鈧娅ㄩ崚鍡樼槷计算妴浣稿坊欒尪顔囪ぐ鏇犵搼功能鍏?/li>
-                    <li><a href="todo.html">待办?/a> - 提供鍛滃銆惃鍕潑旂姰鈧绱潏鎴欌偓浣稿灩闂勩們鈧焦鐖拋跨暚存劗鐡戝姛鑳藉厴</li>
-                    <li><a href="note.html">笔记姛鑳藉厴</a> - 绘劒绶电鏃囶唶鍨卞鎭掆偓浣虹椽堟垯鈧礁鍨归梽冣偓浣规偝便垻鐡戝姛鑳藉厴閿涘本鏁幐浣圭垼涙儳鍨猾叉嫲兼粎鍌?/li>
-                    <li><a href="weather.html">天气弻銉嚄</a> - 提供圭偞妞傛径鈺傜毜閺屻儴楀姛鑳藉厴閿涘本鏁幐浣哥埗鐓敮鍌氭嫲兼粎鍌姛鑳藉厴</li>
-                    <li><a href="translate.html">翻译姛鑳藉厴</a> - 绘劒绶垫径愁嚔封偓堟槒鐦ф湇鍔￠敍灞炬暜镐鐐曠拠鎴坊欒尪顔囪ぐ?/li>
-                    <li><a href="countdown.html">婃帟顓弮璺哄?/a> - 提供崐鎺曨吀閺冨墎娈戦崚樼紦閵嗕礁鎯崝銊ｂ偓浣规畯嬫嚎鈧線鍣哥純顔剧搼功能鍏橀敍灞炬暜镐礁宸婚崣鑼额唶瑜?/li>
-                    <li><a href="stopwatch.html">夋帟銆冨姛鑳藉厴</a> - 绘劒绶电粔鎺曘惃鍕唨閺堫涢懗鏂ょ礉栧懏瀚鈧慨瀣ㄢ偓浣镐粻濐潿鈧線鍣哥純顔兼嫲佲剝顐煎姛鑳藉厴</li>
-                    <li><a href="unit-converter.html">单位潪佸床?/a> - 提供梹鍨閵嗕線鍣蹇嬧偓浣逛刊鎼达负鈧線娼扮粔顖樷偓浣风秼夘垳鐡径鳖潚单位转换惃鍕祮广垹涢懗?/li>
-                    <li><a href="password-generator.html">密码悽鐔稿灇?/a> - 提供瑰鍙忛惃鍕槕鏁撻幋鎰虫枻绱濋弨顖涘瘮氬顫掔靛棛鐖滈柅愩崪灞藉繁鎼达附顥呭ù?/li>
-                    <li><a href="qr-generator.html">二维惍浣烘晸存劕娅?/a> - 喐鍨氶崥鍕潚烽惃鍕癌佸鐖滈敍灞炬暜镐浇鍤滅规矮绠熸０滃苯鏄傜?/li>
-                    <li><a href="text-compare.html">文本佃鐦銉ュ徔</a> - ｆ棁绶濇稉嗩唽閺傚洦婀伴惃鍕▕偊绱濋弨顖涘瘮傛ü掗弰鍓с仛</li>
-                    <li><a href="json-formatter.html">JSON厧绱￠崠鏍т紣?/a> - 格式化崠鏍ф嫲犲矁鐦塉数据宓?/li>
-                    <li><a href="regex-tester.html">濓絽鍨悰銊ㄦ彧繑绁寸拠鏇炴珤</a> - 村鐦崪冪殶洘滈崚娆掋冩潏鎯х础</li>
-                    <li>颜色柅?- 瀚ㄩ崪冩祮颜色崥勵杹瑰弶鐗稿?/li>
-                    <li>Base64牜鐖滅憴锝垳 - ╂稖顢態ase64傛牜鐖滈崪冃掗惍浣规惙?/li>
+                    <li>Markdown 编辑器</li>
+                    <li>富文本编辑器</li>
+                    <li>代码高亮</li>
+                    <li>实时预览</li>
+                    <li>自动保存</li>
                 </ul>
             </div>
 
-            <!-- 愬懎顔愰崚楃稊分类?-->
+            <!-- 社区互动分类 -->
             <div class="category-card">
-                <span class="category-icon">📌冩憫</span>
-                <h3>愬懎顔愰崚楃稊</h3>
-                <p>搫銇囬惃鍕敶圭鍨辨担紣嚖绱濋崝鈺傚亶炵粯崣鎴濈滃苯鍨庢禍顐ょ翱瑜扳晛鍞寸瑰箍鈧?/p>
+                <span class="category-icon">💬</span>
+                <h3>社区互动</h3>
+                <p>丰富的社交功能，让您与其他用户互动交流。</p>
                 <ul class="feature-list">
-                    <li><a href="editor.html">Markdown 编辑崳?/a> - 支持Markdown语法惃鍕槣閺傚洦婀扮紓鏍帆?/li>
-                    <li>文档張傜椽堟垵娅?- 提供幍鈧憴浣稿祮碘偓版娈紓鏍帆ｆ捇鐛?/li>
-                    <li>代码瑰瘨 - 支持舵氨顫掔紓鏍柤语言惃鍕敩線鐝禍顔芥▔?/li>
-                    <li>实时０鍕潔 - 编辑弮璺虹杽閺冨爼顣憴敶鏅弸?/li>
-                    <li>自动穱嗙摠 - 自动穱嗙摠编辑崘鍛啇閿涘矂妲诲銏暟鎹喕径?/li>
-                    <li>图片濠炊 - 支持閺堫婀撮崪灞肩隘涙ê崶鍓у﹣绱?/li>
-                    <li>文件梽鍕 - ﹣绱堕崪顓悶鍡楁倗夊秶琚瀣畱文件梽鍕</li>
-                    <li>标签粻锛勬倞 - 搫鍞寸鍧婇崝鐘叉嫲狅紕鎮婇弽鍥╊劮</li>
-                    <li>分类粻锛勬倞 - 电鍞寸圭绻樼悰灞藉瀻鎷伴弫告倞</li>
-                    <li>草稿粻锛勬倞 - 娣繂鐡ㄩ崪顓悶鍡氬磸灝鍞寸?/li>
-                    <li>定时崣鎴濈 - 妫板瀹抽崣鎴濈閺冨爼妫块敍冨殰斻褰傜敮鍐敶?/li>
-                    <li>愬懎顔愮电厧鍤?- 支持舵氨顫掗弽鐓础鍞寸圭遍?/li>
+                    <li>评论系统</li>
+                    <li>实时聊天</li>
+                    <li>私信功能</li>
+                    <li>社区圈子</li>
+                    <li>用户关注</li>
                 </ul>
             </div>
 
-            <!-- 社区滄帒╅崚鍡欒 -->
+            <!-- 娱乐功能分类 -->
             <div class="category-card">
-                <span class="category-icon">📌冩尠</span>
-                <h3>社区滄帒?/h3>
-                <p>撴澘鐦滅殑鐚仦溿倕涢懗鏂ょ礉佲晜嶆稉従犳牜鏁ら幋铚傜鞍斻劋ù浣碘偓?/p>
+                <span class="category-icon">🎮</span>
+                <h3>娱乐功能</h3>
+                <p>各种有趣的小游戏和娱乐功能，让您放松身心。</p>
                 <ul class="feature-list">
-                    <li><a href="messages.html">消息化鑽ょ埠</a> - 实时聊天濠傘亯滃瞼顫穱鈥冲?/li>
-                    <li>评论化鑽ょ埠 - 佃鏋冪粩鐘叉嫲愬懎顔愭潻滎攽囧嫯顔?/li>
-                    <li>社区牆鐡?- 加入崪灞藉灡ゅ搫鍙寸搾锝呮箑?/li>
-                    <li>鐢ㄦ埛忚櫕鏁?- 忚櫕鏁為崪冾潶忚櫕鏁炲姛鑳藉厴</li>
-                    <li>愮愬姛鑳藉厴 - 搫鍞寸瑰挧鐐叉嫲閺鎯版</li>
-                    <li>掑棔闊╁姛鑳藉厴 - 掑棔闊╅崘鍛啇掓壆銇炴禍呯崯?/li>
-                    <li>偓ゅ姛鑳藉厴 - 偓ゆ稉宥呯秼愬懎顔愰崪鏁ら幋?/li>
-                    <li>姒涙垵鎮曢崡?- 狅紕鎮婃鎴濇倳楁洜鏁ら幋?/li>
-                    <li>@绘劕?- ︺劏鐦拋鍝勬嫲戝牊浼呮稉顓熷絹掓澘鍙炬禒鏍暏?/li>
-                    <li>氨鐓＄化鑽ょ埠 - 恒儲鏁归崥鍕潚氨鐓￠崪灞絹?/li>
-                    <li>︺劎鍤悩鑸碘偓?- 閺墽銇氱敤鎴烽崷銊у殠樿埖鈧?/li>
-                    <li>鐢ㄦ埛涘楠?- 閺嶈宓佸ú鏄忕┈鎼达附褰侀崡鍥╂暏撮鐡痪?/li>
+                    <li>贪吃蛇游戏</li>
+                    <li>华容道</li>
+                    <li>打砖块</li>
+                    <li>每日签到</li>
+                    <li>幸运转盘</li>
                 </ul>
             </div>
 
-            <!-- 炲彉绠板姛鑳藉厴分类?-->
+            <!-- 工具功能分类 -->
             <div class="category-card">
-                <span class="category-icon">📌冨箖</span>
-                <h3>炲彉绠板姛鑳藉厴</h3>
-                <p>氬顫掗張庡彯鐨〒鍛婂灆滃苯奴旀劕涢懗鏂ょ礉佲晜弨鐐緱闊绺鹃妴?/p>
+                <span class="category-icon">🛠️</span>
+                <h3>实用工具</h3>
+                <p>各种实用工具，提升您的使用体验。</p>
                 <ul class="feature-list">
-                    <li><a href="games.html">憡鍨欐稉顓炵妇</a> - 绘劒绶垫径鳖潚閺堝鍙惃鍕毈憡鍨?/li>
-                    <li>愵亜鎮嗛摂鍥ㄧ埗?- 佸繐鍚嫯妞介崥鍐厂憡鍨?/li>
-                    <li>楀骸顔愰柆?- 閺呭搫忛幐鎴炲灛憡鍨?/li>
-                    <li>垫挾鐖鹃崸?- 佸繐鍚嫭澧惍鏍ф健憡鍨?/li>
-                    <li>2048 - 閺佹澘鐡崥熷灇憡鍨?/li>
-                    <li>繑妫粵鎯у煂 - 繑妫粵鎯у煂妫板棗褰總鏍уС</li>
-                    <li>楠炴瓕绻嶆潪傛磸 - 惰棄顨涢崪冩祮╂ê涢懗?/li>
-                    <li>闂冨伴幍鎾冲幢 - 佹澘缍梼鍛嚢╂稑瀹抽崪灞肩瘎?/li>
-                    <li>繑妫╂稉鈧０?- 儴鐦戦梻顔剧摕告垶鍨?/li>
-                    <li>存劕ㄧ化鑽ょ埠 - 瑰本鍨氭禒插嘲绶遍幋鎰皑</li>
-                    <li>夘垰鍨崯鍡楃厔 - 夘垰鍨崗鎴炲床氬顫掓總鏍уС</li>
-                    <li>烘帟顢戝?- 閺墽銇氶崥鍕潚烘帟顢戝?/li>
-                </ul>
-            </div>
-
-            <!-- 圭偟鏁ゅ銉ュ徔分类?-->
-            <div class="category-card">
-                <span class="category-icon">📌冩礈閿?/span>
-                <h3>圭偟鏁ゅ銉ュ徔</h3>
-                <p>氬顫掔圭偟鏁ゅ銉ュ徔閿涘本褰侀崡鍥亶嫪囬悽銊ょ秼犲被鈧?/p>
-                <ul class="feature-list">
-                    <li><a href="drive.html">冩垹娲忕涙ê?/a> - 滄垹顏涙ê崪灞炬瀮犲墎顓悶?/li>
-                    <li><a href="index.html">兼粎鍌姛鑳藉厴</a> - 忋劎鐝崘鍛啇兼粎鍌姛鑳藉厴</li>
-                    <li>翻译銉ュ徔 - 舵俺懛鈧紙鏄忕槯鏈嶅姟</li>
-                    <li>天气弻銉嚄 - 实时径鈺傜毜娣団剝浼?/li>
-                    <li>闂冨扮鐔活吀 - 佹澘缍梼鍛嚢閺冨爼妫块崪冪箻鎼?/li>
-                    <li>旓妇风粻锛勬倞 - 狅紕鎮婇崪灞藉瀻鍔熺粵?/li>
-                    <li>樺棗褰剁拋跨秿 - 閺屻儳婀呭ù蹇氼潔滃本鎼锋担冨坊?/li>
-                    <li>数据佹径鍥敜 - 跺洣鍞ら崪灞句划跺秳閲滄禍鐑樻暟鎹?/li>
-                    <li>懐鎮婂銉ュ徔 - 懐鎮婂ù蹇氼潔ｃ劎绱︾涙ê鎷伴崢鍡楀蕉</li>
-                    <li>厴╂垶甯?- ╂垶甯舵い鐢告桨旂姾囬崪灞芥惙鎼存梹妞傞梻?/li>
-                    <li>村繗顫崳銊︻梾?- 濡偓村绁憴濇珤烽崪澧張?/li>
-                    <li>鐏炲繐绠疯ぐ鏇炲煑 - 瑜版洖楃仦蹇滃本鎼锋担嗙箖?/li>
-                </ul>
-            </div>
-
-            <!-- 擃亙姹夌粻锛勬倞分类?-->
-            <div class="category-card">
-                <span class="category-icon">📌冩噥</span>
-                <h3>擃亙姹夌粻锛勬倞</h3>
-                <p>狅紕鎮婃稉顏冩眽娣団剝浼呴崪冾啎?/p>
-                <ul class="feature-list">
-                    <li><a href="profile.html">擃亙姹夋稉顓炵妇</a> - 狅紕鎮婃稉顏冩眽娣団剝浼呴崪冾啎?/li>
-                    <li>鐢ㄦ埛у嫭鏋?- 编辑崪灞界暚犲嫪閲滄禍楦跨カ閺?/li>
-                    <li>舵潙氭稉濠炊 - ﹣绱堕崪灞炬纯广垹銇旈崓?/li>
-                    <li>靛棛鐖滄穱顔芥暭 - 娣囶喗鏁奸惂茬秿靛棛鐖?/li>
-                    <li>瑰鍙忕拋鍓х枂 - 板秶鐤嗙拹锕褰跨瑰鍙忛柅愩?/li>
-                    <li>氨鐓＄拋鍓х枂 - 狅紕鎮婇柅辩叀繐?/li>
-                    <li>闂呮劗顫嗙拋鍓х枂 - 貉冨煑擃亙姹夋穱鈩紖欘垵顫嗛幀?/li>
-                    <li>顣界拋鍓х枂 - 瀚ㄩ崪冨殰规矮绠熸稉濠氼暯</li>
-                    <li>囶叀鈻堢拋鍓х枂 - 瀚ㄩ悾勬桨囶叀鈻?/li>
-                    <li>涙ぞ缍嬬拋鍓х枂 - 啯鏆ｉ弬鍥х摟堆冪毈滃苯鐡ф担?/li>
-                    <li>韫囶偅宓柨?- 板秶鐤嗛崪灞煎▏鎻╅幑鐑芥暛</li>
-                    <li>鐢喖稉顓炵妇 - 閺屻儳婀呯敮顔煎И閺傚洦銆傞崪灞炬殌?/li>
-                </ul>
-            </div>
-
-            <!-- 涳缚绡姛鑳藉厴分类?-->
-            <div class="category-card">
-                <span class="category-icon">📌冩憥</span>
-                <h3>涳缚绡姛鑳藉厴</h3>
-                <p>提供涳缚绡勯崪灞炬殌茶尙夐崗鍐插?/p>
-                <ul class="feature-list">
-                    <li><a href="articles.html">閺傚洨鐝烽梼鍛嚢</a> - 闂冨伴崪灞筋劅旂姵鏋冪粩?/li>
-                    <li>閺鎯版功能鍏?- 閺鎯版犳粍顐介惃鍕瀮旂姴鎷伴崘鍛啇</li>
-                    <li>笔记姛鑳藉厴 - ｈ炵鏃囶唶滃本鐖▔?/li>
-                    <li>傛ü掑姛鑳藉厴 - 傛ü掗崪灞剧垼佷即鍣哥憰浣稿敶?/li>
-                    <li>閺堟板姛鑳藉厴 - 閺傚洦婀版潪冾嚔闂婅櫕婀曠拠?/li>
-                    <li>翻译姛鑳藉厴 - 閺傚洨鐝烽崘鍛啇堟槒鐦?/li>
-                    <li>闂冨扮鐔活吀 - 喕顓梼鍛嚢閺冨爼鏆遍崪冪箻鎼?/li>
-                    <li>闂冨扮拋鈥冲灊 - 掕泛鐣鹃崪灞⒔鐞涘矂妲拠鏄忣吀?/li>
-                    <li>涳缚绡鏃囶唶 - 閺佸鎮婇崪顓悶鍡楊劅旂姷拋?/li>
-                    <li>板鐦Ο鈩冨珯 - 提供Ο鈩冨珯板鐦姛鑳藉厴</li>
-                    <li>涳缚绡拋跨秿 - 佹澘缍嶇涳缚绡勬潻鍥┾柤滃矁绻樻惔?/li>
-                    <li>儴鐦戦崶鎹愭皑 - 鐏炴洜銇氶惌銉ㄧ槕疇堥崪绮ㄩ弸?/li>
-                </ul>
-            </div>
-
-            <!-- 偓欐垵浼愰崗宄板瀻?-->
-            <div class="category-card">
-                <span class="category-icon">📌冩崌</span>
-                <h3>偓欐垵浼愰崗?/h3>
-                <p>搫绱戦崣鎴ｂ偓鍛絹娓氭稓娈戝銉ュ徔滃苯涢懗?/p>
-                <ul class="feature-list">
-                    <li>狅絿鐖滅紓鏍帆?- 支持舵氨顫掔紓鏍柤语言惃鍕敩绱潏?/li>
-                    <li>狅絿鐖滅拫鍐槸 - 鐦崪灞剧ゴ洑鍞惍?/li>
-                    <li>API閺傚洦銆?- 閺屻儳婀呴崪灞剧ゴ棾PI閺傚洦銆?/li>
-                    <li>冩垹绮剁拠閿嬬湴 - 欐垿鈧礁鎷板ù瀣槸冩垹绮剁拠閿嬬湴</li>
-                    <li>数据佹惔鎾额吀?- 狅紕鎮婇崪灞剧叀囥垺数据顔肩氨</li>
-                    <li>閺冦儱绻旈弻銉ф箙 - 閺屻儳婀呴崪灞藉瀻閺嬫劖妫╄箛佹瀮?/li>
-                    <li>厴掑棙?- 掑棙芥禒锝垳厴</li>
-                    <li>挎瑨ら惄鎴炲付 - ╂垶甯堕崪灞Г涘﹪鏁拠?/li>
-                    <li>楀牊婀伴幒褍?- 狅絿鐖滈悧熸拱狅紕鎮?/li>
-                    <li>劎插銉ュ徔 - 奉亜╅崠鏍劥冩彃鎷伴崣鎴濈</li>
-                    <li>偓欐垶鏋冨?- 閺屻儳婀呴崪顓悶鍡楃磻欐垶鏋冨?/li>
-                    <li>楀繋缍斿鈧崣?- ャ垽妲崡蹇稊偓欐垵涢懗?/li>
+                    <li>网盘存储</li>
+                    <li>搜索功能</li>
+                    <li>翻译工具</li>
+                    <li>天气查询</li>
+                    <li>阅读统计</li>
                 </ul>
             </div>
         </div>
 
-        <!-- 鐗壊功能鍏橀崠鍝厵 -->
+        <!-- 特色功能区域 -->
         <div class="highlight-section">
-            <h2>鐚?鐗壊功能鍏?/h2>
-            <p style="margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">存垳戦幓鎰返撯偓滄稓瀚悧鍦畱鐗壊功能鍏橀敍冾唨劎娈担鎾崣簼绱稉宥呮倱閵?/p>
+            <h2>⭐ 特色功能</h2>
+            <p style="margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">我们提供一些独特的特色功能，让您的体验与众不同。</p>
             
             <div class="highlight-grid">
                 <div class="highlight-item">
-                    <h4>AI 斺晜澧?/h4>
-                    <p>閺呴缚鍏?AI 斺晜澧滄稉鐑樺亶绘劒绶?4鐏繑妞傞崷銊у殠鐢喖敍灞芥礀涙柨鎮粔宥夋６妫版ǜ鈧?/p>
+                    <h4>AI 助手</h4>
+                    <p>智能 AI 助手为您提供24小时在线帮助，回答各种问题。</p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>夘垰鍨化鑽ょ埠</h4>
-                    <p>俺绻崥鍕潚茶╅懢宄扮繁夘垰鍨敍灞藉幀诡澀璧寸靛瞼娈總鏍уС滃瞼澹掗弶鍐︹偓?/p>
+                    <h4>积分系统</h4>
+                    <p>通过各种活动获得积分，兑换丰富的奖励和特权。</p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>存劕ㄧ化鑽ょ埠</h4>
-                    <p>瑰本鍨氶崥鍕潚犺熼崪灞存﹫绱濋懢宄扮繁存劕ㄩ崪袨欐灚鈧?/p>
+                    <h4>成就系统</h4>
+                    <p>完成各种任务和挑战，获得成就和称号。</p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>繑妫╂禒插</h4>
-                    <p>繑妫瑰本鍨氱粻鈧崡鏇氭崲斺槄绱濋懢宄扮繁妫版繂顦婚惃鍕殯斿崬鎷扮粔顖氬瀻閵?/p>
+                    <h4>每日任务</h4>
+                    <p>每日完成简单任务，获得额外的奖励和积分。</p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>闂冨伴幐鎴炲灛</h4>
-                    <p>欏倷绗岄梼鍛嚢告垶鍨敍灞界吙忔槒澹總鐣屾畱闂冨版稊鐘冲劵閵?/p>
+                    <h4>阅读挑战</h4>
+                    <p>参与阅读挑战，培养良好的阅读习惯。</p>
                 </div>
                 
                 <div class="highlight-item">
-                    <h4>舵粓妫垮Ο鈥础</h4>
-                    <p>支持ｈ精澹婂Ο鈥础閿涘奔绻氶幎堫潒旀冻绱濋幓鎰返更多介惃鍕囪缍嬫灞烩偓?/p>
-                </div>
-                
-                <div class="highlight-item">
-                    <h4>傝崵鍤梼鍛嚢</h4>
-                    <p>囬弬鍥彿滃苯鍞寸圭櫢绱濋弨顖涘瘮傝崵鍤梼鍛嚢功能鍏橀妴?/p>
-                </div>
-                
-                <div class="highlight-item">
-                    <h4>舵氨顏崥灞绢劄</h4>
-                    <p>︺劋绗夐崥冾啎跺洭妫块崥灞绢劄数据侀崪冾啎冾喓鈧?/p>
-                </div>
-                
-                <div class="highlight-item">
-                    <h4>擃亝鈧冨恒劏宕?/h4>
-                    <p>閺嶈宓侀幃銊ф畱忕鍙崪勬囪绡勯幆顖涘腹芥劕鍞寸瑰箍鈧?/p>
-                </div>
-                
-                <div class="highlight-item">
-                    <h4>奉亜鐣炬稊夊瘜妫?/h4>
-                    <p>支持舵氨顫掓稉濠氼暯滃矁鍤滅规矮绠熸０閺傝顢妴?/p>
-                </div>
-                
-                <div class="highlight-item">
-                    <h4>数据鐔活吀</h4>
-                    <p>绘劒绶电拠锔剧矎嫭数据顔剧埠佲虫嫲掑棙藉姛鑳藉厴閵?/p>
-                </div>
-                
-                <div class="highlight-item">
-                    <h4>愬懎顔愰崚鍡曢煩</h4>
-                    <p>撯偓款喖鍨庢禍顐㈠敶圭岄崥鍕潚鍙ユ唉帊缍獮鍐插酱閵?/p>
+                    <h4>夜间模式</h4>
+                    <p>支持深色模式，保护视力，提供更好的阅读体验。</p>
                 </div>
             </div>
         </div>
 
-        <!-- 韫囶偊鈧喕顔栭梻顔煎隘?-->
+        <!-- 快速访问区域 -->
         <div class="quick-access">
-            <h3>📌冩畬 韫囶偊鈧喕顔栭梻?/h3>
-            <p style="margin-bottom: 20px; color: #666;">╁瓨甯寸拋鍧楁６鐢摜鏁ゅ姛鑳藉厴閿涘矁濡惇浣瑰亶嫭妞傞梻娣偓?/p>
+            <h3>🚀 快速访问</h3>
+            <p style="margin-bottom: 20px; color: #666;">直接访问常用功能，节省您的时间。</p>
             
             <div class="quick-links">
-                <a href="index.html" class="quick-link">📌冨綌 銆?/a>
-                <a href="games.html" class="quick-link">📌冨箖 憡鍨欐稉顓炵妇</a>
-                <a href="drive.html" class="quick-link">戒緤绗?冩垹娲?/a>
-                <a href="donate.html" class="quick-link">閴傘倧绗?规劕?/a>
-                <a href="about.html" class="quick-link">📌冨箚 厖绨幋鎴滄粦</a>
-                <a href="messages.html" class="quick-link">📌冩尠 戝牊浼?/a>
-                <a href="calculator.html" class="quick-link">📌?计算崳?/a>
-                <a href="todo.html" class="quick-link">📌冩憫 待办?/a>
-                <a href="note.html" class="quick-link">📌笔记</a>
-                <a href="weather.html" class="quick-link">📌天气</a>
-                <a href="translate.html" class="quick-link">📌翻译</a>
-                <a href="countdown.html" class="quick-link">⏰倒计时</a>
-                <a href="stopwatch.html" class="quick-link">⏱️秒表</a>
-                <a href="unit-converter.html" class="quick-link">📏单位转换</a>
-                <a href="password-generator.html" class="quick-link">🔒密码生成</a>
-                <a href="qr-generator.html" class="quick-link">📱二维码生成</a>
-                <a href="editor.html" class="quick-link">📝编辑器</a>
-                <a href="profile.html" class="quick-link">👤个人资料</a>
-                <a href="articles.html" class="quick-link">📚文章</a>
-                <a href="features.html" class="quick-link">📋更多功能</a>
+                <a href="index.html" class="quick-link">🏠 主页</a>
+                <a href="games.html" class="quick-link">🎮 游戏中心</a>
+                <a href="drive.html" class="quick-link">☁️ 网盘</a>
+                <a href="donate.html" class="quick-link">❤️ 捐助</a>
+                <a href="about.html" class="quick-link">🎯 关于我们</a>
+                <a href="messages.html" class="quick-link">💬 消息</a>
             </div>
         </div>
     </div>
@@ -582,18 +410,14 @@
                 });
             }, observerOptions);
 
-            if (cards && cards.length > 0) {
-                cards.forEach(card => {
-                    card.style.opacity = '0';
-                    card.style.transform = 'translateY(20px)';
-                    card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-                    observer.observe(card);
-                });
-            }
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                observer.observe(card);
+            });
         });
     </script>
 </body>
 
 </html>
-
-

@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="閺傚洨鐝烽梼鍛嚢 - Hakimi 的猫猫爬架鐏?>
-    <title>閺傚洨鐝烽梼鍛嚢 - Hakimi 的猫猫爬架鐏?/title>
+    <meta name="description" content="文章阅读 - Hakimi 的猫爬架">
+    <title>文章阅读 - Hakimi 的猫爬架</title>
 
     <link rel="shortcut icon" href="/favicon.ico">
     <script src="/js/pace.min.js" async></script>
@@ -22,7 +22,7 @@
             color: #333;
         }
 
-        /* 冲本娅欑憗鍛淬偘 */
+        /* 背景装饰 */
         body::before {
             content: '';
             position: fixed;
@@ -48,7 +48,7 @@
             position: relative; z-index: 1;
         }
 
-        /* ===== Hero 区域?===== */
+        /* ===== Hero 区域 ===== */
         .hero {
             text-align: center;
             padding: 60px 20px;
@@ -75,7 +75,7 @@
             margin: 0 auto 30px;
         }
 
-        /* ===== 閺傚洨鐝烽崚鍡欒区域?===== */
+        /* ===== 文章分类区域 ===== */
         .article-categories {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -130,7 +130,7 @@
         }
 
         .article-list li::before {
-            content: ';
+            content: '✨';
             position: absolute;
             left: 0;
             top: 8px;
@@ -148,7 +148,7 @@
             text-decoration: underline;
         }
 
-        /* ===== 戭參妫弬鍥彿区域?===== */
+        /* ===== 热门文章区域 ===== */
         .highlight-section {
             background: linear-gradient(135deg, rgba(102,126,234,0.1) 0%, rgba(118,75,162,0.1) 100%);
             padding: 40px;
@@ -207,7 +207,7 @@
             color: #999;
         }
 
-        /* ===== 闂冨扮鐔活吀区域?===== */
+        /* ===== 阅读统计区域 ===== */
         .stats-section {
             background: rgba(255,255,255,0.8);
             padding: 30px;
@@ -255,7 +255,7 @@
             color: #666;
         }
 
-        /* ===== 秴绨插蹇氼啎?===== */
+        /* ===== 响应式设计 ===== */
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
@@ -278,7 +278,7 @@
             }
         }
 
-        /* ===== 动画弫熺亯 ===== */
+        /* ===== 动画效果 ===== */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -301,169 +301,170 @@
 </head>
 
 <body>
-    <a href="features.html" class="back-btn">?/a>
+    <a href="features.html" class="back-btn">←</a>
 
     <div class="articles-wrapper">
-        <!-- Hero 区域?-->
+        <!-- Hero 区域 -->
         <div class="hero">
-            <h1>📌冩憥 閺傚洨鐝烽梼鍛嚢</h1>
-            <p>探索?Hakimi 的猫猫爬架鐏幓鎰返的猫绨胯ぐ鈺傛瀮旂媴绱鐢垫磰傛牜鈻奸幎鈧張顖樷偓浣圭埗村繗绁┃鎰┾偓浣筋啎侊紕岄弶鎰瑢涳缚绡挧鍕灐閿涘矁顔劎娈戦惌銉ㄧ槕斿姊炬洿氬撴澘鐦滄径兊閵?/p>
+            <h1>📚 文章阅读</h1>
+            <p>探索 Hakimi 的猫爬架提供的精彩文章，涵盖编程技术、游戏资源、设计素材与学习资料，让您的知识之旅更加丰富多彩。</p>
         </div>
 
-        <!-- 閺傚洨鐝烽崚鍡欒区域?-->
+        <!-- 文章分类区域 -->
         <div class="article-categories">
-            <!-- 傛牜鈻奸幎鈧張顖氬瀻?-->
+            <!-- 编程技术分类 -->
             <div class="category-card">
-                <span class="category-icon">📌冩崌</span>
-                <h3>傛牜鈻奸幎鈧張?/h3>
-                <p>掑棔闊紓鏍柤垛偓閺堫垱鏋冪粩鐘叉嫲閺佹瑧鈻?/p>
+                <span class="category-icon">💻</span>
+                <h3>编程技术</h3>
+                <p>分享编程技术文章和教程</p>
                 <ul class="article-list">
-                    <li><a href="#">JavaScript ╄櫣顢呴弫娆戔柤</a> - 犲骸鍙嗛梻銊ュ煂箖鈧氨娈?JavaScript 涳缚绡捄顖氱窞</li>
-                    <li><a href="#">Python 数据侀崚鍡樼?/a> - ｈ法鏁?Python ╂稖顢戦弫鐗堝祦掑棙介崪灞藉讲欏棗?/li>
-                    <li><a href="#">秶顏鈧崣鎴炴付啿鐤捄?/a> - 滈鍞崜宥囶伂偓欐垹娈戦張鈧担鍐茬杽洪潧鎷伴幎鈧?/li>
-                    <li><a href="#">氬海顏弸鑸电拋鎹愵吀</a> - 閺撻崣顖涘⒖鐏炴洜娈戦崥ｎ伂崵绮洪弸鑸电?/li>
-                    <li><a href="#">犳纭舵稉㈡暟鎹喚绮ㄩ弸?/a> - 崬鍙嗛悶鍡毿掔粻《滃本鏁版嵁顔剧波閺?/li>
+                    <li><a href="#">JavaScript 基础教程</a> - 从入门到精通的 JavaScript 学习路径</li>
+                    <li><a href="#">Python 数据分析</a> - 使用 Python 进行数据分析和可视化</li>
+                    <li><a href="#">前端开发最佳实践</a> - 现代前端开发的最佳实践和技巧</li>
+                    <li><a href="#">后端架构设计</a> - 构建可扩展的后端系统架构</li>
+                    <li><a href="#">算法与数据结构</a> - 深入理解算法和数据结构</li>
                 </ul>
             </div>
 
-            <!-- 憡鍨欑挧鍕爱分类?-->
+            <!-- 游戏资源分类 -->
             <div class="category-card">
-                <span class="category-icon">📌冨箖</span>
-                <h3>憡鍨欑挧鍕爱</h3>
-                <p>掑棔闊╁〒鍛婂灆鍙х挧鍕爱滃本鏁鹃悾?/p>
+                <span class="category-icon">🎮</span>
+                <h3>游戏资源</h3>
+                <p>分享游戏相关资源和攻略</p>
                 <ul class="article-list">
-                    <li><a href="#">憡鍨欏鈧崣鎴炲瘹?/a> - 憡鍨欏鈧崣鎴犳畱忋儵妫崪冪箻闂冭埖鏆?/li>
-                    <li><a href="#">憡鍨欑挧鍕爱恒劏宕?/a> - 箖鈧鐖堕幋蹇氱カ濠ф劕鎷板銉ュ徔</li>
-                    <li><a href="#">憡鍨欓弨鑽ゆ殣掑棔闊?/a> - 戭參妫〒鍛婂灆嫭鏁鹃悾銉ユ嫲垛偓瀹?/li>
-                    <li><a href="#">憡鍨欑拠鍕ゴ</a> - 閺堚偓閺傜増鐖堕幋蹇曟畱囷妇绮忕拠鍕ゴ</li>
-                    <li><a href="#">憡鍨欏鈧崣鎴濅紣?/a> - 圭偟鏁ら惃鍕埗村繐绱戦崣鎴濅紣忛攱甯归懡?/li>
+                    <li><a href="#">游戏开发指南</a> - 游戏开发的入门和进阶教程</li>
+                    <li><a href="#">游戏资源推荐</a> - 精选游戏资源和工具</li>
+                    <li><a href="#">游戏攻略分享</a> - 热门游戏的攻略和技巧</li>
+                    <li><a href="#">游戏评测</a> - 最新游戏的详细评测</li>
+                    <li><a href="#">游戏开发工具</a> - 实用的游戏开发工具推荐</li>
                 </ul>
             </div>
 
-            <!-- 佹崘顓哥鐘虫綏分类?-->
+            <!-- 设计素材分类 -->
             <div class="category-card">
-                <span class="category-icon">📌冨腹</span>
-                <h3>佹崘顓哥鐘虫綏</h3>
-                <p>掑棔闊拋鎹愵吀辩姵娼崪灞炬殌?/p>
+                <span class="category-icon">🎨</span>
+                <h3>设计素材</h3>
+                <p>分享设计素材和教程</p>
                 <ul class="article-list">
-                    <li><a href="#">UI/UX 佹崘顓?/a> - 矂娼扮拋鎹愵吀滃瞼鏁ら幋铚傜秼犲矁顔曠拋?/li>
-                    <li><a href="#">楠炴娊娼扮拋鎹愵吀у嫭绨?/a> - 楠炴娊娼扮拋鎹愵吀辩姵娼崪灞戒紣?/li>
-                    <li><a href="#">板秷澹婇弬勵攳</a> - 箖鈧鍘ら懝鍙夋煙濡楀牆鎷伴悘鍨妳</li>
-                    <li><a href="#">ョ偓鐖拋鎹愵吀</a> - ョ偓鐖拋鎹愵吀閺佹瑧鈻奸崪冪カ濠?/li>
-                    <li><a href="#">佹崘顓稿銉ュ徔恒劏宕?/a> - 圭偟鏁ら惃鍕啎佲充紣忚渹绮欑?/li>
+                    <li><a href="#">UI/UX 设计</a> - 界面设计和用户体验设计</li>
+                    <li><a href="#">平面设计资源</a> - 平面设计素材和工具</li>
+                    <li><a href="#">配色方案</a> - 精选配色方案和灵感</li>
+                    <li><a href="#">图标设计</a> - 图标设计教程和资源</li>
+                    <li><a href="#">设计工具推荐</a> - 实用的设计工具介绍</li>
                 </ul>
             </div>
 
-            <!-- 涳缚绡挧鍕灐分类?-->
+            <!-- 学习资料分类 -->
             <div class="category-card">
-                <span class="category-icon">📌冩憠</span>
-                <h3>涳缚绡挧鍕灐</h3>
-                <p>掑棔闊涳缚绡挧鍕灐滃矁绁┃?/p>
+                <span class="category-icon">📖</span>
+                <h3>学习资料</h3>
+                <p>分享学习资料和资源</p>
                 <ul class="article-list">
-                    <li><a href="#">涳缚绡捄顖氱窞欏鍨?/a> - 涳缚绡捄顖氱窞滃矁绁┃鎰腹?/li>
-                    <li><a href="#">︺劎鍤拠鍓р柤恒劏宕?/a> - 箖鈧婀痪鍨劅旂姾粙?/li>
-                    <li><a href="#">旓妇鐫勯幒銊礃</a> - 厧绶辨稉鈧拠鑽ゆ畱傛牜鈻奸崪冾啎佲插姛?/li>
-                    <li><a href="#">涳缚绡勯弬《掑棔闊?/a> - 傛ɑ鏅ョ涳缚绡勯弬《滃本濡у?/li>
-                    <li><a href="#">у嫭绨純鎴犵彲閺佸鎮?/a> - 圭偟鏁ら惃鍕劅旂姾绁┃鎰秹?/li>
+                    <li><a href="#">学习路径规划</a> - 学习路径和资源推荐</li>
+                    <li><a href="#">在线课程推荐</a> - 精选在线学习课程</li>
+                    <li><a href="#">书籍推荐</a> - 值得一读的编程和设计书籍</li>
+                    <li><a href="#">学习方法分享</a> - 高效学习方法和技巧</li>
+                    <li><a href="#">资源网站整理</a> - 实用的学习资源网站</li>
                 </ul>
             </div>
         </div>
 
-        <!-- 戭參妫弬鍥彿区域?-->
+        <!-- 热门文章区域 -->
         <div class="highlight-section">
-            <h2>📌冩暉 戭參妫弬鍥彿</h2>
-            <p style="margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">犮儰绗呴弰顖氱秼秵娓堕崣偨╁海娈戦弬鍥彿閿涘本顐芥潻ㄦ囪鎷伴崚鍡曢煩閵?/p>
+            <h2>🔥 热门文章</h2>
+            <p style="margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto;">以下是当前最受欢迎的文章，欢迎阅读和分享。</p>
             
             <div class="article-grid">
                 <div class="article-item">
-                    <h4>JavaScript 倹炵紓鏍柤崬瀹憴锝嗙?/h4>
-                    <p>犲骸娲栫拫鍐毐閺佹澘?Promise閿涘苯?async/await閿涘本绻侀崗銉ф倞?JavaScript 绱銉х椽膩鈧?/p>
+                    <h4>JavaScript 异步编程深度解析</h4>
+                    <p>从回调函数到 Promise，再到 async/await，深入理解 JavaScript 的异步编程模型。</p>
                     <div class="article-meta">
-                        <span>闂冨? 2,500+</span>
-                        <span>愮? 128</span>
+                        <span>阅读: 2,500+</span>
+                        <span>点赞: 128</span>
                     </div>
                 </div>
                 
                 <div class="article-item">
-                    <h4>Vue 3 Composition API 閺堚偓啿鐤捄?/h4>
-                    <p>哄本褰?Vue 3 ?Composition API閿涘本鍝讲佸瓨惃?Vue 鎼存梻鏁ょ粙瀣碍閵?/p>
+                    <h4>Vue 3 Composition API 最佳实践</h4>
+                    <p>掌握 Vue 3 的 Composition API，构建可维护的 Vue 应用程序。</p>
                     <div class="article-meta">
-                        <span>闂冨? 1,800+</span>
-                        <span>愮? 95</span>
+                        <span>阅读: 1,800+</span>
+                        <span>点赞: 95</span>
                     </div>
                 </div>
                 
                 <div class="article-item">
-                    <h4>React Hooks 厴兼ê查幐鍥у础</h4>
-                    <p>涳缚绡勬鍌欑秿兼ê?React 佸嫪娆幀褑鍏橀敍勪缉秴鐖剁憴浣烘畱厴闂妲洪妴?/p>
+                    <h4>React Hooks 性能优化指南</h4>
+                    <p>学习如何优化 React 组件性能，避免常见的性能陷阱。</p>
                     <div class="article-meta">
-                        <span>闂冨? 2,200+</span>
-                        <span>愮? 112</span>
+                        <span>阅读: 2,200+</span>
+                        <span>点赞: 112</span>
                     </div>
                 </div>
                 
                 <div class="article-item">
-                    <h4>CSS Grid 鐢啫鐪瑰苯鍙忛幐鍥у础</h4>
-                    <p>哄本褰?CSS Grid 鐢啫鐪敍灞剧鍝勵槻閺夊倻娈戦崫宥呯安繘銆夐棃銏ｎ啎伮扳偓?/p>
+                    <h4>CSS Grid 布局完全指南</h4>
+                    <p>掌握 CSS Grid 布局，构建复杂的响应式页面设计。</p>
                     <div class="article-meta">
-                        <span>闂冨? 1,500+</span>
-                        <span>愮? 87</span>
+                        <span>阅读: 1,500+</span>
+                        <span>点赞: 87</span>
                     </div>
                 </div>
                 
                 <div class="article-item">
-                    <h4>Node.js 厴兼ê查幎鈧?/h4>
-                    <p>涳缚绡勬鍌欑秿兼ê?Node.js 鎼存梻鏁ょ粙瀣碍嫭鈧厴閿涘本褰佹烘惙鎼存棃鈧喎瀹抽妴?/p>
+                    <h4>Node.js 性能优化技巧</h4>
+                    <p>学习如何优化 Node.js 应用程序的性能，提高响应速度。</p>
                     <div class="article-meta">
-                        <span>闂冨? 1,300+</span>
-                        <span>愮? 76</span>
+                        <span>阅读: 1,300+</span>
+                        <span>点赞: 76</span>
                     </div>
                 </div>
                 
                 <div class="article-item">
-                    <h4>Git 傛楠担璺ㄦ暏垛偓瀹?/h4>
-                    <p>崬鍙禍鍡毿?Git 嫰鐝痪褍涢懗鏂ょ礉绘劙鐝悧熸拱貉冨煑閺佸牏宸奸妴?/p>
+                    <h4>Git 高级使用技巧</h4>
+                    <p>深入了解 Git 的高级功能，提高版本控制效率。</p>
                     <div class="article-meta">
-                        <span>闂冨? 1,600+</span>
-                        <span>愮? 101</span>
+                        <span>阅读: 1,600+</span>
+                        <span>点赞: 101</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 闂冨扮鐔活吀区域?-->
+        <!-- 阅读统计区域 -->
         <div class="stats-section">
-            <h3>📌冩惓 闂冨扮鐔活吀</h3>
-            <p style="margin-bottom: 20px; color: #666;">佹澘缍幃銊ф畱闂冨版稊鐘冲劵滃矁绻樻惔?/p>
+            <h3>📊 阅读统计</h3>
+            <p style="margin-bottom: 20px; color: #666;">记录您的阅读习惯和进度</p>
             
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number" id="totalArticles">0</div>
-                    <div class="stat-label">粯鏋冪粩鐘虫殶</div>
+                    <div class="stat-label">总文章数</div>
                 </div>
                 
                 <div class="stat-item">
                     <div class="stat-number" id="totalReads">0</div>
-                    <div class="stat-label">闂冨板▎鈩冩殶</div>
+                    <div class="stat-label">阅读次数</div>
                 </div>
                 
                 <div class="stat-item">
                     <div class="stat-number" id="readingTime">0</div>
-                    <div class="stat-label">闂冨伴弮曟毐</div>
+                    <div class="stat-label">阅读时长</div>
                 </div>
                 
                 <div class="stat-item">
                     <div class="stat-number" id="favorites">0</div>
-                    <div class="stat-label">閺鎯版閺傚洨鐝?/div>
+                    <div class="stat-label">收藏文章</div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 妞ょ敻娼伴崝鐘烘祰瑰本鍨氶崥ｆ畱动画弫熺亯
+        // 页面加载完成后的动画效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 儤澧張婂幢楀洦鍧婇崝鐘插З?            const cards = document.querySelectorAll('.category-card, .article-item');
+            // 为所有卡片添加动画
+            const cards = document.querySelectorAll('.category-card, .article-item');
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'
@@ -485,7 +486,8 @@
                 observer.observe(card);
             });
 
-            // 濡剝瀚欓崝鐘烘祰闂冨扮鐔活吀数据?            setTimeout(() => {
+            // 模拟加载阅读统计数据
+            setTimeout(() => {
                 document.getElementById('totalArticles').textContent = '256';
                 document.getElementById('totalReads').textContent = '12,543';
                 document.getElementById('readingTime').textContent = '89.5h';
@@ -496,5 +498,3 @@
 </body>
 
 </html>
-
-
