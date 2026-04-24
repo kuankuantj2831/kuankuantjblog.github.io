@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>鍙戝竷鏂囩珷 - Hakimi 鐨勭尗鐖灦</title>
+    <title>告瑦鍨电粩鐑藉棘モ晝褰?- Hakimi 的个人博客/title>
 
-    <!-- 鎬ц兘浼樺寲锛氶杩炴帴 API 鏈嶅姟鍣?-->
+    <!-- 诡儸鍡楀幋村吋锚垫煡鏁嶅棰濇殨閺夆晝炵敮?API 哄牆绉存慨鐔煎闯?-->
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
 
@@ -139,12 +139,12 @@
             box-shadow: none;
         }
 
-        /* Markdown缂栬緫鍣ㄦ牱寮?*/
+        /* Markdown傚倹鐗炵欢顐闯閵婏妇澹夌?*/
         #md-editor-container {
             margin-bottom: 20px;
         }
 
-        /* 鍗忎綔闈㈡澘 */
+        /* 告绻嬬紞鏃堟閵忊剝绶?*/
         .collab-list {
             display: flex;
             flex-direction: column;
@@ -203,7 +203,7 @@
             background: rgba(102, 126, 234, 0.05);
         }
 
-        /* 璁剧疆椤?*/
+        /* 犱礁澧介悿鍡樸亜?*/
         .setting-item {
             display: flex;
             justify-content: space-between;
@@ -261,7 +261,7 @@
             transform: translateX(20px);
         }
 
-        /* 妯℃€佹 */
+        /* ☆垪鍓濋埀跨劍?*/
         .modal-overlay {
             display: none;
             position: fixed;
@@ -328,7 +328,7 @@
             background: #5a6fd6;
         }
 
-        /* 鍒嗕韩閾炬帴 */
+        /* 告帒妫旈棅鈺呮煣愵?*/
         .share-link-box {
             display: flex;
             gap: 10px;
@@ -361,90 +361,90 @@
     <div class="chinese-style-wrapper">
         <div class="bg-decoration"></div>
 
-        <!-- 椤堕儴瀵艰埅 -->
+        <!-- 濡炪倕鐖奸崕糕偓浣冨?-->
         <nav class="top-nav">
-            <div class="logo">Hakimi 鐨勭尗鐖灦</div>
+            <div class="logo">Hakimi 的个人博客/div>
             <div class="nav-links">
-                <a href="/index-chinese.html" class="nav-link">馃彔 杩斿洖棣栭〉</a>
+                <a href="/index-chinese.html" class="nav-link">妫啫缍?閺夆晜鏌ú鏍純閺嶎厹鈧?/a>
             </div>
         </nav>
 
         <div class="editor-page-container">
             <div class="editor-header">
-                <h1 class="editor-title">鉁嶏笍 鍙戝竷鏂版枃绔?/h1>
+                <h1 class="editor-title">翠礁绋?告瑦鍨电粩鐑藉棘楀牊?/h1>
             </div>
 
             <div class="editor-layout">
                 <div class="editor-main">
                     <form id="articleForm">
                         <div class="form-group">
-                            <label class="form-label">鏂囩珷鏍囬</label>
+                            <label class="form-label">哄倸娲ㄩ悵鐑藉冀ヮ剦鏆?/label>
                             <input type="text" class="form-input" id="articleTitle" 
-                                   placeholder="璇疯緭鍏ュ紩浜烘敞鐩殑鏍囬" required>
+                                   placeholder="犲洨鏌夌欢顓㈠礂閵夈儳绌垮ù呭劋閺偤鎯勯鐐暠哄秴娲。? required>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">姝ｆ枃鍐呭</label>
+                            <label class="form-label">繐绲鹃弸鍐礃涱収?/label>
                             <div id="md-editor-container"></div>
                             <textarea class="form-textarea" id="articleContent" 
-                                      placeholder="# 鏍囬&#10;&#10;寮€濮嬩綘鐨勫垱浣?.." 
+                                      placeholder="# 哄秴娲。?#10;&#10;殿喒┑顔碱儎嶆﹢鎯顐仭?.." 
                                       style="display: none;" required></textarea>
                         </div>
 
                         <button type="submit" class="btn-publish" id="publishBtn">
-                            馃殌 鍙戝竷鏂囩珷
+                            妫啯鐣?告瑦鍨电粩鐑藉棘モ晝褰?
                         </button>
                     </form>
                 </div>
 
                 <div class="editor-sidebar">
-                    <!-- 鍩烘湰淇℃伅 -->
+                    <!-- 糕晝ゅ﹢鐗堢┍╁啩绱?-->
                     <div class="sidebar-card">
-                        <h3>馃搵 鍩烘湰淇℃伅</h3>
+                        <h3>妫啯鎯?糕晝ゅ﹢鐗堢┍╁啩绱?/h3>
                         <div class="form-group">
-                            <label class="form-label">鍒嗙被</label>
+                            <label class="form-label">告帒妫涚悮?/label>
                             <select class="form-select" id="articleCategory">
-                                <option value="缂栫▼鎶€鏈?>馃捇 缂栫▼鎶€鏈?/option>
-                                <option value="娓告垙璧勬簮">馃幃 娓告垙璧勬簮</option>
-                                <option value="璁捐绱犳潗">馃帹 璁捐绱犳潗</option>
-                                <option value="瀛︿範璧勬枡">馃摎 瀛︿範璧勬枡</option>
-                                <option value="澶╂満宸ュ叿">馃敡 澶╂満宸ュ叿</option>
-                                <option value="鐢熸椿闅忕瑪">馃摑 鐢熸椿闅忕瑪</option>
+                                <option value="学习分享>妫啯宕?学习分享/option>
+                                <option value="游戏开发编程项目>妫啫绠?游戏开发编程项目/option>
+                                <option value="犱焦宕橀鍝ユ樿櫕缍?>妫啫鑵?犱焦宕橀鍝ユ樿櫕缍?/option>
+                                <option value="庢冻氱弧鍕導曨剚鐏?>妫啯鎲?庢冻氱弧鍕導曨剚鐏?/option>
+                                <option value="濠㈠灈鏅滃┃鈧规悶遍崣?>妫啯鏆?濠㈠灈鏅滃┃鈧规悶遍崣?/option>
+                                <option value="汇垻鍠愬鍧楁⒕韫洜鎳?>妫啯鎲?汇垻鍠愬鍧楁⒕韫洜鎳?/option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">鏍囩 (鐢ㄩ€楀彿鍒嗛殧)</label>
+                            <label class="form-label">哄秴娲ㄩ?(活潿鍔戦埀殔瑜板潡宕氶崱欘吘)</label>
                             <input type="text" class="form-input" id="articleTags" 
-                                   placeholder="渚嬪: Python, 鏁欑▼, 鍏ラ棬">
+                                   placeholder="撴艾呴々? Python, 轰焦埢? 稿繈靛Λ?>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">鏂囩珷鎽樿</label>
+                            <label class="form-label">哄倸娲ㄩ悵鐑藉濡娲?/label>
                             <input type="text" class="form-input" id="articleSummary" 
-                                   placeholder="涓€鍙ヨ瘽鎻忚堪鏂囩珷鍐呭">
+                                   placeholder="撻柛娆嶅劥︿粙骞撹箛墯哄倸娲ㄩ悵鐑藉礃涱収?>
                         </div>
                     </div>
 
-                    <!-- 鍙戝竷璁剧疆 -->
+                    <!-- 告瑦鍨电粩椋庢媼撗呮瀭 -->
                     <div class="sidebar-card">
-                        <h3>鈿欙笍 鍙戝竷璁剧疆</h3>
+                        <h3>虫寧辩?告瑦鍨电粩椋庢媼撗呮瀭</h3>
                         <div class="setting-item">
-                            <span>鍏紑鍙</span>
+                            <span>稿浚鍓欑鎴栨繍娼?/span>
                             <label class="switch">
                                 <input type="checkbox" id="settingPublic" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="setting-item">
-                            <span>鍏佽璇勮</span>
+                            <span>稿繋囬蹇曟嫚曨噮?/span>
                             <label class="switch">
                                 <input type="checkbox" id="settingComments" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="setting-item">
-                            <span>鍏佽鎶曞竵</span>
+                            <span>稿繋囬蹇涘閺偟顏?/span>
                             <label class="switch">
                                 <input type="checkbox" id="settingCoins" checked>
                                 <span class="slider"></span>
@@ -452,21 +452,21 @@
                         </div>
                     </div>
 
-                    <!-- 鍗忎綔鍒嗕韩 -->
+                    <!-- 告绻嬬紞鏃堝礆洟鐓?-->
                     <div class="sidebar-card" id="collabCard" style="display: none;">
-                        <h3>馃 鍗忎綔鍒嗕韩</h3>
+                        <h3>妫喚妾?告绻嬬紞鏃堝礆洟鐓?/h3>
                         <div class="collab-list" id="collabList">
-                            <!-- 鍔ㄦ€佸姞杞藉崗浣滆€?-->
+                            <!-- 告鍔埀跨偞娼挊达绮忛埀?-->
                         </div>
                         <button type="button" class="btn-add-collab" id="btnAddCollab">
-                            + 娣诲姞鍗忎綔鑰?
+                            + 烇綀ф慨鐐哄础韫囧海绋婇柤?
                         </button>
                         
                         <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
-                            <label class="form-label">鍒嗕韩閾炬帴</label>
+                            <label class="form-label">告帒妫旈棅鈺呮煣愵?/label>
                             <div class="share-link-box">
                                 <input type="text" class="share-link-input" id="shareLinkInput" readonly>
-                                <button type="button" class="btn-copy" id="btnCopyLink">澶嶅埗</button>
+                                <button type="button" class="btn-copy" id="btnCopyLink">濠㈣泛绉撮崺?/button>
                             </div>
                         </div>
                     </div>
@@ -475,37 +475,37 @@
         </div>
     </div>
 
-    <!-- 娣诲姞鍗忎綔鑰呮ā鎬佹 -->
+    <!-- 烇綀ф慨鐐哄础韫囧海绋婇柤挎噺鑶╅跨劍?-->
     <div class="modal-overlay" id="collabModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>娣诲姞鍗忎綔鑰?/h3>
+                <h3>烇綀ф慨鐐哄础韫囧海绋婇柤?/h3>
                 <button type="button" class="btn-close-modal" id="btnCloseCollab">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label class="form-label">鐢ㄦ埛ID鎴栫敤鎴峰悕</label>
+                    <label class="form-label">活潿鍔崺姹璂瑰瓨鐗滈弫夊箣瀹増?/label>
                     <input type="text" class="form-input" id="collabUserId" 
-                           placeholder="璇疯緭鍏ョ敤鎴稩D">
+                           placeholder="犲洨鏌夌欢顓㈠礂閵壯勬殢瑰墨D">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">鏉冮檺</label>
+                    <label class="form-label">哄村?/label>
                     <select class="form-select" id="collabPermission">
-                        <option value="view">浠呮煡鐪?/option>
-                        <option value="comment">鍙瘎璁?/option>
-                        <option value="edit">鍙紪杈?/option>
+                        <option value="view">寸姴鎳忛悡锟犳儑?/option>
+                        <option value="comment">告瑯鍨惁ｆ媼?/option>
+                        <option value="edit">告瑯鍨顏呮綇?/option>
                     </select>
                 </div>
-                <button type="button" class="btn-confirm" id="btnConfirmCollab">娣诲姞</button>
+                <button type="button" class="btn-confirm" id="btnConfirmCollab">烇綀ф慨?/button>
             </div>
         </div>
     </div>
 
-    <!-- 寮曞叆妯″潡 -->
+    <!-- 殿喗娲栭崣鍡椢熼垾铏仴 -->
     <script type="module" src="/js/editor-enhanced.js?v=20260403"></script>
     <script src="/js/theme.js?v=1"></script>
 
-    <!-- Win7 Emoji 鍏煎鎬у鐞?-->
+    <!-- Win7 Emoji 稿繒鍘鎰板箑瑜ˇ鈺呮偠?-->
     <script>
     (function() {
         function isWindows7() {
@@ -515,28 +515,28 @@
         }
         
         var emojiMap = {
-            "馃惐": "鐚?,
-            "馃彔": "棣栭〉",
-            "馃幃": "娓告垙",
-            "鈽侊笍": "浜?,
-            "鈽€锔?: "澶槼",
-            "鉂わ笍": "鐖卞績",
-            "馃幆": "鍏充簬",
-            "馃挰": "娑堟伅",
-            "馃敂": "閫氱煡",
-            "馃懁": "鐢ㄦ埛",
-            "馃摑": "缂栬緫",
-            "猬嗭笍": "鍗囩骇",
-            "馃柤锔?: "鍥剧墖",
-            "鉁嶏笍": "鍐欎綔",
-            "馃殌": "鍙戝竷",
-            "馃搵": "鍒楄〃",
-            "馃捇": "鐢佃剳",
-            "馃帹": "璁捐",
-            "馃摎": "涔︽湰",
-            "馃敡": "宸ュ叿",
-            "鈿欙笍": "璁剧疆",
-            "馃": "鍚堜綔"
+            "妫啯?: "?,
+            "妫啫缍?: "濡鐗犻妴?,
+            "妫啫绠?: "炴挸鎲￠?,
+            "虫垝绶ょ?: "?,
+            "宠В撻柨?: "濠浜Σ?,
+            "村倶х?: "绘牕宕缓?,
+            "妫啫绠?: "稿繐鍘栫花?,
+            "妫啯灏?: "炴垵鐗婃导?,
+            "妫啯鏅?: "闂偅ㄩ悡?,
+            "妫啯鍣?: "活潿鍔崺?,
+            "妫啯鎲?: "傚倹鐗炵欢?,
+            "氼妫寸?: "告娲ㄦ?,
+            "妫啯鐓犻柨?: "搞儱澧芥晶?,
+            "翠礁绋?: "告劖ょ紞?,
+            "妫啯鐣?: "告瑦鍨电粩?,
+            "妫啯鎯?: "告帗顨夐妴?,
+            "妫啯宕?: "活澀绲婚崜?,
+            "妫啫鑵?: "犱焦宕橀?,
+            "妫啯鎲?: "棑闄﹢?,
+            "妫啯鏆?: "规悶遍崣?,
+            "虫寧辩?: "犱礁澧介悿?,
+            "妫喚妾?: "告艾鐗呯紞?
         };
         
         if (isWindows7()) {
@@ -562,4 +562,5 @@
 </body>
 
 </html>
+
 

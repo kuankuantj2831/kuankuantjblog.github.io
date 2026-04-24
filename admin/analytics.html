@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>绠＄悊鍚庡彴 - Hakimi 鐨勭尗鐖灦</title>
+    <title>媴绱曢幃濠囧触鎼粹抽叡 - Hakimi 的个人博客/title>
     <link rel="stylesheet" href="../css/chinese-style.css">
     <style>
         * {
@@ -22,7 +22,7 @@
             min-height: 100vh;
         }
 
-        /* 渚ц竟鏍?*/
+        /* 撴皜鍡欑彾?*/
         .admin-sidebar {
             width: 260px;
             background: #1a1f37;
@@ -80,7 +80,7 @@
             color: #667eea;
         }
 
-        /* 涓诲唴瀹瑰尯 */
+        /* 捁崬糕偓鍦嚀鐏?*/
         .admin-main {
             flex: 1;
             margin-left: 260px;
@@ -120,7 +120,7 @@
             background: #f0f0f0;
         }
 
-        /* 缁熻鍗＄墖 */
+        /* 備鍠曢鎼佸础閿涘顣?*/
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -185,7 +185,7 @@
             font-size: 0.9rem;
         }
 
-        /* 鍥捐〃鍖哄煙 */
+        /* 搞儲宕橀妴鍐礌鍘?*/
         .charts-row {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -215,7 +215,7 @@
             color: #999;
         }
 
-        /* 瀹℃牳闃熷垪 */
+        /* 庡厜鍓濋悧鎶芥⒓斿嘲鐏?*/
         .moderation-section {
             background: white;
             border-radius: 15px;
@@ -318,7 +318,7 @@
             color: white;
         }
 
-        /* 鍐呭闈㈡澘 */
+        /* 告劕鎳鎰版閵忊剝绶?*/
         .content-panel {
             display: none;
         }
@@ -327,7 +327,7 @@
             display: block;
         }
 
-        /* 鏃ュ織琛ㄦ牸 */
+        /* 哄啨辩换鏃傛偘閵婏妇澹?*/
         .logs-table {
             width: 100%;
             border-collapse: collapse;
@@ -357,7 +357,7 @@
         .level-badge.warning { background: #fff3e0; color: #f57c00; }
         .level-badge.error { background: #ffebee; color: #d32f2f; }
 
-        /* 鍝嶅簲寮?*/
+        /* 告繂绉寸花鎻掝嚕?*/
         @media (max-width: 1024px) {
             .admin-sidebar {
                 transform: translateX(-100%);
@@ -376,163 +376,163 @@
 </head>
 <body>
     <div class="admin-layout">
-        <!-- 渚ц竟鏍?-->
+        <!-- 撴皜鍡欑彾?-->
         <aside class="admin-sidebar">
             <div class="sidebar-header">
-                <h1>馃惐 绠＄悊鍚庡彴</h1>
+                <h1>妫啯?媴绱曢幃濠囧触鎼粹抽叡</h1>
             </div>
             <nav class="sidebar-nav">
                 <div class="nav-section">
-                    <div class="nav-section-title">姒傝</div>
+                    <div class="nav-section-title">帒介～?/div>
                     <div class="nav-item active" onclick="adminApp.switchPanel('dashboard')">
-                        <span>馃搳</span> 浠〃鏉?
+                        <span>妫啯鎯?/span> 寸媭浜ｉ妴鍐?
                     </div>
                     <div class="nav-item" onclick="adminApp.switchPanel('analytics')">
-                        <span>馃搱</span> 鏁版嵁鍒嗘瀽
+                        <span>妫啯鎯?/span> 轰澧楀畵宕氶崱尖偓?
                     </div>
                 </div>
                 <div class="nav-section">
-                    <div class="nav-section-title">鍐呭绠＄悊</div>
+                    <div class="nav-section-title">告劕鎳鎰不閿涘嫭?/div>
                     <div class="nav-item" onclick="adminApp.switchPanel('moderation')">
-                        <span>馃洝锔?/span> 鍐呭瀹℃牳
+                        <span>妫啯夐柨?/span> 告劕鎳鎰偓鍏夊墲?
                     </div>
                     <div class="nav-item" onclick="adminApp.switchPanel('articles')">
-                        <span>馃摑</span> 鏂囩珷绠＄悊
+                        <span>妫啯鎲?/span> 哄倸娲ㄩ悵椋不閿涘嫭?
                     </div>
                     <div class="nav-item" onclick="adminApp.switchPanel('users')">
-                        <span>馃懃</span> 鐢ㄦ埛绠＄悊
+                        <span>妫啯鍣?/span> 活潿鍔崺氱不閿涘嫭?
                     </div>
                 </div>
                 <div class="nav-section">
-                    <div class="nav-section-title">绯荤粺</div>
+                    <div class="nav-section-title">垵宕电划?/div>
                     <div class="nav-item" onclick="adminApp.switchPanel('logs')">
-                        <span>馃搵</span> 绯荤粺鏃ュ織
+                        <span>妫啯鎯?/span> 垵宕电划娲籍閵夈儳绠?
                     </div>
                     <div class="nav-item" onclick="adminApp.switchPanel('settings')">
-                        <span>鈿欙笍</span> 绯荤粺璁剧疆
+                        <span>虫寧辩?/span> 垵宕电划铏规媼撗呮瀭
                     </div>
                 </div>
                 <div class="nav-section">
                     <div class="nav-item" onclick="location.href='/'">
-                        <span>馃彔</span> 杩斿洖棣栭〉
+                        <span>妫啫缍?/span> 閺夆晜鏌ú鏍純閺嶎厹鈧?
                     </div>
                 </div>
             </nav>
         </aside>
 
-        <!-- 涓诲唴瀹?-->
+        <!-- 捁崬糕偓?-->
         <main class="admin-main">
-            <!-- 浠〃鏉?-->
+            <!-- 寸媭浜ｉ妴鍐?-->
             <div class="content-panel active" id="dashboardPanel">
                 <div class="admin-header">
-                    <h2>浠〃鏉?/h2>
+                    <h2>寸媭浜ｉ妴鍐?/h2>
                     <div class="admin-actions">
                         <button class="btn-refresh" onclick="adminApp.refreshData()">
-                            <span>馃攧</span> 鍒锋柊鏁版嵁
+                            <span>妫啯鏁?/span> 告帡鏀遍弻濠囧极楀牆绁?
                         </button>
                     </div>
                 </div>
 
-                <!-- 缁熻鍗＄墖 -->
+                <!-- 備鍠曢鎼佸础閿涘顣?-->
                 <div class="stats-grid">
                     <div class="stat-card users">
                         <div class="stat-card-header">
-                            <div class="stat-icon">馃懃</div>
-                            <span class="stat-trend up">鈫?12%</span>
+                            <div class="stat-icon">妫啯鍣?/div>
+                            <span class="stat-trend up">?12%</span>
                         </div>
                         <div class="stat-value" id="statUsers">--</div>
-                        <div class="stat-label">鎬荤敤鎴?/div>
+                        <div class="stat-label">诡剝宕弫夊箣?/div>
                     </div>
                     <div class="stat-card articles">
                         <div class="stat-card-header">
-                            <div class="stat-icon">馃摑</div>
-                            <span class="stat-trend up">鈫?8%</span>
+                            <div class="stat-icon">妫啯鎲?/div>
+                            <span class="stat-trend up">?8%</span>
                         </div>
                         <div class="stat-value" id="statArticles">--</div>
-                        <div class="stat-label">鎬绘枃绔?/div>
+                        <div class="stat-label">诡剛绮弸鍐博?/div>
                     </div>
                     <div class="stat-card comments">
                         <div class="stat-card-header">
-                            <div class="stat-icon">馃挰</div>
-                            <span class="stat-trend up">鈫?15%</span>
+                            <div class="stat-icon">妫啯灏?/div>
+                            <span class="stat-trend up">?15%</span>
                         </div>
                         <div class="stat-value" id="statComments">--</div>
-                        <div class="stat-label">鎬昏瘎璁?/div>
+                        <div class="stat-label">诡剚妲掗惁ｆ媼?/div>
                     </div>
                     <div class="stat-card online">
                         <div class="stat-card-header">
-                            <div class="stat-icon">馃煝</div>
+                            <div class="stat-icon">妫啰鍘?/div>
                         </div>
                         <div class="stat-value" id="statOnline">--</div>
-                        <div class="stat-label">褰撳墠鍦ㄧ嚎</div>
+                        <div class="stat-label">滅増告晶鐘诲捶閵娧冩疇</div>
                     </div>
                 </div>
 
-                <!-- 鍥捐〃 -->
+                <!-- 搞儲宕橀妴?-->
                 <div class="charts-row">
                     <div class="chart-card">
-                        <h3>鐢ㄦ埛澧為暱瓒嬪娍</h3>
+                        <h3>活潿鍔崺欐櫠愮儤姣愰悺鎺戭儏?/h3>
                         <div class="chart-placeholder" id="userGrowthChart">
-                            鍥捐〃鍔犺浇涓?..
+                            搞儲宕橀妴鍐礉樼儤绁板?..
                         </div>
                     </div>
                     <div class="chart-card">
-                        <h3>鍐呭鍒嗗竷</h3>
+                        <h3>告劕鎳鎰板礆顏?/h3>
                         <div class="chart-placeholder" id="contentDistributionChart">
-                            鍥捐〃鍔犺浇涓?..
+                            搞儲宕橀妴鍐礉樼儤绁板?..
                         </div>
                     </div>
                 </div>
 
-                <!-- 瀹℃牳闃熷垪 -->
+                <!-- 庡厜鍓濋悧鎶芥⒓斿嘲鐏?-->
                 <div class="moderation-section">
                     <div class="section-header">
                         <h3>
-                            馃洝锔?寰呭鏍稿唴瀹?
+                            妫啯夐柨?垫澘鎳鎼佸冀灝鏁堕?
                             <span class="badge" id="moderationCount">0</span>
                         </h3>
-                        <a href="#" onclick="adminApp.switchPanel('moderation')">鏌ョ湅鍏ㄩ儴 鈫?/a>
+                        <a href="#" onclick="adminApp.switchPanel('moderation')">哄被冲﹢鍛村礂閵娾晛鍔??/a>
                     </div>
                     <div class="moderation-list" id="moderationList">
-                        <p style="text-align:center;color:#999;padding:20px;">鏆傛棤寰呭鏍稿唴瀹?/p>
+                        <p style="text-align:center;color:#999;padding:20px;">哄棗瑰Λ咁嚗涱収鍚哄秶顭堥崬糕偓?/p>
                     </div>
                 </div>
             </div>
 
-            <!-- 鍏朵粬闈㈡澘 -->
+            <!-- 稿繑婀圭划勬閵忊剝绶?-->
             <div class="content-panel" id="analyticsPanel">
                 <div class="admin-header">
-                    <h2>鏁版嵁鍒嗘瀽</h2>
+                    <h2>轰澧楀畵宕氶崱尖偓?/h2>
                 </div>
-                <p style="text-align:center;color:#999;padding:60px;">鏁版嵁鍒嗘瀽鍔熻兘寮€鍙戜腑...</p>
+                <p style="text-align:center;color:#999;padding:60px;">轰澧楀畵宕氶崱尖偓礉旇鍘寸殿喒撻柛娆愬灣?..</p>
             </div>
 
             <div class="content-panel" id="moderationPanel">
                 <div class="admin-header">
-                    <h2>鍐呭瀹℃牳</h2>
+                    <h2>告劕鎳鎰偓鍏夊墲?/h2>
                 </div>
                 <div class="moderation-list" id="fullModerationList">
-                    <p style="text-align:center;color:#999;padding:40px;">鍔犺浇涓?..</p>
+                    <p style="text-align:center;color:#999;padding:40px;">告梻ù鍥ㄧ▔?..</p>
                 </div>
             </div>
 
             <div class="content-panel" id="logsPanel">
                 <div class="admin-header">
-                    <h2>绯荤粺鏃ュ織</h2>
+                    <h2>垵宕电划娲籍閵夈儳绠?/h2>
                 </div>
                 <div class="chart-card">
                     <table class="logs-table" id="logsTable">
                         <thead>
                             <tr>
-                                <th>鏃堕棿</th>
-                                <th>绾у埆</th>
-                                <th>绫诲瀷</th>
-                                <th>娑堟伅</th>
-                                <th>鐢ㄦ埛</th>
+                                <th>哄啫鐖煎Λ?/th>
+                                <th>嫏鍐ㄧ劶</th>
+                                <th>?/th>
+                                <th>炴垵鐗婃导?/th>
+                                <th>活潿鍔崺?/th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- 鍔ㄦ€佸姞杞?-->
+                            <!-- 告鍔埀跨偞娼?-->
                         </tbody>
                     </table>
                 </div>
@@ -540,23 +540,23 @@
 
             <div class="content-panel" id="articlesPanel">
                 <div class="admin-header">
-                    <h2>鏂囩珷绠＄悊</h2>
+                    <h2>哄倸娲ㄩ悵椋不閿涘嫭?/h2>
                 </div>
-                <p style="text-align:center;color:#999;padding:60px;">鏂囩珷绠＄悊鍔熻兘寮€鍙戜腑...</p>
+                <p style="text-align:center;color:#999;padding:60px;">哄倸娲ㄩ悵椋不閿涘嫭為柛鏃傚忔êｉ埀存粏鍘?..</p>
             </div>
 
             <div class="content-panel" id="usersPanel">
                 <div class="admin-header">
-                    <h2>鐢ㄦ埛绠＄悊</h2>
+                    <h2>活潿鍔崺氱不閿涘嫭?/h2>
                 </div>
-                <p style="text-align:center;color:#999;padding:60px;">鐢ㄦ埛绠＄悊鍔熻兘寮€鍙戜腑...</p>
+                <p style="text-align:center;color:#999;padding:60px;">活潿鍔崺氱不閿涘嫭為柛鏃傚忔êｉ埀存粏鍘?..</p>
             </div>
 
             <div class="content-panel" id="settingsPanel">
                 <div class="admin-header">
-                    <h2>绯荤粺璁剧疆</h2>
+                    <h2>垵宕电划铏规媼撗呮瀭</h2>
                 </div>
-                <p style="text-align:center;color:#999;padding:60px;">绯荤粺璁剧疆鍔熻兘寮€鍙戜腑...</p>
+                <p style="text-align:center;color:#999;padding:60px;">垵宕电划铏规媼撗呮瀭告梻鍠曢崗侯嚕剟宕ｉ幋幀...</p>
             </div>
         </main>
     </div>
@@ -572,9 +572,9 @@
             }
 
             async init() {
-                // 妫€鏌ョ鐞嗗憳鏉冮檺
+                // ☆偀撻柡灞诲劤撴悂鎮堕崱佸枀哄村?
                 if (!this.token || !this.user.is_admin) {
-                    alert('鏃犳潈璁块棶');
+                    alert('哄啰靛㈡媼ф锛?);
                     location.href = '/';
                     return;
                 }
@@ -588,7 +588,7 @@
                     const response = await fetch(`${API_BASE_URL}/admin-dashboard/overview`, {
                         headers: { 'Authorization': `Bearer ${this.token}` }
                     });
-                    if (!response.ok) throw new Error('鍔犺浇澶辫触');
+                    if (!response.ok) throw new Error('告梻ù鍥緞堫袝');
                     
                     const data = await response.json();
                     document.getElementById('statUsers').textContent = data.stats.total_users;
@@ -596,7 +596,7 @@
                     document.getElementById('statComments').textContent = data.stats.total_comments;
                     document.getElementById('statOnline').textContent = data.stats.online_users;
                 } catch (error) {
-                    console.error('鍔犺浇姒傝鏁版嵁澶辫触:', error);
+                    console.error('告梻ù鍥潡屾繍娼旈柡浣哄瀹撲焦勬潏顐バ?', error);
                 }
             }
 
@@ -605,7 +605,7 @@
                     const response = await fetch(`${API_BASE_URL}/admin-dashboard/moderation/queue`, {
                         headers: { 'Authorization': `Bearer ${this.token}` }
                     });
-                    if (!response.ok) throw new Error('鍔犺浇澶辫触');
+                    if (!response.ok) throw new Error('告梻ù鍥緞堫袝');
                     
                     const data = await response.json();
                     const items = data.items || [];
@@ -614,38 +614,38 @@
                     this.renderModerationList(items.slice(0, 5), 'moderationList');
                     this.renderModerationList(items, 'fullModerationList');
                 } catch (error) {
-                    console.error('鍔犺浇瀹℃牳闃熷垪澶辫触:', error);
+                    console.error('告梻ù鍥┾偓鍏夊墲楁娊姊奸悢宄扮仚濠㈡儼绮剧憴?', error);
                 }
             }
 
             renderModerationList(items, containerId) {
                 const container = document.getElementById(containerId);
                 if (items.length === 0) {
-                    container.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">鏆傛棤寰呭鏍稿唴瀹?/p>';
+                    container.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">哄棗瑰Λ咁嚗涱収鍚哄秶顭堥崬糕偓?/p>';
                     return;
                 }
 
                 const icons = {
-                    article: '馃摑',
-                    comment: '馃挰',
-                    user: '馃懁'
+                    article: '妫啯鎲?,
+                    comment: '妫啯灏?,
+                    user: '妫啯鍣?
                 };
 
                 container.innerHTML = items.map(item => `
                     <div class="moderation-item ${item.ai_flagged ? 'ai-flagged' : ''}">
-                        <div class="item-type">${icons[item.content_type] || '馃搫'}</div>
+                        <div class="item-type">${icons[item.content_type] || '妫啯鎯?}</div>
                         <div class="item-content">
-                            <h4>${item.title || '鏃犳爣棰?}</h4>
+                            <h4>${item.title || '哄啰电埇鏋讹锛?}</h4>
                             <p>${item.content_preview?.substring(0, 100)}...</p>
                             <div class="item-meta">
-                                浣滆€? ${item.author_name} | 
-                                涓炬姤: ${item.report_count} 娆?| 
+                                达绮忛埀? ${item.author_name} | 
+                                挾撴慨? ${item.report_count} ?| 
                                 ${new Date(item.created_at).toLocaleString('zh-CN')}
                             </div>
                         </div>
                         <div class="item-actions">
-                            <button class="btn-action btn-approve" onclick="adminApp.approveItem(${item.id}, '${item.content_type}')">閫氳繃</button>
-                            <button class="btn-action btn-reject" onclick="adminApp.rejectItem(${item.id}, '${item.content_type}')">鎷掔粷</button>
+                            <button class="btn-action btn-approve" onclick="adminApp.approveItem(${item.id}, '${item.content_type}')">闂偅淇虹换?/button>
+                            <button class="btn-action btn-reject" onclick="adminApp.rejectItem(${item.id}, '${item.content_type}')">归攱甯炵划?/button>
                         </div>
                     </div>
                 `).join('');
@@ -670,12 +670,12 @@
                         body: JSON.stringify({ content_id: id, content_type: type, action })
                     });
 
-                    if (!response.ok) throw new Error('鎿嶄綔澶辫触');
+                    if (!response.ok) throw new Error('瑰灝绉紞鏃勬潏顐バ?);
                     
-                    alert(action === 'approved' ? '宸查€氳繃' : '宸叉嫆缁?);
+                    alert(action === 'approved' ? '瑰憡鐓￠埀佷亢? : '圭剁氬棛绱?);
                     this.loadModerationQueue();
                 } catch (error) {
-                    alert('鎿嶄綔澶辫触');
+                    alert('瑰灝绉紞鏃勬潏顐バ?);
                 }
             }
 
@@ -684,7 +684,7 @@
                     const response = await fetch(`${API_BASE_URL}/admin-dashboard/logs?limit=50`, {
                         headers: { 'Authorization': `Bearer ${this.token}` }
                     });
-                    if (!response.ok) throw new Error('鍔犺浇澶辫触');
+                    if (!response.ok) throw new Error('告梻ù鍥緞堫袝');
                     
                     const data = await response.json();
                     const tbody = document.querySelector('#logsTable tbody');
@@ -699,7 +699,7 @@
                         </tr>
                     `).join('');
                 } catch (error) {
-                    console.error('鍔犺浇鏃ュ織澶辫触:', error);
+                    console.error('告梻ù鍥籍閵夈儳绠跺鎯扮簿?', error);
                 }
             }
 
@@ -727,4 +727,5 @@
     </script>
 </body>
 </html>
+
 

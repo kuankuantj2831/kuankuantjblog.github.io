@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>涓炬姤绠＄悊鍚庡彴 - Hakimi 鐨勭尗鐖灦</title>
+    <title>挾撴慨不閿涘嫭為柛瑜?- Hakimi 的个人博客/title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f7; color: #1d1d1f; }
@@ -56,53 +56,53 @@
 <body>
     <div id="loginMask" class="login-mask">
         <div class="login-box">
-            <h2>馃攼 绠＄悊鍛樼櫥褰?/h2>
-            <input type="password" id="adminToken" placeholder="杈撳叆绠＄悊鍛?Token">
-            <button onclick="doLogin()">鐧诲綍</button>
+            <h2>妫啯鏁?媴绱曢幃濠囧川濡吋顏憸?/h2>
+            <input type="password" id="adminToken" placeholder="閺夊牊崣鍡欑不閿涘嫭為柛?Token">
+            <button onclick="doLogin()">谎嗩嚙?/button>
         </div>
     </div>
 
     <div id="adminContent" class="hidden">
         <div class="admin-header">
-            <h1>馃毃 涓炬姤绠＄悊鍚庡彴</h1>
-            <p>鏌ョ湅鍜屽鐞嗙敤鎴锋彁浜ょ殑鎶曡瘔涓炬姤</p>
+            <h1>妫啯鐦?挾撴慨不閿涘嫭為柛瑜?/h1>
+            <p>哄被冲﹢鍛村椽鐏炵妲遍鐐叉閺併倝骞柨瀣倒存嚎楀▓鎴閺囷紕妲樺鎾跺?/p>
         </div>
         <div class="container">
             <div class="stats-grid" id="statsGrid">
-                <div class="stat-card total"><div class="label">鎬讳妇鎶ユ暟</div><div class="value" id="statTotal">-</div></div>
-                <div class="stat-card pending"><div class="label">寰呭鐞?/div><div class="value" id="statPending">-</div></div>
-                <div class="stat-card processing"><div class="label">澶勭悊涓?/div><div class="value" id="statProcessing">-</div></div>
-                <div class="stat-card resolved"><div class="label">宸茶В鍐?/div><div class="value" id="statResolved">-</div></div>
+                <div class="stat-card total"><div class="label">诡剝顔婃鍥閵夛附娈?/div><div class="value" id="statTotal">-</div></div>
+                <div class="stat-card pending"><div class="label">垫澘鎳ˇ鈺呮偠?/div><div class="value" id="statPending">-</div></div>
+                <div class="stat-card processing"><div class="label">濠㈣泛瀚幃濠冪▔?/div><div class="value" id="statProcessing">-</div></div>
+                <div class="stat-card resolved"><div class="label">规瓕灏?/div><div class="value" id="statResolved">-</div></div>
             </div>
             <div class="filter-bar">
-                <span>鐘舵€佺瓫閫夛細</span>
+                <span>绘栭埀胯兌☆偊鏌呮径氱獥</span>
                 <select id="filterStatus" onchange="loadReports()">
-                    <option value="all">鍏ㄩ儴</option>
-                    <option value="pending">寰呭鐞?/option>
-                    <option value="processing">澶勭悊涓?/option>
-                    <option value="resolved">宸茶В鍐?/option>
-                    <option value="rejected">宸查┏鍥?/option>
+                    <option value="all">稿繈鍔戦崕?/option>
+                    <option value="pending">垫澘鎳ˇ鈺呮偠?/option>
+                    <option value="processing">濠㈣泛瀚幃濠冪▔?/option>
+                    <option value="resolved">规瓕灏?/option>
+                    <option value="rejected">瑰憡鐓￠埞蹇涘炊?/option>
                 </select>
-                <button onclick="loadReports()">馃攧 鍒锋柊</button>
+                <button onclick="loadReports()">妫啯鏁?告帡鏀遍弻?/button>
             </div>
             <div class="reports-table">
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>绫诲瀷</th>
-                            <th>鐩爣</th>
-                            <th>鍘熷洜</th>
-                            <th>璇︾粏璇存槑</th>
-                            <th>涓炬姤浜?/th>
-                            <th>鑱旂郴</th>
-                            <th>鏃堕棿</th>
-                            <th>鐘舵€?/th>
-                            <th>鎿嶄綔</th>
+                            <th>?/th>
+                            <th>烩晩鍠楃埇鏋?/th>
+                            <th>告鍠庡ú?/th>
+                            <th>犲浄濡划蹇曟嫚涙ɑ顫?/th>
+                            <th>挾撴慨嗙?/th>
+                            <th>艰鲸姊婚柈?/th>
+                            <th>哄啫鐖煎Λ?/th>
+                            <th>绘栭埀?/th>
+                            <th>瑰灝绉紞?/th>
                         </tr>
                     </thead>
                     <tbody id="reportsBody">
-                        <tr><td colspan="10" class="empty-state">鍔犺浇涓?..</td></tr>
+                        <tr><td colspan="10" class="empty-state">告梻ù鍥ㄧ▔?..</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -115,16 +115,16 @@
     let token = localStorage.getItem('admin_token');
     let currentPage = 1;
     const REASON_MAP = {
-        spam: '鍨冨溇骞垮憡', illegal: '杩濇硶杩濊', abuse: '浜鸿韩鏀诲嚮',
-        porn: '鑹叉儏浣庝織', plagiarism: '鎶勮渚垫潈', misinfo: '铏氬亣淇℃伅', other: '鍏朵粬鍘熷洜'
+        spam: '搞┃鍥嵁喗?, illegal: '閺夆晜绻冪涵鑸垫交濠靛娼?, abuse: '存粓氶棅鈺呭绩彃姣?,
+        porn: '肩堕崕蹇旀媴鎼存繄绠?, plagiarism: '泛瀚～銊︾瑹偅缍', misinfo: '繑鑹炬禍锝嗙┍╁啩绱?, other: '稿繑婀圭划储旈攱?
     };
-    const TYPE_MAP = { article: '鏂囩珷', comment: '璇勮', user: '鐢ㄦ埛', other: '鍏朵粬' };
+    const TYPE_MAP = { article: '哄倸娲ㄩ悵?, comment: '犲洤瀚?, user: '活潿鍔崺?, other: '稿繑婀圭划? };
 
     if (token) { checkAuth(); }
 
     function doLogin() {
         token = document.getElementById('adminToken').value.trim();
-        if (!token) return alert('璇疯緭鍏?Token');
+        if (!token) return alert('犲洨鏌夌欢顓㈠礂?Token');
         checkAuth();
     }
 
@@ -140,11 +140,11 @@
                 loadStats();
                 loadReports();
             } else {
-                alert('璁よ瘉澶辫触锛岃妫€鏌?Token');
+                alert('犱降涢惁緞堫袝挎稑鐭侀螞剟?Token');
                 token = null;
             }
         } catch (e) {
-            alert('缃戠粶閿欒');
+            alert('傚啯鍨圭划曟煥帩鍤?);
         }
     }
 
@@ -166,7 +166,7 @@
     async function loadReports(page = 1) {
         currentPage = page;
         const status = document.getElementById('filterStatus').value;
-        document.getElementById('reportsBody').innerHTML = '<tr><td colspan="10" class="empty-state">鍔犺浇涓?..</td></tr>';
+        document.getElementById('reportsBody').innerHTML = '<tr><td colspan="10" class="empty-state">告梻ù鍥ㄧ▔?..</td></tr>';
         try {
             const res = await fetch(`${API_BASE}/reports?status=${status}&page=${page}&limit=20`, {
                 headers: { 'Authorization': 'Bearer ' + token }
@@ -177,13 +177,13 @@
                 renderPagination(data.data.total, data.data.page, data.data.limit);
             }
         } catch (e) {
-            document.getElementById('reportsBody').innerHTML = '<tr><td colspan="10" class="empty-state">鍔犺浇澶辫触</td></tr>';
+            document.getElementById('reportsBody').innerHTML = '<tr><td colspan="10" class="empty-state">告梻ù鍥緞堫袝</td></tr>';
         }
     }
 
     function renderReports(list) {
         if (!list.length) {
-            document.getElementById('reportsBody').innerHTML = '<tr><td colspan="10" class="empty-state">鏆傛棤涓炬姤鏁版嵁</td></tr>';
+            document.getElementById('reportsBody').innerHTML = '<tr><td colspan="10" class="empty-state">哄棗瑰Λ嗙▔愵袚轰澧楀畵?/td></tr>';
             return;
         }
         document.getElementById('reportsBody').innerHTML = list.map(r => `
@@ -193,15 +193,15 @@
                 <td>${r.target_id}${r.target_title ? '<br><small style="color:#999;">' + escapeHtml(r.target_title).substring(0,30) + '</small>' : ''}</td>
                 <td>${REASON_MAP[r.reason] || r.reason}</td>
                 <td><div class="detail-text" title="${escapeHtml(r.detail)}">${escapeHtml(r.detail) || '-'}</div></td>
-                <td>${r.reporter_name || '<span style="color:#999;">鍖垮悕</span>'}</td>
+                <td>${r.reporter_name || '<span style="color:#999;">告牕鐏濋幃?/span>'}</td>
                 <td>${r.reporter_email || '-'}<br>${r.reporter_contact || ''}</td>
                 <td>${new Date(r.created_at).toLocaleString('zh-CN')}</td>
                 <td><span class="badge badge-${r.status}">${getStatusText(r.status)}</span></td>
                 <td>
                     <div class="actions">
-                        ${r.status !== 'processing' ? `<button class="btn-process" onclick="updateStatus(${r.id},'processing')">澶勭悊涓?/button>` : ''}
-                        ${r.status !== 'resolved' ? `<button class="btn-resolve" onclick="updateStatus(${r.id},'resolved')">宸茶В鍐?/button>` : ''}
-                        ${r.status !== 'rejected' ? `<button class="btn-reject" onclick="updateStatus(${r.id},'rejected')">椹冲洖</button>` : ''}
+                        ${r.status !== 'processing' ? `<button class="btn-process" onclick="updateStatus(${r.id},'processing')">濠㈣泛瀚幃濠冪▔?/button>` : ''}
+                        ${r.status !== 'resolved' ? `<button class="btn-resolve" onclick="updateStatus(${r.id},'resolved')">规瓕灏?/button>` : ''}
+                        ${r.status !== 'rejected' ? `<button class="btn-reject" onclick="updateStatus(${r.id},'rejected')">濡炵垮ú?/button>` : ''}
                     </div>
                 </td>
             </tr>
@@ -211,7 +211,7 @@
     function renderPagination(total, page, limit) {
         const totalPages = Math.ceil(total / limit);
         if (totalPages <= 1) { document.getElementById('pagination').innerHTML = ''; return; }
-        let html = `<button ${page <= 1 ? 'disabled' : ''} onclick="loadReports(${page - 1})">涓婁竴椤?/button>`;
+        let html = `<button ${page <= 1 ? 'disabled' : ''} onclick="loadReports(${page - 1})">挸锕粩瀛樸亜?/button>`;
         for (let i = 1; i <= totalPages; i++) {
             if (Math.abs(i - page) <= 2 || i === 1 || i === totalPages) {
                 html += `<button class="${i === page ? 'active' : ''}" onclick="loadReports(${i})">${i}</button>`;
@@ -219,12 +219,12 @@
                 html += `<span style="padding:6px;">...</span>`;
             }
         }
-        html += `<button ${page >= totalPages ? 'disabled' : ''} onclick="loadReports(${page + 1})">涓嬩竴椤?/button>`;
+        html += `<button ${page >= totalPages ? 'disabled' : ''} onclick="loadReports(${page + 1})">挸粩瀛樸亜?/button>`;
         document.getElementById('pagination').innerHTML = html;
     }
 
     async function updateStatus(id, status) {
-        if (!confirm(`纭畾灏嗕妇鎶?#${id} 鐘舵€佹敼涓恒€?{getStatusText(status)}銆嶅悧锛焋)) return;
+        if (!confirm(`绢収鍠栭悾鍓т焊洖顩?#${id} 绘栭埀跨劍閺佸吋绋夐幁鎺?{getStatusText(status)}靛棗绉撮幃鏁悞?) return;
         try {
             const res = await fetch(`${API_BASE}/reports/${id}/status`, {
                 method: 'PUT',
@@ -238,11 +238,11 @@
             } else {
                 alert(data.message);
             }
-        } catch (e) { alert('鎿嶄綔澶辫触'); }
+        } catch (e) { alert('瑰灝绉紞鏃勬潏顐バ?); }
     }
 
     function getStatusText(s) {
-        return { pending: '寰呭鐞?, processing: '澶勭悊涓?, resolved: '宸茶В鍐?, rejected: '宸查┏鍥? }[s] || s;
+        return { pending: '垫澘鎳ˇ鈺呮偠?, processing: '濠㈣泛瀚幃濠冪▔?, resolved: '规瓕灏?, rejected: '瑰憡鐓￠埞蹇涘炊? }[s] || s;
     }
 
     function escapeHtml(str) {
@@ -252,4 +252,5 @@
     </script>
 </body>
 </html>
+
 

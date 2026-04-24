@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>璐悆铔?/title>
+    <title>犳劦浜滈幃鍡涙憘?/title>
     
-    <!-- 浼樺寲锛氶杩炴帴鍒板瓧浣撴湇鍔″櫒 -->
+    <!-- 村吋锚垫煡鏁嶅棰濇殨閺夆晝炵敮鎾礆閺夎法鎽熷ù锝尰濠鍥礉ヨ櫕鐝?-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
@@ -16,130 +16,130 @@
     <canvas id="backgroundCanvas"></canvas>
     <div class="main-container">
         <div class="inner-frame">
-            <h1>璐悆铔?/h1>
+            <h1>犳劦浜滈幃鍡涙憘?/h1>
             <div class="stats-container">
                 <div class="score-container">
-                    <span>鍒嗘暟: </span><span id="score">0</span>
+                    <span>告帒妫欓弳? </span><span id="score">0</span>
                 </div>
                 <div class="time-container">
-                    <span>鏃堕棿: </span><span id="time">0</span>s
+                    <span>哄啫鐖煎Λ? </span><span id="time">0</span>s
                 </div>
                 <div class="highscore-container">
-                    <span>鏈€楂? </span><span id="highScore">0</span>
+                    <span>哄牃Δ? </span><span id="highScore">0</span>
                 </div>
             </div>
             <canvas id="gameCanvas" width="400" height="400"></canvas>
             <div class="save-load-container">
-                <button id="saveButton">鐢熸垚瀛樻。</button>
-                <input type="text" id="saveCodeInput" placeholder="鍦ㄦ澶勭矘璐村瓨妗ｇ爜...">
-                <button id="loadButton">璇诲彇瀛樻。</button>
-                <button id="newGameButton">鏂版父鎴?/button>
-                <button id="achievementsButton">鎴愬氨</button>
+                <button id="saveButton">汇垻鍠愰扁偓櫳戦妴?/button>
+                <input type="text" id="saveCodeInput" placeholder="革负鍔囧緞曨厾鐓掗鎰綑°顩奸敐鍥╁灣...">
+                <button id="loadButton">犲洩цぐ鍥┾偓櫳戦妴?/button>
+                <button id="newGameButton">哄倻澧楃埇鏋跺爼骞?/button>
+                <button id="achievementsButton">瑰瓨鍔曞?/button>
             </div>
             <div id="gameOverScreen" class="hidden">
                 <h2>No signal!</h2>
-                <p>鏈€缁堝緱鍒? <span id="finalScore">0</span></p>
-                <button id="restartButton">閲嶆柊杩炴帴</button>
+                <p>哄牃紓浣哥墕堕亶宕? <span id="finalScore">0</span></p>
+                <button id="restartButton">闂佹彃绉弻濠冩交愭潙?/button>
             </div>
         </div>
     </div>
     
-    <!-- 鎴愬氨寮圭獥 -->
+    <!-- 瑰瓨鍔曞銊ヮ嚕︻厾宕?-->
     <div id="achievements-modal" class="hidden">
         <div class="modal-content">
-            <h2>鎴愬氨鍒楄〃</h2>
+            <h2>瑰瓨鍔曞銊╁礆濡ゅ嫨鈧?/h2>
             <div id="achievements-list"></div>
-            <button id="close-achievements">鍏抽棴</button>
+            <button id="close-achievements">稿繑婂Λ?/button>
         </div>
     </div>
 
-    <!-- 浼樺寲锛氬欢杩熸墽琛岃剼鏈?-->
+    <!-- 村吋锚垫煡鏁嶅偨閺夆晝鍠愭晶鐣屾偘瀹鍐?-->
     <script src="script.js" defer></script>
     
     <div id="achievement-container"></div>
 
-    <!-- 绉诲姩绔櫄鎷熸寜閿?-->
+    <!-- 佸ф慨鈺冪博栨繃鐝撻椋庡枑垫粓鏌?-->
     <div id="mobile-controls" class="hidden">
         <div class="d-pad">
-            <button id="up-button" class="d-pad-button up">鈫?/button>
-            <button id="down-button" class="d-pad-button down">鈫?/button>
-            <button id="left-button" class="d-pad-button left">鈫?/button>
-            <button id="right-button" class="d-pad-button right">鈫?/button>
+            <button id="up-button" class="d-pad-button up">?/button>
+            <button id="down-button" class="d-pad-button down">?/button>
+            <button id="left-button" class="d-pad-button left">?/button>
+            <button id="right-button" class="d-pad-button right">?/button>
         </div>
     </div>
 
-<!-- Win7 Emoji 鍏煎鎬у鐞?-->
+<!-- Win7 Emoji 稿繒鍘鎰板箑瑜ˇ鈺呮偠?-->
 <script>
 (function() {
-    // 妫€娴嬫槸鍚︿负 Windows 7
+    // ☆偀撴繛戭儐濡叉悂宕敂鑳 Windows 7
     function isWindows7() {
         var ua = navigator.userAgent;
         return ua.indexOf('Windows NT 6.1') !== -1 || 
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji 鏇挎崲鏄犲皠琛?
+    // Emoji 哄洦у畷鏌ュ及樿尙娈悶?
     var emojiMap = {
-        "馃惐": "鐚?,
-        "馃彔": "棣栭〉",
-        "馃幃": "娓告垙",
-        "鈽侊笍": "浜?,
-        "鈽€锔?: "澶槼",
-        "鉂わ笍": "鐖卞績",
-        "馃幆": "鍏充簬",
-        "馃挰": "娑堟伅",
-        "馃敂": "閫氱煡",
-        "馃懁": "鐢ㄦ埛",
-        "馃摑": "缂栬緫",
-        "猬嗭笍": "鍗囩骇",
-        "馃柤锔?: "鍥剧墖",
-        "鉁嶏笍": "鍐欎綔",
-        "鈿欙笍": "璁剧疆",
-        "馃毆": "閫€鍑?,
-        "馃挕": "鎻愮ず",
-        "鈿?: "缁忛獙",
-        "馃殌": "鍙戝竷",
-        "馃帠锔?: "绛夌骇",
-        "馃挭": "鍔犳补",
-        "馃敀": "閿佸畾",
-        "馃摐": "鍗忚",
-        "鈫?: "涓?,
-        "鈫?: "涓?,
-        "鈫╋笍": "鎾ら攢",
-        "鉂?: "甯姪",
-        "馃攧": "鍒锋柊",
-        "鈻讹笍": "寮€濮?,
-        "鈴憋笍": "鏃堕棿",
-        "馃帹": "鍒涙剰",
-        "馃捇": "鐢佃剳",
-        "馃摎": "瀛︿範",
-        "馃洝锔?: "鐩剧墝",
-        "鉁堬笍": "椋炴満",
-        "猸?: "鏄熸槦",
-        "馃暪锔?: "鎵嬫焺",
-        "馃摟": "閭",
-        "馃摫": "鎵嬫満",
-        "馃搼": "鐩綍",
-        "馃摝": "鍘嬬缉",
-        "馃搫": "鏂囦欢",
-        "馃摍": "PPT",
-        "馃敡": "宸ュ叿",
-        "馃獧": "纭竵",
-        "馃挵": "閲戝竵",
-        "鉁?: "瀹屾垚",
-        "馃洜锔?: "宸ュ叿",
-        "馃挮": "鏄熷厜",
-        "馃攳": "鎼滅储",
-        "馃摉": "涔︾睄",
-        "馃彿锔?: "鏍囩",
-        "馃棏锔?: "鍒犻櫎"
+        "妫啯?: "?,
+        "妫啫缍?: "濡鐗犻妴?,
+        "妫啫绠?: "炴挸鎲￠?,
+        "虫垝绶ょ?: "?,
+        "宠В撻柨?: "濠浜Σ?,
+        "村倶х?: "绘牕宕缓?,
+        "妫啫绠?: "稿繐鍘栫花?,
+        "妫啯灏?: "炴垵鐗婃导?,
+        "妫啯鏅?: "闂偅ㄩ悡?,
+        "妫啯鍣?: "活潿鍔崺?,
+        "妫啯鎲?: "傚倹鐗炵欢?,
+        "氼妫寸?: "告娲ㄦ?,
+        "妫啯鐓犻柨?: "搞儱澧芥晶?,
+        "翠礁绋?: "告劖ょ紞?,
+        "虫寧辩?: "犱礁澧介悿?,
+        "妫啯鐦?: "闂偀撻柛?,
+        "妫啯?: "圭粯鍔妵?,
+        "?: "備礁绻橀悰?,
+        "妫啯鐣?: "告瑦鍨电粩?,
+        "妫啫绗柨?: "佹稑顦辨?,
+        "妫啯灏?: "告梻电悰?,
+        "妫啯鏅?: "闂佸じ侀悾?,
+        "妫啯鎲?: "告绻?,
+        "?: "?,
+        "?: "?,
+        "愁偀鏅?: "逛勘濋弨?,
+        "?: "㈩垼鍠栨慨?,
+        "妫啯鏁?: "告帡鏀遍弻?,
+        "虫槒顔愮?: "殿喒┑?,
+        "冲瓨鍞?: "哄啫鐖煎Λ?,
+        "妫啫鑵?: "告帗绋掗崜?,
+        "妫啯宕?: "活澀绲婚崜?,
+        "妫啯鎲?: "庢冻氱弧?,
+        "妫啯夐柨?: "烩晛澧芥晶?,
+        "翠礁鐗炵?: "濡炲炲┃鈧?,
+        "?: "哄鍠愬Σ?,
+        "妫啯姣嗛柨?: "归潧嗛悞?,
+        "妫啯鎲?: "闂収鍠氶?,
+        "妫啯鎳?: "归潧┃鈧?,
+        "妫啯鎯?: "烩晩鍠栫紞?,
+        "妫啯鎲?: "告ê紓?,
+        "妫啯鎯?: "哄倸娲▎?,
+        "妫啯鎲?: "PPT",
+        "妫啯鏆?: "规悶遍崣?,
+        "妫啰宕?: "绢収鍓欑粩?,
+        "妫啯灏?: "闂佸弶鍨电粩?,
+        "?: "鏈?,
+        "妫啯堥柨?: "规悶遍崣?,
+        "妫啯灏?: "哄鍠崢?,
+        "妫啯鏁?: "瑰吋绮?,
+        "妫啯鎲?: "棑濡囬惈?,
+        "妫啫囬柨?: "哄秴娲ㄩ?,
+        "妫啯顥旈柨?: "告帞?
     };
     
-    // 鏇挎崲椤甸潰涓殑 emoji
+    // 哄洦у畷鍙夈亜㈠憡妗冨幘?emoji
     function replaceEmojis() {
         if (!isWindows7()) return;
         
-        // 鏇挎崲鏂囨湰鑺傜偣
+        // 哄洦у畷鏌ュ棘ャ劍鎷遍柤鍝婚崑?
         var walker = document.createTreeWalker(
             document.body,
             NodeFilter.SHOW_TEXT,
@@ -162,7 +162,7 @@
             }
         }
         
-        // 鏇挎崲灞炴€т腑鐨?emoji锛堝 title, alt 绛夛級
+        // 哄洦у畷鑼沪愮补撹垫垿鎯?emoji挎稑鐗嗛々?title, alt 佹稑顧?
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -186,7 +186,7 @@
         }
     }
     
-    // DOM 鍔犺浇瀹屾垚鍚庢墽琛屾浛鎹?
+    // DOM 告梻ù鍥┾偓版湰ㄦ岸宕ユ惔銏犫挃炴稑鏈ù㈠箲?
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {
@@ -197,4 +197,5 @@
 
 </body>
 </html>
+
 

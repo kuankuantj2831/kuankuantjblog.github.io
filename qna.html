@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>闂瓟鎮祻 - Hakimi鐨勭尗鐖灦</title>
+    <title>闂傚偆鍠氶悺鐔煎箖掑啰?- Hakimi的个人博客/title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <link rel="stylesheet" href="css/tianjg-theme.css">
     <style>
-        /* 闂瓟绯荤粺鏍峰紡 */
+        /* 闂傚偆鍠氶悺鐔哄寲姐倗犻柡宥呭槻?*/
         .qna-page {
             max-width: 1200px;
             margin: 0 auto;
@@ -54,7 +54,7 @@
             font-size: 0.9em;
         }
 
-        /* 绛涢€夋爮 */
+        /* 佹稒鐩埀顦扮埇鏋?*/
         .qna-filters {
             background: white;
             border-radius: 16px;
@@ -132,7 +132,7 @@
             box-shadow: 0 8px 20px rgba(240, 147, 251, 0.4);
         }
 
-        /* 闂鍒楄〃 */
+        /* 闂傚偆鍣ｉ。礆濡ゅ嫨鈧?*/
         .qna-list {
             display: flex;
             flex-direction: column;
@@ -274,7 +274,7 @@
             border-radius: 50%;
         }
 
-        /* 绌虹姸鎬?*/
+        /* 佸矁娅ｆ慨鎼佸箑?*/
         .qna-empty {
             text-align: center;
             padding: 60px 20px;
@@ -292,7 +292,7 @@
             margin-bottom: 20px;
         }
 
-        /* 鍒嗛〉 */
+        /* 告帒妫濋妴?*/
         .qna-pagination {
             display: flex;
             justify-content: center;
@@ -331,7 +331,7 @@
             color: #999;
         }
 
-        /* 妯℃€佹 */
+        /* ☆垪鍓濋埀跨劍?*/
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -379,7 +379,7 @@
             color: #333;
         }
 
-        /* 琛ㄥ崟鏍峰紡 */
+        /* 炴稏鍔屽畷鐔煎冀瀹勬壆纭 */
         .qna-form {
             padding: 20px;
         }
@@ -486,7 +486,7 @@
             color: #f5576c;
         }
 
-        /* Toast 鎻愮ず */
+        /* Toast 圭粯鍔妵?*/
         .toast {
             position: fixed;
             bottom: 30px;
@@ -511,7 +511,7 @@
         .toast-warning { background: #ff9800; }
         .toast-info { background: #2196F3; }
 
-        /* 鍝嶅簲寮?*/
+        /* 告繂绉寸花鎻掝嚕?*/
         @media (max-width: 768px) {
             .qna-header {
                 padding: 25px;
@@ -557,62 +557,62 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="index.html" class="nav-link">棣栭〉</a>
-                <a href="qna.html" class="nav-link active">闂瓟</a>
-                <a href="groups.html" class="nav-link">鍦堝瓙</a>
-                <a href="about.html" class="nav-link">鍏充簬</a>
+                <a href="index.html" class="nav-link">濡鐗犻妴?/a>
+                <a href="qna.html" class="nav-link active">闂傚偆鍠氶悺?/a>
+                <a href="groups.html" class="nav-link">革箑鐗嗛悺?/a>
+                <a href="about.html" class="nav-link">稿繐鍘栫花?/a>
             </div>
         </nav>
 
         <div class="qna-page">
             <div class="qna-header">
-                <h1>馃挵 闂瓟鎮祻</h1>
-                <p>鎻愬嚭闂锛屾偓璧忛噾甯侊紝鑾峰緱涓撲笟瑙ｇ瓟</p>
+                <h1>妫啯灏?闂傚偆鍠氶悺鐔煎箖掑啰?/h1>
+                <p>圭粯鍔曢崵顓㈡⒒曗偓ｄ粙鏁嶇仦鎯т壕犙冪箻墽鏁笟濠兼儳鍢茬欢杈ㄧ▔捐尙归悷娆欑悼?/p>
                 <div class="qna-stats-bar">
                     <div class="qna-stat">
                         <span class="qna-stat-num" id="totalQuestions">0</span>
-                        <span class="qna-stat-label">闂鎬绘暟</span>
+                        <span class="qna-stat-label">闂傚偆鍣ｉ。箑佹ɑ娈?/span>
                     </div>
                     <div class="qna-stat">
                         <span class="qna-stat-num" id="totalBounty">0</span>
-                        <span class="qna-stat-label">鎮祻鎬婚</span>
+                        <span class="qna-stat-label">诡噮鍓濈粊濠氬箑犳凹?/span>
                     </div>
                     <div class="qna-stat">
                         <span class="qna-stat-num" id="resolvedRate">0%</span>
-                        <span class="qna-stat-label">瑙ｅ喅鐜?/span>
+                        <span class="qna-stat-label">熸瑱绲介崰鍛存偝?/span>
                     </div>
                 </div>
             </div>
 
             <div class="qna-filters">
                 <div class="filter-group">
-                    <span class="filter-label">鐘舵€侊細</span>
-                    <button class="qna-filter-btn active" data-filter="status" data-value="open">杩涜涓?/button>
-                    <button class="qna-filter-btn" data-filter="status" data-value="resolved">宸茶В鍐?/button>
-                    <button class="qna-filter-btn" data-filter="status" data-value="all">鍏ㄩ儴</button>
+                    <span class="filter-label">绘栭埀跨筏?/span>
+                    <button class="qna-filter-btn active" data-filter="status" data-value="open">閺夆晜绋栭、鎴炵▔?/button>
+                    <button class="qna-filter-btn" data-filter="status" data-value="resolved">规瓕灏?/button>
+                    <button class="qna-filter-btn" data-filter="status" data-value="all">稿繈鍔戦崕?/button>
                 </div>
                 <div class="filter-group">
-                    <span class="filter-label">鎺掑簭锛?/span>
-                    <button class="qna-filter-btn active" data-filter="sort" data-value="newest">鏈€鏂?/button>
-                    <button class="qna-filter-btn" data-filter="sort" data-value="bounty">鎮祻鏈€楂?/button>
-                    <button class="qna-filter-btn" data-filter="sort" data-value="popular">鏈€鐑?/button>
+                    <span class="filter-label">圭儤甯掔花顓㈡晬?/span>
+                    <button class="qna-filter-btn active" data-filter="sort" data-value="newest">哄牃撻柡?/button>
+                    <button class="qna-filter-btn" data-filter="sort" data-value="bounty">诡噮鍓濈粊濠氬嫉剚顨?/button>
+                    <button class="qna-filter-btn" data-filter="sort" data-value="popular">哄牃撻?/button>
                 </div>
                 <div class="qna-search">
-                    <input type="text" id="qnaSearch" placeholder="鎼滅储闂...">
+                    <input type="text" id="qnaSearch" placeholder="瑰吋绮銊╂⒒曗偓?..">
                 </div>
-                <button class="btn-create" id="createQuestionBtn">+ 鍙戝竷闂</button>
+                <button class="btn-create" id="createQuestionBtn">+ 告瑦鍨电粩鐑芥⒒曗偓?/button>
             </div>
 
             <div class="qna-list" id="qnaList">
-                <!-- 闂鍒楄〃灏嗗湪杩欓噷娓叉煋 -->
+                <!-- 闂傚偆鍣ｉ。礆濡ゅ嫨鈧啰浜崱佽含閺夆晜╅崳宄般掗崣屽帬 -->
                 <div class="qna-empty">
-                    <div class="qna-empty-icon">鈴?/div>
-                    <p>姝ｅ湪鍔犺浇闂...</p>
+                    <div class="qna-empty-icon">?/div>
+                    <p>繐绲藉﹢顏堝礉樼儤绁伴梻鍌ゅ櫍?..</p>
                 </div>
             </div>
 
             <div class="qna-pagination" id="qnaPagination">
-                <!-- 鍒嗛〉灏嗗湪杩欓噷娓叉煋 -->
+                <!-- 告帒妫濋妴屼焊韬弶鈺傜懇嘲銆掗崣屽帬 -->
             </div>
         </div>
     </div>
@@ -620,4 +620,5 @@
     <script type="module" src="js/qna-system.js"></script>
 </body>
 </html>
+
 

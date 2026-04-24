@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>娑堟伅涓績 - Hakimi 鐨勭尗鐖灦</title>
+    <title>炴垵鐗婃导鍛▔偟濡?- Hakimi 的个人博客/title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <link rel="stylesheet" href="css/messages.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* 娑堟伅涓績鏍峰紡 */
+        /* 炴垵鐗婃导鍛▔偟濡囬柡宥呭槻?*/
         .messages-container {
             max-width: 1200px;
             margin: 80px auto 40px;
@@ -134,7 +134,7 @@
             padding: 0 6px;
         }
         
-        /* 鑱婂ぉ鍖哄煙 */
+        /* 煎崬锕ら妵愬礌鍘?*/
         .chat-area {
             background: white;
             border-radius: 16px;
@@ -346,7 +346,7 @@
             transform: none;
         }
         
-        /* 绌虹姸鎬?*/
+        /* 佸矁娅ｆ慨鎼佸箑?*/
         .empty-state {
             flex: 1;
             display: flex;
@@ -366,7 +366,7 @@
             font-size: 1.1em;
         }
         
-        /* 鍝嶅簲寮?*/
+        /* 告繂绉寸花鎻掝嚕?*/
         @media (max-width: 768px) {
             .messages-container {
                 grid-template-columns: 1fr;
@@ -388,7 +388,7 @@
             }
         }
         
-        /* 鎻愬強鏍峰紡 */
+        /* 圭粯鍔曞鐑藉冀瀹勬壆纭 */
         .mention {
             color: #667eea;
             font-weight: 600;
@@ -403,35 +403,35 @@
 <body>
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
-            <a href="/" class="nav-logo">Hakimi 鐨勭尗鐖灦</a>
+            <a href="/" class="nav-logo">Hakimi 的个人博客/a>
             <div class="nav-links">
-                <a href="/" class="nav-link">棣栭〉</a>
-                <a href="/articles.html" class="nav-link">鏂囩珷</a>
-                <a href="/groups.html" class="nav-link">缇ょ粍</a>
-                <a href="/events.html" class="nav-link">娲诲姩</a>
-                <a href="/messages.html" class="nav-link active">娑堟伅</a>
+                <a href="/" class="nav-link">濡鐗犻妴?/a>
+                <a href="/articles.html" class="nav-link">哄倸娲ㄩ悵?/a>
+                <a href="/groups.html" class="nav-link">傚洢楃划?/a>
+                <a href="/events.html" class="nav-link">炶尪ф慨?/a>
+                <a href="/messages.html" class="nav-link active">炴垵鐗婃导?/a>
             </div>
         </nav>
 
         <div class="messages-container">
-            <!-- 浼氳瘽鍒楄〃 -->
+            <!-- 村吋淇洪惁礆濡ゅ嫨鈧?-->
             <div class="conversations-sidebar">
                 <div class="sidebar-header">
-                    <h2>馃挰 娑堟伅涓績</h2>
+                    <h2>妫啯灏?炴垵鐗婃导鍛▔偟濡?/h2>
                     <button class="new-message-btn" onclick="startNewConversation()">
-                        鉁夛笍 鏂板缓绉佷俊
+                        翠礁顧?哄倹樼紓鎾剁矓ｈ渹绻?
                     </button>
                 </div>
                 <div class="conversations-list" id="conversationList">
-                    <!-- 浼氳瘽鍒楄〃灏嗗姩鎬佸姞杞?-->
+                    <!-- 村吋淇洪惁礆濡ゅ嫨鈧啰浜崱袟诡兛佹慨鐐存姜?-->
                 </div>
             </div>
 
-            <!-- 鑱婂ぉ鍖哄煙 -->
+            <!-- 煎崬锕ら妵愬礌鍘?-->
             <div class="chat-area">
                 <div class="empty-state" id="emptyState">
-                    <div class="empty-state-icon">馃挰</div>
-                    <p class="empty-state-text">閫夋嫨涓€涓細璇濆紑濮嬭亰澶?/p>
+                    <div class="empty-state-icon">妫啯灏?/div>
+                    <p class="empty-state-text">闂顦扮氥劍绋夐埀▔啰绐鍥ㄧ箓辨垶鎱ㄧｎ厺鍠婂?/p>
                 </div>
                 
                 <div class="chat-header" id="chatHeader" style="display: none;">
@@ -439,50 +439,50 @@
                         <img src="" alt="" class="chat-user-avatar" id="chatUserAvatar">
                         <div>
                             <div class="chat-user-name" id="chatUserName"></div>
-                            <div class="chat-user-status" id="chatUserStatus">鍦ㄧ嚎</div>
+                            <div class="chat-user-status" id="chatUserStatus">革负鍔崵?/div>
                         </div>
                     </div>
                     <div class="chat-actions">
-                        <button class="chat-action-btn" title="璇煶閫氳瘽" onclick="startVoiceCall()">馃摓</button>
-                        <button class="chat-action-btn" title="瑙嗛閫氳瘽" onclick="startVideoCall()">馃摴</button>
-                        <button class="chat-action-btn" title="鏇村" onclick="showChatMenu()">鈰?/button>
+                        <button class="chat-action-btn" title="犲浂鍙悡曟焻樺磭? onclick="startVoiceCall()">妫啯鎲?/button>
+                        <button class="chat-action-btn" title="熸瑥妫濋。曟焻樺磭? onclick="startVideoCall()">妫啯鎳?/button>
+                        <button class="chat-action-btn" title="哄洦娼欓ˇ? onclick="showChatMenu()">?/button>
                     </div>
                 </div>
 
                 <div class="messages-list" id="messagesList" style="display: none;">
-                    <!-- 娑堟伅灏嗗姩鎬佸姞杞?-->
+                    <!-- 炴垵鐗婃导鍛焊袟诡兛佹慨鐐存姜?-->
                 </div>
 
                 <div class="chat-input-area" id="chatInputArea" style="display: none;">
                     <div class="input-toolbar">
-                        <button class="toolbar-btn" title="琛ㄦ儏" onclick="showEmojiPicker()">馃槉</button>
-                        <button class="toolbar-btn" title="鍥剧墖" onclick="selectImage()">馃柤锔?/button>
-                        <button class="toolbar-btn" title="鏂囦欢" onclick="selectFile()">馃搸</button>
-                        <button class="toolbar-btn" title="@鎻愬強" onclick="showMentionPicker()">@</button>
+                        <button class="toolbar-btn" title="炴稏鍔崕? onclick="showEmojiPicker()">妫啯顫?/button>
+                        <button class="toolbar-btn" title="搞儱澧芥晶? onclick="selectImage()">妫啯鐓犻柨?/button>
+                        <button class="toolbar-btn" title="哄倸娲▎? onclick="selectFile()">妫啯鎯?/button>
+                        <button class="toolbar-btn" title="@圭粯鍔曞? onclick="showMentionPicker()">@</button>
                     </div>
                     <div class="chat-input-wrapper">
-                        <textarea class="chat-input" id="messageInput" placeholder="杈撳叆娑堟伅..." rows="1"></textarea>
-                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">鉃?/button>
+                        <textarea class="chat-input" id="messageInput" placeholder="閺夊牊崣鍡椻槈喍绱?.." rows="1"></textarea>
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">?/button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 鏂板缓绉佷俊妯℃€佹 -->
+    <!-- 哄倹樼紓鎾剁矓ｈ渹绻顖楀墲兛鐒、?-->
     <div class="modal" id="newMessageModal" style="display: none;">
         <div class="modal-content" style="max-width: 400px;">
             <div class="modal-header">
-                <h3>鍙戦€佺淇?/h3>
-                <button class="close-btn" onclick="closeNewMessageModal()">脳</button>
+                <h3>告瑦鍨块埀胯兌棙绌?/h3>
+                <button class="close-btn" onclick="closeNewMessageModal()">?/button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>鎼滅储鐢ㄦ埛</label>
-                    <input type="text" id="userSearchInput" placeholder="杈撳叆鐢ㄦ埛鍚?.." oninput="searchUsers(this.value)">
+                    <label>瑰吋绮銊╂偨閵婏箑鐓?/label>
+                    <input type="text" id="userSearchInput" placeholder="閺夊牊崣鍡涙偨閵婏箑鐓曢柛?.." oninput="searchUsers(this.value)">
                 </div>
                 <div id="userSearchResults" style="max-height: 200px; overflow-y: auto;">
-                    <!-- 鎼滅储缁撴灉 -->
+                    <!-- 瑰吋绮銊х磼浜?-->
                 </div>
             </div>
         </div>
@@ -490,7 +490,7 @@
 
     <script type="module" src="js/messages.js"></script>
     <script>
-        // 鍏ㄥ眬鍑芥暟
+        // 稿繈鍔岄惇礄恒儲娈?
         function startNewConversation() {
             document.getElementById('newMessageModal').style.display = 'flex';
         }
@@ -500,47 +500,47 @@
         }
         
         function showEmojiPicker() {
-            // 瀹炵幇琛ㄦ儏閫夋嫨鍣?
+            // 庡熼獮鍥╂偘閵婏箑鍓伴梺顐㈩槹氥劑宕?
             console.log('Show emoji picker');
         }
         
         function selectImage() {
-            // 瀹炵幇鍥剧墖閫夋嫨
+            // 庡熼獮鍥炊撗冾暬闂顦扮?
             console.log('Select image');
         }
         
         function selectFile() {
-            // 瀹炵幇鏂囦欢閫夋嫨
+            // 庡熼獮鍥棘ワ附顐介梺顐㈩槹?
             console.log('Select file');
         }
         
         function showMentionPicker() {
-            // 瀹炵幇@鎻愬強閫夋嫨
+            // 庡熼獮鍢嗛樺姇鏌呮径瀣仴
             const input = document.getElementById('messageInput');
             input.value += '@';
             input.focus();
         }
         
         function startVoiceCall() {
-            showToast('璇煶閫氳瘽鍔熻兘寮€鍙戜腑');
+            showToast('犲浂鍙悡曟焻樺磭堥柛鏃傚忔êｉ埀存粏鍘?);
         }
         
         function startVideoCall() {
-            showToast('瑙嗛閫氳瘽鍔熻兘寮€鍙戜腑');
+            showToast('熸瑥妫濋。曟焻樺磭堥柛鏃傚忔êｉ埀存粏鍘?);
         }
         
         function showChatMenu() {
-            // 鏄剧ず鑱婂ぉ鑿滃崟
+            // 哄澧介妵舵嚂犲倶浜柤矊瀹?
             console.log('Show chat menu');
         }
         
         function searchUsers(query) {
-            // 鎼滅储鐢ㄦ埛
+            // 瑰吋绮銊╂偨閵婏箑鐓?
             console.log('Search users:', query);
         }
         
         function showToast(message) {
-            // 绠€鍗曠殑toast鎻愮ず
+            // 姭撻柛佹礈堟唸oast圭粯鍔妵?
             const toast = document.createElement('div');
             toast.style.cssText = `
                 position: fixed;
@@ -560,7 +560,7 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        // 妯℃嫙鍙戦€佹秷鎭?
+        // ☆垪鍓濈氭瑩宕ｉ幋锔瑰啸?
         let currentConversationId = null;
         
         function sendMessage() {
@@ -569,14 +569,14 @@
             
             if (!content) return;
             
-            // 娣诲姞鍒版秷鎭垪琛?
+            // 烇綀ф慨鐐哄礆楀牏啸诡収鍨伴顏偘?
             const messagesList = document.getElementById('messagesList');
             const messageDiv = document.createElement('div');
             messageDiv.className = 'message own';
             messageDiv.innerHTML = `
                 <div class="message-content">
                     <div class="message-bubble">${escapeHtml(content)}</div>
-                    <div class="message-time">鍒氬垰</div>
+                    <div class="message-time">告帗鑹鹃?/div>
                 </div>
             `;
             messagesList.appendChild(messageDiv);
@@ -592,13 +592,13 @@
             return div.innerHTML;
         }
         
-        // 杈撳叆妗嗚嚜鍔ㄨ皟鏁撮珮搴?
+        // 閺夊牊崣鍡楊浖艾娈伴柛鏂诲姀ㄧ喖幘顔蒋?
         document.getElementById('messageInput')?.addEventListener('input', function() {
             this.style.height = 'auto';
             this.style.height = Math.min(this.scrollHeight, 120) + 'px';
         });
         
-        // 鍥炶溅鍙戦€?
+        // 搞儳犲┃鍛村达腹?
         document.getElementById('messageInput')?.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -608,4 +608,5 @@
     </script>
 </body>
 </html>
+
 

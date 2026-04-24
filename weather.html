@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>澶╂皵鏌ヨ - 鏇村鍔熻兘</title>
+    <title>濠㈠灈鏅滈惃鐢稿蓟閵夘煈鍤?- 哄洦娼欓ˇ鍧楀礉旇鍘?/title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         body {
@@ -275,25 +275,25 @@
 </head>
 <body>
     <div class="weather-container">
-        <h1>馃尋锔?澶╂皵鏌ヨ</h1>
+        <h1>妫啫鐨ㄩ柨?濠㈠灈鏅滈惃鐢稿蓟閵夘煈鍤?/h1>
         
         <div class="weather-search-section">
-            <input type="text" id="weatherSearchInput" class="weather-search-input" placeholder="杈撳叆鍩庡競鍚嶇О鎴栭偖缂?..">
-            <button id="weatherSearchBtn" class="weather-search-btn">馃攳 鏌ヨ澶╂皵</button>
+            <input type="text" id="weatherSearchInput" class="weather-search-input" placeholder="閺夊牊崣鍡涘春鎼达紕顏抽柛琚ㄩ瀛樼墵嬫牜绱?..">
+            <button id="weatherSearchBtn" class="weather-search-btn">妫啯鏁?哄被撮佸緞哄倻姣?/button>
         </div>
         
         <div class="weather-location-list">
-            <button class="weather-location-btn active" data-city="鍖椾含">鍖椾含</button>
-            <button class="weather-location-btn" data-city="涓婃捣">涓婃捣</button>
-            <button class="weather-location-btn" data-city="骞垮窞">骞垮窞</button>
-            <button class="weather-location-btn" data-city="娣卞湷">娣卞湷</button>
-            <button class="weather-location-btn" data-city="鎴愰兘">鎴愰兘</button>
-            <button class="weather-location-btn" data-city="鏉窞">鏉窞</button>
+            <button class="weather-location-btn active" data-city="告牗銇為崥?>告牗銇為崥?/button>
+            <button class="weather-location-btn" data-city="挸锕幑?>挸锕幑?/button>
+            <button class="weather-location-btn" data-city="犵偛鐏濈粣?>犵偛鐏濈粣?/button>
+            <button class="weather-location-btn" data-city="烇絽宕﹢?>烇絽宕﹢?/button>
+            <button class="weather-location-btn" data-city="瑰瓨鍔欓崗?>瑰瓨鍔欓崗?/button>
+            <button class="weather-location-btn" data-city="哄鍘肩粣?>哄鍘肩粣?/button>
         </div>
         
         <div id="weatherLoading" class="weather-loading">
             <div class="weather-loading-spinner"></div>
-            <p>姝ｅ湪鑾峰彇澶╂皵鏁版嵁...</p>
+            <p>繐绲藉﹢顏堟嚔瀹勬澘绲垮鍨涙櫆ㄧ敻悧濈ウ...</p>
         </div>
         
         <div id="weatherError" class="weather-error"></div>
@@ -304,7 +304,7 @@
                     <div id="weatherCityName" class="weather-city-name"></div>
                     <div id="weatherDate" class="weather-date"></div>
                 </div>
-                <button id="weatherRefreshBtn" class="weather-search-btn">馃攧 鍒锋柊</button>
+                <button id="weatherRefreshBtn" class="weather-search-btn">妫啯鏁?告帡鏀遍弻?/button>
             </div>
             
             <div class="weather-main">
@@ -312,38 +312,38 @@
                     <div id="weatherTemperature" class="weather-temperature"></div>
                     <div id="weatherDescription" class="weather-description"></div>
                 </div>
-                <img id="weatherIcon" class="weather-icon" src="" alt="澶╂皵鍥炬爣">
+                <img id="weatherIcon" class="weather-icon" src="" alt="濠㈠灈鏅滈惃鐢稿炊愵剛鍨?>
             </div>
             
             <div class="weather-details">
                 <div class="weather-detail-item">
-                    <div class="weather-detail-icon">馃挩</div>
+                    <div class="weather-detail-icon">妫啯灏?/div>
                     <div class="weather-detail-content">
-                        <div class="weather-detail-label">椋庨€?/div>
+                        <div class="weather-detail-label">濡炲閰ｉ埀?/div>
                         <div id="weatherWindSpeed" class="weather-detail-value"></div>
                     </div>
                 </div>
                 
                 <div class="weather-detail-item">
-                    <div class="weather-detail-icon">馃挧</div>
+                    <div class="weather-detail-icon">妫啯灏?/div>
                     <div class="weather-detail-content">
-                        <div class="weather-detail-label">婀垮害</div>
+                        <div class="weather-detail-label">犫偓喖顔?/div>
                         <div id="weatherHumidity" class="weather-detail-value"></div>
                     </div>
                 </div>
                 
                 <div class="weather-detail-item">
-                    <div class="weather-detail-icon">馃尅锔?/div>
+                    <div class="weather-detail-icon">妫啫鐨￠柨?/div>
                     <div class="weather-detail-content">
-                        <div class="weather-detail-label">姘斿帇</div>
+                        <div class="weather-detail-label">ɑ鏌ㄧ敮?/div>
                         <div id="weatherPressure" class="weather-detail-value"></div>
                     </div>
                 </div>
                 
                 <div class="weather-detail-item">
-                    <div class="weather-detail-icon">馃憗锔?/div>
+                    <div class="weather-detail-icon">妫啯戦柨?/div>
                     <div class="weather-detail-content">
-                        <div class="weather-detail-label">鑳借搴?/div>
+                        <div class="weather-detail-label">煎啿鈧噥娼岄幖?/div>
                         <div id="weatherVisibility" class="weather-detail-value"></div>
                     </div>
                 </div>
@@ -351,8 +351,9 @@
         </div>
     </div>
     
-    <a href="features.html" class="back-btn">杩斿洖鏇村鍔熻兘</a>
+    <a href="features.html" class="back-btn">閺夆晜鏌ú鏍即閺夋埈柛鏃傚?/a>
     
     <script src="js/weather.js"></script>
 </body>
 </html>
+

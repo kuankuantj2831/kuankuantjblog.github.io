@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple QR Code Generator</title>
+    <!-- 曞叆 qrcode.js ?-->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -129,34 +131,21 @@
             const canvas = document.createElement('canvas');
             canvas.width = size;
             canvas.height = size;
-            const ctx = canvas.getContext('2d');
             
-            ctx.fillStyle = background;
-            ctx.fillRect(0, 0, size, size);
-            
-            ctx.fillStyle = foreground;
-            const moduleSize = Math.floor(size / 25);
-            
-            drawPositionPattern(ctx, moduleSize * 3, moduleSize * 3, moduleSize * 7);
-            drawPositionPattern(ctx, size - moduleSize * 10, moduleSize * 3, moduleSize * 7);
-            drawPositionPattern(ctx, moduleSize * 3, size - moduleSize * 10, moduleSize * 7);
-            
-            for (let y = moduleSize * 8; y < size - moduleSize * 8; y += moduleSize * 2) {
-                for (let x = moduleSize * 8; x < size - moduleSize * 8; x += moduleSize * 3) {
-                    ctx.fillRect(x, y, moduleSize, moduleSize);
-                }
-            }
-            
-            const encodedData = encodeData(content);
-            let index = 0;
-            
-            for (let y = moduleSize * 10; y < size - moduleSize * 10; y += moduleSize) {
-                for (let x = moduleSize * 10; x < size - moduleSize * 10; x += moduleSize) {
-                    if (index < encodedData.length && encodedData[index] === 1) {
-                        ctx.fillRect(x, y, moduleSize, moduleSize);
-                    }
-                    index++;
-                }
+            // 浣跨敤 qrcodejs 敓鎴愪簩寸爜
+            try {
+                const qr = new QRCode(canvas, {
+                    text: content,
+                    width: size,
+                    height: size,
+                    colorDark: foreground,
+                    colorLight: background,
+                    correctLevel: level === 'L' ? QRCode.CorrectLevel.L : 
+                                   level === 'M' ? QRCode.CorrectLevel.M : 
+                                   level === 'Q' ? QRCode.CorrectLevel.Q : QRCode.CorrectLevel.H
+                });
+            } catch (error) {
+                console.error('QR Code generation error:', error);
             }
             
             console.log('QR code generated');
@@ -171,7 +160,7 @@
                 const content = document.getElementById('content').value;
                 
                 const testResult1 = document.createElement('div');
-                testResult1.innerHTML = `<strong>1. Input Validation:</strong> ${content ? '鉁?Valid content' : '鉁?Empty content'}`;
+                testResult1.innerHTML = `<strong>1. Input Validation:</strong> ${content ? 'Valid content' : 'Empty content'}`;
                 resultsDiv.appendChild(testResult1);
                 
                 if (!content) {
@@ -192,7 +181,7 @@
                 qrCodeCanvas.getContext('2d').drawImage(canvas, 0, 0);
                 
                 const testResult2 = document.createElement('div');
-                testResult2.innerHTML = `<strong>2. QR Code Generation:</strong> 鉁?Success - ${canvas.width}x${canvas.height}`;
+                testResult2.innerHTML = `<strong>2. QR Code Generation:</strong> Success - ${canvas.width}x${canvas.height}`;
                 resultsDiv.appendChild(testResult2);
                 
             } catch (error) {
@@ -201,7 +190,7 @@
                 errorDiv.textContent = `Error: ${error.message}`;
                 
                 const testResult3 = document.createElement('div');
-                testResult3.innerHTML = `<strong>3. Error:</strong> 鉁?${error.message}`;
+                testResult3.innerHTML = `<strong>3. Error:</strong> ${error.message}`;
                 resultsDiv.appendChild(testResult3);
             }
         });
@@ -222,3 +211,4 @@
     </script>
 </body>
 </html>
+

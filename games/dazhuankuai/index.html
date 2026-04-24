@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鎵撶爾鍧楁父鎴?/title>
+    <title>瑰灚剧埇鏋堕箖宕稿Δ浣哄煑?/title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -13,33 +13,33 @@
         <header>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <button onclick="window.location.href='../../games.html'" class="btn btn-small" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                    <i class="fas fa-home"></i> 杩斿洖涓婚〉
+                    <i class="fas fa-home"></i> 閺夆晜鏌ú鏍ㄧ▔犳哎鈧?
                 </button>
                 <button onclick="window.location.href='../../games.html#leaderboard'" class="btn btn-small" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 6px;">
-                    <i class="fas fa-trophy"></i> 鎺掕姒?
+                    <i class="fas fa-trophy"></i> 圭儤甯熼、鎴濐潡?
                 </button>
             </div>
-            <h1><i class="fas fa-gamepad"></i> 鎵撶爾鍧?/h1>
-            <p class="subtitle">浣跨敤 HTML5 Canvas 鍜?JavaScript 鏋勫缓鐨勭粡鍏歌鏈烘父鎴?/p>
+            <h1><i class="fas fa-gamepad"></i> 瑰灚剧埇鏋堕箖宕?/h1>
+            <p class="subtitle">达綀娉曢弫?HTML5 Canvas ?JavaScript 哄瀚紓鎾绘儍曨厾鐥呴柛蹇旂摃㈡粓悜煎煑?/p>
         </header>
 
         <div class="game-area">
             <div class="stats-panel">
                 <div class="stat">
-                    <span class="stat-label"><i class="fas fa-heart"></i> 鐢熷懡:</span>
+                    <span class="stat-label"><i class="fas fa-heart"></i> 汇垻鍠幊?</span>
                     <span id="lives" class="stat-value">3</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-label"><i class="fas fa-star"></i> 鍒嗘暟:</span>
+                    <span class="stat-label"><i class="fas fa-star"></i> 告帒妫欓弳?</span>
                     <span id="score" class="stat-value">0</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-label"><i class="fas fa-layer-group"></i> 鍏冲崱:</span>
+                    <span class="stat-label"><i class="fas fa-layer-group"></i> 稿繐垮畷?</span>
                     <span id="level" class="stat-value">1</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-label"><i class="fas fa-tachometer-alt"></i> 閫熷害:</span>
-                    <span id="speed" class="stat-value">鏅€?/span>
+                    <span class="stat-label"><i class="fas fa-tachometer-alt"></i> 闂偆鍠?</span>
+                    <span id="speed" class="stat-value">哄拋鍣ｉ埀?/span>
                 </div>
             </div>
 
@@ -47,54 +47,54 @@
                 <canvas id="gameCanvas" width="800" height="500"></canvas>
                 <div id="gameOverlay" class="overlay">
                     <div class="overlay-content">
-                        <h2 id="overlayTitle">鍑嗗濂戒簡鍚楋紵</h2>
-                        <p id="overlayText">鐐瑰嚮寮€濮嬫父鎴忥紒</p>
-                        <button id="startButton" class="btn btn-start"><i class="fas fa-play"></i> 寮€濮嬫父鎴?/button>
-                        <button id="pauseButton" class="btn btn-pause hidden"><i class="fas fa-pause"></i> 鏆傚仠</button>
-                        <button id="restartButton" class="btn btn-restart"><i class="fas fa-redo"></i> 閲嶆柊寮€濮?/button>
+                        <h2 id="overlayTitle">告垵妫ˇ附存帞婇柛殣?/h2>
+                        <p id="overlayText">绘劗鎳撻崵顔碱嚕剚鎱ㄧｎ偆戦獜?/p>
+                        <button id="startButton" class="btn btn-start"><i class="fas fa-play"></i> 殿喒┑顔碱儐爬架曞箣?/button>
+                        <button id="pauseButton" class="btn btn-pause hidden"><i class="fas fa-pause"></i> 哄棗告禒?/button>
+                        <button id="restartButton" class="btn btn-restart"><i class="fas fa-redo"></i> 闂佹彃绉弻濠傤嚕剚鎱?/button>
                     </div>
                 </div>
             </div>
 
             <div class="controls">
                 <div class="control-group">
-                    <h3><i class="fas fa-keyboard"></i> 鎺у埗鏂瑰紡</h3>
-                    <p><strong>榧犳爣绉诲姩</strong> 鈥?鎺у埗鎸℃澘宸﹀彸绉诲姩</p>
-                    <p><strong>榧犳爣宸﹂敭</strong> 鈥?鍙戝皠灏忕悆</p>
-                    <p><strong>Enter閿?/strong> 鈥?鏆傚仠 / 缁х画娓告垙</p>
+                    <h3><i class="fas fa-keyboard"></i> 矇鍐ㄧ厬哄倻鎳?/h3>
+                    <p><strong>捬呭У爬架锝矓彃袟</strong> ?矇鍐ㄧ厬圭硶鍓侯啅閿曗偓瑜板摜绮旂拠鎻捫?/p>
+                    <p><strong>捬呭У爬架锝咁啅閿曞倹鏆?/strong> ?告瑦鍨惃鐘典焊韫洘?/p>
+                    <p><strong>Enter闂?/strong> ?哄棗告禒?/ 備綀鍛暰炴挸鎲￠?/p>
                 </div>
                 <div class="control-group">
-                    <h3><i class="fas fa-sliders-h"></i> 娓告垙璁剧疆</h3>
+                    <h3><i class="fas fa-sliders-h"></i> 游戏开发媼撗呮瀭</h3>
                     <div class="slider-container">
-                        <label for="volumeSlider">闊抽噺 <i class="fas fa-volume-up"></i></label>
+                        <label for="volumeSlider">闂傚﹥婇崳?<i class="fas fa-volume-up"></i></label>
                         <input type="range" id="volumeSlider" min="0" max="100" value="80">
                     </div>
                     <div class="slider-container">
-                        <label for="difficultySlider">闅惧害 <i class="fas fa-cogs"></i></label>
+                        <label for="difficultySlider">闂傚懏?<i class="fas fa-cogs"></i></label>
                         <input type="range" id="difficultySlider" min="1" max="5" value="3">
                     </div>
-                    <button id="muteButton" class="btn btn-small"><i class="fas fa-volume-mute"></i> 闈欓煶</button>
+                    <button id="muteButton" class="btn btn-small"><i class="fas fa-volume-mute"></i> 闂傚牊╅悡?/button>
                 </div>
             </div>
         </div>
 
         <div class="instructions">
-            <h3><i class="fas fa-info-circle"></i> 娓告垙璇存槑</h3>
+            <h3><i class="fas fa-info-circle"></i> 游戏开发嫚涙ɑ顫?/h3>
             <ul>
-                <li>浣跨敤鎸℃澘鍙嶅脊灏忕悆锛屽嚮纰庢墍鏈夌爾鍧椼€?/li>
-                <li>姣忓嚮纰庝竴涓爾鍧楄幏寰楀垎鏁般€?/li>
-                <li>涓嶈璁╁皬鐞冩帀钀藉埌鎸℃澘涓嬫柟锛屽惁鍒欎細鎹熷け涓€鏉＄敓鍛姐€?/li>
-                <li>娓呴櫎鎵€鏈夌爾鍧楄繘鍏ヤ笅涓€鍏炽€?/li>
-                <li>鐗规畩鐮栧潡鍏锋湁鐗规畩鏁堟灉锛堝姞閫熴€侀澶栫敓鍛界瓑锛夈€?/li>
+                <li>达綀娉曢弫夊箰╁啯绶查柛娆忕Т村﹦浜歌箛鏇熷栭柨樿嫰ゎ喚鍠婃惔銏狀暡哄牆顦辩埇鏋堕箖宕稿灏栧?/li>
+                <li>絽绻愰崵顔枈鎼存繄顏卞簽爬架楣冨锤濡ゅ绠电増顨呴极割?/li>
+                <li>挸绉烽々锔炬媼轰姣堥鐐插暞鐢偓解偓閽樺鐓傞绯曞墲濠㈡ɑ绋夌ｎ偅鐓欓柨樿嫰線宕氬▎獥瑰鍠妵鎴炵▔剟堕敍鍕櫢告稑顫曢埀?/li>
+                <li>炴挸鎳樺▍箥剟垫径柛褎顨夌换姗宕妷憮撻柛蹇曞仺?/li>
+                <li>绘顫夐悾鈺呮儘閺嵮仴稿繘鏀卞﹢鎮х憴鍕殨轰礁鐗婇悘愭晬繂顫ｉ梺顐ゅ枂兛绶氶·鍌涘緞閺嶎偅鏅柛氭櫕垿鏁嶆径氬?/li>
             </ul>
         </div>
 
         <footer>
-            <p>浣跨敤 <i class="fas fa-heart" style="color:#e74c3c;"></i> 鍒朵綔 | &copy; 2023 鎵撶爾鍧楁父鎴?/p>
+            <p>达綀娉曢弫?<i class="fas fa-heart" style="color:#e74c3c;"></i> 告帗婀圭紞?| &copy; 2023 瑰灚剧埇鏋堕箖宕稿Δ浣哄煑?/p>
         </footer>
     </div>
 
-    <!-- 闊虫晥鍏冪礌 -->
+    <!-- 闂傚﹨娅曢弲銉╁礂愵顦?-->
     <audio id="bounceSound" src="assets/sounds/bounce.wav" preload="auto"></audio>
     <audio id="breakSound" src="assets/sounds/break.wav" preload="auto"></audio>
     <audio id="gameOverSound" src="assets/sounds/gameover.wav" preload="auto"></audio>
@@ -103,3 +103,4 @@
     <script src="game.js"></script>
 </body>
 </html>
+

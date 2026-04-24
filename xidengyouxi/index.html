@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鐔勭伅娓告垙 - Lights Out</title>
+    <title>绘柨瀚导鍛掗崨濠傜 - Lights Out</title>
     <script src="../js/polyfill.js"></script>
     <style>
         * {
@@ -26,7 +26,7 @@
             padding: 20px 0;
         }
 
-        /* 鑳屾櫙鏄熸槦鏁堟灉 */
+        /* 煎啿鏈▍娆及斿憡袝轰礁鐗婇悘?*/
         .stars {
             position: fixed;
             top: 0;
@@ -249,7 +249,7 @@
             border-color: rgba(255, 200, 50, 0.4);
         }
 
-        /* 鑳滃埄寮圭獥 */
+        /* 艰櫕绮岄崺鍕嚕︻厾宕?*/
         .modal-overlay {
             display: none;
             position: fixed;
@@ -340,14 +340,14 @@
             margin-top: 15px;
         }
 
-        /* 鍏冲崱閫夋嫨 */
+        /* 稿繐垮畷閬嶆焻跺顏?*/
         .level-info {
             font-size: 0.85rem;
             color: #8888aa;
             margin-bottom: 5px;
         }
 
-        /* 鍝嶅簲寮?*/
+        /* 告繂绉寸花鎻掝嚕?*/
         @media (max-width: 500px) {
             h1 { font-size: 1.8rem; }
             .cell { width: 55px; height: 55px; }
@@ -362,72 +362,72 @@
     </style>
 </head>
 <body>
-    <!-- 鏄熸槦鑳屾櫙 -->
+    <!-- 哄鍠愬Σ锕傛嚄鐏炵偓鐝?-->
     <div class="stars" id="stars"></div>
 
     <div class="game-container">
-        <h1>鉁?鐔勭伅娓告垙</h1>
-        <p class="subtitle">鐐瑰嚮鏍煎瓙鍒囨崲瀹冨拰鐩搁偦鏍煎瓙鐨勭姸鎬侊紝灏嗘墍鏈夌伅鐔勭伃鍗冲彲杩囧叧锛?/p>
+        <h1>?绘柨瀚导鍛掗崨濠傜</h1>
+        <p class="subtitle">绘劗鎳撻崵介悡ｆ憤告帒娲畷鑼偓板暙蜂即鎯勯幖浣镐桓哄秶鍘悺娆撴儍曨厼诡兛绶ょ堜焊ê顣查柡濐槺煎懘鎮顓濈磾告胯ぐ鍙夋交パ冨綘?/p>
 
         <div class="info-bar">
             <div class="info-item">
-                <span class="icon">馃幆</span>
-                <span>鍏冲崱</span>
+                <span class="icon">妫啫绠?/span>
+                <span>稿繐垮畷?/span>
                 <span class="value" id="levelDisplay">1</span>
             </div>
             <div class="info-item">
-                <span class="icon">馃憜</span>
-                <span>姝ユ暟</span>
+                <span class="icon">妫啯?/span>
+                <span>縿查弳?/span>
                 <span class="value" id="movesDisplay">0</span>
             </div>
             <div class="info-item">
-                <span class="icon">鈴憋笍</span>
-                <span>鏃堕棿</span>
+                <span class="icon">冲瓨鍞?/span>
+                <span>哄啫鐖煎Λ?/span>
                 <span class="value" id="timeDisplay">0s</span>
             </div>
         </div>
 
         <div class="size-selector">
-            <button class="size-btn active" data-size="3">3脳3</button>
-            <button class="size-btn" data-size="4">4脳4</button>
-            <button class="size-btn" data-size="5">5脳5</button>
-            <button class="size-btn" data-size="6">6脳6</button>
-            <button class="size-btn" data-size="7">7脳7</button>
+            <button class="size-btn active" data-size="3">3?</button>
+            <button class="size-btn" data-size="4">4?</button>
+            <button class="size-btn" data-size="5">5?</button>
+            <button class="size-btn" data-size="6">6?</button>
+            <button class="size-btn" data-size="7">7?</button>
         </div>
 
         <div class="board" id="board"></div>
 
         <div class="controls">
-            <button class="btn btn-primary" onclick="newGame()">馃攧 鏂版父鎴?/button>
-            <button class="btn btn-secondary" onclick="resetGame()">鈫╋笍 閲嶇疆</button>
-            <button class="btn btn-secondary" id="hintBtn" onclick="showHint()">馃挕 鎻愮ず</button>
+            <button class="btn btn-primary" onclick="newGame()">妫啯鏁?哄倻澧楃埇鏋跺爼骞?/button>
+            <button class="btn btn-secondary" onclick="resetGame()">愁偀鏅?闂佹彃绉堕悿?/button>
+            <button class="btn btn-secondary" id="hintBtn" onclick="showHint()">妫啯?圭粯鍔妵?/button>
         </div>
 
         <p class="level-info" id="levelInfo"></p>
     </div>
 
-    <!-- 鑳滃埄寮圭獥 -->
+    <!-- 艰櫕绮岄崺鍕嚕︻厾宕?-->
     <div class="modal-overlay" id="winModal">
         <div class="modal">
-            <div class="trophy">馃弳</div>
-            <h2>鎭枩杩囧叧锛?/h2>
-            <p id="winMessage">浣犳垚鍔熺唲鐏簡鎵€鏈夌殑鐏紒</p>
+            <div class="trophy">妫啫姹?/div>
+            <h2>诡収鍘奸弸鈺傛交パ冨綘?/h2>
+            <p id="winMessage">达絿跺礉斿搫鏁抽蹇幒骞埀嫉跺本鐣遍蹇灲?/p>
             <div class="stats">
                 <div class="stat">
                     <div class="num" id="winMoves">0</div>
-                    <div class="label">姝ユ暟</div>
+                    <div class="label">縿查弳?/div>
                 </div>
                 <div class="stat">
                     <div class="num" id="winTime">0s</div>
-                    <div class="label">鐢ㄦ椂</div>
+                    <div class="label">活潿鍔嶅?/div>
                 </div>
             </div>
-            <button class="btn btn-primary" onclick="nextLevel()">鈻讹笍 涓嬩竴鍏?/button>
+            <button class="btn btn-primary" onclick="nextLevel()">虫槒顔愮?挸粩鎾礂?/button>
         </div>
     </div>
 
     <script>
-        // ============ 娓告垙鐘舵€?============
+        // ============ 游戏开发撴偐哥?============
         let boardSize = 3;
         let board = [];
         let initialBoard = [];
@@ -438,14 +438,14 @@
         let gameWon = false;
         let solution = [];
 
-        // ============ 鍒濆鍖?============
+        // ============ 告帗绻傞～鎰板礌?============
         function init() {
             createStars();
             setupSizeButtons();
             newGame();
         }
 
-        // 鍒涘缓鏄熸槦鑳屾櫙
+        // 告帗绋紓鎾诲及斿憡袝煎啿鏈▍?
         function createStars() {
             const container = document.getElementById('stars');
             for (let i = 0; i < 80; i++) {
@@ -460,7 +460,7 @@
             }
         }
 
-        // 璁剧疆灏哄鎸夐挳
+        // 犱礁澧介悿鍡欎焊嫷鍤熼绋款樀?
         function setupSizeButtons() {
             document.querySelectorAll('.size-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
@@ -473,25 +473,25 @@
             });
         }
 
-        // ============ 娓告垙閫昏緫 ============
+        // ============ 游戏开发撴焻閺繒甯?============
 
-        // 鐢熸垚鍙В鐨勮皽棰?
+        // 汇垻鍠愰跺栨粳鎺楁儍曨喚姣ュΛ?
         function generateSolvablePuzzle() {
-            // 浠庡叏鐏姸鎬佸紑濮嬶紝闅忔満鐐瑰嚮鑻ュ共鏍煎瓙鏉ョ敓鎴愯皽棰?
-            // 杩欐牱淇濊瘉涓€瀹氭湁瑙?
+            // 寸姴楠崣蹇涙倶姴诡兛鎴炴叏墎夐梻鍛箲濠р偓绘劗鎳撻崵鎳熼妷銉ュ彙哄秶鍘悺娆閵壯勬櫢瑰瓨鍔橀惃鑺ワ紣?
+            // 閺夆晜悧杈ㄧ┍濠靛﹦妲堝鎾庤纰嶅﹢浣烘喆?
             board = Array.from({ length: boardSize }, () => Array(boardSize).fill(false));
             
-            // 鏍规嵁鍏冲崱鍜屾鐩樺ぇ灏忓喅瀹氱偣鍑绘鏁?
+            // 哄秷顫夊畵宕崘鎻掑耿告粌鏈ˉ鎰版儎濡亽浜ｉ悘蹇箰犲懐鈧ㄩ崑锝夊礄佹﹩柡?
             const minClicks = Math.min(level + 1, Math.floor(boardSize * boardSize * 0.6));
             const maxClicks = Math.min(level + 3, boardSize * boardSize);
             const numClicks = Math.min(minClicks + Math.floor(Math.random() * 3), maxClicks);
             
-            // 璁板綍瑙ｆ硶锛堣鐐瑰嚮鐨勬牸瀛愶級
+            // 犱焦樼紞宥喆閿棛銆婇柨樼墣箓鎮欓悷挎瘖汇瀚悧鍝モ偓欏姧?
             const clicked = Array.from({ length: boardSize }, () => Array(boardSize).fill(false));
             
             for (let i = 0; i < numClicks; i++) {
                 let r, c;
-                // 灏濊瘯鎵句竴涓繕娌＄偣杩囩殑鏍煎瓙
+                // 繑绻嗛惁顖炲箥欍儳顏卞海绘洖鈻介敍鍕化閺夆晛娲▓鎴冀海鎽?
                 let attempts = 0;
                 do {
                     r = Math.floor(Math.random() * boardSize);
@@ -505,17 +505,17 @@
                 }
             }
             
-            // 纭繚涓嶆槸鍏ㄧ伃鐘舵€?
+            // 绢収鍠曠换▔瀹ュ棙稿繈鍔庢导鍐偐哥?
             const hasOn = board.some(row => row.some(cell => cell));
             if (!hasOn) {
-                // 濡傛灉鍏ㄧ伃浜嗭紝闅忔満鐐逛竴涓?
+                // 濠碘冲归悘愬礂閵娧傜磾存粌妫寸嬫⒕韫梹绨氶鎰扳偓氼伇?
                 const r = Math.floor(Math.random() * boardSize);
                 const c = Math.floor(Math.random() * boardSize);
                 clicked[r][c] = !clicked[r][c];
                 toggleCell(r, c, true);
             }
             
-            // 淇濆瓨瑙ｆ硶
+            // 洦绻傞悺銊ф喆閿棛銆?
             solution = [];
             for (let r = 0; r < boardSize; r++) {
                 for (let c = 0; c < boardSize; c++) {
@@ -525,11 +525,11 @@
                 }
             }
             
-            // 淇濆瓨鍒濆鐘舵€?
+            // 洦绻傞悺銊╁礆濠靛棭娼垮煐?
             initialBoard = board.map(row => [...row]);
         }
 
-        // 鍒囨崲鏍煎瓙锛堝強鐩搁偦鏍煎瓙锛?
+        // 告帒娲畷鏌ュ冀海鎽柨樼墕鎯勯幖浣镐桓哄秶鍘悺娆撴晬?
         function toggleCell(row, col, silent = false) {
             const directions = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1]];
             directions.forEach(([dr, dc]) => {
@@ -541,11 +541,11 @@
             });
         }
 
-        // 鐐瑰嚮澶勭悊
+        // 绘劗鎳撻崵顔藉緞曨厽?
         function handleClick(row, col) {
             if (gameWon) return;
             
-            // 寮€濮嬭鏃?
+            // 殿喒┑顔碱儓撴悂?
             if (moves === 0 && !timer) {
                 startTimer();
             }
@@ -553,7 +553,7 @@
             toggleCell(row, col);
             moves++;
             
-            // 娣诲姞鍔ㄧ敾
+            // 烇綀ф慨鐐哄礉閵娧勬毎
             const directions = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1]];
             directions.forEach(([dr, dc]) => {
                 const nr = row + dr;
@@ -572,7 +572,7 @@
             checkWin();
         }
 
-        // 妫€鏌ユ槸鍚﹁儨鍒?
+        // ☆偀撻柡灞诲劜濡叉悂宕敃浣稿姀?
         function checkWin() {
             const allOff = board.every(row => row.every(cell => !cell));
             if (allOff) {
@@ -582,13 +582,13 @@
             }
         }
 
-        // ============ 娓叉煋 ============
+        // ============ 炴挸堕悡?============
 
         function renderBoard() {
             const boardEl = document.getElementById('board');
             boardEl.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
             
-            // 濡傛灉鏍煎瓙鏁伴噺涓嶅锛岄噸鏂板垱寤?
+            // 濠碘冲归悘愬冀海鎽柡浣嵆儤绋夊鍜佸殸挎稑鐭傞崳鎼佸棘閺夊灝鐏＄?
             if (boardEl.children.length !== boardSize * boardSize) {
                 boardEl.innerHTML = '';
                 for (let r = 0; r < boardSize; r++) {
@@ -603,7 +603,7 @@
                 }
             }
             
-            // 鏇存柊鐘舵€?
+            // 哄洤鐡ㄩ弻濠偐哥?
             for (let r = 0; r < boardSize; r++) {
                 for (let c = 0; c < boardSize; c++) {
                     const cell = document.querySelector(`[data-row="${r}"][data-col="${c}"]`);
@@ -620,7 +620,7 @@
             document.getElementById('levelDisplay').textContent = level;
         }
 
-        // ============ 璁℃椂鍣?============
+        // ============ 犱讲鍓鍌炲闯?============
 
         function startTimer() {
             seconds = 0;
@@ -644,7 +644,7 @@
             return m + 'm' + (sec > 0 ? sec + 's' : '');
         }
 
-        // ============ 娓告垙鎺у埗 ============
+        // ============ 游戏开发箳瑜崺?============
 
         function newGame() {
             gameWon = false;
@@ -659,7 +659,7 @@
             
             const onCount = board.flat().filter(c => c).length;
             document.getElementById('levelInfo').textContent = 
-                `妫嬬洏 ${boardSize}脳${boardSize} | 浜伅鏁?${onCount} | 鏈€灏?${solution.length} 姝ュ彲瑙;
+                `☆囧ú?${boardSize}?{boardSize} | 存粠鍠氭导鍛村极?${onCount} | 哄牃撻悘?${solution.length} 縿辫ぐ鑼喆?
         }
 
         function resetGame() {
@@ -679,20 +679,20 @@
             newGame();
         }
 
-        // ============ 鎻愮ず绯荤粺 ============
+        // ============ 圭粯鍔妵卞寲姐倗?============
 
         function showHint() {
             if (gameWon || solution.length === 0) return;
             
-            // 浣跨敤楂樻柉娑堝厓娉曟眰瑙ｅ綋鍓嶆鐩樼姸鎬?
+            // 达綀娉曢弫嗩殗濡粯鐒挎繛鎴濈墕樻挸鈻旈弴鐔烘勾熸瑱绲界紞瀣礈瀹ュ棭妫鈺傤焽悂骞?
             const currentSolution = solveBoard();
             
             if (currentSolution.length === 0) {
-                document.getElementById('levelInfo').textContent = '褰撳墠鐘舵€佹棤瑙ｏ紝璇烽噸缃父鎴?;
+                document.getElementById('levelInfo').textContent = '滅増告晶鐘绘偐哥撴担勶骏熸瑱缍堟嫚戣棄娅紓鍐枟爬架曞箣?;
                 return;
             }
             
-            // 楂樹寒绗竴涓渶瑕佺偣鍑荤殑鏍煎瓙
+            // 濡ゅ倹眉垫帞绮璺伇搩浜〒鍓佹啺搫柛鎴吹堟垿介悡ｆ憤
             const [r, c] = currentSolution[0];
             const cell = document.querySelector(`[data-row="${r}"][data-col="${c}"]`);
             if (cell) {
@@ -705,16 +705,16 @@
             }
             
             document.getElementById('levelInfo').textContent = 
-                `馃挕 鎻愮ず锛氳繕闇€瑕?${currentSolution.length} 姝;
+                `妫啯?圭粯鍔妵舵晬樺磭绠烽梻鍥?${currentSolution.length} 繍娅?
         }
 
-        // 楂樻柉娑堝厓娉曟眰瑙ｏ紙GF(2)涓婏級
+        // 濡ゅ倹蓱閺屽鈽夐崼笚炲娲橀惇鎵喆閿繒凣F(2)挸顭?
         function solveBoard() {
             const n = boardSize;
             const total = n * n;
             
-            // 鏋勫缓澧炲箍鐭╅樀
-            // 姣忎釜鍙橀噺瀵瑰簲涓€涓牸瀛愶紝鏂圭▼琛ㄧず姣忎釜鏍煎瓙鏈€缁堢姸鎬佷负0
+            // 哄瀚紓鎾存櫠愯尙鐣顓涙櫊濡偓
+            // 絽绻堝椻偓ｈ櫣鈧數鎳花鍙夌▔剚绋夐鍛庢稒鍔х棘︻厸鏌ら悶栧妿閵艾袙韫囧酣鍤柡宥囧帶瑩埀傜磼垹诡兛妞掔拹?
             const matrix = [];
             
             for (let i = 0; i < total; i++) {
@@ -722,7 +722,7 @@
                 const r = Math.floor(i / n);
                 const c = i % n;
                 
-                // 鐐瑰嚮鍝簺鏍煎瓙浼氬奖鍝嶆牸瀛?r,c)
+                // 绘劗鎳撻崵宕鍐槀哄秶鍘悺娆愬橆顨涢柛嗙У楀摜鈧?r,c)
                 const directions = [[0, 0], [-1, 0], [1, 0], [0, -1], [0, 1]];
                 directions.forEach(([dr, dc]) => {
                     const nr = r + dr;
@@ -732,16 +732,16 @@
                     }
                 });
                 
-                // 鍙充晶涓哄綋鍓嶇姸鎬侊紙闇€瑕佺炕杞殑锛?
+                // 告瑥鍘栭弲鑸电▔绉奸柛鎾悂骞娓氬﹦勯梻鍥熸洑鑳堕悙鏇熸姜掑倹鐣遍柨?
                 row[total] = board[r][c] ? 1 : 0;
                 matrix.push(row);
             }
             
-            // 楂樻柉娑堝厓
+            // 濡ゅ倹蓱閺屽鈽夐崼笚
             const pivotCol = new Array(total).fill(-1);
             let col = 0;
             for (let row = 0; row < total && col < total; col++) {
-                // 鎵句富鍏?
+                // 归潧褰炵靛矂宕?
                 let pivotRow = -1;
                 for (let i = row; i < total; i++) {
                     if (matrix[i][col] === 1) {
@@ -751,11 +751,11 @@
                 }
                 if (pivotRow === -1) continue;
                 
-                // 浜ゆ崲琛?
+                // 存嚎栧畷鑼偘?
                 [matrix[row], matrix[pivotRow]] = [matrix[pivotRow], matrix[row]];
                 pivotCol[row] = col;
                 
-                // 娑堝厓
+                // 炴垵鐗嗛崢?
                 for (let i = 0; i < total; i++) {
                     if (i !== row && matrix[i][col] === 1) {
                         for (let j = col; j <= total; j++) {
@@ -766,7 +766,7 @@
                 row++;
             }
             
-            // 鍥炰唬姹傝В
+            // 搞儳橀崬效屾粳?
             const result = new Array(total).fill(0);
             for (let i = 0; i < total; i++) {
                 if (pivotCol[i] !== -1) {
@@ -774,7 +774,7 @@
                 }
             }
             
-            // 鏀堕泦闇€瑕佺偣鍑荤殑鏍煎瓙
+            // 衡偓洘鑲犻梻鍥熸洑鑳堕崑锝夊礄姐倖鐣遍柡宥囧帶?
             const clicks = [];
             for (let i = 0; i < total; i++) {
                 if (result[i] === 1) {
@@ -785,17 +785,17 @@
             return clicks;
         }
 
-        // ============ 寮圭獥 ============
+        // ============ 殿喖婀遍悰?============
 
         function showWinModal() {
             document.getElementById('winMoves').textContent = moves;
             document.getElementById('winTime').textContent = formatTime(seconds);
             
-            let msg = '浣犳垚鍔熺唲鐏簡鎵€鏈夌殑鐏紒';
+            let msg = '达絿跺礉斿搫鏁抽蹇幒骞埀嫉跺本鐣遍蹇灲?;
             if (moves <= solution.length) {
-                msg = '馃専 瀹岀編锛佷綘鐢ㄤ簡鏈€灏戞鏁板畬鎴愶紒';
+                msg = '妫啫鐨?鐬肩欢銊╂晬ｉ绋戦顫妺埀備焊寸儐鍔勯柡浣规緲ｎ剟骞鍓＜';
             } else if (moves <= solution.length * 1.5) {
-                msg = '馃憦 闈炲父妫掞紒鎺ヨ繎鏈€浼樿В锛?;
+                msg = '妫啯?闂傚牏涚埇鏋惰泛螞虹偟纾奸鎭掑劥诲酣埀佸濡晝鎺楁晬?;
             }
             document.getElementById('winMessage').textContent = msg;
             
@@ -806,87 +806,87 @@
             document.getElementById('winModal').classList.remove('show');
         }
 
-        // 鐐瑰嚮寮圭獥澶栭儴鍏抽棴
+        // 绘劗鎳撻崵顔碱嚕︻厾宕跺鑸电墵庢挳宕幎鑺ワ紨
         document.getElementById('winModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) hideWinModal();
         });
 
-        // ============ 鍚姩 ============
+        // ============ 告凹鍨版慨?============
         init();
     </script>
 
-<!-- Win7 Emoji 鍏煎鎬у鐞?-->
+<!-- Win7 Emoji 稿繒鍘鎰板箑瑜ˇ鈺呮偠?-->
 <script>
 (function() {
-    // 妫€娴嬫槸鍚︿负 Windows 7
+    // ☆偀撴繛戭儐濡叉悂宕敂鑳 Windows 7
     function isWindows7() {
         var ua = navigator.userAgent;
         return ua.indexOf('Windows NT 6.1') !== -1 || 
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji 鏇挎崲鏄犲皠琛?
+    // Emoji 哄洦у畷鏌ュ及樿尙娈悶?
     var emojiMap = {
-        "馃惐": "鐚?,
-        "馃彔": "棣栭〉",
-        "馃幃": "娓告垙",
-        "鈽侊笍": "浜?,
-        "鈽€锔?: "澶槼",
-        "鉂わ笍": "鐖卞績",
-        "馃幆": "鍏充簬",
-        "馃挰": "娑堟伅",
-        "馃敂": "閫氱煡",
-        "馃懁": "鐢ㄦ埛",
-        "馃摑": "缂栬緫",
-        "猬嗭笍": "鍗囩骇",
-        "馃柤锔?: "鍥剧墖",
-        "鉁嶏笍": "鍐欎綔",
-        "鈿欙笍": "璁剧疆",
-        "馃毆": "閫€鍑?,
-        "馃挕": "鎻愮ず",
-        "鈿?: "缁忛獙",
-        "馃殌": "鍙戝竷",
-        "馃帠锔?: "绛夌骇",
-        "馃挭": "鍔犳补",
-        "馃敀": "閿佸畾",
-        "馃摐": "鍗忚",
-        "鈫?: "涓?,
-        "鈫?: "涓?,
-        "鈫╋笍": "鎾ら攢",
-        "鉂?: "甯姪",
-        "馃攧": "鍒锋柊",
-        "鈻讹笍": "寮€濮?,
-        "鈴憋笍": "鏃堕棿",
-        "馃帹": "鍒涙剰",
-        "馃捇": "鐢佃剳",
-        "馃摎": "瀛︿範",
-        "馃洝锔?: "鐩剧墝",
-        "鉁堬笍": "椋炴満",
-        "猸?: "鏄熸槦",
-        "馃暪锔?: "鎵嬫焺",
-        "馃摟": "閭",
-        "馃摫": "鎵嬫満",
-        "馃搼": "鐩綍",
-        "馃摝": "鍘嬬缉",
-        "馃搫": "鏂囦欢",
-        "馃摍": "PPT",
-        "馃敡": "宸ュ叿",
-        "馃獧": "纭竵",
-        "馃挵": "閲戝竵",
-        "鉁?: "瀹屾垚",
-        "馃洜锔?: "宸ュ叿",
-        "馃挮": "鏄熷厜",
-        "馃攳": "鎼滅储",
-        "馃摉": "涔︾睄",
-        "馃彿锔?: "鏍囩",
-        "馃棏锔?: "鍒犻櫎"
+        "妫啯?: "?,
+        "妫啫缍?: "濡鐗犻妴?,
+        "妫啫绠?: "炴挸鎲￠?,
+        "虫垝绶ょ?: "?,
+        "宠В撻柨?: "濠浜Σ?,
+        "村倶х?: "绘牕宕缓?,
+        "妫啫绠?: "稿繐鍘栫花?,
+        "妫啯灏?: "炴垵鐗婃导?,
+        "妫啯鏅?: "闂偅ㄩ悡?,
+        "妫啯鍣?: "活潿鍔崺?,
+        "妫啯鎲?: "傚倹鐗炵欢?,
+        "氼妫寸?: "告娲ㄦ?,
+        "妫啯鐓犻柨?: "搞儱澧芥晶?,
+        "翠礁绋?: "告劖ょ紞?,
+        "虫寧辩?: "犱礁澧介悿?,
+        "妫啯鐦?: "闂偀撻柛?,
+        "妫啯?: "圭粯鍔妵?,
+        "?: "備礁绻橀悰?,
+        "妫啯鐣?: "告瑦鍨电粩?,
+        "妫啫绗柨?: "佹稑顦辨?,
+        "妫啯灏?: "告梻电悰?,
+        "妫啯鏅?: "闂佸じ侀悾?,
+        "妫啯鎲?: "告绻?,
+        "?: "?,
+        "?: "?,
+        "愁偀鏅?: "逛勘濋弨?,
+        "?: "㈩垼鍠栨慨?,
+        "妫啯鏁?: "告帡鏀遍弻?,
+        "虫槒顔愮?: "殿喒┑?,
+        "冲瓨鍞?: "哄啫鐖煎Λ?,
+        "妫啫鑵?: "告帗绋掗崜?,
+        "妫啯宕?: "活澀绲婚崜?,
+        "妫啯鎲?: "庢冻氱弧?,
+        "妫啯夐柨?: "烩晛澧芥晶?,
+        "翠礁鐗炵?: "濡炲炲┃鈧?,
+        "?: "哄鍠愬Σ?,
+        "妫啯姣嗛柨?: "归潧嗛悞?,
+        "妫啯鎲?: "闂収鍠氶?,
+        "妫啯鎳?: "归潧┃鈧?,
+        "妫啯鎯?: "烩晩鍠栫紞?,
+        "妫啯鎲?: "告ê紓?,
+        "妫啯鎯?: "哄倸娲▎?,
+        "妫啯鎲?: "PPT",
+        "妫啯鏆?: "规悶遍崣?,
+        "妫啰宕?: "绢収鍓欑粩?,
+        "妫啯灏?: "闂佸弶鍨电粩?,
+        "?: "鏈?,
+        "妫啯堥柨?: "规悶遍崣?,
+        "妫啯灏?: "哄鍠崢?,
+        "妫啯鏁?: "瑰吋绮?,
+        "妫啯鎲?: "棑濡囬惈?,
+        "妫啫囬柨?: "哄秴娲ㄩ?,
+        "妫啯顥旈柨?: "告帞?
     };
     
-    // 鏇挎崲椤甸潰涓殑 emoji
+    // 哄洦у畷鍙夈亜㈠憡妗冨幘?emoji
     function replaceEmojis() {
         if (!isWindows7()) return;
         
-        // 鏇挎崲鏂囨湰鑺傜偣
+        // 哄洦у畷鏌ュ棘ャ劍鎷遍柤鍝婚崑?
         var walker = document.createTreeWalker(
             document.body,
             NodeFilter.SHOW_TEXT,
@@ -909,7 +909,7 @@
             }
         }
         
-        // 鏇挎崲灞炴€т腑鐨?emoji锛堝 title, alt 绛夛級
+        // 哄洦у畷鑼沪愮补撹垫垿鎯?emoji挎稑鐗嗛々?title, alt 佹稑顧?
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -933,7 +933,7 @@
         }
     }
     
-    // DOM 鍔犺浇瀹屾垚鍚庢墽琛屾浛鎹?
+    // DOM 告梻ù鍥┾偓版湰ㄦ岸宕ユ惔銏犫挃炴稑鏈ù㈠箲?
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {
@@ -944,4 +944,5 @@
 
 </body>
 </html>
+
 

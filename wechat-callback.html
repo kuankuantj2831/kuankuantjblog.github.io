@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>寰俊鐧诲綍澶勭悊涓?..</title>
+    <title>偊鍠曟穱濠儌囪尙绉垮璺哄﹥绋?..</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -42,8 +42,8 @@
 <body>
     <div class="loading-card" id="loadingCard">
         <div class="spinner"></div>
-        <h2>鐧诲綍澶勭悊涓?..</h2>
-        <p>鍗冲皢瀹屾垚寰俊鐧诲綍</p>
+        <h2>谎嗩嚙嶅秵勯顓熷炲?..</h2>
+        <p>告块惃銏⑩偓版湰ㄦ艾箚谎嗩嚙?/p>
     </div>
 
     <script>
@@ -53,25 +53,25 @@
             const error = urlParams.get('error');
             const card = document.getElementById('loadingCard');
 
-            // 濡傛灉鍦?iframe 涓紝绠€鍖栧鐞嗭細鍙樉绀烘彁绀猴紝鐢辩埗椤甸潰妫€娴?URL 骞跺鐞?
+            // 濠碘冲归悘愬捶?iframe 搩鍙忕堢不剟宕犻弽褜妲遍鐐叉４变即宕ｉ鍛枖佲偓ê绲圭鈧悮哥汇垼浜崺併亜㈠憡妗ㄦ顐熷?URL 犵偠娉涢ˇ鈺呮偠?
             if (window.top !== window.self) {
                 if (error) {
                     card.innerHTML = `
-                        <div style="font-size: 48px; margin-bottom: 16px;">鉂?/div>
-                        <h2 class="error">鐧诲綍澶辫触</h2>
+                        <div style="font-size: 48px; margin-bottom: 16px;">?/div>
+                        <h2 class="error">谎嗩嚙嶅秵勬潏顐バ?/h2>
                         <p>${decodeURIComponent(error)}</p>
                     `;
                 } else if (token) {
                     card.innerHTML = `
-                        <div style="font-size: 48px; margin-bottom: 16px;">鉁?/div>
-                        <h2>鐧诲綍鎴愬姛</h2>
-                        <p>姝ｅ湪杩斿洖缃戠珯...</p>
+                        <div style="font-size: 48px; margin-bottom: 16px;">?/div>
+                        <h2>谎嗩嚙嶅秹骞顫?/h2>
+                        <p>繐绲藉﹢顏呮交閺傛寧傚啯鍨归悵?..</p>
                     `;
                 } else {
                     card.innerHTML = `
-                        <div style="font-size: 48px; margin-bottom: 16px;">鈿狅笍</div>
-                        <h2 class="error">鐧诲綍淇℃伅缂哄け</h2>
-                        <p>鏈幏鍙栧埌鐧诲綍鍑瘉锛岃閲嶈瘯</p>
+                        <div style="font-size: 48px; margin-bottom: 16px;">宠法濯寸?/div>
+                        <h2 class="error">谎嗩嚙嶅秵绌遍埄鍐х礀傚倸鎼妵?/h2>
+                        <p>哄牜浜ｉ獮蹇涘閺嵮冪厒谎嗩嚙嶅秹宕欓锛勬挎稑鐭侀勬煂瀹ュ牏妲?/p>
                     `;
                 }
                 return;
@@ -79,11 +79,11 @@
 
             if (error) {
                 card.innerHTML = `
-                    <div style="font-size: 48px; margin-bottom: 16px;">鉂?/div>
-                    <h2 class="error">鐧诲綍澶辫触</h2>
+                    <div style="font-size: 48px; margin-bottom: 16px;">?/div>
+                    <h2 class="error">谎嗩嚙嶅秵勬潏顐バ?/h2>
                     <p>${decodeURIComponent(error)}</p>
                 `;
-                // 閫氱煡鐖剁獥鍙ｇ櫥褰曞け璐?
+                // 闂偅ㄩ悡锟犳撲宕堕柛娆欑悼呫儴銇愰弴鐐杭?
                 if (window.opener) {
                     window.opener.postMessage({ type: 'wechat_login_error', error: decodeURIComponent(error) }, '*');
                 }
@@ -92,18 +92,18 @@
             }
 
             if (token) {
-                // 閫氱煡鐖剁獥鍙ｇ櫥褰曟垚鍔?
+                // 闂偅ㄩ悡锟犳撲宕堕柛娆欑悼呫儴銇愰弴鐔风亣?
                 if (window.opener) {
                     window.opener.postMessage({ type: 'wechat_login_success', token: token }, '*');
                 }
                 
                 card.innerHTML = `
-                    <div style="font-size: 48px; margin-bottom: 16px;">鉁?/div>
-                    <h2>鐧诲綍鎴愬姛</h2>
-                    <p>姝ｅ湪杩斿洖缃戠珯...</p>
+                    <div style="font-size: 48px; margin-bottom: 16px;">?/div>
+                    <h2>谎嗩嚙嶅秹骞顫?/h2>
+                    <p>繐绲藉﹢顏呮交閺傛寧傚啯鍨归悵?..</p>
                 `;
                 
-                // 淇濆瓨 token 鍒?localStorage锛堝鐢級
+                // 洦绻傞悺?token ?localStorage挎稑鐗嗛ˇ勬偨帞?
                 localStorage.setItem('token', token);
                 
                 setTimeout(() => {
@@ -111,9 +111,9 @@
                 }, 1000);
             } else {
                 card.innerHTML = `
-                    <div style="font-size: 48px; margin-bottom: 16px;">鈿狅笍</div>
-                    <h2 class="error">鐧诲綍淇℃伅缂哄け</h2>
-                    <p>鏈幏鍙栧埌鐧诲綍鍑瘉锛岃閲嶈瘯</p>
+                    <div style="font-size: 48px; margin-bottom: 16px;">宠法濯寸?/div>
+                    <h2 class="error">谎嗩嚙嶅秵绌遍埄鍐х礀傚倸鎼妵?/h2>
+                    <p>哄牜浜ｉ獮蹇涘閺嵮冪厒谎嗩嚙嶅秹宕欓锛勬挎稑鐭侀勬煂瀹ュ牏妲?/p>
                 `;
                 setTimeout(() => window.close(), 2000);
             }
@@ -121,4 +121,5 @@
     </script>
 </body>
 </html>
+
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>闂瓟绀惧尯 - Hakimi 鐨勭尗鐖灦</title>
+    <title>闂傚偆鍠氶悺鐔虹矆殬 - Hakimi 的个人博客/title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         .qa-container {
@@ -12,7 +12,7 @@
             padding: 100px 20px 40px;
         }
 
-        /* 澶撮儴 */
+        /* 濠㈣埖抽崕?*/
         .qa-header {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             border-radius: 20px;
@@ -50,7 +50,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        /* 缁熻鏍?*/
+        /* 備鍠曢鎼佸冀?*/
         .qa-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -77,7 +77,7 @@
             font-size: 0.9rem;
         }
 
-        /* Tab 绛涢€?*/
+        /* Tab 佹稒鐩埀?*/
         .qa-tabs {
             display: flex;
             gap: 10px;
@@ -104,7 +104,7 @@
             color: white;
         }
 
-        /* 闂鍒楄〃 */
+        /* 闂傚偆鍣ｉ。礆濡ゅ嫨鈧?*/
         .questions-list {
             display: flex;
             flex-direction: column;
@@ -227,7 +227,7 @@
             font-size: 0.85rem;
         }
 
-        /* 鍒嗛〉 */
+        /* 告帒妫濋妴?*/
         .pagination {
             display: flex;
             justify-content: center;
@@ -250,7 +250,7 @@
             color: white;
         }
 
-        /* 鎻愰棶寮圭獥 */
+        /* 圭粯鍔欏Λ璺侯嚕︻厾宕?*/
         .ask-modal {
             position: fixed;
             top: 0;
@@ -352,7 +352,7 @@
             transform: scale(1.02);
         }
 
-        /* 绌虹姸鎬?*/
+        /* 佸矁娅ｆ慨鎼佸箑?*/
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -364,7 +364,7 @@
             margin-bottom: 20px;
         }
 
-        /* 鍝嶅簲寮?*/
+        /* 告繂绉寸花鎻掝嚕?*/
         @media (max-width: 768px) {
             .qa-header h1 {
                 font-size: 1.8rem;
@@ -384,86 +384,86 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="/" class="nav-link">棣栭〉</a>
-                <a href="/circles.html" class="nav-link">鍦堝瓙</a>
-                <span class="nav-link active">闂瓟</span>
+                <a href="/" class="nav-link">濡鐗犻妴?/a>
+                <a href="/circles.html" class="nav-link">革箑鐗嗛悺?/a>
+                <span class="nav-link active">闂傚偆鍠氶悺?/span>
             </div>
         </nav>
 
         <div class="qa-container">
-            <!-- 澶撮儴 -->
+            <!-- 濠㈣埖抽崕?-->
             <div class="qa-header">
-                <h1>鉂?闂瓟绀惧尯</h1>
-                <p>鎻愬嚭闂锛屽垎浜煡璇嗭紝浜掔浉甯姪鎴愰暱</p>
-                <button class="btn-ask" onclick="qaCommunity.showAskModal()">鎴戣鎻愰棶</button>
+                <h1>?闂傚偆鍠氶悺鐔虹矆殬</h1>
+                <p>圭粯鍔曢崵顓㈡⒒曗偓ｄ粙鏁嶇仦钘夌诲ù庡擄紕鎷犻崱顓犵存粍甯炲ù屾暜旂厧袠瑰瓨鍔欓弳?/p>
+                <button class="btn-ask" onclick="qaCommunity.showAskModal()">瑰瓨鍨奸々锕傚箵扮増锛?/button>
             </div>
 
-            <!-- 缁熻 -->
+            <!-- 備鍠曢?-->
             <div class="qa-stats">
                 <div class="qa-stat-card">
                     <h3 id="totalQuestions">--</h3>
-                    <p>鎬婚棶棰?/p>
+                    <p>诡顭Λ鑸碉紣?/p>
                 </div>
                 <div class="qa-stat-card">
                     <h3 id="solvedQuestions">--</h3>
-                    <p>宸茶В鍐?/p>
+                    <p>规瓕灏?/p>
                 </div>
                 <div class="qa-stat-card">
                     <h3 id="totalAnswers">--</h3>
-                    <p>鎬诲洖绛?/p>
+                    <p>诡剝уú鏍驳?/p>
                 </div>
                 <div class="qa-stat-card">
                     <h3 id="todayQuestions">--</h3>
-                    <p>浠婃棩鎻愰棶</p>
+                    <p>寸姴锕ュΛ鈺呭箵扮増锛?/p>
                 </div>
             </div>
 
-            <!-- Tab 绛涢€?-->
+            <!-- Tab 佹稒鐩埀?-->
             <div class="qa-tabs">
-                <button class="qa-tab active" data-status="open">馃敁 寰呰В鍐?/button>
-                <button class="qa-tab" data-status="solved">鉁?宸茶В鍐?/button>
-                <button class="qa-tab" data-status="bounty">馃挵 鏈夋偓璧?/button>
-                <button class="qa-tab" data-status="all">馃搵 鍏ㄩ儴</button>
+                <button class="qa-tab active" data-status="open">妫啯鏅?垫澘鎳撹?/button>
+                <button class="qa-tab" data-status="solved">?规瓕灏?/button>
+                <button class="qa-tab" data-status="bounty">妫啯灏?哄牆顦伴崑鎾舵導?/button>
+                <button class="qa-tab" data-status="all">妫啯鎯?稿繈鍔戦崕?/button>
             </div>
 
-            <!-- 闂鍒楄〃 -->
+            <!-- 闂傚偆鍣ｉ。礆濡ゅ嫨鈧?-->
             <div class="questions-list" id="questionsList">
                 <div class="empty-state">
-                    <div class="icon">馃摑</div>
-                    <p>姝ｅ湪鍔犺浇闂...</p>
+                    <div class="icon">妫啯鎲?/div>
+                    <p>繐绲藉﹢顏堝礉樼儤绁伴梻鍌ゅ櫍?..</p>
                 </div>
             </div>
 
-            <!-- 鍒嗛〉 -->
+            <!-- 告帒妫濋妴?-->
             <div class="pagination" id="pagination">
-                <!-- 鍔ㄦ€佺敓鎴?-->
+                <!-- 告鍔埀胯兌閺佹捇骞?-->
             </div>
         </div>
     </div>
 
-    <!-- 鎻愰棶寮圭獥 -->
+    <!-- 圭粯鍔欏Λ璺侯嚕︻厾宕?-->
     <div class="ask-modal" id="askModal">
         <div class="ask-modal-content">
-            <h2>馃檵 鎻愬嚭闂</h2>
+            <h2>妫啯顎?圭粯鍔曢崵顓㈡⒒曗偓?/h2>
             <div class="form-group">
-                <label>闂鏍囬 *</label>
-                <input type="text" id="questionTitle" placeholder="绠€鏄庢壖瑕佸湴鎻忚堪浣犵殑闂">
+                <label>闂傚偆鍣ｉ。冀ヮ剦鏆?*</label>
+                <input type="text" id="questionTitle" placeholder="姭撻柡鍕规牜鎲版担鍛婂嬀绻崼顏呮媴樺灚鐣遍梻鍌ゅ櫍?>
             </div>
             <div class="form-group">
-                <label>闂璇︽儏 *</label>
-                <textarea id="questionContent" placeholder="璇︾粏鎻忚堪浣犵殑闂锛屽寘鎷浉鍏宠儗鏅€佸凡灏濊瘯鐨勮В鍐虫柟妗堢瓑..."></textarea>
+                <label>闂傚偆鍣ｉ。鐣屾嫚閿旇棄鍓?*</label>
+                <textarea id="questionContent" placeholder="犲浄濡划蹇涘箵韫艾鐗氬ù锝囧Х堟垿姊婚鈧。嬫晬鐏炶棄鐦堕濂夊墰村宕楃圭姴鍓归柡鍜佸灛兛侀锛勪焊濠靛﹦妲銊ュ琚欓柛鎰珪閺岀喎顩奸崼銏㈡惣..."></textarea>
             </div>
             <div class="form-group">
-                <label>鏍囩锛堢敤閫楀彿鍒嗛殧锛?/label>
-                <input type="text" id="questionTags" placeholder="渚嬪: JavaScript, React, 鍓嶇">
+                <label>哄秴娲ㄩ鐑芥晬垺鏆忛梺顐ｎ殔瑜板潡宕氶崱欘吘?/label>
+                <input type="text" id="questionTags" placeholder="撴艾呴々? JavaScript, React, 告挸绉堕?>
             </div>
             <div class="form-group">
-                <label>鎮祻纭竵锛堝彲閫夛紝鍚稿紩鏇村鍥炵瓟锛?/label>
+                <label>诡噮鍓濈粊鑽ゆ兜掆偓旂敻鏁崼嗚闂顧辨繈宕ョ粙璺ㄧ┛哄洦娼欓ˇ鍧楀炊愮數鎽曢柨?/label>
                 <input type="number" id="questionBounty" min="0" placeholder="0">
             </div>
             <div class="form-actions">
-                <button class="btn btn-secondary" onclick="qaCommunity.closeAskModal()">鍙栨秷</button>
-                <button class="btn btn-primary" onclick="qaCommunity.submitQuestion()">鍙戝竷闂</button>
+                <button class="btn btn-secondary" onclick="qaCommunity.closeAskModal()">告瑦鐗楃粔?/button>
+                <button class="btn btn-primary" onclick="qaCommunity.submitQuestion()">告瑦鍨电粩鐑芥⒒曗偓?/button>
             </div>
         </div>
     </div>
@@ -487,7 +487,7 @@
             }
 
             async loadStats() {
-                // 绠€鍖栫粺璁★紝瀹為檯搴斾粠API鑾峰彇
+                // 姭撻柛鏍ㄧ墱櫣鎷埥鍛庡ゅ顖涙償閺傚墽鐭PI兼儳鍢茶ぐ?
                 document.getElementById('totalQuestions').textContent = '0';
                 document.getElementById('solvedQuestions').textContent = '0';
                 document.getElementById('totalAnswers').textContent = '0';
@@ -497,7 +497,7 @@
             async loadQuestions(status = this.currentStatus, page = 1) {
                 try {
                     const response = await fetch(`${API_BASE_URL}/questions?status=${status}&page=${page}`);
-                    if (!response.ok) throw new Error('鍔犺浇闂澶辫触');
+                    if (!response.ok) throw new Error('告梻ù鍥⒒曗偓ｈ姤勬潏顐バ?);
                     
                     const data = await response.json();
                     this.questions = data.questions || [];
@@ -506,11 +506,11 @@
                     this.renderQuestions();
                     this.renderPagination();
                 } catch (error) {
-                    console.error('鍔犺浇闂澶辫触:', error);
+                    console.error('告梻ù鍥⒒曗偓ｈ姤勬潏顐バ?', error);
                     document.getElementById('questionsList').innerHTML = `
                         <div class="empty-state">
-                            <div class="icon">馃槩</div>
-                            <p>鍔犺浇澶辫触锛岃鍒锋柊閲嶈瘯</p>
+                            <div class="icon">妫啯袟</div>
+                            <p>告梻ù鍥緞堫袝挎稑鐭侀礆垮鐓闂佹彃绉烽惁?/p>
                         </div>
                     `;
                 }
@@ -522,8 +522,8 @@
                 if (this.questions.length === 0) {
                     list.innerHTML = `
                         <div class="empty-state">
-                            <div class="icon">馃摑</div>
-                            <p>鏆傛棤闂锛屾潵鍋氱涓€涓彁闂€呭惂锛?/p>
+                            <div class="icon">妫啯鎲?/div>
+                            <p>哄棗瑰Λ夋⒒曗偓ｄ粙鏁嶇仦鐐檷稿ㄩ鍥ㄧ▔剚绋夐鍛倒闂傚偆鍠涢埀鎳幆鍌炴晬?/p>
                         </div>
                     `;
                     return;
@@ -534,15 +534,15 @@
                         <div class="question-stats">
                             <div class="stat-box ${q.votes > 0 ? 'has-votes' : ''}">
                                 <span class="count">${q.votes || 0}</span>
-                                <span class="label">鎶曠エ</span>
+                                <span class="label">埖娲滈妶?/span>
                             </div>
                             <div class="stat-box ${q.answer_count > 0 ? 'has-answers' : ''} ${q.has_best_answer ? 'accepted' : ''}">
                                 <span class="count">${q.answer_count || 0}</span>
-                                <span class="label">鍥炵瓟</span>
+                                <span class="label">搞儳熼悺?/span>
                             </div>
                             <div class="stat-box">
                                 <span class="count">${this.formatNumber(q.views || 0)}</span>
-                                <span class="label">娴忚</span>
+                                <span class="label">炴潙绻～?/span>
                             </div>
                         </div>
                         <div class="question-content">
@@ -555,11 +555,11 @@
                                 <div class="question-author">
                                     <img src="${q.author_avatar || '/images/default-avatar.png'}" alt="">
                                     <span>${this.escapeHtml(q.author_name)}</span>
-                                    <span>路</span>
+                                    <span>?/span>
                                     <span>${this.formatTimeAgo(q.created_at)}</span>
                                 </div>
                                 ${q.bounty_coins > 0 ? `
-                                    <span class="bounty-badge">馃挵 ${q.bounty_coins} 纭竵</span>
+                                    <span class="bounty-badge">妫啯灏?${q.bounty_coins} 绢収鍓欑粩?/span>
                                 ` : ''}
                             </div>
                         </div>
@@ -596,7 +596,7 @@
                     });
                 });
 
-                // 鐐瑰嚮寮圭獥澶栭儴鍏抽棴
+                // 绘劗鎳撻崵顔碱嚕︻厾宕跺鑸电墵庢挳宕幎鑺ワ紨
                 document.getElementById('askModal').addEventListener('click', (e) => {
                     if (e.target.id === 'askModal') this.closeAskModal();
                 });
@@ -604,7 +604,7 @@
 
             showAskModal() {
                 if (!this.token) {
-                    alert('璇峰厛鐧诲綍');
+                    alert('犲洤鍢查崢㈡儌囪尙绉?);
                     window.location.href = '/?login=1';
                     return;
                 }
@@ -626,7 +626,7 @@
                 const bounty = parseInt(document.getElementById('questionBounty').value) || 0;
 
                 if (!title || !content) {
-                    alert('璇峰～鍐欐爣棰樺拰鍐呭');
+                    alert('犲洤鍢查敐鐐哄礃劗鍨煎Λ鐗埫幏浼村礃涱収?);
                     return;
                 }
 
@@ -642,14 +642,14 @@
 
                     if (!response.ok) {
                         const error = await response.json();
-                        throw new Error(error.message || '鍙戝竷澶辫触');
+                        throw new Error(error.message || '告瑦鍨电粩閿緞堫袝');
                     }
 
                     this.closeAskModal();
-                    alert('闂鍙戝竷鎴愬姛锛?);
+                    alert('闂傚偆鍣ｉ。存繄顏撮瀛樺姇盯鏁?);
                     this.loadQuestions();
                 } catch (error) {
-                    alert(error.message || '鍙戝竷澶辫触');
+                    alert(error.message || '告瑦鍨电粩閿緞堫袝');
                 }
             }
 
@@ -670,10 +670,10 @@
                 const now = new Date();
                 const diff = Math.floor((now - date) / 1000);
 
-                if (diff < 60) return '鍒氬垰';
-                if (diff < 3600) return `${Math.floor(diff / 60)}鍒嗛挓鍓峘;
-                if (diff < 86400) return `${Math.floor(diff / 3600)}灏忔椂鍓峘;
-                if (diff < 604800) return `${Math.floor(diff / 86400)}澶╁墠`;
+                if (diff < 60) return '告帗鑹鹃?;
+                if (diff < 3600) return `${Math.floor(diff / 60)}告帒妫濋幐鎾诲礈瀹?
+                if (diff < 86400) return `${Math.floor(diff / 3600)}繐绻戝鍌炲礈瀹?
+                if (diff < 604800) return `${Math.floor(diff / 86400)}濠㈠灈鏅涙晶鐕?
                 return date.toLocaleDateString('zh-CN');
             }
         }
@@ -684,4 +684,5 @@
     </script>
 </body>
 </html>
+
 

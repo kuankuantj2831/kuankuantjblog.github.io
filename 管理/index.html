@@ -7,13 +7,13 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>后台管理 - Hakimi 的猫爬架</title>
+    <title>鍚庡彴狅紕鎮?- Hakimi 的猫猫爬架鐏?/title>
     
-    <!-- Tab切换和登录兼容补丁 (必须在Cloudflare脚本之前) -->
+    <!-- Tab掑洦宕查崪娅ヨぐ鏇炲悑圭藟?(韫囧懘銆忛崷鈥搇oudflare存碍婀版稊瀣) -->
     <script>
-        // 预先定义一个安全的switchTab函数
+        // 妫板鍘涚规矮绠熸稉鈧稉顏暔忋劎娈憇witchTab戣姤鏆?
         window.switchTab = function(tab) {
-            // 如果页面已加载完成，使用数据属性选择器
+            // 倹鐏夋い鐢告桨瀹告彃炴潪钘夌暚存劧绱濇担璺ㄦ暏数据仦鐐粹偓鈧瀚ㄩ崳?
             if (document.readyState !== 'loading') {
                 document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
                 document.querySelectorAll('.tab-content').forEach(function(content) { content.classList.remove('active'); });
@@ -23,32 +23,32 @@
                 var content = document.getElementById('tab-' + tab);
                 if (content) content.classList.add('active');
                 
-                // 触发特定Tab的加载函数
+                // 欙箑褰傞悧扮暰Tab炴潪钘夊毐閺?
                 if (tab === 'coins' && typeof loadCoinUsers === 'function') loadCoinUsers();
                 if (tab === 'donations' && typeof loadDonations === 'function') loadDonations();
                 if (tab === 'login-history' && typeof LoginHistory !== 'undefined') {
                     LoginHistory.renderHistoryTable('loginHistoryContainer');
                     var countEl = document.getElementById('loginHistoryCount');
-                    if (countEl) countEl.textContent = '共 ' + LoginHistory.getHistory().length + ' 条记录';
+                    if (countEl) countEl.textContent = '?' + LoginHistory.getHistory().length + ' 閺壜ゎ唶瑜?;
                 }
             }
         };
         
-        // 登录函数占位符
+        // ц缍鑺ユ殶楃姳缍呯?
         window.adminLogin = function() {
             var username = document.getElementById('adminUsername');
             var password = document.getElementById('adminPassword');
             if (!username || !password) return;
             
-            // 尝试调用模块中的实际函数
+            // 鐏忔繆鐦拫鍐暏濡虫健擃厾娈圭偤妾鑺ユ殶
             if (typeof window._realAdminLogin === 'function') {
                 window._realAdminLogin();
             } else {
-                alert('登录系统初始化化中，请稍后重试');
+                alert('ц缍嶇化鑽ょ埠掓繂顫愰崠鏍у擃叏绱濈拠椋庘棦氬酣鍣哥拠?);
             }
         };
         
-        // DOM加载完成后绑定Tab按钮事件
+        // DOM旂姾瑰本鍨氶崥拨规瓖ab稿虫禍瀣╂
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
                 bindTabEvents();
@@ -210,7 +210,7 @@
             min-height: 60px;
         }
 
-        /* Tab 导航 */
+        /* Tab 佃壈?*/
         .tab-nav {
             display: flex;
             gap: 0;
@@ -249,7 +249,7 @@
             display: block;
         }
 
-        /* 硬币相关样式 */
+        /* 绾绔惄绋垮彠閺嶅嘲绱?*/
         .coin-badge {
             display: inline-flex;
             align-items: center;
@@ -364,65 +364,65 @@
 
 <body>
 
-    <!-- 登录区域 -->
+    <!-- ц缍崠鍝厵 -->
     <div id="loginSection" class="admin-container" style="max-width: 400px; margin-top: 100px;">
         <div class="card">
-            <h2 style="text-align:center; margin-bottom:20px;">??? 管理员登录</h2>
+            <h2 style="text-align:center; margin-bottom:20px;">??? 狅紕鎮婇崨兼瑜?/h2>
             <div class="form-group">
-                <label>账号</label>
-                <input type="text" id="adminUsername" placeholder="请输入管理员账号">
+                <label>箑褰?/label>
+                <input type="text" id="adminUsername" placeholder="柉绶崗銉吀炲棗鎲拹锕褰?>
             </div>
             <div class="form-group">
-                <label>密码</label>
-                <input type="password" id="adminPassword" placeholder="请输入管理员密码">
+                <label>靛棛鐖?/label>
+                <input type="password" id="adminPassword" placeholder="柉绶崗銉吀炲棗鎲靛棛鐖?>
             </div>
-            <button class="btn btn-primary" id="loginBtn" style="width:100%; margin-top:10px;">登录</button>
+            <button class="btn btn-primary" id="loginBtn" style="width:100%; margin-top:10px;">ц缍?/button>
         </div>
     </div>
 
-    <!-- 管理面板 -->
+    <!-- 狅紕鎮婇棃銏緲 -->
     <div id="dashboardSection" class="admin-container" style="display: none;">
-        <!-- 顶部栏 -->
+        <!-- 妞ゅ爼撮弽?-->
         <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h2>??? 后台管理</h2>
+                <h2>??? 鍚庡彴狅紕鎮?/h2>
                 <div>
-                    <span style="margin-right:10px; font-weight:bold;">管理员</span>
-                    <button class="btn btn-danger" onclick="logout()">退出</button>
+                    <span style="margin-right:10px; font-weight:bold;">狅紕鎮婇崨?/span>
+                    <button class="btn btn-danger" onclick="logout()">偓?/button>
                 </div>
             </div>
         </div>
 
-        <!-- Tab 导航 -->
+        <!-- Tab 佃壈?-->
         <div class="card" style="padding-bottom: 0;">
             <div class="tab-nav">
-                <button class="tab-btn active" data-tab="users">?? 用户数管理</button>
-                <button class="tab-btn" data-tab="coins">?? 硬币管理</button>
-                <button class="tab-btn" data-tab="donations">?? 捐助管理</button>
-                <button class="tab-btn" data-tab="login-history">登录记录</button>
+                <button class="tab-btn active" data-tab="users">?? 鐢ㄦ埛閺佹壆顓悶?/button>
+                <button class="tab-btn" data-tab="coins">?? 绾绔电粻锛勬倞</button>
+                <button class="tab-btn" data-tab="donations">?? 规劕粻锛勬倞</button>
+                <button class="tab-btn" data-tab="login-history">ц缍嶇拋跨秿</button>
                 <a href="security-audit.html" class="tab-btn" style="text-decoration: none; color: inherit;">
-                    <i class="fas fa-shield-alt"></i> 安全审计
+                    <i class="fas fa-shield-alt"></i> 瑰鍙忕孤ゎ吀
                 </a>
             </div>
 
-            <!-- 用户数管理 Tab -->
+            <!-- 鐢ㄦ埛閺佹壆顓悶?Tab -->
             <div id="tab-users" class="tab-content active">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px;">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <input type="text" id="userSearchInput" placeholder="搜索用户数名/邮箱/手机..." oninput="filterUsers()" style="padding:8px 12px; border:1px solid #ddd; border-radius:6px; font-size:14px; width:220px;">
-                        <span id="userCountLabel" style="color:#999; font-size:13px;">共 0 个用户数</span>
+                        <input type="text" id="userSearchInput" placeholder="兼粎鍌ㄧ敤鎴烽弫挎倳/喚顔?靛婧..." oninput="filterUsers()" style="padding:8px 12px; border:1px solid #ddd; border-radius:6px; font-size:14px; width:220px;">
+                        <span id="userCountLabel" style="color:#999; font-size:13px;">?0 擃鏁ら幋閿嬫殶</span>
                     </div>
-                    <button class="btn btn-primary" onclick="showAddUserModal()">+ 添加用户数</button>
+                    <button class="btn btn-primary" onclick="showAddUserModal()">+ ｈ炵敤鎴烽弫?/button>
                 </div>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>用户数名</th>
-                            <th>角色</th>
-                            <th>邮箱</th>
-                            <th>手机</th>`n                            <th>2FA</th>`n                            <th>注册时间</th>
-                            <th>操作</th>
+                            <th>鐢ㄦ埛閺佹澘鎮?/th>
+                            <th>欐帟澹?/th>
+                            <th>喚顔?/th>
+                            <th>靛婧</th>`n                            <th>2FA</th>`n                            <th>夈鍞介弮曟？</th>
+                            <th>垮秳缍?/th>
                         </tr>
                     </thead>
                     <tbody id="userTableBody">
@@ -430,22 +430,22 @@
                 </table>
             </div>
 
-            <!-- 硬币管理 Tab -->
+            <!-- 绾绔电粻锛勬倞 Tab -->
             <div id="tab-coins" class="tab-content">
                 <div class="search-box">
-                    <input type="text" id="coinSearchInput" placeholder="搜索用户数名..." oninput="filterCoinUsers()">
+                    <input type="text" id="coinSearchInput" placeholder="兼粎鍌ㄧ敤鎴烽弫挎倳..." oninput="filterCoinUsers()">
                 </div>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>用户数名</th>
-                            <th>余额</th>
-                            <th>总获得</th>
-                            <th>总花费</th>
-                            <th>连续签到</th>
-                            <th>最后签到</th>
-                            <th>操作</th>
+                            <th>鐢ㄦ埛閺佹澘鎮?/th>
+                            <th>ｆ瑩顤?/th>
+                            <th>槒骞?/th>
+                            <th>槒拹?/th>
+                            <th>偟鐢粵鎯у煂</th>
+                            <th>閺堚偓氬海烽崚?/th>
+                            <th>垮秳缍?/th>
                         </tr>
                     </thead>
                     <tbody id="coinTableBody">
@@ -453,220 +453,220 @@
                 </table>
             </div>
 
-            <!-- 捐助管理 Tab -->
+            <!-- 规劕粻锛勬倞 Tab -->
             <div id="tab-donations" class="tab-content">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <button class="btn btn-primary" onclick="showAddDonateModal()">?? 给用户数增加赞助</button>
-                        <span id="donateCountLabel" style="color:#999; font-size:13px;">共 0 条记录</span>
+                        <button class="btn btn-primary" onclick="showAddDonateModal()">?? 佹瑧鏁ら幋閿嬫殶х偛炵挧鐐插И</button>
+                        <span id="donateCountLabel" style="color:#999; font-size:13px;">?0 閺壜ゎ唶瑜?/span>
                     </div>
-                    <button class="btn btn-primary" onclick="showGoalModal()">?? 设置目标</button>
+                    <button class="btn btn-primary" onclick="showGoalModal()">?? 佸墽鐤嗛惄顔界垼</button>
                 </div>
 
-                <!-- 捐助统计卡片 -->
+                <!-- 规劕鐔活吀楋紕澧?-->
                 <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:15px;">
                     <div style="background:#fff5f5; padding:15px; border-radius:10px; text-align:center;">
-                        <div style="font-size:1.4em; font-weight:700; color:#ff6b6b;" id="adminTotalAmount">￥0</div>
-                        <div style="font-size:0.8em; color:#999;">总捐助金额</div>
+                        <div style="font-size:1.4em; font-weight:700; color:#ff6b6b;" id="adminTotalAmount">閿?</div>
+                        <div style="font-size:0.8em; color:#999;">粯宕橀崝鈺呭櫨妫?/div>
                     </div>
                     <div style="background:#f0faf4; padding:15px; border-radius:10px; text-align:center;">
                         <div style="font-size:1.4em; font-weight:700; color:#07c160;" id="adminPaidCount">0</div>
-                        <div style="font-size:0.8em; color:#999;">捐助人数</div>
+                        <div style="font-size:0.8em; color:#999;">规劕禍鐑樻殶</div>
                     </div>
                     <div style="background:#f3e5f5; padding:15px; border-radius:10px; text-align:center;">
                         <div style="font-size:1.4em; font-weight:700; color:#9c27b0;" id="adminGoalProgress">0%</div>
-                        <div style="font-size:0.8em; color:#999;">目标进度</div>
+                        <div style="font-size:0.8em; color:#999;">╊喗鐖ｆ潻樺</div>
                     </div>
                 </div>
 
-                <!-- 用户数赞助排行 -->
-                <h4 style="margin:15px 0 10px; color:#333;">?? 用户数赞助排行</h4>
+                <!-- 鐢ㄦ埛閺佹媽愰崝鈺傚笓鐞?-->
+                <h4 style="margin:15px 0 10px; color:#333;">?? 鐢ㄦ埛閺佹媽愰崝鈺傚笓鐞?/h4>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>用户数ID</th>
-                            <th>用户数名</th>
-                            <th>累计赞助</th>
-                            <th>头衔</th>
+                            <th>鐢ㄦ埛閺檺D</th>
+                            <th>鐢ㄦ埛閺佹澘鎮?/th>
+                            <th>鳖垵顓哥挧鐐插И</th>
+                            <th>剁顢?/th>
                         </tr>
                     </thead>
                     <tbody id="donateUserRankBody">
                     </tbody>
                 </table>
 
-                <!-- 捐助记录 -->
-                <h4 style="margin:20px 0 10px; color:#333;">?? 捐助记录</h4>
+                <!-- 规劕拋跨秿 -->
+                <h4 style="margin:20px 0 10px; color:#333;">?? 规劕拋跨秿</h4>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>订单号</th>
-                            <th>用户数</th>
-                            <th>金额</th>
-                            <th>留言</th>
-                            <th>时间</th>
+                            <th>併垹宕熼崣?/th>
+                            <th>鐢ㄦ埛閺?/th>
+                            <th>叉垿顤?/th>
+                            <th>ｆ瑨鈻?/th>
+                            <th>閺冨爼妫?/th>
                         </tr>
                     </thead>
                     <tbody id="donateTableBody">
                     </tbody>
                 </table>
                 <div style="text-align:center; margin-top:10px;">
-                    <button class="btn" id="donatePrevBtn" onclick="changDonatePage(-1)" style="display:none;">上一页</button>
+                    <button class="btn" id="donatePrevBtn" onclick="changDonatePage(-1)" style="display:none;">﹣绔存い?/button>
                     <span id="donatePageInfo" style="margin:0 10px; color:#999; font-size:13px;"></span>
-                    <button class="btn" id="donateNextBtn" onclick="changDonatePage(1)" style="display:none;">下一页</button>
+                    <button class="btn" id="donateNextBtn" onclick="changDonatePage(1)" style="display:none;">绔存い?/button>
                 </div>
             </div>
 
-            <!-- 登录记录 Tab -->
+            <!-- ц缍嶇拋跨秿 Tab -->
             <div id="tab-login-history" class="tab-content">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; flex-wrap:wrap; gap:10px;">
-                    <h3 style="margin:0; color:#333;">管理员登录记录</h3>
+                    <h3 style="margin:0; color:#333;">狅紕鎮婇崨兼瑜版洝顔囪ぐ?/h3>
                     <div style="color:#666; font-size:13px;">
-                        <span id="loginHistoryCount">共 0 条记录</span>
+                        <span id="loginHistoryCount">?0 閺壜ゎ唶瑜?/span>
                     </div>
                 </div>
                 <div id="loginHistoryContainer">
-                    <div style="text-align:center; color:#999; padding:40px;">暂无登录记录</div>
+                    <div style="text-align:center; color:#999; padding:40px;">閺倹妫ら惂茬秿佹澘缍?/div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 捐助目标设置弹窗 -->
+    <!-- 规劕惄顔界垼佸墽鐤鍦崶 -->
     <div id="goalModal" class="modal">
         <div class="modal-content" style="width:400px;">
-            <h3>?? 设置捐助目标</h3>
+            <h3>?? 佸墽鐤嗛幑鎰И╊喗鐖?/h3>
             <div class="form-group">
-                <label>目标标题</label>
-                <input type="text" id="goalTitleInput" placeholder="如：服务器续费基金">
+                <label>╊喗鐖ｉ弽鍥暯</label>
+                <input type="text" id="goalTitleInput" placeholder="偊绱版湇鍔￠崳銊х敾愮鐔?>
             </div>
             <div class="form-group">
-                <label>目标描述</label>
-                <input type="text" id="goalDescInput" placeholder="描述这个目标的用途">
+                <label>╊喗鐖ｉ幓蹇氬牚</label>
+                <input type="text" id="goalDescInput" placeholder="诲繗潻娆嚋╊喗鐖殑鐚暏?>
             </div>
             <div class="form-group">
-                <label>目标金额（元）</label>
+                <label>╊喗鐖ｉ鎴︻杺閿涘牆鍘撻敍?/label>
                 <input type="number" id="goalAmountInput" placeholder="500" min="1" step="0.01">
             </div>
             <div style="text-align:right; margin-top:20px;">
-                <button class="btn" onclick="closeModal('goalModal')">取消</button>
-                <button class="btn btn-primary" onclick="saveGoal()">保存</button>
+                <button class="btn" onclick="closeModal('goalModal')">欐牗绉?/button>
+                <button class="btn btn-primary" onclick="saveGoal()">娣繂鐡?/button>
             </div>
         </div>
     </div>
 
-    <!-- 增加赞助金额弹窗 -->
+    <!-- х偛炵挧鐐插И叉垿顤傚鍦崶 -->
     <div id="addDonateModal" class="modal">
         <div class="modal-content" style="width:420px;">
-            <h3>?? 给用户数增加赞助金额</h3>
+            <h3>?? 佹瑧鏁ら幋閿嬫殶х偛炵挧鐐插И叉垿顤?/h3>
             <div class="form-group">
-                <label>选择用户数</label>
+                <label>瀚ㄧ敤鎴烽弫?/label>
                 <select id="donateUserSelect" style="width:100%; padding:8px 12px; border:1px solid #ddd; border-radius:6px; font-size:14px;">
-                    <option value="">-- 请选择用户数 --</option>
+                    <option value="">-- 鈧瀚ㄧ敤鎴烽弫?--</option>
                 </select>
             </div>
             <div id="donateUserInfo" style="display:none; background:#f8f9fa; padding:10px 15px; border-radius:8px; margin-bottom:12px; font-size:0.9em;">
-                <span>当前累计赞助：<strong id="donateUserCurrentAmount">￥0</strong></span>
-                <span style="margin-left:15px;">头衔：<strong id="donateUserCurrentTitle">无</strong></span>
+                <span>瑜版挸澧犵顖濐吀х偛敍?strong id="donateUserCurrentAmount">閿?</strong></span>
+                <span style="margin-left:15px;">剁顢欓敍?strong id="donateUserCurrentTitle">閺?/strong></span>
             </div>
             <div class="form-group">
-                <label>赞助金额（元）</label>
-                <input type="number" id="donateAmountInput" placeholder="输入金额" min="0.01" max="10000" step="0.01">
+                <label>х偛鎴︻杺閿涘牆鍘撻敍?/label>
+                <input type="number" id="donateAmountInput" placeholder="堟挸鍙嗛鎴︻杺" min="0.01" max="10000" step="0.01">
             </div>
             <div class="form-group">
-                <label>备注（选填）</label>
-                <input type="text" id="donateMessageInput" placeholder="如：微信转账确认">
+                <label>跺洦鏁為敍モ偓婏綖閿?/label>
+                <input type="text" id="donateMessageInput" placeholder="偊绱板顔讳繆烆剝涵顔款吇">
             </div>
             <div style="text-align:right; margin-top:20px;">
-                <button class="btn" onclick="closeAllModals()">取消</button>
-                <button class="btn btn-primary" onclick="submitAddDonate()">? 确认增加</button>
+                <button class="btn" onclick="closeAllModals()">欐牗绉?/button>
+                <button class="btn btn-primary" onclick="submitAddDonate()">? 绾喛顓绘晶鐐插</button>
             </div>
         </div>
     </div>
 
-    <!-- 添加用户数弹窗 -->
+    <!-- ｈ炵敤鎴烽弫胯剨?-->
     <div id="addUserModal" class="modal">
         <div class="modal-content">
-            <h3>添加用户数</h3>
+            <h3>ｈ炵敤鎴烽弫?/h3>
             <div class="form-group">
-                <label>用户数名</label>
+                <label>鐢ㄦ埛閺佹澘鎮?/label>
                 <input type="text" id="newUsername">
             </div>
             <div class="form-group">
-                <label>密码</label>
+                <label>靛棛鐖?/label>
                 <input type="text" id="newPassword">
             </div>
             <div class="form-group">
-                <label>角色</label>
+                <label>欐帟澹?/label>
                 <select id="newRole">
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                 </select>
             </div>
             <div style="text-align:right; margin-top:20px;">
-                <button class="btn" style="background:#ccc; color:#333;" onclick="closeAllModals()">取消</button>
-                <button class="btn btn-primary" onclick="addUser()">确定</button>
+                <button class="btn" style="background:#ccc; color:#333;" onclick="closeAllModals()">欐牗绉?/button>
+                <button class="btn btn-primary" onclick="addUser()">绾喖鐣?/button>
             </div>
         </div>
     </div>
 
-    <!-- 硬币详情弹窗 -->
+    <!-- 绾绔电拠锔藉剰鐛?-->
     <div id="coinDetailModal" class="modal">
         <div class="modal-content" style="width: 520px;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-                <h3 style="margin:0;">?? <span id="detailUsername">用户数</span> 的硬币详情</h3>
+                <h3 style="margin:0;">?? <span id="detailUsername">鐢ㄦ埛閺?/span> 的猫鈥栫敮浣筋嚊?/h3>
                 <button onclick="closeAllModals()" style="background:none; border:none; font-size:20px; cursor:pointer; color:#999;">?</button>
             </div>
 
-            <!-- 统计卡片 -->
+            <!-- 喕顓崡锛 -->
             <div class="coin-stat-card">
                 <div class="coin-stat-item">
                     <div class="stat-value" id="detailBalance">0</div>
-                    <div class="stat-label">当前余额</div>
+                    <div class="stat-label">瑜版挸澧犳担娆擃杺</div>
                 </div>
                 <div class="coin-stat-item earned">
                     <div class="stat-value" id="detailEarned">0</div>
-                    <div class="stat-label">总获得</div>
+                    <div class="stat-label">槒骞?/div>
                 </div>
                 <div class="coin-stat-item spent">
                     <div class="stat-value" id="detailSpent">0</div>
-                    <div class="stat-label">总花费</div>
+                    <div class="stat-label">槒拹?/div>
                 </div>
             </div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <h4 style="margin:0;">最近交易记录</h4>
-                <button class="btn btn-coin" style="padding:5px 12px; font-size:12px;" onclick="showAdjustModal()">?? 调整硬币</button>
+                <h4 style="margin:0;">閺堚偓╂垳弰鎾诡唶瑜?/h4>
+                <button class="btn btn-coin" style="padding:5px 12px; font-size:12px;" onclick="showAdjustModal()">?? 啯鏆涵绔?/button>
             </div>
 
             <div class="transaction-list" id="transactionList">
-                <div class="empty-tip">暂无交易记录</div>
+                <div class="empty-tip">閺倹妫ゆ禍佹澘缍?/div>
             </div>
 
             <div style="text-align:right; margin-top:16px;">
-                <button class="btn" style="background:#ccc; color:#333;" onclick="closeAllModals()">关闭</button>
+                <button class="btn" style="background:#ccc; color:#333;" onclick="closeAllModals()">忔娊妫?/button>
             </div>
         </div>
     </div>
 
-    <!-- 调整硬币弹窗 -->
+    <!-- 啯鏆涵绔靛鍦崶 -->
     <div id="adjustCoinModal" class="modal">
         <div class="modal-content" style="width: 380px;">
-            <h3 style="margin-bottom:16px;">?? 调整硬币 - <span id="adjustUsername">用户数</span></h3>
+            <h3 style="margin-bottom:16px;">?? 啯鏆涵绔?- <span id="adjustUsername">鐢ㄦ埛閺?/span></h3>
             <div style="text-align:center; margin-bottom:16px;">
-                <span style="font-size:13px; color:#999;">当前余额</span>
+                <span style="font-size:13px; color:#999;">瑜版挸澧犳担娆擃杺</span>
                 <div style="font-size:28px; font-weight:bold; color:#f7971e;" id="adjustCurrentBalance">0</div>
             </div>
             <div class="form-group">
-                <label>调整数量 <span style="color:#999; font-size:12px;">（正数增加，负数扣除）</span></label>
-                <input type="number" id="adjustAmount" placeholder="例如: 100 或 -50">
+                <label>啯鏆ｉ弫浼村櫤 <span style="color:#999; font-size:12px;">閿涘牊滈弫款杻旂媴绱濈拹鐔告殶碉綁娅敍?/span></label>
+                <input type="number" id="adjustAmount" placeholder="娓氬顩? 100 ?-50">
             </div>
             <div class="form-group">
-                <label>调整原因 <span style="color:#999; font-size:12px;">（可选）</span></label>
-                <textarea id="adjustReason" placeholder="例如: 活动奖励、违规扣除等"></textarea>
+                <label>啯鏆ｉ崢鐔锋礈 <span style="color:#999; font-size:12px;">閿涘牆褰查柅涚礆</span></label>
+                <textarea id="adjustReason" placeholder="娓氬顩? 茶╂總鏍уС閵嗕浇绻氱憴鍕⒏闂勩倗鐡?></textarea>
             </div>
             <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
-                <button class="btn" style="background:#ccc; color:#333;" onclick="closeAdjustModal()">取消</button>
-                <button class="btn btn-coin" onclick="submitAdjust()">确认调整</button>
+                <button class="btn" style="background:#ccc; color:#333;" onclick="closeAdjustModal()">欐牗绉?/button>
+                <button class="btn btn-coin" onclick="submitAdjust()">绾喛顓拫鍐╂殻</button>
             </div>
         </div>
     </div>
@@ -674,11 +674,11 @@
     <script type="module">
         import { API_BASE_URL } from '../js/api-config.js?v=20260418a';
 
-        let allCoinUsers = []; // 缓存硬币用户数数据
-        let allUsers = []; // 缓存用户数数据
-        let currentDetailUserId = null; // 当前查看详情的用户数 ID
+        let allCoinUsers = []; // 傛挸鐡ㄧ涵绔电敤鎴烽弫鐗堟暟鎹?
+        let allUsers = []; // 傛挸鐡ㄧ敤鎴烽弫鐗堟暟鎹?
+        let currentDetailUserId = null; // 瑜版挸澧犻弻銉ф箙囷附忕殑鐚暏撮攱鏆?ID
 
-        // ==================== 登录相关 ====================
+        // ==================== ц缍惄绋垮彠 ====================
 
         const adminToken = localStorage.getItem('adminToken');
         if (adminToken) {
@@ -689,7 +689,7 @@
             const username = document.getElementById('adminUsername').value;
             const password = document.getElementById('adminPassword').value;
 
-            if (!username || !password) return alert('请输入账号和密码');
+            if (!username || !password) return alert('柉绶崗銉欏嘲鎷扮靛棛鐖?);
 
             try {
                 const res = await fetch(`${API_BASE_URL}/admin/login`, {
@@ -703,22 +703,22 @@
                 if (res.ok) {
                     localStorage.setItem('adminToken', data.token);
                     
-                    // 记录登录历史
+                    // 佹澘缍惂茬秿樺棗褰?
                     if (typeof LoginHistory !== 'undefined') {
                         await LoginHistory.recordLogin(true, username);
                     }
                     
                     showDashboard();
                 } else {
-                    // 记录失败登录
+                    // 佹澘缍嶆径杈Ец缍?
                     if (typeof LoginHistory !== 'undefined') {
                         await LoginHistory.recordLogin(false, username);
                     }
-                    alert(data.message || '登录失败');
+                    alert(data.message || 'ц缍嶆径杈Е');
                 }
             } catch (e) {
                 console.error(e);
-                alert('网络错误');
+                alert('冩垹绮堕柨娆掝嚖');
             }
         };
 
@@ -742,14 +742,14 @@
 
         function checkAuth(res) {
             if (res.status === 403 || res.status === 401) {
-                alert('登录过期，请重新登录');
+                alert('ц缍嶆潻鍥ㄦ埂閿涘矁宥煀ц缍?);
                 window.logout();
                 return false;
             }
             return true;
         }
 
-        // ==================== Tab 切换 ====================
+        // ==================== Tab 掑洦宕?====================
 
         window.switchTab = (tab) => {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -769,12 +769,12 @@
             if (tab === 'login-history') {
                 if (typeof LoginHistory !== 'undefined') {
                     LoginHistory.renderHistoryTable('loginHistoryContainer');
-                    document.getElementById('loginHistoryCount').textContent = `共 ${LoginHistory.getHistory().length} 条记录`;
+                    document.getElementById('loginHistoryCount').textContent = `?${LoginHistory.getHistory().length} 閺壜ゎ唶瑜版槫;
                 }
             }
         };
 
-        // ==================== 用户数管理 ====================
+        // ==================== 鐢ㄦ埛閺佹壆顓悶?====================
 
         async function loadUsers() {
             const token = localStorage.getItem('adminToken');
@@ -786,11 +786,11 @@
                 if (!checkAuth(res)) return;
 
                 allUsers = await res.json();
-                document.getElementById('userCountLabel').textContent = `共 ${allUsers.length} 个用户数`;
+                document.getElementById('userCountLabel').textContent = `?${allUsers.length} 擃鏁ら幋閿嬫殶`;
                 renderUserTable(allUsers);
             } catch (e) {
                 console.error('Load users error:', e);
-                alert('加载失败');
+                alert('旂姾径杈Е');
             }
         }
 
@@ -799,7 +799,7 @@
             tbody.innerHTML = '';
 
             if (users.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#999; padding:30px;">未找到匹配的用户数</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#999; padding:30px;">閺堫亝澹橀崚垮爱板秶娈敤鎴烽弫?/td></tr>';
                 return;
             }
 
@@ -811,11 +811,11 @@
                     <td><span style="background:${u.role === 'admin' ? '#ff4d4f' : '#1890ff'}; color:white; padding:2px 6px; border-radius:4px; font-size:12px;">${u.role}</span></td>
                     <td>${u.email || '-'}</td>
                     <td>${u.phone || '-'}</td>
-                    <td><span style="background:${u.is_2fa_enabled ? '#52c41a' : '#999'}; color:white; padding:2px 6px; border-radius:4px; font-size:12px;">${u.is_2fa_enabled ? '已启用' : '未启用'}</span></td>
+                    <td><span style="background:${u.is_2fa_enabled ? '#52c41a' : '#999'}; color:white; padding:2px 6px; border-radius:4px; font-size:12px;">${u.is_2fa_enabled ? '瀹告彃鎯悽? : '閺堫亜鎯悽?}</span></td>
                     <td>${new Date(u.created_at).toLocaleDateString()}</td>
                     <td>
-                        <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteUser(${u.id})">删除</button>
-                        ${u.is_2fa_enabled ? `<button class="btn btn-warning" style="padding:4px 8px; font-size:12px; margin-left:4px;" onclick="toggle2FA(${u.id}, false)">禁用2FA</button>` : ''}
+                        <button class="btn btn-danger" style="padding:4px 8px; font-size:12px;" onclick="deleteUser(${u.id})">掔娀娅?/button>
+                        ${u.is_2fa_enabled ? `<button class="btn btn-warning" style="padding:4px 8px; font-size:12px; margin-left:4px;" onclick="toggle2FA(${u.id}, false)">備鏁?FA</button>` : ''}
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -854,7 +854,7 @@
             const password = document.getElementById('newPassword').value;
             const role = document.getElementById('newRole').value;
 
-            if (!username || !password) return alert('请填写用户数名和密码');
+            if (!username || !password) return alert('囧嘲锝為崘娆暏撮攱鏆熼崥宥呮嫲靛棛鐖?);
 
             try {
                 const res = await fetch(`${API_BASE_URL}/admin/users`, {
@@ -865,40 +865,40 @@
 
                 const data = await res.json();
                 if (res.ok) {
-                    alert('添加成功');
+                    alert('ｈ為幋鎰');
                     closeAllModals();
                     loadUsers();
                 } else {
-                    alert(data.message || '添加失败');
+                    alert(data.message || 'ｈ炴径杈Е');
                 }
             } catch (e) {
                 console.error(e);
-                alert('网络错误');
+                alert('冩垹绮堕柨娆掝嚖');
             }
         };
 
         window.deleteUser = async (id) => {
-            if (!confirm('确定删除该用户数吗？')) return;
+            if (!confirm('绾喖鐣鹃崚鐘绘珟囥儳鏁ら幋閿嬫殶氭绱?)) return;
             try {
                 const res = await fetch(`${API_BASE_URL}/admin/users/${id}`, {
                     method: 'DELETE',
                     headers: getHeaders()
                 });
                 if (res.ok) {
-                    alert('删除成功');
+                    alert('掔娀娅幋鎰');
                     loadUsers();
                 } else {
-                    alert('删除失败');
+                    alert('掔娀娅庢径杈Е');
                 }
             } catch (e) {
                 console.error(e);
-                alert('网络错误');
+                alert('冩垹绮堕柨娆掝嚖');
             }
         };
 
         window.toggle2FA = async (id, enable) => {
-            const action = enable ? '启用' : '禁用';
-            if (!confirm(`确定要${action}该用户数的二次验证吗？`)) return;
+            const action = enable ? '氼垳鏁? : '備鏁?;
+            if (!confirm(`绾喖鐣剧憰?{action}囥儳鏁ら幋閿嬫殶嫪绨╁▎锟犵崣囦礁鎮敍鐒?) return;
 
             try {
                 const res = await fetch(`${API_BASE_URL}/admin/users/${id}/2fa`, {
@@ -912,15 +912,15 @@
                     alert(data.message);
                     loadUsers();
                 } else {
-                    alert(data.message || '操作失败');
+                    alert(data.message || '垮秳缍旀径杈Е');
                 }
             } catch (e) {
                 console.error(e);
-                alert('网络错误');
+                alert('冩垹绮堕柨娆掝嚖');
             }
         };
 
-        // ==================== 硬币管理 ====================
+        // ==================== 绾绔电粻锛勬倞 ====================
 
         async function loadCoinUsers() {
             try {
@@ -934,7 +934,7 @@
                 renderCoinTable(allCoinUsers);
             } catch (e) {
                 console.error('Load coin users error:', e);
-                alert('加载硬币数据失败');
+                alert('旂姾涵绔弫鐗堝祦惰精?);
             }
         }
 
@@ -943,7 +943,7 @@
             tbody.innerHTML = '';
 
             if (users.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#999; padding:30px;">暂无数据</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; color:#999; padding:30px;">閺倹妫ら弫鐗堝祦</td></tr>';
                 return;
             }
 
@@ -958,11 +958,11 @@
                     <td><span class="coin-badge">?? ${u.balance}</span></td>
                     <td style="color:#52c41a; font-weight:500;">+${u.total_earned}</td>
                     <td style="color:#ff4d4f; font-weight:500;">-${u.total_spent}</td>
-                    <td>${u.checkin_streak || 0} 天</td>
+                    <td>${u.checkin_streak || 0} ?/td>
                     <td>${lastCheckin}</td>
                     <td>
-                        <button class="btn btn-primary" style="padding:4px 8px; font-size:12px; margin-right:4px;" onclick="viewCoinDetail(${u.id})">详情</button>
-                        <button class="btn btn-coin" style="padding:4px 8px; font-size:12px;" onclick="quickAdjust(${u.id}, '${u.username}', ${u.balance})">调整</button>
+                        <button class="btn btn-primary" style="padding:4px 8px; font-size:12px; margin-right:4px;" onclick="viewCoinDetail(${u.id})">囷附?/button>
+                        <button class="btn btn-coin" style="padding:4px 8px; font-size:12px;" onclick="quickAdjust(${u.id}, '${u.username}', ${u.balance})">啯鏆?/button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -982,7 +982,7 @@
             renderCoinTable(filtered);
         };
 
-        // 查看硬币详情
+        // 閺屻儳婀呯涵绔电拠锔藉剰
         window.viewCoinDetail = async (userId) => {
             currentDetailUserId = userId;
             try {
@@ -1001,10 +1001,10 @@
                 document.getElementById('detailEarned').textContent = user.total_earned;
                 document.getElementById('detailSpent').textContent = user.total_spent;
 
-                // 渲染交易记录
+                // 弶鐓嬫禍佹澘缍?
                 const listEl = document.getElementById('transactionList');
                 if (transactions.length === 0) {
-                    listEl.innerHTML = '<div class="empty-tip">暂无交易记录</div>';
+                    listEl.innerHTML = '<div class="empty-tip">閺倹妫ゆ禍佹澘缍?/div>';
                 } else {
                     listEl.innerHTML = transactions.map(t => {
                         const isPositive = t.amount > 0;
@@ -1026,11 +1026,11 @@
                 document.getElementById('coinDetailModal').style.display = 'flex';
             } catch (e) {
                 console.error('Load coin detail error:', e);
-                alert('加载详情失败');
+                alert('旂姾拠锔藉剰惰精?);
             }
         };
 
-        // 快速调整（从列表直接点击）
+        // 韫囶偊鈧喕鐨熼弫杈剧礄犲骸鍨悰銊ф纯恒儳ｉ浼欑礆
         window.quickAdjust = (userId, username, balance) => {
             currentDetailUserId = userId;
             document.getElementById('adjustUsername').textContent = username;
@@ -1040,7 +1040,7 @@
             document.getElementById('adjustCoinModal').style.display = 'flex';
         };
 
-        // 从详情弹窗打开调整弹窗
+        // 犲氦涢幆鍛剨愭澧鈧拫鍐╂殻鐛?
         window.showAdjustModal = () => {
             const username = document.getElementById('detailUsername').textContent;
             const balance = document.getElementById('detailBalance').textContent;
@@ -1056,20 +1056,20 @@
             document.getElementById('adjustCoinModal').style.display = 'none';
         };
 
-        // 提交调整
+        // 绘劒︾拫鍐╂殻
         window.submitAdjust = async () => {
             const amount = document.getElementById('adjustAmount').value;
             const reason = document.getElementById('adjustReason').value.trim();
 
             if (!amount || parseInt(amount) === 0) {
-                return alert('请输入非零的调整数量');
+                return alert('柉绶崗銉╂姜闂墎娈拫鍐╂殻閺佷即鍣?);
             }
 
             const adjustAmount = parseInt(amount);
             const username = document.getElementById('adjustUsername').textContent;
-            const action = adjustAmount > 0 ? `增加 ${adjustAmount}` : `扣除 ${Math.abs(adjustAmount)}`;
+            const action = adjustAmount > 0 ? `х偛?${adjustAmount}` : `碉綁娅?${Math.abs(adjustAmount)}`;
 
-            if (!confirm(`确定要为用户数「${username}」${action} 枚硬币吗？`)) return;
+            if (!confirm(`绾喖鐣剧憰浣疯礋鐢ㄦ埛閺佽埇鈧?{username}閵?{action} 閺嬫氨鈥栫敮浣告偋閿涚剫)) return;
 
             try {
                 const res = await fetch(`${API_BASE_URL}/admin/coins/${currentDetailUserId}`, {
@@ -1081,27 +1081,27 @@
                 const data = await res.json();
 
                 if (res.ok) {
-                    alert(`? 调整成功！${username} 当前余额: ${data.balance}`);
+                    alert(`? 啯鏆ｉ幋鎰閿?{username} 瑜版挸澧犳担娆擃杺: ${data.balance}`);
                     closeAllModals();
-                    loadCoinUsers(); // 刷新列表
+                    loadCoinUsers(); // 掗攱鏌婇崚勩?
                 } else {
-                    alert(data.message || '调整失败');
+                    alert(data.message || '啯鏆ｆ径杈Е');
                 }
             } catch (e) {
                 console.error('Adjust coins error:', e);
-                alert('网络错误');
+                alert('冩垹绮堕柨娆掝嚖');
             }
         };
 
-        // ==================== 捐助管理 ====================
+        // ==================== 规劕粻锛勬倞 ====================
 
         let donatePage = 1;
-        let donateUsers = []; // 缓存用户数赞助数据
+        let donateUsers = []; // 傛挸鐡ㄧ敤鎴烽弫鎷岀斺晜鏁版嵁?
 
         async function loadDonations() {
             const token = localStorage.getItem('adminToken');
             try {
-                // 加载捐助记录
+                // 旂姾囬幑鎰И佹澘缍?
                 const params = new URLSearchParams({ page: donatePage, limit: 20 });
                 const res = await fetch(`${API_BASE_URL}/donate/admin/list?${params}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -1111,7 +1111,7 @@
                     renderDonateTable(data.data, data.pagination);
                 }
 
-                // 加载用户数赞助排行
+                // 旂姾敤鎴烽弫鎷岀斺晜甯悰?
                 loadDonateUsers();
                 loadDonateStats();
             } catch (e) {
@@ -1139,7 +1139,7 @@
                 .sort((a, b) => parseFloat(b.total_donated) - parseFloat(a.total_donated));
 
             if (ranked.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#999; padding:20px;">暂无赞助用户数</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#999; padding:20px;">閺倹妫ょ挧鐐插И鐢ㄦ埛閺?/td></tr>';
                 return;
             }
 
@@ -1154,7 +1154,7 @@
                 return `<tr>
                     <td>${u.id}</td>
                     <td>${escapeHtml(u.username)}</td>
-                    <td style="font-weight:700; color:#ff6b6b;">￥${amount.toFixed(2)}</td>
+                    <td style="font-weight:700; color:#ff6b6b;">閿?{amount.toFixed(2)}</td>
                     <td>${u.title ? `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:700;${titleStyle}">${titleText}</span>` : '-'}</td>
                 </tr>`;
             }).join('');
@@ -1162,10 +1162,10 @@
 
         function renderDonateTable(list, pagination) {
             const tbody = document.getElementById('donateTableBody');
-            document.getElementById('donateCountLabel').textContent = `共 ${pagination.total} 条记录`;
+            document.getElementById('donateCountLabel').textContent = `?${pagination.total} 閺壜ゎ唶瑜版槫;
 
             if (!list || list.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#999;">暂无捐助记录</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#999;">閺倹妫ら幑鎰И佹澘缍?/td></tr>';
                 return;
             }
 
@@ -1174,14 +1174,14 @@
                 return `<tr>
                     <td style="font-size:0.8em; font-family:monospace;">${escapeHtml(d.order_no)}</td>
                     <td>${escapeHtml(d.donor_name)}${d.user_username ? ` <span style="color:#999; font-size:0.8em;">(${escapeHtml(d.user_username)})</span>` : ''}</td>
-                    <td style="font-weight:700; color:#ff6b6b;">￥${parseFloat(d.amount).toFixed(2)}</td>
+                    <td style="font-weight:700; color:#ff6b6b;">閿?{parseFloat(d.amount).toFixed(2)}</td>
                     <td style="max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${escapeHtml(d.message)}">${escapeHtml(d.message) || '-'}</td>
                     <td style="font-size:0.85em;">${time}</td>
                 </tr>`;
             }).join('');
 
-            // 分页
-            document.getElementById('donatePageInfo').textContent = `第 ${pagination.page} / ${pagination.totalPages} 页`;
+            // 掑棝銆?
+            document.getElementById('donatePageInfo').textContent = `?${pagination.page} / ${pagination.totalPages} 妞ょぐ;
             document.getElementById('donatePrevBtn').style.display = pagination.page > 1 ? 'inline-block' : 'none';
             document.getElementById('donateNextBtn').style.display = pagination.page < pagination.totalPages ? 'inline-block' : 'none';
         }
@@ -1192,7 +1192,7 @@
                 if (res.ok) {
                     const data = await res.json();
                     if (data.stats) {
-                        document.getElementById('adminTotalAmount').textContent = '￥' + parseFloat(data.stats.total_amount || 0).toFixed(2);
+                        document.getElementById('adminTotalAmount').textContent = '閿? + parseFloat(data.stats.total_amount || 0).toFixed(2);
                         document.getElementById('adminPaidCount').textContent = data.stats.total_donors || 0;
                     }
                     if (data.goal) {
@@ -1204,12 +1204,12 @@
             } catch (e) { /* ignore */ }
         }
 
-        // 显示增加赞助弹窗
+        // 閺墽銇氭晶鐐插х偛鍦崶
         window.showAddDonateModal = async () => {
             const token = localStorage.getItem('adminToken');
             const select = document.getElementById('donateUserSelect');
 
-            // 加载用户数列表
+            // 旂姾敤鎴烽弫垮灙鐞?
             try {
                 const res = await fetch(`${API_BASE_URL}/donate/admin/users`, {
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -1217,24 +1217,24 @@
                 if (!checkAuth(res)) return;
                 const users = await res.json();
 
-                select.innerHTML = '<option value="">-- 请选择用户数 --</option>' +
+                select.innerHTML = '<option value="">-- 鈧瀚ㄧ敤鎴烽弫?--</option>' +
                     users.map(u => {
                         const amount = parseFloat(u.total_donated) || 0;
                         const titleTag = u.title ? ` [${u.title}]` : '';
-                        return `<option value="${u.id}" data-amount="${amount}" data-title="${u.title || ''}">${u.username} (￥${amount.toFixed(2)}${titleTag})</option>`;
+                        return `<option value="${u.id}" data-amount="${amount}" data-title="${u.title || ''}">${u.username} (閿?{amount.toFixed(2)}${titleTag})</option>`;
                     }).join('');
             } catch (e) {
                 console.error('Load users error:', e);
             }
 
-            // 绑定选择事件
+            // 佹垵鐣鹃柅滃娆?
             select.onchange = () => {
                 const opt = select.selectedOptions[0];
                 const infoDiv = document.getElementById('donateUserInfo');
                 if (opt && opt.value) {
                     infoDiv.style.display = 'block';
-                    document.getElementById('donateUserCurrentAmount').textContent = '￥' + (parseFloat(opt.dataset.amount) || 0).toFixed(2);
-                    document.getElementById('donateUserCurrentTitle').textContent = opt.dataset.title || '无';
+                    document.getElementById('donateUserCurrentAmount').textContent = '閿? + (parseFloat(opt.dataset.amount) || 0).toFixed(2);
+                    document.getElementById('donateUserCurrentTitle').textContent = opt.dataset.title || '閺?;
                 } else {
                     infoDiv.style.display = 'none';
                 }
@@ -1246,18 +1246,18 @@
             document.getElementById('addDonateModal').style.display = 'flex';
         };
 
-        // 提交增加赞助
+        // 绘劒︽晶鐐插х偛?
         window.submitAddDonate = async () => {
             const token = localStorage.getItem('adminToken');
             const userId = document.getElementById('donateUserSelect').value;
             const amount = document.getElementById('donateAmountInput').value;
             const message = document.getElementById('donateMessageInput').value.trim();
 
-            if (!userId) return alert('请选择用户数');
-            if (!amount || parseFloat(amount) <= 0) return alert('请输入有效金额');
+            if (!userId) return alert('鈧瀚ㄧ敤鎴烽弫?);
+            if (!amount || parseFloat(amount) <= 0) return alert('柉绶崗銉︽箒閺佸牓鍣炬０?);
 
             const username = document.getElementById('donateUserSelect').selectedOptions[0].textContent.split(' ')[0];
-            if (!confirm(`确定为用户数「${username}」增加 ￥${parseFloat(amount).toFixed(2)} 赞助金额？`)) return;
+            if (!confirm(`绾喖鐣炬稉铏规暏撮攱鏆熼妴?{username}閵秴顤崝?閿?{parseFloat(amount).toFixed(2)} х偛鎴︻杺閿涚剫)) return;
 
             try {
                 const res = await fetch(`${API_BASE_URL}/donate/admin/add`, {
@@ -1273,11 +1273,11 @@
                     closeAllModals();
                     loadDonations();
                 } else {
-                    alert(data.message || '操作失败');
+                    alert(data.message || '垮秳缍旀径杈Е');
                 }
             } catch (e) {
                 console.error('Add donate error:', e);
-                alert('网络错误');
+                alert('冩垹绮堕柨娆掝嚖');
             }
         };
 
@@ -1298,7 +1298,7 @@
             const target_amount = document.getElementById('goalAmountInput').value;
 
             if (!title || !target_amount) {
-                alert('请填写标题和目标金额');
+                alert('囧嘲锝為崘娆愮垼妫版ê鎷伴惄顔界垼叉垿顤?);
                 return;
             }
 
@@ -1313,18 +1313,18 @@
                 });
                 const data = await res.json();
                 if (res.ok) {
-                    alert('捐助目标已更新！');
+                    alert('规劕惄顔界垼瀹稿弶娲块弬甯磼');
                     closeAllModals();
                     loadDonateStats();
                 } else {
-                    alert(data.message || '更新失败');
+                    alert(data.message || '閺囧瓨鏌婃径杈Е');
                 }
             } catch (e) {
-                alert('网络错误');
+                alert('冩垹绮堕柨娆掝嚖');
             }
         };
 
-        // ==================== 工具函数 ====================
+        // ==================== 瀹搞儱鍙块鑺ユ殶 ====================
 
         function escapeHtml(str) {
             if (!str) return '';
@@ -1332,84 +1332,84 @@
                 .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         }
 
-        // ==================== 初始化化 ====================
+        // ==================== 掓繂顫愰崠鏍у ====================
         
-        // 绑定登录按钮事件
+        // 佹垵鐣鹃惂茬秿稿虫禍瀣╂
         document.getElementById('loginBtn')?.addEventListener('click', window.adminLogin);
     </script>
 
-<!-- Win7 Emoji 兼容性处理 -->
+<!-- Win7 Emoji 忕厧顔愰幀褍顦╅悶?-->
 <script>
 (function() {
-    // 检测是否为 Windows 7
+    // 濡偓村妲崥锔胯礋 Windows 7
     function isWindows7() {
         var ua = navigator.userAgent;
         return ua.indexOf('Windows NT 6.1') !== -1 || 
                ua.indexOf('Windows 7') !== -1;
     }
     
-    // Emoji 替换映射表
+    // Emoji 閺寧宕查弰鐘茬殸鐞?
     var emojiMap = {
-        "??": "猫",
-        "??": "首页",
-        "??": "游戏",
-        "??": "云",
-        "??": "太阳",
-        "??": "爱心",
-        "??": "关于",
-        "??": "消息",
-        "??": "通知",
-        "??": "用户数",
-        "??": "编辑",
-        "??": "升级",
-        "???": "图片",
-        "??": "写作",
-        "??": "设置",
-        "??": "退出",
-        "??": "提示",
-        "?": "经验",
-        "??": "发布",
-        "???": "等级",
-        "??": "加油",
-        "??": "锁定",
-        "??": "协议",
-        "↑": "上",
-        "↓": "下",
-        "??": "撤销",
-        "?": "帮助",
-        "??": "刷新",
-        "??": "开始",
-        "??": "时间",
-        "??": "创意",
-        "??": "电脑",
-        "??": "学习",
-        "???": "盾牌",
-        "??": "飞机",
-        "?": "星星",
-        "???": "手柄",
-        "??": "邮箱",
-        "??": "手机",
-        "??": "目录",
-        "??": "压缩",
-        "??": "文件",
+        "??": "?,
+        "??": "妫ｆ牠銆?,
+        "??": "憡鍨?,
+        "??": "?,
+        "??": "额亪妲?,
+        "??": "爬架鍗炵妇",
+        "??": "厖绨?,
+        "??": "戝牊浼?,
+        "??": "氨鐓?,
+        "??": "鐢ㄦ埛閺?,
+        "??": "傛牞绶?,
+        "??": "楀洨楠?,
+        "???": "ュ墽澧?,
+        "??": "愭瑤缍?,
+        "??": "佸墽鐤?,
+        "??": "偓?,
+        "??": "绘劗銇?,
+        "?": "佸繘鐛?,
+        "??": "欐垵绔?,
+        "???": "涘楠?,
+        "??": "旂姵琛?,
+        "??": "夸礁鐣?,
+        "??": "楀繗顔?,
+        "?: "?,
+        "?: "?,
+        "??": "俱倝鏀?,
+        "?": "鐢喖?,
+        "??": "掗攱鏌?,
+        "??": "偓?,
+        "??": "閺冨爼妫?,
+        "??": "掓稒鍓?,
+        "??": "絻鍓?,
+        "??": "涳缚绡?,
+        "???": "╁墽澧?,
+        "??": "妞嬬偞婧",
+        "?": "閺喐妲?,
+        "???": "靛鐒?,
+        "??": "喚顔?,
+        "??": "靛婧",
+        "??": "╊喖缍?,
+        "??": "樺?,
+        "??": "閺傚洣娆?,
         "??": "PPT",
-        "??": "工具",
-        "??": "硬币",
-        "??": "金币",
-        "?": "完成",
-        "???": "工具",
-        "??": "星光",
-        "??": "搜索",
-        "??": "书籍",
-        "???": "标签",
-        "???": "删除"
+        "??": "瀹搞儱鍙?,
+        "??": "绾绔?,
+        "??": "叉垵绔?,
+        "?": "瑰本鍨?,
+        "???": "瀹搞儱鍙?,
+        "??": "閺喎鍘?,
+        "??": "兼粎鍌?,
+        "??": "旓妇鐫?,
+        "???": "閺嶅洨?,
+        "???": "掔娀娅?
     };
     
-    // 替换页面中的 emoji
+    // 閺寧宕叉い鐢告桨擃厾娈?emoji
     function replaceEmojis() {
         if (!isWindows7()) return;
         
-        // 替换文本节点
+        // 閺寧宕查弬鍥ㄦ拱哄倻?
         var walker = document.createTreeWalker(
             document.body,
             NodeFilter.SHOW_TEXT,
@@ -1432,7 +1432,7 @@
             }
         }
         
-        // 替换属性中的 emoji（如 title, alt 等）
+        // 閺寧宕茬仦鐐粹偓褌鑵戦惃?emoji閿涘牆顩?title, alt 涘绱?
         var elements = document.querySelectorAll('*');
         var attrs = ['title', 'alt', 'placeholder', 'value'];
         for (var i = 0; i < elements.length; i++) {
@@ -1456,7 +1456,7 @@
         }
     }
     
-    // DOM 加载完成后执行替换
+    // DOM 旂姾瑰本鍨氶崥㈠⒔鐞涘本涢幑?
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', replaceEmojis);
     } else {
@@ -1465,12 +1465,13 @@
 })();
 </script>
 
-<!-- 登录历史记录功能 -->
+<!-- ц缍崢鍡楀蕉佹澘缍嶅姛鑳藉厴 -->
 <script src="../js/login-history.js?v=20260329b"></script>
 
 </body>
 
 </html>
+
 
 
 

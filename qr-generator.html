@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>二维码生成器 - 我的博客</title>
+    <title>二维惍浣烘晸存劕娅?- 存垹娈戦崡吂</title>
     <link rel="stylesheet" href="css/chinese-style.css">
+    <!-- 洖鍙?qrcode.js 鎼?-->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
         body {
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -167,49 +169,49 @@
     </style>
 </head>
 <body>
-    <h1>📱 二维码生成器</h1>
+    <h1>📌冩懌 二维惍浣烘晸存劕娅?/h1>
     
     <div class="container">
-        <textarea id="content" placeholder="请输入要生成二维码的文本或 URL..."></textarea>
-        <button id="generateBtn">生成二维码</button>
+        <textarea id="content" placeholder="柉绶崗銉洣喐鍨氭禍娣惍浣烘畱閺傚洦婀伴幋?URL..."></textarea>
+        <button id="generateBtn">喐鍨氭禍娣惍?/button>
         
         <canvas id="qrCode"></canvas>
         
         <div id="error"></div>
         
         <div id="options">
-            <h2>⚙️ 选项</h2>
+            <h2>挎瑱绗?銆?/h2>
             
             <div class="option">
-                <label for="size">尺寸: <span id="sizeValue">256</span>x<span id="sizeValue2">256</span></label>
+                <label for="size">鐏搫? <span id="sizeValue">256</span>x<span id="sizeValue2">256</span></label>
                 <input type="range" id="size" min="100" max="400" value="256">
             </div>
             
             <div class="option">
-                <label for="level">纠错等级</label>
+                <label for="level">剧娀鏁粵岄獓</label>
                 <select id="level">
-                    <option value="L">低 (L) - 7% 容错率</option>
-                    <option value="M">中 (M) - 15% 容错率</option>
-                    <option value="Q">高 (Q) - 25% 容错率</option>
-                    <option value="H">高 (H) - 30% 容错率</option>
+                    <option value="L">?(L) - 7% 瑰鏁婇悳?/option>
+                    <option value="M">?(M) - 15% 瑰鏁婇悳?/option>
+                    <option value="Q">?(Q) - 25% 瑰鏁婇悳?/option>
+                    <option value="H">?(H) - 30% 瑰鏁婇悳?/option>
                 </select>
             </div>
             
             <div class="option">
-                <label for="foreground">前景色</label>
+                <label for="foreground">秵娅欓懝?/label>
                 <input type="color" id="foreground" value="#000000">
                 <span id="foregroundValue">#000000</span>
             </div>
             
             <div class="option">
-                <label for="background">背景色</label>
+                <label for="background">冲本娅欓懝?/label>
                 <input type="color" id="background" value="#FFFFFF">
                 <span id="backgroundValue">#FFFFFF</span>
             </div>
         </div>
         
         <div class="history-container">
-            <h2>📜 生成历史</h2>
+            <h2>📌冩憪 喐鍨氶崢鍡楀蕉</h2>
             <div id="historyList"></div>
         </div>
     </div>
@@ -252,34 +254,20 @@
             const canvas = document.createElement('canvas');
             canvas.width = size;
             canvas.height = size;
-            const ctx = canvas.getContext('2d');
             
-            ctx.fillStyle = background;
-            ctx.fillRect(0, 0, size, size);
-            
-            ctx.fillStyle = foreground;
-            const moduleSize = Math.floor(size / 25);
-            
-            drawPositionPattern(ctx, moduleSize * 3, moduleSize * 3, moduleSize * 7);
-            drawPositionPattern(ctx, size - moduleSize * 10, moduleSize * 3, moduleSize * 7);
-            drawPositionPattern(ctx, moduleSize * 3, size - moduleSize * 10, moduleSize * 7);
-            
-            for (let y = moduleSize * 8; y < size - moduleSize * 8; y += moduleSize * 2) {
-                for (let x = moduleSize * 8; x < size - moduleSize * 8; x += moduleSize * 3) {
-                    ctx.fillRect(x, y, moduleSize, moduleSize);
-                }
-            }
-            
-            const encodedData = encodeData(content);
-            let index = 0;
-            
-            for (let y = moduleSize * 10; y < size - moduleSize * 10; y += moduleSize) {
-                for (let x = moduleSize * 10; x < size - moduleSize * 10; x += moduleSize) {
-                    if (index < encodedData.length && encodedData[index] === 1) {
-                        ctx.fillRect(x, y, moduleSize, moduleSize);
-                    }
-                    index++;
-                }
+            // ｈ法鏁?qrcodejs 鎼存挾鏁撻幋鎰癌佸鐖?            try {
+                const qr = new QRCode(canvas, {
+                    text: content,
+                    width: size,
+                    height: size,
+                    colorDark: foreground,
+                    colorLight: background,
+                    correctLevel: level === 'L' ? QRCode.CorrectLevel.L : 
+                                   level === 'M' ? QRCode.CorrectLevel.M : 
+                                   level === 'Q' ? QRCode.CorrectLevel.Q : QRCode.CorrectLevel.H
+                });
+            } catch (error) {
+                console.error('QR Code generation error:', error);
             }
             
             return canvas;
@@ -292,7 +280,7 @@
                 const content = document.getElementById('content').value;
                 
                 if (!content) {
-                    alert('请输入要生成二维码的内容');
+                    alert('柉绶崗銉洣喐鍨氭禍娣惍浣烘畱愬懎顔?);
                     return;
                 }
                 
@@ -318,7 +306,7 @@
             } catch (error) {
                 console.error('Error:', error);
                 const errorDiv = document.getElementById('error');
-                errorDiv.textContent = `错误: ${error.message}`;
+                errorDiv.textContent = `挎瑨? ${error.message}`;
             }
         });
         
@@ -351,7 +339,7 @@
         }
         
         const testBtn = document.createElement('button');
-        testBtn.textContent = '快速测试';
+        testBtn.textContent = '韫囶偊鈧喐绁寸拠?;
         testBtn.style.marginTop = '10px';
         testBtn.style.padding = '8px 16px';
         testBtn.style.width = 'auto';
@@ -364,3 +352,4 @@
     </script>
 </body>
 </html>
+

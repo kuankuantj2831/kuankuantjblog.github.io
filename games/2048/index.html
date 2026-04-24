@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048 娓告垙</title>
+    <title>2048 炴挸鎲￠?/title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,31 +11,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- 杩斿洖鎸夐挳 -->
+    <!-- 閺夆晜鏌ú鏍箰舵劖灏?-->
     <a href="/games.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i> 杩斿洖娓告垙涓績
+        <i class="fas fa-arrow-left"></i> 閺夆晜鏌ú鏍с掗崨濠傜搩鍘肩缓?
     </a>
     <div class="container">
         <header>
             <h1><i class="fas fa-th-large"></i> 2048</h1>
             <div class="scores">
                 <div class="score-box">
-                    <div class="score-label">鍒嗘暟</div>
+                    <div class="score-label">告帒妫欓弳?/div>
                     <div class="score-value" id="score">0</div>
                 </div>
                 <div class="score-box">
-                    <div class="score-label">鏈€楂樺垎</div>
+                    <div class="score-label">哄牃Δ鍌浢?/div>
                     <div class="score-value" id="best">0</div>
                 </div>
             </div>
         </header>
 
         <div class="game-info">
-            <p>鍚堝苟鏁板瓧锛屾嫾鍑?strong>2048鏂瑰潡</strong>锛?/p>
+            <p>告艾鐗嗛懟鐔煎极閺夎法鎽熼柨樻湰氶箖宕?strong>2048哄倻鎳?/strong>?/p>
             <div class="controls">
-                <button id="new-game">馃攧 鏂版父鎴?/button>
-                <button id="undo">鈫╋笍 鎾ら攢</button>
-                <button id="how-to-play">馃摉 娓告垙瑙勫垯</button>
+                <button id="new-game">妫啯鏁?哄倻澧楃埇鏋跺爼骞?/button>
+                <button id="undo">愁偀鏅?逛勘濋弨?/button>
+                <button id="how-to-play">妫啯鎲?游戏开发喆曨鐏?/button>
             </div>
         </div>
 
@@ -48,40 +48,41 @@
                 <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
             </div>
             <div class="game-over" id="game-over">
-                <h2>娓告垙缁撴潫锛?/h2>
-                <p>浣犵殑鍒嗘暟锛?span id="final-score">0</span></p>
-                <button id="try-again">鍐嶈瘯涓€娆?/button>
+                <h2>游戏开发磼瓨灏嗛柨?/h2>
+                <p>达絿▓鎴礆ɑ娈堕柨?span id="final-score">0</span></p>
+                <button id="try-again">告劕绉烽惁顖涚▔鈻?/button>
             </div>
             <div class="win" id="win">
-                <h2>浣犺耽浜嗭紒</h2>
-                <p>浣犳垚鍔熷悎鍑轰簡2048锛?/p>
-                <button id="continue">缁х画娓告垙</button>
+                <h2>达絿鹃鑺ョ☆厾纾?/h2>
+                <p>达絿跺礉旈攱ら柛鎴ｆ〃?048?/p>
+                <button id="continue">備綀鍛暰炴挸鎲￠?/button>
             </div>
         </div>
 
         <footer>
-            <p>鐢?<i class="fas fa-heart"></i> 鍒朵綔 | 2048 娓告垙 |
+            <p>?<i class="fas fa-heart"></i> 告帗婀圭紞?| 2048 炴挸鎲￠?|
                 <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a> |
-                <a href="https://en.wikipedia.org/wiki/2048_(video_game)" target="_blank"><i class="fas fa-external-link-alt"></i> 鍏充簬 2048</a>
+                <a href="https://en.wikipedia.org/wiki/2048_(video_game)" target="_blank"><i class="fas fa-external-link-alt"></i> 稿繐鍘栫花?2048</a>
             </p>
         </footer>
     </div>
 
-    <!-- 娓告垙瑙勫垯闈㈡澘 -->
+    <!-- 游戏开发喆曨鐏熼梻涘灪濠?-->
     <div class="instructions" id="instructions">
-        <h3>馃摉 娓告垙瑙勫垯</h3>
+        <h3>妫啯鎲?游戏开发喆曨鐏?/h3>
         <ul>
-            <li>浣跨敤<strong>鏂瑰悜閿?/strong>鎴?strong>婊戝姩</strong>绉诲姩鏂瑰潡銆?/li>
-            <li>褰撲袱涓浉鍚屾暟瀛楃殑鏂瑰潡鐩歌Е锛屽畠浠細<strong>鍚堝苟涓轰竴涓?/strong>锛屾暟瀛楃浉鍔犮€?/li>
-            <li>姣忔绉诲姩鍚庯紝涓€涓殢鏈虹┖鍗曞厓鏍间腑浼氬嚭鐜版柊鏂瑰潡锛?鎴?锛夈€?/li>
-            <li>灏濊瘯鍚堟垚<strong>2048</strong>鏂瑰潡鏉ヨ幏鑳滐紒</li>
-            <li>褰撴棤娉曠户缁Щ鍔ㄦ椂锛屾父鎴忕粨鏉熴€?/li>
+            <li>达綀娉曢弫?strong>哄倻鎳撻幃堟煥?/strong>?strong>犲﹥鍨垫慨?/strong>佸ф慨鈺呭棘熺増柕?/li>
+            <li>滅増风悮杈ㄧ▔棙绁查柛湰閺嗙喓鈧稒顨堝▓鎴棘熺増鈺傜摃琚濋柨樿嫰姵掗璺ㄧ獥<strong>告艾鐗嗛懟鐔哥▔炴壆顏卞?/strong>挎稑鏈弳鐔衡偓欘殘村宕濋悩顔瑰?/li>
+            <li>絽绻戦鑲矓彃袟告艾鍑界▔剚绋夐燁吂哄牐娅ｉ埞鏍础閺偛甯柡宥夋？垫垶煎姣夐呭閺屽﹪悷鐗堝仴??挎稑顦埀?/li>
+            <li>繑绻嗛惁顖炲触喎鐏?strong>2048</strong>哄倻鎳锟犲閵夈绠柤铏玻?/li>
+            <li>滅増诲Λ呪枖閺姵涚紓囧幘浜涢柛鏂诲妽濡炲倿鏁嶇仦鍓у煑规潙绻掔划銊╁旂补?/li>
         </ul>
-        <button id="close-instructions">鏄庣櫧浜嗭紒</button>
+        <button id="close-instructions">哄▍褎崱顓犵＜</button>
     </div>
 
     <script src="script.js"></script>
 
 </body>
 </html>
+
 

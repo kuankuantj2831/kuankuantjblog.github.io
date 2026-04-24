@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>瀹夊叏瀹¤ - 绠＄悊鍚庡彴</title>
+    <title>顦崣蹇曗偓瀛ゃ値鍚 - 媴绱曢幃濠囧触鎼粹抽叡</title>
     <style>
         * {
             margin: 0;
@@ -59,7 +59,7 @@
             color: #e2e8f0;
         }
 
-        /* 缁熻鍗＄墖 */
+        /* 備鍠曢鎼佸础閿涘顣?*/
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -160,7 +160,7 @@
             color: #10b981;
         }
 
-        /* 涓昏鍐呭鍖?*/
+        /* 挻妲掗々锕傚礃涱収囬柛?*/
         .main-content {
             display: grid;
             grid-template-columns: 1fr 350px;
@@ -247,7 +247,7 @@
             background: rgba(239, 68, 68, 0.3);
         }
 
-        /* 绛涢€夋爮 */
+        /* 佹稒鐩埀顦扮埇鏋?*/
         .filter-bar {
             display: flex;
             gap: 15px;
@@ -280,7 +280,7 @@
             border-color: #667eea;
         }
 
-        /* 鏃ュ織琛ㄦ牸 */
+        /* 哄啨辩换鏃傛偘閵婏妇澹?*/
         .logs-table {
             width: 100%;
             border-collapse: collapse;
@@ -385,7 +385,7 @@
             text-decoration: underline;
         }
 
-        /* 鍛婅鍒楄〃 */
+        /* 告稑锕ㄩ鐔煎礆濡ゅ嫨鈧?*/
         .alert-list {
             display: flex;
             flex-direction: column;
@@ -459,7 +459,7 @@
             color: #3b82f6;
         }
 
-        /* 鍒嗛〉 */
+        /* 告帒妫濋妴?*/
         .pagination {
             display: flex;
             justify-content: center;
@@ -491,7 +491,7 @@
             cursor: not-allowed;
         }
 
-        /* 璇︽儏妯℃€佹 */
+        /* 犲浄闄勯崕蹇撐熼埄鍐ｈ鏀?*/
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -584,7 +584,7 @@
             color: #e2e8f0;
         }
 
-        /* 鐧诲綍鎻愮ず */
+        /* 谎嗩嚙嶅秹骞撻顔轰粵 */
         .login-section {
             max-width: 400px;
             margin: 100px auto;
@@ -636,7 +636,7 @@
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
-        /* 鍝嶅簲寮?*/
+        /* 告繂绉寸花鎻掝嚕?*/
         @media (max-width: 768px) {
             .admin-header {
                 flex-direction: column;
@@ -664,21 +664,21 @@
         <div class="admin-header">
             <h1>
                 <i class="fas fa-shield-alt"></i>
-                瀹夊叏瀹¤涓績
+                顦崣蹇曗偓瀛ゃ値鍚搩鍘肩缓?
             </h1>
             <a href="index.html" class="nav-back">
                 <i class="fas fa-arrow-left"></i>
-                杩斿洖绠＄悊鍚庡彴
+                閺夆晜鏌ú鏍不閿涘嫭為柛瑜?
             </a>
         </div>
 
-        <!-- 缁熻鍗＄墖 -->
+        <!-- 備鍠曢鎼佸础閿涘顣?-->
         <div class="stats-grid">
             <div class="stat-card security">
                 <div class="stat-header">
                     <div>
                         <div class="stat-value" id="criticalAlerts">0</div>
-                        <div class="stat-label">涓ラ噸瀹夊叏鍛婅</div>
+                        <div class="stat-label">挶崳鍝モ偓槸欏繘宕ㄦ鍜佸妳</div>
                     </div>
                     <div class="stat-icon">
                         <i class="fas fa-exclamation-triangle"></i>
@@ -686,7 +686,7 @@
                 </div>
                 <div class="stat-change up">
                     <i class="fas fa-arrow-up"></i>
-                    <span>闇€瑕佺珛鍗冲鐞?/span>
+                    <span>闂傚洠撻悷鏇氳兌濇盯宕￠崘宸П?/span>
                 </div>
             </div>
 
@@ -694,7 +694,7 @@
                 <div class="stat-header">
                     <div>
                         <div class="stat-value" id="failedLogins">0</div>
-                        <div class="stat-label">浠婃棩澶辫触鐧诲綍</div>
+                        <div class="stat-label">寸姴锕ュΛ鈺傚緞堫袝谎嗩嚙?/div>
                     </div>
                     <div class="stat-icon">
                         <i class="fas fa-user-times"></i>
@@ -702,7 +702,7 @@
                 </div>
                 <div class="stat-change" id="loginTrend">
                     <i class="fas fa-minus"></i>
-                    <span>杈冩槰鏃ユ寔骞?/span>
+                    <span>閺夊牆Σ浼村籍閵夛箑鐦?/span>
                 </div>
             </div>
 
@@ -710,7 +710,7 @@
                 <div class="stat-header">
                     <div>
                         <div class="stat-value" id="active2FA">0</div>
-                        <div class="stat-label">2FA鍚敤鐢ㄦ埛</div>
+                        <div class="stat-label">2FA告凹鍨抽弫夋偨閵婏箑鐓?/div>
                     </div>
                     <div class="stat-icon">
                         <i class="fas fa-key"></i>
@@ -718,7 +718,7 @@
                 </div>
                 <div class="stat-change down">
                     <i class="fas fa-check"></i>
-                    <span>瀹夊叏绛夌骇鎻愬崌</span>
+                    <span>顦崣蹇曠驳跺矂鐛撻樺姇瀹?/span>
                 </div>
             </div>
 
@@ -726,7 +726,7 @@
                 <div class="stat-header">
                     <div>
                         <div class="stat-value" id="totalEvents">0</div>
-                        <div class="stat-label">浠婃棩瀹夊叏浜嬩欢</div>
+                        <div class="stat-label">寸姴锕ュΛ鈺冣偓槸欏繑嶇ｂ晜顐?/div>
                     </div>
                     <div class="stat-icon">
                         <i class="fas fa-clipboard-list"></i>
@@ -734,112 +734,112 @@
                 </div>
                 <div class="stat-change">
                     <i class="fas fa-clock"></i>
-                    <span>瀹炴椂鏇存柊</span>
+                    <span>庡炲鍌炲即涙ɑ鐓</span>
                 </div>
             </div>
         </div>
 
         <div class="main-content">
-            <!-- 宸︿晶锛氭棩蹇楀垪琛?-->
+            <!-- 归潻氶弲曟晬橆厽锛夐煫鍥殔鎮?-->
             <div class="content-card">
                 <div class="card-header">
                     <div class="card-title">
                         <i class="fas fa-list-alt"></i>
-                        瀹夊叏瀹¤鏃ュ織
+                        顦崣蹇曗偓瀛ゃ値鍚哄啨辩换?
                     </div>
                     <div class="card-actions">
                         <button class="btn btn-sm btn-secondary" onclick="exportLogs()">
                             <i class="fas fa-download"></i>
-                            瀵煎嚭
+                            數鍘崵?
                         </button>
                         <button class="btn btn-sm btn-primary" onclick="refreshLogs()">
                             <i class="fas fa-sync-alt"></i>
-                            鍒锋柊
+                            告帡鏀遍弻?
                         </button>
                     </div>
                 </div>
 
                 <div class="filter-bar">
                     <div class="filter-group">
-                        <label class="filter-label">椋庨櫓绛夌骇:</label>
+                        <label class="filter-label">濡炲閰▍鎾剁驳跺矂鐛?</label>
                         <select class="filter-select" id="filterLevel" onchange="applyFilters()">
-                            <option value="">鍏ㄩ儴</option>
-                            <option value="critical">涓ラ噸</option>
-                            <option value="high">楂樺嵄</option>
-                            <option value="medium">涓嵄</option>
-                            <option value="low">浣庡嵄</option>
+                            <option value="">稿繈鍔戦崕?/option>
+                            <option value="critical">挶崳?/option>
+                            <option value="high">濡ゅ倹锚瀹?/option>
+                            <option value="medium">搩鍘煎畵?/option>
+                            <option value="low">达絽楠稿畵?/option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label class="filter-label">浜嬩欢绫诲瀷:</label>
+                        <label class="filter-label">存粌▎銏尵囪尙鈧?</label>
                         <select class="filter-select" id="filterCategory" onchange="applyFilters()">
-                            <option value="">鍏ㄩ儴</option>
-                            <option value="auth">璁よ瘉</option>
-                            <option value="security">瀹夊叏</option>
-                            <option value="admin">绠＄悊</option>
-                            <option value="data">鏁版嵁</option>
+                            <option value="">稿繈鍔戦崕?/option>
+                            <option value="auth">犱降涢惁?/option>
+                            <option value="security">顦崣?/option>
+                            <option value="admin">媴绱曢幃?/option>
+                            <option value="data">轰澧楀畵?/option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label class="filter-label">鎼滅储:</label>
-                        <input type="text" class="filter-input" id="searchInput" placeholder="鐢ㄦ埛/IP/鎻忚堪..." onkeyup="applyFilters()">
+                        <label class="filter-label">瑰吋绮?</label>
+                        <input type="text" class="filter-input" id="searchInput" placeholder="活潿鍔崺?IP/绻崼?.." onkeyup="applyFilters()">
                     </div>
                 </div>
 
                 <table class="logs-table">
                     <thead>
                         <tr>
-                            <th>鏃堕棿</th>
-                            <th>绾у埆</th>
-                            <th>绫诲瀷</th>
-                            <th>鐢ㄦ埛</th>
-                            <th>IP鍦板潃</th>
-                            <th>鎻忚堪</th>
-                            <th>鎿嶄綔</th>
+                            <th>哄啫鐖煎Λ?/th>
+                            <th>嫏鍐ㄧ劶</th>
+                            <th>?/th>
+                            <th>活潿鍔崺?/th>
+                            <th>IP革附樺?/th>
+                            <th>绻崼?/th>
+                            <th>瑰灝绉紞?/th>
                         </tr>
                     </thead>
                     <tbody id="logsTableBody">
-                        <!-- 鍔ㄦ€佺敓鎴?-->
+                        <!-- 告鍔埀胯兌閺佹捇骞?-->
                     </tbody>
                 </table>
 
                 <div class="pagination" id="pagination">
-                    <!-- 鍔ㄦ€佺敓鎴?-->
+                    <!-- 告鍔埀胯兌閺佹捇骞?-->
                 </div>
             </div>
 
-            <!-- 鍙充晶锛氬疄鏃跺憡璀?-->
+            <!-- 告瑥鍘栭弲曟晬橆剛介柡鍐硾诧紕鎷?-->
             <div class="content-card">
                 <div class="card-header">
                     <div class="card-title">
                         <i class="fas fa-bell"></i>
-                        瀹炴椂鍛婅
+                        庡炲鍌炲川犲拋鍔?
                     </div>
                     <button class="btn btn-sm btn-secondary" onclick="clearAllAlerts()">
                         <i class="fas fa-check-double"></i>
-                        鍏ㄩ儴鏍囪宸茶
+                        稿繈鍔戦崕鎾冀ヮ亶鍞剁规瓕灏?
                     </button>
                 </div>
 
                 <div class="alert-list" id="alertList">
-                    <!-- 鍔ㄦ€佺敓鎴?-->
+                    <!-- 告鍔埀胯兌閺佹捇骞?-->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 璇︽儏妯℃€佹 -->
+    <!-- 犲浄闄勯崕蹇撐熼埄鍐ｈ鏀?-->
     <div class="modal-overlay" id="detailModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>鏃ュ織璇︽儏</h3>
+                <h3>哄啨辩换鏃傛嫚閿旇棄鍓?/h3>
                 <button class="modal-close" onclick="closeDetailModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="detail-grid" id="detailContent">
-                    <!-- 鍔ㄦ€佺敓鎴?-->
+                    <!-- 告鍔埀胯兌閺佹捇骞?-->
                 </div>
             </div>
         </div>
@@ -853,7 +853,7 @@
         let logs = [];
         let alerts = [];
 
-        // 妫€鏌ョ鐞嗗憳鏉冮檺
+        // ☆偀撻柡灞诲劤撴悂鎮堕崱佸枀哄村?
         function checkAdmin() {
             const user = localStorage.getItem('currentUser');
             if (!user) {
@@ -863,7 +863,7 @@
             
             const userData = JSON.parse(user);
             if (userData.role !== 'admin' && userData.role !== 'moderator') {
-                alert('鏃犳潈璁块棶姝ら〉闈?);
+                alert('哄啰靛㈡媼ф锛栨慨濋妴愭?);
                 window.location.href = 'index.html';
                 return false;
             }
@@ -871,7 +871,7 @@
             return true;
         }
 
-        // 鍒濆鍖?
+        // 告帗绻傞～鎰板礌?
         async function init() {
             if (!checkAdmin()) return;
             
@@ -883,14 +883,14 @@
                 loadAlerts()
             ]);
             
-            // 璁剧疆瀹炴椂鍒锋柊
+            // 犱礁澧介悿鍡欌偓鍦仦濡炲倿宕氶柨瀣厐
             setInterval(() => {
                 loadAlerts();
                 loadStatistics();
             }, 30000);
         }
 
-        // 鍔犺浇缁熻鏁版嵁
+        // 告梻ù鍥磼旀椿鍚轰澧楀畵?
         async function loadStatistics() {
             try {
                 const response = await fetch(`${API_BASE_URL}/security/admin/statistics`, {
@@ -904,8 +904,8 @@
                     updateStatistics(data.data);
                 }
             } catch (error) {
-                console.error('鍔犺浇缁熻鏁版嵁澶辫触:', error);
-                // 浣跨敤妯℃嫙鏁版嵁
+                console.error('告梻ù鍥磼旀椿鍚轰澧楀畵浣瑰緞堫袝:', error);
+                // 达綀娉曢弫呂熼埄鍐ㄧ彲轰澧楀畵?
                 updateStatistics({
                     critical_alerts: 2,
                     failed_logins_today: 15,
@@ -915,7 +915,7 @@
             }
         }
 
-        // 鏇存柊缁熻鍗＄墖
+        // 哄洤鐡ㄩ弻濠磼旀椿鍚告绱曟晶?
         function updateStatistics(stats) {
             document.getElementById('criticalAlerts').textContent = stats.critical_alerts || 0;
             document.getElementById('failedLogins').textContent = stats.failed_logins_today || 0;
@@ -923,7 +923,7 @@
             document.getElementById('totalEvents').textContent = stats.total_events_today || 0;
         }
 
-        // 鍔犺浇鏃ュ織
+        // 告梻ù鍥籍閵夈儳绠?
         async function loadLogs() {
             try {
                 const params = new URLSearchParams({
@@ -948,8 +948,8 @@
                     renderPagination();
                 }
             } catch (error) {
-                console.error('鍔犺浇鏃ュ織澶辫触:', error);
-                // 浣跨敤妯℃嫙鏁版嵁
+                console.error('告梻ù鍥籍閵夈儳绠跺鎯扮簿?', error);
+                // 达綀娉曢弫呂熼埄鍐ㄧ彲轰澧楀畵?
                 logs = getMockLogs();
                 totalPages = 5;
                 renderLogs();
@@ -957,19 +957,19 @@
             }
         }
 
-        // 妯℃嫙鏃ュ織鏁版嵁
+        // ☆垪鍓濈氭瑩妷銉х轰澧楀畵?
         function getMockLogs() {
             const levels = ['critical', 'high', 'medium', 'low'];
             const categories = ['auth', 'security', 'admin', 'data'];
             const descriptions = [
-                '澶氭鐧诲綍澶辫触锛岃处鎴峰凡涓存椂閿佸畾',
-                '妫€娴嬪埌鍙枒IP鍦板潃灏濊瘯璁块棶',
-                '绠＄悊鍛樻墽琛屼簡鏁忔劅鎿嶄綔',
-                '鐢ㄦ埛鏁版嵁瀵煎嚭璇锋眰',
-                '2FA楠岃瘉澶辫触',
-                '鏂拌澶囩櫥褰?,
-                '瀵嗙爜淇敼鎴愬姛',
-                'API瀵嗛挜宸查噸缃?
+                '濠㈣埖纰濂告儌囪尙绉垮鎯扮簿欙箓鏁嶅畝鍐槱规潙鍢查鈩冪▔涙ɑ顦梺哥?,
+                '☆偀撴繛戭儏╁矂宕ｉ縄P革附樺鍐焊濠靛﹦妲浣告健濡?,
+                '媴绱曢幃濠囧川濡鈷旈悶樺箛鏂垮Τ瑰灝绉紞?,
+                '活潿鍔崺㈠极楀牆绁鐢靛帶ゎ厾鎷犻柨瀣勾',
+                '2FA濡ょ姴鐭侀惁緞堫袝',
+                '哄倹濯介鏇熷緞モ晜顏憸?,
+                '潧妫涚埇鏋舵粍绌遍鑺ユ毉瑰瓨鍔曟慨?,
+                'API潧妫濋幐冾啅閺屻儱娅紓?
             ];
 
             return Array.from({ length: 20 }, (_, i) => ({
@@ -981,11 +981,11 @@
                 ip_address: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
                 description: descriptions[Math.floor(Math.random() * descriptions.length)],
                 user_agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-                details: { additional_info: '璇︾粏鏃ュ織淇℃伅...' }
+                details: { additional_info: '犲浄濡划蹇涘籍閵夈儳绠跺ǎ鍥墲?..' }
             }));
         }
 
-        // 娓叉煋鏃ュ織琛ㄦ牸
+        // 炴挸堕悡瀣籍閵夈儳绠堕悶栧妽?
         function renderLogs() {
             const tbody = document.getElementById('logsTableBody');
             
@@ -994,7 +994,7 @@
                     <tr>
                         <td colspan="7" style="text-align: center; padding: 40px; color: #94a3b8;">
                             <i class="fas fa-inbox" style="font-size: 2em; margin-bottom: 10px; display: block;"></i>
-                            鏆傛棤鏃ュ織璁板綍
+                            哄棗瑰Λ夊籍閵夈儳绠堕浣规緲?
                         </td>
                     </tr>
                 `;
@@ -1021,14 +1021,14 @@
                     <td>${escapeHtml(log.description)}</td>
                     <td>
                         <button class="log-detail-btn" onclick="showLogDetail('${log.id}')">
-                            鏌ョ湅璇︽儏
+                            哄被冲﹢鍛嫚閿旇棄鍓?
                         </button>
                     </td>
                 </tr>
             `).join('');
         }
 
-        // 娓叉煋鍒嗛〉
+        // 炴挸堕悡瀣礆稏鈧?
         function renderPagination() {
             const container = document.getElementById('pagination');
             let html = `
@@ -1054,7 +1054,7 @@
             container.innerHTML = html;
         }
 
-        // 鍔犺浇鍛婅
+        // 告梻ù鍥川犲拋鍔?
         async function loadAlerts() {
             try {
                 const response = await fetch(`${API_BASE_URL}/security/alerts`, {
@@ -1069,28 +1069,28 @@
                     renderAlerts();
                 }
             } catch (error) {
-                console.error('鍔犺浇鍛婅澶辫触:', error);
-                // 浣跨敤妯℃嫙鏁版嵁
+                console.error('告梻ù鍥川犲拋鍔呭鎯扮簿?', error);
+                // 达綀娉曢弫呂熼埄鍐ㄧ彲轰澧楀畵?
                 alerts = [
                     {
                         id: 'alert_1',
                         level: 'critical',
-                        title: '鏆村姏鐮磋В鏀诲嚮',
-                        message: '妫€娴嬪埌IP 192.168.1.100澶氭灏濊瘯鐧诲綍涓嶅悓璐︽埛',
+                        title: '哄棙娼欐慨蹇涙儘绾瑩鎺楀绩彃姣?,
+                        message: '☆偀撴繛戭儏╁瓥P 192.168.1.100濠㈣埖纰鑲╀焊濠靛﹦妲褑х紞宥嗙▔瀹ュ懏遍鎰堕檮?,
                         created_at: new Date(Date.now() - 300000).toISOString()
                     },
                     {
                         id: 'alert_2',
                         level: 'high',
-                        title: '寮傚父鐧诲綍浣嶇疆',
-                        message: '鐢ㄦ埛 admin 浠庣編鍥芥礇鏉夌煻鐧诲綍锛堝钩鏃跺湪涓浗锛?,
+                        title: '殿喖哥埇鏋跺爼鎯傜拠鑼Э达絽绉堕悿?,
+                        message: '活潿鍔崺?admin 寸姴风欢銊╁炊恒儳顦柡婎槺鎯傜拠鑼Э挎稑鐗嗛柦鈺呭籍虹儤韬冨幖存鏁?,
                         created_at: new Date(Date.now() - 600000).toISOString()
                     },
                     {
                         id: 'alert_3',
                         level: 'medium',
-                        title: '澶ч噺鏁版嵁瀵煎嚭',
-                        message: '鐢ㄦ埛 user123 鍦ㄨ繃鍘?灏忔椂鍐呭鍑轰簡500鏉¤褰?,
+                        title: '濠㈠爢鍥ф轰澧楀畵浣衡偓鐢靛帶?,
+                        message: '活潿鍔崺?user123 革负鍔忕换鍐储?繐绻戝鍌炲礃涱収鍤ら柛鎴ｆ〃?00哄庡敹?,
                         created_at: new Date(Date.now() - 1800000).toISOString()
                     }
                 ];
@@ -1098,7 +1098,7 @@
             }
         }
 
-        // 娓叉煋鍛婅鍒楄〃
+        // 炴挸堕悡瀣川犲拋鍔呴柛鎺擃殙閵?
         function renderAlerts() {
             const container = document.getElementById('alertList');
             
@@ -1106,7 +1106,7 @@
                 container.innerHTML = `
                     <div style="text-align: center; padding: 40px; color: #94a3b8;">
                         <i class="fas fa-check-circle" style="font-size: 3em; margin-bottom: 15px; display: block; color: #10b981;"></i>
-                        <p>鏆傛棤鏈鐞嗗憡璀?/p>
+                        <p>哄棗瑰Λ夊嫉嫷妲遍鐐叉诧紕鎷?/p>
                     </div>
                 `;
                 return;
@@ -1125,18 +1125,18 @@
                     <div class="alert-actions">
                         <button class="btn btn-sm btn-secondary" onclick="dismissAlert('${alert.id}')">
                             <i class="fas fa-check"></i>
-                            鏍囪宸茶
+                            哄秴娲╅鍥啅奸鍤?
                         </button>
                         <button class="btn btn-sm btn-primary" onclick="handleAlert('${alert.id}')">
                             <i class="fas fa-wrench"></i>
-                            澶勭悊
+                            濠㈣泛瀚幃?
                         </button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // 鏄剧ず鏃ュ織璇︽儏
+        // 哄澧介妵跺籍閵夈儳绠堕鍥烽檮?
         function showLogDetail(logId) {
             const log = logs.find(l => l.id === logId);
             if (!log) return;
@@ -1144,15 +1144,15 @@
             const content = document.getElementById('detailContent');
             content.innerHTML = `
                 <div class="detail-item">
-                    <span class="detail-label">鏃ュ織ID:</span>
+                    <span class="detail-label">哄啨辩换―:</span>
                     <span class="detail-value">${log.id}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">鏃堕棿:</span>
+                    <span class="detail-label">哄啫鐖煎Λ?</span>
                     <span class="detail-value">${new Date(log.created_at).toLocaleString('zh-CN')}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">椋庨櫓绛夌骇:</span>
+                    <span class="detail-label">濡炲閰▍鎾剁驳跺矂鐛?</span>
                     <span class="detail-value">
                         <span class="log-level ${log.level}">
                             <i class="fas fa-${getLevelIcon(log.level)}"></i>
@@ -1161,27 +1161,27 @@
                     </span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">浜嬩欢绫诲瀷:</span>
+                    <span class="detail-label">存粌▎銏尵囪尙鈧?</span>
                     <span class="detail-value"><span class="log-category">${log.category}</span></span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">鐢ㄦ埛:</span>
+                    <span class="detail-label">活潿鍔崺?</span>
                     <span class="detail-value">${escapeHtml(log.username)}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">IP鍦板潃:</span>
+                    <span class="detail-label">IP革附樺?</span>
                     <span class="detail-value">${log.ip_address}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">鐢ㄦ埛浠ｇ悊:</span>
+                    <span class="detail-label">活潿鍔崺欑閿洦?</span>
                     <span class="detail-value code">${escapeHtml(log.user_agent || 'N/A')}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">鎻忚堪:</span>
+                    <span class="detail-label">绻崼?</span>
                     <span class="detail-value">${escapeHtml(log.description)}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">璇︾粏淇℃伅:</span>
+                    <span class="detail-label">犲浄濡划蹇旂┍╁啩绱?</span>
                     <span class="detail-value code">${JSON.stringify(log.details || {}, null, 2)}</span>
                 </div>
             `;
@@ -1189,34 +1189,34 @@
             document.getElementById('detailModal').classList.add('active');
         }
 
-        // 鍏抽棴璇︽儏妯℃€佹
+        // 稿繑婂Λ告嫚閿旇棄鍓版顖楀墲兛鐒、?
         function closeDetailModal() {
             document.getElementById('detailModal').classList.remove('active');
         }
 
-        // 搴旂敤绛涢€?
+        // 煎瓨姊婚弫驳戔懇?
         function applyFilters() {
             currentPage = 1;
             loadLogs();
         }
 
-        // 鍒囨崲椤甸潰
+        // 告帒娲畷鍙夈亜㈠憡妗?
         function changePage(page) {
             if (page < 1 || page > totalPages) return;
             currentPage = page;
             loadLogs();
         }
 
-        // 鍒锋柊鏃ュ織
+        // 告帡鏀遍弻濠囧籍閵夈儳绠?
         function refreshLogs() {
             loadLogs();
-            showToast('鏃ュ織宸插埛鏂?, 'success');
+            showToast('哄啨辩换鏂款啅绘帒鐓曢柡?, 'success');
         }
 
-        // 瀵煎嚭鏃ュ織
+        // 數鍘崵顓㈠籍閵夈儳绠?
         function exportLogs() {
             const csvContent = [
-                ['鏃堕棿', '绾у埆', '绫诲瀷', '鐢ㄦ埛', 'IP鍦板潃', '鎻忚堪'].join(','),
+                ['哄啫鐖煎Λ?, '嫏鍐ㄧ劶', '?, '活潿鍔崺?, 'IP革附樺?, '绻崼?].join(','),
                 ...logs.map(log => [
                     log.created_at,
                     log.level,
@@ -1233,34 +1233,34 @@
             link.download = `security_logs_${new Date().toISOString().split('T')[0]}.csv`;
             link.click();
 
-            showToast('鏃ュ織宸插鍑?, 'success');
+            showToast('哄啨辩换鏂款啅绘帩鍤ら柛?, 'success');
         }
 
-        // 澶勭悊鍛婅
+        // 濠㈣泛瀚幃濠囧川犲拋鍔?
         async function handleAlert(alertId) {
-            showToast('姝ｅ湪澶勭悊鍛婅...', 'info');
-            // 瀹為檯瀹炵幇涓繖閲屼細璋冪敤API澶勭悊鍛婅
+            showToast('繐绲藉﹢顏呭緞曨厽為柛橈龚?..', 'info');
+            // 庡ゅ顖溾偓鍦仧楠炲洦绋夐锛闂佹彃濂旂鎵愵亝鏆廇PI濠㈣泛瀚幃濠囧川犲拋鍔?
             setTimeout(() => {
                 dismissAlert(alertId);
             }, 1000);
         }
 
-        // 蹇界暐鍛婅
+        // 闊洨鏅弳鎰板川犲拋鍔?
         async function dismissAlert(alertId) {
             alerts = alerts.filter(a => a.id !== alertId);
             renderAlerts();
-            showToast('鍛婅宸叉爣璁颁负宸茶', 'success');
+            showToast('告稑锕ㄩ鐔奉啅欏鍨奸顣︾拹鐔奉啅奸鍤?, 'success');
         }
 
-        // 娓呴櫎鎵€鏈夊憡璀?
+        // 炴挸鎳樺▍箥剟垫径濠冨暈犫偓?
         function clearAllAlerts() {
-            if (!confirm('纭畾瑕佹爣璁版墍鏈夊憡璀︿负宸茶鍚楋紵')) return;
+            if (!confirm('绢収鍠栭悾鍓ф啺鍨奸浣哄у秹垫径濠冨暈犫偓閿旇儻嬬规瓕灏浼村触濡ゅ鍚?)) return;
             alerts = [];
             renderAlerts();
-            showToast('鎵€鏈夊憡璀﹀凡娓呴櫎', 'success');
+            showToast('圭撻柡濐槸诧紕鎷敃鈧鈥炽掗崨瀛樼彑', 'success');
         }
 
-        // 宸ュ叿鍑芥暟
+        // 规悶遍崣鍧楀礄恒儲娈?
         function getLevelIcon(level) {
             const icons = {
                 critical: 'exclamation-circle',
@@ -1273,10 +1273,10 @@
 
         function getLevelText(level) {
             const texts = {
-                critical: '涓ラ噸',
-                high: '楂樺嵄',
-                medium: '涓嵄',
-                low: '浣庡嵄'
+                critical: '挶崳?,
+                high: '濡ゅ倹锚瀹?,
+                medium: '搩鍘煎畵?,
+                low: '达絽楠稿畵?
             };
             return texts[level] || level;
         }
@@ -1305,10 +1305,10 @@
             const now = new Date();
             const diff = Math.floor((now - date) / 1000);
 
-            if (diff < 60) return '鍒氬垰';
-            if (diff < 3600) return `${Math.floor(diff / 60)}鍒嗛挓鍓峘;
-            if (diff < 86400) return `${Math.floor(diff / 3600)}灏忔椂鍓峘;
-            return `${Math.floor(diff / 86400)}澶╁墠`;
+            if (diff < 60) return '告帗鑹鹃?;
+            if (diff < 3600) return `${Math.floor(diff / 60)}告帒妫濋幐鎾诲礈瀹?
+            if (diff < 86400) return `${Math.floor(diff / 3600)}繐绻戝鍌炲礈瀹?
+            return `${Math.floor(diff / 86400)}濠㈠灈鏅涙晶鐕?
         }
 
         function escapeHtml(text) {
@@ -1341,7 +1341,7 @@
             }, 3000);
         }
 
-        // 鏆撮湶鍏ㄥ眬鍑芥暟
+        // 哄棙冲﹢曞礂閵娿儳婀伴柛鎴Г閺?
         window.changePage = changePage;
         window.applyFilters = applyFilters;
         window.refreshLogs = refreshLogs;
@@ -1352,7 +1352,7 @@
         window.handleAlert = handleAlert;
         window.clearAllAlerts = clearAllAlerts;
 
-        // 娣诲姞鍔ㄧ敾鏍峰紡
+        // 烇綀ф慨鐐哄礉閵娧勬毎哄秴鍢茬?
         const style = document.createElement('style');
         style.textContent = `
             @keyframes slideIn {
@@ -1366,10 +1366,11 @@
         `;
         document.head.appendChild(style);
 
-        // 鍒濆鍖?
+        // 告帗绻傞～鎰板礌?
         init();
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
 </html>
+
 

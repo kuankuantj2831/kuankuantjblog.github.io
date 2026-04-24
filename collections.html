@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鎴戠殑鏀惰棌澶?- Hakimi 鐨勭尗鐖灦</title>
+    <title>瑰瓨鍨瑰▓鎴绩増顥戝?- Hakimi 的个人博客/title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/tianjg-theme.css">
@@ -63,7 +63,7 @@
             }
         }
 
-        /* 渚ц竟鏍?*/
+        /* 撴皜鍡欑彾?*/
         .collections-sidebar {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
@@ -164,7 +164,7 @@
             background: rgba(255,255,255,0.2);
         }
 
-        /* 涓诲唴瀹瑰尯 */
+        /* 捁崬糕偓鍦嚀鐏?*/
         .collections-main {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
@@ -240,7 +240,7 @@
             background: rgba(244, 67, 54, 0.3);
         }
 
-        /* 鏂囩珷鍒楄〃 */
+        /* 哄倸娲ㄩ悵鐑藉礆濡ゅ嫨鈧?*/
         .articles-list {
             display: flex;
             flex-direction: column;
@@ -302,7 +302,7 @@
             align-items: center;
         }
 
-        /* 鎵归噺鎿嶄綔鏍?*/
+        /* 归潧缍婇崳娲箼瀹ュ绋婇柡?*/
         .batch-actions {
             display: none;
             position: sticky;
@@ -335,7 +335,7 @@
             gap: 10px;
         }
 
-        /* 绌虹姸鎬?*/
+        /* 佸矁娅ｆ慨鎼佸箑?*/
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -353,7 +353,7 @@
             margin-bottom: 25px;
         }
 
-        /* 妯℃€佹 */
+        /* ☆垪鍓濋埀跨劍?*/
         .modal-overlay {
             display: none;
             position: fixed;
@@ -514,7 +514,7 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
-        /* Toast 鎻愮ず */
+        /* Toast 圭粯鍔妵?*/
         .toast {
             position: fixed;
             bottom: 30px;
@@ -540,121 +540,121 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="/" class="nav-link">棣栭〉</a>
-                <a href="/profile.html" class="nav-link">涓汉涓績</a>
-                <a href="/drive.html" class="nav-link">缃戠洏</a>
-                <a href="/messages.html" class="nav-link">娑堟伅</a>
+                <a href="/" class="nav-link">濡鐗犻妴?/a>
+                <a href="/profile.html" class="nav-link">搩浜欏Ч嬬▔偟濡?/a>
+                <a href="/drive.html" class="nav-link">傚啯鍨瑰ú?/a>
+                <a href="/messages.html" class="nav-link">炴垵鐗婃导?/a>
             </div>
         </nav>
 
         <div class="collections-wrapper">
             <div class="collections-header">
                 <h1 class="collections-title">
-                    <span>馃摎</span>
-                    鎴戠殑鏀惰棌澶?
+                    <span>妫啯鎲?/span>
+                    瑰瓨鍨瑰▓鎴绩増顥戝?
                 </h1>
                 <button class="btn-create-collection" onclick="openCreateModal()">
                     <span>+</span>
-                    鏂板缓鏀惰棌澶?
+                    哄倹樼紓鎾诲绩増顥戝?
                 </button>
             </div>
 
             <div class="collections-layout">
-                <!-- 渚ц竟鏍?-->
+                <!-- 撴皜鍡欑彾?-->
                 <aside class="collections-sidebar">
-                    <h3 class="sidebar-title">鏀惰棌澶瑰垪琛?/h3>
+                    <h3 class="sidebar-title">衡偓増顥戝鍓佹嚀鎮?/h3>
                     <div class="collections-list" id="collectionsList">
-                        <!-- 鍔ㄦ€佺敓鎴?-->
+                        <!-- 告鍔埀胯兌閺佹捇骞?-->
                     </div>
                 </aside>
 
-                <!-- 涓诲唴瀹瑰尯 -->
+                <!-- 捁崬糕偓鍦嚀鐏?-->
                 <main class="collections-main">
                     <div class="collection-header">
                         <div class="collection-title-section">
-                            <div class="collection-title-icon" id="currentIcon">馃搧</div>
+                            <div class="collection-title-icon" id="currentIcon">妫啯鎯?/div>
                             <div class="collection-title-text">
-                                <h2 id="currentCollectionName">鍏ㄩ儴鏂囩珷</h2>
-                                <p id="currentCollectionDesc">鎵€鏈夋敹钘忕殑鏂囩珷</p>
+                                <h2 id="currentCollectionName">稿繈鍔戦崕鎾棘モ晝褰?/h2>
+                                <p id="currentCollectionDesc">圭撻柡濐槹閺佸婅箛鏇熺暠哄倸娲ㄩ悵?/p>
                             </div>
                         </div>
                         <div class="collection-main-actions">
                             <button class="btn-secondary" onclick="editCurrentCollection()">
-                                <span>鉁忥笍</span> 缂栬緫
+                                <span>翠礁楠忕?/span> 傚倹鐗炵欢?
                             </button>
                             <button class="btn-secondary btn-danger" onclick="deleteCurrentCollection()">
-                                <span>馃棏锔?/span> 鍒犻櫎
+                                <span>妫啯顥旈柨?/span> 告帞?
                             </button>
                         </div>
                     </div>
 
                     <div class="articles-list" id="articlesList">
-                        <!-- 鍔ㄦ€佺敓鎴?-->
+                        <!-- 告鍔埀胯兌閺佹捇骞?-->
                     </div>
 
-                    <!-- 鎵归噺鎿嶄綔鏍?-->
+                    <!-- 归潧缍婇崳娲箼瀹ュ绋婇柡?-->
                     <div class="batch-actions" id="batchActions">
                         <div class="batch-info">
-                            宸查€夋嫨 <span id="selectedCount">0</span> 绡囨枃绔?
+                            瑰憡鐓￠埀顦扮?<span id="selectedCount">0</span> 佲虫处閺啰绮?
                         </div>
                         <div class="batch-buttons">
                             <button class="btn-secondary" onclick="moveSelected()">
-                                <span>馃搨</span> 绉诲姩
+                                <span>妫啯鎯?/span> 佸ф慨?
                             </button>
                             <button class="btn-secondary btn-danger" onclick="deleteSelected()">
-                                <span>馃棏锔?/span> 绉婚櫎
+                                <span>妫啯顥旈柨?/span> 佸顭▍?
                             </button>
                             <button class="btn-secondary" onclick="clearSelection()">
-                                鍙栨秷閫夋嫨
+                                告瑦鐗楃粔鐑芥焻跺顏?
                             </button>
                         </div>
                     </div>
 
-                    <!-- 绌虹姸鎬?-->
+                    <!-- 佸矁娅ｆ慨鎼佸箑?-->
                     <div class="empty-state" id="emptyState" style="display: none;">
-                        <div class="empty-icon">馃摥</div>
-                        <p class="empty-text">杩欎釜鏀惰棌澶硅繕娌℃湁鏂囩珷</p>
-                        <a href="/" class="btn-create-collection">鍘诲彂鐜板ソ鏂囩珷</a>
+                        <div class="empty-icon">妫啯鎳?/div>
+                        <p class="empty-text">閺夆晜ら堝绩増顥戝鍓攰绘洖鈻介埄鍐畳哄倸娲ㄩ悵?/p>
+                        <a href="/" class="btn-create-collection">告цぐ鍌炴偝閺夎￥ㄩ柡鍌氭川?/a>
                     </div>
                 </main>
             </div>
         </div>
     </div>
 
-    <!-- 鍒涘缓/缂栬緫鏀惰棌澶规ā鎬佹 -->
+    <!-- 告帗绋紓?傚倹鐗炵欢顐绩増顥戝鎯潐鑶╅跨劍?-->
     <div class="modal-overlay" id="collectionModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle">鏂板缓鏀惰棌澶?/h3>
+                <h3 id="modalTitle">哄倹樼紓鎾诲绩増顥戝?/h3>
             </div>
             <form id="collectionForm">
                 <div class="form-group">
-                    <label class="form-label">鏀惰棌澶瑰悕绉?/label>
-                    <input type="text" class="form-input" id="collectionName" placeholder="缁欐敹钘忓す璧蜂釜鍚嶅瓧" required>
+                    <label class="form-label">衡偓増顥戝鍓佹嚀洜绮?/label>
+                    <input type="text" class="form-input" id="collectionName" placeholder="備焦弫褰掓寠韫挶氶褑娓归堝触瀹ュ懐鎽? required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">鎻忚堪锛堝彲閫夛級</label>
-                    <textarea class="form-input form-textarea" id="collectionDesc" placeholder="绠€鍗曟弿杩颁竴涓嬭繖涓敹钘忓す..."></textarea>
+                    <label class="form-label">绻崼顏堟晬繂查梺顐㈩檧?/label>
+                    <textarea class="form-input form-textarea" id="collectionDesc" placeholder="姭撻柛佹礃寧娼绘０浣侯伇挸堢换鏍ㄧ▔懏鏆柦虹箰閵?.."></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">閫夋嫨鍥炬爣</label>
+                    <label class="form-label">闂顦扮氥劑宕堕悙傚灱</label>
                     <div class="icon-selector" id="iconSelector">
-                        <div class="icon-option selected" data-icon="馃搧">馃搧</div>
-                        <div class="icon-option" data-icon="猸?>猸?/div>
-                        <div class="icon-option" data-icon="鉂わ笍">鉂わ笍</div>
-                        <div class="icon-option" data-icon="馃摉">馃摉</div>
-                        <div class="icon-option" data-icon="馃挕">馃挕</div>
-                        <div class="icon-option" data-icon="馃帹">馃帹</div>
-                        <div class="icon-option" data-icon="馃捇">馃捇</div>
-                        <div class="icon-option" data-icon="馃幃">馃幃</div>
-                        <div class="icon-option" data-icon="馃幍">馃幍</div>
-                        <div class="icon-option" data-icon="馃幀">馃幀</div>
-                        <div class="icon-option" data-icon="馃摎">馃摎</div>
-                        <div class="icon-option" data-icon="馃敩">馃敩</div>
+                        <div class="icon-option selected" data-icon="妫啯鎯?>妫啯鎯?/div>
+                        <div class="icon-option" data-icon="?>?/div>
+                        <div class="icon-option" data-icon="村倶х?>村倶х?/div>
+                        <div class="icon-option" data-icon="妫啯鎲?>妫啯鎲?/div>
+                        <div class="icon-option" data-icon="妫啯?>妫啯?/div>
+                        <div class="icon-option" data-icon="妫啫鑵?>妫啫鑵?/div>
+                        <div class="icon-option" data-icon="妫啯宕?>妫啯宕?/div>
+                        <div class="icon-option" data-icon="妫啫绠?>妫啫绠?/div>
+                        <div class="icon-option" data-icon="妫啫绠?>妫啫绠?/div>
+                        <div class="icon-option" data-icon="妫啫绠?>妫啫绠?/div>
+                        <div class="icon-option" data-icon="妫啯鎲?>妫啯鎲?/div>
+                        <div class="icon-option" data-icon="妫啯鏆?>妫啯鏆?/div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">閫夋嫨棰滆壊</label>
+                    <label class="form-label">闂顦扮氥劍锛愬鍡楊棌</label>
                     <div class="color-selector" id="colorSelector">
                         <div class="color-option selected" style="background: linear-gradient(135deg, #667eea, #764ba2);" data-color="#667eea"></div>
                         <div class="color-option" style="background: linear-gradient(135deg, #f093fb, #f5576c);" data-color="#f093fb"></div>
@@ -665,43 +665,43 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" onclick="closeModal()">鍙栨秷</button>
-                    <button type="submit" class="btn-primary">淇濆瓨</button>
+                    <button type="button" class="btn-cancel" onclick="closeModal()">告瑦鐗楃粔?/button>
+                    <button type="submit" class="btn-primary">洦绻傞悺?/button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- 绉诲姩鏂囩珷妯℃€佹 -->
+    <!-- 佸ф慨鈺呭棘モ晝褰挎顖楀墲兛鐒、?-->
     <div class="modal-overlay" id="moveModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>绉诲姩鍒版敹钘忓す</h3>
+                <h3>佸ф慨鈺呭礆楀牊鏆柦虹箰閵?/h3>
             </div>
             <div class="collections-list" id="moveCollectionList" style="max-height: 300px; overflow-y: auto;">
-                <!-- 鍔ㄦ€佺敓鎴?-->
+                <!-- 告鍔埀胯兌閺佹捇骞?-->
             </div>
             <div class="modal-footer">
-                <button class="btn-cancel" onclick="closeMoveModal()">鍙栨秷</button>
+                <button class="btn-cancel" onclick="closeMoveModal()">告瑦鐗楃粔?/button>
             </div>
         </div>
     </div>
 
-    <!-- Toast 鎻愮ず -->
+    <!-- Toast 圭粯鍔妵?-->
     <div class="toast" id="toast"></div>
 
     <script src="js/supabase-auth.js"></script>
     <script type="module">
         import { API_BASE_URL } from './js/api-config.js?v=20260418a';
         
-        // 鍏ㄥ眬鐘舵€?
+        // 稿繈鍔岄惇勬偐哥?
         let collections = [];
         let currentCollectionId = null;
         let selectedArticles = new Set();
         let editingCollectionId = null;
         let currentUser = null;
 
-        // 鍒濆鍖?
+        // 告帗绻傞～鎰板礌?
         async function init() {
             const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || 'null');
             if (!user) {
@@ -713,7 +713,7 @@
             setupEventListeners();
         }
 
-        // 鍔犺浇鏀惰棌澶瑰垪琛?
+        // 告梻ù鍥绩増顥戝鍓佹嚀鎮?
         async function loadCollections() {
             try {
                 const response = await fetch(`${API_BASE_URL}/collections`, {
@@ -727,7 +727,7 @@
                     collections = data.collections || [];
                     renderCollectionsList();
                     
-                    // 榛樿閫夋嫨绗竴涓敹钘忓す鎴?鍏ㄩ儴"
+                    // 掓稒顭堥濠氭焻跺顏ョ婂厸斿瓨绋夐鍛毆芥ê绻愰妵娆箣?稿繈鍔戦崕?
                     if (collections.length > 0 && !currentCollectionId) {
                         selectCollection(collections[0].id);
                     } else if (currentCollectionId) {
@@ -736,23 +736,23 @@
                 }
             } catch (error) {
                 console.error('Error loading collections:', error);
-                showToast('鍔犺浇澶辫触锛岃鍒锋柊閲嶈瘯');
+                showToast('告梻ù鍥緞堫袝挎稑鐭侀礆垮鐓闂佹彃绉烽惁?);
             }
         }
 
-        // 娓叉煋鏀惰棌澶瑰垪琛?
+        // 炴挸堕悡瀣绩増顥戝鍓佹嚀鎮?
         function renderCollectionsList() {
             const container = document.getElementById('collectionsList');
             
             let html = '';
             
-            // "鍏ㄩ儴"閫夐」
+            // "稿繈鍔戦崕?闂顦妴?
             html += `
                 <div class="collection-item ${!currentCollectionId ? 'active' : ''}" onclick="selectCollection(null)">
-                    <div class="collection-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">馃摎</div>
+                    <div class="collection-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">妫啯鎲?/div>
                     <div class="collection-info">
-                        <div class="collection-name">鍏ㄩ儴鏀惰棌</div>
-                        <div class="collection-count">${collections.reduce((sum, c) => sum + (c.article_count || 0), 0)} 绡囨枃绔?/div>
+                        <div class="collection-name">稿繈鍔戦崕鎾绩増顥?/div>
+                        <div class="collection-count">${collections.reduce((sum, c) => sum + (c.article_count || 0), 0)} 佲虫处閺啰绮?/div>
                     </div>
                 </div>
             `;
@@ -762,18 +762,18 @@
                     <div class="collection-item ${currentCollectionId === collection.id ? 'active' : ''}" 
                          onclick="selectCollection(${collection.id})">
                         <div class="collection-icon" style="background: ${collection.color || 'linear-gradient(135deg, #667eea, #764ba2)'};">
-                            ${collection.icon || '馃搧'}
+                            ${collection.icon || '妫啯鎯?}
                         </div>
                         <div class="collection-info">
                             <div class="collection-name">
                                 ${collection.name}
-                                ${collection.is_public ? '<span>馃寪</span>' : '<span>馃敀</span>'}
+                                ${collection.is_public ? '<span>妫啫?/span>' : '<span>妫啯鏅?/span>'}
                             </div>
-                            <div class="collection-count">${collection.article_count || 0} 绡囨枃绔?/div>
+                            <div class="collection-count">${collection.article_count || 0} 佲虫处閺啰绮?/div>
                         </div>
                         <div class="collection-actions">
-                            <button class="btn-icon" onclick="event.stopPropagation(); editCollection(${collection.id})">鉁忥笍</button>
-                            <button class="btn-icon" onclick="event.stopPropagation(); deleteCollection(${collection.id})">馃棏锔?/button>
+                            <button class="btn-icon" onclick="event.stopPropagation(); editCollection(${collection.id})">翠礁楠忕?/button>
+                            <button class="btn-icon" onclick="event.stopPropagation(); deleteCollection(${collection.id})">妫啯顥旈柨?/button>
                         </div>
                     </div>
                 `;
@@ -782,7 +782,7 @@
             container.innerHTML = html;
         }
 
-        // 閫夋嫨鏀惰棌澶?
+        // 闂顦扮氥劑ㄩ幆鐗堫棏濠?
         async function selectCollection(id) {
             currentCollectionId = id;
             selectedArticles.clear();
@@ -792,25 +792,25 @@
             if (id) {
                 const collection = collections.find(c => c.id === id);
                 if (collection) {
-                    document.getElementById('currentIcon').textContent = collection.icon || '馃搧';
+                    document.getElementById('currentIcon').textContent = collection.icon || '妫啯鎯?;
                     document.getElementById('currentIcon').style.background = collection.color || 'linear-gradient(135deg, #667eea, #764ba2)';
                     document.getElementById('currentCollectionName').textContent = collection.name;
-                    document.getElementById('currentCollectionDesc').textContent = collection.description || '鏆傛棤鎻忚堪';
+                    document.getElementById('currentCollectionDesc').textContent = collection.description || '哄棗瑰Λ夊箵韫艾鐗?;
                 }
             } else {
-                document.getElementById('currentIcon').textContent = '馃摎';
+                document.getElementById('currentIcon').textContent = '妫啯鎲?;
                 document.getElementById('currentIcon').style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-                document.getElementById('currentCollectionName').textContent = '鍏ㄩ儴鏀惰棌';
-                document.getElementById('currentCollectionDesc').textContent = '鎵€鏈夋敹钘忕殑鏂囩珷';
+                document.getElementById('currentCollectionName').textContent = '稿繈鍔戦崕鎾绩増顥?;
+                document.getElementById('currentCollectionDesc').textContent = '圭撻柡濐槹閺佸婅箛鏇熺暠哄倸娲ㄩ悵?;
             }
             
             await loadArticles(id);
         }
 
-        // 鍔犺浇鏂囩珷鍒楄〃
+        // 告梻ù鍥棘モ晝褰块柛鎺擃殙閵?
         async function loadArticles(collectionId) {
             const container = document.getElementById('articlesList');
-            container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">鍔犺浇涓?..</div>';
+            container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">告梻ù鍥ㄧ▔?..</div>';
             
             try {
                 let url = `${API_BASE_URL}/collections`;
@@ -839,11 +839,11 @@
                 }
             } catch (error) {
                 console.error('Error loading articles:', error);
-                container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">鍔犺浇澶辫触</div>';
+                container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">告梻ù鍥緞堫袝</div>';
             }
         }
 
-        // 娓叉煋鏂囩珷鍒楄〃
+        // 炴挸堕悡瀣棘モ晝褰块柛鎺擃殙閵?
         function renderArticles(articles) {
             const container = document.getElementById('articlesList');
             
@@ -857,20 +857,20 @@
                     <div class="article-content">
                         <a href="/article.html?id=${article.id}" class="article-title">${article.title}</a>
                         <div class="article-meta">
-                            <span>馃懁 ${article.author_name || '鍖垮悕'}</span>
-                            <span>馃搮 ${formatDate(article.created_at)}</span>
-                            <span>馃憗锔?${article.view_count || 0} 闃呰</span>
+                            <span>妫啯鍣?${article.author_name || '告牕鐏濋幃?}</span>
+                            <span>妫啯鎯?${formatDate(article.created_at)}</span>
+                            <span>妫啯戦柨?${article.view_count || 0} 闂傚啫鎳撻?/span>
                         </div>
                     </div>
                     <div class="article-actions">
-                        <button class="btn-icon" onclick="moveArticle('${article.id}')" title="绉诲姩">馃搨</button>
-                        <button class="btn-icon" onclick="removeArticle('${article.id}')" title="绉婚櫎">馃棏锔?/button>
+                        <button class="btn-icon" onclick="moveArticle('${article.id}')" title="佸ф慨?>妫啯鎯?/button>
+                        <button class="btn-icon" onclick="removeArticle('${article.id}')" title="佸顭▍?>妫啯顥旈柨?/button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // 閫夋嫨/鍙栨秷閫夋嫨鏂囩珷
+        // 闂顦扮?告瑦鐗楃粔鐑芥焻跺顏柡鍌氭川?
         function toggleArticle(articleId) {
             if (selectedArticles.has(articleId)) {
                 selectedArticles.delete(articleId);
@@ -880,7 +880,7 @@
             updateBatchActions();
         }
 
-        // 鏇存柊鎵归噺鎿嶄綔鏍?
+        // 哄洤鐡ㄩ弻濠囧箥瑜版帒娅ら鍨С嶆棃?
         function updateBatchActions() {
             const batchActions = document.getElementById('batchActions');
             const selectedCount = document.getElementById('selectedCount');
@@ -894,16 +894,16 @@
             }
         }
 
-        // 娓呴櫎閫夋嫨
+        // 炴挸鎳樺▍ㄦ焻跺顏?
         function clearSelection() {
             selectedArticles.clear();
             document.querySelectorAll('.article-checkbox input').forEach(cb => cb.checked = false);
             updateBatchActions();
         }
 
-        // 璁剧疆浜嬩欢鐩戝惉
+        // 犱礁澧介悿鍡樼ｂ晜顐介鈺傚灥?
         function setupEventListeners() {
-            // 鍥炬爣閫夋嫨
+            // 搞儳埇鏋讹綁鏌呮径瀣仴
             document.querySelectorAll('#iconSelector .icon-option').forEach(option => {
                 option.addEventListener('click', function() {
                     document.querySelectorAll('#iconSelector .icon-option').forEach(o => o.classList.remove('selected'));
@@ -911,7 +911,7 @@
                 });
             });
             
-            // 棰滆壊閫夋嫨
+            // 濡増绮忔竟濠焻跺顏?
             document.querySelectorAll('#colorSelector .color-option').forEach(option => {
                 option.addEventListener('click', function() {
                     document.querySelectorAll('#colorSelector .color-option').forEach(o => o.classList.remove('selected'));
@@ -919,17 +919,17 @@
                 });
             });
             
-            // 琛ㄥ崟鎻愪氦
+            // 炴稏鍔屽畷鐔煎箵亝鍞?
             document.getElementById('collectionForm').addEventListener('submit', handleFormSubmit);
         }
 
-        // 澶勭悊琛ㄥ崟鎻愪氦
+        // 濠㈣泛瀚幃濠勬偘閵娿儱樺姃?
         async function handleFormSubmit(e) {
             e.preventDefault();
             
             const name = document.getElementById('collectionName').value;
             const description = document.getElementById('collectionDesc').value;
-            const icon = document.querySelector('#iconSelector .icon-option.selected')?.dataset.icon || '馃搧';
+            const icon = document.querySelector('#iconSelector .icon-option.selected')?.dataset.icon || '妫啯鎯?;
             const color = document.querySelector('#colorSelector .color-option.selected')?.dataset.color || '#667eea';
             
             const data = {
@@ -954,30 +954,30 @@
                 });
                 
                 if (response.ok) {
-                    showToast(editingCollectionId ? '鏀惰棌澶瑰凡鏇存柊' : '鏀惰棌澶瑰垱寤烘垚鍔?);
+                    showToast(editingCollectionId ? '衡偓増顥戝鍓佹嚀戯寸涙ɑ鐓' : '衡偓増顥戝鍓佹嚀崬欓悜虹亣?);
                     closeModal();
                     await loadCollections();
                 } else {
                     const error = await response.json();
-                    showToast(error.message || '鎿嶄綔澶辫触');
+                    showToast(error.message || '瑰灝绉紞鏃勬潏顐バ?);
                 }
             } catch (error) {
                 console.error('Error saving collection:', error);
-                showToast('淇濆瓨澶辫触锛岃閲嶈瘯');
+                showToast('洦绻傞悺銊緞堫袝挎稑鐭侀勬煂瀹ュ牏妲?);
             }
         }
 
-        // 缂栬緫鏀惰棌澶?
+        // 傚倹鐗炵欢顐绩増顥戝?
         function editCollection(id) {
             const collection = collections.find(c => c.id === id);
             if (!collection) return;
             
             editingCollectionId = id;
-            document.getElementById('modalTitle').textContent = '缂栬緫鏀惰棌澶?;
+            document.getElementById('modalTitle').textContent = '傚倹鐗炵欢顐绩増顥戝?;
             document.getElementById('collectionName').value = collection.name;
             document.getElementById('collectionDesc').value = collection.description || '';
             
-            // 璁剧疆鍥炬爣
+            // 犱礁澧介悿鍡涘炊愵剛鍨?
             document.querySelectorAll('#iconSelector .icon-option').forEach(o => {
                 o.classList.toggle('selected', o.dataset.icon === collection.icon);
             });
@@ -985,18 +985,18 @@
             document.getElementById('collectionModal').classList.add('show');
         }
 
-        // 缂栬緫褰撳墠鏀惰棌澶?
+        // 傚倹鐗炵欢顐ャ啿顤呴柡鈧幆鐗堫棏濠?
         function editCurrentCollection() {
             if (!currentCollectionId) {
-                showToast('鏃犳硶缂栬緫"鍏ㄩ儴鏀惰棌"');
+                showToast('哄啰电涵鍓磽閺嶎剛甯?稿繈鍔戦崕鎾绩増顥?');
                 return;
             }
             editCollection(currentCollectionId);
         }
 
-        // 鍒犻櫎鏀惰棌澶?
+        // 告帞呭酣ㄩ幆鐗堫棏濠?
         async function deleteCollection(id) {
-            if (!confirm('纭畾瑕佸垹闄よ繖涓敹钘忓す鍚楋紵鍏朵腑鐨勬枃绔犲皢琚Щ鍒?鍏ㄩ儴鏀惰棌"銆?)) return;
+            if (!confirm('绢収鍠栭悾鍓ф啺鐏╅梻鍕╁涚换鏍ㄧ▔懏鏆柦虹箰閵瑩宕ュΔ瀣惞稿繑婀归懙鎴︽儍曨剚鏃傚Тㄣ垻鎮銇扳晠宕?稿繈鍔戦崕鎾绩増顥??)) return;
             
             try {
                 const response = await fetch(`${API_BASE_URL}/collections/${id}`, {
@@ -1007,53 +1007,53 @@
                 });
                 
                 if (response.ok) {
-                    showToast('鏀惰棌澶瑰凡鍒犻櫎');
+                    showToast('衡偓増顥戝鍓佹嚀戯宕氶悩樼彑');
                     if (currentCollectionId === id) {
                         currentCollectionId = null;
                     }
                     await loadCollections();
                 } else {
-                    showToast('鍒犻櫎澶辫触');
+                    showToast('告帞呭勬潏顐バ?);
                 }
             } catch (error) {
                 console.error('Error deleting collection:', error);
-                showToast('鍒犻櫎澶辫触');
+                showToast('告帞呭勬潏顐バ?);
             }
         }
 
-        // 鍒犻櫎褰撳墠鏀惰棌澶?
+        // 告帞呭氦銇愰幘鍐差枀衡偓増顥戝?
         function deleteCurrentCollection() {
             if (!currentCollectionId) {
-                showToast('鏃犳硶鍒犻櫎"鍏ㄩ儴鏀惰棌"');
+                showToast('哄啰电涵曞礆樼粯鐝?稿繈鍔戦崕鎾绩増顥?');
                 return;
             }
             deleteCollection(currentCollectionId);
         }
 
-        // 绉诲姩鏂囩珷
+        // 佸ф慨鈺呭棘モ晝褰?
         async function moveArticle(articleId) {
             selectedArticles.clear();
             selectedArticles.add(articleId);
             openMoveModal();
         }
 
-        // 鎵归噺绉诲姩
+        // 归潧缍婇崳铏圭矓彃袟
         function moveSelected() {
             if (selectedArticles.size === 0) return;
             openMoveModal();
         }
 
-        // 鎵撳紑绉诲姩妯℃€佹
+        // 瑰灚哥鎴犵矓彃袟☆垪鍓濋埀跨劍?
         function openMoveModal() {
             const list = document.getElementById('moveCollectionList');
             list.innerHTML = collections.map(c => `
                 <div class="collection-item" onclick="confirmMove(${c.id})">
                     <div class="collection-icon" style="background: ${c.color || 'linear-gradient(135deg, #667eea, #764ba2)'};">
-                        ${c.icon || '馃搧'}
+                        ${c.icon || '妫啯鎯?}
                     </div>
                     <div class="collection-info">
                         <div class="collection-name">${c.name}</div>
-                        <div class="collection-count">${c.article_count || 0} 绡囨枃绔?/div>
+                        <div class="collection-count">${c.article_count || 0} 佲虫处閺啰绮?/div>
                     </div>
                 </div>
             `).join('');
@@ -1061,13 +1061,13 @@
             document.getElementById('moveModal').classList.add('show');
         }
 
-        // 纭绉诲姩
+        // 绢収鍠涢鑽ょ矓彃袟
         async function confirmMove(targetCollectionId) {
             const articleIds = Array.from(selectedArticles);
             
             try {
                 for (const articleId of articleIds) {
-                    // 鍏堜粠褰撳墠鏀惰棌澶圭Щ闄?
+                    // 稿繐鐗呯划鐘恒啿顤呴柡鈧幆鐗堫棏濠㈣泛婀变簺闂?
                     if (currentCollectionId) {
                         await fetch(`${API_BASE_URL}/collections/${currentCollectionId}/articles/${articleId}`, {
                             method: 'DELETE',
@@ -1077,7 +1077,7 @@
                         });
                     }
                     
-                    // 娣诲姞鍒扮洰鏍囨敹钘忓す
+                    // 烇綀ф慨鐐哄礆殿喗绐柡宥呮处閺佸婅箛鎾变粴
                     await fetch(`${API_BASE_URL}/collections/${targetCollectionId}/articles`, {
                         method: 'POST',
                         headers: {
@@ -1088,20 +1088,20 @@
                     });
                 }
                 
-                showToast(`鎴愬姛绉诲姩 ${articleIds.length} 绡囨枃绔燻);
+                showToast(`瑰瓨鍔曟慨氱矓彃袟 ${articleIds.length} 佲虫处閺啰绮╅悤?;
                 closeMoveModal();
                 clearSelection();
                 await loadCollections();
                 await loadArticles(currentCollectionId);
             } catch (error) {
                 console.error('Error moving articles:', error);
-                showToast('绉诲姩澶辫触');
+                showToast('佸ф慨鈺傚緞堫袝');
             }
         }
 
-        // 绉婚櫎鏂囩珷
+        // 佸顭▍棘モ晝褰?
         async function removeArticle(articleId) {
-            if (!confirm('纭畾瑕佺Щ闄よ繖绡囨枃绔犲悧锛?)) return;
+            if (!confirm('绢収鍠栭悾鍓ф啺洅鈺呮⒔閵堝牏绠圭鈥虫处閺啰绮╅悩鍙夊亱?)) return;
             
             try {
                 const url = currentCollectionId
@@ -1116,22 +1116,22 @@
                 });
                 
                 if (response.ok) {
-                    showToast('鏂囩珷宸茬Щ闄?);
+                    showToast('哄倸娲ㄩ悵宄啅碱儷鈺呮⒔?);
                     await loadCollections();
                     await loadArticles(currentCollectionId);
                 } else {
-                    showToast('绉婚櫎澶辫触');
+                    showToast('佸顭▍㈠緞堫袝');
                 }
             } catch (error) {
                 console.error('Error removing article:', error);
-                showToast('绉婚櫎澶辫触');
+                showToast('佸顭▍㈠緞堫袝');
             }
         }
 
-        // 鎵归噺绉婚櫎
+        // 归潧缍婇崳铏圭矓犳碍鐝?
         async function deleteSelected() {
             if (selectedArticles.size === 0) return;
-            if (!confirm(`纭畾瑕佺Щ闄ら€変腑鐨?${selectedArticles.size} 绡囨枃绔犲悧锛焋)) return;
+            if (!confirm(`绢収鍠栭悾鍓ф啺洅鈺呮⒔閵堝撴径庡幀?${selectedArticles.size} 佲虫处閺啰绮╅悩鍙夊亱挎稓鍓?) return;
             
             const articleIds = Array.from(selectedArticles);
             for (const articleId of articleIds) {
@@ -1140,7 +1140,7 @@
             clearSelection();
         }
 
-        // 宸ュ叿鍑芥暟
+        // 规悶遍崣鍧楀礄恒儲娈?
         function formatDate(dateStr) {
             if (!dateStr) return '';
             const date = new Date(dateStr);
@@ -1155,11 +1155,11 @@
             return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
         }
 
-        // 鏆撮湶鍏ㄥ眬鍑芥暟
+        // 哄棙冲﹢曞礂閵娿儳婀伴柛鎴Г閺?
         window.selectCollection = selectCollection;
         window.openCreateModal = function() {
             editingCollectionId = null;
-            document.getElementById('modalTitle').textContent = '鏂板缓鏀惰棌澶?;
+            document.getElementById('modalTitle').textContent = '哄倹樼紓鎾诲绩増顥戝?;
             document.getElementById('collectionForm').reset();
             document.querySelectorAll('#iconSelector .icon-option').forEach((o, i) => o.classList.toggle('selected', i === 0));
             document.querySelectorAll('#colorSelector .color-option').forEach((o, i) => o.classList.toggle('selected', i === 0));
@@ -1192,9 +1192,10 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         };
 
-        // 鍚姩
+        // 告凹鍨版慨?
         init();
     </script>
 </body>
 </html>
+
 

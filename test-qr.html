@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR 鐮佺敓鎴愬櫒娴嬭瘯</title>
+    <title>QR 鐮敓鎴愬櫒嬭瘯</title>
     <style>
         body {
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -95,67 +95,67 @@
 </head>
 <body>
     <div class="container">
-        <h1>馃摫 QR 鐮佺敓鎴愬櫒鍔熻兘娴嬭瘯</h1>
+        <h1>馃摫 QR 鐮敓鎴愬櫒功能兘嬭瘯</h1>
         
         <div class="test-section">
-            <h2>1. 鏂囦欢璁块棶娴嬭瘯</h2>
-            <div class="test-result" id="fileTest">娴嬭瘯涓?..</div>
+            <h2>1. 鏂囦欢块棶嬭瘯</h2>
+            <div class="test-result" id="fileTest">嬭瘯涓?..</div>
         </div>
         
         <div class="test-section">
-            <h2>2. JavaScript 璇硶娴嬭瘯</h2>
-            <div class="test-result" id="jsTest">娴嬭瘯涓?..</div>
+            <h2>2. JavaScript 硶嬭瘯</h2>
+            <div class="test-result" id="jsTest">嬭瘯涓?..</div>
         </div>
         
         <div class="test-section">
-            <h2>3. QR 鐮佺敓鎴愬姛鑳芥祴璇?/h2>
+            <h2>3. QR 鐮敓鎴愬姛鑳芥祴?/h2>
             <div class="qr-preview">
                 <canvas id="qrCode" width="256" height="256"></canvas>
             </div>
-            <div class="test-result" id="qrTest">鍑嗗娴嬭瘯...</div>
-            <button class="test-button" id="generateTest">鐢熸垚娴嬭瘯 QR 鐮?/button>
+            <div class="test-result" id="qrTest">鍑嬭瘯...</div>
+            <button class="test-button" id="generateTest">鐢熸垚嬭瘯 QR 鐮?/button>
         </div>
         
         <div class="test-section">
-            <h2>4. 椤甸潰璁块棶娴嬭瘯</h2>
+            <h2>4. 潰块棶嬭瘯</h2>
             <div class="test-result" id="pageTest">
-                <a href="qr-generator.html" target="_blank">鐐瑰嚮璁块棶 QR 鐮佺敓鎴愬櫒</a>
+                <a href="qr-generator.html" target="_blank">鐐瑰嚮块棶 QR 鐮敓鎴愬櫒</a>
             </div>
         </div>
     </div>
     
     <script>
-        // 鏂囦欢璁块棶娴嬭瘯
+        // 鏂囦欢块棶嬭瘯
         fetch('js/qr-generator.js')
             .then(response => {
                 if (response.ok) {
                     return response.text();
                 }
-                throw new Error('鏂囦欢鏃犳硶璁块棶');
+                throw new Error('鏂囦欢鏃犳硶块棶');
             })
             .then(text => {
                 const resultDiv = document.getElementById('fileTest');
-                resultDiv.textContent = `鉁?鏂囦欢璁块棶鎴愬姛锛屾枃浠跺ぇ灏? ${text.length} 瀛楃`;
+                resultDiv.textContent = `鉁?鏂囦欢块棶鎴愬姛锛屾枃跺ぇ灏? ${text.length} 瀛楃`;
                 resultDiv.className = 'test-result success';
             })
             .catch(error => {
                 const resultDiv = document.getElementById('fileTest');
-                resultDiv.textContent = `鉂?鏂囦欢璁块棶澶辫触: ${error.message}`;
+                resultDiv.textContent = `鉂?鏂囦欢块棶辫触: ${error.message}`;
                 resultDiv.className = 'test-result error';
             });
         
-        // JavaScript 璇硶娴嬭瘯
+        // JavaScript 硶嬭瘯
         try {
-            // 鐩存帴娴嬭瘯绠€鍗曠殑 QR 鐮佺敓鎴愬嚱鏁?            const testCanvas = document.getElementById('qrCode');
+            // 鐩存帴嬭瘯绠鍗曠殑 QR 鐮敓鎴愬嚱鏁?            const testCanvas = document.getElementById('qrCode');
             const ctx = testCanvas.getContext('2d');
             
-            // 绠€鍗曠粯鍒舵祴璇?            ctx.fillStyle = '#000000';
+            // 绠鍗曠粯鍒舵祴?            ctx.fillStyle = '#000000';
             ctx.fillRect(0, 0, 256, 256);
             
-            // 缁樺埗涓€浜涘浘妗?            ctx.fillStyle = '#ffffff';
+            // 樺埗涓浜涘浘妗?            ctx.fillStyle = '#ffffff';
             ctx.fillRect(10, 10, 236, 236);
             
-            // 缁樺埗绠€鍗曠殑 QR 鐮佹ā鎷?            ctx.fillStyle = '#000000';
+            // 樺埗绠鍗曠殑 QR 鐮佹ā鎷?            ctx.fillStyle = '#000000';
             for (let x = 30; x < 220; x += 20) {
                 for (let y = 30; y < 220; y += 20) {
                     if (Math.random() > 0.7) {
@@ -165,7 +165,7 @@
             }
             
             const resultDiv = document.getElementById('jsTest');
-            resultDiv.textContent = '鉁?JavaScript 璇硶鍜?Canvas 缁樺浘鍔熻兘姝ｅ父';
+            resultDiv.textContent = '鉁?JavaScript 硶鍜?Canvas 樺浘功能兘姝父';
             resultDiv.className = 'test-result success';
         } catch (error) {
             const resultDiv = document.getElementById('jsTest');
@@ -174,21 +174,21 @@
             console.error(error);
         }
         
-        // QR 鐮佺敓鎴愬姛鑳芥祴璇?        document.getElementById('generateTest').addEventListener('click', function() {
+        // QR 鐮敓鎴愬姛鑳芥祴?        document.getElementById('generateTest').addEventListener('click', function() {
             const resultDiv = document.getElementById('qrTest');
             
             try {
-                // 鍔犺浇骞舵祴璇?QR 鐮佺敓鎴愬櫒
+                // 鍔犺浇骞舵祴?QR 鐮敓鎴愬櫒
                 const script = document.createElement('script');
                 script.src = 'js/qr-generator.js';
                 script.onload = function() {
                     try {
-                        // 璋冪敤 QR 鐮佺敓鎴愬櫒鍑芥暟
+                        // 璋冪敤 QR 鐮敓鎴愬櫒鍑芥暟
                         if (typeof generateQRCode === 'function') {
-                            resultDiv.textContent = '鉁?QR 鐮佺敓鎴愬櫒鍑芥暟鍔犺浇鎴愬姛';
+                            resultDiv.textContent = '鉁?QR 鐮敓鎴愬櫒鍑芥暟鍔犺浇鎴愬姛';
                             resultDiv.className = 'test-result success';
                             
-                            // 鐢熸垚绠€鍗曠殑 QR 鐮?                            const canvas = generateQRCode('娴嬭瘯鍐呭');
+                            // 鐢熸垚绠鍗曠殑 QR 鐮?                            const canvas = generateQRCode('嬭瘯鍐呭');
                             const qrCode = document.getElementById('qrCode');
                             qrCode.width = canvas.width;
                             qrCode.height = canvas.height;
@@ -197,14 +197,14 @@
                             throw new Error('generateQRCode 鍑芥暟鏈壘鍒?);
                         }
                     } catch (error) {
-                        resultDiv.textContent = `鉂?QR 鐮佺敓鎴愬嚱鏁伴敊璇? ${error.message}`;
+                        resultDiv.textContent = `鉂?QR 鐮敓鎴愬嚱鏁伴敊? ${error.message}`;
                         resultDiv.className = 'test-result error';
                         console.error(error);
                     }
                 };
                 
                 script.onerror = function() {
-                    throw new Error('JavaScript 鍔犺浇澶辫触');
+                    throw new Error('JavaScript 鍔犺浇辫触');
                 };
                 
                 document.body.appendChild(script);

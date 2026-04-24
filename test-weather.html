@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>澶╂皵鏌ヨ鍔熻兘娴嬭瘯</title>
+    <title>天气查询功能兘嬭瘯</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -97,25 +97,25 @@
 </head>
 <body>
     <div class="container">
-        <h1>澶╂皵鏌ヨ鍔熻兘娴嬭瘯</h1>
+        <h1>天气查询功能兘嬭瘯</h1>
         <div class="test-form">
-            <input type="text" id="cityInput" placeholder="杈撳叆鍩庡競鍚嶇О锛屽锛氬寳浜?>
-            <button id="testButton">娴嬭瘯澶╂皵鏌ヨ鍔熻兘</button>
+            <input type="text" id="cityInput" placeholder="杈叆庡競鍚嶇О锛屽锛氬寳浜?>
+            <button id="testButton">嬭瘯天气查询功能兘</button>
         </div>
-        <div class="loading" id="loading">姝ｅ湪鑾峰彇澶╂皵鏁版嵁...</div>
+        <div class="loading" id="loading">姝湪鑾彇╂皵鏁版嵁...</div>
         <div id="results" class="results"></div>
     </div>
 
     <script>
-        // 澶嶅埗鑷獁eather.js鐨勬牳蹇冨嚱鏁?        async function fetchWeatherData(city) {
+        // 嶅埗鑷獁eather.js鐨勬牳蹇冨嚱鏁?        async function fetchWeatherData(city) {
             try {
-                // 浣跨敤Open-Meteo API鑾峰彇鐪熷疄澶╂皵鏁版嵁锛堟棤闇€API瀵嗛挜锛屽畬鍏ㄥ厤璐癸級
-                // 棣栧厛闇€瑕侀€氳繃鍩庡競鍚嶇О鑾峰彇缁忕含搴﹀潗鏍?                const geocodingUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=zh&format=json`;
+                // 浣跨敤Open-Meteo API鑾彇鐪熷疄╂皵鏁版嵁锛堟棤闇API嗛挜锛屽畬鍏厤璐癸級
+                // 📌栧厛闇瑕侀氳繃庡競鍚嶇О鑾彇忕含潗鏍?                const geocodingUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=zh&format=json`;
                 
                 const geocodingResponse = await fetch(geocodingUrl);
                 
                 if (!geocodingResponse.ok) {
-                    throw new Error(`鑾峰彇鍧愭爣澶辫触: ${geocodingResponse.status}`);
+                    throw new Error(`鑾彇鍧愭爣辫触: ${geocodingResponse.status}`);
                 }
                 
                 const geocodingData = await geocodingResponse.json();
@@ -126,22 +126,22 @@
                 
                 const { latitude, longitude, name } = geocodingData.results[0];
                 
-                // 浣跨敤鑾峰彇鍒扮殑缁忕含搴﹁姹傚ぉ姘旀暟鎹?                const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&wind_speed_unit=ms&timezone=auto`;
+                // 浣跨敤鑾彇鍒扮殑忕含﹁姹傚ぉ旀暟鎹?                const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&wind_speed_unit=ms&timezone=auto`;
                 
                 const weatherResponse = await fetch(weatherUrl);
                 
                 if (!weatherResponse.ok) {
-                    throw new Error(`鑾峰彇澶╂皵鏁版嵁澶辫触: ${weatherResponse.status}`);
+                    throw new Error(`鑾彇╂皵鏁版嵁辫触: ${weatherResponse.status}`);
                 }
                 
                 const weatherData = await weatherResponse.json();
                 
-                // 涓轰簡鑾峰彇婀垮害銆佹皵鍘嬪拰鑳借搴︼紝鎴戜滑闇€瑕佷娇鐢ㄤ富API鐨刟dditional_variables鍙傛暟
+                // 涓轰簡鑾彇婀垮害銆佹皵鍘拰鑳借︼紝鎴戜滑闇瑕佷鐢ㄤ富API鐨刟dditional_variables鍙傛暟
                 let humidity = 0;
                 let pressure = 0;
                 let visibility = 0;
                 
-                // 灏濊瘯浣跨敤Open-Meteo鐨勪富API鑾峰彇鏇村鏁版嵁
+                // 灏濊瘯浣跨敤Open-Meteo鐨勪富API鑾彇更多鏁版嵁
                 const additionalWeatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=relative_humidity_2m,pressure_msl,visibility`;
                 
                 try {
@@ -162,10 +162,10 @@
                         }
                     }
                 } catch (error) {
-                    console.error('鑾峰彇棰濆澶╂皵鏁版嵁澶辫触:', error);
+                    console.error('鑾彇棰╂皵鏁版嵁辫触:', error);
                 }
                 
-                // 澶勭悊Open-Meteo API杩斿洖鐨勬暟鎹粨鏋?                if (weatherData.current_weather) {
+                // 悊Open-Meteo API杩斿洖鐨勬暟鎹粨鏋?                if (weatherData.current_weather) {
                     const processedData = {
                         name: name,
                         main: {
@@ -187,10 +187,10 @@
                     
                     return processedData;
                 } else {
-                    throw new Error('鏈幏鍙栧埌澶╂皵鏁版嵁');
+                    throw new Error('鏈幏鍙栧埌╂皵鏁版嵁');
                 }
             } catch (error) {
-                console.error('鑾峰彇澶╂皵鏁版嵁澶辫触:', error);
+                console.error('鑾彇╂皵鏁版嵁辫触:', error);
                 throw error;
             }
         }
@@ -198,24 +198,24 @@
         function getWeatherDescription(weatherCode) {
             const weatherDescriptions = {
                 0: '鏅?,
-                1: '澶氫簯',
-                2: '澶氫簯',
+                1: '氫簯',
+                2: '氫簯',
                 3: '闃村ぉ',
                 45: '闆?,
                 48: '闆?,
                 51: '灏忛洦',
                 53: '涓洦',
-                55: '澶ч洦',
+                55: '洦',
                 61: '灏忛洦',
                 63: '涓洦',
-                65: '澶ч洦',
+                65: '洦',
                 71: '灏忛洩',
                 73: '涓洩',
-                75: '澶ч洩',
+                75: '洩',
                 95: '闆锋毚'
             };
             
-            return weatherDescriptions[weatherCode] || '鏈煡澶╂皵';
+            return weatherDescriptions[weatherCode] || '鏈煡╂皵';
         }
 
         function getWeatherIcon(weatherCode) {
@@ -241,13 +241,13 @@
             return weatherIcons[weatherCode] || '01d';
         }
 
-        // 娴嬭瘯鍑芥暟
+        // 嬭瘯鍑芥暟
         async function testWeatherFunction() {
             const cityInput = document.getElementById('cityInput');
             const city = cityInput.value.trim();
             
             if (!city) {
-                alert('璇疯緭鍏ュ煄甯傚悕绉?);
+                alert('疯緭鍏ュ煄甯傚悕绉?);
                 return;
             }
             
@@ -261,7 +261,7 @@
                 const weatherData = await fetchWeatherData(city);
                 
                 const weatherInfo = `
-                    <div style="font-weight: bold; margin-bottom: 10px;">${weatherData.name}澶╂皵淇℃伅</div>
+                    <div style="font-weight: bold; margin-bottom: 10px;">${weatherData.name}╂皵淇伅</div>
                     <div class="weather-info">
                         <div class="weather-item">
                             <label>娓╁害</label>
@@ -272,19 +272,19 @@
                             <span>${weatherData.main.humidity}%</span>
                         </div>
                         <div class="weather-item">
-                            <label>姘斿帇</label>
+                            <label>斿帇</label>
                             <span>${weatherData.main.pressure} hPa</span>
                         </div>
                         <div class="weather-item">
-                            <label>椋庨€?/label>
+                            <label>椋?/label>
                             <span>${weatherData.wind.speed} m/s</span>
                         </div>
                         <div class="weather-item">
-                            <label>鑳借搴?/label>
+                            <label>鑳借?/label>
                             <span>${(weatherData.visibility / 1000).toFixed(1)} km</span>
                         </div>
                         <div class="weather-item">
-                            <label>澶╂皵</label>
+                            <label>╂皵</label>
                             <span>${weatherData.weather[0].description}</span>
                         </div>
                     </div>

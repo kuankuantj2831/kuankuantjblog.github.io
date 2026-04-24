@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>姝ｅ垯琛ㄨ揪寮忔祴璇曞櫒 - 鏇村鍔熻兘</title>
+    <title>姝垯琛ㄨ揪忔祴曞櫒 - 更多功能兘</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         body {
@@ -165,31 +165,31 @@
 </head>
 <body>
     <div class="regex-tester-container">
-        <h1>馃攳 姝ｅ垯琛ㄨ揪寮忔祴璇曞櫒</h1>
+        <h1>馃攳 姝垯琛ㄨ揪忔祴曞櫒</h1>
         
         <div class="regex-inputs">
             <div class="regex-input-container">
-                <label for="regexPattern">姝ｅ垯琛ㄨ揪寮忔ā寮?/label>
-                <input type="text" id="regexPattern" placeholder="璇疯緭鍏ユ鍒欒〃杈惧紡妯″紡...">
+                <label for="regexPattern">姝垯琛ㄨ揪忔ā?/label>
+                <input type="text" id="regexPattern" placeholder="疯緭鍏ユ鍒欒〃杈紡紡...">
             </div>
             
             <div class="regex-input-container">
-                <label for="testText">娴嬭瘯鏂囨湰</label>
-                <textarea id="testText" placeholder="璇疯緭鍏ヨ娴嬭瘯鐨勬枃鏈?.."></textarea>
+                <label for="testText">嬭瘯鏂湰</label>
+                <textarea id="testText" placeholder="疯緭鍏ヨ嬭瘯鐨勬枃鏈?.."></textarea>
             </div>
             
             <div class="regex-flags">
                 <label>
                     <input type="checkbox" id="flagG">
-                    鍏ㄥ眬鎼滅储 (g)
+                    鍏眬鎼滅储 (g)
                 </label>
                 <label>
                     <input type="checkbox" id="flagI">
-                    蹇界暐澶у皬鍐?(i)
+                    蹇界暐у皬鍐?(i)
                 </label>
                 <label>
                     <input type="checkbox" id="flagM">
-                    澶氳妯″紡 (m)
+                    氳紡 (m)
                 </label>
                 <label>
                     <input type="checkbox" id="flagU">
@@ -197,13 +197,13 @@
                 </label>
                 <label>
                     <input type="checkbox" id="flagY">
-                    绮樻€у尮閰?(y)
+                    绮樻у尮閰?(y)
                 </label>
             </div>
         </div>
         
         <div class="test-button">
-            <button id="testBtn">娴嬭瘯姝ｅ垯琛ㄨ揪寮?/button>
+            <button id="testBtn">嬭瘯姝垯琛ㄨ揪?/button>
         </div>
         
         <div class="test-results">
@@ -217,7 +217,7 @@
             const testText = document.getElementById('testText').value;
             
             if (!regexPattern) {
-                alert('璇疯緭鍏ユ鍒欒〃杈惧紡妯″紡');
+                alert('疯緭鍏ユ鍒欒〃杈紡紡');
                 return;
             }
             
@@ -243,34 +243,34 @@
             resultsContent.innerHTML = '';
             
             if (!results) {
-                resultsContent.innerHTML = '<p>娌℃湁鎵惧埌鍖归厤椤?/p>';
+                resultsContent.innerHTML = '<p>娌湁鎵埌鍖归厤?/p>';
                 return;
             }
             
             const countDiv = document.createElement('div');
             countDiv.className = 'results-count';
-            countDiv.textContent = `鎵惧埌 ${results.length} 涓尮閰嶉」`;
+            countDiv.textContent = `鎵埌 ${results.length} 涓尮閰」`;
             resultsContent.appendChild(countDiv);
             
             const listDiv = document.createElement('div');
             listDiv.className = 'results-list';
             
-            // 楂樹寒鏄剧ず鍖归厤椤?            let highlightedText = testText.replace(regex, function(match) {
+            // 楂樹寒鏄剧ず鍖归厤?            let highlightedText = testText.replace(regex, function(match) {
                 return `<span class="match-text">${match}</span>`;
             });
             
             const matchDiv = document.createElement('div');
             matchDiv.className = 'match-item';
             matchDiv.innerHTML = `
-                <div>鍖归厤鏂囨湰: ${highlightedText}</div>
+                <div>鍖归厤鏂湰: ${highlightedText}</div>
             `;
             listDiv.appendChild(matchDiv);
             
-            // 鏄剧ず鍒嗙粍淇℃伅
+            // 鏄剧ず鍒嗙粍淇伅
             if (results.length > 1) {
                 const groupsDiv = document.createElement('div');
                 groupsDiv.className = 'match-groups';
-                groupsDiv.innerHTML = '鍒嗙粍淇℃伅:<br>';
+                groupsDiv.innerHTML = '鍒嗙粍淇伅:<br>';
                 
                 for (let i = 1; i < results.length; i++) {
                     groupsDiv.innerHTML += `鍒嗙粍 ${i}: ${results[i]}<br>`;
@@ -284,7 +284,7 @@
         
         function displayError(error) {
             const resultsContent = document.getElementById('resultsContent');
-            resultsContent.innerHTML = `<div class="regex-error">姝ｅ垯琛ㄨ揪寮忛敊璇? ${error.message}</div>`;
+            resultsContent.innerHTML = `<div class="regex-error">姝垯琛ㄨ揪忛敊? ${error.message}</div>`;
         }
     </script>
 </body>

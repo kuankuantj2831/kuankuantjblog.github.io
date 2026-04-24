@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鎴戠殑鍏虫敞 - Hakimi 鐨勭尗鐖灦</title>
+    <title>瑰瓨鍨瑰▓鎴礂閾忣偅鏆?- Hakimi 的个人博客/title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/tianjg-theme.css">
@@ -69,7 +69,7 @@
             color: #667eea;
         }
 
-        /* 鎼滅储鏍?*/
+        /* 瑰吋绮銊╁冀?*/
         .search-bar {
             margin: 25px 0;
         }
@@ -110,7 +110,7 @@
             font-size: 1.1em;
         }
 
-        /* 鐢ㄦ埛鍒楄〃 */
+        /* 活潿鍔崺㈠礆濡ゅ嫨鈧?*/
         .users-list {
             display: grid;
             gap: 15px;
@@ -251,7 +251,7 @@
             transform: scale(1.1);
         }
 
-        /* 绌虹姸鎬?*/
+        /* 佸矁娅ｆ慨鎼佸箑?*/
         .empty-state {
             text-align: center;
             padding: 80px 20px;
@@ -292,7 +292,7 @@
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
 
-        /* 鎺ㄨ崘鍏虫敞 */
+        /* 规亽鍔畷姗宕搹顐ｆ殘 */
         .suggestions-section {
             margin-top: 40px;
             padding-top: 40px;
@@ -394,45 +394,45 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="/" class="nav-link">棣栭〉</a>
-                <a href="/profile.html" class="nav-link">涓汉涓績</a>
-                <a href="/collections.html" class="nav-link">鏀惰棌澶?/a>
-                <a href="/messages.html" class="nav-link">娑堟伅</a>
+                <a href="/" class="nav-link">濡鐗犻妴?/a>
+                <a href="/profile.html" class="nav-link">搩浜欏Ч嬬▔偟濡?/a>
+                <a href="/collections.html" class="nav-link">衡偓増顥戝?/a>
+                <a href="/messages.html" class="nav-link">炴垵鐗婃导?/a>
             </div>
         </nav>
 
         <div class="following-wrapper">
             <div class="following-header">
-                <h1 class="following-title">绀句氦鍏崇郴</h1>
+                <h1 class="following-title">佲偓欍儲鍞夐柛蹇－?/h1>
                 <div class="following-tabs">
                     <div class="following-tab active" onclick="switchTab('following')">
-                        鍏虫敞涓?span id="followingCount">0</span>
+                        稿繗娅曢弫鐐寸▔?span id="followingCount">0</span>
                     </div>
                     <div class="following-tab" onclick="switchTab('followers')">
-                        绮変笣<span id="followersCount">0</span>
+                        喖顦?span id="followersCount">0</span>
                     </div>
                     <div class="following-tab" onclick="switchTab('mutual')">
-                        浜掔浉鍏虫敞<span id="mutualCount">0</span>
+                        存粍甯炲ù愬礂閾忣偅鏆?span id="mutualCount">0</span>
                     </div>
                 </div>
             </div>
 
             <div class="search-bar">
                 <div class="search-input-wrapper">
-                    <span class="search-icon">馃攳</span>
-                    <input type="text" class="search-input" placeholder="鎼滅储鐢ㄦ埛..." id="searchInput" oninput="searchUsers(this.value)">
+                    <span class="search-icon">妫啯鏁?/span>
+                    <input type="text" class="search-input" placeholder="瑰吋绮銊╂偨閵婏箑鐓?.." id="searchInput" oninput="searchUsers(this.value)">
                 </div>
             </div>
 
             <div class="users-list" id="usersList">
-                <!-- 鍔ㄦ€佺敓鎴?-->
+                <!-- 告鍔埀胯兌閺佹捇骞?-->
             </div>
 
-            <!-- 鎺ㄨ崘鍏虫敞 -->
+            <!-- 规亽鍔畷姗宕搹顐ｆ殘 -->
             <div class="suggestions-section" id="suggestionsSection" style="display: none;">
-                <h3 class="suggestions-title">鎺ㄨ崘鍏虫敞</h3>
+                <h3 class="suggestions-title">规亽鍔畷姗宕搹顐ｆ殘</h3>
                 <div class="suggestions-grid" id="suggestionsGrid">
-                    <!-- 鍔ㄦ€佺敓鎴?-->
+                    <!-- 告鍔埀胯兌閺佹捇骞?-->
                 </div>
             </div>
         </div>
@@ -445,13 +445,13 @@
     <script type="module">
         import { API_BASE_URL } from './js/api-config.js?v=20260418a';
 
-        // 鍏ㄥ眬鐘舵€?
+        // 稿繈鍔岄惇勬偐哥?
         let currentUser = null;
         let currentTab = 'following';
         let users = [];
         let followingIds = new Set();
 
-        // 鍒濆鍖?
+        // 告帗绻傞～鎰板礌?
         async function init() {
             const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || 'null');
             if (!user) {
@@ -464,7 +464,7 @@
             await loadUsers();
         }
 
-        // 鍔犺浇缁熻
+        // 告梻ù鍥磼旀椿鍚
         async function loadStats() {
             try {
                 const response = await fetch(`${API_BASE_URL}/social/follow/stats`, {
@@ -484,10 +484,10 @@
             }
         }
 
-        // 鍔犺浇鐢ㄦ埛鍒楄〃
+        // 告梻ù鍥偨閵婏箑鐓曢柛鎺擃殙閵?
         async function loadUsers() {
             const container = document.getElementById('usersList');
-            container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">鍔犺浇涓?..</div>';
+            container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">告梻ù鍥ㄧ▔?..</div>';
             
             try {
                 let url;
@@ -509,7 +509,7 @@
                     const data = await response.json();
                     users = data.users || [];
                     
-                    // 璁板綍宸插叧娉ㄧ殑鐢ㄦ埛
+                    // 犱焦樼紞宥咁啅绘帒褰犳繛堝妿堟垿鎮介妸锕鐓?
                     followingIds = new Set(users.map(u => u.id));
                     
                     if (users.length === 0) {
@@ -524,17 +524,17 @@
                 }
             } catch (error) {
                 console.error('Error loading users:', error);
-                container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">鍔犺浇澶辫触</div>';
+                container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">告梻ù鍥緞堫袝</div>';
             }
         }
 
-        // 娓叉煋鐢ㄦ埛鍒楄〃
+        // 炴挸堕悡瀣偨閵婏箑鐓曢柛鎺擃殙閵?
         function renderUsers(filteredUsers = null) {
             const container = document.getElementById('usersList');
             const displayUsers = filteredUsers || users;
             
             if (displayUsers.length === 0) {
-                container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">娌℃湁鎵惧埌鐢ㄦ埛</div>';
+                container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">炲备鍓﹢骞幆褍鐓傞顫妽?/div>';
                 return;
             }
             
@@ -546,21 +546,21 @@
                     <div class="user-info">
                         <div class="user-name">
                             <a href="/profile.html?id=${user.id}" style="color:#fff;text-decoration:none;">${user.username}</a>
-                            ${user.is_verified ? '<span style="color:#667eea;">鉁?/span>' : ''}
+                            ${user.is_verified ? '<span style="color:#667eea;">?/span>' : ''}
                         </div>
-                        <div class="user-bio">${user.bio || '杩欎釜浜哄緢鎳掞紝浠€涔堥兘娌″啓~'}</div>
+                        <div class="user-bio">${user.bio || '閺夆晜ら鍙戦铏釜辨繃掗埀▕儱鍘存繛灞糕偓鍐叉櫢~'}</div>
                         <div class="user-stats">
-                            <span class="user-stat"><strong>${user.articles_count || 0}</strong> 鏂囩珷</span>
-                            <span class="user-stat"><strong>${user.followers_count || 0}</strong> 绮変笣</span>
-                            <span class="user-stat"><strong>${user.following_count || 0}</strong> 鍏虫敞</span>
+                            <span class="user-stat"><strong>${user.articles_count || 0}</strong> 哄倸娲ㄩ悵?/span>
+                            <span class="user-stat"><strong>${user.followers_count || 0}</strong> 喖顦?/span>
+                            <span class="user-stat"><strong>${user.following_count || 0}</strong> 稿繗娅曢弫?/span>
                         </div>
                     </div>
                     <div class="user-actions">
-                        <button class="btn-message" onclick="sendMessage(${user.id}, '${user.username}')" title="鍙戞秷鎭?>鉁夛笍</button>
+                        <button class="btn-message" onclick="sendMessage(${user.id}, '${user.username}')" title="告瑦鍨剁粔鐑藉箒?>翠礁顧?/button>
                         ${user.id !== currentUser.id ? `
                             <button class="btn-follow ${followingIds.has(user.id) ? 'following' : 'not-following'}" 
                                     onclick="toggleFollow(${user.id}, this)">
-                                ${followingIds.has(user.id) ? '宸插叧娉? : '+ 鍏虫敞'}
+                                ${followingIds.has(user.id) ? '瑰憡褰崣褍鈻? : '+ 稿繗娅曢弫?}
                             </button>
                         ` : ''}
                     </div>
@@ -568,25 +568,25 @@
             `).join('');
         }
 
-        // 娓叉煋绌虹姸鎬?
+        // 炴挸堕悡瀣矚閾忕?
         function renderEmptyState() {
             const container = document.getElementById('usersList');
             
             const emptyMessages = {
                 following: {
-                    icon: '馃懃',
-                    title: '杩樻病鏈夊叧娉ㄤ换浣曚汉',
-                    desc: '鍏虫敞鎰熷叴瓒ｇ殑鐢ㄦ埛锛岀涓€鏃堕棿鐪嬪埌浠栦滑鐨勫姩鎬?
+                    icon: '妫啯鍣?,
+                    title: '閺夆晜蓱ュ懘垫径濠傚綘炲鍔幑銏媴閺碍鐪?,
+                    desc: '稿繗娅曢弫鐐哄箛斿嘲褰洪悺鎺炵悼堟垿鎮介妸锕鐓曢柨樼灱戝洦绋夐埀籍洘锛熼顏勵儏╁本掗弽锔界拨汇瀚慨鈺呭箑?
                 },
                 followers: {
-                    icon: '馃専',
-                    title: '杩樻病鏈夌矇涓?,
-                    desc: '澶氬彂甯冧紭璐ㄥ唴瀹癸紝鍚稿紩鏇村鍏虫敞'
+                    icon: '妫啫鐨?,
+                    title: '閺夆晜蓱ュ懘垫径鐒藉?,
+                    desc: '濠㈣埖鑹捐ぐ鍌滄暜愌呭枠犳劑鍔岄崬糕偓鍦辨繈宕ョ粙璺ㄧ┛哄洦娼欓ˇ鍧楀礂閾忣偅鏆?
                 },
                 mutual: {
-                    icon: '馃',
-                    title: '杩樻病鏈変簰鐩稿叧娉ㄧ殑濂藉弸',
-                    desc: '鍜屼綘鍏虫敞鐨勪汉涔熷叧娉ㄤ綘锛屽氨鑳芥垚涓哄ソ鍙?
+                    icon: '妫喚妾?,
+                    title: '閺夆晜蓱ュ懘垫径岄瀺烩晝顭堥崣褍鈻旈妸褎鐣卞┑鍌濇?,
+                    desc: '告粌濂旂紞姗宕搹顐ｆ殘汇瀚Ч嬬▕斿嘲褰犳繛堝妺嶆﹢鏁嶇仦鑺ョ殤煎疇ら▔嫨ㄩ柛?
                 }
             };
             
@@ -597,12 +597,12 @@
                     <div class="empty-icon">${msg.icon}</div>
                     <h3 class="empty-title">${msg.title}</h3>
                     <p class="empty-desc">${msg.desc}</p>
-                    ${currentTab === 'following' ? '<a href="/" class="btn-explore">鍘诲彂鐜?/a>' : ''}
+                    ${currentTab === 'following' ? '<a href="/" class="btn-explore">告цぐ鍌炴偝?/a>' : ''}
                 </div>
             `;
         }
 
-        // 鍔犺浇鎺ㄨ崘鍏虫敞
+        // 告梻ù鍥箳閵娿柛蹇氭珪閺?
         async function loadSuggestions() {
             try {
                 const response = await fetch(`${API_BASE_URL}/articles?limit=20`);
@@ -610,7 +610,7 @@
                     const data = await response.json();
                     const articles = data.articles || [];
                     
-                    // 鎻愬彇浣滆€?
+                    // 圭粯鍔曡ぐ鍥ㄦ媴濠婂棌?
                     const authors = [];
                     const seen = new Set();
                     
@@ -619,8 +619,8 @@
                             seen.add(article.author_id);
                             authors.push({
                                 id: article.author_id,
-                                username: article.author_name || article.author || '鍖垮悕',
-                                reason: '鍙戝竷浜嗙儹闂ㄦ枃绔?
+                                username: article.author_name || article.author || '告牕鐏濋幃?,
+                                reason: '告瑦鍨电粩閿嬬瑥鍔伴梻鍌樺妽閺啰绮?
                             });
                         }
                     });
@@ -635,7 +635,7 @@
             }
         }
 
-        // 娓叉煋鎺ㄨ崘
+        // 炴挸堕悡瀣箳閵娿?
         function renderSuggestions(suggestions) {
             const container = document.getElementById('suggestionsGrid');
             container.innerHTML = suggestions.map(user => `
@@ -645,12 +645,12 @@
                         <div class="suggestion-name">${user.username}</div>
                         <div class="suggestion-reason">${user.reason}</div>
                     </div>
-                    <button class="btn-follow-sm" onclick="toggleFollow(${user.id}, this); this.textContent = '宸插叧娉?; this.disabled = true;">+ 鍏虫敞</button>
+                    <button class="btn-follow-sm" onclick="toggleFollow(${user.id}, this); this.textContent = '瑰憡褰崣褍鈻?; this.disabled = true;">+ 稿繗娅曢弫?/button>
                 </div>
             `).join('');
         }
 
-        // 鍒囨崲鏍囩
+        // 告帒娲畷鏌ュ冀モ晩鍔?
         function switchTab(tab) {
             currentTab = tab;
             
@@ -661,7 +661,7 @@
             loadUsers();
         }
 
-        // 鎼滅储鐢ㄦ埛
+        // 瑰吋绮銊╂偨閵婏箑鐓?
         function searchUsers(query) {
             if (!query) {
                 renderUsers();
@@ -676,7 +676,7 @@
             renderUsers(filtered);
         }
 
-        // 鍒囨崲鍏虫敞
+        // 告帒娲畷鏌ュ礂閾忣偅鏆?
         async function toggleFollow(userId, btn) {
             const isFollowing = btn.classList.contains('following');
             
@@ -695,28 +695,28 @@
                     if (isFollowing) {
                         btn.classList.remove('following');
                         btn.classList.add('not-following');
-                        btn.textContent = '+ 鍏虫敞';
+                        btn.textContent = '+ 稿繗娅曢弫?;
                         followingIds.delete(userId);
-                        showToast('宸插彇娑堝叧娉?);
+                        showToast('瑰憡褰冭ぐ鍥р槈繂褰犳繛?);
                     } else {
                         btn.classList.remove('not-following');
                         btn.classList.add('following');
-                        btn.textContent = '宸插叧娉?;
+                        btn.textContent = '瑰憡褰崣褍鈻?;
                         followingIds.add(userId);
-                        showToast('鍏虫敞鎴愬姛');
+                        showToast('稿繗娅曢弫鐐哄箣顫?);
                     }
                     
                     await loadStats();
                 } else {
-                    showToast('鎿嶄綔澶辫触');
+                    showToast('瑰灝绉紞鏃勬潏顐バ?);
                 }
             } catch (error) {
                 console.error('Error toggling follow:', error);
-                showToast('鎿嶄綔澶辫触');
+                showToast('瑰灝绉紞鏃勬潏顐バ?);
             }
         }
 
-        // 鍙戦€佹秷鎭?
+        // 告瑦鍨块埀跨劍夌骞?
         function sendMessage(userId, username) {
             window.location.href = `/messages.html?user=${userId}&name=${encodeURIComponent(username)}`;
         }
@@ -729,15 +729,16 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         };
 
-        // 鏆撮湶鍏ㄥ眬鍑芥暟
+        // 哄棙冲﹢曞礂閵娿儳婀伴柛鎴Г閺?
         window.switchTab = switchTab;
         window.searchUsers = searchUsers;
         window.toggleFollow = toggleFollow;
         window.sendMessage = sendMessage;
 
-        // 鍚姩
+        // 告凹鍨版慨?
         init();
     </script>
 </body>
 </html>
+
 
