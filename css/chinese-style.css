@@ -76,6 +76,16 @@ body {
     text-align: center;
     padding: 80px 20px 60px;
 }
+/* 后备：确保 hero 标题即使动画 JS 失败也能显示 */
+.hero-section[data-animate] {
+    animation: heroFallback 0s 2s forwards;
+}
+@keyframes heroFallback {
+    to { opacity: 1; transform: none; }
+}
+.hero-section[data-animate].animated {
+    animation: none;
+}
 
 .main-title {
     font-size: 3em;
