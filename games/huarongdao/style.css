@@ -357,6 +357,8 @@ h1 {
     .board {
         width: 280px;
         height: 350px;
+        transform: scale(0.875);
+        transform-origin: top left;
     }
     
     h1 {

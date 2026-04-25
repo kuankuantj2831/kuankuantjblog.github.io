@@ -158,6 +158,7 @@
     background: linear-gradient(135deg, #b39ddb 0%, #69b4ff 100%);
     -webkit-background-clip: text;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 [data-theme="dark"] .sub-title {
@@ -411,6 +412,7 @@
     background: linear-gradient(135deg, #b39ddb 0%, #69b4ff 100%);
     -webkit-background-clip: text;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 [data-theme="dark"] .profile-email {

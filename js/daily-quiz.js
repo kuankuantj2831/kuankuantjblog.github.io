@@ -19,9 +19,9 @@ class DailyQuiz {
             {
                 id: 1,
                 question: 'JavaScript 中，以下哪个表达式会返回 true？',
-                options: ['0 == "0"', '0 === "0"', 'null == undefined', 'NaN == NaN'],
-                correct: 0,
-                explanation: '0 == "0" 会进行类型转换后比较，结果为 true。0 === "0" 严格相等为 false。null == undefined 也是 true（这是唯一一个两者相等的情况）。NaN 与任何值都不相等，包括它自己。',
+                options: ['0 === "0"', 'null == undefined', 'NaN == NaN', 'null === undefined'],
+                correct: 1,
+                explanation: 'null == undefined 返回 true（这是ECMAScript规范规定的）。0 === "0" 严格相等为 false。NaN 与任何值都不相等，包括它自己。null === undefined 严格相等为 false。',
                 difficulty: 'easy',
                 category: 'JavaScript',
                 reward: { coins: 10, exp: 20 }

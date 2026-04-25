@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>犳劦浜滈幃鍡涙憘?/title>
+    <title>贪吃蛇</title>
     
-    <!-- 村吋锚垫煡鏁嶅棰濇殨閺夆晝炵敮鎾礆閺夎法鎽熷ù锝尰濠鍥礉ヨ櫕鐝?-->
+    <!-- 贪吃蛇游戏页面 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
@@ -16,71 +16,69 @@
     <canvas id="backgroundCanvas"></canvas>
     <div class="main-container">
         <div class="inner-frame">
-            <h1>犳劦浜滈幃鍡涙憘?/h1>
+            <h1>贪吃蛇</h1>
             <div class="stats-container">
                 <div class="score-container">
-                    <span>告帒妫欓弳? </span><span id="score">0</span>
+                    <span>分数: </span><span id="score">0</span>
                 </div>
                 <div class="time-container">
-                    <span>哄啫鐖煎Λ? </span><span id="time">0</span>s
+                    <span>时间: </span><span id="time">0</span>s
                 </div>
                 <div class="highscore-container">
-                    <span>哄牃Δ? </span><span id="highScore">0</span>
+                    <span>最高分: </span><span id="highScore">0</span>
                 </div>
             </div>
             <canvas id="gameCanvas" width="400" height="400"></canvas>
             <div class="save-load-container">
-                <button id="saveButton">汇垻鍠愰扁偓櫳戦妴?/button>
-                <input type="text" id="saveCodeInput" placeholder="革负鍔囧緞曨厾鐓掗鎰綑°顩奸敐鍥╁灣...">
-                <button id="loadButton">犲洩цぐ鍥┾偓櫳戦妴?/button>
-                <button id="newGameButton">哄倻澧楃埇鏋跺爼骞?/button>
-                <button id="achievementsButton">瑰瓨鍔曞?/button>
+                <button id="saveButton">保存存档</button>
+                <input type="text" id="saveCodeInput" placeholder="输入存档代码读取...">
+                <button id="loadButton">读取存档</button>
+                <button id="newGameButton">新游戏</button>
+                <button id="achievementsButton">成就</button>
             </div>
             <div id="gameOverScreen" class="hidden">
                 <h2>No signal!</h2>
-                <p>哄牃紓浣哥墕堕亶宕? <span id="finalScore">0</span></p>
-                <button id="restartButton">闂佹彃绉弻濠冩交愭潙?/button>
-                <button id="viewLeaderboard" style="margin-top:8px;padding:8px 20px;background:#faad14;color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:14px;">妫啫姹?圭儤甯熼、鎴濐潡?/button>
+                <p>游戏结束! 你的分数: <span id="finalScore">0</span></p>
+                <button id="restartButton">重新开始</button>
+                <button id="viewLeaderboard" style="margin-top:8px;padding:8px 20px;background:#faad14;color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:14px;">查看排行榜</button>
             </div>
         </div>
-        <!-- 圭儤甯熼、鎴濐潡濠婂牊妗ㄩ柡?-->
+        <!-- 排行榜面板 -->
         <div id="leaderboardPanel" class="hidden" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:200;display:none;justify-content:center;align-items:center;">
             <div style="background:#1a1a2e;border:2px solid #faad14;border-radius:16px;padding:24px;max-width:420px;width:90%;max-height:80vh;overflow-y:auto;color:#e0e0e0;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-                    <h2 style="margin:0;color:#faad14;">妫啫姹?圭儤甯熼、鎴濐潡?/h2>
-                    <button id="closeLeaderboard" style="background:none;border:none;color:#999;font-size:24px;cursor:pointer;">?/button>
+                    <h2 style="margin:0;color:#faad14;">排行榜</h2>
+                    <button id="closeLeaderboard" style="background:none;border:none;color:#999;font-size:24px;cursor:pointer;">✕</button>
                 </div>
                 <div id="myBestScore" style="background:#2a2a4a;padding:10px 14px;border-radius:10px;margin-bottom:14px;font-size:14px;"></div>
-                <div id="leaderboardList" style="font-size:14px;">告梻ù鍥ㄧ▔?..</div>
+                <div id="leaderboardList" style="font-size:14px;">加载中...</div>
             </div>
         </div>
     </div>
     
-    <!-- 瑰瓨鍔曞銊ヮ嚕︻厾宕?-->
+    <!-- 成就弹窗 -->
     <div id="achievements-modal" class="hidden">
         <div class="modal-content">
-            <h2>瑰瓨鍔曞銊╁礆濡ゅ嫨鈧?/h2>
+            <h2>成就系统</h2>
             <div id="achievements-list"></div>
-            <button id="close-achievements">稿繑婂Λ?/button>
+            <button id="close-achievements">关闭</button>
         </div>
     </div>
 
-    <!-- 村吋锚垫煡鏁嶅偨閺夆晝鍠愭晶鐣屾偘瀹鍐?-->
+    <!-- 游戏脚本延迟加载 -->
     <script src="script.js" defer></script>
     
     <div id="achievement-container"></div>
 
-    <!-- 佸ф慨鈺冪博栨繃鐝撻椋庡枑垫粓鏌?-->
+    <!-- 移动端虚拟方向键 -->
     <div id="mobile-controls" class="hidden">
         <div class="d-pad">
-            <button id="up-button" class="d-pad-button up">?/button>
-            <button id="down-button" class="d-pad-button down">?/button>
-            <button id="left-button" class="d-pad-button left">冲皷?/button>
-            <button id="right-button" class="d-pad-button right">?/button>
+            <button id="up-button" class="d-pad-button up">▲</button>
+            <button id="down-button" class="d-pad-button down">▼</button>
+            <button id="left-button" class="d-pad-button left">◀</button>
+            <button id="right-button" class="d-pad-button right">▶</button>
         </div>
     </div>
 
 </body>
 </html>
-
-

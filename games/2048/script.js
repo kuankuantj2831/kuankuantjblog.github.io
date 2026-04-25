@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Keyboard controls
     document.addEventListener('keydown', (e) => {
-        if (gameOver && !won) return;
+        if (gameOver) return;
         switch (e.key) {
             case 'ArrowLeft':
                 e.preventDefault();

@@ -19,12 +19,18 @@ function updateDisplay() {
 }
 
 // 更新历史记录
+function escapeCalculatorText(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
 function updateHistory() {
     const historyDiv = document.getElementById('history');
     historyDiv.innerHTML = calculatorState.history.map(item => `
         <div class="calculator-history-item">
-            <div>${item.expression}</div>
-            <div style="font-weight: bold; color: #28a745;">=${item.result}</div>
+            <div>${escapeCalculatorText(item.expression)}</div>
+            <div style="font-weight: bold; color: #28a745;">=${escapeCalculatorText(item.result)}</div>
         </div>
     `).join('');
 }

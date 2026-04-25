@@ -814,41 +814,31 @@ class CommentUI {
             return;
         }
         
-        // 限制评论长度
         if (content.length > 5000) {
             alert('评论内容过长，请控制在5000字以内');
             return;
         }
 
+        let result;
         try {
-            const result = await this.system.submitComment(content, this.replyingTo);
-            
-            if (result.success) {
-                input.value = '';
-                this.cancelReply();
-                this.showToast('评论发布成功！');
-                // 重新加载评论
-                const comments = await this.system.loadComments();
-                this.renderCommentList(comments.comments);
-                this.updateCommentCount(comments.total);
-            } else {
-                this.showToast(result.message || '发布失败，请重试');
-            }
+            result = await this.system.submitComment(content, this.replyingTo);
         } catch (error) {
             console.error('Submit comment error:', error);
             this.showToast('网络错误，请稍后重试');
+            return;
         }
 
         if (result.success) {
             input.value = '';
             this.replyingTo = null;
+            this.cancelReply();
+            this.showToast('评论发布成功！');
             
-            // 重新加载评论
             const data = await this.system.loadComments();
             this.renderCommentList(data.comments);
             this.updateCommentCount(data.total);
         } else {
-            alert(result.message);
+            alert(result.message || '发布失败，请重试');
         }
     }
 

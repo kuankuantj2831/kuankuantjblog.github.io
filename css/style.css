@@ -1,3 +1,4 @@
+@charset "utf-8";
 @font-face {
   font-family: Raleway_Medium;
   src: url("../fonts/raleway_medium/Raleway-Medium.eot");
@@ -7,7 +8,6 @@
 .font-raleway-medium {
   font-family: Raleway-Medium;
 }
-@charset "utf-8";
 @font-face {
   font-family: feathericon;
   font-weight: normal;
@@ -995,7 +995,7 @@ img {
 .article-entry dl,
 .archives dl {
   margin: 1.5rem 0;
-  line-height: line-height;
+  line-height: 1.7;
 }
 .article-entry ul,
 .archives ul,
@@ -1443,7 +1443,7 @@ img {
 .page-nav .page-number {
   display: inline-block;
 }
-@media mq-mobile {
+@media (max-width: 767px) {
   .page-nav .page-number {
     display: none;
   }
@@ -1515,7 +1515,7 @@ img {
   margin-left: 1em;
 }
 .article-entry .caption {
-  color: color-grey;
+  color: #5c6b72;
   display: block;
   font-size: 0.9em;
   margin-top: 0.5em;
@@ -2011,9 +2011,7 @@ a.toc-link {
 }
 .safari {
   background-color: #e6e6e6;
-  -webkit-border-radius: border-radius;
-  -moz-border-radius: border-radius;
-  border-radius: border-radius;
+  border-radius: 0.4rem;
 }
 .safari,
 .safari .safari-header,
@@ -2649,8 +2647,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* General transition for all elements */
-* {
+/* General transition for interactive elements */
+a, button, input, select, textarea,
+.button, .showcase-card, .category-tag, .tab-btn {
   transition: all 0.3s ease-in-out;
 }
 
@@ -2664,7 +2663,7 @@ img {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-img:hover {
+.article-entry img:hover {
   transform: scale(1.05);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }

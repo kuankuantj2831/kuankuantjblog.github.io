@@ -28,6 +28,7 @@ let score = 0;
 let lives = 3;
 let ballSpeed = BALL_INITIAL_SPEED;
 let ballSpeedMultiplier = 1.0;
+let isMuted = false;
 
 // 游戏对象
 let paddle = {
@@ -687,13 +688,16 @@ function updateDifficulty() {
 }
 
 function toggleMute() {
-    if (volumeSlider.value === '0') {
-        volumeSlider.value = 80;
-        muteButton.innerHTML = '<i class="fas fa-volume-mute"></i> \u9759\u97f3';
-    } else {
+    isMuted = !isMuted;
+    if (isMuted) {
         volumeSlider.value = 0;
-        muteButton.innerHTML = '<i class="fas fa-volume-up"></i> \u53d6\u6d88\u9759\u97f3';
+        muteButton.innerHTML = '<i class="fas fa-volume-up"></i> 取消静音';
+    } else {
+        volumeSlider.value = 80;
+        muteButton.innerHTML = '<i class="fas fa-volume-mute"></i> 静音';
     }
+    updateVolume();
+}
     updateVolume();
 }
 

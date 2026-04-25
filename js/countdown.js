@@ -220,7 +220,6 @@ function formatTime(ms) {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    const milliseconds = Math.floor((ms % 1000) / 100);
     
     return `${padZero(hours, 2)}:${padZero(minutes, 2)}:${padZero(seconds, 2)}`;
 }
@@ -233,7 +232,7 @@ function padZero(num, length) {
 // 添加到历史记录
 function addToHistory() {
     const title = countdownState.title || '未命名';
-    const duration = countdownState.targetTime - (countdownState.targetTime - countdownState.remainingTime);
+    const duration = countdownState.remainingTime;
     const historyItem = {
         id: Date.now(),
         title: title,
