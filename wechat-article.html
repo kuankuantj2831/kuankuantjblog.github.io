@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>微信公众号文章</title>
+    
+    <!-- 微信分享元数据 -->
+    <meta property="og:title" content="文章标题">
+    <meta property="og:description" content="文章描述">
+    <meta property="og:image" content="https://yourdomain.com/share-image.jpg">
+    <meta property="og:url" content="https://yourdomain.com/wechat-article.html">
+    
+    <link rel="stylesheet" href="css/wechat-article.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="wechat-header">
+        <div class="header-left">
+            <button class="back-btn">‹</button>
+        </div>
+        <div class="header-center">
+            <span class="account-name">您的公众号名称</span>
+        </div>
+        <div class="header-right">
+            <button class="more-btn">···</button>
+        </div>
+    </header>
+
+    <!-- 文章主容器 -->
+    <main class="article-container">
+        <!-- 账号信息 -->
+        <div class="account-info">
+            <div class="account-avatar">
+                <img src="https://via.placeholder.com/60" alt="公众号头像">
+            </div>
+            <div class="account-details">
+                <h2 class="account-name-large">您的公众号名称</h2>
+                <p class="account-desc">分享有价值的内容</p>
+                <button class="follow-btn">关注</button>
+            </div>
+        </div>
+
+        <!-- 文章标题 -->
+        <h1 class="article-title">这里是文章标题，支持长标题显示和多行排版</h1>
+
+        <!-- 文章元信息 -->
+        <div class="article-meta">
+            <span class="author">作者：您的名字</span>
+            <span class="publish-time">2024-04-25 17:50</span>
+            <span class="read-count">阅读 1,234</span>
+        </div>
+
+        <!-- 文章封面图 -->
+        <div class="article-cover">
+            <img src="https://via.placeholder.com/750x400" alt="文章封面">
+        </div>
+
+        <!-- 文章正文 -->
+        <article class="article-content">
+            <p>这里是文章的第一段内容。微信公众号文章通常采用简洁的排版风格，注重阅读体验。</p>
+            
+            <h2>小标题1</h2>
+            <p>这是段落内容，支持富文本格式。可以在文章中插入图片、视频、链接等内容。</p>
+            
+            <blockquote>
+                这是引用块样式，适合引用重要观点或名言警句。
+            </blockquote>
+            
+            <h2>小标题2</h2>
+            <p>这是另一个段落的内容。微信公众号的文章阅读器需要考虑各种设备的兼容性。</p>
+            
+            <ul>
+                <li>列表项1</li>
+                <li>列表项2</li>
+                <li>列表项3</li>
+            </ul>
+            
+            <p>这是文章的结尾段落，可以添加总结性的内容或引导读者关注公众号。</p>
+            
+            <div class="article-divider"></div>
+            
+            <p style="color: #999; font-size: 14px; text-align: center;">
+                ——— 本文完 ———
+            </p>
+        </article>
+
+        <!-- 底部操作栏 -->
+        <div class="article-footer">
+            <div class="footer-left">
+                <div class="vote-buttons">
+                    <button class="vote-btn like" data-action="like">
+                        <span class="vote-icon">👍</span>
+                        <span class="vote-count">128</span>
+                    </button>
+                    <button class="vote-btn dislike" data-action="dislike">
+                        <span class="vote-icon">👎</span>
+                        <span class="vote-count">5</span>
+                    </button>
+                </div>
+            </div>
+            <div class="footer-right">
+                <button class="share-btn">分享</button>
+                <button class="more-footer-btn">···</button>
+            </div>
+        </div>
+
+        <!-- 相关推荐 -->
+        <div class="related-articles">
+            <h3 class="related-title">相关推荐</h3>
+            <div class="related-list">
+                <a href="#" class="related-item">
+                    <div class="related-cover">
+                        <img src="https://via.placeholder.com/200x150" alt="相关文章">
+                    </div>
+                    <div class="related-info">
+                        <h4 class="related-title-text">相关文章标题1</h4>
+                        <span class="related-date">2024-04-24</span>
+                    </div>
+                </a>
+                <a href="#" class="related-item">
+                    <div class="related-cover">
+                        <img src="https://via.placeholder.com/200x150" alt="相关文章">
+                    </div>
+                    <div class="related-info">
+                        <h4 class="related-title-text">相关文章标题2</h4>
+                        <span class="related-date">2024-04-23</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- 底部公众号信息 -->
+        <div class="bottom-account">
+            <div class="account-avatar">
+                <img src="https://via.placeholder.com/60" alt="公众号头像">
+            </div>
+            <div class="account-text">
+                <h4 class="account-name-small">您的公众号名称</h4>
+                <p class="account-desc">分享有价值的内容</p>
+            </div>
+            <button class="follow-btn-small">关注</button>
+        </div>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <nav class="wechat-footer-nav">
+        <div class="nav-left">
+            <button class="nav-icon-btn" data-action="comment">
+                <span class="nav-icon">💬</span>
+                <span class="nav-text">留言</span>
+            </button>
+            <button class="nav-icon-btn" data-action="like">
+                <span class="nav-icon">👍</span>
+                <span class="nav-text">点赞</span>
+            </button>
+        </div>
+        <div class="nav-right">
+            <button class="nav-action-btn">写留言</button>
+        </div>
+    </nav>
+
+    <!-- 阅读设置弹窗 -->
+    <div class="reading-settings modal hidden">
+        <div class="modal-header">
+            <h3>阅读设置</h3>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="setting-group">
+                <label>字体大小</label>
+                <div class="font-size-controls">
+                    <button class="font-btn" data-size="small">小</button>
+                    <button class="font-btn active" data-size="medium">中</button>
+                    <button class="font-btn" data-size="large">大</button>
+                </div>
+            </div>
+            <div class="setting-group">
+                <label>夜间模式</label>
+                <button class="toggle-btn" data-toggle="night-mode">
+                    <span class="toggle-icon">🌙</span>
+                    <span class="toggle-text">关闭</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 留言输入框 -->
+    <div class="comment-input-box hidden">
+        <textarea class="comment-textarea" placeholder="说点什么..."></textarea>
+        <div class="comment-actions">
+            <button class="cancel-comment">取消</button>
+            <button class="submit-comment">发送</button>
+        </div>
+    </div>
+
+    <script src="js/wechat-article.js"></script>
+</body>
+</html>

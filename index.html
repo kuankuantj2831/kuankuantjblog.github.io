@@ -41,6 +41,11 @@
     <!-- 性能优化：预连接 API 服务器，节省 DNS 解析 + TLS 握手时间 -->
     <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
     <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//cdn.bootcdn.net">
+    <link rel="preload" href="css/chinese-style.css?v=5" as="style">
+    <link rel="preload" href="css/theme.css?v=4" as="style">
 
     <link rel="shortcut icon" href="favicon.ico">
     <!-- PWA -->
@@ -61,29 +66,18 @@
     <link rel="apple-touch-startup-image" href="/images/icons/splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px)">
     <link rel="apple-touch-startup-image" href="/images/icons/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px)">
     <link rel="alternate" type="application/rss+xml" title="Hakimi 的猫爬架 RSS" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/articles/feed/rss">
+    <!-- 非关键CSS：布局和主题 - 同步加载 -->
     <link rel="stylesheet" href="css/chinese-style.css?v=5">
-    <!-- 非关键 CSS 异步加载 -->
-    <link rel="stylesheet" href="css/auth.css?v=3" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="css/tianjg-theme.css?v=3" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/tianjg-theme.css?v=3">
     <link rel="stylesheet" href="css/theme.css?v=4">
-    <link rel="stylesheet" href="css/apple-animations.css?v=1">
-    <link rel="stylesheet" href="css/report-modal.css?v=1">
-    <style>
-        /* 通知下拉面板 */
-        .notif-dropdown{position:absolute;top:100%;right:0;width:340px;max-height:420px;background:#fff;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,.18);z-index:999;overflow:hidden;}
-        .notif-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #eee;font-weight:600;font-size:15px;}
-        .notif-list{max-height:360px;overflow-y:auto;}
-        .notif-item{display:flex;gap:10px;padding:12px 16px;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background .2s;font-size:13px;line-height:1.5;}
-        .notif-item:hover{background:#f8f9ff;}
-        .notif-item.unread{background:#f0f4ff;}
-        .notif-item .notif-icon{font-size:20px;flex-shrink:0;}
-        .notif-item .notif-text{flex:1;overflow:hidden;}
-        .notif-item .notif-time{font-size:11px;color:#999;margin-top:4px;}
-        @media(max-width:600px){.notif-dropdown{width:290px;right:-40px;}}
-    </style>
-
-    <!-- 兼容性 polyfill：为旧浏览器提供现代 JS 特性支持 -->
-    <script src="js/polyfill.js"></script>
+    
+    <!-- 非关键CSS：动画和组件 - 异步加载 -->
+    <link rel="stylesheet" href="css/apple-animations.css?v=1" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/report-modal.css?v=1" media="print" onload="this.media='all'">
+    
+    <!-- 兼容性 polyfill：为旧浏览器提供现代 JS 特性支持 - defer -->
+    <script src="js/polyfill.js" defer></script>
+    
     <!-- 性能优化：pace 加载指示器使用 async 避免阻塞渲染 -->
     <script src="js/pace.min.js" async></script>
     <!-- Cloudflare Turnstile 延迟到用户点击登录/注册时才加载 -->
@@ -801,61 +795,56 @@ if (githubLoginBtn) {
 }
 });
 </script>
-<script src="js/github-login.js?v=1"></script>
-<script src="js/music-player.js?v=2"></script>
+<script src="js/github-login.js?v=1" defer></script>
+<script src="js/music-player.js?v=2" defer></script>
 
-<!-- 游戏化组件：每日一题 -->
 <script type="module">
-    import DailyQuiz from './js/daily-quiz.js?v=20260227a';
-    document.addEventListener('DOMContentLoaded', () => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            const quiz = new DailyQuiz({ containerId: 'dailyQuizContainer' });
-            quiz.init();
+import DailyQuiz from './js/daily-quiz.js?v=20260227a';
+import ReadingChallenge from './js/reading-challenge.js?v=20260227a';
+import { AchievementSystem } from './js/achievement-system.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        if (document.getElementById('dailyQuizContainer')) {
+            new DailyQuiz({ containerId: 'dailyQuizContainer' }).init();
         }
-    });
-</script>
-
-<!-- 游戏化组件：阅读打卡挑战 -->
-<script type="module">
-    import ReadingChallenge from './js/reading-challenge.js?v=20260227a';
-    document.addEventListener('DOMContentLoaded', () => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            const challenge = new ReadingChallenge({ containerId: 'readingChallengeContainer' });
-            challenge.init();
+        if (document.getElementById('readingChallengeContainer')) {
+            new ReadingChallenge({ containerId: 'readingChallengeContainer' }).init();
         }
-    });
-</script>
+    }
 
-<!-- Konami 秘籍彩蛋 - 触发隐藏成就 -->
-<script type="module">
-    import { AchievementSystem } from './js/achievement-system.js';
-    document.addEventListener('DOMContentLoaded', () => {
-        let konamiCode = [];
-        const konamiSequence = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-        document.addEventListener('keydown', (e) => {
-            konamiCode.push(e.key);
-            if (konamiCode.length > konamiSequence.length) konamiCode.shift();
-            if (konamiCode.join(',') === konamiSequence.join(',')) {
-                const token = localStorage.getItem('token');
-                if (token) {
-                    const user = JSON.parse(localStorage.getItem('user') || '{}');
-                    const sys = new AchievementSystem(user.id || 'default');
-                    sys.init().then(() => sys.checkAndUnlock('konami_code'));
-                }
-                konamiCode = [];
+    let konamiCode = [];
+    const konamiSequence = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    document.addEventListener('keydown', (e) => {
+        konamiCode.push(e.key);
+        if (konamiCode.length > konamiSequence.length) konamiCode.shift();
+        if (konamiCode.join(',') === konamiSequence.join(',')) {
+            if (token) {
+                const user = JSON.parse(localStorage.getItem('user') || '{}');
+                const sys = new AchievementSystem(user.id || 'default');
+                sys.init().then(() => sys.checkAndUnlock('konami_code'));
             }
-        });
+            konamiCode = [];
+        }
     });
+});
 </script>
 
 <!-- 200功能包加载器 -->
 <script type="module" src="js/feature-loader.js?v=20260419a"></script>
 
-    <script src="js/mouse-particles.js?v=20260419a"></script>
-    <script src="js/apple-animations.js?v=1"></script>
-    <script src="js/report-modal.js?v=1"></script>
+<!-- 性能优化模块加载 -->
+<script src="js/performance-optimizer.js?v=20260425" defer></script>
+<script src="js/resource-prefetcher.js?v=20260425" defer></script>
+<script src="js/resource-optimizer.js?v=20260425" defer></script>
+
+<!-- 13模块集成加载器 -->
+<script type="module" src="js/module-loader.js?v=20260425"></script>
+
+    <script src="js/mouse-particles.js?v=20260419a" defer></script>
+    <script src="js/apple-animations.js?v=1" defer></script>
+    <script src="js/report-modal.js?v=1" defer></script>
 </body>
 
 </html>
