@@ -1,776 +1,505 @@
-/**
- * 游戏中心系统
- * 包含：游戏成就、云存档、排行榜、道具兑换
- */
+import { API_BASE_URL } from './api-config.js?v=20260419b';
 
-const GameCenter = {
-    STORAGE_KEY: 'game_center_data',
-    ACHIEVEMENT_KEY: 'game_achievements',
-    LEADERBOARD_KEY: 'game_leaderboard',
-    INVENTORY_KEY: 'game_inventory',
+function escapeHtml(s) { if (!s||typeof s!=='string') return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function esc(s) { return escapeHtml(s); }
 
-    // 游戏成就定义
-    ACHIEVEMENTS: {
-        // 2048 成就
-        '2048_first_win': {
-            id: '2048_first_win',
-            name: '初窥门径',
-            description: '在2048中合成2048',
-            icon: '🎯',
-            game: '2048',
-            reward: 50
-        },
-        '2048_4096': {
-            id: '2048_4096',
-            name: '数字大师',
-            description: '在2048中合成4096',
-            icon: '🔢',
-            game: '2048',
-            reward: 100
-        },
-        '2048_8192': {
-            id: '2048_8192',
-            name: '数字之神',
-            description: '在2048中合成8192',
-            icon: '👑',
-            game: '2048',
-            reward: 200
-        },
-        
-        // 贪吃蛇成就
-        'snake_50': {
-            id: 'snake_50',
-            name: '小蛇成长',
-            description: '贪吃蛇达到50分',
-            icon: '🐍',
-            game: 'snake',
-            reward: 30
-        },
-        'snake_100': {
-            id: 'snake_100',
-            name: '巨蟒传说',
-            description: '贪吃蛇达到100分',
-            icon: '🐉',
-            game: 'snake',
-            reward: 80
-        },
-        'snake_200': {
-            id: 'snake_200',
-            name: '蛇王',
-            description: '贪吃蛇达到200分',
-            icon: '🐲',
-            game: 'snake',
-            reward: 150
-        },
-        
-        // 华容道成就
-        'huarongdao_solve': {
-            id: 'huarongdao_solve',
-            name: '智者',
-            description: '完成一次华容道',
-            icon: '🧩',
-            game: 'huarongdao',
-            reward: 40
-        },
-        'huarongdao_fast': {
-            id: 'huarongdao_fast',
-            name: '速解高手',
-            description: '100步内完成华容道',
-            icon: '⚡',
-            game: 'huarongdao',
-            reward: 100
-        },
-        
-        // 综合成就
-        'play_all_games': {
-            id: 'play_all_games',
-            name: '游戏达人',
-            description: '玩过所有游戏',
-            icon: '🎮',
-            game: 'all',
-            reward: 100
-        },
-        'total_score_10000': {
-            id: 'total_score_10000',
-            name: '万分大神',
-            description: '累计游戏分数10000分',
-            icon: '💯',
-            game: 'all',
-            reward: 200
-        }
-    },
+class GameCenter {
+    constructor() {
+        this.token = localStorage.getItem('token');
+        this.user = null;
+        try { const u = localStorage.getItem('user'); if (u) this.user = JSON.parse(u); } catch(_) {}
+        this.overview = null;
+        this.currentTab = 'overview';
+    }
 
-    // 游戏道具商店
-    SHOP_ITEMS: {
-        'avatar_frame_gold': {
-            id: 'avatar_frame_gold',
-            name: '黄金头像框',
-            description: '尊贵的金色头像框',
-            icon: '🖼️',
-            price: 500,
-            type: 'avatar_frame',
-            color: '#FFD700'
-        },
-        'avatar_frame_silver': {
-            id: 'avatar_frame_silver',
-            name: '白银头像框',
-            description: '优雅的银色头像框',
-            icon: '🖼️',
-            price: 300,
-            type: 'avatar_frame',
-            color: '#C0C0C0'
-        },
-        'nickname_rainbow': {
-            id: 'nickname_rainbow',
-            name: '彩虹昵称',
-            description: '炫彩渐变昵称颜色',
-            icon: '🌈',
-            price: 800,
-            type: 'nickname_color'
-        },
-        'title_gamer': {
-            id: 'title_gamer',
-            name: '玩家称号',
-            description: '资深玩家专属称号',
-            icon: '🎖️',
-            price: 200,
-            type: 'title'
-        },
-        'title_master': {
-            id: 'title_master',
-            name: '大师称号',
-            description: '游戏大师专属称号',
-            icon: '👑',
-            price: 1000,
-            type: 'title'
-        },
-        'undo_power': {
-            id: 'undo_power',
-            name: '悔棋卡',
-            description: '2048中可以撤销一步',
-            icon: '↩️',
-            price: 50,
-            type: 'consumable',
-            count: 5
-        },
-        'slow_motion': {
-            id: 'slow_motion',
-            name: '慢动作',
-            description: '贪吃蛇速度降低50%',
-            icon: '⏱️',
-            price: 80,
-            type: 'consumable',
-            count: 3
-        }
-    },
-
-    /**
-     * ==================== 成就系统 ====================
-     */
-    
-    // 获取用户成就
-    getAchievements(userId = 'default') {
-        try {
-            const key = `${this.ACHIEVEMENT_KEY}_${userId}`;
-            const data = localStorage.getItem(key);
-            return data ? JSON.parse(data) : {};
-        } catch (e) {
-            return {};
-        }
-    },
-
-    // 保存成就
-    saveAchievements(userId, achievements) {
-        const key = `${this.ACHIEVEMENT_KEY}_${userId}`;
-        localStorage.setItem(key, JSON.stringify(achievements));
-    },
-
-    // 解锁成就
-    unlockAchievement(achievementId, userId = 'default') {
-        const achievements = this.getAchievements(userId);
-        
-        if (achievements[achievementId]) {
-            return null; // 已解锁
-        }
-
-        const achievement = this.ACHIEVEMENTS[achievementId];
-        if (!achievement) return null;
-
-        achievements[achievementId] = {
-            ...achievement,
-            unlockedAt: new Date().toISOString()
-        };
-
-        this.saveAchievements(userId, achievements);
-
-        // 发放奖励
-        if (achievement.reward) {
-            this.addCoins(achievement.reward, `解锁成就：${achievement.name}`);
-        }
-
-        // 显示通知
-        this.showAchievementNotification(achievement);
-
-        return achievements[achievementId];
-    },
-
-    // 检查并解锁成就
-    checkAchievements(stats, userId = 'default') {
-        const newlyUnlocked = [];
-
-        // 2048 成就
-        if (stats.game2048?.maxTile >= 2048) {
-            if (this.unlockAchievement('2048_first_win', userId)) {
-                newlyUnlocked.push('2048_first_win');
-            }
-        }
-        if (stats.game2048?.maxTile >= 4096) {
-            if (this.unlockAchievement('2048_4096', userId)) {
-                newlyUnlocked.push('2048_4096');
-            }
-        }
-        if (stats.game2048?.maxTile >= 8192) {
-            if (this.unlockAchievement('2048_8192', userId)) {
-                newlyUnlocked.push('2048_8192');
-            }
-        }
-
-        // 贪吃蛇成就
-        if (stats.snake?.bestScore >= 50) {
-            if (this.unlockAchievement('snake_50', userId)) {
-                newlyUnlocked.push('snake_50');
-            }
-        }
-        if (stats.snake?.bestScore >= 100) {
-            if (this.unlockAchievement('snake_100', userId)) {
-                newlyUnlocked.push('snake_100');
-            }
-        }
-        if (stats.snake?.bestScore >= 200) {
-            if (this.unlockAchievement('snake_200', userId)) {
-                newlyUnlocked.push('snake_200');
-            }
-        }
-
-        // 华容道成就
-        if (stats.huarongdao?.completed) {
-            if (this.unlockAchievement('huarongdao_solve', userId)) {
-                newlyUnlocked.push('huarongdao_solve');
-            }
-            if (stats.huarongdao?.moves <= 100) {
-                if (this.unlockAchievement('huarongdao_fast', userId)) {
-                    newlyUnlocked.push('huarongdao_fast');
-                }
-            }
-        }
-
-        // 综合成就
-        const gamesPlayed = Object.keys(stats).length;
-        if (gamesPlayed >= 3) {
-            if (this.unlockAchievement('play_all_games', userId)) {
-                newlyUnlocked.push('play_all_games');
-            }
-        }
-
-        const totalScore = Object.values(stats).reduce((sum, game) => {
-            return sum + (game.bestScore || 0) + (game.totalScore || 0);
-        }, 0);
-        if (totalScore >= 10000) {
-            if (this.unlockAchievement('total_score_10000', userId)) {
-                newlyUnlocked.push('total_score_10000');
-            }
-        }
-
-        return newlyUnlocked;
-    },
-
-    // 显示成就通知
-    showAchievementNotification(achievement) {
-        const modal = document.createElement('div');
-        modal.style.cssText = `
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 99999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
-        `;
-
-        modal.innerHTML = `
-            <div style="
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                border-radius: 20px;
-                padding: 40px;
-                text-align: center;
-                color: white;
-                max-width: 320px;
-                animation: bounceIn 0.5s ease;
-            ">
-                <div style="font-size: 64px; margin-bottom: 15px; animation: float 2s ease infinite;">
-                    ${achievement.icon}
-                </div>
-                <h2 style="margin: 0 0 10px 0; font-size: 24px;">成就解锁！</h2>
-                <div style="
-                    background: rgba(255,255,255,0.2);
-                    border-radius: 12px;
-                    padding: 15px;
-                    margin: 15px 0;
-                ">
-                    <div style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">
-                        ${achievement.name}
-                    </div>
-                    <div style="font-size: 14px; opacity: 0.9;">
-                        ${achievement.description}
-                    </div>
-                </div>
-                <div style="font-size: 18px; margin: 15px 0;">
-                    🪙 +${achievement.reward} 硬币
-                </div>
-                <button onclick="this.closest('.achievement-modal').remove()" style="
-                    background: white;
-                    color: #667eea;
-                    border: none;
-                    padding: 12px 30px;
-                    border-radius: 25px;
-                    cursor: pointer;
-                    font-size: 16px;
-                    font-weight: bold;
-                ">太棒了！</button>
-            </div>
-        `;
-
-        modal.className = 'achievement-modal';
-        modal.onclick = (e) => {
-            if (e.target === modal) modal.remove();
-        };
-
-        document.body.appendChild(modal);
-
-        setTimeout(() => {
-            if (modal.parentNode) modal.remove();
-        }, 5000);
-    },
-
-    /**
-     * ==================== 云存档 ====================
-     */
-    
-    // 保存游戏进度
-    saveGameProgress(gameId, data, userId = 'default') {
-        const key = `game_save_${userId}_${gameId}`;
-        const saveData = {
-            data: data,
-            savedAt: new Date().toISOString()
-        };
-        localStorage.setItem(key, JSON.stringify(saveData));
-        return saveData;
-    },
-
-    // 加载游戏进度
-    loadGameProgress(gameId, userId = 'default') {
-        const key = `game_save_${userId}_${gameId}`;
-        try {
-            const data = localStorage.getItem(key);
-            return data ? JSON.parse(data) : null;
-        } catch (e) {
-            return null;
-        }
-    },
-
-    // 删除存档
-    deleteGameProgress(gameId, userId = 'default') {
-        const key = `game_save_${userId}_${gameId}`;
-        localStorage.removeItem(key);
-    },
-
-    // 获取所有存档
-    getAllSaves(userId = 'default') {
-        const saves = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith(`game_save_${userId}_`)) {
-                const gameId = key.replace(`game_save_${userId}_`, '');
-                const data = this.loadGameProgress(gameId, userId);
-                if (data) {
-                    saves.push({ gameId, ...data });
-                }
-            }
-        }
-        return saves.sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt));
-    },
-
-    /**
-     * ==================== 排行榜 ====================
-     */
-    
-    // 提交分数到排行榜
-    submitScore(gameId, score, userId = 'default', username = '匿名玩家') {
-        // 验证参数
-        if (!gameId || typeof gameId !== 'string') {
-            console.error('Invalid gameId:', gameId);
-            return -1;
-        }
-        if (typeof score !== 'number' || score < 0 || !isFinite(score)) {
-            console.error('Invalid score:', score);
-            return -1;
-        }
-        if (!userId || typeof userId !== 'string') {
-            console.error('Invalid userId:', userId);
-            return -1;
-        }
-        
-        const key = `${this.LEADERBOARD_KEY}_${gameId}`;
-        let leaderboard = JSON.parse(localStorage.getItem(key) || '[]');
-
-        const entry = {
-            userId: String(userId).substring(0, 50),
-            username: String(username || '匿名玩家').substring(0, 50),
-            score: Math.floor(score),
-            submittedAt: new Date().toISOString()
-        };
-
-        // 检查是否已有该用户的记录
-        const existingIndex = leaderboard.findIndex(e => e.userId === userId);
-        if (existingIndex >= 0) {
-            // 只保留最高分
-            if (leaderboard[existingIndex].score < score) {
-                leaderboard[existingIndex] = entry;
-            }
-        } else {
-            leaderboard.push(entry);
-        }
-
-        // 按分数排序，只保留前100名
-        leaderboard.sort((a, b) => b.score - a.score);
-        leaderboard = leaderboard.slice(0, 100);
-
-        localStorage.setItem(key, JSON.stringify(leaderboard));
-
-        // 返回排名
-        return leaderboard.findIndex(e => e.userId === userId) + 1;
-    },
-
-    // 获取排行榜
-    getLeaderboard(gameId, limit = 10) {
-        if (!gameId || typeof gameId !== 'string') {
-            console.error('Invalid gameId:', gameId);
-            return [];
-        }
-        // 限制limit范围
-        const safeLimit = Math.min(Math.max(1, parseInt(limit) || 10), 100);
-        
-        const key = `${this.LEADERBOARD_KEY}_${gameId}`;
-        let leaderboard = [];
-        try {
-            leaderboard = JSON.parse(localStorage.getItem(key) || '[]');
-        } catch (e) {
-            console.error('Failed to parse leaderboard:', e);
-            return [];
-        }
-        return leaderboard.slice(0, safeLimit);
-    },
-
-    // 渲染排行榜
-    renderLeaderboard(containerId, gameId, limit = 10) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-
-        const leaderboard = this.getLeaderboard(gameId, limit);
-
-        if (leaderboard.length === 0) {
-            container.innerHTML = `
-                <div style="text-align: center; padding: 40px; color: #999;">
-                    <div style="font-size: 48px; margin-bottom: 10px;">🏆</div>
-                    <p>暂无数据</p>
-                </div>
-            `;
+    async init() {
+        if (!this.token || !this.user) {
+            this.showLoginPrompt();
             return;
         }
+        this.renderShell();
+        this.bindShellEvents();
+        await this.loadOverview();
+        this.switchTab('overview');
+    }
 
-        container.innerHTML = `
-            <div style="background: white; border-radius: 12px; overflow: hidden;">
-                ${leaderboard.map((entry, index) => {
-                    const rank = index + 1;
-                    const rankStyle = rank <= 3 ? `
-                        background: ${['#FFD700', '#C0C0C0', '#CD7F32'][index]};
-                        color: white;
-                    ` : `
-                        background: #f0f0f0;
-                        color: #666;
-                    `;
-                    
-                    return `
-                        <div style="
-                            display: flex;
-                            align-items: center;
-                            padding: 12px 20px;
-                            border-bottom: 1px solid #f0f0f0;
-                            ${index < 3 ? 'background: linear-gradient(90deg, transparent, ' + ['#FFD70015', '#C0C0C015', '#CD7F3215'][index] + ', transparent);' : ''}
-                        ">
-                            <div style="
-                                width: 32px;
-                                height: 32px;
-                                border-radius: 50%;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                font-weight: bold;
-                                font-size: 14px;
-                                margin-right: 15px;
-                                ${rankStyle}
-                            ">${rank}</div>
-                            <div style="flex: 1;">
-                                <div style="font-weight: 500; color: #333;">${entry.username}</div>
-                                <div style="font-size: 12px; color: #999;">
-                                    ${new Date(entry.submittedAt).toLocaleDateString('zh-CN')}
-                                </div>
-                            </div>
-                            <div style="font-size: 18px; font-weight: bold; color: #667eea;">
-                                ${entry.score.toLocaleString()}
-                            </div>
-                        </div>
-                    `;
-                }).join('')}
+    showLoginPrompt() {
+        const app = document.getElementById('app');
+        if (!app) return;
+        app.innerHTML = `<div class="gc-login-prompt"><div class="gc-login-box"><h2>🎮 游戏中心</h2><p>请先登录后开始游戏</p><a href="/index-chinese.html" class="gc-btn gc-btn-primary">返回首页登录</a></div></div>`;
+    }
+
+    renderShell() {
+        const app = document.getElementById('app');
+        if (!app) return;
+        const tabs = [
+            { id: 'overview', icon: '🏠', label: '总览' },
+            { id: 'pet', icon: '🐾', label: '宠物' },
+            { id: 'lottery', icon: '🎰', label: '抽奖' },
+            { id: 'achievements', icon: '🏆', label: '成就' },
+            { id: 'tasks', icon: '📋', label: '任务' },
+            { id: 'riddle', icon: '🧠', label: '猜谜' },
+            { id: 'pk', icon: '⚔️', label: 'PK' },
+            { id: 'gifts', icon: '🎁', label: '礼物' },
+            { id: 'leaderboard', icon: '📊', label: '排行' },
+            { id: 'redeem', icon: '🥚', label: '兑换码' },
+        ];
+        app.innerHTML = `
+            <div class="gc-wrapper">
+                <a href="/index-chinese.html" class="gc-back">← 返回</a>
+                <h1 class="gc-title">🎮 游戏中心</h1>
+                <div class="gc-balance-bar" id="gcBalanceBar">💰 加载中...</div>
+                <div class="gc-tabs" id="gcTabs">${tabs.map(t => `<button class="gc-tab${t.id==='overview'?' active':''}" data-tab="${t.id}">${t.icon} ${t.label}</button>`).join('')}</div>
+                <div class="gc-content" id="gcContent"></div>
+            </div>`;
+    }
+
+    bindShellEvents() {
+        document.getElementById('gcTabs')?.addEventListener('click', e => {
+            const btn = e.target.closest('.gc-tab');
+            if (!btn) return;
+            this.switchTab(btn.dataset.tab);
+        });
+    }
+
+    switchTab(tab) {
+        this.currentTab = tab;
+        document.querySelectorAll('.gc-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+        const content = document.getElementById('gcContent');
+        if (!content) return;
+        content.innerHTML = '<div class="gc-loading">加载中...</div>';
+        const loaders = {
+            overview: () => this.renderOverview(),
+            pet: () => this.renderPet(),
+            lottery: () => this.renderLottery(),
+            achievements: () => this.renderAchievements(),
+            tasks: () => this.renderTasks(),
+            riddle: () => this.renderRiddle(),
+            pk: () => this.renderPK(),
+            gifts: () => this.renderGifts(),
+            leaderboard: () => this.renderLeaderboard(),
+            redeem: () => this.renderRedeem(),
+        };
+        (loaders[tab] || loaders.overview)();
+    }
+
+    updateBalanceBar() {
+        const bar = document.getElementById('gcBalanceBar');
+        if (!bar || !this.overview) return;
+        const o = this.overview;
+        bar.innerHTML = `💰 ${o.balance} 硬币 &nbsp;|&nbsp; ⭐ Lv.${o.level.level} &nbsp;|&nbsp; 🏆 ${o.achievementsCount} 成就 &nbsp;|&nbsp; 🐾 ${o.pet ? esc(o.pet.name) + ' Lv.' + o.pet.level : '未领养'}`;
+    }
+
+    async api(path, opts = {}) {
+        const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` };
+        const res = await fetch(`${API_BASE_URL}/game-center${path}`, { ...opts, headers: { ...headers, ...opts.headers } });
+        return res.json();
+    }
+
+    async loadOverview() {
+        try { this.overview = await this.api('/overview'); this.updateBalanceBar(); } catch(e) { console.error(e); }
+    }
+
+    async renderOverview() {
+        const c = document.getElementById('gcContent');
+        if (!c) return;
+        await this.loadOverview();
+        const o = this.overview || {};
+        c.innerHTML = `
+        <div class="gc-overview">
+            <div class="gc-stats-grid">
+                <div class="gc-stat-card"><div class="gc-stat-icon">💰</div><div class="gc-stat-value">${o.balance||0}</div><div class="gc-stat-label">硬币</div></div>
+                <div class="gc-stat-card"><div class="gc-stat-icon">⭐</div><div class="gc-stat-value">Lv.${o.level?.level||1}</div><div class="gc-stat-label">等级</div></div>
+                <div class="gc-stat-card"><div class="gc-stat-icon">🔥</div><div class="gc-stat-value">${o.checkinStreak||0}</div><div class="gc-stat-label">连续签到</div></div>
+                <div class="gc-stat-card"><div class="gc-stat-icon">🏆</div><div class="gc-stat-value">${o.achievementsCount||0}</div><div class="gc-stat-label">成就</div></div>
             </div>
-        `;
-    },
-
-    /**
-     * ==================== 道具商店 ====================
-     */
-    
-    // 获取用户背包
-    getInventory(userId = 'default') {
-        try {
-            const key = `${this.INVENTORY_KEY}_${userId}`;
-            const data = localStorage.getItem(key);
-            return data ? JSON.parse(data) : {};
-        } catch (e) {
-            return {};
-        }
-    },
-
-    // 保存背包
-    saveInventory(userId, inventory) {
-        const key = `${this.INVENTORY_KEY}_${userId}`;
-        localStorage.setItem(key, JSON.stringify(inventory));
-    },
-
-    // 购买道具
-    buyItem(itemId, userId = 'default') {
-        const item = this.SHOP_ITEMS[itemId];
-        if (!item) return { success: false, message: '商品不存在' };
-
-        // 检查硬币
-        const coins = this.getCoins();
-        if (coins < item.price) {
-            return { success: false, message: '硬币不足' };
-        }
-
-        // 扣除硬币
-        this.addCoins(-item.price, `购买道具：${item.name}`);
-
-        // 添加到背包
-        const inventory = this.getInventory(userId);
-        if (item.type === 'consumable') {
-            inventory[itemId] = (inventory[itemId] || 0) + (item.count || 1);
-        } else {
-            inventory[itemId] = true;
-        }
-        this.saveInventory(userId, inventory);
-
-        this.showToast(`成功购买 ${item.name}！`);
-        return { success: true, item };
-    },
-
-    // 使用道具
-    useItem(itemId, userId = 'default') {
-        const inventory = this.getInventory(userId);
-        const item = this.SHOP_ITEMS[itemId];
-
-        if (!item || !inventory[itemId]) {
-            return { success: false, message: '道具不存在' };
-        }
-
-        if (item.type === 'consumable') {
-            if (inventory[itemId] <= 0) {
-                return { success: false, message: '道具数量不足' };
-            }
-            inventory[itemId]--;
-            if (inventory[itemId] === 0) {
-                delete inventory[itemId];
-            }
-            this.saveInventory(userId, inventory);
-        }
-
-        return { success: true, item };
-    },
-
-    // 检查是否拥有道具
-    hasItem(itemId, userId = 'default') {
-        const inventory = this.getInventory(userId);
-        const item = this.SHOP_ITEMS[itemId];
-        
-        if (!item) return false;
-        
-        if (item.type === 'consumable') {
-            return (inventory[itemId] || 0) > 0;
-        }
-        return !!inventory[itemId];
-    },
-
-    // 获取硬币
-    getCoins() {
-        try {
-            const data = JSON.parse(localStorage.getItem('user_coins') || '{}');
-            return data.balance || 0;
-        } catch (e) {
-            return 0;
-        }
-    },
-
-    // 添加硬币
-    addCoins(amount, reason = '') {
-        let data = JSON.parse(localStorage.getItem('user_coins') || '{}');
-        data.balance = (data.balance || 0) + amount;
-        localStorage.setItem('user_coins', JSON.stringify(data));
-
-        // 记录交易
-        if (amount !== 0) {
-            const transactions = JSON.parse(localStorage.getItem('coin_transactions') || '[]');
-            transactions.unshift({
-                amount,
-                reason,
-                time: new Date().toISOString()
-            });
-            localStorage.setItem('coin_transactions', JSON.stringify(transactions.slice(0, 100)));
-        }
-
-        return data.balance;
-    },
-
-    // 渲染商店
-    renderShop(containerId, userId = 'default') {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-
-        const coins = this.getCoins();
-        const inventory = this.getInventory(userId);
-
-        container.innerHTML = `
-            <div style="background: white; border-radius: 12px; overflow: hidden;">
-                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center;">
-                    <div style="font-size: 48px; margin-bottom: 10px;">🪙</div>
-                    <div style="font-size: 32px; font-weight: bold;">${coins.toLocaleString()}</div>
-                    <div style="opacity: 0.9;">我的硬币</div>
+            <div class="gc-quick-actions">
+                <h3>🎮 快速开始</h3>
+                <div class="gc-quick-grid">
+                    <button class="gc-quick-btn" onclick="window.gameCenter.switchTab('pet')">🐾 宠物乐园</button>
+                    <button class="gc-quick-btn" onclick="window.gameCenter.switchTab('lottery')">🎰 幸运转盘</button>
+                    <button class="gc-quick-btn" onclick="window.gameCenter.switchTab('riddle')">🧠 猜谜赢币</button>
+                    <button class="gc-quick-btn" onclick="window.gameCenter.switchTab('pk')">⚔️ PK对战</button>
+                    <button class="gc-quick-btn" onclick="window.gameCenter.switchTab('gifts')">🎁 送礼物</button>
+                    <button class="gc-quick-btn" onclick="window.gameCenter.switchTab('redeem')">🥚 兑换码</button>
                 </div>
-                <div style="padding: 20px;">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
-                        ${Object.values(this.SHOP_ITEMS).map(item => {
-                            const owned = item.type === 'consumable' 
-                                ? (inventory[item.id] || 0) + '个'
-                                : (inventory[item.id] ? '已拥有' : '');
-                            const canAfford = coins >= item.price;
-                            
-                            return `
-                                <div style="
-                                    border: 2px solid ${owned ? '#27ae60' : '#e0e0e0'};
-                                    border-radius: 12px;
-                                    padding: 15px;
-                                    text-align: center;
-                                    transition: all 0.2s;
-                                    ${canAfford ? 'cursor: pointer;' : 'opacity: 0.6;'}
-                                " ${canAfford ? `onclick="GameCenter.buyItemConfirm('${item.id}')"` : ''}
-                                   onmouseover="if(${canAfford}) this.style.transform='scale(1.02)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'"
-                                   onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
-                                    <div style="font-size: 36px; margin-bottom: 8px;">${item.icon}</div>
-                                    <div style="font-weight: 500; color: #333; margin-bottom: 4px;">${item.name}</div>
-                                    <div style="font-size: 12px; color: #999; margin-bottom: 8px; line-height: 1.4;">${item.description}</div>
-                                    <div style="font-size: 16px; font-weight: bold; color: ${canAfford ? '#f39c12' : '#ccc'};">
-                                        🪙 ${item.price}
-                                    </div>
-                                    ${owned ? `<div style="margin-top: 8px; font-size: 12px; color: #27ae60;">${owned}</div>` : ''}
-                                </div>
-                            `;
-                        }).join('')}
+            </div>
+            ${o.pet ? `<div class="gc-pet-preview"><h3>🐾 我的宠物</h3><div class="gc-pet-display"><span class="gc-pet-emoji">${this.getSpeciesEmoji(o.pet.species)}</span><span>${esc(o.pet.name)} Lv.${o.pet.level}</span></div></div>` : '<div class="gc-adopt-hint"><p>还没有宠物？去 <button class="gc-link-btn" onclick="window.gameCenter.switchTab(\'pet\')">领养一只</button> 吧！</p></div>'}
+            <div class="gc-daily-progress"><h3>📋 今日任务</h3><div class="gc-progress-bar"><div class="gc-progress-fill" style="width:${o.dailyTasks?.total?((o.dailyTasks.done||0)/(o.dailyTasks.total)*100):0}%"></div></div><span>${o.dailyTasks?.done||0}/${o.dailyTasks?.total||0}</span></div>
+            ${o.equippedTitle ? `<div class="gc-equipped-title">当前头衔：<span class="gc-title-badge">${esc(o.equippedTitle)}</span></div>` : ''}
+        </div>`;
+    }
+
+    getSpeciesEmoji(s) { return {cat:'🐱',dog:'🐕',dragon:'🐉',phoenix:'🦅',rabbit:'🐰',fox:'🦊'}[s]||'🐱'; }
+
+    // === 宠物 ===
+    async renderPet() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/pet');
+            if (!data.pet) {
+                c.innerHTML = `<div class="gc-adopt"><h2>🐾 领养宠物</h2><p>选择你的伙伴，开始冒险吧！</p>
+                    <div class="gc-species-grid">
+                        ${[{s:'cat',e:'🐱',n:'猫咪'},{s:'dog',e:'🐕',n:'狗狗'},{s:'dragon',e:'🐉',n:'小龙'},{s:'phoenix',e:'🦅',n:'凤凰'},{s:'rabbit',e:'🐰',n:'兔兔'},{s:'fox',e:'🦊',n:'狐狸'}]
+                        .map(x=>`<button class="gc-species-btn" data-species="${x.s}">${x.e}<br>${x.n}</button>`).join('')}
+                    </div>
+                    <div class="gc-adopt-form"><label>起个名字：<input id="gcPetName" maxlength="20" placeholder="小猫咪" class="gc-input"></label><button id="gcAdoptBtn" class="gc-btn gc-btn-primary">领养！</button></div>
+                </div>`;
+                c.querySelectorAll('.gc-species-btn').forEach(b => b.addEventListener('click', () => { c.querySelectorAll('.gc-species-btn').forEach(x=>x.classList.remove('selected')); b.classList.add('selected'); this._selectedSpecies = b.dataset.species; }));
+                document.getElementById('gcAdoptBtn')?.addEventListener('click', async () => {
+                    const name = document.getElementById('gcPetName')?.value || '';
+                    const res = await this.api('/pet/adopt', { method:'POST', body: JSON.stringify({ name, species: this._selectedSpecies || 'cat' }) });
+                    if (res.message) { this.toast(res.message); this.switchTab('pet'); }
+                });
+                return;
+            }
+            const pet = data.pet;
+            const items = data.items || [];
+            c.innerHTML = `<div class="gc-pet-page">
+                <div class="gc-pet-main">
+                    <div class="gc-pet-avatar">${this.getSpeciesEmoji(pet.species)}<div class="gc-pet-accessory">${esc(pet.accessory||'')}</div></div>
+                    <h2>${esc(pet.name)} <small>Lv.${pet.level}</small></h2>
+                    <div class="gc-pet-exp"><div class="gc-progress-bar"><div class="gc-progress-fill" style="width:${pet.level>=15?100:(pet.exp%100)}%"></div></div><small>EXP ${pet.exp}</small></div>
+                    <div class="gc-pet-stats">
+                        <div class="gc-pet-stat">😊 心情<div class="gc-bar"><div class="gc-bar-fill" style="width:${pet.mood}%;background:#ff6b6b"></div></div>${pet.mood}%</div>
+                        <div class="gc-pet-stat">🍖 饱腹<div class="gc-bar"><div class="gc-bar-fill" style="width:${pet.hunger}%;background:#ffa502"></div></div>${pet.hunger}%</div>
+                        <div class="gc-pet-stat">🧼 清洁<div class="gc-bar"><div class="gc-bar-fill" style="width:${pet.cleanliness}%;background:#2ed573"></div></div>${pet.cleanliness}%</div>
+                    </div>
+                    <div class="gc-pet-actions">
+                        <button class="gc-btn" id="gcFeedBtn">🍖 喂食</button>
+                        <button class="gc-btn" id="gcPlayBtn">🧶 玩耍</button>
+                        <button class="gc-btn" id="gcCleanBtn">🧼 清洗</button>
+                        <button class="gc-btn" id="gcShopBtn">🛒 商店</button>
                     </div>
                 </div>
-            </div>
-        `;
-    },
-
-    // 购买确认
-    buyItemConfirm(itemId) {
-        const item = this.SHOP_ITEMS[itemId];
-        if (!item) return;
-
-        if (confirm(`确定花费 ${item.price} 硬币购买 ${item.name} 吗？`)) {
-            const result = this.buyItem(itemId);
-            if (!result.success) {
-                alert(result.message);
-            }
-        }
-    },
-
-    // 显示提示
-    showToast(message) {
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 25px;
-            font-size: 14px;
-            z-index: 99999;
-            animation: fadeInUp 0.3s ease;
-        `;
-        toast.textContent = message;
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            toast.style.transition = 'opacity 0.3s';
-            setTimeout(() => toast.remove(), 300);
-        }, 2000);
-    },
-
-    // 初始化
-    init() {
-        // 添加样式
-        if (!document.getElementById('gamecenter-styles')) {
-            const style = document.createElement('style');
-            style.id = 'gamecenter-styles';
-            style.textContent = `
-                @keyframes fadeIn {
-                    from { opacity: 0; }
-                    to { opacity: 1; }
-                }
-                @keyframes bounceIn {
-                    0% { transform: scale(0.3); opacity: 0; }
-                    50% { transform: scale(1.05); }
-                    70% { transform: scale(0.9); }
-                    100% { transform: scale(1); opacity: 1; }
-                }
-                @keyframes float {
-                    0%, 100% { transform: translateY(0); }
-                    50% { transform: translateY(-10px); }
-                }
-            `;
-            document.head.appendChild(style);
-        }
+                <div class="gc-pet-items" id="gcPetItems">
+                    <h3>🎒 背包</h3>
+                    ${items.length ? items.map(i=>`<div class="gc-item-slot">${i.emoji||''} ${esc(i.name)} x${i.quantity} <button class="gc-btn-sm" data-use="${i.id}" data-type="${i.type}">使用</button></div>`).join('') : '<p class="gc-empty">背包空空，去商店看看吧</p>'}
+                </div>
+                <div class="gc-shop-panel" id="gcShopPanel" style="display:none"></div>
+            </div>`;
+            document.getElementById('gcFeedBtn')?.addEventListener('click', () => this.showItemPicker('food', 'feed'));
+            document.getElementById('gcPlayBtn')?.addEventListener('click', () => this.petAction('/pet/play'));
+            document.getElementById('gcCleanBtn')?.addEventListener('click', () => this.petAction('/pet/clean'));
+            document.getElementById('gcShopBtn')?.addEventListener('click', () => this.toggleShop());
+            c.querySelectorAll('[data-use]').forEach(b => b.addEventListener('click', () => {
+                const type = b.dataset.type;
+                const path = type==='food' ? '/pet/feed' : type==='toy' ? '/pet/play' : type==='clean' ? '/pet/clean' : null;
+                if (path) this.petAction(path, parseInt(b.dataset.use));
+            }));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; console.error(e); }
     }
-};
 
-// 导出到全局
-window.GameCenter = GameCenter;
+    async petAction(path, itemId) {
+        const body = itemId ? { itemId } : {};
+        const res = await this.api(path, { method:'POST', body: JSON.stringify(body) });
+        this.toast(res.message || '操作完成');
+        if (res.leveledUp) this.toast('🎉 宠物升级了！');
+        this.switchTab('pet');
+    }
 
-// 自动初始化
-document.addEventListener('DOMContentLoaded', () => {
-    GameCenter.init();
-});
+    showItemPicker(type, action) {
+        this.petAction(action === 'feed' ? '/pet/feed' : '/pet/clean');
+    }
+
+    async toggleShop() {
+        const panel = document.getElementById('gcShopPanel');
+        if (!panel) return;
+        if (panel.style.display !== 'none') { panel.style.display = 'none'; return; }
+        panel.style.display = 'block';
+        panel.innerHTML = '<p>加载商品...</p>';
+        const data = await this.api('/shop');
+        const items = (data.items || []).filter(i => i.type !== 'accessory');
+        panel.innerHTML = `<h3>🛒 宠物商店</h3><div class="gc-shop-grid">${items.map(i=>`<div class="gc-shop-item"><span class="gc-shop-emoji">${i.emoji||''}</span><span>${esc(i.name)}</span><small>${i.type==='food'?'饱腹+'+i.effect_hunger:i.type==='toy'?'心情+'+i.effect_mood:'清洁+'+i.effect_clean}</small><button class="gc-btn-sm gc-buy-btn" data-id="${i.id}">${i.price}🪙</button></div>`).join('')}</div>`;
+        panel.querySelectorAll('.gc-buy-btn').forEach(b => b.addEventListener('click', async () => {
+            const res = await this.api('/shop/buy', { method:'POST', body: JSON.stringify({ itemId: parseInt(b.dataset.id), quantity: 1 }) });
+            this.toast(res.message || '购买失败');
+            this.switchTab('pet');
+        }));
+    }
+
+    // === 抽奖 ===
+    async renderLottery() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/lottery/info');
+            c.innerHTML = `<div class="gc-lottery">
+                <div class="gc-lottery-wheel" id="gcWheel">
+                    <div class="gc-wheel-inner">🎰</div>
+                    <div class="gc-wheel-prizes">${(data.prizes||[]).map(p=>`<div class="gc-prize-slot">${p.emoji} ${esc(p.name)}</div>`).join('')}</div>
+                </div>
+                <div class="gc-lottery-info">
+                    <p>每次消耗 <strong>${data.cost||5}</strong> 🪙 | 余额: <strong>${data.balance||0}</strong> 🪙 | 已抽: ${data.totalDraws||0}次</p>
+                    <button id="gcDrawBtn" class="gc-btn gc-btn-primary gc-btn-lg">🎲 抽一次！</button>
+                </div>
+                <div id="gcLotteryResult"></div>
+                <div class="gc-lottery-records" id="gcLotteryRecords"></div>
+            </div>`;
+            document.getElementById('gcDrawBtn')?.addEventListener('click', async () => {
+                const btn = document.getElementById('gcDrawBtn');
+                if (btn.disabled) return;
+                btn.disabled = true;
+                btn.textContent = '抽奖中...';
+                const res = await this.api('/lottery/draw', { method:'POST' });
+                btn.disabled = false;
+                btn.textContent = '🎲 抽一次！';
+                if (res.prize) {
+                    document.getElementById('gcLotteryResult').innerHTML = `<div class="gc-prize-result gc-animate-pop">${res.prize.emoji} <strong>${esc(res.prize.name)}</strong></div>`;
+                    this.toast(`🎉 恭喜获得 ${res.prize.emoji} ${res.prize.name}！`);
+                    await this.loadOverview();
+                    this.updateBalanceBar();
+                } else {
+                    this.toast(res.message || '抽奖失败');
+                }
+            });
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 成就 ===
+    async renderAchievements() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/achievements');
+            const achs = data.achievements || [];
+            const stats = data.stats || {};
+            c.innerHTML = `<div class="gc-achievements">
+                <div class="gc-ach-stats">🏆 ${stats.unlocked||0}/${stats.total||0} 已解锁</div>
+                <div class="gc-ach-grid">${achs.map(a=>`<div class="gc-ach-card${a.unlocked?' unlocked':' locked'}">
+                    <div class="gc-ach-icon">${a.icon}</div>
+                    <div class="gc-ach-info"><div class="gc-ach-name">${esc(a.name)}</div><div class="gc-ach-desc">${esc(a.description||'')}</div>
+                    ${a.unlocked ? `<button class="gc-btn-sm gc-claim-btn" data-id="${a.id}">领取奖励</button>` : `<small class="gc-ach-locked-text">🔒 未解锁</small>`}
+                    </div></div>`).join('')}</div>
+            </div>`;
+            c.querySelectorAll('.gc-claim-btn').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/achievements/claim', { method:'POST', body: JSON.stringify({ achievementId: parseInt(b.dataset.id) }) });
+                this.toast(res.message || '领取失败');
+                this.renderAchievements();
+            }));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 任务 ===
+    async renderTasks() {
+        const c = document.getElementById('gcContent');
+        try {
+            const [taskData, challengeData] = await Promise.all([this.api('/daily-tasks'), this.api('/challenges')]);
+            c.innerHTML = `<div class="gc-tasks">
+                <h3>📋 每日任务</h3>
+                <div class="gc-task-list">${(taskData.tasks||[]).map(t=>`<div class="gc-task-item${t.completed?' completed':''}">
+                    <span>${esc(t.title)}</span><small>${esc(t.description||'')}</small>
+                    <span class="gc-task-reward">+${t.reward}🪙</span>
+                    ${t.completed && !t.claimed ? `<button class="gc-btn-sm gc-claim-task" data-id="${t.id}">领取</button>` : t.claimed ? '<span class="gc-claimed">✅</span>' : ''}
+                </div>`).join('')}</div>
+                <h3>🎯 挑战任务</h3>
+                <div class="gc-task-list">${(challengeData.challenges||[]).map(ch=>`<div class="gc-task-item${ch.completed?' completed':''}">
+                    <span>${esc(ch.title)}</span><small>${esc(ch.description||'')}</small>
+                    <span class="gc-task-reward">+${ch.reward_coins}🪙 +${ch.reward_exp}EXP</span>
+                    ${ch.completed && !ch.claimed ? `<button class="gc-btn-sm gc-claim-challenge" data-id="${ch.id}">领取</button>` : ch.claimed ? '<span class="gc-claimed">✅</span>' : ''}
+                </div>`).join('')}</div>
+            </div>`;
+            c.querySelectorAll('.gc-claim-task').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/daily-tasks/claim', { method:'POST', body: JSON.stringify({ taskId: parseInt(b.dataset.id) }) });
+                this.toast(res.message); this.renderTasks();
+            }));
+            c.querySelectorAll('.gc-claim-challenge').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/challenges/claim', { method:'POST', body: JSON.stringify({ challengeId: parseInt(b.dataset.id) }) });
+                this.toast(res.message); this.renderTasks();
+            }));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 猜谜 ===
+    async renderRiddle() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/riddle');
+            if (!data.riddle) { c.innerHTML = '<div class="gc-riddle"><h2>🧠 猜谜</h2><p class="gc-empty">今日谜题已答完，明天再来！</p></div>'; return; }
+            const r = data.riddle;
+            c.innerHTML = `<div class="gc-riddle">
+                <h2>🧠 猜谜赢币</h2>
+                <div class="gc-riddle-card">
+                    <div class="gc-riddle-q">${esc(r.question)}</div>
+                    <div class="gc-riddle-hint">💡 提示：${esc(r.hint||'无')}</div>
+                    <div class="gc-riddle-meta">难度：${'⭐'.repeat(r.difficulty)} | 奖励：${r.reward_coins}🪙</div>
+                    <div class="gc-riddle-form">
+                        <input id="gcRiddleAnswer" class="gc-input" placeholder="输入答案...">
+                        <button id="gcRiddleSubmit" class="gc-btn gc-btn-primary">提交答案</button>
+                    </div>
+                    <div id="gcRiddleResult"></div>
+                </div>
+            </div>`;
+            document.getElementById('gcRiddleSubmit')?.addEventListener('click', async () => {
+                const answer = document.getElementById('gcRiddleAnswer')?.value;
+                if (!answer) return;
+                const res = await this.api('/riddle/answer', { method:'POST', body: JSON.stringify({ riddleId: r.id, answer }) });
+                const el = document.getElementById('gcRiddleResult');
+                if (res.correct) {
+                    el.innerHTML = `<div class="gc-correct">✅ 正确！答案就是「${esc(res.answer)}」，获得 ${res.reward}🪙</div>`;
+                    this.toast('🎉 答对了！');
+                } else {
+                    el.innerHTML = `<div class="gc-wrong">❌ 不对哦，正确答案是「${esc(res.answer)}」</div>`;
+                }
+            });
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === PK ===
+    async renderPK() {
+        const c = document.getElementById('gcContent');
+        c.innerHTML = `<div class="gc-pk">
+            <h2>⚔️ PK 对战</h2>
+            <div class="gc-pk-types">
+                <button class="gc-btn gc-pk-type" data-type="coin_flip">🪙 抛硬币</button>
+                <button class="gc-btn gc-pk-type" data-type="dice">🎲 掷骰子</button>
+                <button class="gc-btn gc-pk-type" data-type="rps">✊✋✌️ 石头剪刀布</button>
+                <button class="gc-btn gc-pk-type" data-type="number_guess">🔢 猜数字</button>
+            </div>
+            <div class="gc-pk-form">
+                <label>对手用户ID：<input id="gcPkOpponent" class="gc-input" type="number" placeholder="输入对手ID"></label>
+                <label>押注硬币：<input id="gcPkBet" class="gc-input" type="number" value="0" min="0" max="100"></label>
+                <button id="gcPkBtn" class="gc-btn gc-btn-primary">发起PK！</button>
+            </div>
+            <div id="gcPkResult"></div>
+            <div class="gc-pk-info"><small>PK类型说明：抛硬币-猜正反面 | 掷骰子-比大小 | 石头剪刀布-经典 | 猜数字-比谁更大</small></div>
+        </div>`;
+        let selectedType = 'coin_flip';
+        c.querySelectorAll('.gc-pk-type').forEach(b => {
+            b.addEventListener('click', () => {
+                c.querySelectorAll('.gc-pk-type').forEach(x=>x.classList.remove('gc-btn-primary'));
+                b.classList.add('gc-btn-primary');
+                selectedType = b.dataset.type;
+            });
+        });
+        document.getElementById('gcPkBtn')?.addEventListener('click', async () => {
+            const opponentId = parseInt(document.getElementById('gcPkOpponent')?.value);
+            const bet = parseInt(document.getElementById('gcPkBet')?.value) || 0;
+            if (!opponentId) { this.toast('请输入对手ID'); return; }
+            const res = await this.api('/pk/invite', { method:'POST', body: JSON.stringify({ opponentId, type: selectedType, betAmount: bet }) });
+            const el = document.getElementById('gcPkResult');
+            if (res.message) {
+                el.innerHTML = `<div class="gc-pk-sent">⚔️ PK邀请已发送！你的选择：${esc(res.choice)} | 类型：${esc(res.type)} | 押注：${res.betAmount}🪙</div>`;
+                this.toast(res.message);
+            } else { this.toast(res.message || 'PK失败'); }
+        });
+    }
+
+    // === 礼物 ===
+    async renderGifts() {
+        const c = document.getElementById('gcContent');
+        try {
+            const [giftData, receivedData] = await Promise.all([this.api('/gifts'), this.api('/gifts/received')]);
+            c.innerHTML = `<div class="gc-gifts">
+                <h2>🎁 礼物中心</h2>
+                <div class="gc-gift-send">
+                    <h3>送礼物</h3>
+                    <div class="gc-gift-grid">${(giftData.gifts||[]).map(g=>`<div class="gc-gift-item" data-id="${g.id}" data-price="${g.price}"><span class="gc-gift-emoji">${g.emoji}</span><span>${esc(g.name)}</span><small>${g.price}🪙</small></div>`).join('')}</div>
+                    <div class="gc-gift-form">
+                        <label>送给(用户ID)：<input id="gcGiftTo" class="gc-input" type="number"></label>
+                        <label>留言：<input id="gcGiftMsg" class="gc-input" maxlength="50" placeholder="写点什么..."></label>
+                        <button id="gcGiftSendBtn" class="gc-btn gc-btn-primary" disabled>送出</button>
+                    </div>
+                </div>
+                <div class="gc-gift-received">
+                    <h3>收到的礼物</h3>
+                    ${(receivedData.records||[]).length ? receivedData.records.map(r=>`<div class="gc-gift-record">${r.gift_emoji} ${esc(r.gift_name)} from ${esc(r.sender_name)} <small>${r.message?esc(r.message):''}</small></div>`).join('') : '<p class="gc-empty">还没有收到礼物</p>'}
+                </div>
+            </div>`;
+            let selectedGift = null;
+            c.querySelectorAll('.gc-gift-item').forEach(g => g.addEventListener('click', () => {
+                c.querySelectorAll('.gc-gift-item').forEach(x=>x.classList.remove('selected'));
+                g.classList.add('selected');
+                selectedGift = parseInt(g.dataset.id);
+                document.getElementById('gcGiftSendBtn').disabled = false;
+            }));
+            document.getElementById('gcGiftSendBtn')?.addEventListener('click', async () => {
+                if (!selectedGift) return;
+                const receiverId = parseInt(document.getElementById('gcGiftTo')?.value);
+                const message = document.getElementById('gcGiftMsg')?.value || '';
+                if (!receiverId) { this.toast('请输入收礼人ID'); return; }
+                const res = await this.api('/gifts/send', { method:'POST', body: JSON.stringify({ receiverId, giftId: selectedGift, message }) });
+                this.toast(res.message || '发送失败');
+                if (res.message?.includes('成功')) this.renderGifts();
+            });
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 排行榜 ===
+    async renderLeaderboard() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/leaderboard?type=coins');
+            const types = [{t:'coins',l:'💰 硬币榜'},{t:'articles',l:'📝 发文榜'},{t:'checkin',l:'🔥 签到榜'},{t:'likes',l:'❤️ 人气榜'},{t:'pets',l:'🐾 宠物榜'}];
+            c.innerHTML = `<div class="gc-leaderboard">
+                <h2>📊 排行榜</h2>
+                <div class="gc-lb-tabs">${types.map(t=>`<button class="gc-btn${t.t==='coins'?' gc-btn-primary':''}" data-type="${t.t}">${t.l}</button>`).join('')}</div>
+                <div class="gc-lb-list" id="gcLbList">
+                    ${(data.leaderboard||[]).map((u,i)=>`<div class="gc-lb-item"><span class="gc-lb-rank">${i<3?['🥇','🥈','🥉'][i]:i+1}</span><span class="gc-lb-name">${esc(u.username)}</span><span class="gc-lb-value">${u.total_earned||0}🪙</span></div>`).join('')||'<p class="gc-empty">暂无数据</p>'}
+                </div>
+            </div>`;
+            c.querySelectorAll('.gc-lb-tabs .gc-btn').forEach(b => b.addEventListener('click', async () => {
+                c.querySelectorAll('.gc-lb-tabs .gc-btn').forEach(x=>x.classList.remove('gc-btn-primary'));
+                b.classList.add('gc-btn-primary');
+                const type = b.dataset.type;
+                const res = await this.api(`/leaderboard?type=${type}`);
+                const list = document.getElementById('gcLbList');
+                if (!list) return;
+                const lb = res.leaderboard || [];
+                const valKey = type==='coins'?'total_earned':type==='articles'?'article_count':type==='checkin'?'checkin_streak':type==='likes'?'like_count':'pet_level';
+                const suffix = type==='pets'?' Lv.'+((lb[0]||{}).pet_level||'') : type==='coins'?'🪙':type==='articles'?'篇':type==='checkin'?'天':'❤️';
+                list.innerHTML = lb.map((u,i)=>`<div class="gc-lb-item"><span class="gc-lb-rank">${i<3?['🥇','🥈','🥉'][i]:i+1}</span><span class="gc-lb-name">${esc(u.username)}</span><span class="gc-lb-value">${u[valKey]||0} ${suffix}</span></div>`).join('')||'<p class="gc-empty">暂无数据</p>';
+            }));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 兑换码 ===
+    renderRedeem() {
+        const c = document.getElementById('gcContent');
+        c.innerHTML = `<div class="gc-redeem">
+            <h2>🥚 兑换码</h2>
+            <p class="gc-redeem-hint">输入兑换码领取奖励，彩蛋就藏在网站的各个角落！</p>
+            <div class="gc-redeem-form">
+                <input id="gcRedeemCode" class="gc-input gc-input-lg" placeholder="输入兑换码..." maxlength="50">
+                <button id="gcRedeemBtn" class="gc-btn gc-btn-primary gc-btn-lg">兑换！</button>
+            </div>
+            <div id="gcRedeemResult"></div>
+            <div class="gc-redeem-tips">
+                <h3>💡 获取兑换码的途径</h3>
+                <ul>
+                    <li>🎉 新用户注册欢迎码</li>
+                    <li>🏆 达成特殊成就</li>
+                    <li>📢 关注站长动态</li>
+                    <li>🥚 网站隐藏彩蛋</li>
+                </ul>
+            </div>
+        </div>`;
+        document.getElementById('gcRedeemBtn')?.addEventListener('click', async () => {
+            const code = document.getElementById('gcRedeemCode')?.value;
+            if (!code) { this.toast('请输入兑换码'); return; }
+            const res = await this.api('/redeem', { method:'POST', body: JSON.stringify({ code }) });
+            const el = document.getElementById('gcRedeemResult');
+            if (res.message?.includes('成功')) {
+                el.innerHTML = `<div class="gc-redeem-success">🎉 ${esc(res.message)}<br>获得：${esc(res.rewards||'')}</div>`;
+                this.toast('🎉 兑换成功！');
+                await this.loadOverview();
+                this.updateBalanceBar();
+            } else {
+                el.innerHTML = `<div class="gc-redeem-fail">❌ ${esc(res.message||'兑换失败')}</div>`;
+                this.toast(res.message || '兑换失败');
+            }
+        });
+    }
+
+    toast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        Object.assign(t.style, { position:'fixed',top:'20px',left:'50%',transform:'translateX(-50%)',background:'rgba(0,0,0,0.8)',color:'#fff',padding:'12px 24px',borderRadius:'8px',fontSize:'14px',zIndex:'10000',transition:'opacity 0.3s',maxWidth:'80%',textAlign:'center' });
+        document.body.appendChild(t);
+        setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},2500);
+    }
+}
+
+window.gameCenter = new GameCenter();
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => window.gameCenter.init());
+else window.gameCenter.init();
+
+export default GameCenter;

@@ -363,7 +363,7 @@ async function initDB() {
         `);
         console.log('Table "knowledge" checked/created.');
 
-        // Create Daily Tasks Table (每日任务)
+        // Create User Daily Tasks Table (每日任务)
         await connection.query(`
             CREATE TABLE IF NOT EXISTS user_daily_tasks (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -376,12 +376,231 @@ async function initDB() {
                 date DATE NOT NULL,
                 completed BOOLEAN DEFAULT FALSE,
                 completed_at TIMESTAMP NULL DEFAULT NULL,
+                claimed BOOLEAN DEFAULT FALSE,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                 UNIQUE KEY unique_user_task_date (user_id, task_id, date)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         `);
         console.log('Table "user_daily_tasks" checked/created.');
+
+        // ===== 游戏化中心表 =====
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_pets (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL UNIQUE, name VARCHAR(50) NOT NULL DEFAULT '小猫咪',
+            species ENUM('cat','dog','dragon','phoenix','rabbit','fox') DEFAULT 'cat', level INT DEFAULT 1, exp INT DEFAULT 0,
+            mood INT DEFAULT 80, hunger INT DEFAULT 80, cleanliness INT DEFAULT 80,
+            last_fed_at TIMESTAMP NULL, last_played_at TIMESTAMP NULL, last_cleaned_at TIMESTAMP NULL,
+            accessory VARCHAR(50) DEFAULT '', created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_pet_items (
+            id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL,
+            type ENUM('food','toy','clean','accessory') NOT NULL,
+            effect_mood INT DEFAULT 0, effect_hunger INT DEFAULT 0, effect_clean INT DEFAULT 0,
+            price INT NOT NULL DEFAULT 0, emoji VARCHAR(10) DEFAULT '', description VARCHAR(200) DEFAULT ''
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_user_items (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, item_id INT NOT NULL, quantity INT DEFAULT 1,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY (item_id) REFERENCES game_pet_items(id),
+            UNIQUE KEY unique_user_item (user_id, item_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_achievements (
+            id INT AUTO_INCREMENT PRIMARY KEY, code VARCHAR(50) NOT NULL UNIQUE, name VARCHAR(100) NOT NULL,
+            description VARCHAR(255), icon VARCHAR(10) DEFAULT '🏆', category VARCHAR(50) DEFAULT 'general',
+            condition_type VARCHAR(50) NOT NULL, condition_value INT NOT NULL,
+            reward_coins INT DEFAULT 0, reward_exp INT DEFAULT 0
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_user_achievements (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, achievement_id INT NOT NULL,
+            unlocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, claimed BOOLEAN DEFAULT FALSE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY (achievement_id) REFERENCES game_achievements(id),
+            UNIQUE KEY unique_user_achievement (user_id, achievement_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_challenges (
+            id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(100) NOT NULL, description TEXT,
+            type ENUM('daily','weekly','special') DEFAULT 'daily', reward_coins INT DEFAULT 0, reward_exp INT DEFAULT 0,
+            condition_type VARCHAR(50) NOT NULL, condition_value INT NOT NULL,
+            starts_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, ends_at TIMESTAMP NULL, is_active BOOLEAN DEFAULT TRUE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_user_challenges (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, challenge_id INT NOT NULL,
+            progress INT DEFAULT 0, completed BOOLEAN DEFAULT FALSE, claimed BOOLEAN DEFAULT FALSE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY (challenge_id) REFERENCES game_challenges(id),
+            UNIQUE KEY unique_user_challenge (user_id, challenge_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_lottery_prizes (
+            id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL,
+            type ENUM('coins','item','exp','title','empty') NOT NULL, value INT DEFAULT 0, item_id INT DEFAULT NULL,
+            probability DECIMAL(5,2) NOT NULL, emoji VARCHAR(10) DEFAULT '', is_active BOOLEAN DEFAULT TRUE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_lottery_records (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, prize_id INT DEFAULT NULL, prize_name VARCHAR(100),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_redeem_codes (
+            id INT AUTO_INCREMENT PRIMARY KEY, code VARCHAR(50) NOT NULL UNIQUE, description VARCHAR(255),
+            reward_coins INT DEFAULT 0, reward_exp INT DEFAULT 0, reward_item_id INT DEFAULT NULL,
+            max_uses INT DEFAULT -1, used_count INT DEFAULT 0, expires_at TIMESTAMP NULL,
+            is_active BOOLEAN DEFAULT TRUE, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_redeem_records (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, code_id INT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY (code_id) REFERENCES game_redeem_codes(id),
+            UNIQUE KEY unique_user_redeem (user_id, code_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_gifts (
+            id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL, emoji VARCHAR(10) DEFAULT '',
+            price INT NOT NULL DEFAULT 0, description VARCHAR(200) DEFAULT ''
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_gift_records (
+            id INT AUTO_INCREMENT PRIMARY KEY, sender_id INT NOT NULL, receiver_id INT NOT NULL, gift_id INT NOT NULL,
+            message VARCHAR(200) DEFAULT '', created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (gift_id) REFERENCES game_gifts(id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_pk_records (
+            id INT AUTO_INCREMENT PRIMARY KEY, challenger_id INT NOT NULL, defender_id INT NOT NULL,
+            winner_id INT DEFAULT NULL, type ENUM('coin_flip','dice','rps','number_guess') NOT NULL,
+            bet_amount INT DEFAULT 0, challenger_choice VARCHAR(50) DEFAULT '', defender_choice VARCHAR(50) DEFAULT '',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (challenger_id) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY (defender_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_riddles (
+            id INT AUTO_INCREMENT PRIMARY KEY, question VARCHAR(255) NOT NULL, answer VARCHAR(100) NOT NULL,
+            hint VARCHAR(255) DEFAULT '', category VARCHAR(50) DEFAULT 'general', difficulty INT DEFAULT 1,
+            reward_coins INT DEFAULT 1, is_active BOOLEAN DEFAULT TRUE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_user_riddles (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, riddle_id INT NOT NULL,
+            answered_correctly BOOLEAN DEFAULT FALSE, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE, FOREIGN KEY (riddle_id) REFERENCES game_riddles(id),
+            UNIQUE KEY unique_user_riddle (user_id, riddle_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_user_titles (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, title VARCHAR(50) NOT NULL,
+            source VARCHAR(100) DEFAULT '', equipped BOOLEAN DEFAULT FALSE, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+        console.log('Game center tables checked/created.');
+
+        // Migration: Add claimed column to user_daily_tasks if not exists
+        try {
+            await connection.query('ALTER TABLE user_daily_tasks ADD COLUMN claimed BOOLEAN DEFAULT FALSE');
+            console.log('Added claimed column to user_daily_tasks.');
+        } catch (e) {
+            if (e.code !== 'ER_DUP_FIELDNAME') console.log('claimed column check:', e.message);
+        }
+
+        // Seed game data if tables are empty
+        try {
+            const [petItemCount] = await connection.query('SELECT COUNT(*) AS cnt FROM game_pet_items');
+            if (petItemCount[0].cnt === 0) {
+                await connection.query(`INSERT INTO game_pet_items (id, name, type, effect_mood, effect_hunger, effect_clean, price, emoji, description) VALUES
+                    (1,'小鱼干','food',5,30,0,5,'🐟','猫咪最爱的零食'),
+                    (2,'猫粮','food',2,50,0,8,'🍖','营养均衡的主食'),
+                    (3,'牛奶','food',10,20,0,6,'🥛','新鲜的牛奶'),
+                    (4,'骨头','food',5,40,0,7,'🦴','狗狗最爱的骨头'),
+                    (5,'火龙果','food',15,25,0,10,'🐉','龙族的能量果实'),
+                    (6,'毛线球','toy',30,0,0,5,'🧶','永远玩不腻的毛线球'),
+                    (7,'飞盘','toy',25,0,0,6,'🥏','一起玩飞盘吧'),
+                    (8,'魔法书','toy',20,0,0,12,'📖','凤凰的智慧之书'),
+                    (9,'肥皂','clean',0,0,40,4,'🧼','干干净净香喷喷'),
+                    (10,'沐浴露','clean',5,0,60,8,'🛁','豪华泡泡浴'),
+                    (11,'蝴蝶结','accessory',10,0,0,15,'🎀','可爱的蝴蝶结'),
+                    (12,'皇冠','accessory',20,0,0,50,'👑','王者之冠'),
+                    (13,'披风','accessory',15,0,0,30,'🧣','英雄的披风')`);
+                console.log('Seeded game_pet_items.');
+            }
+            const [achCount] = await connection.query('SELECT COUNT(*) AS cnt FROM game_achievements');
+            if (achCount[0].cnt === 0) {
+                await connection.query(`INSERT INTO game_achievements (id, code, name, description, icon, category, condition_type, condition_value, reward_coins, reward_exp) VALUES
+                    (1,'first_login','初来乍到','首次登录网站','👋','general','login',1,5,10),
+                    (2,'checkin_3','坚持三天','连续签到3天','🔥','checkin','checkin_streak',3,10,20),
+                    (3,'checkin_7','一周达人','连续签到7天','🌟','checkin','checkin_streak',7,30,50),
+                    (4,'checkin_30','月度之星','连续签到30天','⭐','checkin','checkin_streak',30,100,200),
+                    (5,'checkin_100','百日传说','连续签到100天','💫','checkin','checkin_streak',100,500,1000),
+                    (6,'article_1','初出茅庐','发布第一篇文章','✍️','content','articles',1,20,30),
+                    (7,'article_10','笔耕不辍','发布10篇文章','📝','content','articles',10,100,150),
+                    (8,'comment_1','互动新手','发表第一条评论','💬','social','comments',1,5,10),
+                    (9,'comment_50','评论达人','发表50条评论','🗣️','social','comments',50,80,100),
+                    (10,'liked_10','小有名气','文章累计被赞10次','❤️','social','liked',10,30,50),
+                    (11,'liked_100','人气王','文章累计被赞100次','💝','social','liked',100,200,300),
+                    (12,'coins_100','小有积蓄','累计获得100硬币','💰','coins','total_earned',100,0,50),
+                    (13,'coins_1000','富甲一方','累计获得1000硬币','💎','coins','total_earned',1000,0,200),
+                    (14,'pet_adopt','宠物主人','领养第一只宠物','🐾','pet','has_pet',1,10,20),
+                    (15,'pet_lv5','宠物训练师','宠物达到5级','🐱','pet','pet_level',5,50,80),
+                    (16,'lottery_1','试试手气','第一次抽奖','🎰','lottery','lottery_count',1,0,10),
+                    (17,'lottery_50','抽奖狂人','累计抽奖50次','🎲','lottery','lottery_count',50,100,150),
+                    (18,'gift_1','慷慨解囊','送出第一份礼物','🎁','social','gift_sent',1,5,10),
+                    (19,'pk_win_1','初战告捷','PK对战首次获胜','⚔️','pk','pk_wins',1,10,20),
+                    (20,'riddle_1','脑筋急转弯','答对第一道谜题','🧠','riddle','riddles_correct',1,5,10),
+                    (21,'redeem_1','彩蛋猎人','首次使用兑换码','🥚','redeem','redeem_count',1,0,15)`);
+                console.log('Seeded game_achievements.');
+            }
+            const [prizeCount] = await connection.query('SELECT COUNT(*) AS cnt FROM game_lottery_prizes');
+            if (prizeCount[0].cnt === 0) {
+                await connection.query(`INSERT INTO game_lottery_prizes (id, name, type, value, probability, emoji, is_active) VALUES
+                    (1,'2硬币','coins',2,25.00,'🪙',TRUE),(2,'5硬币','coins',5,15.00,'💰',TRUE),
+                    (3,'10硬币','coins',10,8.00,'💵',TRUE),(4,'50硬币','coins',50,2.00,'💎',TRUE),
+                    (5,'10经验','exp',10,20.00,'⭐',TRUE),(6,'30经验','exp',30,10.00,'🌟',TRUE),
+                    (7,'小鱼干','item',1,8.00,'🐟',TRUE),(8,'毛线球','item',6,5.00,'🧶',TRUE),
+                    (9,'蝴蝶结','item',11,3.00,'🎀',TRUE),(10,'皇冠','item',12,0.50,'👑',TRUE),
+                    (11,'称号：欧皇','title',0,0.50,'🏆',TRUE),(12,'谢谢参与','empty',0,3.00,'😅',TRUE)`);
+                console.log('Seeded game_lottery_prizes.');
+            }
+            const [giftCount] = await connection.query('SELECT COUNT(*) AS cnt FROM game_gifts');
+            if (giftCount[0].cnt === 0) {
+                await connection.query(`INSERT INTO game_gifts (id, name, emoji, price, description) VALUES
+                    (1,'鲜花','🌹',2,'送你一朵小红花'),(2,'巧克力','🍫',5,'甜蜜的巧克力'),
+                    (3,'蛋糕','🎂',10,'生日快乐'),(4,'火箭','🚀',20,'一飞冲天'),
+                    (5,'钻石','💎',50,'闪耀的钻石'),(6,'棒棒糖','🍭',3,'甜蜜棒棒糖'),
+                    (7,'爱心','❤️',8,'满满的爱'),(8,'星星','⭐',1,'你是我的星星')`);
+                console.log('Seeded game_gifts.');
+            }
+            const [riddleCount] = await connection.query('SELECT COUNT(*) AS cnt FROM game_riddles');
+            if (riddleCount[0].cnt === 0) {
+                await connection.query(`INSERT INTO game_riddles (id, question, answer, hint, category, difficulty, reward_coins, is_active) VALUES
+                    (1,'什么东西越洗越脏？','水','和洗涤有关','brain',1,1,TRUE),
+                    (2,'什么动物最容易被贴在墙上？','海豹','谐音梗','funny',1,1,TRUE),
+                    (3,'世界上最长的单词是什么？','smiles','首尾之间','brain',1,1,TRUE),
+                    (4,'什么门永远关不上？','球门','和运动有关','brain',1,1,TRUE),
+                    (5,'有一个字，人人见了都会念错，这是什么字？','错','就是这个字本身','brain',2,2,TRUE),
+                    (6,'什么路最窄？','冤家路窄','四字成语','brain',2,2,TRUE),
+                    (7,'红口袋绿口袋有人怕有人爱（打一蔬菜）','辣椒','厨房常见','riddle',1,1,TRUE),
+                    (8,'千条线万条线掉到水里看不见（打一自然现象）','雨','天上来的','riddle',1,1,TRUE),
+                    (9,'小白花飞满天下到地上象白面下到水里看不见（打一自然现象）','雪','冬天才有','riddle',1,2,TRUE),
+                    (10,'什么鸡没有翅膀？','田鸡','不是家禽','funny',2,2,TRUE)`);
+                console.log('Seeded game_riddles.');
+            }
+            const [codeCount] = await connection.query('SELECT COUNT(*) AS cnt FROM game_redeem_codes');
+            if (codeCount[0].cnt === 0) {
+                await connection.query(`INSERT INTO game_redeem_codes (code, description, reward_coins, reward_exp, max_uses, expires_at, is_active) VALUES
+                    ('WELCOME2026','欢迎来到游戏中心！',10,20,-1,NULL,TRUE),
+                    ('HAKIMI_BLOG','站长的彩蛋',50,100,100,NULL,TRUE),
+                    ('GAME_MASTER','游戏高手兑换码',30,50,50,'2027-12-31 23:59:59',TRUE),
+                    ('LUCKY_DAY','幸运日！',20,30,200,'2027-06-30 23:59:59',TRUE),
+                    ('EASTER_EGG','你找到了彩蛋！',100,200,10,NULL,TRUE)`);
+                console.log('Seeded game_redeem_codes.');
+            }
+        } catch (seedErr) { console.error('Game data seed error:', seedErr.message); }
 
         // Seed default donation goal if none exists
         try {
