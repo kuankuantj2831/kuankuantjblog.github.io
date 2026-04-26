@@ -2,6 +2,16 @@
 (function() {
   'use strict';
 
+  function escapeHtml(str) {
+    if (!str || typeof str !== 'string') return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function escapeAttr(str) {
+    if (!str || typeof str !== 'string') return '';
+    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
   // DOM 元素
   const uploadArea = document.getElementById('uploadArea');
   const fileInput = document.getElementById('fileInput');
@@ -15,6 +25,8 @@
   const uploadedItems = document.getElementById('uploadedItems');
   const notification = document.getElementById('notification');
 
+  if (!uploadArea || !fileInput) return;
+
   // 文件列表
   let files = [];
   let uploadedFiles = [];
@@ -23,7 +35,13 @@
   function loadUploadedFiles() {
     const saved = localStorage.getItem('uploadedFiles');
     if (saved) {
-      uploadedFiles = JSON.parse(saved);
+      try {
+        uploadedFiles = JSON.parse(saved);
+      } catch (e) {
+        console.warn('uploadedFiles 数据损坏，已重置:', e);
+        try { localStorage.removeItem('uploadedFiles'); } catch (_) {}
+        uploadedFiles = [];
+      }
       
       // 过滤掉没有文件数据的旧记录
       const validFiles = uploadedFiles.filter(file => file.data);
@@ -153,10 +171,10 @@
     fileItems.innerHTML = files.map((file, index) => `
       <div class="file-item">
         <div class="file-info">
-          <div class="file-icon">${getFileExtension(file.name).toUpperCase()}</div>
+          <div class="file-icon">${escapeHtml(getFileExtension(file.name).toUpperCase())}</div>
           <div class="file-details">
-            <div class="file-name">${file.name}</div>
-            <div class="file-size">${formatFileSize(file.size)}</div>
+            <div class="file-name">${escapeHtml(file.name)}</div>
+            <div class="file-size">${escapeHtml(formatFileSize(file.size))}</div>
           </div>
         </div>
         <button class="file-remove" onclick="window.uploadManager.removeFile(${index})">
@@ -183,8 +201,8 @@
     uploadedItems.innerHTML = uploadedFiles.map((file, index) => `
       <div class="uploaded-item">
         <div class="uploaded-item-icon">✓</div>
-        <div class="uploaded-item-name" title="${file.name}">${file.name}</div>
-        <div class="uploaded-item-date">${file.date}</div>
+        <div class="uploaded-item-name" title="${escapeAttr(file.name)}">${escapeHtml(file.name)}</div>
+        <div class="uploaded-item-date">${escapeHtml(file.date)}</div>
         <div class="uploaded-item-actions">
           <button class="uploaded-item-btn download-btn" onclick="window.uploadManager.downloadFile(${index})" title="下载文件">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -271,9 +289,9 @@
   function handleUploadComplete() {
     const uploadedCount = files.length;
     const currentDate = new Date().toLocaleString('zh-CN');
+    const totalToProcess = files.length;
     let processedCount = 0;
 
-    // 处理每个文件，将其转换为 base64 保存
     files.forEach(file => {
       const reader = new FileReader();
       
@@ -283,23 +301,20 @@
           size: formatFileSize(file.size),
           date: currentDate,
           type: file.type,
-          data: e.target.result // base64 数据
+          data: e.target.result
         });
         
         processedCount++;
         
-        // 所有文件处理完成后保存
-        if (processedCount === files.length) {
+        if (processedCount === totalToProcess) {
           saveUploadedFiles();
           renderUploadedFiles();
         }
       };
       
-      // 读取文件为 base64
       reader.readAsDataURL(file);
     });
 
-    // 清空待上传列表
     files = [];
     fileInput.value = '';
     renderFileList();

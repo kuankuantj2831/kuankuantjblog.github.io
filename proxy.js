@@ -81,6 +81,12 @@ const server = http.createServer((req, res) => {
 
     // 静态文件服务
     let filePath = path.join(STATIC_DIR, pathname);
+    // 防止路径遍历：确保解析后的路径在静态目录内
+    if (!filePath.startsWith(STATIC_DIR + path.sep) && filePath !== STATIC_DIR) {
+        res.writeHead(403);
+        res.end('403 Forbidden');
+        return;
+    }
     if (pathname === '/') {
         filePath = path.join(STATIC_DIR, 'index.html');
     }

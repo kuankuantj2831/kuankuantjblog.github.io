@@ -301,7 +301,12 @@ class FirebaseAuthSystem {
 
                 if (avatar) {
                     if (this.currentUser.photoURL) {
-                        avatar.innerHTML = `<img src="${this.currentUser.photoURL}" alt="头像" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+                        avatar.textContent = '';
+                        const img = document.createElement('img');
+                        img.src = this.currentUser.photoURL;
+                        img.alt = '头像';
+                        img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;';
+                        avatar.appendChild(img);
                     } else {
                         avatar.textContent = this.currentUser.username.charAt(0).toUpperCase();
                     }

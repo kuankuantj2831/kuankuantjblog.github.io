@@ -45,13 +45,17 @@ class CoinsApp {
         }
 
         if (!this.currentUser || !this.token) {
-            document.getElementById('loginPrompt').style.display = 'block';
-            document.getElementById('mainContent').style.display = 'none';
+            const loginPrompt = document.getElementById('loginPrompt');
+            const mainContent = document.getElementById('mainContent');
+            if (loginPrompt) loginPrompt.style.display = 'block';
+            if (mainContent) mainContent.style.display = 'none';
             return;
         }
 
-        document.getElementById('mainContent').style.display = 'block';
-        document.getElementById('loginPrompt').style.display = 'none';
+        const mainContent = document.getElementById('mainContent');
+        const loginPrompt = document.getElementById('loginPrompt');
+        if (mainContent) mainContent.style.display = 'block';
+        if (loginPrompt) loginPrompt.style.display = 'none';
 
         this.updateDateDisplay();
         this.bindEvents();

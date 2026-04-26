@@ -93,7 +93,7 @@ var searchFunc = function (path, search_id, content_id) {
           }
           // show search results
           if (isMatch) {
-            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+            str += "<li><a href='" + (function(u) { var s = String(u||''); if (s.startsWith('http://') || s.startsWith('https://') || s.startsWith('/')) return s.replace(/'/g,'&#39;'); return '#'; })(data_url) + "' class='search-result-title'>" + data_title + "</a>";
             var content = data.content.trim().replace(/<[^>]+>/g, "");
             if (first_occur >= 0) {
               // cut out 100 characters

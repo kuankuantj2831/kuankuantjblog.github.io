@@ -418,8 +418,16 @@ async function loadUnreadCounts() {
 
 // --- 工具函数 ---
 function escapeAttr(str) {
-    return (str || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    if (!str || typeof str !== 'string') return '';
+    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/`/g, '&#96;');
 }
+
+window.addEventListener('pagehide', () => {
+    if (chatRefreshTimer) {
+        clearInterval(chatRefreshTimer);
+        chatRefreshTimer = null;
+    }
+});
 
 // --- 启动 ---
 document.addEventListener('DOMContentLoaded', init);

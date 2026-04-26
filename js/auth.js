@@ -65,9 +65,9 @@
 
                 // 关闭按钮
                 document.querySelectorAll('.auth-modal-close, .auth-modal-overlay').forEach(el => {
-                    el.addEventListener('click', (e) => {
-                        if (e.target === el) {
-                            try { this.closeModals(); } catch(e) { console.warn('[Auth] 关闭弹窗失败:', e); }
+                    el.addEventListener('click', (evt) => {
+                        if (evt.target === el) {
+                            try { this.closeModals(); } catch(err) { console.warn('[Auth] 关闭弹窗失败:', err); }
                         }
                     });
                 });
@@ -75,36 +75,36 @@
                 // 登录表单提交
                 const loginForm = document.getElementById('loginForm');
                 if (loginForm) {
-                    loginForm.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        try { this.handleLogin(); } catch(e) { console.warn('[Auth] 处理登录失败:', e); }
+                    loginForm.addEventListener('submit', (evt) => {
+                        evt.preventDefault();
+                        try { this.handleLogin(); } catch(err) { console.warn('[Auth] 处理登录失败:', err); }
                     });
                 }
 
                 // 注册表单提交
                 const registerForm = document.getElementById('registerForm');
                 if (registerForm) {
-                    registerForm.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        try { this.handleRegister(); } catch(e) { console.warn('[Auth] 处理注册失败:', e); }
+                    registerForm.addEventListener('submit', (evt) => {
+                        evt.preventDefault();
+                        try { this.handleRegister(); } catch(err) { console.warn('[Auth] 处理注册失败:', err); }
                     });
                 }
 
                 // 切换到注册
                 const switchToRegister = document.getElementById('switchToRegister');
                 if (switchToRegister) {
-                    switchToRegister.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        try { this.showRegisterModal(); } catch(e) { console.warn('[Auth] 切换到注册失败:', e); }
+                    switchToRegister.addEventListener('click', (evt) => {
+                        evt.preventDefault();
+                        try { this.showRegisterModal(); } catch(err) { console.warn('[Auth] 切换到注册失败:', err); }
                     });
                 }
 
                 // 切换到登录
                 const switchToLogin = document.getElementById('switchToLogin');
                 if (switchToLogin) {
-                    switchToLogin.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        try { this.showLoginModal(); } catch(e) { console.warn('[Auth] 切换到登录失败:', e); }
+                    switchToLogin.addEventListener('click', (evt) => {
+                        evt.preventDefault();
+                        try { this.showLoginModal(); } catch(err) { console.warn('[Auth] 切换到登录失败:', err); }
                     });
                 }
 
@@ -200,7 +200,7 @@
                 const users = this.getUsers();
                 const user = users.find(u =>
                     (u.username === username || u.email === username) &&
-                    this.decodePassword(u.password) === password
+                    this.verifyPassword(u.password, password)
                 );
 
                 if (user) {
@@ -409,24 +409,37 @@
                 if (!password || typeof password !== 'string') {
                     return '';
                 }
-                // 使用更安全的哈希方式（虽然仍不够完美，但比Base64好）
-                // 注意：这不是真正的安全加密，仅用于演示目的
-                return btoa(unescape(encodeURIComponent(password)));
+                let hash = 0;
+                for (let i = 0; i < password.length; i++) {
+                    const c = password.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + c;
+                    hash |= 0;
+                }
+                const salt = 'hakimi_blog_2024';
+                let salted = salt + password + hash;
+                let hash2 = 0;
+                for (let i = 0; i < salted.length; i++) {
+                    const c = salted.charCodeAt(i);
+                    hash2 = ((hash2 << 5) - hash2) + c;
+                    hash2 |= 0;
+                }
+                return btoa(salted + '|' + hash2);
             } catch (e) {
                 console.warn('[Auth] 密码编码失败：', e);
                 return '';
             }
         }
 
-        decodePassword(encoded) {
+        verifyPassword(encoded, password) {
             try {
-                if (!encoded || typeof encoded !== 'string') {
-                    return '';
+                if (!encoded || typeof encoded !== 'string' || !password || typeof password !== 'string') {
+                    return false;
                 }
-                return decodeURIComponent(escape(atob(encoded)));
+                const newEncoded = this.encodePassword(password);
+                return encoded === newEncoded;
             } catch (e) {
-                console.warn('[Auth] 密码解码失败：', e);
-                return '';
+                console.warn('[Auth] 密码验证失败：', e);
+                return false;
             }
         }
 

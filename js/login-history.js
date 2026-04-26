@@ -4,9 +4,18 @@
  */
 
 const LoginHistory = {
-    // 存储键名
     STORAGE_KEY: 'admin_login_history',
-    MAX_RECORDS: 100, // 最多保存100条记录
+    MAX_RECORDS: 100,
+
+    escapeHtml(str) {
+        if (!str || typeof str !== 'string') return '';
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    },
+
+    escapeAttr(str) {
+        if (!str || typeof str !== 'string') return '';
+        return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    },
     
     /**
      * 获取当前登录信息
@@ -159,15 +168,15 @@ const LoginHistory = {
             const statusColor = record.success ? '#52c41a' : '#ff4d4f';
             
             html += `
-                <tr style="border-bottom:1px solid #eee;" data-id="${record.id}">
+                <tr style="border-bottom:1px solid #eee;" data-id="${this.escapeAttr(record.id)}">
                     <td style="padding:12px;">${this.formatTime(record.timestamp)}</td>
-                    <td style="padding:12px;font-weight:500;">${record.username || 'unknown'}</td>
-                    <td style="padding:12px;font-family:monospace;background:#f5f5f5;border-radius:4px;">${record.ip || 'unknown'}</td>
+                    <td style="padding:12px;font-weight:500;">${this.escapeHtml(record.username || 'unknown')}</td>
+                    <td style="padding:12px;font-family:monospace;background:#f5f5f5;border-radius:4px;">${this.escapeHtml(record.ip || 'unknown')}</td>
                     <td style="padding:12px;">${this.formatLocation(record.location)}</td>
-                    <td style="padding:12px;color:#666;font-size:12px;">${record.platform || 'unknown'}</td>
+                    <td style="padding:12px;color:#666;font-size:12px;">${this.escapeHtml(record.platform || 'unknown')}</td>
                     <td style="padding:12px;color:${statusColor};font-weight:500;">${statusText}</td>
                     <td style="padding:12px;text-align:center;">
-                        <button onclick="LoginHistory.deleteRecord('${record.id}'); LoginHistory.renderHistoryTable('${containerId}');" 
+                        <button onclick="LoginHistory.deleteRecord('${this.escapeAttr(record.id)}'); LoginHistory.renderHistoryTable('${this.escapeAttr(containerId)}');" 
                                 style="background:#ff4d4f;color:white;border:none;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:12px;">
                             删除
                         </button>

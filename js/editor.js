@@ -44,7 +44,7 @@ function checkAuth() {
             } catch (navError) {
                 console.warn('[Editor] 跳转登录失败:', navError);
             }
-            return null;
+            throw new Error('未登录');
         }
         console.log("[Editor] 当前用户:", user.username || user.email || user.id);
         return user;

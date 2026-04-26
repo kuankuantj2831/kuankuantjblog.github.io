@@ -62,7 +62,7 @@ const FeaturePack = {
                 f.loaded = true;
             } catch (e) {
                 console.warn(`[FP] ${id} 初始化失败:`, e);
-                f.loaded = true; // Mark as loaded to prevent repeated errors
+                f.loaded = false;
             }
         } catch (outerError) {
             console.error(`[FP] init 方法执行失败 ${id}:`, outerError);
@@ -160,14 +160,14 @@ const FeaturePack = {
                                 if (k && typeof k === 'string') {
                                     e.setAttribute(k, v); 
                                 }
-                            } catch (err) { 
-                                console.warn('[FP] 属性设置失败:', k, err); 
+                            } catch (attrErr) { 
+                                console.warn('[FP] 属性设置失败:', k, attrErr); 
                             }
                         });
                     }
                     return e;
-                } catch (e) {
-                    console.warn('[FP] el() error:', e);
+                } catch (elErr) {
+                    console.warn('[FP] el() error:', elErr);
                     return document.createElement('div'); // fallback
                 }
             },

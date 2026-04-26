@@ -31,8 +31,15 @@ class ProfileManager {
         }
 
         if (viewId) {
-            this.viewingUserId = parseInt(viewId);
-            this.isOwnProfile = this.currentUser && this.currentUser.id === this.viewingUserId;
+            const parsedId = parseInt(viewId, 10);
+            if (isNaN(parsedId)) {
+                console.error('无效的用户 ID:', viewId);
+                const nameEl = document.getElementById('profileName');
+                if (nameEl) nameEl.textContent = '无效的用户ID';
+                return;
+            }
+            this.viewingUserId = parsedId;
+            this.isOwnProfile = this.currentUser && String(this.currentUser.id) === String(this.viewingUserId);
         } else {
             // 没有 id 参数，查看自己的主页，需要登录
             if (!this.currentUser) {
@@ -376,12 +383,14 @@ class ProfileManager {
 
     async changePassword() {
         try {
+            const currentPasswordEl = document.getElementById('currentPassword');
             const newPasswordEl = document.getElementById('newPassword');
             const confirmPasswordEl = document.getElementById('confirmPassword');
+            const currentPassword = currentPasswordEl ? currentPasswordEl.value : '';
             const newPassword = newPasswordEl ? newPasswordEl.value : '';
             const confirmPassword = confirmPasswordEl ? confirmPasswordEl.value : '';
 
-            if (!newPassword || !confirmPassword) {
+            if (!currentPassword || !newPassword || !confirmPassword) {
                 this.showMessage('passwordErrorMsg', '请填写完整信息');
                 return;
             }
@@ -408,6 +417,7 @@ class ProfileManager {
                         'Authorization': `Bearer ${token}`
                     },
                     body: JSON.stringify({
+                        currentPassword,
                         password: newPassword
                     })
                 });

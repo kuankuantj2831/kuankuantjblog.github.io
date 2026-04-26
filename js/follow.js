@@ -7,6 +7,16 @@
 const FOLLOW_KEY = 'follow_data';
 const FOLLOWED_USERS_KEY = 'followed_users';
 
+function escapeHtml(str) {
+    if (!str || typeof str !== 'string') return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function escapeAttr(str) {
+    if (!str || typeof str !== 'string') return '';
+    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 /**
  * 获取当前用户的关注数据
  */
@@ -244,13 +254,13 @@ function renderFollowList(containerId) {
         <div class="follow-list">
             <div class="follow-count">共关注 ${followed.length} 位用户</div>
             ${followed.map(user => `
-                <div class="follow-item" data-user-id="${user.id}">
-                    <div class="follow-avatar">${user.avatar || (user.name && user.name.charAt(0) ? user.name.charAt(0).toUpperCase() : 'U')}</div>
+                <div class="follow-item" data-user-id="${escapeAttr(user.id)}">
+                    <div class="follow-avatar">${user.avatar ? escapeHtml(user.avatar) : (user.name && user.name.charAt(0) ? escapeHtml(user.name.charAt(0).toUpperCase()) : 'U')}</div>
                     <div class="follow-info">
-                        <div class="follow-name">${user.name || '匿名用户'}</div>
+                        <div class="follow-name">${escapeHtml(user.name || '匿名用户')}</div>
                         <div class="follow-time">关注于 ${new Date(user.followTime).toLocaleDateString()}</div>
                     </div>
-                    <button class="follow-btn-small following" onclick="unfollowUser('${user.id}'); renderFollowList('${containerId}');">
+                    <button class="follow-btn-small following" onclick="unfollowUser('${escapeAttr(user.id)}'); renderFollowList('${escapeAttr(containerId)}');">
                         已关注
                     </button>
                 </div>

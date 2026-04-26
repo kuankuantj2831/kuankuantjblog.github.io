@@ -92,14 +92,17 @@ router.get('/:id', async (req, res) => {
 
         // 判断是否为本人请求（可选认证）
         let isSelf = false;
-        const token = req.headers['authorization']?.split(' ')[1];
-        if (token) {
-            try {
+        try {
+            const token = req.headers['authorization']?.split(' ')[1];
+            if (token) {
                 const jwt = require('jsonwebtoken');
-                const decoded = jwt.verify(token, process.env.JWT_SECRET);
-                isSelf = decoded.id === profile.id;
-            } catch (_) { /* token 无效忽略 */ }
-        }
+                const secret = process.env.JWT_SECRET;
+                if (secret && secret !== 'secret') {
+                    const decoded = jwt.verify(token, secret);
+                    isSelf = decoded.id === profile.id;
+                }
+            }
+        } catch (_) { /* token 无效忽略 */ }
 
         if (isSelf) {
             res.json({ ...profile, levelInfo });

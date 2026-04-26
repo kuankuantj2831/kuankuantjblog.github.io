@@ -153,7 +153,7 @@ async function loadArticle() {
 
             // Check ownership
             const currentUser = getSafeUser();
-            if (currentUser && currentUser.id == article.author_id) {
+            if (currentUser && String(currentUser.id) === String(article.author_id)) {
                 const deleteContainer = safeGetElement('deleteBtnContainer');
                 const deleteBtn = safeGetElement('deleteArticleBtn');
 

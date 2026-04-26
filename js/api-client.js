@@ -129,6 +129,7 @@ class ApiClient {
      * 主请求方法
      */
     async request(endpoint, options = {}) {
+        let cacheKey;
         try {
             const url = endpoint.startsWith('http') ? endpoint : `${API_BASE_URL}${endpoint}`;
             const { 
@@ -138,7 +139,7 @@ class ApiClient {
                 ...fetchOptions 
             } = options;
 
-            const cacheKey = this.generateCacheKey(url, fetchOptions);
+            cacheKey = this.generateCacheKey(url, fetchOptions);
 
             // 1. 检查缓存
             if (cache && fetchOptions.method === 'GET') {

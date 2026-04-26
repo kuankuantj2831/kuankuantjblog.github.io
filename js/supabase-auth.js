@@ -458,10 +458,11 @@ class SupabaseAuthSystem {
             return;
         }
 
-        // 获取 Turnstile token（降级：加载失败时允许跳过）
+        // 获取 Turnstile token
         const turnstileToken = this.getTurnstileToken(this.registerWidgetId);
         if (!turnstileToken) {
-            console.warn('Turnstile token not available for register, proceeding without it');
+            this.showError('registerError', '人机验证未完成，请刷新页面重试');
+            return;
         }
 
         try {
@@ -573,7 +574,15 @@ class SupabaseAuthSystem {
             if (!is2faStep) {
                 loginTurnstileToken = this.getTurnstileToken(this.loginWidgetId);
                 if (!loginTurnstileToken) {
-                    console.warn('Turnstile token not available, proceeding without it');
+                    this.showError('loginError', '人机验证未完成，请刷新页面重试');
+                    this.isLoginSubmitting = false;
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '登录';
+                        submitBtn.style.opacity = '1';
+                        submitBtn.style.cursor = 'pointer';
+                    }
+                    return;
                 }
             }
 
@@ -590,9 +599,9 @@ class SupabaseAuthSystem {
                 }
 
                 url = `${API_BASE_URL}/auth/login/verify`;
-                const userId = this.tempUserId;
-                if (!userId) throw new Error('会话过期，请刷新重试');
-                body = { userId, code };
+                const twoFaToken = this.tempUserId;
+                if (!twoFaToken) throw new Error('会话过期，请刷新重试');
+                body = { twoFaToken, code };
             }
 
             let response;
@@ -623,7 +632,7 @@ class SupabaseAuthSystem {
 
             // Check for 2FA requirement
             if (data.require2fa) {
-                this.tempUserId = data.userId;
+                this.tempUserId = data.twoFaToken;
                 if (login2faGroup) login2faGroup.style.display = 'block';
                 this.showSuccess('loginSuccess', '验证码已发送至您的邮箱，请输入验证码');
                 return; // Stop here, wait for user to input code

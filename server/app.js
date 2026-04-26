@@ -29,7 +29,7 @@ app.use(helmet({
 app.use(limiter); // Apply global limiter
 
 // CORS 安全配置：只允许指定域名访问
-const allowedOrigins = (process.env.CORS_ORIGINS || 'https://mcock.cn,https://kuankuantj2831.github.io,http://localhost:8080,http://localhost:3000,http://localhost:8000,http://127.0.0.1:8000,http://127.0.0.1:8080').split(',').map(s => s.trim());
+const allowedOrigins = (process.env.CORS_ORIGINS || 'https://mcock.cn,https://kuankuantj2831.github.io,http://localhost:8080,http://localhost:3000,http://localhost:8000').split(',').map(s => s.trim());
 
 // 手动处理 OPTIONS 预检请求（解决腾讯云 SCF CORS 问题）
 app.options('*', (req, res) => {
@@ -184,7 +184,6 @@ const aiAdvancedRoutes = require('./routes/ai-advanced');
 // const lowcodeRoutes = require('./routes/lowcode'); // 依赖 @supabase/supabase-js
 // const pwaEdgeRoutes = require('./routes/pwa-edge'); // 依赖 @supabase/supabase-js
 const wechatAuthRoutes = require('./routes/wechat-auth'); // 微信登录 - 已改为MySQL版本
-const reportRoutes = require('./routes/reports'); // 投诉举报系统
 
 // app.use('/web3', web3Routes); // Web3与区块链 - 钱包、NFT、代币、IPFS (已禁用)
 app.use('/ai', aiAdvancedRoutes); // AI大模型深度集成 - 智能客服、内容生成、代码审查
@@ -199,7 +198,6 @@ const wechatMPLoginRoutes = require('./routes/wechat-mp-login'); // 微信公众
 app.use('/wechat-mp', wechatMPLoginRoutes);
 const githubAuthRoutes = require('./routes/github-auth'); // GitHub OAuth 登录
 app.use('/auth/github', githubAuthRoutes);
-app.use('/reports', reportRoutes); // 投诉举报 - 文章/评论/用户举报
 
 // 第七轮功能 - 社区互动升级 - 问答悬赏、话题圈子、实时弹幕
 // const qnaBountyRoutes = require('./routes/qna-bounty'); // 依赖 @supabase/supabase-js
@@ -250,7 +248,8 @@ app.use((err, req, res, next) => {
 // Handle uncaught exceptions and unhandled rejections
 process.on('uncaughtException', (err) => {
     console.error('Uncaught Exception:', err);
-    // 不立即退出，让当前请求完成
+    // 记录后退出进程，避免不一致状态。容器编排器会自动重启。
+    process.exit(1);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
