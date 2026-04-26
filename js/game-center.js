@@ -43,6 +43,13 @@ class GameCenter {
             { id: 'gifts', icon: '🎁', label: '礼物' },
             { id: 'leaderboard', icon: '📊', label: '排行' },
             { id: 'redeem', icon: '🥚', label: '兑换码' },
+            { id: 'chat', icon: '💬', label: '聊天室' },
+            { id: 'clan', icon: '🛡️', label: '部落' },
+            { id: 'forum', icon: '📰', label: '论坛' },
+            { id: 'cosmetics', icon: '👗', label: '装扮' },
+            { id: 'events', icon: '🎪', label: '活动' },
+            { id: 'stocks', icon: '📈', label: '股市' },
+            { id: 'minigames', icon: '🕹️', label: '小游戏' },
         ];
         app.innerHTML = `
             <div class="gc-wrapper">
@@ -79,6 +86,13 @@ class GameCenter {
             gifts: () => this.renderGifts(),
             leaderboard: () => this.renderLeaderboard(),
             redeem: () => this.renderRedeem(),
+            chat: () => this.renderChat(),
+            clan: () => this.renderClan(),
+            forum: () => this.renderForum(),
+            cosmetics: () => this.renderCosmetics(),
+            events: () => this.renderEvents(),
+            stocks: () => this.renderStocks(),
+            minigames: () => this.renderMinigames(),
         };
         (loaders[tab] || loaders.overview)();
     }
@@ -487,6 +501,409 @@ class GameCenter {
                 this.toast(res.message || '兑换失败');
             }
         });
+    }
+
+    // === 聊天室 ===
+    async renderChat() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/chat/rooms');
+            c.innerHTML = `<div class="gc-chat">
+                <h2>💬 聊天室</h2>
+                <div class="gc-chat-create" style="margin-bottom:16px;">
+                    <input id="gcChatName" class="gc-input" placeholder="房间名..." maxlength="20" style="width:150px">
+                    <button id="gcChatCreateBtn" class="gc-btn gc-btn-primary">创建房间</button>
+                </div>
+                <div class="gc-room-list" id="gcRoomList">
+                    ${(data.rooms||[]).map(r=>`<div class="gc-room-card" data-id="${r.id}">
+                        <span class="gc-room-name">💬 ${esc(r.name)}</span>
+                        <small>${esc(r.description||'')}</small>
+                        <span class="gc-room-info">👥 ${r.member_count||0} | 🕐 ${r.recent_count||0}条/时</span>
+                        <button class="gc-btn-sm ${r.joined?'gc-btn-joined':'gc-btn-join'}" data-join="${r.id}">${r.joined?'已加入':'加入'}</button>
+                    </div>`).join('')||'<p class="gc-empty">暂无聊天室</p>'}
+                </div>
+                <div id="gcChatArea" style="display:none;"></div>
+            </div>`;
+            document.getElementById('gcChatCreateBtn')?.addEventListener('click', async () => {
+                const name = document.getElementById('gcChatName')?.value;
+                if (!name) return;
+                const res = await this.api('/chat/rooms', { method:'POST', body: JSON.stringify({ name }) });
+                this.toast(res.message||'创建失败');
+                if (res.roomId) this.renderChat();
+            });
+            c.querySelectorAll('[data-join]').forEach(b => b.addEventListener('click', async () => {
+                if (b.classList.contains('gc-btn-joined')) { this.openChatRoom(parseInt(b.dataset.join)); return; }
+                const res = await this.api(`/chat/rooms/${b.dataset.join}/join`, { method:'POST' });
+                this.toast(res.message||'加入失败');
+                if (res.message?.includes('成功')) this.renderChat();
+            }));
+            const joinedRoom = (data.rooms||[]).find(r=>r.joined);
+            if (joinedRoom) this.openChatRoom(joinedRoom.id);
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    async openChatRoom(roomId) {
+        const area = document.getElementById('gcChatArea');
+        if (!area) return;
+        area.style.display = 'block';
+        const data = await this.api(`/chat/rooms/${roomId}/messages`);
+        area.innerHTML = `<div class="gc-chat-window">
+            <div class="gc-chat-messages" id="gcChatMsgs">${(data.messages||[]).map(m=>`<div class="gc-chat-msg"><strong>${esc(m.username)}</strong> <small>${new Date(m.created_at).toLocaleTimeString()}</small><br>${esc(m.content)}</div>`).join('')}</div>
+            <div class="gc-chat-input"><input id="gcChatInput" class="gc-input" placeholder="说点什么..." maxlength="500" style="flex:1"><button id="gcChatSend" class="gc-btn gc-btn-primary">发送</button></div>
+        </div>`;
+        const msgs = document.getElementById('gcChatMsgs');
+        if (msgs) msgs.scrollTop = msgs.scrollHeight;
+        this._chatRoomId = roomId;
+        document.getElementById('gcChatSend')?.addEventListener('click', () => this.sendChatMessage());
+        document.getElementById('gcChatInput')?.addEventListener('keydown', e => { if(e.key==='Enter') this.sendChatMessage(); });
+        if (this._chatPollTimer) clearInterval(this._chatPollTimer);
+        const lastId = (data.messages||[]).length ? data.messages[data.messages.length-1].id : 0;
+        this._chatPollTimer = setInterval(async () => {
+            try {
+                const d = await this.api(`/chat/rooms/${this._chatRoomId}/messages?after=${lastId}`);
+                if (d.messages?.length) { const el = document.getElementById('gcChatMsgs'); if(el) { el.innerHTML += d.messages.map(m=>`<div class="gc-chat-msg"><strong>${esc(m.username)}</strong> <small>${new Date(m.created_at).toLocaleTimeString()}</small><br>${esc(m.content)}</div>`).join(''); el.scrollTop = el.scrollHeight; } }
+            } catch(_) {}
+        }, 3000);
+    }
+
+    async sendChatMessage() {
+        const input = document.getElementById('gcChatInput');
+        if (!input || !input.value.trim() || !this._chatRoomId) return;
+        const content = input.value.trim();
+        input.value = '';
+        await this.api(`/chat/rooms/${this._chatRoomId}/messages`, { method:'POST', body: JSON.stringify({ content }) });
+    }
+
+    // === 部落/公会 ===
+    async renderClan() {
+        const c = document.getElementById('gcContent');
+        try {
+            const [clansData, myData] = await Promise.all([this.api('/clans'), this.api('/clans/my')]);
+            const my = myData.clan;
+            c.innerHTML = `<div class="gc-clan">
+                <h2>🛡️ 部落系统</h2>
+                ${my ? `<div class="gc-my-clan"><h3>${my.emblem||'🛡️'} ${esc(my.name)} <small>Lv.${my.level}</small></h3><p>${esc(my.description||'')}</p><p>👥 成员: ${my.member_count}/${my.max_members} | 💰 公会金: ${my.coins||0}🪙 | ⭐ 经验: ${my.exp||0}</p>
+                    <div class="gc-clan-actions"><input id="gcClanDonate" class="gc-input" type="number" value="10" min="1" max="1000" style="width:80px"><button id="gcClanDonateBtn" class="gc-btn gc-btn-primary">捐献</button> <button id="gcClanLeaveBtn" class="gc-btn">退出部落</button></div>
+                </div>` : `<div class="gc-clan-create"><p>你还没加入部落</p><input id="gcClanName" class="gc-input" placeholder="部落名(2-50字)" maxlength="50"> <input id="gcClanEmblem" class="gc-input" placeholder="🛡️" maxlength="4" style="width:60px"> <button id="gcClanCreateBtn" class="gc-btn gc-btn-primary">创建(50🪙)</button></div>`}
+                <h3>部落排行榜</h3>
+                <div class="gc-clan-list">${(clansData.clans||[]).map((cl,i)=>`<div class="gc-clan-item"><span class="gc-lb-rank">${i<3?['🥇','🥈','🥉'][i]:i+1}</span><span>${cl.emblem||'🛡️'} ${esc(cl.name)}</span><small>Lv.${cl.level} | 👥${cl.member_count} | ⭐${cl.exp}</small>${!my?`<button class="gc-btn-sm" data-join="${cl.id}">加入</button>`:''}</div>`).join('')}</div>
+            </div>`;
+            document.getElementById('gcClanCreateBtn')?.addEventListener('click', async () => {
+                const name = document.getElementById('gcClanName')?.value;
+                const emblem = document.getElementById('gcClanEmblem')?.value;
+                const res = await this.api('/clans/create', { method:'POST', body: JSON.stringify({ name, emblem }) });
+                this.toast(res.message||'创建失败'); if (res.clanId) this.renderClan();
+            });
+            c.querySelectorAll('[data-join]').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api(`/clans/${b.dataset.join}/join`, { method:'POST' });
+                this.toast(res.message||'加入失败'); if (res.message?.includes('成功')) this.renderClan();
+            }));
+            document.getElementById('gcClanDonateBtn')?.addEventListener('click', async () => {
+                const amount = parseInt(document.getElementById('gcClanDonate')?.value)||10;
+                const res = await this.api('/clans/donate', { method:'POST', body: JSON.stringify({ amount }) });
+                this.toast(res.message||'捐献失败'); this.renderClan();
+            });
+            document.getElementById('gcClanLeaveBtn')?.addEventListener('click', async () => {
+                if (!confirm('确定退出部落？')) return;
+                const res = await this.api('/clans/leave', { method:'POST' });
+                this.toast(res.message||'退出失败'); this.renderClan();
+            });
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 论坛 ===
+    async renderForum() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/forum/posts');
+            c.innerHTML = `<div class="gc-forum">
+                <h2>📰 社区论坛</h2>
+                <button id="gcForumNewBtn" class="gc-btn gc-btn-primary" style="margin-bottom:12px">✏️ 发帖(+3🪙)</button>
+                <div id="gcForumNew" style="display:none;margin-bottom:16px;">
+                    <input id="gcForumTitle" class="gc-input" placeholder="标题" maxlength="200" style="width:100%;margin-bottom:8px">
+                    <textarea id="gcForumContent" class="gc-input" placeholder="内容..." style="width:100%;height:100px;resize:vertical" maxlength="10000"></textarea>
+                    <select id="gcForumCat" class="gc-input" style="margin:8px 0"><option value="general">综合</option><option value="game">游戏</option><option value="tech">技术</option><option value="share">分享</option><option value="help">求助</option></select>
+                    <button id="gcForumSubmitBtn" class="gc-btn gc-btn-primary">发布</button>
+                </div>
+                <div class="gc-forum-list">${(data.posts||[]).map(p=>`<div class="gc-forum-item" data-id="${p.id}">
+                    <div class="gc-forum-title">${p.is_pinned?'📌 ':''}${esc(p.title)}</div>
+                    <div class="gc-forum-meta">${esc(p.username)} | ${p.category} | ❤️${p.likes} 💬${p.replies} | ${new Date(p.created_at).toLocaleDateString()}</div>
+                </div>`).join('')||'<p class="gc-empty">暂无帖子</p>'}</div>
+            </div>`;
+            document.getElementById('gcForumNewBtn')?.addEventListener('click', () => { document.getElementById('gcForumNew').style.display = document.getElementById('gcForumNew').style.display==='none'?'block':'none'; });
+            document.getElementById('gcForumSubmitBtn')?.addEventListener('click', async () => {
+                const title = document.getElementById('gcForumTitle')?.value;
+                const content = document.getElementById('gcForumContent')?.value;
+                const category = document.getElementById('gcForumCat')?.value;
+                const res = await this.api('/forum/posts', { method:'POST', body: JSON.stringify({ title, content, category }) });
+                this.toast(res.message||'发帖失败'); if (res.postId) this.renderForum();
+            });
+            c.querySelectorAll('.gc-forum-item').forEach(el => el.addEventListener('click', () => this.viewForumPost(parseInt(el.dataset.id))));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    async viewForumPost(postId) {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api(`/forum/posts/${postId}`);
+            const p = data.post;
+            c.innerHTML = `<div class="gc-forum-post">
+                <button class="gc-btn" onclick="window.gameCenter.renderForum()">← 返回</button>
+                <h2>${esc(p.title)}</h2>
+                <div class="gc-forum-meta">${esc(p.username)} | ${p.category} | ❤️${p.likes} | ${new Date(p.created_at).toLocaleString()}</div>
+                <div class="gc-forum-content">${esc(p.content)}</div>
+                <h3>💬 回复 (${data.replies?.length||0})</h3>
+                <div class="gc-reply-list">${(data.replies||[]).map(r=>`<div class="gc-reply-item"><strong>${esc(r.username)}</strong> <small>${new Date(r.created_at).toLocaleString()}</small><p>${esc(r.content)}</p></div>`).join('')||'<p class="gc-empty">暂无回复</p>'}</div>
+                <div class="gc-reply-form"><textarea id="gcReplyContent" class="gc-input" placeholder="写回复..." style="width:100%;height:60px" maxlength="5000"></textarea><button id="gcReplyBtn" class="gc-btn gc-btn-primary">回复(+1🪙)</button></div>
+            </div>`;
+            document.getElementById('gcReplyBtn')?.addEventListener('click', async () => {
+                const content = document.getElementById('gcReplyContent')?.value;
+                if (!content) return;
+                const res = await this.api(`/forum/posts/${postId}/reply`, { method:'POST', body: JSON.stringify({ content }) });
+                this.toast(res.message||'回复失败'); if (res.id) this.viewForumPost(postId);
+            });
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 个人装扮 ===
+    async renderCosmetics() {
+        const c = document.getElementById('gcContent');
+        try {
+            const [shopData, myData] = await Promise.all([this.api('/cosmetics/shop'), this.api('/cosmetics/my')]);
+            const types = {avatar_frame:'🖼️ 头像框',chat_bubble:'💬 气泡',background:'🎨 背景',name_color:'✏️ 昵称色',name_effect:'✨ 昵称效'};
+            c.innerHTML = `<div class="gc-cosmetics">
+                <h2>👗 个人装扮</h2>
+                <div class="gc-cos-tabs">${Object.entries(types).map(([k,v])=>`<button class="gc-btn gc-cos-tab" data-type="${k}">${v}</button>`).join(' ')}</div>
+                <h3>🛒 商店</h3>
+                <div class="gc-cos-grid" id="gcCosShop">${(shopData.items||[]).map(i=>`<div class="gc-cos-card gc-rarity-${i.rarity}${i.owned?' gc-owned':''}" data-id="${i.id}">
+                    <span class="gc-cos-emoji">${i.emoji}</span>
+                    <span class="gc-cos-name">${esc(i.name)}</span>
+                    <span class="gc-cos-rarity">${{common:'普通',rare:'稀有',epic:'史诗',legendary:'传说'}[i.rarity]||''}</span>
+                    <small>${esc(i.description||'')}</small>
+                    ${i.owned?'<span class="gc-owned-badge">已拥有</span>':`<button class="gc-btn-sm gc-cos-buy" data-id="${i.id}">${i.price}🪙</button>`}
+                </div>`).join('')}</div>
+                <h3>🎒 我的装扮</h3>
+                <div class="gc-cos-my">${(myData.items||[]).map(i=>`<div class="gc-cos-card gc-rarity-${i.rarity}">
+                    <span>${i.emoji}</span><span>${esc(i.name)}</span>
+                    <button class="gc-btn-sm gc-cos-equip" data-id="${i.id}">${i.equipped?'✅ 已装备':'装备'}</button>
+                </div>`).join('')||'<p class="gc-empty">还没有装扮</p>'}</div>
+            </div>`;
+            c.querySelectorAll('.gc-cos-buy').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/cosmetics/buy', { method:'POST', body: JSON.stringify({ cosmeticId: parseInt(b.dataset.id) }) });
+                this.toast(res.message||'购买失败'); this.renderCosmetics();
+            }));
+            c.querySelectorAll('.gc-cos-equip').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/cosmetics/equip', { method:'POST', body: JSON.stringify({ cosmeticId: parseInt(b.dataset.id) }) });
+                this.toast(res.message||'装备失败'); this.renderCosmetics();
+            }));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 限时活动 ===
+    async renderEvents() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/events');
+            c.innerHTML = `<div class="gc-events">
+                <h2>🎪 限时活动</h2>
+                ${data.active?.length ? `<h3>🔥 进行中</h3>${data.active.map(ev=>`<div class="gc-event-card gc-event-active">
+                    <div class="gc-event-name">${esc(ev.name)}</div>
+                    <div class="gc-event-desc">${esc(ev.description||'')}</div>
+                    <div class="gc-event-type">${{double_exp:'⭐ 双倍经验',double_coins:'💰 双倍硬币',limited_shop:'🛒 限时商店',festival:'🎉 节日活动',boss_fight:'👾 Boss战'}[ev.type]||ev.type}</div>
+                    <div class="gc-event-time">⏰ ${new Date(ev.ends_at).toLocaleString()} 结束</div>
+                </div>`).join('')}` : ''}
+                ${data.upcoming?.length ? `<h3>📅 即将开始</h3>${data.upcoming.map(ev=>`<div class="gc-event-card">
+                    <div class="gc-event-name">${esc(ev.name)}</div>
+                    <div class="gc-event-desc">${esc(ev.description||'')}</div>
+                    <div class="gc-event-time">🕐 ${new Date(ev.starts_at).toLocaleString()} 开始</div>
+                </div>`).join('')}` : ''}
+                ${!data.active?.length && !data.upcoming?.length ? '<p class="gc-empty">暂无活动，敬请期待！</p>' : ''}
+            </div>`;
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 硬币股市 ===
+    async renderStocks() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/stocks');
+            c.innerHTML = `<div class="gc-stocks">
+                <h2>📈 硬币股市</h2>
+                <p class="gc-stock-tip">💰 余额: <strong>${data.balance||0}</strong>🪙 | 每次访问价格变动 | 低买高卖赚差价</p>
+                <h3>📊 行情</h3>
+                <div class="gc-stock-grid">${(data.stocks||[]).map(s=>{
+                    const price = parseFloat(s.current_price);
+                    const prev = parseFloat(s.previous_price);
+                    const change = ((price-prev)/prev*100).toFixed(2);
+                    const up = price >= prev;
+                    return `<div class="gc-stock-card${up?' gc-stock-up':' gc-stock-down'}">
+                        <div class="gc-stock-header">${s.emoji} <strong>${esc(s.symbol)}</strong> <small>${esc(s.name)}</small></div>
+                        <div class="gc-stock-price">${price.toFixed(2)}🪙 <span class="gc-stock-change">${up?'▲':'▼'}${change}%</span></div>
+                        <div class="gc-stock-actions"><input class="gc-input gc-stock-qty" type="number" value="1" min="1" max="10000" style="width:60px"><button class="gc-btn-sm gc-stock-buy" data-id="${s.id}">买入</button><button class="gc-btn-sm gc-stock-sell" data-id="${s.id}">卖出</button></div>
+                    </div>`;
+                }).join('')}</div>
+                <h3>💼 我的持仓</h3>
+                <div class="gc-holdings">${(data.holdings||[]).map(h=>`<div class="gc-holding-item">${esc(h.symbol)} ${esc(h.name)} | ${h.shares}股 | 均价${parseFloat(h.avg_cost).toFixed(2)} | 现价${parseFloat(h.current_price).toFixed(2)} | 盈亏${((parseFloat(h.current_price)-parseFloat(h.avg_cost))*h.shares).toFixed(2)}🪙</div>`).join('')||'<p class="gc-empty">暂无持仓</p>'}</div>
+            </div>`;
+            c.querySelectorAll('.gc-stock-buy').forEach(b => b.addEventListener('click', async () => {
+                const qty = parseInt(b.parentElement.querySelector('.gc-stock-qty')?.value)||1;
+                const res = await this.api('/stocks/buy', { method:'POST', body: JSON.stringify({ stockId: parseInt(b.dataset.id), shares: qty }) });
+                this.toast(res.message||'买入失败'); this.renderStocks();
+            }));
+            c.querySelectorAll('.gc-stock-sell').forEach(b => b.addEventListener('click', async () => {
+                const qty = parseInt(b.parentElement.querySelector('.gc-stock-qty')?.value)||1;
+                const res = await this.api('/stocks/sell', { method:'POST', body: JSON.stringify({ stockId: parseInt(b.dataset.id), shares: qty }) });
+                this.toast(res.message||'卖出失败'); this.renderStocks();
+            }));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 小游戏合集 ===
+    renderMinigames() {
+        const c = document.getElementById('gcContent');
+        const games = [
+            { id:'memory', name:'记忆翻牌', icon:'🃏', desc:'翻开两张相同的牌', color:'#667eea' },
+            { id:'click', name:'打地鼠', icon:'🔨', desc:'30秒内点击尽可能多地鼠', color:'#f5576c' },
+            { id:'guess', name:'猜数字', icon:'🔢', desc:'猜1-100之间的数字', color:'#2ed573' },
+            { id:'twenty48', name:'2048', icon:'🔲', desc:'合并数字到2048', color:'#ffa502' },
+            { id:'math', name:'算术挑战', icon:'🧮', desc:'60秒内答对更多算术题', color:'#a29bfe' },
+        ];
+        c.innerHTML = `<div class="gc-minigames">
+            <h2>🕹️ 小游戏合集</h2>
+            <div class="gc-game-grid">${games.map(g=>`<div class="gc-game-card" style="border-left:4px solid ${g.color}">
+                <div class="gc-game-icon">${g.icon}</div>
+                <div class="gc-game-info"><div class="gc-game-name">${esc(g.name)}</div><div class="gc-game-desc">${esc(g.desc)}</div></div>
+                <button class="gc-btn gc-btn-primary gc-play-btn" data-game="${g.id}">开始</button>
+            </div>`).join('')}</div>
+            <div id="gcGameArea"></div>
+        </div>`;
+        c.querySelectorAll('.gc-play-btn').forEach(b => b.addEventListener('click', () => {
+            const game = b.dataset.game;
+            if (game==='memory') this.playMemory();
+            else if (game==='click') this.playClick();
+            else if (game==='guess') this.playGuess();
+            else if (game==='twenty48') this.play2048();
+            else if (game==='math') this.playMath();
+        }));
+    }
+
+    async submitMinigameScore(gameType, score, level=1) {
+        const res = await this.api('/minigames/submit', { method:'POST', body: JSON.stringify({ gameType, score, level }) });
+        this.toast(res.message||'提交完成');
+    }
+
+    playMemory() {
+        const area = document.getElementById('gcGameArea');
+        if (!area) return;
+        const emojis = ['🐱','🐕','🐉','🦅','🐰','🦊','🐟','🦋'];
+        let cards = [...emojis,...emojis].sort(()=>Math.random()-0.5);
+        let flipped=[], matched=0, moves=0, canFlip=true;
+        area.innerHTML = `<div class="gc-mini-game"><h3>🃏 记忆翻牌</h3><div class="gc-memory-grid">${cards.map((e,i)=>`<div class="gc-mem-card" data-i="${i}" data-v="${e}">?</div>`).join('')}</div><div class="gc-game-status">翻牌: <span id="gcMemMoves">0</span> | 配对: <span id="gcMemMatched">0</span>/8</div></div>`;
+        area.querySelectorAll('.gc-mem-card').forEach(card => card.addEventListener('click', () => {
+            if (!canFlip || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+            card.textContent = card.dataset.v;
+            card.classList.add('flipped');
+            flipped.push(card);
+            if (flipped.length===2) {
+                canFlip=false; moves++;
+                document.getElementById('gcMemMoves').textContent = moves;
+                if (flipped[0].dataset.v===flipped[1].dataset.v) {
+                    flipped.forEach(c=>c.classList.add('matched')); matched++;
+                    document.getElementById('gcMemMatched').textContent = matched;
+                    flipped=[]; canFlip=true;
+                    if (matched===8) { this.toast('🎉 全部配对！'); this.submitMinigameScore('memory', Math.max(1, 100-moves*5)); }
+                } else {
+                    setTimeout(()=>{ flipped.forEach(c=>{c.textContent='?';c.classList.remove('flipped');}); flipped=[]; canFlip=true; }, 800);
+                }
+            }
+        }));
+    }
+
+    playClick() {
+        const area = document.getElementById('gcGameArea');
+        if (!area) return;
+        let score=0, timeLeft=30;
+        area.innerHTML = `<div class="gc-mini-game"><h3>🔨 打地鼠 (30秒)</h3><div class="gc-game-timer">⏱ <span id="gcClickTime">30</span>s | 得分: <span id="gcClickScore">0</span></div><div class="gc-click-grid" id="gcClickGrid">${Array(9).fill(0).map((_,i)=>`<div class="gc-hole" data-i="${i}"></div>`).join('')}</div></div>`;
+        const timer = setInterval(()=>{
+            timeLeft--;
+            document.getElementById('gcClickTime').textContent = timeLeft;
+            if (timeLeft<=0) { clearInterval(timer); clearInterval(moleTimer); this.toast(`🔨 得分: ${score}`); this.submitMinigameScore('click', score); }
+        }, 1000);
+        const moleTimer = setInterval(()=>{
+            const holes = area.querySelectorAll('.gc-hole');
+            holes.forEach(h=>h.classList.remove('mole'));
+            const idx = Math.floor(Math.random()*9);
+            holes[idx]?.classList.add('mole');
+        }, 800);
+        area.querySelectorAll('.gc-hole').forEach(h => h.addEventListener('click', () => {
+            if (h.classList.contains('mole')) { score++; document.getElementById('gcClickScore').textContent=score; h.classList.remove('mole'); h.textContent='💥'; setTimeout(()=>h.textContent='',200); }
+        }));
+    }
+
+    playGuess() {
+        const area = document.getElementById('gcGameArea');
+        if (!area) return;
+        const target = Math.floor(Math.random()*100)+1;
+        let attempts = 0;
+        area.innerHTML = `<div class="gc-mini-game"><h3>🔢 猜数字 (1-100)</h3><div class="gc-guess-form"><input id="gcGuessNum" class="gc-input" type="number" min="1" max="100" placeholder="输入1-100"><button id="gcGuessBtn" class="gc-btn gc-btn-primary">猜！</button></div><div id="gcGuessHint"></div><div>尝试次数: <span id="gcGuessAttempts">0</span></div></div>`;
+        document.getElementById('gcGuessBtn')?.addEventListener('click', () => {
+            const num = parseInt(document.getElementById('gcGuessNum')?.value);
+            if (isNaN(num)||num<1||num>100) return;
+            attempts++; document.getElementById('gcGuessAttempts').textContent = attempts;
+            const el = document.getElementById('gcGuessHint');
+            if (num===target) { el.innerHTML=`<div class="gc-correct">✅ 答对了！就是${target}，用了${attempts}次</div>`; this.submitMinigameScore('guess', Math.max(1, 10-attempts)); }
+            else if (num<target) el.innerHTML='<div class="gc-wrong">⬆️ 太小了</div>';
+            else el.innerHTML='<div class="gc-wrong">⬇️ 太大了</div>';
+        });
+    }
+
+    play2048() {
+        const area = document.getElementById('gcGameArea');
+        if (!area) return;
+        let grid = Array(4).fill(null).map(()=>Array(4).fill(0));
+        let score = 0;
+        function addRandom() { const empty=[]; grid.forEach((r,ri)=>r.forEach((c,ci)=>{if(!c)empty.push([ri,ci]);})); if(!empty.length)return; const [r,c]=empty[Math.floor(Math.random()*empty.length)]; grid[r][c]=Math.random()<0.9?2:4; }
+        addRandom(); addRandom();
+        function render() { area.querySelectorAll('.gc-2048-cell').forEach((cell,i)=>{ const v=grid[Math.floor(i/4)][i%4]; cell.textContent=v||''; cell.dataset.v=v; }); document.getElementById('gc2048Score').textContent=score; }
+        area.innerHTML = `<div class="gc-mini-game"><h3>🔲 2048</h3><div>得分: <span id="gc2048Score">0</span> | 方向键/滑动操作</div><div class="gc-2048-grid">${Array(16).fill(0).map(()=>'<div class="gc-2048-cell"></div>').join('')}</div></div>`;
+        render();
+        function slide(row) { let a=row.filter(v=>v); for(let i=0;i<a.length-1;i++){if(a[i]===a[i+1]){a[i]*=2;score+=a[i];a.splice(i+1,1);}} while(a.length<4)a.push(0); return a; }
+        function move(dir) {
+            let moved=false; const old=JSON.stringify(grid);
+            if(dir==='left') grid=grid.map(r=>slide(r));
+            else if(dir==='right') grid=grid.map(r=>slide([...r].reverse()).reverse());
+            else if(dir==='up') { for(let c=0;c<4;c++){let col=grid.map(r=>r[c]);col=slide(col);col.forEach((v,r)=>grid[r][c]=v);} }
+            else if(dir==='down') { for(let c=0;c<4;c++){let col=grid.map(r=>r[c]).reverse();col=slide(col).reverse();col.forEach((v,r)=>grid[r][c]=v);} }
+            if(JSON.stringify(grid)!==old){addRandom();render();if(score>0)this?.submitMinigameScore?.('twenty48',score);}
+        }
+        document.addEventListener('keydown', e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();move(e.key.replace('Arrow','').toLowerCase());}},{once:false});
+    }
+
+    playMath() {
+        const area = document.getElementById('gcGameArea');
+        if (!area) return;
+        let score=0, timeLeft=60, current=null;
+        function genProblem() {
+            const ops = ['+','-','×'];
+            const op = ops[Math.floor(Math.random()*3)];
+            let a,b;
+            if(op==='+'){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*50)+1;}
+            else if(op==='-'){a=Math.floor(Math.random()*50)+20;b=Math.floor(Math.random()*a);}
+            else{a=Math.floor(Math.random()*12)+1;b=Math.floor(Math.random()*12)+1;}
+            const ans = op==='+'?a+b:op==='-'?a-b:a*b;
+            return {q:`${a} ${op} ${b}`, a:ans};
+        }
+        current = genProblem();
+        area.innerHTML = `<div class="gc-mini-game"><h3>🧮 算术挑战 (60秒)</h3><div class="gc-game-timer">⏱ <span id="gcMathTime">60</span>s | 得分: <span id="gcMathScore">0</span></div><div class="gc-math-problem" id="gcMathQ">${current.q} = ?</div><div class="gc-math-form"><input id="gcMathAns" class="gc-input" type="number" autofocus><button id="gcMathBtn" class="gc-btn gc-btn-primary">提交</button></div></div>`;
+        const timer = setInterval(()=>{ timeLeft--; document.getElementById('gcMathTime').textContent=timeLeft; if(timeLeft<=0){clearInterval(timer);this.toast(`🧮 得分: ${score}`);this.submitMinigameScore('math',score);} },1000);
+        const submit = () => {
+            const ans = parseInt(document.getElementById('gcMathAns')?.value);
+            if (ans===current.a) { score++; document.getElementById('gcMathScore').textContent=score; }
+            current = genProblem(); document.getElementById('gcMathQ').textContent=current.q+' = ?';
+            document.getElementById('gcMathAns').value='';
+        };
+        document.getElementById('gcMathBtn')?.addEventListener('click', submit);
+        document.getElementById('gcMathAns')?.addEventListener('keydown', e=>{if(e.key==='Enter')submit();});
     }
 
     toast(msg) {

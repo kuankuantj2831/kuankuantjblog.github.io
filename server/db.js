@@ -602,6 +602,157 @@ async function initDB() {
             }
         } catch (seedErr) { console.error('Game data seed error:', seedErr.message); }
 
+        // ===== 游戏化中心V2表 =====
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_chat_rooms (
+            id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL, description VARCHAR(255) DEFAULT '',
+            type ENUM('public','private','clan') DEFAULT 'public', creator_id INT DEFAULT NULL,
+            max_members INT DEFAULT 50, last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            is_active BOOLEAN DEFAULT TRUE, FOREIGN KEY (creator_id) REFERENCES users(id) ON DELETE SET NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_chat_messages (
+            id INT AUTO_INCREMENT PRIMARY KEY, room_id INT NOT NULL, user_id INT NOT NULL,
+            content TEXT NOT NULL, type ENUM('text','system','emoji') DEFAULT 'text',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (room_id) REFERENCES game_chat_rooms(id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            INDEX idx_room_time (room_id, created_at)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_chat_members (
+            id INT AUTO_INCREMENT PRIMARY KEY, room_id INT NOT NULL, user_id INT NOT NULL,
+            joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (room_id) REFERENCES game_chat_rooms(id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            UNIQUE KEY unique_room_user (room_id, user_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_clans (
+            id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL UNIQUE,
+            description VARCHAR(255) DEFAULT '', emblem VARCHAR(10) DEFAULT '🛡️',
+            leader_id INT NOT NULL, level INT DEFAULT 1, exp INT DEFAULT 0, coins INT DEFAULT 0,
+            max_members INT DEFAULT 20, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (leader_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_clan_members (
+            id INT AUTO_INCREMENT PRIMARY KEY, clan_id INT NOT NULL, user_id INT NOT NULL UNIQUE,
+            role ENUM('leader','elder','member') DEFAULT 'member', joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (clan_id) REFERENCES game_clans(id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_clan_wars (
+            id INT AUTO_INCREMENT PRIMARY KEY, challenger_id INT NOT NULL, defender_id INT NOT NULL,
+            winner_id INT DEFAULT NULL, start_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, end_at TIMESTAMP NULL,
+            FOREIGN KEY (challenger_id) REFERENCES game_clans(id), FOREIGN KEY (defender_id) REFERENCES game_clans(id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_forum_posts (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, title VARCHAR(200) NOT NULL,
+            content TEXT NOT NULL, category VARCHAR(50) DEFAULT 'general', likes INT DEFAULT 0,
+            replies INT DEFAULT 0, is_pinned BOOLEAN DEFAULT FALSE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            INDEX idx_category (category), FULLTEXT INDEX ft_post (title, content)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_forum_replies (
+            id INT AUTO_INCREMENT PRIMARY KEY, post_id INT NOT NULL, user_id INT NOT NULL,
+            content TEXT NOT NULL, likes INT DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (post_id) REFERENCES game_forum_posts(id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_cosmetics (
+            id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50) NOT NULL,
+            type ENUM('avatar_frame','chat_bubble','background','name_color','name_effect') NOT NULL,
+            value VARCHAR(255) NOT NULL, price INT NOT NULL DEFAULT 0,
+            rarity ENUM('common','rare','epic','legendary') DEFAULT 'common',
+            emoji VARCHAR(10) DEFAULT '', description VARCHAR(200) DEFAULT ''
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_user_cosmetics (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, cosmetic_id INT NOT NULL,
+            equipped BOOLEAN DEFAULT FALSE, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (cosmetic_id) REFERENCES game_cosmetics(id),
+            UNIQUE KEY unique_user_cosmetic (user_id, cosmetic_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_events (
+            id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100) NOT NULL, description TEXT,
+            type ENUM('double_exp','double_coins','limited_shop','festival','boss_fight') NOT NULL,
+            multiplier DECIMAL(3,2) DEFAULT 1.00, starts_at TIMESTAMP NOT NULL, ends_at TIMESTAMP NOT NULL,
+            is_active BOOLEAN DEFAULT TRUE, config JSON DEFAULT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_stocks (
+            id INT AUTO_INCREMENT PRIMARY KEY, symbol VARCHAR(10) NOT NULL UNIQUE, name VARCHAR(50) NOT NULL,
+            current_price DECIMAL(10,2) NOT NULL DEFAULT 1.00, previous_price DECIMAL(10,2) NOT NULL DEFAULT 1.00,
+            total_volume INT DEFAULT 0, volatility DECIMAL(3,2) DEFAULT 0.15,
+            emoji VARCHAR(10) DEFAULT '📈', category VARCHAR(50) DEFAULT 'general',
+            is_active BOOLEAN DEFAULT TRUE, last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_stock_history (
+            id INT AUTO_INCREMENT PRIMARY KEY, stock_id INT NOT NULL, price DECIMAL(10,2) NOT NULL,
+            volume INT DEFAULT 0, recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (stock_id) REFERENCES game_stocks(id) ON DELETE CASCADE,
+            INDEX idx_stock_time (stock_id, recorded_at)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_stock_holdings (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, stock_id INT NOT NULL,
+            shares INT NOT NULL DEFAULT 0, avg_cost DECIMAL(10,2) NOT NULL DEFAULT 0,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (stock_id) REFERENCES game_stocks(id),
+            UNIQUE KEY unique_user_stock (user_id, stock_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_minigame_scores (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, game_type VARCHAR(30) NOT NULL,
+            score INT NOT NULL DEFAULT 0, level INT DEFAULT 1, data JSON DEFAULT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            INDEX idx_game_score (game_type, score DESC)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+        console.log('Game center V2 tables checked/created.');
+
+        // Seed V2 data
+        try {
+            const [chatCount] = await connection.query('SELECT COUNT(*) AS cnt FROM game_chat_rooms');
+            if (chatCount[0].cnt === 0) {
+                await connection.query("INSERT INTO game_chat_rooms (id, name, description, type) VALUES (1,'大厅','所有人欢迎的公共聊天室','public'),(2,'交易大厅','讨论股市和交易策略','public'),(3,'组队区','找队友一起PK','public')");
+            }
+            const [cosCount] = await connection.query('SELECT COUNT(*) AS cnt FROM game_cosmetics');
+            if (cosCount[0].cnt === 0) {
+                await connection.query(`INSERT INTO game_cosmetics (id, name, type, value, price, rarity, emoji, description) VALUES
+                    (1,'经典银框','avatar_frame','border:2px solid #c0c0c0',10,'common','⭕','简约银色头像框'),
+                    (2,'烈焰红框','avatar_frame','border:2px solid #ff4757;box-shadow:0 0 8px #ff4757',30,'rare','🔥','燃烧的红色边框'),
+                    (3,'星耀金框','avatar_frame','border:2px solid #ffd700;box-shadow:0 0 12px #ffd700',80,'legendary','✨','金色传说头像框'),
+                    (4,'幽蓝气泡','chat_bubble','background:linear-gradient(135deg,#1e90ff,#00bfff)',15,'common','💬','蓝色渐变气泡'),
+                    (5,'彩虹气泡','chat_bubble','background:linear-gradient(90deg,#ff6b6b,#ffa502,#2ed573,#1e90ff,#a29bfe)',50,'epic','🌈','七彩渐变气泡'),
+                    (6,'暗夜背景','background','background:linear-gradient(135deg,#0c0c1d,#1a1a2e)',20,'common','🌙','深夜星空背景'),
+                    (7,'樱花背景','background','background:linear-gradient(135deg,#ffecd2,#fcb69f)',40,'rare','🌸','温柔樱花背景'),
+                    (8,'红色昵称','name_color','color:#ff4757',25,'rare','🔴','让你的名字变成红色'),
+                    (9,'金色昵称','name_color','color:#ffd700;text-shadow:0 0 6px rgba(255,215,0,0.5)',60,'legendary','🟡','闪耀金色昵称'),
+                    (10,'发光昵称','name_effect','text-shadow:0 0 10px #667eea,0 0 20px #764ba2',45,'epic','💫','紫色光晕效果')`);
+            }
+            const [stockCount] = await connection.query('SELECT COUNT(*) AS cnt FROM game_stocks');
+            if (stockCount[0].cnt === 0) {
+                await connection.query(`INSERT INTO game_stocks (id, symbol, name, current_price, previous_price, volatility, emoji, category) VALUES
+                    (1,'CAT','猫咪科技',10.00,10.00,0.12,'🐱','tech'),
+                    (2,'DOG','狗狗能源',8.50,8.50,0.15,'🐕','energy'),
+                    (3,'DRG','龙族金融',25.00,25.00,0.10,'🐉','finance'),
+                    (4,'PHX','凤凰文娱',15.00,15.00,0.18,'🦅','media'),
+                    (5,'RBT','兔兔消费',6.00,6.00,0.20,'🐰','consumer'),
+                    (6,'FOx','狐狸通信',12.00,12.00,0.14,'🦊','telecom'),
+                    (7,'BLOG','博客指数',20.00,20.00,0.08,'📝','index'),
+                    (8,'GOLD','金猫币ETF',50.00,50.00,0.05,'🪙','etf')`);
+            }
+        } catch (seed2Err) { console.error('Game V2 seed error:', seed2Err.message); }
+
         // Seed default donation goal if none exists
         try {
             const [goals] = await connection.query('SELECT id FROM donation_goals LIMIT 1');
