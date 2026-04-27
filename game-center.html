@@ -303,6 +303,84 @@
         .gc-fortune-text { font-size: 16px; color: #ddd; margin-bottom: 16px; }
         .gc-fortune-details { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
 
+        .gc-simple { max-width: 800px; margin: 0 auto; }
+        .gc-simple-body { text-align: left; }
+        .gc-friend-item,.gc-friend-req,.gc-sig-item,.gc-letter-item,.gc-poll-card,.gc-wish-item,.gc-diary-entry,.gc-fan-item,.gc-habit-item,.gc-holding-item,.gc-contest-item,.gc-cd-item,.gc-note-card,.gc-reading-item,.gc-ex-item,.gc-cap-opened,.gc-cap-sealed,.gc-cal-event { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 12px; margin: 6px 0; }
+        .gc-friend-req,.gc-sig-item,.gc-wish-item { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .gc-sig-list,.gc-diary-list,.gc-wish-list,.gc-emoji-grid,.gc-medals-grid,.gc-skill-list,.gc-stamp-grid,.gc-notes-grid,.gc-habit-list,.gc-reading-list,.gc-ex-list,.gc-auction-list,.gc-bm-list,.gc-coupon-list,.gc-cd-list,.gc-cards-grid { margin-top: 12px; }
+        .gc-emoji-grid,.gc-notes-grid,.gc-cards-grid,.gc-medals-grid,.gc-stamp-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(100px,1fr)); gap: 8px; }
+        .gc-emoji-item,.gc-card-item,.gc-medal-item,.gc-stamp-item { background: rgba(255,255,255,0.06); border-radius: 10px; padding: 12px; text-align: center; font-size: 14px; transition: transform 0.2s; }
+        .gc-emoji-item:hover,.gc-card-item:hover { transform: translateY(-2px); }
+        .gc-emoji-big { font-size: 32px; display: block; margin-bottom: 4px; }
+        .gc-card-emoji,.gc-medal-icon { font-size: 28px; display: block; margin-bottom: 4px; }
+        .gc-card-name,.gc-medal-name { display: block; font-weight: 600; font-size: 12px; }
+        .gc-card-rarity { font-size: 10px; color: #888; }
+        .gc-rarity-common { border-left: 3px solid #aaa; }
+        .gc-rarity-rare { border-left: 3px solid #3498db; }
+        .gc-rarity-epic { border-left: 3px solid #9b59b6; }
+        .gc-rarity-legendary { border-left: 3px solid #f39c12; }
+        .gc-card-locked { opacity: 0.3; }
+        .gc-pack-result,.gc-dig-result,.gc-art-result,.gc-wheel-result,.gc-ta-result { padding: 16px; border-radius: 12px; margin: 12px 0; font-size: 16px; background: rgba(255,255,255,0.08); }
+
+        .gc-rating-badge { display: inline-block; padding: 30px 40px; border-radius: 20px; background: rgba(255,255,255,0.08); margin: 20px 0; }
+        .gc-rating-rank { font-size: 64px; font-weight: 700; }
+        .gc-rating-title { font-size: 18px; margin-top: 8px; }
+        .gc-rating-score { font-size: 14px; color: #888; margin-top: 4px; }
+        .gc-rating-breakdown { display: flex; gap: 20px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+
+        .gc-bank-info { font-size: 18px; margin: 12px 0; padding: 16px; background: rgba(255,255,255,0.06); border-radius: 12px; }
+        .gc-bank-actions { margin: 12px 0; }
+        .gc-bank-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .gc-auc-item,.gc-bm-item,.gc-coupon-card { background: rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; margin: 8px 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .gc-bm-emoji,.gc-auc-emoji { font-size: 28px; }
+        .gc-bm-price,.gc-auc-price { font-weight: 700; color: #ffd700; }
+        .gc-coupon-card { border-left: 3px dashed #667eea; }
+        .gc-coupon-desc { font-weight: 600; }
+        .gc-buff-active { background: rgba(102,126,234,0.15); padding: 8px 16px; border-radius: 8px; margin: 4px 0; display: inline-block; }
+        .gc-buff-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; margin: 6px 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .gc-port-summary { font-size: 24px; font-weight: 700; margin: 12px 0; }
+        .gc-port-breakdown { display: flex; gap: 20px; margin: 8px 0; flex-wrap: wrap; }
+        .gc-tax-item { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        .gc-codex-stats { display: flex; gap: 20px; margin: 12px 0; flex-wrap: wrap; }
+        .gc-codex-item { background: rgba(255,255,255,0.06); padding: 12px 20px; border-radius: 10px; }
+        .gc-zodiac-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap: 10px; margin: 12px 0; }
+        .gc-zodiac-card { background: rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; text-align: center; }
+        .gc-zodiac-sign { font-size: 18px; font-weight: 600; }
+        .gc-zodiac-dates,.gc-zodiac-element,.gc-zodiac-fortune { font-size: 12px; color: #aaa; margin: 4px 0; }
+        .gc-zodiac-lucky { font-size: 11px; color: #667eea; }
+
+        .gc-ds-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(120px,1fr)); gap: 8px; margin: 12px 0; }
+        .gc-ds-item { background: rgba(255,255,255,0.06); border-radius: 10px; padding: 10px; text-align: center; font-size: 13px; }
+        .gc-ds-banner { font-size: 24px; margin: 12px 0; }
+        .gc-ds-new { font-size: 18px; padding: 12px; background: rgba(102,126,234,0.15); border-radius: 12px; margin: 8px 0; }
+
+        .gc-tree-visual { font-size: 80px; margin: 16px 0; }
+        .gc-tree-stats { font-size: 16px; margin: 8px 0; }
+        .gc-cap-form { margin: 12px 0; }
+        .gc-cap-ready { background: rgba(46,213,115,0.15); padding: 16px; border-radius: 12px; margin: 8px 0; font-size: 18px; }
+        .gc-cap-sealed { opacity: 0.6; }
+
+        .gc-cal-grid { display: grid; grid-template-columns: repeat(7,40px); gap: 4px; justify-content: center; margin: 12px 0; }
+        .gc-cal-day { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 13px; background: rgba(255,255,255,0.05); }
+        .gc-cal-day.gc-checked { background: rgba(102,126,234,0.3); color: #fff; font-weight: 600; }
+        .gc-cal-events { margin-top: 12px; }
+        .gc-cal-event { background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 8px; margin: 4px 0; display: flex; align-items: center; gap: 8px; }
+
+        .gc-ttt-grid { display: grid; grid-template-columns: repeat(3,80px); gap: 6px; justify-content: center; margin: 16px 0; }
+        .gc-ttt-cell { width: 80px; height: 80px; background: rgba(255,255,255,0.08); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .gc-ttt-cell:hover { background: rgba(255,255,255,0.15); }
+        .gc-sudoku-grid { display: inline-grid; grid-template-columns: repeat(9,36px); gap: 2px; margin: 12px 0; }
+        .gc-color-grid { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 12px 0; }
+        .gc-typing-word { letter-spacing: 4px; }
+
+        .gc-note-red { border-left: 3px solid #ff4757; }
+        .gc-note-blue { border-left: 3px solid #1e90ff; }
+        .gc-note-green { border-left: 3px solid #2ed573; }
+        .gc-note-yellow { border-left: 3px solid #ffa502; }
+        .gc-note-purple { border-left: 3px solid #a29bfe; }
+        .gc-note-default { border-left: 3px solid rgba(255,255,255,0.2); }
+
         @media (max-width: 600px) {
             .gc-tabs { gap: 4px; }
             .gc-tab { padding: 6px 10px; font-size: 12px; }

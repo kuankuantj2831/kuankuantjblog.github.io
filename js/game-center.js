@@ -60,6 +60,51 @@ class GameCenter {
             { id: 'dice', icon: '🎲', label: '骰子' },
             { id: 'luckynum', icon: '🍀', label: '幸运数' },
             { id: 'fortune', icon: '🔮', label: '运势' },
+            { id: 'friends', icon: '👥', label: '好友' },
+            { id: 'sigwall', icon: '✍️', label: '签名墙' },
+            { id: 'anonletter', icon: '📮', label: '匿名信' },
+            { id: 'polls', icon: '📊', label: '投票' },
+            { id: 'wish', icon: '🌟', label: '许愿池' },
+            { id: 'diary', icon: '📝', label: '日记' },
+            { id: 'checkinwall', icon: '📅', label: '打卡墙' },
+            { id: 'fanclub', icon: '🫶', label: '粉丝团' },
+            { id: 'emojifactory', icon: '🎨', label: '表情包' },
+            { id: 'rating', icon: '🎖️', label: '评级' },
+            { id: 'bank', icon: '🏦', label: '银行' },
+            { id: 'auction', icon: '🏷️', label: '拍卖行' },
+            { id: 'blackmarket', icon: '🏴', label: '黑市' },
+            { id: 'mega', icon: '🎫', label: '大乐透' },
+            { id: 'buffs', icon: '✨', label: '加成' },
+            { id: 'coupons', icon: '🎫', label: '优惠券' },
+            { id: 'checkinwheel', icon: '🎡', label: '签到转盘' },
+            { id: 'portfolio', icon: '💼', label: '投资组合' },
+            { id: 'tax', icon: '🧾', label: '税务' },
+            { id: 'cards', icon: '🃏', label: '卡牌' },
+            { id: 'codex', icon: '📖', label: '图鉴' },
+            { id: 'medals', icon: '🏅', label: '勋章' },
+            { id: 'zodiac', icon: '♈', label: '星座' },
+            { id: 'petskills', icon: '🎓', label: '宠物技能' },
+            { id: 'treasure', icon: '🗺️', label: '挖宝' },
+            { id: 'stamps', icon: '🔖', label: '印章' },
+            { id: 'dailystamp', icon: '📮', label: '邮票' },
+            { id: 'artifacts', icon: '🏺', label: '文物' },
+            { id: 'petcontest', icon: '🏆', label: '宠物赛' },
+            { id: 'speedmath', icon: '🧮', label: '速算' },
+            { id: 'typing', icon: '⌨️', label: '打字' },
+            { id: 'colormatch', icon: '🎨', label: '颜色反应' },
+            { id: 'tictactoe', icon: '❌', label: '井字棋' },
+            { id: 'sudoku', icon: '🔢', label: '数独' },
+            { id: 'minesweeper', icon: '💣', label: '扫雷' },
+            { id: 'textadv', icon: '📜', label: '文字冒险' },
+            { id: 'weather', icon: '⛅', label: '天气' },
+            { id: 'countdown', icon: '⏰', label: '倒计时' },
+            { id: 'notes', icon: '📋', label: '便签' },
+            { id: 'habits', icon: '✅', label: '习惯' },
+            { id: 'reading', icon: '📚', label: '读书' },
+            { id: 'exercise', icon: '🏃', label: '运动' },
+            { id: 'moodtree', icon: '🌳', label: '心情树' },
+            { id: 'capsule', icon: '🕳️', label: '时光胶囊' },
+            { id: 'calendar', icon: '📆', label: '日历' },
         ];
         app.innerHTML = `
             <div class="gc-wrapper">
@@ -113,6 +158,51 @@ class GameCenter {
             dice: () => this.renderDice(),
             luckynum: () => this.renderLuckyNum(),
             fortune: () => this.renderFortune(),
+            friends: () => this.renderSimple('friends','👥 好友系统',this.friendsConfig()),
+            sigwall: () => this.renderSimple('sigwall','✍️ 签名墙',this.sigwallConfig()),
+            anonletter: () => this.renderSimple('anonletter','📮 匿名信',this.anonletterConfig()),
+            polls: () => this.renderSimple('polls','📊 投票',this.pollsConfig()),
+            wish: () => this.renderSimple('wish','🌟 许愿池',this.wishConfig()),
+            diary: () => this.renderSimple('diary','📝 心情日记',this.diaryConfig()),
+            checkinwall: () => this.renderSimple('checkinwall','📅 打卡墙',this.checkinwallConfig()),
+            fanclub: () => this.renderSimple('fanclub','🫶 粉丝团',this.fanclubConfig()),
+            emojifactory: () => this.renderSimple('emojifactory','🎨 表情包工厂',this.emojifactoryConfig()),
+            rating: () => this.renderSimple('rating','🎖️ 用户评级',this.ratingConfig()),
+            bank: () => this.renderSimple('bank','🏦 银行',this.bankConfig()),
+            auction: () => this.renderSimple('auction','🏷️ 拍卖行',this.auctionConfig()),
+            blackmarket: () => this.renderSimple('blackmarket','🏴 黑市',this.blackmarketConfig()),
+            mega: () => this.renderSimple('mega','🎫 大乐透',this.megaConfig()),
+            buffs: () => this.renderSimple('buffs','✨ 加成商店',this.buffsConfig()),
+            coupons: () => this.renderSimple('coupons','🎫 优惠券',this.couponsConfig()),
+            checkinwheel: () => this.renderSimple('checkinwheel','🎡 签到转盘',this.checkinwheelConfig()),
+            portfolio: () => this.renderSimple('portfolio','💼 投资组合',this.portfolioConfig()),
+            tax: () => this.renderSimple('tax','🧾 税务概览',this.taxConfig()),
+            cards: () => this.renderSimple('cards','🃏 卡牌收集',this.cardsConfig()),
+            codex: () => this.renderSimple('codex','📖 图鉴',this.codexConfig()),
+            medals: () => this.renderSimple('medals','🏅 勋章墙',this.medalsConfig()),
+            zodiac: () => this.renderSimple('zodiac','♈ 星座',this.zodiacConfig()),
+            petskills: () => this.renderSimple('petskills','🎓 宠物技能',this.petskillsConfig()),
+            treasure: () => this.renderSimple('treasure','🗺️ 挖宝',this.treasureConfig()),
+            stamps: () => this.renderSimple('stamps','🔖 印章收集',this.stampsConfig()),
+            dailystamp: () => this.renderSimple('dailystamp','📮 每日邮票',this.dailystampConfig()),
+            artifacts: () => this.renderSimple('artifacts','🏺 文物鉴赏',this.artifactsConfig()),
+            petcontest: () => this.renderSimple('petcontest','🏆 宠物大赛',this.petcontestConfig()),
+            speedmath: () => this.playSpeedMath(),
+            typing: () => this.playTyping(),
+            colormatch: () => this.playColorMatch(),
+            tictactoe: () => this.playTicTacToe(),
+            sudoku: () => this.playSudoku(),
+            minesweeper: () => this.playMinesweeper(),
+            textadv: () => this.playTextAdventure(),
+            weather: () => this.renderSimple('weather','⛅ 虚拟天气',this.weatherConfig()),
+            countdown: () => this.renderSimple('countdown','⏰ 倒计时',this.countdownConfig()),
+            notes: () => this.renderSimple('notes','📋 便签',this.notesConfig()),
+            habits: () => this.renderSimple('habits','✅ 习惯追踪',this.habitsConfig()),
+            reading: () => this.renderSimple('reading','📚 读书打卡',this.readingConfig()),
+            exercise: () => this.renderSimple('exercise','🏃 运动记录',this.exerciseConfig()),
+            moodtree: () => this.renderSimple('moodtree','🌳 心情树',this.moodtreeConfig()),
+            capsule: () => this.renderSimple('capsule','🕳️ 时光胶囊',this.capsuleConfig()),
+            calendar: () => this.renderSimple('calendar','📆 日历事件',this.calendarConfig()),
         };
         (loaders[tab] || loaders.overview)();
     }
@@ -1287,6 +1377,215 @@ class GameCenter {
             </div>`;
         } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
     }
+
+    // === Generic render for API-driven features ===
+    async renderSimple(apiPath, title, config) {
+        const c = document.getElementById('gcContent');
+        c.innerHTML = `<div class="gc-simple"><h2>${title}</h2><div class="gc-simple-body" id="gcSimpleBody"><div class="gc-loading">加载中...</div></div></div>`;
+        try {
+            const data = await this.api('/' + apiPath.replace('checkinwheel','checkin-wheel').replace('sigwall','signature-wall').replace('anonletter','anonymous-letter/inbox').replace('dailystamp','stamps/daily').replace('petskills','pet/skills').replace('petcontest','pet-contest').replace('artifacts','artifact/appraise').replace('speedmath','mini/leaderboard?game=speed_math').replace('typing','mini/leaderboard?game=typing'));
+            const body = document.getElementById('gcSimpleBody');
+            if (body && config.render) body.innerHTML = config.render(data, this);
+            if (config.bind) config.bind(body, data, this);
+        } catch(e) { const body = document.getElementById('gcSimpleBody'); if(body) body.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    esc(s) { return escapeHtml(s); }
+
+    friendsConfig() { return {
+        render: (d,t) => `<div class="gc-friends"><h3>👥 好友列表</h3>${(d.friends||[]).map(f=>`<div class="gc-friend-item">👤 ${esc(f.username)}</div>`).join('')||'<p class="gc-empty">暂无好友</p>'}<h3>📥 好友请求</h3>${(d.pending||[]).map(p=>`<div class="gc-friend-req">👤 ${esc(p.username)} <button class="gc-btn-sm gc-accept-friend" data-id="${p.id}">接受</button> <button class="gc-btn-sm gc-reject-friend" data-id="${p.id}">拒绝</button></div>`).join('')||'<p class="gc-empty">无请求</p>'}<div class="gc-add-friend"><input id="gcFriendId" class="gc-input" type="number" placeholder="好友用户ID"><button id="gcAddFriendBtn" class="gc-btn gc-btn-primary">添加好友</button></div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcAddFriendBtn')?.addEventListener('click',async()=>{const id=parseInt(el.querySelector('#gcFriendId')?.value);if(!id)return;const r=await t.api('/friends/add',{method:'POST',body:JSON.stringify({friendId:id})});t.toast(r.message);t.switchTab('friends');}); el?.querySelectorAll('.gc-accept-friend').forEach(b=>b.addEventListener('click',async()=>{const r=await t.api('/friends/respond',{method:'POST',body:JSON.stringify({friendshipId:parseInt(b.dataset.id),accept:true})});t.toast(r.message);t.switchTab('friends');})); }
+    };}
+
+    sigwallConfig() { return {
+        render: (d,t) => `<div class="gc-sigwall"><div class="gc-sig-form"><textarea id="gcSigMsg" class="gc-input" placeholder="今日签名..." maxlength="200" style="width:100%;height:60px"></textarea><select id="gcSigMood" class="gc-input"><option>😊</option><option>🎉</option><option>💪</option><option>😴</option><option>🤔</option><option>🔥</option></select><button id="gcSigBtn" class="gc-btn gc-btn-primary">✍️ 签名(+2🪙)</button></div><div class="gc-sig-list">${(d.signatures||[]).map(s=>`<div class="gc-sig-item"><strong>${esc(s.username)}</strong> <span>${esc(s.mood||'')}</span><p>${esc(s.message)}</p><small>${new Date(s.created_at).toLocaleString()}</small></div>`).join('')}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcSigBtn')?.addEventListener('click',async()=>{const msg=el.querySelector('#gcSigMsg')?.value;const mood=el.querySelector('#gcSigMood')?.value;if(!msg)return;const r=await t.api('/signature-wall',{method:'POST',body:JSON.stringify({message:msg,mood})});t.toast(r.message);t.switchTab('sigwall');}); }
+    };}
+
+    anonletterConfig() { return {
+        render: (d,t) => `<div class="gc-anon"><h3>📮 我的收件箱</h3>${(d.letters||[]).map(l=>`<div class="gc-letter-item"><span class="gc-letter-type">${esc(l.letter_type||'💌')}</span><p>${esc(l.content)}</p><small>${new Date(l.created_at).toLocaleString()}</small></div>`).join('')||'<p class="gc-empty">暂无信件</p>'}<div class="gc-letter-form"><input id="gcLetterTo" class="gc-input" type="number" placeholder="收信人ID"><textarea id="gcLetterContent" class="gc-input" placeholder="写一封匿名信..." maxlength="500" style="width:100%;height:80px"></textarea><select id="gcLetterType" class="gc-input"><option value="💌">💌 普通信</option><option value="🌹">🌹 爱情信</option><option value="🎁">🎁 感谢信</option><option value="🌈">🌈 鼓励信</option><option value="👻">👻 恶作剧</option></select><button id="gcLetterBtn" class="gc-btn gc-btn-primary">📮 寄出(5🪙)</button></div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcLetterBtn')?.addEventListener('click',async()=>{const to=parseInt(el.querySelector('#gcLetterTo')?.value);const content=el.querySelector('#gcLetterContent')?.value;const type=el.querySelector('#gcLetterType')?.value;if(!to||!content)return;const r=await t.api('/anonymous-letter',{method:'POST',body:JSON.stringify({toUserId:to,content,letterType:type})});t.toast(r.message);}); }
+    };}
+
+    pollsConfig() { return {
+        render: (d,t) => `<div class="gc-polls"><button id="gcNewPollBtn" class="gc-btn gc-btn-primary" style="margin-bottom:12px">📊 创建投票(+3🪙)</button><div id="gcNewPollForm" style="display:none"><input id="gcPollTitle" class="gc-input" placeholder="投票标题" style="width:100%;margin-bottom:8px"><input id="gcPollOpts" class="gc-input" placeholder="选项(逗号分隔)" style="width:100%;margin-bottom:8px"><button id="gcPollSubmit" class="gc-btn gc-btn-primary">发布</button></div>${(d.polls||[]).map(p=>`<div class="gc-poll-card"><h4>${esc(p.title)} <small>by ${esc(p.username)}</small></h4><div class="gc-poll-opts">${(p.options||[]).map(o=>`<button class="gc-btn gc-poll-opt" data-oid="${o.id}">${esc(o.text)} (${o.vote_count||0}票)</button>`).join('')}</div></div>`).join('')||'<p class="gc-empty">暂无投票</p>'}</div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcNewPollBtn')?.addEventListener('click',()=>{el.querySelector('#gcNewPollForm').style.display=el.querySelector('#gcNewPollForm').style.display==='none'?'block':'none';}); el?.querySelector('#gcPollSubmit')?.addEventListener('click',async()=>{const title=el.querySelector('#gcPollTitle')?.value;const opts=(el.querySelector('#gcPollOpts')?.value||'').split(',').map(s=>s.trim()).filter(Boolean);const r=await t.api('/polls',{method:'POST',body:JSON.stringify({title,options:opts})});t.toast(r.message);t.switchTab('polls');}); el?.querySelectorAll('.gc-poll-opt').forEach(b=>b.addEventListener('click',async()=>{const r=await t.api('/polls/vote',{method:'POST',body:JSON.stringify({optionId:parseInt(b.dataset.oid)})});t.toast(r.message);t.switchTab('polls');})); }
+    };}
+
+    wishConfig() { return {
+        render: (d,t) => `<div class="gc-wish"><div class="gc-wish-form"><textarea id="gcWishContent" class="gc-input" placeholder="许下你的愿望..." maxlength="200" style="width:100%;height:60px"></textarea><button id="gcWishBtn" class="gc-btn gc-btn-primary">🌟 许愿</button></div><div class="gc-wish-list">${(d.wishes||[]).map(w=>`<div class="gc-wish-item"><strong>${esc(w.username)}</strong><p>${esc(w.content)}</p><span>🙏 ${w.blessings||0}</span> <button class="gc-btn-sm gc-bless-btn" data-id="${w.id}">祝福</button></div>`).join('')}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcWishBtn')?.addEventListener('click',async()=>{const content=el.querySelector('#gcWishContent')?.value;if(!content)return;const r=await t.api('/wishing-well',{method:'POST',body:JSON.stringify({content})});t.toast(r.message);t.switchTab('wish');}); el?.querySelectorAll('.gc-bless-btn').forEach(b=>b.addEventListener('click',async()=>{const r=await t.api('/wishing-well/bless',{method:'POST',body:JSON.stringify({wishId:parseInt(b.dataset.id)})});t.toast(r.message);t.switchTab('wish');})); }
+    };}
+
+    diaryConfig() { return {
+        render: (d,t) => `<div class="gc-diary"><div class="gc-diary-form"><select id="gcDiaryMood" class="gc-input"><option value="😊">😊 开心</option><option value="😢">😢 难过</option><option value="😠">😠 生气</option><option value="😴">😴 疲惫</option><option value="🤔">🤔 思考</option><option value="🎉">🎉 兴奋</option><option value="😎">😎 自信</option><option value="😰">😰 焦虑</option></select><textarea id="gcDiaryContent" class="gc-input" placeholder="今天怎么样..." maxlength="500" style="width:100%;height:80px"></textarea><button id="gcDiaryBtn" class="gc-btn gc-btn-primary">📝 记录(+3🪙)</button></div><div class="gc-diary-list">${(d.entries||[]).map(e=>`<div class="gc-diary-entry"><span class="gc-diary-mood">${esc(e.mood)}</span><p>${esc(e.content||'')}</p><small>${new Date(e.created_at).toLocaleString()}</small></div>`).join('')}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcDiaryBtn')?.addEventListener('click',async()=>{const mood=el.querySelector('#gcDiaryMood')?.value;const content=el.querySelector('#gcDiaryContent')?.value;const r=await t.api('/mood-diary',{method:'POST',body:JSON.stringify({mood,content})});t.toast(r.message);t.switchTab('diary');}); }
+    };}
+
+    checkinwallConfig() { return {
+        render: (d,t) => { const days=d.days||[]; const total=d.total||0; const best=d.bestStreak||0; let cal=''; for(let i=1;i<=31;i++){cal+=`<div class="gc-cal-day${days.includes(i)?' gc-checked':''}">${i}</div>`;} return `<div class="gc-checkinwall"><div class="gc-checkin-stats">📅 本月打卡: ${days.length}天 | 总计: ${total}天 | 最长连续: ${best}天</div><div class="gc-cal-grid">${cal}</div></div>`; }
+    };}
+
+    fanclubConfig() { return {
+        render: (d,t) => `<div class="gc-fanclub"><h3>🫶 我关注的</h3>${(d.following||[]).map(f=>`<div class="gc-fan-item">👤 ${esc(f.username)}</div>`).join('')||'<p class="gc-empty">暂无关注</p>'}<h3>👥 我的粉丝</h3>${(d.followers||[]).map(f=>`<div class="gc-fan-item">👤 ${esc(f.username)}</div>`).join('')||'<p class="gc-empty">暂无粉丝</p>'}<div class="gc-fan-join"><input id="gcFanTarget" class="gc-input" type="number" placeholder="关注用户ID"><button id="gcFanJoinBtn" class="gc-btn gc-btn-primary">🫶 加入粉丝团</button></div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcFanJoinBtn')?.addEventListener('click',async()=>{const id=parseInt(el.querySelector('#gcFanTarget')?.value);if(!id)return;const r=await t.api('/fanclub/join',{method:'POST',body:JSON.stringify({targetUserId:id})});t.toast(r.message);t.switchTab('fanclub');}); }
+    };}
+
+    emojifactoryConfig() { return {
+        render: (d,t) => `<div class="gc-emoji"><div class="gc-emoji-form"><input id="gcEmojiName" class="gc-input" placeholder="表情名" maxlength="30"><input id="gcEmojiEmoji" class="gc-input" placeholder="表情" maxlength="10" style="width:80px"><select id="gcEmojiCat" class="gc-input"><option value="fun">趣味</option><option value="mood">心情</option><option value="animal">动物</option><option value="food">食物</option></select><button id="gcEmojiBtn" class="gc-btn gc-btn-primary">🎨 创建(+1🪙)</button></div><div class="gc-emoji-grid">${(d.emojis||[]).map(e=>`<div class="gc-emoji-item" title="${esc(e.name)}"><span class="gc-emoji-big">${esc(e.emoji)}</span><small>${esc(e.name)}</small></div>`).join('')}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcEmojiBtn')?.addEventListener('click',async()=>{const name=el.querySelector('#gcEmojiName')?.value;const emoji=el.querySelector('#gcEmojiEmoji')?.value;const category=el.querySelector('#gcEmojiCat')?.value;if(!name||!emoji)return;const r=await t.api('/emoji-factory',{method:'POST',body:JSON.stringify({name,emoji,category})});t.toast(r.message);t.switchTab('emojifactory');}); }
+    };}
+
+    ratingConfig() { return {
+        render: (d,t) => `<div class="gc-rating"><div class="gc-rating-badge gc-animate-pop" style="color:${d.color||'#aaa'}"><div class="gc-rating-rank">${d.rank||'E'}</div><div class="gc-rating-title">${d.title||'萌新'}</div><div class="gc-rating-score">${d.score||0} 分</div></div><div class="gc-rating-breakdown"><div>💰 硬币收入: ${d.breakdown?.earned||0}</div><div>✍️ 文章: ${d.breakdown?.articles||0}</div><div>💬 评论: ${d.breakdown?.comments||0}</div><div>🔥 签到: ${d.breakdown?.streak||0}</div></div></div>`
+    };}
+
+    bankConfig() { return {
+        render: (d,t) => `<div class="gc-bank"><div class="gc-bank-info">💰 存款: <strong>${d.savings||0}</strong>🪙 | 📋 贷款: <strong>${d.loan||0}</strong>🪙 | 利率: 存${Math.round((d.interestRate||0.05)*100)}% 借${Math.round((d.loanRate||0.1)*100)}%</div><div class="gc-bank-actions"><div class="gc-bank-row"><input id="gcBankAmt" class="gc-input" type="number" value="10" min="1" style="width:100px"><button id="gcDepositBtn" class="gc-btn gc-btn-primary">存款</button><button id="gcWithdrawBtn" class="gc-btn">取款</button><button id="gcLoanBtn" class="gc-btn">贷款</button><button id="gcRepayBtn" class="gc-btn">还款</button></div></div></div>`,
+        bind: (el,d,t) => { const amt=()=>parseInt(el.querySelector('#gcBankAmt')?.value)||10; el?.querySelector('#gcDepositBtn')?.addEventListener('click',async()=>{const r=await t.api('/bank/deposit',{method:'POST',body:JSON.stringify({amount:amt()})});t.toast(r.message);t.switchTab('bank');}); el?.querySelector('#gcWithdrawBtn')?.addEventListener('click',async()=>{const r=await t.api('/bank/withdraw',{method:'POST',body:JSON.stringify({amount:amt()})});t.toast(r.message);t.switchTab('bank');}); el?.querySelector('#gcLoanBtn')?.addEventListener('click',async()=>{const r=await t.api('/bank/loan',{method:'POST',body:JSON.stringify({amount:amt()})});t.toast(r.message);t.switchTab('bank');}); el?.querySelector('#gcRepayBtn')?.addEventListener('click',async()=>{const r=await t.api('/bank/repay',{method:'POST',body:JSON.stringify({amount:amt()})});t.toast(r.message);t.switchTab('bank');}); }
+    };}
+
+    auctionConfig() { return {
+        render: (d,t) => `<div class="gc-auction"><button id="gcAuctionListBtn" class="gc-btn gc-btn-primary" style="margin-bottom:12px">🏷️ 上架拍卖</button><div id="gcAuctionForm" style="display:none"><input id="gcAucName" class="gc-input" placeholder="物品名" maxlength="50"><input id="gcAucEmoji" class="gc-input" placeholder="📦" maxlength="10" style="width:60px"><input id="gcAucPrice" class="gc-input" type="number" value="10" min="1" placeholder="起拍价"><input id="gcAucHours" class="gc-input" type="number" value="24" min="1" max="72" placeholder="时长(小时)" style="width:80px"><button id="gcAucSubmit" class="gc-btn gc-btn-primary">上架</button></div><div class="gc-auction-list">${(d.auctions||[]).map(a=>`<div class="gc-auc-item"><span>${esc(a.emoji||'📦')}</span><strong>${esc(a.item_name)}</strong><div>💰 当前: ${a.current_price}🪙 | by ${esc(a.username)}</div><input class="gc-input gc-auc-bid-input" type="number" placeholder="出价" style="width:80px"><button class="gc-btn-sm gc-auc-bid" data-id="${a.id}">竞拍</button></div>`).join('')||'<p class="gc-empty">暂无拍卖</p>'}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcAuctionListBtn')?.addEventListener('click',()=>{el.querySelector('#gcAuctionForm').style.display=el.querySelector('#gcAuctionForm').style.display==='none'?'block':'none';}); el?.querySelector('#gcAucSubmit')?.addEventListener('click',async()=>{const r=await t.api('/auction/list',{method:'POST',body:JSON.stringify({itemName:el.querySelector('#gcAucName')?.value,emoji:el.querySelector('#gcAucEmoji')?.value,startingPrice:parseInt(el.querySelector('#gcAucPrice')?.value)||10,duration:parseInt(el.querySelector('#gcAucHours')?.value)||24})});t.toast(r.message);t.switchTab('auction');}); el?.querySelectorAll('.gc-auc-bid').forEach(b=>b.addEventListener('click',async()=>{const amt=parseInt(b.previousElementSibling?.value)||0;if(!amt)return;const r=await t.api('/auction/bid',{method:'POST',body:JSON.stringify({auctionId:parseInt(b.dataset.id),amount:amt})});t.toast(r.message);t.switchTab('auction');})); }
+    };}
+
+    blackmarketConfig() { return {
+        render: (d,t) => `<div class="gc-blackmarket"><p class="gc-bm-tip">🏴 黑市每1小时刷新商品，稀有物品限时抢购！</p><div class="gc-bm-list">${(d.items||[]).map(i=>`<div class="gc-bm-item"><span class="gc-bm-emoji">${esc(i.emoji||'📦')}</span><strong>${esc(i.item_name||i.name)}</strong><p>${esc(i.description||i.desc||'')}</p><span class="gc-bm-price">${i.current_price||i.price||0}🪙</span></div>`).join('')||'<p class="gc-empty">黑市暂时关闭</p>'}</div></div>`
+    };}
+
+    megaConfig() { return {
+        render: (d,t) => `<div class="gc-mega"><h3>🎫 大乐透 (10🪙/注)</h3><p>选择5个数字(1-35)</p><div class="gc-mega-picks">${Array.from({length:5},(_,i)=>`<input class="gc-input gc-mega-num" type="number" min="1" max="35" value="${Math.floor(Math.random()*35)+1}" style="width:60px;font-size:20px;text-align:center">`).join(' ')}</div><button id="gcMegaBtn" class="gc-btn gc-btn-primary gc-btn-lg">🎫 购买</button><div id="gcMegaResult"></div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcMegaBtn')?.addEventListener('click',async()=>{const nums=Array.from(el.querySelectorAll('.gc-mega-num')).map(i=>parseInt(i?.value)||1);const r=await t.api('/lottery/mega',{method:'POST',body:JSON.stringify({numbers:nums})});const el2=document.getElementById('gcMegaResult');if(el2)el2.innerHTML=`<div class="gc-mega-result gc-animate-pop"><div>开奖: <strong>${r.winning?.join(', ')||''}</strong></div><div>你的: <strong>${r.picks?.join(', ')||''}</strong></div><div>匹配: ${r.matches||0}个</div><div class="${r.matches>=2?'gc-correct':'gc-wrong'}">${r.message||''}</div></div>`;t.toast(r.message);}); }
+    };}
+
+    buffsConfig() { return {
+        render: (d,t) => `<div class="gc-buffs"><h3>✨ 我的加成</h3>${(d.buffs||[]).map(b=>`<div class="gc-buff-active">${esc(b.type)} 到 ${new Date(b.expires_at).toLocaleString()}</div>`).join('')||'<p class="gc-empty">无活跃加成</p>'}<h3>🛒 购买加成</h3><div class="gc-buff-shop"><div class="gc-buff-item">💰 双倍硬币 <input class="gc-input gc-buff-hours" data-type="double_coins" type="number" value="1" min="1" max="24" style="width:50px">小时 <button class="gc-btn-sm gc-buy-buff" data-type="double_coins">30🪙/时</button></div><div class="gc-buff-item">⭐ 双倍经验 <input class="gc-input gc-buff-hours" data-type="double_exp" type="number" value="1" min="1" max="24" style="width:50px">小时 <button class="gc-btn-sm gc-buy-buff" data-type="double_exp">20🪙/时</button></div><div class="gc-buff-item">🍀 幸运加成 <input class="gc-input gc-buff-hours" data-type="lucky" type="number" value="1" min="1" max="24" style="width:50px">小时 <button class="gc-btn-sm gc-buy-buff" data-type="lucky">50🪙/时</button></div></div></div>`,
+        bind: (el,d,t) => { el?.querySelectorAll('.gc-buy-buff').forEach(b=>b.addEventListener('click',async()=>{const type=b.dataset.type;const hours=parseInt(b.previousElementSibling?.value)||1;const r=await t.api('/buffs/buy',{method:'POST',body:JSON.stringify({type,hours})});t.toast(r.message);t.switchTab('buffs');})); }
+    };}
+
+    couponsConfig() { return {
+        render: (d,t) => `<div class="gc-coupons"><button id="gcClaimCoupon" class="gc-btn gc-btn-primary" style="margin-bottom:12px">🎫 领取优惠券</button><div class="gc-coupon-list">${(d.coupons||[]).map(c=>`<div class="gc-coupon-card"><span class="gc-coupon-desc">${esc(c.description)}</span><small>到期: ${new Date(c.expires_at).toLocaleDateString()}</small></div>`).join('')||'<p class="gc-empty">暂无优惠券</p>'}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcClaimCoupon')?.addEventListener('click',async()=>{const r=await t.api('/coupons/claim',{method:'POST'});t.toast(r.message);t.switchTab('coupons');}); }
+    };}
+
+    checkinwheelConfig() { return {
+        render: (d,t) => `<div class="gc-wheel"><div class="gc-wheel-emoji">🎡</div><p>每日签到转盘，赢取硬币奖励！</p><button id="gcSpinWheelBtn" class="gc-btn gc-btn-primary gc-btn-lg">🎡 转一次！</button><div id="gcWheelResult"></div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcSpinWheelBtn')?.addEventListener('click',async()=>{const r=await t.api('/checkin-wheel',{method:'POST'});document.getElementById('gcWheelResult').innerHTML=`<div class="gc-wheel-result gc-animate-pop">${r.message}</div>`;t.toast(r.message);}); }
+    };}
+
+    portfolioConfig() { return {
+        render: (d,t) => `<div class="gc-portfolio"><div class="gc-port-summary">💼 总资产: <strong>${d.totalValue||0}</strong>🪙</div><div class="gc-port-breakdown"><div>💰 现金: ${d.coinBalance||0}🪙</div><div>🏦 存款: ${d.bankSavings||0}🪙</div><div>📈 股票: ${d.holdings?.reduce((s,h)=>s+Math.round(parseFloat(h.current_price)*h.shares),0)||0}🪙</div></div><h3>📈 持仓</h3>${(d.holdings||[]).map(h=>`<div class="gc-holding-item">${h.emoji||''} ${esc(h.symbol)} ${esc(h.name)} | ${h.shares}股 | 现价${parseFloat(h.current_price).toFixed(2)}🪙</div>`).join('')||'<p class="gc-empty">暂无持仓</p>'}</div>`
+    };}
+
+    taxConfig() { return {
+        render: (d,t) => `<div class="gc-tax"><p>📋 30天交易摘要</p>${(d.transactions||[]).map(t=>`<div class="gc-tax-item">${esc(t.type)}: ${t.total||0}🪙</div>`).join('')||'<p class="gc-empty">暂无交易</p>'}<p class="gc-tax-note">${esc(d.message||'')}</p></div>`
+    };}
+
+    cardsConfig() { return {
+        render: (d,t) => `<div class="gc-cards"><div class="gc-cards-stats">🃏 ${d.owned||0}/${d.total||0} 已收集</div><button id="gcBuyPack" class="gc-btn gc-btn-primary gc-btn-lg" style="margin:12px 0">📦 购买卡包(15🪙)</button><div id="gcPackResult"></div><h3>📚 全部卡牌</h3><div class="gc-cards-grid">${(d.allCards||[]).map(c=>`<div class="gc-card-item gc-rarity-${c.rarity}${c.owned?' gc-owned':''}"><span class="gc-card-emoji">${esc(c.emoji)}</span><span class="gc-card-name">${esc(c.name)}</span><span class="gc-card-rarity">${{common:'普通',rare:'稀有',epic:'史诗',legendary:'传说'}[c.rarity]||''}</span>${c.owned?'✅':'🔒'}</div>`).join('')}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcBuyPack')?.addEventListener('click',async()=>{const r=await t.api('/cards/pack',{method:'POST'});document.getElementById('gcPackResult').innerHTML=`<div class="gc-pack-result gc-animate-pop">${r.message}</div>`;t.toast(r.message);t.switchTab('cards');}); }
+    };}
+
+    codexConfig() { return {
+        render: (d,t) => `<div class="gc-codex"><div class="gc-codex-stats"><div class="gc-codex-item">🐟 鱼类: ${d.fish||0}/${d.totalFish||11}</div><div class="gc-codex-item">🃏 卡牌: ${d.cards||0}/${d.totalCards||20}</div><div class="gc-codex-item">🔖 印章: ${d.stamps||0}</div></div><div class="gc-codex-progress"><div class="gc-progress-bar"><div class="gc-progress-fill" style="width:${Math.round((d.fish+d.cards)/(d.totalFish+d.totalCards)*100)}%"></div></div></div></div>`
+    };}
+
+    medalsConfig() { return {
+        render: (d,t) => `<div class="gc-medals"><h3>🏅 我的勋章</h3><div class="gc-medals-grid">${(d.definitions||[]).map(def=>{const earned=d.medals?.find(m=>m.code===def.code);return`<div class="gc-medal-item${earned?' gc-earned':' gc-locked'}"><span class="gc-medal-icon">${def.icon}</span><span>${esc(def.name)}</span>${earned?'✅':'🔒'}</div>`;}).join('')}</div></div>`
+    };}
+
+    zodiacConfig() { return {
+        render: (d,t) => `<div class="gc-zodiac"><div class="gc-zodiac-grid">${(d.zodiacs||[]).map(z=>`<div class="gc-zodiac-card"><div class="gc-zodiac-sign">${esc(z.sign)}</div><div class="gc-zodiac-dates">${esc(z.dates)}</div><div class="gc-zodiac-element">${esc(z.element)}</div><div class="gc-zodiac-fortune">${esc(z.fortune)}</div><div class="gc-zodiac-lucky">幸运数: ${z.lucky} | 搭配: ${esc(z.compat)}</div></div>`).join('')}</div></div>`
+    };}
+
+    petskillsConfig() { return {
+        render: (d,t) => `<div class="gc-petskills"><h3>🎓 已学技能</h3>${(d.skills||[]).map(s=>`<div class="gc-skill-learned">✅ ${esc(s.skill_id)}</div>`).join('')||'<p class="gc-empty">尚未学习任何技能</p>'}<h3>📖 可学技能</h3><div class="gc-skill-list">${(d.allSkills||[]).map(s=>`<div class="gc-skill-item"><span>${esc(s.name)}</span><small>${esc(s.desc)}</small><small>需要Lv.${s.reqLv}</small><button class="gc-btn-sm gc-learn-skill" data-id="${s.id}">学习</button></div>`).join('')}</div></div>`,
+        bind: (el,d,t) => { el?.querySelectorAll('.gc-learn-skill').forEach(b=>b.addEventListener('click',async()=>{const r=await t.api('/pet/learn-skill',{method:'POST',body:JSON.stringify({skillId:parseInt(b.dataset.id)})});t.toast(r.message);t.switchTab('petskills');})); }
+    };}
+
+    treasureConfig() { return {
+        render: (d,t) => `<div class="gc-treasure"><p>🗺️ 每天可挖宝3次！</p><button id="gcDigBtn" class="gc-btn gc-btn-primary gc-btn-lg">⛏️ 挖宝！(免费)</button><div id="gcDigResult"></div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcDigBtn')?.addEventListener('click',async()=>{const r=await t.api('/treasure/dig',{method:'POST'});document.getElementById('gcDigResult').innerHTML=`<div class="gc-dig-result gc-animate-pop ${r.reward>0?'gc-correct':'gc-wrong'}">${esc(r.message)}</div>`;t.toast(r.message);}); }
+    };}
+
+    stampsConfig() { return {
+        render: (d,t) => `<div class="gc-stamps"><h3>🔖 印章收集</h3><div class="gc-stamp-grid">${(d.stamps||[]).map(s=>`<div class="gc-stamp-item"><span>🔖</span><span>${esc(s.name||s.code)}</span></div>`).join('')||'<p class="gc-empty">暂无印章</p>'}</div><div class="gc-stamp-form"><input id="gcStampCode" class="gc-input" placeholder="输入印章码..."><button id="gcStampBtn" class="gc-btn gc-btn-primary">收集</button></div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcStampBtn')?.addEventListener('click',async()=>{const code=el.querySelector('#gcStampCode')?.value;if(!code)return;const r=await t.api('/stamps/collect',{method:'POST',body:JSON.stringify({stampCode:code})});t.toast(r.message);t.switchTab('stamps');}); }
+    };}
+
+    dailystampConfig() { return {
+        render: (d,t) => `<div class="gc-dailystamp"><div class="gc-ds-banner">📮 每日邮票收集</div>${d.newStamp?`<div class="gc-ds-new gc-animate-pop">🎉 今日获得: ${esc(d.newStamp)}</div>`:''}<h3>我的邮票册</h3><div class="gc-ds-grid">${(d.stamps||[]).map(s=>`<div class="gc-ds-item"><small>${esc(s.date||'')}</small><br>${esc(s.stamp_name||'')}</div>`).join('')||'<p class="gc-empty">暂无邮票</p>'}</div></div>`
+    };}
+
+    artifactsConfig() { return {
+        render: (d,t) => `<div class="gc-artifacts"><p>🏺 每次鉴赏8🪙，可能获得珍贵文物！</p><button id="gcAppraiseBtn" class="gc-btn gc-btn-primary gc-btn-lg">🏺 鉴赏</button><div id="gcArtResult"></div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcAppraiseBtn')?.addEventListener('click',async()=>{const r=await t.api('/artifact/appraise',{method:'POST'});document.getElementById('gcArtResult').innerHTML=`<div class="gc-art-result gc-animate-pop">${esc(r.message)}</div>`;t.toast(r.message);}); }
+    };}
+
+    petcontestConfig() { return {
+        render: (d,t) => `<div class="gc-petcontest"><h3>🏆 宠物大赛排行榜</h3><button id="gcContestEnter" class="gc-btn gc-btn-primary" style="margin-bottom:12px">⚔️ 报名参赛</button><div id="gcContestResult"></div><div class="gc-contest-list">${(d.entries||[]).map((e,i)=>`<div class="gc-contest-item"><span class="gc-lb-rank">${i<3?['🥇','🥈','🥉'][i]:i+1}</span><span>${esc(e.username)} - ${esc(e.pet_name)}</span><small>Lv.${e.level} | 战力${e.level*10+Math.round(e.mood*0.5)}</small></div>`).join('')||'<p class="gc-empty">暂无参赛者</p>'}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcContestEnter')?.addEventListener('click',async()=>{const r=await t.api('/pet-contest/enter',{method:'POST'});document.getElementById('gcContestResult').innerHTML=`<div class="gc-animate-pop ${r.score?'gc-correct':'gc-wrong'}">${esc(r.message)}</div>`;t.toast(r.message);t.switchTab('petcontest');}); }
+    };}
+
+    weatherConfig() { return {
+        render: (d,t) => `<div class="gc-weather"><div class="gc-weather-card gc-animate-pop"><div class="gc-weather-icon">${d.icon||'☀️'}</div><div class="gc-weather-name">${esc(d.name||'晴天')}</div><div class="gc-weather-temp">${d.temp||25}°C</div><div class="gc-weather-desc">${esc(d.desc||'')}</div><div class="gc-weather-details"><span>💧 湿度: ${d.humidity||50}%</span><span>🍀 运气: x${d.luck||1}</span></div></div></div>`
+    };}
+
+    countdownConfig() { return {
+        render: (d,t) => `<div class="gc-countdown"><div class="gc-cd-form"><input id="gcCdName" class="gc-input" placeholder="倒计时名" maxlength="50"><input id="gcCdDate" class="gc-input" type="date"><input id="gcCdEmoji" class="gc-input" placeholder="📅" maxlength="4" style="width:50px"><button id="gcCdBtn" class="gc-btn gc-btn-primary">⏰ 创建</button></div><div class="gc-cd-list">${(d.countdowns||[]).map(c=>{const diff=Math.max(0,Math.ceil((new Date(c.target_date)-Date.now())/86400000));return`<div class="gc-cd-item"><span>${esc(c.emoji||'📅')}</span><strong>${esc(c.name)}</strong><span class="gc-cd-days">${diff}天</span><small>${c.target_date}</small></div>`;}).join('')||'<p class="gc-empty">暂无倒计时</p>'}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcCdBtn')?.addEventListener('click',async()=>{const name=el.querySelector('#gcCdName')?.value;const targetDate=el.querySelector('#gcCdDate')?.value;const emoji=el.querySelector('#gcCdEmoji')?.value;if(!name||!targetDate)return;const r=await t.api('/countdowns',{method:'POST',body:JSON.stringify({name,targetDate,emoji})});t.toast(r.message);t.switchTab('countdown');}); }
+    };}
+
+    notesConfig() { return {
+        render: (d,t) => `<div class="gc-notes"><div class="gc-note-form"><input id="gcNoteTitle" class="gc-input" placeholder="标题" maxlength="50" style="width:100%;margin-bottom:8px"><textarea id="gcNoteContent" class="gc-input" placeholder="内容..." style="width:100%;height:80px"></textarea><select id="gcNoteColor" class="gc-input"><option value="default">默认</option><option value="red">红色</option><option value="blue">蓝色</option><option value="green">绿色</option><option value="yellow">黄色</option><option value="purple">紫色</option></select><button id="gcNoteBtn" class="gc-btn gc-btn-primary">📝 添加</button></div><div class="gc-notes-grid">${(d.notes||[]).map(n=>`<div class="gc-note-card gc-note-${esc(n.color||'default')}"><h4>${esc(n.title)}</h4><p>${esc(n.content||'')}</p><button class="gc-btn-sm gc-del-note" data-id="${n.id}">🗑️</button></div>`).join('')||'<p class="gc-empty">暂无便签</p>'}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcNoteBtn')?.addEventListener('click',async()=>{const title=el.querySelector('#gcNoteTitle')?.value;const content=el.querySelector('#gcNoteContent')?.value;const color=el.querySelector('#gcNoteColor')?.value;if(!title)return;const r=await t.api('/notes',{method:'POST',body:JSON.stringify({title,content,color})});t.toast(r.message);t.switchTab('notes');}); el?.querySelectorAll('.gc-del-note').forEach(b=>b.addEventListener('click',async()=>{const r=await t.api(`/notes/${b.dataset.id}`,{method:'DELETE'});t.toast(r.message);t.switchTab('notes');})); }
+    };}
+
+    habitsConfig() { return {
+        render: (d,t) => `<div class="gc-habits"><div class="gc-habit-form"><input id="gcHabitName" class="gc-input" placeholder="习惯名" maxlength="50"><input id="gcHabitEmoji" class="gc-input" placeholder="✅" maxlength="4" style="width:50px"><button id="gcHabitBtn" class="gc-btn gc-btn-primary">添加习惯</button></div><div class="gc-habit-list">${(d.habits||[]).map(h=>`<div class="gc-habit-item"><span>${esc(h.emoji||'✅')}</span><strong>${esc(h.name)}</strong><button class="gc-btn-sm gc-habit-check" data-id="${h.id}">打卡</button><small>${(h.recentDays||[]).length}天/周</small></div>`).join('')||'<p class="gc-empty">暂无习惯</p>'}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcHabitBtn')?.addEventListener('click',async()=>{const name=el.querySelector('#gcHabitName')?.value;const emoji=el.querySelector('#gcHabitEmoji')?.value;if(!name)return;const r=await t.api('/habits',{method:'POST',body:JSON.stringify({name,emoji})});t.toast(r.message);t.switchTab('habits');}); el?.querySelectorAll('.gc-habit-check').forEach(b=>b.addEventListener('click',async()=>{const r=await t.api(`/habits/${b.dataset.id}/check`,{method:'POST'});t.toast(r.message);t.switchTab('habits');})); }
+    };}
+
+    readingConfig() { return {
+        render: (d,t) => `<div class="gc-reading"><div class="gc-reading-stats">📚 ${d.stats?.books||0}本书 | 📄 ${d.stats?.pages||0}页 | ⏱️ ${d.stats?.minutes||0}分钟</div><div class="gc-reading-form"><input id="gcReadBook" class="gc-input" placeholder="书名" maxlength="100" style="width:100%"><input id="gcReadPages" class="gc-input" type="number" placeholder="页数" style="width:80px"><input id="gcReadMins" class="gc-input" type="number" placeholder="分钟" style="width:80px"><button id="gcReadBtn" class="gc-btn gc-btn-primary">📚 打卡(+3🪙)</button></div><div class="gc-reading-list">${(d.logs||[]).map(l=>`<div class="gc-reading-item">📖 ${esc(l.book_name)} - ${l.pages}页 ${l.minutes}分钟 <small>${new Date(l.created_at).toLocaleDateString()}</small></div>`).join('')}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcReadBtn')?.addEventListener('click',async()=>{const bookName=el.querySelector('#gcReadBook')?.value;const pages=parseInt(el.querySelector('#gcReadPages')?.value)||0;const minutes=parseInt(el.querySelector('#gcReadMins')?.value)||0;if(!bookName)return;const r=await t.api('/reading/log',{method:'POST',body:JSON.stringify({bookName,pages,minutes})});t.toast(r.message);t.switchTab('reading');}); }
+    };}
+
+    exerciseConfig() { return {
+        render: (d,t) => `<div class="gc-exercise"><div class="gc-ex-form"><select id="gcExType" class="gc-input"><option>🏃 跑步</option><option>🚴 骑行</option><option>🏊 游泳</option><option>🧘 瑜伽</option><option>🏋️ 力量训练</option><option>🚶 步行</option><option>⚽ 球类</option></select><input id="gcExDur" class="gc-input" type="number" placeholder="分钟" style="width:80px"><input id="gcExCal" class="gc-input" type="number" placeholder="卡路里" style="width:80px"><button id="gcExBtn" class="gc-btn gc-btn-primary">🏃 记录(+3🪙)</button></div><div class="gc-ex-list">${(d.logs||[]).map(l=>`<div class="gc-ex-item">${esc(l.exercise_type)} ${l.duration}分钟 ${l.calories}卡 <small>${new Date(l.created_at).toLocaleDateString()}</small></div>`).join('')}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcExBtn')?.addEventListener('click',async()=>{const type=el.querySelector('#gcExType')?.value;const duration=parseInt(el.querySelector('#gcExDur')?.value)||0;const calories=parseInt(el.querySelector('#gcExCal')?.value)||0;if(!duration)return;const r=await t.api('/exercise/log',{method:'POST',body:JSON.stringify({type,duration,calories})});t.toast(r.message);t.switchTab('exercise');}); }
+    };}
+
+    moodtreeConfig() { return {
+        render: (d,t) => `<div class="gc-moodtree"><div class="gc-tree-visual">🌳</div><div class="gc-tree-stats">Lv.${d.level||1} | 🌱 成长: ${d.growth||0}% | 🍎 果实: ${d.fruits||0}</div><div class="gc-progress-bar" style="margin:12px 0"><div class="gc-progress-fill" style="width:${d.growth||0}%;background:linear-gradient(90deg,#2ed573,#7bed9f)"></div></div><select id="gcTreeMood" class="gc-input"><option value="😊">😊 开心</option><option value="😢">😢 难过</option><option value="🎉">🎉 兴奋</option><option value="😴">😴 平静</option><option value="💪">💪 元气</option></select><button id="gcWaterTree" class="gc-btn gc-btn-primary">💧 浇水</button><div id="gcTreeResult"></div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcWaterTree')?.addEventListener('click',async()=>{const mood=el.querySelector('#gcTreeMood')?.value;const r=await t.api('/mood-tree/water',{method:'POST',body:JSON.stringify({mood})});document.getElementById('gcTreeResult').innerHTML=`<div class="gc-animate-pop">${esc(r.message)}</div>`;t.toast(r.message);setTimeout(()=>t.switchTab('moodtree'),1500);}); }
+    };}
+
+    capsuleConfig() { return {
+        render: (d,t) => `<div class="gc-capsule"><h3>🕳️ 封存胶囊</h3><div class="gc-cap-form"><textarea id="gcCapMsg" class="gc-input" placeholder="写给未来的自己..." maxlength="500" style="width:100%;height:80px"></textarea><input id="gcCapDate" class="gc-input" type="date"><button id="gcCapBtn" class="gc-btn gc-btn-primary">🕳️ 封存</button></div>${d.readyCount>0?`<div class="gc-cap-ready gc-animate-pop">🎉 ${d.readyCount}个胶囊可以打开了！</div>`:''}<h3>📬 已开启</h3>${(d.opened||[]).map(c=>`<div class="gc-cap-opened"><p>${esc(c.message)}</p><small>${new Date(c.created_at).toLocaleDateString()} → ${new Date(c.open_date).toLocaleDateString()}</small></div>`).join('')||''}<h3>🔒 封存中</h3>${(d.sealed||[]).map(c=>`<div class="gc-cap-sealed">🔒 ${new Date(c.open_date).toLocaleDateString()} 开启</div>`).join('')||'<p class="gc-empty">暂无封存胶囊</p>'}</div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcCapBtn')?.addEventListener('click',async()=>{const message=el.querySelector('#gcCapMsg')?.value;const openDate=el.querySelector('#gcCapDate')?.value;if(!message||!openDate)return;const r=await t.api('/time-capsule',{method:'POST',body:JSON.stringify({message,openDate})});t.toast(r.message);t.switchTab('capsule');}); }
+    };}
+
+    calendarConfig() { return {
+        render: (d,t) => `<div class="gc-calendar"><div class="gc-cal-form"><input id="gcCalTitle" class="gc-input" placeholder="事件" maxlength="50"><input id="gcCalDate" class="gc-input" type="date"><input id="gcCalEmoji" class="gc-input" placeholder="📌" maxlength="4" style="width:50px"><button id="gcCalBtn" class="gc-btn gc-btn-primary">📅 添加</button></div><div class="gc-cal-events">${(d.events||[]).map(e=>`<div class="gc-cal-event"><span>${esc(e.emoji||'📌')}</span><strong>${esc(e.title)}</strong><small>${e.event_date}</small></div>`).join('')||'<p class="gc-empty">本月无事件</p>'}</div></div>`,
+        bind: (el,d,t) => { el?.querySelector('#gcCalBtn')?.addEventListener('click',async()=>{const title=el.querySelector('#gcCalTitle')?.value;const eventDate=el.querySelector('#gcCalDate')?.value;const emoji=el.querySelector('#gcCalEmoji')?.value;if(!title||!eventDate)return;const r=await t.api('/calendar',{method:'POST',body:JSON.stringify({title,eventDate,emoji})});t.toast(r.message);t.switchTab('calendar');}); }
+    };}
+
+    // === V7 Mini Games ===
+    playSpeedMath() { const c=document.getElementById('gcContent');let score=0,timeLeft=30;q:window.gcMathQ=null;function gen(){const ops=['+','-','×'];const op=ops[Math.floor(Math.random()*3)];let a,b;if(op==='+'){a=Math.floor(Math.random()*50)+1;b=Math.floor(Math.random()*50)+1;}else if(op==='-'){a=Math.floor(Math.random()*50)+20;b=Math.floor(Math.random()*a);}else{a=Math.floor(Math.random()*12)+1;b=Math.floor(Math.random()*12)+1;}return{q:`${a} ${op} ${b}`,a:op==='+'?a+b:op==='-'?a-b:a*b};}window.gcMathQ=gen();c.innerHTML=`<div class="gc-mini-game"><h3>🧮 速算挑战 (30秒)</h3><div class="gc-game-timer">⏱ <span id="gcSMTime">30</span>s | 得分: <span id="gcSMScore">0</span></div><div class="gc-math-problem" id="gcSMQ">${window.gcMathQ.q} = ?</div><div class="gc-math-form"><input id="gcSMAns" class="gc-input" type="number" autofocus style="width:120px;font-size:24px;text-align:center"><button id="gcSMBtn" class="gc-btn gc-btn-primary">提交</button></div></div>`;const timer=setInterval(()=>{timeLeft--;document.getElementById('gcSMTime').textContent=timeLeft;if(timeLeft<=0){clearInterval(timer);this.toast(`🧮 速算得分: ${score}`);this.api('/mini/submit',{method:'POST',body:JSON.stringify({gameType:'speed_math',score})});}},1000);const submit=()=>{const ans=parseInt(document.getElementById('gcSMAns')?.value);if(ans===window.gcMathQ.a)score++;document.getElementById('gcSMScore').textContent=score;window.gcMathQ=gen();document.getElementById('gcSMQ').textContent=window.gcMathQ.q+' = ?';document.getElementById('gcSMAns').value='';};document.getElementById('gcSMBtn')?.addEventListener('click',submit);document.getElementById('gcSMAns')?.addEventListener('keydown',e=>{if(e.key==='Enter')submit();}); }
+
+    playTyping() { const c=document.getElementById('gcContent');const words=['hello','world','javascript','blog','游戏','coding','前端','后端','宠物','冒险','农场','钓鱼','硬币','签到','排行榜','朋友','部落','论坛','装扮','活动'];let score=0,timeLeft=30,currentWord=words[Math.floor(Math.random()*words.length)];c.innerHTML=`<div class="gc-mini-game"><h3>⌨️ 打字挑战 (30秒)</h3><div class="gc-game-timer">⏱ <span id="gcTypTime">30</span>s | 得分: <span id="gcTypScore">0</span></div><div class="gc-typing-word" id="gcTypWord" style="font-size:36px;font-weight:700;margin:20px 0;color:#667eea">${currentWord}</div><input id="gcTypInput" class="gc-input" autofocus style="width:200px;font-size:20px;text-align:center" placeholder="输入上面的词..."></div>`;const input=document.getElementById('gcTypInput');const timer=setInterval(()=>{timeLeft--;document.getElementById('gcTypTime').textContent=timeLeft;if(timeLeft<=0){clearInterval(timer);this.toast(`⌨️ 打字得分: ${score}`);this.api('/mini/submit',{method:'POST',body:JSON.stringify({gameType:'typing',score})});}},1000);input?.addEventListener('input',()=>{if(input.value.trim()===currentWord){score++;document.getElementById('gcTypScore').textContent=score;currentWord=words[Math.floor(Math.random()*words.length)];document.getElementById('gcTypWord').textContent=currentWord;input.value='';}});input?.focus(); }
+
+    playColorMatch() { const c=document.getElementById('gcContent');const colors=[{name:'红色',css:'#ff4757'},{name:'蓝色',css:'#1e90ff'},{name:'绿色',css:'#2ed573'},{name:'黄色',css:'#ffa502'},{name:'紫色',css:'#a29bfe'},{name:'橙色',css:'#ff6348'}];let score=0,timeLeft=20,targetColor=colors[Math.floor(Math.random()*colors.length)];c.innerHTML=`<div class="gc-mini-game"><h3>🎨 颜色反应 (20秒)</h3><div class="gc-game-timer">⏱ <span id="gcClrTime">20</span>s | 得分: <span id="gcClrScore">0</span></div><p>点击与文字颜色（而非文字内容）匹配的按钮</p><div id="gcClrTarget" style="font-size:36px;font-weight:700;margin:20px 0;color:${colors[Math.floor(Math.random()*colors.length)].css}">${targetColor.name}</div><div class="gc-color-grid">${colors.map(cl=>`<button class="gc-color-btn" data-name="${cl.name}" style="background:${cl.css};width:60px;height:60px;border-radius:50%;border:3px solid rgba(255,255,255,0.3);cursor:pointer"></button>`).join('')}</div></div>`;const timer=setInterval(()=>{timeLeft--;document.getElementById('gcClrTime').textContent=timeLeft;if(timeLeft<=0){clearInterval(timer);this.toast(`🎨 颜色反应: ${score}`);this.api('/mini/submit',{method:'POST',body:JSON.stringify({gameType:'color_match',score})});}},1000);c.querySelectorAll('.gc-color-btn').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.name===targetColor.name){score++;document.getElementById('gcClrScore').textContent=score;}targetColor=colors[Math.floor(Math.random()*colors.length)];const el=document.getElementById('gcClrTarget');el.textContent=targetColor.name;el.style.color=colors[Math.floor(Math.random()*colors.length)].css;})); }
+
+    playTicTacToe() { const c=document.getElementById('gcContent');let board=Array(9).fill(null),gameOver=false;function check(b){const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];for(const[a,d,e]of w)if(b[a]&&b[a]===b[d]&&b[a]===b[e])return b[a];return b.every(v=>v)?'draw':null;}function render(){c.querySelectorAll('.gc-ttt-cell').forEach((cell,i)=>{cell.textContent=board[i]||'';cell.style.color=board[i]==='X'?'#ff4757':'#1e90ff';});}c.innerHTML=`<div class="gc-mini-game"><h3>❌ 井字棋 (vs AI)</h3><div class="gc-ttt-grid">${board.map((_,i)=>`<div class="gc-ttt-cell" data-i="${i}"></div>`).join('')}</div><div id="gcTttStatus">你: ❌ | AI: ⭕</div><button id="gcTttReset" class="gc-btn" style="margin-top:12px">🔄 重新开始</button></div>`;c.querySelectorAll('.gc-ttt-cell').forEach(cell=>cell.addEventListener('click',async()=>{if(gameOver||board[parseInt(cell.dataset.i)])return;board[parseInt(cell.dataset.i)]='X';render();const result=check(board);if(result){gameOver=true;document.getElementById('gcTttStatus').textContent=result==='draw'?'🤝 平局！':result==='X'?'🎉 你赢了！':'😔 AI赢了';if(result==='X')this.api('/mini/submit',{method:'POST',body:JSON.stringify({gameType:'tictactoe',score:10})});return;}const aiRes=await this.api('/mini/tictactoe-ai',{method:'POST',body:JSON.stringify({board})});if(aiRes.move>=0)board[aiRes.move]='O';render();const r2=check(board);if(r2){gameOver=true;document.getElementById('gcTttStatus').textContent=r2==='draw'?'🤝 平局！':r2==='X'?'🎉 你赢了！':'😔 AI赢了';}}));document.getElementById('gcTttReset')?.addEventListener('click',()=>{board=Array(9).fill(null);gameOver=false;render();document.getElementById('gcTttStatus').textContent='你: ❌ | AI: ⭕';}); }
+
+    playSudoku() { const c=document.getElementById('gcContent');c.innerHTML='<div class="gc-mini-game"><h3>🔢 数独</h3><p>加载中...</p></div>';this.api('/mini/sudoku').then(data=>{c.innerHTML=`<div class="gc-mini-game"><h3>🔢 数独</h3><div class="gc-sudoku-grid">${(data.puzzle||[]).map(row=>row.map((v,i)=>`<input class="gc-sudoku-cell" data-v="${v}" value="${v||''}" ${v?'readonly':''} maxlength="1" style="width:36px;height:36px;text-align:center;font-size:16px;background:${v?'rgba(255,255,255,0.15)':'rgba(255,255,255,0.05)'};border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:4px">`).join('')).join('')}</div><button id="gcSudokuCheck" class="gc-btn gc-btn-primary" style="margin-top:12px">✅ 检查</button><div id="gcSudokuResult"></div></div>`;document.getElementById('gcSudokuCheck')?.addEventListener('click',()=>{const cells=c.querySelectorAll('.gc-sudoku-cell');let correct=0,total=0;cells.forEach(cell=>{const v=parseInt(cell.value)||0;const expected=parseInt(cell.dataset.v);total++;if(v===expected)correct++;});document.getElementById('gcSudokuResult').innerHTML=`<div class="gc-animate-pop">正确: ${correct}/${total}</div>`;});}); }
+
+    playMinesweeper() { const c=document.getElementById('gcContent');c.innerHTML='<div class="gc-mini-game"><h3>💣 扫雷</h3><p>加载中...</p></div>';this.api('/mini/minesweeper').then(data=>{const grid=data.grid||[];const size=data.size||9;const revealed=Array(size).fill(null).map(()=>Array(size).fill(false));const flags=Array(size).fill(null).map(()=>Array(size).fill(false));let gameOver=false,win=false;function render(){const gc=document.getElementById('gcMsGrid');if(!gc)return;gc.innerHTML=grid.map((row,r)=>row.map((cell,ci)=>{const isRev=revealed[r][ci];const isFlag=flags[r][ci];let display=isRev?(cell===-1?'💣':cell===0?'':cell):isFlag?'🚩':'';let bg=isRev?(cell===-1?'rgba(255,71,87,0.3)':'rgba(255,255,255,0.1)'):'rgba(102,126,234,0.3)';return`<div class="gc-ms-cell" data-r="${r}" data-c="${ci}" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:${bg};border:1px solid rgba(255,255,255,0.1);border-radius:4px;cursor:pointer;font-size:14px;color:${cell<=3?['','#1e90ff','#2ed573','#ff4757'][cell]||'#fff':'#fff'}">${display}</div>`;}).join('')).join('');}c.innerHTML=`<div class="gc-mini-game"><h3>💣 扫雷 (${data.mines||10}颗雷)</h3><p>左键揭开 | 右键标旗</p><div id="gcMsGrid" style="display:inline-grid;grid-template-columns:repeat(${size},32px);gap:2px;margin:12px 0"></div><div id="gcMsStatus"></div></div>`;render();c.querySelector('#gcMsGrid')?.addEventListener('click',e=>{const cell=e.target.closest('.gc-ms-cell');if(!cell||gameOver)return;const r=parseInt(cell.dataset.r),ci=parseInt(cell.dataset.c);if(flags[r][ci])return;revealed[r][ci]=true;if(grid[r][ci]===-1){gameOver=true;for(let i=0;i<size;i++)for(let j=0;j<size;j++)revealed[i][j]=true;render();document.getElementById('gcMsStatus').innerHTML='<div class="gc-wrong">💥 踩雷了！</div>';return;}if(grid[r][ci]===0){const q=[[r,ci]];while(q.length){const[cr,cc]=q.shift();for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){const nr=cr+dr,nc=cc+dc;if(nr>=0&&nr<size&&nc>=0&&nc<size&&!revealed[nr][nc]){revealed[nr][nc]=true;if(grid[nr][nc]===0)q.push([nr,nc]);}}}}render();let unrevealed=0;for(let i=0;i<size;i++)for(let j=0;j<size;j++)if(!revealed[i][j])unrevealed++;if(unrevealed===(data.mines||10)){gameOver=true;document.getElementById('gcMsStatus').innerHTML='<div class="gc-correct">🎉 胜利！</div>';this.api('/mini/submit',{method:'POST',body:JSON.stringify({gameType:'minesweeper',score:50})});}});c.querySelector('#gcMsGrid')?.addEventListener('contextmenu',e=>{e.preventDefault();const cell=e.target.closest('.gc-ms-cell');if(!cell||gameOver)return;const r=parseInt(cell.dataset.r),ci=parseInt(cell.dataset.c);if(revealed[r][ci])return;flags[r][ci]=!flags[r][ci];render();});}); }
+
+    playTextAdventure() { const c=document.getElementById('gcContent');c.innerHTML='<div class="gc-mini-game"><h3>📜 文字冒险</h3><p>加载中...</p></div>';this.api('/mini/text-adventure').then(data=>{const s=data.scenario;if(!s)return;c.innerHTML=`<div class="gc-mini-game"><h3>📜 文字冒险</h3><div class="gc-ta-scenario" style="font-size:18px;margin:16px 0;line-height:1.6">${esc(s.text)}</div><div class="gc-ta-choices">${(s.choices||[]).map(ch=>`<button class="gc-btn gc-ta-choice" data-reward="${ch.reward||0}" data-result="${esc(ch.result)}" style="margin:6px;display:block;width:100%;text-align:left">${esc(ch.text)}</button>`).join('')}</div><div id="gcTaResult"></div></div>`;c.querySelectorAll('.gc-ta-choice').forEach(b=>b.addEventListener('click',async()=>{const reward=parseInt(b.dataset.reward)||0;const result=b.dataset.result;document.getElementById('gcTaResult').innerHTML=`<div class="gc-ta-result gc-animate-pop">${esc(result)}</div>`;if(reward>0)await this.api('/mini/submit',{method:'POST',body:JSON.stringify({gameType:'text_adventure',score:reward})});this.toast(result);}));}); }
 
     toast(msg) {
         const t = document.createElement('div');
