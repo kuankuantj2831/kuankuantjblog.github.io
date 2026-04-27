@@ -753,6 +753,92 @@ async function initDB() {
             }
         } catch (seed2Err) { console.error('Game V2 seed error:', seed2Err.message); }
 
+        // ===== 游戏化中心V3表 =====
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_fishing (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL UNIQUE,
+            energy INT DEFAULT 10, max_energy INT DEFAULT 10, bait VARCHAR(20) DEFAULT 'basic',
+            total_caught INT DEFAULT 0, best_catch VARCHAR(50) DEFAULT NULL,
+            last_refill TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            last_energy_refill TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_farm_plots (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, plot_index INT NOT NULL,
+            crop_name VARCHAR(50) DEFAULT NULL, crop_emoji VARCHAR(10) DEFAULT NULL,
+            planted_at TIMESTAMP NULL, grow_minutes INT DEFAULT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            UNIQUE KEY unique_user_plot (user_id, plot_index)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_pet_battles (
+            id INT AUTO_INCREMENT PRIMARY KEY, challenger_id INT NOT NULL, defender_id INT NOT NULL,
+            winner_id INT DEFAULT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (challenger_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (defender_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_marriages (
+            id INT AUTO_INCREMENT PRIMARY KEY, partner1_id INT NOT NULL, partner2_id INT NOT NULL,
+            proposer_id INT NOT NULL, status ENUM('pending','married','divorced','rejected') DEFAULT 'pending',
+            married_at TIMESTAMP NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (partner1_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (partner2_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (proposer_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_mentorship_requests (
+            id INT AUTO_INCREMENT PRIMARY KEY, mentor_id INT NOT NULL, apprentice_id INT NOT NULL,
+            status ENUM('pending','accepted','rejected') DEFAULT 'pending',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (mentor_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (apprentice_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_mentorships (
+            id INT AUTO_INCREMENT PRIMARY KEY, mentor_id INT NOT NULL, apprentice_id INT NOT NULL,
+            status ENUM('active','ended') DEFAULT 'active', last_bonus DATE DEFAULT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (mentor_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (apprentice_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_dice_records (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, dice VARCHAR(20) NOT NULL,
+            total INT NOT NULL, guess VARCHAR(20) NOT NULL, bet INT DEFAULT 0,
+            won BOOLEAN DEFAULT FALSE, win_amount INT DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_lucky_number_daily (
+            date DATE PRIMARY KEY, number INT NOT NULL
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_lucky_numbers (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, date DATE NOT NULL,
+            guess INT NOT NULL, actual INT NOT NULL, reward INT DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            UNIQUE KEY unique_user_date (user_id, date)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_adventure_progress (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL UNIQUE,
+            current_stage INT DEFAULT 1, max_stage INT DEFAULT 1, total_runs INT DEFAULT 0,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+        await connection.query(`CREATE TABLE IF NOT EXISTS game_fortunes (
+            id INT AUTO_INCREMENT PRIMARY KEY, user_id INT NOT NULL, date DATE NOT NULL,
+            level VARCHAR(10) NOT NULL, text VARCHAR(255) NOT NULL, emoji VARCHAR(10) DEFAULT '',
+            luck DECIMAL(3,2) DEFAULT 1.0, lucky_color VARCHAR(10) DEFAULT '', lucky_number INT DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            UNIQUE KEY unique_user_fortune_date (user_id, date)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+        console.log('Game center V3 tables checked/created.');
+
         // Seed default donation goal if none exists
         try {
             const [goals] = await connection.query('SELECT id FROM donation_goals LIMIT 1');

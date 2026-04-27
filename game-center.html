@@ -251,6 +251,58 @@
         .gc-math-form { display: flex; gap: 8px; justify-content: center; }
         .gc-math-form .gc-input { width: 120px; font-size: 24px; text-align: center; }
 
+        .gc-fish-water { font-size: 48px; padding: 30px; animation: gc-bob 2s ease-in-out infinite; }
+        @keyframes gc-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .gc-casting { animation: gc-cast 1s ease-out; }
+        @keyframes gc-cast { 0% { transform: scale(0.5) rotate(-30deg); opacity:0; } 100% { transform: scale(1) rotate(0); opacity:1; } }
+        .gc-fish-catch { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; margin: 12px 0; text-align: center; }
+        .gc-fish-emoji { font-size: 48px; display: block; margin-bottom: 8px; }
+        .gc-fishing, .gc-farm, .gc-adventure, .gc-petbattle, .gc-marriage, .gc-mentorship, .gc-scratch, .gc-dice, .gc-luckynum, .gc-fortune { text-align: center; }
+
+        .gc-farm-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(140px,1fr)); gap: 10px; margin: 16px 0; }
+        .gc-farm-plot { background: rgba(255,255,255,0.06); border-radius: 12px; padding: 14px; text-align: center; min-height: 120px; }
+        .gc-plot-empty { border: 2px dashed rgba(255,255,255,0.15); }
+        .gc-plot-slot { font-size: 32px; margin-bottom: 8px; }
+        .gc-plot-slot.gc-ready { animation: gc-glow 1.5s ease-in-out infinite; }
+        .gc-plant-select { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); color: #ddd; border-radius: 6px; padding: 4px; font-size: 12px; width: 100%; margin: 6px 0; }
+
+        .gc-adventure-map { display: grid; grid-template-columns: repeat(auto-fill,minmax(160px,1fr)); gap: 10px; margin: 16px 0; }
+        .gc-stage { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 14px; text-align: center; }
+        .gc-stage-completed { opacity: 0.5; border-left: 3px solid #2ed573; }
+        .gc-stage-current { border-left: 3px solid #667eea; background: rgba(102,126,234,0.15); }
+        .gc-stage-locked { opacity: 0.3; }
+        .gc-stage-emoji { font-size: 32px; display: block; }
+        .gc-stage-name { font-weight: 600; display: block; margin: 4px 0; }
+        .gc-adv-result, .gc-pb-result, .gc-lucky-result { padding: 16px; border-radius: 12px; margin: 16px 0; font-size: 16px; }
+        .gc-adv-event { color: #ffa502; margin: 8px 0; font-style: italic; }
+        .gc-pb-history { margin-top: 16px; }
+        .gc-pb-record { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+        .gc-win { color: #2ed573; }
+        .gc-lose { color: #ff4757; }
+
+        .gc-married-card, .gc-mentor-card { background: rgba(255,105,180,0.1); border: 1px solid rgba(255,105,180,0.3); border-radius: 12px; padding: 20px; margin: 12px 0; }
+        .gc-mentor-card { background: rgba(102,126,234,0.1); border-color: rgba(102,126,234,0.3); }
+        .gc-proposal-card { background: rgba(255,255,255,0.06); padding: 12px; border-radius: 10px; margin: 6px 0; }
+        .gc-apprentice-item { padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .gc-req-item { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin: 4px 0; }
+
+        .gc-scratch-grid { display: grid; grid-template-columns: repeat(3,80px); gap: 8px; justify-content: center; margin: 20px 0; }
+        .gc-scratch-cell { width: 80px; height: 80px; background: linear-gradient(135deg,#667eea,#764ba2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; transition: all 0.3s; }
+        .gc-scratch-cell:hover { transform: scale(1.05); }
+        .gc-scratch-cell.gc-revealed { background: rgba(255,255,255,0.1); }
+        .gc-scratch-result { padding: 16px; border-radius: 10px; margin: 12px 0; font-size: 18px; }
+
+        .gc-dice-choices { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin: 12px 0; }
+        .gc-dice-display { font-size: 48px; margin: 8px 0; }
+        .gc-dice-result { padding: 16px; border-radius: 12px; margin: 12px 0; }
+        .gc-luckynum-form { display: flex; gap: 10px; justify-content: center; align-items: center; margin: 20px 0; flex-wrap: wrap; }
+        .gc-luckynum-rewards { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; margin-top: 16px; text-align: left; }
+
+        .gc-fortune-card { background: linear-gradient(135deg,rgba(102,126,234,0.15),rgba(162,155,254,0.15)); border-radius: 20px; padding: 30px; margin: 16px auto; max-width: 400px; }
+        .gc-fortune-level { font-size: 32px; font-weight: 700; margin-bottom: 12px; color: #fff; }
+        .gc-fortune-text { font-size: 16px; color: #ddd; margin-bottom: 16px; }
+        .gc-fortune-details { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+
         @media (max-width: 600px) {
             .gc-tabs { gap: 4px; }
             .gc-tab { padding: 6px 10px; font-size: 12px; }

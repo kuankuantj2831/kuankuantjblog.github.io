@@ -50,6 +50,16 @@ class GameCenter {
             { id: 'events', icon: '🎪', label: '活动' },
             { id: 'stocks', icon: '📈', label: '股市' },
             { id: 'minigames', icon: '🕹️', label: '小游戏' },
+            { id: 'fishing', icon: '🎣', label: '钓鱼' },
+            { id: 'farm', icon: '🌾', label: '农场' },
+            { id: 'adventure', icon: '🗺️', label: '冒险' },
+            { id: 'petbattle', icon: '⚔️', label: '宠物战' },
+            { id: 'marriage', icon: '💍', label: '婚姻' },
+            { id: 'mentorship', icon: '📜', label: '师徒' },
+            { id: 'scratch', icon: '🃏', label: '刮刮乐' },
+            { id: 'dice', icon: '🎲', label: '骰子' },
+            { id: 'luckynum', icon: '🍀', label: '幸运数' },
+            { id: 'fortune', icon: '🔮', label: '运势' },
         ];
         app.innerHTML = `
             <div class="gc-wrapper">
@@ -93,6 +103,16 @@ class GameCenter {
             events: () => this.renderEvents(),
             stocks: () => this.renderStocks(),
             minigames: () => this.renderMinigames(),
+            fishing: () => this.renderFishing(),
+            farm: () => this.renderFarm(),
+            adventure: () => this.renderAdventure(),
+            petbattle: () => this.renderPetBattle(),
+            marriage: () => this.renderMarriage(),
+            mentorship: () => this.renderMentorship(),
+            scratch: () => this.renderScratch(),
+            dice: () => this.renderDice(),
+            luckynum: () => this.renderLuckyNum(),
+            fortune: () => this.renderFortune(),
         };
         (loaders[tab] || loaders.overview)();
     }
@@ -904,6 +924,368 @@ class GameCenter {
         };
         document.getElementById('gcMathBtn')?.addEventListener('click', submit);
         document.getElementById('gcMathAns')?.addEventListener('keydown', e=>{if(e.key==='Enter')submit();});
+    }
+
+    // === 🎣 钓鱼 ===
+    async renderFishing() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/fishing/status');
+            c.innerHTML = `<div class="gc-fishing">
+                <h2>🎣 钓鱼乐园</h2>
+                <div class="gc-fish-status">⚡ 体力: ${data.energy||0}/${data.maxEnergy||10} | 🐟 总捕获: ${data.totalCaught||0} | 🏆 最佳: ${esc(data.bestCatch||'无')}</div>
+                <div class="gc-fish-pond" id="gcFishPond"><div class="gc-fish-water">🌊<br>点击抛竿</div></div>
+                <button id="gcCastBtn" class="gc-btn gc-btn-primary gc-btn-lg" ${data.energy<=0?'disabled':''}>🎣 抛竿！(1体力)</button>
+                <div id="gcFishResult"></div>
+                <div class="gc-fish-shop"><h3>🪱 鱼饵商店</h3>
+                    <button class="gc-btn gc-bait-btn" data-bait="golden">🪙 金色鱼饵 (20🪙 稀有+50%)</button>
+                    <button class="gc-btn gc-bait-btn" data-bait="magic">✨ 魔法鱼饵 (50🪙 史诗+100%)</button>
+                </div>
+                <div class="gc-fish-pool"><h3>🐟 鱼池</h3>${[
+                    {r:'common',c:'#aaa',l:'普通'},{r:'rare',c:'#3498db',l:'稀有'},{r:'epic',c:'#9b59b6',l:'史诗'},{r:'legendary',c:'#f39c12',l:'传说'},{r:'junk',c:'#666',l:'垃圾'}
+                ].map(t=>`<span style="color:${t.c}">● ${t.l}</span>`).join(' ')}</div>
+            </div>`;
+            const castBtn = document.getElementById('gcCastBtn');
+            castBtn?.addEventListener('click', async () => {
+                castBtn.disabled = true; castBtn.textContent = '🎣 钓鱼中...';
+                const pond = document.getElementById('gcFishPond');
+                if(pond) pond.innerHTML = '<div class="gc-fish-water gc-casting">🌊🎣 抛竿中...</div>';
+                await new Promise(r=>setTimeout(r,1500));
+                const res = await this.api('/fishing/cast', { method:'POST' });
+                if (res.caught) {
+                    const el = document.getElementById('gcFishResult');
+                    const rarityColors = {common:'#aaa',rare:'#3498db',epic:'#9b59b6',legendary:'#f39c12',junk:'#666'};
+                    el.innerHTML = `<div class="gc-fish-catch gc-animate-pop" style="border-left:4px solid ${rarityColors[res.caught.rarity]||'#aaa'}">
+                        <span class="gc-fish-emoji">${res.caught.emoji}</span>
+                        <strong>${esc(res.caught.name)}</strong>
+                        <span style="color:${rarityColors[res.caught.rarity]}">${res.caught.rarity}</span>
+                        ${!res.isJunk?`<span>${res.caught.size}cm | ${res.caught.price}🪙</span>`:''}
+                    </div>`;
+                    this.toast(res.message);
+                    await this.loadOverview(); this.updateBalanceBar();
+                }
+                castBtn.disabled = false; castBtn.textContent = '🎣 抛竿！(1体力)';
+                setTimeout(()=>this.renderFishing(), 500);
+            });
+            c.querySelectorAll('.gc-bait-btn').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/fishing/buy-bait', { method:'POST', body: JSON.stringify({ bait: b.dataset.bait }) });
+                this.toast(res.message||'购买失败');
+            }));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 🌾 农场 ===
+    async renderFarm() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/farm');
+            c.innerHTML = `<div class="gc-farm">
+                <h2>🌾 开心农场</h2>
+                <div class="gc-farm-grid">${(data.plots||[]).map((p,i) => {
+                    if (!p.crop_name) return `<div class="gc-farm-plot gc-plot-empty"><div class="gc-plot-slot">空地</div><select class="gc-plant-select" data-plot="${i}">${(data.crops||[]).map(cr=>`<option value="${cr.id}">${cr.emoji}${cr.name}(${cr.seedCost}🪙/${cr.growMinutes}分)</option>`).join('')}</select><button class="gc-btn-sm gc-plant-btn" data-plot="${i}">种植</button></div>`;
+                    const plantedAt = new Date(p.planted_at).getTime();
+                    const growMs = (p.grow_minutes||5)*60000;
+                    const ready = Date.now() >= plantedAt + growMs;
+                    const progress = Math.min(100, ((Date.now()-plantedAt)/growMs)*100);
+                    return `<div class="gc-farm-plot"><div class="gc-plot-slot${ready?' gc-ready':''}">${p.crop_emoji||'🌱'}</div><div>${esc(p.crop_name)}</div><div class="gc-progress-bar"><div class="gc-progress-fill" style="width:${progress}%"></div></div>${ready?`<button class="gc-btn-sm gc-harvest-btn" data-plot="${i}">🧺 收获</button>`:`<button class="gc-btn-sm gc-water-btn" data-plot="${i}">💧 浇水</button>`}</div>`;
+                }).join('')}</div>
+            </div>`;
+            c.querySelectorAll('.gc-plant-btn').forEach(b => b.addEventListener('click', async () => {
+                const plot = b.dataset.plot;
+                const cropId = b.parentElement.querySelector('.gc-plant-select')?.value;
+                const res = await this.api('/farm/plant', { method:'POST', body: JSON.stringify({ plotIndex: parseInt(plot), cropId: parseInt(cropId) }) });
+                this.toast(res.message||'种植失败'); this.renderFarm();
+            }));
+            c.querySelectorAll('.gc-harvest-btn').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/farm/harvest', { method:'POST', body: JSON.stringify({ plotIndex: parseInt(b.dataset.plot) }) });
+                this.toast(res.message||'收获失败'); this.renderFarm();
+            }));
+            c.querySelectorAll('.gc-water-btn').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/farm/water', { method:'POST', body: JSON.stringify({ plotIndex: parseInt(b.dataset.plot) }) });
+                this.toast(res.message||'浇水失败'); this.renderFarm();
+            }));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 🗺️ 冒险地图 ===
+    async renderAdventure() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/adventure');
+            c.innerHTML = `<div class="gc-adventure">
+                <h2>🗺️ 冒险地图</h2>
+                <div class="gc-adventure-progress">📍 当前: 第${data.currentStage}关 | 🏆 最高: 第${data.maxStage}关 | 🔥 总探险: ${data.totalRuns||0}次</div>
+                <div class="gc-adventure-map">${(data.stages||[]).map(s => {
+                    const status = s.id < data.currentStage ? 'completed' : s.id === data.currentStage ? 'current' : 'locked';
+                    return `<div class="gc-stage gc-stage-${status}" data-id="${s.id}">
+                        <span class="gc-stage-emoji">${status==='locked'?'🔒':s.emoji}</span>
+                        <span class="gc-stage-name">${esc(s.name)}</span>
+                        <small>难度${'⭐'.repeat(s.difficulty)} | 💰${s.reward} | ⚡${s.energy}</small>
+                        ${status==='current'?`<button class="gc-btn gc-btn-primary gc-explore-btn">⚔️ 探险</button>`:''}
+                    </div>`;
+                }).join('')}</div>
+                <div id="gcAdvResult"></div>
+            </div>`;
+            c.querySelector('.gc-explore-btn')?.addEventListener('click', async () => {
+                const btn = c.querySelector('.gc-explore-btn');
+                btn.disabled = true; btn.textContent = '探险中...';
+                const res = await this.api('/adventure/explore', { method:'POST' });
+                const el = document.getElementById('gcAdvResult');
+                el.innerHTML = `<div class="gc-adv-result gc-animate-pop ${res.success?'gc-correct':'gc-wrong'}">
+                    <div>${res.message}</div>
+                    ${res.event?`<div class="gc-adv-event">${esc(res.event.text)}</div>`:''}
+                    ${res.bonusCoins>0?`<div>+${res.bonusCoins}🪙</div>`:''}
+                    ${res.energyChange>0?`<div>+${res.energyChange}⚡</div>`:''}
+                </div>`;
+                this.toast(res.message);
+                setTimeout(()=>this.renderAdventure(), 2000);
+            });
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === ⚔️ 宠物对战 ===
+    async renderPetBattle() {
+        const c = document.getElementById('gcContent');
+        try {
+            const [petData, history] = await Promise.all([this.api('/pet'), this.api('/pet/battle-history')]);
+            if (!petData.pet) { c.innerHTML = '<p class="gc-empty">请先领养宠物</p>'; return; }
+            const pet = petData.pet;
+            c.innerHTML = `<div class="gc-petbattle">
+                <h2>⚔️ 宠物对战</h2>
+                <div class="gc-pb-stats">${this.getSpeciesEmoji(pet.species)} ${esc(pet.name)} Lv.${pet.level} | 战力: ${pet.level*10+Math.round(pet.mood*0.5+pet.hunger*0.3)}</div>
+                <div class="gc-pb-form">
+                    <label>对手用户ID: <input id="gcPbOpp" class="gc-input" type="number"></label>
+                    <button id="gcPbFightBtn" class="gc-btn gc-btn-primary">⚔️ 发起对战</button>
+                </div>
+                <div id="gcPbResult"></div>
+                <h3>📜 对战记录</h3>
+                <div class="gc-pb-history">${(history.battles||[]).map(b => {
+                    const won = b.winner_id === this.user.id;
+                    return `<div class="gc-pb-record ${won?'gc-win':'gc-lose'}">${won?'✅胜':'❌负'} vs ${esc(b.defender_name||b.challenger_name)} | ${new Date(b.created_at).toLocaleString()}</div>`;
+                }).join('')||'<p class="gc-empty">暂无记录</p>'}</div>
+            </div>`;
+            document.getElementById('gcPbFightBtn')?.addEventListener('click', async () => {
+                const oppId = parseInt(document.getElementById('gcPbOpp')?.value);
+                if (!oppId) { this.toast('请输入对手ID'); return; }
+                const res = await this.api('/pet/battle', { method:'POST', body: JSON.stringify({ opponentId: oppId }) });
+                const el = document.getElementById('gcPbResult');
+                el.innerHTML = `<div class="gc-pb-result gc-animate-pop ${res.won?'gc-correct':'gc-wrong'}">
+                    ${res.won?'🎉 胜利！':'😔 失败...'}<br>
+                    你的战力: ${res.myPower} | 对手战力: ${res.oppPower}<br>
+                    ${res.won?`+${res.coinReward}🪙 +${res.expGain}EXP`:``+res.expGain+`EXP`}
+                </div>`;
+                this.toast(res.won?'🎉 对战胜利！':'😔 对战失败');
+            });
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 💍 婚姻 ===
+    async renderMarriage() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/marriage/status');
+            c.innerHTML = `<div class="gc-marriage">
+                <h2>💍 婚姻系统</h2>
+                ${data.marriage ? `<div class="gc-married-card">
+                    <h3>💍 已结婚</h3><p>与 ${esc(data.marriage.partner1_name===this.user?.username?data.marriage.partner2_name:data.marriage.partner1_name)} 缔结良缘</p>
+                    <small>${data.marriage.married_at ? new Date(data.marriage.married_at).toLocaleDateString() : ''}</small>
+                    <button id="gcDivorceBtn" class="gc-btn" style="margin-top:10px">💔 离婚</button>
+                </div>` : `<div class="gc-marriage-form">
+                    <p>你还没有结婚 💔</p><label>对方用户ID: <input id="gcMarryId" class="gc-input" type="number"></label>
+                    <button id="gcProposeBtn" class="gc-btn gc-btn-primary">💍 求婚(50🪙)</button>
+                </div>`}
+                ${(data.proposals||[]).length > 0 ? `<div class="gc-proposals"><h3>💌 求婚请求</h3>${data.proposals.map(p => `<div class="gc-proposal-card">${esc(p.proposer_name)} 向你求婚！<button class="gc-btn gc-btn-primary gc-accept-prop" data-id="${p.id}">接受</button> <button class="gc-btn gc-reject-prop" data-id="${p.id}">拒绝</button></div>`).join('')}</div>` : ''}
+            </div>`;
+            document.getElementById('gcProposeBtn')?.addEventListener('click', async () => {
+                const id = parseInt(document.getElementById('gcMarryId')?.value);
+                if (!id) return;
+                const res = await this.api('/marriage/propose', { method:'POST', body: JSON.stringify({ partnerId: id }) });
+                this.toast(res.message||'求婚失败');
+            });
+            document.getElementById('gcDivorceBtn')?.addEventListener('click', async () => {
+                if (!confirm('确定离婚？')) return;
+                const res = await this.api('/marriage/divorce', { method:'POST' });
+                this.toast(res.message||'离婚失败'); this.renderMarriage();
+            });
+            c.querySelectorAll('.gc-accept-prop').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/marriage/respond', { method:'POST', body: JSON.stringify({ marriageId: parseInt(b.dataset.id), accept: true }) });
+                this.toast(res.message||'操作失败'); this.renderMarriage();
+            }));
+            c.querySelectorAll('.gc-reject-prop').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/marriage/respond', { method:'POST', body: JSON.stringify({ marriageId: parseInt(b.dataset.id), accept: false }) });
+                this.toast(res.message||'操作失败'); this.renderMarriage();
+            }));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 📜 师徒 ===
+    async renderMentorship() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/mentorship/status');
+            c.innerHTML = `<div class="gc-mentorship">
+                <h2>📜 师徒系统</h2>
+                ${data.asApprentice ? `<div class="gc-mentor-card">👨‍🏫 你的导师: <strong>${esc(data.asApprentice.mentor_name)}</strong></div>` : '<p>你还没有导师</p>'}
+                ${data.asMentor?.length ? `<div class="gc-apprentice-list"><h3>你的徒弟</h3>${data.asMentor.map(a => `<div class="gc-apprentice-item">🧑‍🎓 ${esc(a.apprentice_name)}</div>`).join('')}</div>` : ''}
+                <button id="gcDailyBonusBtn" class="gc-btn gc-btn-primary" style="margin:12px 0">🎁 领取师徒每日奖励(5🪙)</button>
+                ${(data.asMentor||[]).length < 3 && !data.asApprentice ? `<div class="gc-mentor-form"><input id="gcMentorId" class="gc-input" type="number" placeholder="导师用户ID"><button id="gcMentorReqBtn" class="gc-btn">📤 拜师</button></div>` : ''}
+                ${(data.requests||[]).length ? `<h3>📥 拜师请求</h3>${data.requests.map(r => `<div class="gc-req-item">${esc(r.username)} 想拜你为师 <button class="gc-btn-sm gc-accept-mentor" data-id="${r.id}">接受</button> <button class="gc-btn-sm gc-reject-mentor" data-id="${r.id}">拒绝</button></div>`).join('')}` : ''}
+            </div>`;
+            document.getElementById('gcDailyBonusBtn')?.addEventListener('click', async () => {
+                const res = await this.api('/mentorship/daily-bonus', { method:'POST' });
+                this.toast(res.message||'领取失败');
+            });
+            document.getElementById('gcMentorReqBtn')?.addEventListener('click', async () => {
+                const id = parseInt(document.getElementById('gcMentorId')?.value);
+                if (!id) return;
+                const res = await this.api('/mentorship/request', { method:'POST', body: JSON.stringify({ mentorId: id }) });
+                this.toast(res.message||'请求失败');
+            });
+            c.querySelectorAll('.gc-accept-mentor').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/mentorship/respond', { method:'POST', body: JSON.stringify({ requestId: parseInt(b.dataset.id), accept: true }) });
+                this.toast(res.message||'操作失败'); this.renderMentorship();
+            }));
+            c.querySelectorAll('.gc-reject-mentor').forEach(b => b.addEventListener('click', async () => {
+                const res = await this.api('/mentorship/respond', { method:'POST', body: JSON.stringify({ requestId: parseInt(b.dataset.id), accept: false }) });
+                this.toast(res.message||'操作失败'); this.renderMentorship();
+            }));
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
+    }
+
+    // === 🃏 刮刮乐 ===
+    renderScratch() {
+        const c = document.getElementById('gcContent');
+        c.innerHTML = `<div class="gc-scratch">
+            <h2>🃏 刮刮乐</h2><p>10🪙一张，3个相同符号即中奖！</p>
+            <button id="gcScratchBuy" class="gc-btn gc-btn-primary gc-btn-lg">🃏 买一张(10🪙)</button>
+            <div id="gcScratchGrid"></div>
+            <div id="gcScratchResult"></div>
+        </div>`;
+        document.getElementById('gcScratchBuy')?.addEventListener('click', async () => {
+            const btn = document.getElementById('gcScratchBuy');
+            btn.disabled = true;
+            const res = await this.api('/scratch/buy', { method:'POST' });
+            btn.disabled = false;
+            if (res.grid) {
+                const grid = document.getElementById('gcScratchGrid');
+                grid.innerHTML = `<div class="gc-scratch-grid">${res.grid.map((cell,i) => `<div class="gc-scratch-cell" data-revealed="false" data-i="${i}">❓</div>`).join('')}</div>`;
+                grid.querySelectorAll('.gc-scratch-cell').forEach(cell => {
+                    cell.addEventListener('click', () => {
+                        if (cell.dataset.revealed === 'true') return;
+                        cell.dataset.revealed = 'true';
+                        const i = parseInt(cell.dataset.i);
+                        const c = res.grid[i];
+                        cell.textContent = c.symbol;
+                        cell.classList.add('gc-revealed');
+                        const allRevealed = grid.querySelectorAll('.gc-scratch-cell[data-revealed="true"]').length === 9;
+                        if (allRevealed) {
+                            document.getElementById('gcScratchResult').innerHTML = `<div class="gc-scratch-result gc-animate-pop">${res.message}</div>`;
+                            this.toast(res.message);
+                            this.loadOverview(); this.updateBalanceBar();
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    // === 🎲 摇骰子 ===
+    renderDice() {
+        const c = document.getElementById('gcContent');
+        c.innerHTML = `<div class="gc-dice">
+            <h2>🎲 掷骰子</h2>
+            <div class="gc-dice-form">
+                <label>押注: <input id="gcDiceBet" class="gc-input" type="number" value="5" min="1" max="100" style="width:80px">🪙</label>
+                <label>猜测:</label>
+                <div class="gc-dice-choices">
+                    <button class="gc-btn gc-dice-choice" data-guess="big">大 (≥11)</button>
+                    <button class="btn gc-dice-choice" data-guess="small">小 (≤10)</button>
+                    <button class="gc-btn gc-dice-choice" data-guess="triple">豹子 x24</button>
+                    <button class="gc-btn gc-dice-choice" data-guess="1">⚀</button>
+                    <button class="gc-btn gc-dice-choice" data-guess="2">⚁</button>
+                    <button class="gc-btn gc-dice-choice" data-guess="3">⚂</button>
+                    <button class="gc-btn gc-dice-choice" data-guess="4">⚃</button>
+                    <button class="gc-btn gc-dice-choice" data-guess="5">⚄</button>
+                    <button class="gc-btn gc-dice-choice" data-guess="6">⚅</button>
+                </div>
+            </div>
+            <div id="gcDiceResult"></div>
+        </div>`;
+        let selectedGuess = 'big';
+        c.querySelectorAll('.gc-dice-choice').forEach(b => {
+            b.addEventListener('click', () => {
+                c.querySelectorAll('.gc-dice-choice').forEach(x => x.classList.remove('gc-btn-primary'));
+                b.classList.add('gc-btn-primary');
+                selectedGuess = b.dataset.guess;
+            });
+        });
+        // auto-roll on choice
+        c.querySelectorAll('.gc-dice-choice').forEach(b => b.addEventListener('click', async () => {
+            const bet = parseInt(document.getElementById('gcDiceBet')?.value)||5;
+            const res = await this.api('/dice/roll', { method:'POST', body: JSON.stringify({ bet, guess: selectedGuess }) });
+            const el = document.getElementById('gcDiceResult');
+            el.innerHTML = `<div class="gc-dice-result gc-animate-pop ${res.won?'gc-correct':'gc-wrong'}">
+                <div class="gc-dice-display">${res.diceEmoji||''}</div>
+                <div>总和: ${res.total} ${res.isTriple?'🔥 豹子！':''}</div>
+                <div>${res.message}</div>
+            </div>`;
+            this.toast(res.message);
+            if (res.won) { await this.loadOverview(); this.updateBalanceBar(); }
+        }));
+    }
+
+    // === 🍀 幸运数字 ===
+    renderLuckyNum() {
+        const c = document.getElementById('gcContent');
+        c.innerHTML = `<div class="gc-luckynum">
+            <h2>🍀 幸运数字</h2>
+            <p>每天猜一个0-99的数字，越接近奖励越多！</p>
+            <div class="gc-luckynum-form">
+                <input id="gcLuckyNum" class="gc-input" type="number" min="0" max="99" placeholder="0-99" style="width:120px;font-size:24px;text-align:center">
+                <button id="gcLuckyGuess" class="gc-btn gc-btn-primary gc-btn-lg">🍀 猜！</button>
+            </div>
+            <div id="gcLuckyResult"></div>
+            <div class="gc-luckynum-rewards">
+                <h3>🎁 奖励表</h3>
+                <div>🎯 完全命中: +100🪙</div>
+                <div>🔥 差2以内: +30🪙</div>
+                <div>😊 差5以内: +10🪙</div>
+                <div>👍 差10以内: +3🪙</div>
+            </div>
+        </div>`;
+        document.getElementById('gcLuckyGuess')?.addEventListener('click', async () => {
+            const num = parseInt(document.getElementById('gcLuckyNum')?.value);
+            if (isNaN(num)||num<0||num>99) { this.toast('请输入0-99'); return; }
+            const res = await this.api('/lucky-number/guess', { method:'POST', body: JSON.stringify({ number: num }) });
+            const el = document.getElementById('gcLuckyResult');
+            el.innerHTML = `<div class="gc-lucky-result gc-animate-pop ${res.reward>0?'gc-correct':'gc-wrong'}">
+                <div>今日幸运数字: <strong>${res.luckyNumber}</strong></div>
+                <div>你猜的: <strong>${num}</strong> | 差距: ${res.diff}</div>
+                <div>${res.message}</div>
+            </div>`;
+            this.toast(res.message);
+        });
+    }
+
+    // === 🔮 每日运势 ===
+    async renderFortune() {
+        const c = document.getElementById('gcContent');
+        try {
+            const data = await this.api('/fortune');
+            const f = data.fortune;
+            c.innerHTML = `<div class="gc-fortune">
+                <h2>🔮 每日运势</h2>
+                ${f ? `<div class="gc-fortune-card gc-animate-pop">
+                    <div class="gc-fortune-level">${f.emoji} ${esc(f.level)}</div>
+                    <div class="gc-fortune-text">${esc(f.text)}</div>
+                    <div class="gc-fortune-details">
+                        <div>幸运色: ${f.lucky_color}</div>
+                        <div>幸运数字: ${f.lucky_number}</div>
+                        <div>运势倍率: x${f.luck}</div>
+                    </div>
+                </div>` : '<p class="gc-empty">获取运势失败</p>'}
+            </div>`;
+        } catch(e) { c.innerHTML = '<p class="gc-error">加载失败</p>'; }
     }
 
     toast(msg) {
