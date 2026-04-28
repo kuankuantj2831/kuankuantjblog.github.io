@@ -193,6 +193,21 @@
         </div>
     </div>
 
+    <script>
+    // Inline bootstrap - ensure page works even if external JS is cached
+    (function(){
+        console.log('[wechat] inline bootstrap running');
+        function loadScript(src) {
+            var s = document.createElement('script');
+            s.src = src;
+            s.onerror = function(){ console.error('[wechat] failed to load: ' + src); };
+            document.body.appendChild(s);
+        }
+        // Try loading with cache-bust, fallback to without
+        var v = 'v=' + Date.now();
+        loadScript('js/wechat-article.js?' + v);
+    })();
+    </script>
     <script src="js/wechat-article.js?v=20260428b"></script>
 </body>
 </html>
