@@ -1,13 +1,9 @@
-/**
- * 微信公众号文章页面交互脚本
- * 支持手机版和iPad版
- */
-
 const WechatArticle = {
     state: {
         isFollowed: false,
         isLiked: false,
         isDisliked: false,
+        isCollected: false,
         fontSize: 'medium',
         nightMode: false,
         readCount: 0,
@@ -20,75 +16,97 @@ const WechatArticle = {
         this.loadUserPreferences();
         this.trackReadTime();
         this.initLazyImages();
+        this.initReadingProgress();
+        this.applyFontClass();
     },
 
     bindEvents() {
-        const elements = {
-            backBtn: document.querySelector('.back-btn'),
-            moreBtn: document.querySelector('.more-btn'),
-            followBtn: document.querySelectorAll('.follow-btn, .follow-btn-small'),
-            voteBtns: document.querySelectorAll('.vote-btn'),
-            shareBtn: document.querySelector('.share-btn'),
-            moreFooterBtn: document.querySelector('.more-footer-btn'),
-            navIconBtns: document.querySelectorAll('.nav-icon-btn'),
-            navActionBtn: document.querySelector('.nav-action-btn'),
-            closeBtn: document.querySelector('.close-btn'),
-            fontBtns: document.querySelectorAll('.font-btn'),
-            toggleBtn: document.querySelector('[data-toggle="night-mode"]'),
-            cancelComment: document.querySelector('.cancel-comment'),
-            submitComment: document.querySelector('.submit-comment')
-        };
+        const $ = (sel) => document.querySelector(sel);
+        const $$ = (sel) => document.querySelectorAll(sel);
 
-        if (elements.backBtn) {
-            elements.backBtn.addEventListener('click', () => this.goBack());
+        const backBtn = $('.back-btn');
+        const moreBtn = $('.more-btn');
+        const followBtn = $('#follow-btn');
+        const actionBtns = $$('.action-btn');
+        const shareBtn = $('#share-btn');
+        const collectBtn = $('#collect-btn');
+        const navIconBtns = $$('.nav-icon-btn');
+        const navActionBtn = $('.nav-action-btn');
+        const closeBtn = $('.close-btn');
+        const fontBtns = $$('.font-btn');
+        const toggleSwitch = $('.toggle-switch');
+        const cancelComment = $('.cancel-comment');
+        const submitComment = $('.submit-comment');
+        const modalOverlay = $('.modal-overlay');
+        const sheetOverlay = $('.sheet-overlay');
+        const sheetCancel = $('.sheet-cancel');
+
+        if (backBtn) {
+            backBtn.addEventListener('click', () => this.goBack());
         }
 
-        if (elements.moreBtn) {
-            elements.moreBtn.addEventListener('click', () => this.showMoreOptions());
+        if (moreBtn) {
+            moreBtn.addEventListener('click', () => this.showMoreOptions());
         }
 
-        elements.followBtn.forEach(btn => {
-            btn.addEventListener('click', (e) => this.toggleFollow(e.target));
+        if (followBtn) {
+            followBtn.addEventListener('click', () => this.toggleFollow());
+        }
+
+        actionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const action = btn.dataset.action;
+                if (action === 'like') this.handleVote('like');
+                else if (action === 'dislike') this.handleVote('dislike');
+            });
         });
 
-        elements.voteBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => this.handleVote(e.currentTarget));
+        if (shareBtn) {
+            shareBtn.addEventListener('click', () => this.shareArticle());
+        }
+
+        if (collectBtn) {
+            collectBtn.addEventListener('click', () => this.toggleCollect());
+        }
+
+        navIconBtns.forEach(btn => {
+            btn.addEventListener('click', () => this.handleNavAction(btn));
         });
 
-        if (elements.shareBtn) {
-            elements.shareBtn.addEventListener('click', () => this.shareArticle());
+        if (navActionBtn) {
+            navActionBtn.addEventListener('click', () => this.showCommentBox());
         }
 
-        if (elements.moreFooterBtn) {
-            elements.moreFooterBtn.addEventListener('click', () => this.showFooterOptions());
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => this.hideModal());
         }
 
-        elements.navIconBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => this.handleNavAction(e.currentTarget));
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', () => this.hideModal());
+        }
+
+        fontBtns.forEach(btn => {
+            btn.addEventListener('click', () => this.changeFontSize(btn));
         });
 
-        if (elements.navActionBtn) {
-            elements.navActionBtn.addEventListener('click', () => this.showCommentBox());
+        if (toggleSwitch) {
+            toggleSwitch.addEventListener('click', () => this.toggleNightMode());
         }
 
-        if (elements.closeBtn) {
-            elements.closeBtn.addEventListener('click', () => this.hideModal());
+        if (cancelComment) {
+            cancelComment.addEventListener('click', () => this.hideCommentBox());
         }
 
-        elements.fontBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => this.changeFontSize(e.currentTarget));
-        });
-
-        if (elements.toggleBtn) {
-            elements.toggleBtn.addEventListener('click', () => this.toggleNightMode());
+        if (submitComment) {
+            submitComment.addEventListener('click', () => this.submitComment());
         }
 
-        if (elements.cancelComment) {
-            elements.cancelComment.addEventListener('click', () => this.hideCommentBox());
+        if (sheetOverlay) {
+            sheetOverlay.addEventListener('click', () => this.hideSheet());
         }
 
-        if (elements.submitComment) {
-            elements.submitComment.addEventListener('click', () => this.submitComment());
+        if (sheetCancel) {
+            sheetCancel.addEventListener('click', () => this.hideSheet());
         }
     },
 
@@ -101,166 +119,125 @@ const WechatArticle = {
     },
 
     showMoreOptions() {
-        this.showModal('更多选项', [
+        this.showSheet([
             { text: '分享文章', action: () => this.shareArticle() },
             { text: '复制链接', action: () => this.copyLink() },
-            { text: '收藏文章', action: () => this.favoriteArticle() },
-            { text: '调整字体', action: () => this.showSettings() }
+            { text: '收藏文章', action: () => this.toggleCollect() },
+            { text: '阅读设置', action: () => this.showSettings() }
         ]);
     },
 
-    showFooterOptions() {
-        this.showModal('更多', [
-            { text: '举报内容', action: () => this.reportContent() },
-            { text: '不看此作者', action: 
-() => this.blockAuthor() },
-            { text: '调整字体', action: () => this.showSettings() }
-        ]);
-    },
+    showSheet(options) {
+        const sheet = document.getElementById('more-options-sheet');
+        const container = document.getElementById('sheet-options');
+        if (!sheet || !container) return;
 
-    showModal(title, options) {
-        const modal = document.querySelector('.reading-settings') || 
-            this.createSettingsModal();
-        modal.classList.remove('hidden');
-    },
-
-    createSettingsModal() {
-        const existingModal = document.querySelector('.reading-settings');
-        if (existingModal) return existingModal;
-
-        const modal = document.createElement('div');
-        modal.className = 'reading-settings modal';
-        modal.innerHTML = `
-            <div class="modal-header">
-                <h3>阅读设置</h3>
-                <button class="close-btn">✕</button>
-            </div>
-            <div class="modal-body">
-                <div class="setting-group">
-                    <label>字体大小</label>
-                    <div class="font-size-controls">
-                        <button class="font-btn" data-size="small">小</button>
-                        <button class="font-btn active" data-size="medium">中</button>
-                        <button class="font-btn" data-size="large">大</button>
-                    </div>
-                </div>
-                <div class="setting-group">
-                    <label>夜间模式</label>
-                    <button class="toggle-btn" data-toggle="night-mode">
-                        <span class="toggle-icon">🌙</span>
-                        <span class="toggle-text">关闭</span>
-                    </button>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(modal);
-
-        modal.querySelector('.close-btn').addEventListener('click', () => this.hideModal());
-        
-        modal.querySelectorAll('.font-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => this.changeFontSize(e.currentTarget));
+        container.innerHTML = '';
+        options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'sheet-option';
+            btn.textContent = opt.text;
+            btn.addEventListener('click', () => {
+                this.hideSheet();
+                setTimeout(() => opt.action(), 200);
+            });
+            container.appendChild(btn);
         });
-        
-        const toggleBtn = modal.querySelector('[data-toggle="night-mode"]');
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => this.toggleNightMode());
-        }
 
-        return modal;
+        sheet.classList.remove('hidden');
     },
 
-    hideModal() {
-        const modal = document.querySelector('.reading-settings');
-        if (modal) {
-            modal.classList.add('hidden');
-        }
+    hideSheet() {
+        const sheet = document.getElementById('more-options-sheet');
+        if (sheet) sheet.classList.add('hidden');
     },
 
     showSettings() {
-        const modal = this.createSettingsModal();
-        modal.classList.remove('hidden');
+        const modal = document.getElementById('settings-modal');
+        if (modal) modal.classList.remove('hidden');
     },
 
-    toggleFollow(btn) {
-        this.state.isFollowed = !this.state.isFollowed;
-        
-        const followBtns = document.querySelectorAll('.follow-btn, .follow-btn-small');
-        followBtns.forEach(followBtn => {
-            if (this.state.isFollowed) {
-                followBtn.textContent = '已关注';
-                followBtn.classList.add('followed');
-            } else {
-                followBtn.textContent = '关注';
-                followBtn.classList.remove('followed');
-            }
-        });
+    hideModal() {
+        const modal = document.getElementById('settings-modal');
+        if (modal) modal.classList.add('hidden');
+    },
 
+    toggleFollow() {
+        this.state.isFollowed = !this.state.isFollowed;
+        const btn = document.getElementById('follow-btn');
+        if (btn) {
+            btn.textContent = this.state.isFollowed ? '已关注' : '关注';
+            btn.classList.toggle('followed', this.state.isFollowed);
+        }
         this.showToast(this.state.isFollowed ? '关注成功' : '已取消关注');
         this.saveUserPreferences();
     },
 
-    handleVote(btn) {
-        const action = btn.dataset.action;
-        
-        if (action === 'like') {
+    handleVote(type) {
+        if (type === 'like') {
             this.state.isLiked = !this.state.isLiked;
             if (this.state.isDisliked) {
                 this.state.isDisliked = false;
                 this.state.dislikeCount--;
-                this.updateVoteButton('dislike', false);
+                this.updateVoteUI('dislike');
             }
-            if (this.state.isLiked) {
-                this.state.likeCount++;
-            } else {
-                this.state.likeCount--;
-            }
-            this.updateVoteButton('like', this.state.isLiked);
-        } else if (action === 'dislike') {
+            this.state.likeCount += this.state.isLiked ? 1 : -1;
+            this.updateVoteUI('like');
+        } else if (type === 'dislike') {
             this.state.isDisliked = !this.state.isDisliked;
             if (this.state.isLiked) {
                 this.state.isLiked = false;
                 this.state.likeCount--;
-                this.updateVoteButton('like', false);
+                this.updateVoteUI('like');
             }
-            if (this.state.isDisliked) {
-                this.state.dislikeCount++;
-            } else {
-                this.state.dislikeCount--;
-            }
-            this.updateVoteButton('dislike', this.state.isDisliked);
+            this.state.dislikeCount += this.state.isDisliked ? 1 : -1;
+            this.updateVoteUI('dislike');
         }
 
+        this.syncNavLike();
         this.saveUserPreferences();
     },
 
-    updateVoteButton(type, isActive) {
-        const btn = document.querySelector(`.vote-btn.${type}`);
+    updateVoteUI(type) {
+        const isActive = type === 'like' ? this.state.isLiked : this.state.isDisliked;
+        const count = type === 'like' ? this.state.likeCount : this.state.dislikeCount;
+        const btn = document.querySelector(`.action-btn.${type}-btn`);
         if (btn) {
-            if (isActive) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
-            
-            const countSpan = btn.querySelector('.vote-count');
-            if (countSpan) {
-                countSpan.textContent = type === 'like' ? 
-                    this.state.likeCount : this.state.dislikeCount;
+            btn.classList.toggle('active', isActive);
+            const countEl = btn.querySelector('.action-count');
+            if (countEl) {
+                countEl.textContent = count > 0 ? count : (type === 'like' ? '赞' : '踩');
             }
         }
+    },
+
+    syncNavLike() {
+        const navLikeBtn = document.querySelector('.nav-icon-btn[data-action="like"]');
+        if (navLikeBtn) {
+            navLikeBtn.classList.toggle('active', this.state.isLiked);
+        }
+    },
+
+    toggleCollect() {
+        this.state.isCollected = !this.state.isCollected;
+        const btn = document.getElementById('collect-btn');
+        const navCollect = document.querySelector('.nav-icon-btn[data-action="collect"]');
+        if (btn) {
+            btn.classList.toggle('active', this.state.isCollected);
+        }
+        if (navCollect) {
+            navCollect.classList.toggle('active', this.state.isCollected);
+        }
+        this.showToast(this.state.isCollected ? '已收藏' : '已取消收藏');
     },
 
     shareArticle() {
         if (navigator.share) {
             navigator.share({
-                title: '文章标题',
-                text: '文章描述',
+                title: document.getElementById('article-title')?.textContent || '文章',
+                text: document.querySelector('meta[name="description"]')?.content || '',
                 url: window.location.href
-            }).catch(err => {
-                console.log('分享失败:', err);
-                this.copyLink();
-            });
+            }).catch(() => this.copyLink());
         } else {
             this.copyLink();
         }
@@ -292,33 +269,14 @@ const WechatArticle = {
         document.body.removeChild(textArea);
     },
 
-    favoriteArticle() {
-        this.showToast('已收藏文章');
-    },
-
-    reportContent() {
-        this.showToast('举报功能开发中');
-    },
-
-    blockAuthor() {
-        this.showToast('屏蔽功能开发中');
-    },
-
     handleNavAction(btn) {
         const action = btn.dataset.action;
-        
-        document.querySelectorAll('.nav-icon-btn').forEach(b => {
-            b.classList.remove('active');
-        });
-        btn.classList.add('active');
-
         if (action === 'comment') {
             this.showCommentBox();
         } else if (action === 'like') {
-            const likeBtn = document.querySelector('.vote-btn.like');
-            if (likeBtn) {
-                this.handleVote(likeBtn);
-            }
+            this.handleVote('like');
+        } else if (action === 'collect') {
+            this.toggleCollect();
         }
     },
 
@@ -327,9 +285,7 @@ const WechatArticle = {
         if (commentBox) {
             commentBox.classList.remove('hidden');
             const textarea = commentBox.querySelector('.comment-textarea');
-            if (textarea) {
-                textarea.focus();
-            }
+            if (textarea) textarea.focus();
         }
     },
 
@@ -354,38 +310,33 @@ const WechatArticle = {
     changeFontSize(btn) {
         const size = btn.dataset.size;
         this.state.fontSize = size;
-        
+
         document.body.classList.remove('font-small', 'font-medium', 'font-large');
-        document.body.classList.add(`font-${size}`);
+        if (size !== 'medium') {
+            document.body.classList.add(`font-${size}`);
+        }
 
         document.querySelectorAll('.font-btn').forEach(fontBtn => {
-            fontBtn.classList.remove('active');
-            if (fontBtn.dataset.size === size) {
-                fontBtn.classList.add('active');
-            }
+            fontBtn.classList.toggle('active', fontBtn.dataset.size === size);
         });
 
         this.saveUserPreferences();
     },
 
+    applyFontClass() {
+        document.body.classList.remove('font-small', 'font-medium', 'font-large');
+        if (this.state.fontSize !== 'medium') {
+            document.body.classList.add(`font-${this.state.fontSize}`);
+        }
+    },
+
     toggleNightMode() {
         this.state.nightMode = !this.state.nightMode;
-        
         document.body.classList.toggle('night-mode', this.state.nightMode);
-        
-        const toggleBtn = document.querySelector('[data-toggle="night-mode"]');
-        if (toggleBtn) {
-            const icon = toggleBtn.querySelector('.toggle-icon');
-            const text = toggleBtn.querySelector('.toggle-text');
-            if (icon && text) {
-                if (this.state.nightMode) {
-                    icon.textContent = '☀️';
-                    text.textContent = '开启';
-                } else {
-                    icon.textContent = '🌙';
-                    text.textContent = '关闭';
-                }
-            }
+
+        const toggleSwitch = document.querySelector('.toggle-switch');
+        if (toggleSwitch) {
+            toggleSwitch.classList.toggle('active', this.state.nightMode);
         }
 
         this.saveUserPreferences();
@@ -396,40 +347,29 @@ const WechatArticle = {
             const saved = localStorage.getItem('wechat-article-prefs');
             if (saved) {
                 const prefs = JSON.parse(saved);
-                
+
                 if (prefs.fontSize) {
                     this.state.fontSize = prefs.fontSize;
-                    document.body.classList.add(`font-${prefs.fontSize}`);
-                    
+                    this.applyFontClass();
                     document.querySelectorAll('.font-btn').forEach(btn => {
-                        btn.classList.remove('active');
-                        if (btn.dataset.size === prefs.fontSize) {
-                            btn.classList.add('active');
-                        }
+                        btn.classList.toggle('active', btn.dataset.size === prefs.fontSize);
                     });
                 }
-                
+
                 if (prefs.nightMode) {
                     this.state.nightMode = prefs.nightMode;
                     document.body.classList.add('night-mode');
-                    
-                    const toggleBtn = document.querySelector('[data-toggle="night-mode"]');
-                    if (toggleBtn) {
-                        const icon = toggleBtn.querySelector('.toggle-icon');
-                        const text = toggleBtn.querySelector('.toggle-text');
-                        if (icon && text) {
-                            icon.textContent = '☀️';
-                            text.textContent = '开启';
-                        }
-                    }
+                    const toggleSwitch = document.querySelector('.toggle-switch');
+                    if (toggleSwitch) toggleSwitch.classList.add('active');
                 }
-                
+
                 if (prefs.isFollowed) {
                     this.state.isFollowed = prefs.isFollowed;
-                    document.querySelectorAll('.follow-btn, .follow-btn-small').forEach(btn => {
+                    const btn = document.getElementById('follow-btn');
+                    if (btn) {
                         btn.textContent = '已关注';
                         btn.classList.add('followed');
-                    });
+                    }
                 }
             }
         } catch (e) {
@@ -450,30 +390,35 @@ const WechatArticle = {
         }
     },
 
+    initReadingProgress() {
+        const bar = document.getElementById('reading-progress');
+        if (!bar) return;
+
+        const update = () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            bar.style.width = Math.min(progress, 100) + '%';
+        };
+
+        window.addEventListener('scroll', update, { passive: true });
+        update();
+    },
+
     trackReadTime() {
-        let startTime = Date.now();
         let isReading = true;
         let readTime = 0;
 
-        const trackInterval = setInterval(() => {
-            if (isReading) {
-                readTime += 1;
-            }
+        setInterval(() => {
+            if (isReading) readTime += 1;
         }, 1000);
 
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                isReading = false;
-            } else {
-                isReading = true;
-                startTime = Date.now();
-            }
+            isReading = !document.hidden;
         });
 
         window.addEventListener('beforeunload', () => {
-            if (readTime > 0) {
-                this.sendReadingStats(readTime);
-            }
+            if (readTime > 0) this.sendReadingStats(readTime);
         });
     },
 
@@ -504,28 +449,12 @@ const WechatArticle = {
     },
 
     showToast(message) {
-        const existingToast = document.querySelector('.toast');
-        if (existingToast) {
-            existingToast.remove();
-        }
+        const existing = document.querySelector('.toast');
+        if (existing) existing.remove();
 
         const toast = document.createElement('div');
         toast.className = 'toast';
         toast.textContent = message;
-        toast.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            z-index: 3000;
-            animation: fadeIn 0.3s ease;
-        `;
-
         document.body.appendChild(toast);
 
         setTimeout(() => {

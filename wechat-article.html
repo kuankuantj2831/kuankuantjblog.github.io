@@ -5,83 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <title>加载中...</title>
-    
-    <!-- 动态元数据 -->
     <meta name="description" content="">
     <meta property="og:title" content="">
     <meta property="og:description" content="">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
-    
     <link rel="stylesheet" href="css/wechat-article.css">
     <link rel="stylesheet" href="css/tianjg-theme.css">
 </head>
 <body>
-    <!-- 顶部导航栏 -->
+    <div class="reading-progress-bar" id="reading-progress"></div>
+
     <header class="wechat-header">
         <div class="header-left">
-            <button class="back-btn">‹</button>
+            <button class="back-btn" aria-label="返回">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
         </div>
         <div class="header-center">
             <span class="account-name">文章阅读</span>
         </div>
         <div class="header-right">
-            <button class="more-btn">···</button>
+            <button class="more-btn" aria-label="更多">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+            </button>
         </div>
     </header>
 
-    <!-- 加载中 -->
     <div id="loading-state" class="loading-state">
-        <div class="loading-spinner"></div>
+        <div class="loading-spinner">
+            <div class="spinner-dot"></div>
+            <div class="spinner-dot"></div>
+            <div class="spinner-dot"></div>
+        </div>
         <p>正在加载文章...</p>
     </div>
 
-    <!-- 文章主容器 -->
     <main class="article-container" id="article-content" style="display:none;">
-        <!-- 文章标题 -->
-        <h1 class="article-title" id="article-title"></h1>
-
-        <!-- 文章元信息 -->
-        <div class="article-meta" id="article-meta">
-            <span class="author" id="article-author"></span>
-            <span class="publish-time" id="article-date"></span>
-            <span class="read-count" id="article-views"></span>
+        <div class="article-header-section">
+            <h1 class="article-title" id="article-title"></h1>
+            <div class="article-meta" id="article-meta">
+                <div class="meta-author">
+                    <div class="author-avatar" id="author-avatar"></div>
+                    <div class="author-info">
+                        <span class="author" id="article-author"></span>
+                        <span class="publish-time" id="article-date"></span>
+                    </div>
+                </div>
+                <button class="follow-btn" id="follow-btn">关注</button>
+            </div>
         </div>
 
-        <!-- 文章封面图 -->
         <div class="article-cover" id="article-cover" style="display:none;">
             <img id="article-cover-img" alt="文章封面">
         </div>
 
-        <!-- 文章正文 -->
         <article class="article-content" id="article-body">
         </article>
 
-        <!-- 文章标签 -->
         <div class="article-tags" id="article-tags" style="display:none;">
         </div>
 
-        <!-- 文章底部操作栏 -->
-        <div class="article-footer">
-            <div class="footer-left">
-                <div class="vote-buttons">
-                    <button class="vote-btn like" data-action="like">
-                        <span class="vote-icon">👍</span>
-                        <span class="vote-count" id="like-count">0</span>
-                    </button>
-                    <button class="vote-btn dislike" data-action="dislike">
-                        <span class="vote-icon">👎</span>
-                        <span class="vote-count" id="dislike-count">0</span>
-                    </button>
-                </div>
-            </div>
-            <div class="footer-right">
-                <button class="share-btn">分享</button>
-                <button class="more-footer-btn">···</button>
-            </div>
+        <div class="article-divider">
+            <span class="divider-text">END</span>
         </div>
 
-        <!-- 相关推荐 -->
+        <div class="article-actions">
+            <button class="action-btn like-btn" data-action="like">
+                <svg class="action-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                <span class="action-count" id="like-count">赞</span>
+            </button>
+            <button class="action-btn dislike-btn" data-action="dislike">
+                <svg class="action-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+                <span class="action-count" id="dislike-count">踩</span>
+            </button>
+            <button class="action-btn share-action-btn" id="share-btn">
+                <svg class="action-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                <span class="action-text">分享</span>
+            </button>
+            <button class="action-btn collect-btn" id="collect-btn">
+                <svg class="action-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                <span class="action-text">收藏</span>
+            </button>
+        </div>
+
         <div class="related-articles" id="related-articles" style="display:none;">
             <h3 class="related-title">相关推荐</h3>
             <div class="related-list" id="related-list">
@@ -89,24 +96,28 @@
         </div>
     </main>
 
-    <!-- 错误提示 -->
     <div id="error-state" class="error-state" style="display:none;">
-        <div class="error-icon">⚠️</div>
+        <div class="error-illustration">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
         <h3>加载失败</h3>
         <p id="error-message">文章不存在或已被删除</p>
-        <button class="retry-btn" onclick="location.reload()">重试</button>
+        <button class="retry-btn" onclick="location.reload()">点击重试</button>
     </div>
 
-    <!-- 底部导航栏 -->
     <nav class="wechat-footer-nav">
         <div class="nav-left">
             <button class="nav-icon-btn" data-action="comment">
-                <span class="nav-icon">💬</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 <span class="nav-text">留言</span>
             </button>
             <button class="nav-icon-btn" data-action="like">
-                <span class="nav-icon">👍</span>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
                 <span class="nav-text">点赞</span>
+            </button>
+            <button class="nav-icon-btn" data-action="collect">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                <span class="nav-text">收藏</span>
             </button>
         </div>
         <div class="nav-right">
@@ -114,37 +125,55 @@
         </div>
     </nav>
 
-    <!-- 阅读设置弹窗 -->
-    <div class="reading-settings modal hidden">
-        <div class="modal-header">
-            <h3>阅读设置</h3>
-            <button class="close-btn">✕</button>
-        </div>
-        <div class="modal-body">
-            <div class="setting-group">
-                <label>字体大小</label>
-                <div class="font-size-controls">
-                    <button class="font-btn" data-size="small">小</button>
-                    <button class="font-btn active" data-size="medium">中</button>
-                    <button class="font-btn" data-size="large">大</button>
-                </div>
-            </div>
-            <div class="setting-group">
-                <label>夜间模式</label>
-                <button class="toggle-btn" data-toggle="night-mode">
-                    <span class="toggle-icon">🌙</span>
-                    <span class="toggle-text">关闭</span>
+    <div class="reading-settings modal hidden" id="settings-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>阅读设置</h3>
+                <button class="close-btn" aria-label="关闭">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label>字体大小</label>
+                    <div class="font-size-controls">
+                        <button class="font-btn" data-size="small">A<sup>-</sup></button>
+                        <button class="font-btn active" data-size="medium">A</button>
+                        <button class="font-btn" data-size="large">A<sup>+</sup></button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <label>夜间模式</label>
+                    <div class="toggle-switch-wrap">
+                        <span class="toggle-label">护眼暗色</span>
+                        <button class="toggle-switch" data-toggle="night-mode" aria-label="夜间模式开关">
+                            <span class="toggle-track">
+                                <span class="toggle-thumb"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 留言输入框 -->
     <div class="comment-input-box hidden">
-        <textarea class="comment-textarea" placeholder="说点什么..."></textarea>
-        <div class="comment-actions">
-            <button class="cancel-comment">取消</button>
-            <button class="submit-comment">发送</button>
+        <div class="comment-box-inner">
+            <textarea class="comment-textarea" placeholder="说点什么..."></textarea>
+            <div class="comment-actions">
+                <button class="cancel-comment">取消</button>
+                <button class="submit-comment">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="more-options-sheet hidden" id="more-options-sheet">
+        <div class="sheet-overlay"></div>
+        <div class="sheet-content">
+            <div class="sheet-handle"></div>
+            <div class="sheet-options" id="sheet-options"></div>
+            <button class="sheet-cancel">取消</button>
         </div>
     </div>
 
