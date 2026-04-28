@@ -60,7 +60,7 @@ const WechatArticle = {
         const articleId = urlParams.get('id');
 
         if (!articleId) {
-            this.showError('文章ID丢失');
+            this.loadArticleList();
             return;
         }
 
@@ -262,6 +262,143 @@ const WechatArticle = {
             errorEl.style.display = '';
             const msgEl = document.getElementById('error-message');
             if (msgEl) msgEl.textContent = message;
+        }
+    },
+
+    _listPage: 1,
+    _listAllLoaded: false,
+
+    async loadArticleList(keyword) {
+        document.getElementById('loading-state').style.display = 'none';
+
+        const listEl = document.getElementById('article-list');
+        if (!listEl) return;
+        listEl.style.display = '';
+
+        document.querySelector('.account-name').textContent = '文章列表';
+        document.title = '文章列表 - 猫爬架';
+
+        this._listPage = 1;
+        this._listAllLoaded = false;
+        const container = document.getElementById('list-articles');
+        if (container) container.innerHTML = '';
+
+        await this._fetchList(1, keyword);
+
+        const loadMoreBtn = document.getElementById('list-load-more-btn');
+        const searchBtn = document.getElementById('list-search-btn');
+        const searchInput = document.getElementById('list-search-input');
+
+        if (loadMoreBtn && !loadMoreBtn._bound) {
+            loadMoreBtn._bound = true;
+            loadMoreBtn.addEventListener('click', () => {
+                if (!this._listAllLoaded) {
+                    this._fetchList(this._listPage + 1, searchInput ? searchInput.value.trim() : '');
+                }
+            });
+        }
+
+        if (searchBtn && !searchBtn._bound) {
+            searchBtn._bound = true;
+            searchBtn.addEventListener('click', () => {
+                this.loadArticleList(searchInput ? searchInput.value.trim() : '');
+            });
+        }
+
+        if (searchInput && !searchInput._bound) {
+            searchInput._bound = true;
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    this.loadArticleList(searchInput.value.trim());
+                }
+            });
+        }
+    },
+
+    async _fetchList(page, keyword) {
+        const API = this.getApiBase();
+        const container = document.getElementById('list-articles');
+        const loadMoreWrap = document.getElementById('list-load-more');
+        if (!container) return;
+
+        const btn = document.getElementById('list-load-more-btn');
+        if (btn) { btn.textContent = '加载中...'; btn.disabled = true; }
+
+        try {
+            let url;
+            if (keyword) {
+                url = `${API}/articles/search?q=${encodeURIComponent(keyword)}&page=${page}&limit=10`;
+            } else {
+                url = `${API}/articles?page=${page}&limit=10`;
+            }
+
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+            const data = await res.json();
+            const articles = Array.isArray(data) ? data : (data.data || []);
+
+            if (articles.length === 0 && page === 1) {
+                container.innerHTML = '<div class="list-empty">暂无文章</div>';
+                if (loadMoreWrap) loadMoreWrap.style.display = 'none';
+                return;
+            }
+
+            articles.forEach(a => {
+                if (!a || !a.id) return;
+                const card = document.createElement('a');
+                card.className = 'list-article-card';
+                card.href = `?id=${encodeURIComponent(a.id)}`;
+                card.onclick = (e) => {
+                    e.preventDefault();
+                    window.location.href = `?id=${encodeURIComponent(a.id)}`;
+                };
+
+                const safeTitle = this.escapeHtml(a.title || '无标题');
+                const safeCategory = this.escapeHtml(a.category || '');
+                const safeAuthor = this.escapeHtml(a.author_name || '匿名');
+                const safeSummary = this.escapeHtml(a.summary || '');
+                const safeCover = this.sanitizeUrl(a.cover_image || '');
+                const views = a.view_count || 0;
+                let dateStr = '';
+                if (a.created_at) {
+                    try {
+                        dateStr = new Date(a.created_at).toLocaleDateString('zh-CN');
+                    } catch (_) {}
+                }
+
+                const coverHtml = safeCover
+                    ? `<div class="list-article-cover"><img src="${safeCover}" alt="" loading="lazy"></div>`
+                    : '';
+
+                card.innerHTML = `
+                    ${coverHtml}
+                    <div class="list-article-info">
+                        <div class="list-article-title">${safeTitle}</div>
+                        <div class="list-article-meta">
+                            ${safeCategory ? `<span>${safeCategory}</span>` : ''}
+                            <span>${safeAuthor}</span>
+                            <span>${views}阅读</span>
+                            ${dateStr ? `<span>${dateStr}</span>` : ''}
+                        </div>
+                        ${safeSummary ? `<div class="list-article-summary">${safeSummary}</div>` : ''}
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            this._listPage = page;
+            this._listAllLoaded = articles.length < 10;
+            if (loadMoreWrap) loadMoreWrap.style.display = this._listAllLoaded ? 'none' : '';
+
+        } catch (e) {
+            console.error('加载文章列表失败:', e);
+            if (page === 1) {
+                container.innerHTML = '<div class="list-empty">加载失败，请重试</div>';
+            }
+        } finally {
+            if (btn) { btn.textContent = '加载更多'; btn.disabled = false; }
         }
     },
 
