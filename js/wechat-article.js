@@ -14,10 +14,11 @@ const WechatArticle = {
     },
 
     getApiBase() {
-        const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-        return isLocalhost
-            ? 'http://localhost:9000'
-            : 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+        const h = location.hostname;
+        if (h === 'localhost' || h === '127.0.0.1') {
+            return 'http://localhost:9000';
+        }
+        return 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
     },
 
     escapeHtml(str) {
@@ -33,14 +34,33 @@ const WechatArticle = {
     },
 
     init() {
-        this.initCurrentUser();
-        this.bindEvents();
-        this.loadUserPreferences();
-        this.trackReadTime();
-        this.initLazyImages();
-        this.initReadingProgress();
-        this.applyFontClass();
-        this.loadArticle();
+        console.log('[WechatArticle] init started');
+        try {
+            this.initCurrentUser();
+            this.bindEvents();
+            this.loadUserPreferences();
+            this.trackReadTime();
+            this.initLazyImages();
+            this.initReadingProgress();
+            this.applyFontClass();
+        } catch (e) {
+            console.error('[WechatArticle] init error:', e);
+        }
+
+        try {
+            this.loadArticle();
+        } catch (e) {
+            console.error('[WechatArticle] loadArticle error:', e);
+            this.showError('页面加载出错: ' + (e.message || '未知错误'));
+        }
+
+        setTimeout(() => {
+            const loading = document.getElementById('loading-state');
+            if (loading && loading.style.display !== 'none') {
+                console.error('[WechatArticle] timeout - still loading after 12s');
+                this.showError('加载超时，请检查网络连接后刷新页面');
+            }
+        }, 12000);
     },
 
     initCurrentUser() {
@@ -58,6 +78,8 @@ const WechatArticle = {
     async loadArticle() {
         const urlParams = new URLSearchParams(window.location.search);
         const articleId = urlParams.get('id');
+        const API = this.getApiBase();
+        console.log('[WechatArticle] loadArticle, id=', articleId, 'API=', API);
 
         if (!articleId) {
             this.loadArticleList();
@@ -65,15 +87,19 @@ const WechatArticle = {
         }
 
         this.state.articleId = articleId;
-        const API = this.getApiBase();
 
         try {
             let response;
             try {
-                response = await fetch(`${API}/articles/${encodeURIComponent(articleId)}`);
+                const url = `${API}/articles/${encodeURIComponent(articleId)}`;
+                console.log('[WechatArticle] fetching:', url);
+                response = await fetch(url);
             } catch (networkError) {
+                console.error('[WechatArticle] network error:', networkError);
                 throw new Error('网络连接失败，请检查网络后重试');
             }
+
+            console.log('[WechatArticle] response status:', response.status);
 
             if (!response.ok) {
                 if (response.status === 404) throw new Error('文章不存在或已被删除');
@@ -84,6 +110,7 @@ const WechatArticle = {
             try {
                 data = await response.json();
             } catch (parseError) {
+                console.error('[WechatArticle] JSON parse error:', parseError);
                 throw new Error('服务器返回了无效的数据格式');
             }
 
@@ -97,6 +124,7 @@ const WechatArticle = {
             this.renderArticle(article);
             this.loadInteractions(articleId);
         } catch (error) {
+            console.error('[WechatArticle] loadArticle failed:', error);
             this.showError(error.message || '加载失败');
         }
     },
@@ -256,7 +284,8 @@ const WechatArticle = {
     },
 
     showError(message) {
-        document.getElementById('loading-state').style.display = 'none';
+        const loading = document.getElementById('loading-state');
+        if (loading) loading.style.display = 'none';
         const errorEl = document.getElementById('error-state');
         if (errorEl) {
             errorEl.style.display = '';
@@ -269,13 +298,19 @@ const WechatArticle = {
     _listAllLoaded: false,
 
     async loadArticleList(keyword) {
-        document.getElementById('loading-state').style.display = 'none';
+        const loading = document.getElementById('loading-state');
+        if (loading) loading.style.display = 'none';
 
         const listEl = document.getElementById('article-list');
-        if (!listEl) return;
+        if (!listEl) {
+            console.error('[WechatArticle] article-list element not found');
+            this.showError('页面结构异常');
+            return;
+        }
         listEl.style.display = '';
 
-        document.querySelector('.account-name').textContent = '文章列表';
+        const nameEl = document.querySelector('.account-name');
+        if (nameEl) nameEl.textContent = '文章列表';
         document.title = '文章列表 - 猫爬架';
 
         this._listPage = 1;
@@ -332,7 +367,10 @@ const WechatArticle = {
                 url = `${API}/articles?page=${page}&limit=10`;
             }
 
+            console.log('[WechatArticle] fetching list:', url);
             const res = await fetch(url);
+            console.log('[WechatArticle] list response:', res.status);
+
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
             const data = await res.json();
@@ -362,9 +400,7 @@ const WechatArticle = {
                 const views = a.view_count || 0;
                 let dateStr = '';
                 if (a.created_at) {
-                    try {
-                        dateStr = new Date(a.created_at).toLocaleDateString('zh-CN');
-                    } catch (_) {}
+                    try { dateStr = new Date(a.created_at).toLocaleDateString('zh-CN'); } catch (_) {}
                 }
 
                 const coverHtml = safeCover
@@ -393,9 +429,9 @@ const WechatArticle = {
             if (loadMoreWrap) loadMoreWrap.style.display = this._listAllLoaded ? 'none' : '';
 
         } catch (e) {
-            console.error('加载文章列表失败:', e);
+            console.error('[WechatArticle] 加载文章列表失败:', e);
             if (page === 1) {
-                container.innerHTML = '<div class="list-empty">加载失败，请重试</div>';
+                container.innerHTML = `<div class="list-empty">加载失败: ${this.escapeHtml(e.message || '未知错误')}<br><button onclick="location.reload()" style="margin-top:12px;padding:8px 20px;border:none;background:#07c160;color:#fff;border-radius:20px;font-size:14px;">重试</button></div>`;
             }
         } finally {
             if (btn) { btn.textContent = '加载更多'; btn.disabled = false; }
@@ -403,58 +439,62 @@ const WechatArticle = {
     },
 
     bindEvents() {
-        const $ = (sel) => document.querySelector(sel);
-        const $$ = (sel) => document.querySelectorAll(sel);
+        try {
+            const $ = (sel) => document.querySelector(sel);
+            const $$ = (sel) => document.querySelectorAll(sel);
 
-        const backBtn = $('.back-btn');
-        const moreBtn = $('.more-btn');
-        const followBtn = $('#follow-btn');
-        const actionBtns = $$('.action-btn');
-        const shareBtn = $('#share-btn');
-        const collectBtn = $('#collect-btn');
-        const navIconBtns = $$('.nav-icon-btn');
-        const navActionBtn = $('.nav-action-btn');
-        const closeBtn = $('.close-btn');
-        const fontBtns = $$('.font-btn');
-        const toggleSwitch = $('.toggle-switch');
-        const cancelComment = $('.cancel-comment');
-        const submitComment = $('.submit-comment');
-        const modalOverlay = $('.modal-overlay');
-        const sheetOverlay = $('.sheet-overlay');
-        const sheetCancel = $('.sheet-cancel');
+            const backBtn = $('.back-btn');
+            const moreBtn = $('.more-btn');
+            const followBtn = $('#follow-btn');
+            const actionBtns = $$('.action-btn');
+            const shareBtn = $('#share-btn');
+            const collectBtn = $('#collect-btn');
+            const navIconBtns = $$('.nav-icon-btn');
+            const navActionBtn = $('.nav-action-btn');
+            const closeBtn = $('.close-btn');
+            const fontBtns = $$('.font-btn');
+            const toggleSwitch = $('.toggle-switch');
+            const cancelComment = $('.cancel-comment');
+            const submitComment = $('.submit-comment');
+            const modalOverlay = $('.modal-overlay');
+            const sheetOverlay = $('.sheet-overlay');
+            const sheetCancel = $('.sheet-cancel');
 
-        if (backBtn) backBtn.addEventListener('click', () => this.goBack());
-        if (moreBtn) moreBtn.addEventListener('click', () => this.showMoreOptions());
-        if (followBtn) followBtn.addEventListener('click', () => this.toggleFollow());
+            if (backBtn) backBtn.addEventListener('click', () => this.goBack());
+            if (moreBtn) moreBtn.addEventListener('click', () => this.showMoreOptions());
+            if (followBtn) followBtn.addEventListener('click', () => this.toggleFollow());
 
-        actionBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const action = btn.dataset.action;
-                if (action === 'like') this.handleVote('like');
-                else if (action === 'dislike') this.handleVote('dislike');
+            actionBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const action = btn.dataset.action;
+                    if (action === 'like') this.handleVote('like');
+                    else if (action === 'dislike') this.handleVote('dislike');
+                });
             });
-        });
 
-        if (shareBtn) shareBtn.addEventListener('click', () => this.shareArticle());
-        if (collectBtn) collectBtn.addEventListener('click', () => this.toggleCollect());
+            if (shareBtn) shareBtn.addEventListener('click', () => this.shareArticle());
+            if (collectBtn) collectBtn.addEventListener('click', () => this.toggleCollect());
 
-        navIconBtns.forEach(btn => {
-            btn.addEventListener('click', () => this.handleNavAction(btn));
-        });
+            navIconBtns.forEach(btn => {
+                btn.addEventListener('click', () => this.handleNavAction(btn));
+            });
 
-        if (navActionBtn) navActionBtn.addEventListener('click', () => this.showCommentBox());
-        if (closeBtn) closeBtn.addEventListener('click', () => this.hideModal());
-        if (modalOverlay) modalOverlay.addEventListener('click', () => this.hideModal());
+            if (navActionBtn) navActionBtn.addEventListener('click', () => this.showCommentBox());
+            if (closeBtn) closeBtn.addEventListener('click', () => this.hideModal());
+            if (modalOverlay) modalOverlay.addEventListener('click', () => this.hideModal());
 
-        fontBtns.forEach(btn => {
-            btn.addEventListener('click', () => this.changeFontSize(btn));
-        });
+            fontBtns.forEach(btn => {
+                btn.addEventListener('click', () => this.changeFontSize(btn));
+            });
 
-        if (toggleSwitch) toggleSwitch.addEventListener('click', () => this.toggleNightMode());
-        if (cancelComment) cancelComment.addEventListener('click', () => this.hideCommentBox());
-        if (submitComment) submitComment.addEventListener('click', () => this.submitComment());
-        if (sheetOverlay) sheetOverlay.addEventListener('click', () => this.hideSheet());
-        if (sheetCancel) sheetCancel.addEventListener('click', () => this.hideSheet());
+            if (toggleSwitch) toggleSwitch.addEventListener('click', () => this.toggleNightMode());
+            if (cancelComment) cancelComment.addEventListener('click', () => this.hideCommentBox());
+            if (submitComment) submitComment.addEventListener('click', () => this.submitComment());
+            if (sheetOverlay) sheetOverlay.addEventListener('click', () => this.hideSheet());
+            if (sheetCancel) sheetCancel.addEventListener('click', () => this.hideSheet());
+        } catch (e) {
+            console.error('[WechatArticle] bindEvents error:', e);
+        }
     },
 
     goBack() {
@@ -763,18 +803,22 @@ const WechatArticle = {
     },
 
     initReadingProgress() {
-        const bar = document.getElementById('reading-progress');
-        if (!bar) return;
+        try {
+            const bar = document.getElementById('reading-progress');
+            if (!bar) return;
 
-        const update = () => {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            bar.style.width = Math.min(progress, 100) + '%';
-        };
+            const update = () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                bar.style.width = Math.min(progress, 100) + '%';
+            };
 
-        window.addEventListener('scroll', update, { passive: true });
-        update();
+            window.addEventListener('scroll', update, { passive: true });
+            update();
+        } catch (e) {
+            console.error('[WechatArticle] initReadingProgress error:', e);
+        }
     },
 
     trackReadTime() {
@@ -799,24 +843,28 @@ const WechatArticle = {
     },
 
     initLazyImages() {
-        if ('IntersectionObserver' in window) {
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        const src = img.getAttribute('data-src');
-                        if (src) {
-                            img.src = src;
-                            img.removeAttribute('data-src');
+        try {
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            const src = img.getAttribute('data-src');
+                            if (src) {
+                                img.src = src;
+                                img.removeAttribute('data-src');
+                            }
+                            observer.unobserve(img);
                         }
-                        observer.unobserve(img);
-                    }
+                    });
                 });
-            });
 
-            document.querySelectorAll('img[data-src]').forEach(img => {
-                imageObserver.observe(img);
-            });
+                document.querySelectorAll('img[data-src]').forEach(img => {
+                    imageObserver.observe(img);
+                });
+            }
+        } catch (e) {
+            console.error('[WechatArticle] initLazyImages error:', e);
         }
     },
 
@@ -837,10 +885,20 @@ const WechatArticle = {
     }
 };
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => WechatArticle.init());
-} else {
-    WechatArticle.init();
+try {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => WechatArticle.init());
+    } else {
+        WechatArticle.init();
+    }
+    window.WechatArticle = WechatArticle;
+} catch (e) {
+    console.error('[WechatArticle] fatal error:', e);
+    document.getElementById('loading-state') && (document.getElementById('loading-state').style.display = 'none');
+    const err = document.getElementById('error-state');
+    if (err) {
+        err.style.display = '';
+        const msg = document.getElementById('error-message');
+        if (msg) msg.textContent = '页面初始化失败: ' + (e.message || '');
+    }
 }
-
-window.WechatArticle = WechatArticle;
