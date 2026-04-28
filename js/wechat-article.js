@@ -7,17 +7,262 @@ const WechatArticle = {
         fontSize: 'medium',
         nightMode: false,
         readCount: 0,
-        likeCount: 128,
-        dislikeCount: 5
+        likeCount: 0,
+        dislikeCount: 0,
+        articleId: null,
+        currentUser: null
+    },
+
+    getApiBase() {
+        const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+        return isLocalhost
+            ? 'http://localhost:9000'
+            : 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+    },
+
+    escapeHtml(str) {
+        if (!str || typeof str !== 'string') return '';
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    },
+
+    sanitizeUrl(url) {
+        if (!url || typeof url !== 'string') return '';
+        const s = String(url).trim();
+        if (s.startsWith('http://') || s.startsWith('https://') || s.startsWith('/')) return s;
+        return '';
     },
 
     init() {
+        this.initCurrentUser();
         this.bindEvents();
         this.loadUserPreferences();
         this.trackReadTime();
         this.initLazyImages();
         this.initReadingProgress();
         this.applyFontClass();
+        this.loadArticle();
+    },
+
+    initCurrentUser() {
+        try {
+            const userJson = localStorage.getItem('user');
+            if (userJson) {
+                const user = JSON.parse(userJson);
+                if (user && user.id) this.state.currentUser = user;
+            }
+        } catch (e) {
+            this.state.currentUser = null;
+        }
+    },
+
+    async loadArticle() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+
+        if (!articleId) {
+            this.showError('文章ID丢失');
+            return;
+        }
+
+        this.state.articleId = articleId;
+        const API = this.getApiBase();
+
+        try {
+            let response;
+            try {
+                response = await fetch(`${API}/articles/${encodeURIComponent(articleId)}`);
+            } catch (networkError) {
+                throw new Error('网络连接失败，请检查网络后重试');
+            }
+
+            if (!response.ok) {
+                if (response.status === 404) throw new Error('文章不存在或已被删除');
+                throw new Error(`服务器错误 (${response.status})`);
+            }
+
+            let data;
+            try {
+                data = await response.json();
+            } catch (parseError) {
+                throw new Error('服务器返回了无效的数据格式');
+            }
+
+            const article = data.data || data;
+
+            if (!article || !article.title) {
+                this.showError('文章不存在或已被删除');
+                return;
+            }
+
+            this.renderArticle(article);
+            this.loadInteractions(articleId);
+        } catch (error) {
+            this.showError(error.message || '加载失败');
+        }
+    },
+
+    renderArticle(article) {
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('article-content').style.display = '';
+
+        const titleEl = document.getElementById('article-title');
+        if (titleEl) titleEl.textContent = article.title || '无标题';
+
+        document.title = this.escapeHtml(article.title) + ' - 猫爬架';
+
+        const authorEl = document.getElementById('article-author');
+        if (authorEl) authorEl.textContent = article.author_name || '匿名';
+
+        const dateEl = document.getElementById('article-date');
+        if (dateEl && article.created_at) {
+            try {
+                const d = new Date(article.created_at);
+                if (!isNaN(d.getTime())) {
+                    dateEl.textContent = d.toLocaleDateString('zh-CN');
+                }
+            } catch (_) {}
+        }
+
+        const viewsEl = document.getElementById('article-views');
+        if (viewsEl) viewsEl.textContent = (article.view_count || 0) + ' 阅读';
+
+        if (article.author_avatar) {
+            const avatarEl = document.getElementById('author-avatar');
+            if (avatarEl) {
+                avatarEl.style.backgroundImage = `url(${this.sanitizeUrl(article.author_avatar)})`;
+                avatarEl.style.backgroundSize = 'cover';
+                avatarEl.style.backgroundPosition = 'center';
+            }
+        }
+
+        if (article.cover_image) {
+            const coverDiv = document.getElementById('article-cover');
+            const coverImg = document.getElementById('article-cover-img');
+            if (coverDiv && coverImg) {
+                coverImg.src = this.sanitizeUrl(article.cover_image);
+                coverImg.onload = () => coverImg.classList.add('loaded');
+                coverDiv.style.display = '';
+            }
+        }
+
+        const bodyEl = document.getElementById('article-body');
+        if (bodyEl) {
+            bodyEl.innerHTML = this.renderMarkdown(article.content || '');
+        }
+
+        if (article.tags && Array.isArray(article.tags) && article.tags.length > 0) {
+            const tagsDiv = document.getElementById('article-tags');
+            if (tagsDiv) {
+                tagsDiv.style.display = 'flex';
+                tagsDiv.innerHTML = article.tags.map(t =>
+                    `<span class="tag-item">${this.escapeHtml(t)}</span>`
+                ).join('');
+            }
+        }
+
+        const headerName = document.querySelector('.account-name');
+        if (headerName && article.author_name) {
+            headerName.textContent = article.author_name;
+        }
+    },
+
+    renderMarkdown(md) {
+        if (!md) return '';
+
+        let html = this.escapeHtml(md);
+
+        html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (m, lang, code) => {
+            return `<pre><code class="language-${this.escapeHtml(lang)}">${code}</code></pre>`;
+        });
+
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+        html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+        html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
+        html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (m, alt, url) => {
+            const safeUrl = this.sanitizeUrl(url);
+            return safeUrl ? `<img src="${safeUrl}" alt="${this.escapeHtml(alt)}" loading="lazy">` : '';
+        });
+        html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (m, text, url) => {
+            const safeUrl = this.sanitizeUrl(url);
+            return safeUrl ? `<a href="${safeUrl}" target="_blank" rel="noopener">${text}</a>` : text;
+        });
+        html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+        html = html.replace(/^---$/gm, '<hr>');
+        html = html.replace(/^\* (.+)$/gm, '<li>$1</li>');
+        html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+        html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+
+        html = html.replace(/\n\n+/g, '</p><p>');
+        html = html.replace(/\n/g, '<br>');
+        html = '<p>' + html + '</p>';
+
+        html = html.replace(/<p>\s*(<h[1-6]>)/g, '$1');
+        html = html.replace(/(<\/h[1-6]>)\s*<\/p>/g, '$1');
+        html = html.replace(/<p>\s*(<pre>)/g, '$1');
+        html = html.replace(/(<\/pre>)\s*<\/p>/g, '$1');
+        html = html.replace(/<p>\s*(<blockquote>)/g, '$1');
+        html = html.replace(/(<\/blockquote>)\s*<\/p>/g, '$1');
+        html = html.replace(/<p>\s*(<ul>)/g, '$1');
+        html = html.replace(/(<\/ul>)\s*<\/p>/g, '$1');
+        html = html.replace(/<p>\s*(<hr>)\s*<\/p>/g, '$1');
+        html = html.replace(/<p>\s*<\/p>/g, '');
+
+        return html;
+    },
+
+    async loadInteractions(articleId) {
+        const API = this.getApiBase();
+        const currentUser = this.state.currentUser;
+
+        try {
+            let url = `${API}/articles/${encodeURIComponent(articleId)}/like`;
+            if (currentUser && currentUser.id) {
+                url += `?userId=${encodeURIComponent(currentUser.id)}`;
+            }
+            const res = await fetch(url);
+            if (res.ok) {
+                const data = await res.json();
+                this.state.likeCount = data.count || 0;
+                this.state.isLiked = !!data.liked;
+                this.updateVoteUI('like');
+            }
+        } catch (e) {
+            console.error('加载点赞失败:', e);
+        }
+
+        try {
+            let url = `${API}/articles/${encodeURIComponent(articleId)}/favorite`;
+            if (currentUser && currentUser.id) {
+                url += `?userId=${encodeURIComponent(currentUser.id)}`;
+            }
+            const res = await fetch(url);
+            if (res.ok) {
+                const data = await res.json();
+                this.state.isCollected = !!data.favorited;
+                if (this.state.isCollected) {
+                    const btn = document.getElementById('collect-btn');
+                    if (btn) btn.classList.add('active');
+                    const navBtn = document.querySelector('.nav-icon-btn[data-action="collect"]');
+                    if (navBtn) navBtn.classList.add('active');
+                }
+            }
+        } catch (e) {
+            console.error('加载收藏失败:', e);
+        }
+    },
+
+    showError(message) {
+        document.getElementById('loading-state').style.display = 'none';
+        const errorEl = document.getElementById('error-state');
+        if (errorEl) {
+            errorEl.style.display = '';
+            const msgEl = document.getElementById('error-message');
+            if (msgEl) msgEl.textContent = message;
+        }
     },
 
     bindEvents() {
@@ -41,73 +286,38 @@ const WechatArticle = {
         const sheetOverlay = $('.sheet-overlay');
         const sheetCancel = $('.sheet-cancel');
 
-        if (backBtn) {
-            backBtn.addEventListener('click', () => this.goBack());
-        }
-
-        if (moreBtn) {
-            moreBtn.addEventListener('click', () => this.showMoreOptions());
-        }
-
-        if (followBtn) {
-            followBtn.addEventListener('click', () => this.toggleFollow());
-        }
+        if (backBtn) backBtn.addEventListener('click', () => this.goBack());
+        if (moreBtn) moreBtn.addEventListener('click', () => this.showMoreOptions());
+        if (followBtn) followBtn.addEventListener('click', () => this.toggleFollow());
 
         actionBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', () => {
                 const action = btn.dataset.action;
                 if (action === 'like') this.handleVote('like');
                 else if (action === 'dislike') this.handleVote('dislike');
             });
         });
 
-        if (shareBtn) {
-            shareBtn.addEventListener('click', () => this.shareArticle());
-        }
-
-        if (collectBtn) {
-            collectBtn.addEventListener('click', () => this.toggleCollect());
-        }
+        if (shareBtn) shareBtn.addEventListener('click', () => this.shareArticle());
+        if (collectBtn) collectBtn.addEventListener('click', () => this.toggleCollect());
 
         navIconBtns.forEach(btn => {
             btn.addEventListener('click', () => this.handleNavAction(btn));
         });
 
-        if (navActionBtn) {
-            navActionBtn.addEventListener('click', () => this.showCommentBox());
-        }
-
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => this.hideModal());
-        }
-
-        if (modalOverlay) {
-            modalOverlay.addEventListener('click', () => this.hideModal());
-        }
+        if (navActionBtn) navActionBtn.addEventListener('click', () => this.showCommentBox());
+        if (closeBtn) closeBtn.addEventListener('click', () => this.hideModal());
+        if (modalOverlay) modalOverlay.addEventListener('click', () => this.hideModal());
 
         fontBtns.forEach(btn => {
             btn.addEventListener('click', () => this.changeFontSize(btn));
         });
 
-        if (toggleSwitch) {
-            toggleSwitch.addEventListener('click', () => this.toggleNightMode());
-        }
-
-        if (cancelComment) {
-            cancelComment.addEventListener('click', () => this.hideCommentBox());
-        }
-
-        if (submitComment) {
-            submitComment.addEventListener('click', () => this.submitComment());
-        }
-
-        if (sheetOverlay) {
-            sheetOverlay.addEventListener('click', () => this.hideSheet());
-        }
-
-        if (sheetCancel) {
-            sheetCancel.addEventListener('click', () => this.hideSheet());
-        }
+        if (toggleSwitch) toggleSwitch.addEventListener('click', () => this.toggleNightMode());
+        if (cancelComment) cancelComment.addEventListener('click', () => this.hideCommentBox());
+        if (submitComment) submitComment.addEventListener('click', () => this.submitComment());
+        if (sheetOverlay) sheetOverlay.addEventListener('click', () => this.hideSheet());
+        if (sheetCancel) sheetCancel.addEventListener('click', () => this.hideSheet());
     },
 
     goBack() {
@@ -173,28 +383,40 @@ const WechatArticle = {
         this.saveUserPreferences();
     },
 
-    handleVote(type) {
+    async handleVote(type) {
+        const API = this.getApiBase();
+        const articleId = this.state.articleId;
+        const currentUser = this.state.currentUser;
+
         if (type === 'like') {
-            this.state.isLiked = !this.state.isLiked;
-            if (this.state.isDisliked) {
-                this.state.isDisliked = false;
-                this.state.dislikeCount--;
-                this.updateVoteUI('dislike');
+            if (!currentUser || !currentUser.id) {
+                this.showToast('请先登录');
+                return;
             }
-            this.state.likeCount += this.state.isLiked ? 1 : -1;
-            this.updateVoteUI('like');
+            try {
+                const token = localStorage.getItem('token');
+                const res = await fetch(`${API}/articles/${encodeURIComponent(articleId)}/like`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ userId: currentUser.id })
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    this.state.isLiked = !!data.liked;
+                    this.state.likeCount = data.count || 0;
+                    this.updateVoteUI('like');
+                    this.syncNavLike();
+                }
+            } catch (e) {
+                console.error('点赞失败:', e);
+                this.showToast('操作失败');
+            }
         } else if (type === 'dislike') {
             this.state.isDisliked = !this.state.isDisliked;
-            if (this.state.isLiked) {
-                this.state.isLiked = false;
-                this.state.likeCount--;
-                this.updateVoteUI('like');
-            }
             this.state.dislikeCount += this.state.isDisliked ? 1 : -1;
             this.updateVoteUI('dislike');
         }
 
-        this.syncNavLike();
         this.saveUserPreferences();
     },
 
@@ -213,29 +435,45 @@ const WechatArticle = {
 
     syncNavLike() {
         const navLikeBtn = document.querySelector('.nav-icon-btn[data-action="like"]');
-        if (navLikeBtn) {
-            navLikeBtn.classList.toggle('active', this.state.isLiked);
-        }
+        if (navLikeBtn) navLikeBtn.classList.toggle('active', this.state.isLiked);
     },
 
-    toggleCollect() {
-        this.state.isCollected = !this.state.isCollected;
-        const btn = document.getElementById('collect-btn');
-        const navCollect = document.querySelector('.nav-icon-btn[data-action="collect"]');
-        if (btn) {
-            btn.classList.toggle('active', this.state.isCollected);
+    async toggleCollect() {
+        const currentUser = this.state.currentUser;
+        if (!currentUser || !currentUser.id) {
+            this.showToast('请先登录');
+            return;
         }
-        if (navCollect) {
-            navCollect.classList.toggle('active', this.state.isCollected);
+
+        const API = this.getApiBase();
+        const articleId = this.state.articleId;
+
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${API}/articles/${encodeURIComponent(articleId)}/favorite`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ userId: currentUser.id })
+            });
+            if (res.ok) {
+                const data = await res.json();
+                this.state.isCollected = !!data.favorited;
+                const btn = document.getElementById('collect-btn');
+                const navBtn = document.querySelector('.nav-icon-btn[data-action="collect"]');
+                if (btn) btn.classList.toggle('active', this.state.isCollected);
+                if (navBtn) navBtn.classList.toggle('active', this.state.isCollected);
+                this.showToast(this.state.isCollected ? '已收藏' : '已取消收藏');
+            }
+        } catch (e) {
+            console.error('收藏失败:', e);
+            this.showToast('操作失败');
         }
-        this.showToast(this.state.isCollected ? '已收藏' : '已取消收藏');
     },
 
     shareArticle() {
         if (navigator.share) {
             navigator.share({
                 title: document.getElementById('article-title')?.textContent || '文章',
-                text: document.querySelector('meta[name="description"]')?.content || '',
                 url: window.location.href
             }).catch(() => this.copyLink());
         } else {
@@ -271,13 +509,9 @@ const WechatArticle = {
 
     handleNavAction(btn) {
         const action = btn.dataset.action;
-        if (action === 'comment') {
-            this.showCommentBox();
-        } else if (action === 'like') {
-            this.handleVote('like');
-        } else if (action === 'collect') {
-            this.toggleCollect();
-        }
+        if (action === 'comment') this.showCommentBox();
+        else if (action === 'like') this.handleVote('like');
+        else if (action === 'collect') this.toggleCollect();
     },
 
     showCommentBox() {
@@ -291,12 +525,15 @@ const WechatArticle = {
 
     hideCommentBox() {
         const commentBox = document.querySelector('.comment-input-box');
-        if (commentBox) {
-            commentBox.classList.add('hidden');
-        }
+        if (commentBox) commentBox.classList.add('hidden');
     },
 
     submitComment() {
+        if (!this.state.currentUser) {
+            this.showToast('请先登录');
+            return;
+        }
+
         const textarea = document.querySelector('.comment-textarea');
         if (textarea && textarea.value.trim()) {
             this.showToast('评论提交成功');
@@ -335,9 +572,7 @@ const WechatArticle = {
         document.body.classList.toggle('night-mode', this.state.nightMode);
 
         const toggleSwitch = document.querySelector('.toggle-switch');
-        if (toggleSwitch) {
-            toggleSwitch.classList.toggle('active', this.state.nightMode);
-        }
+        if (toggleSwitch) toggleSwitch.classList.toggle('active', this.state.nightMode);
 
         this.saveUserPreferences();
     },
