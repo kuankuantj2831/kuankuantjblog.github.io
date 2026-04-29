@@ -504,7 +504,7 @@ const WechatArticle = {
 
             var headerUserBtn = document.getElementById('header-user-btn');
             if (headerUserBtn) headerUserBtn.addEventListener('click', () => {
-                if (this.state.currentUser) { this.showMoreOptions(); }
+                if (this.state.currentUser) { this.showUserMenu(); }
                 else { this.showLoginModal(); }
             });
 
@@ -547,6 +547,35 @@ const WechatArticle = {
             { text: '收藏文章', action: () => this.toggleCollect() },
             { text: '阅读设置', action: () => this.showSettings() }
         ]);
+    },
+
+    showUserMenu() {
+        var items = [
+            { text: '分享文章', action: () => this.shareArticle() },
+            { text: '复制链接', action: () => this.copyLink() },
+            { text: '收藏文章', action: () => this.toggleCollect() },
+            { text: '阅读设置', action: () => this.showSettings() },
+            { text: '退出登录', action: () => this.handleLogout() }
+        ];
+        this.showSheet(items);
+    },
+
+    handleLogout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        this.state.currentUser = null;
+        this.state.isLiked = false;
+        this.state.isCollected = false;
+        this.updateUserUI();
+
+        var likeBtn = document.querySelector('.action-btn.like-btn');
+        if (likeBtn) likeBtn.classList.remove('active');
+        var likeCount = document.getElementById('like-count');
+        if (likeCount) likeCount.textContent = '赞';
+        var collectBtn = document.getElementById('collect-btn');
+        if (collectBtn) collectBtn.classList.remove('active');
+
+        this.showToast('已退出登录');
     },
 
     showSheet(options) {
