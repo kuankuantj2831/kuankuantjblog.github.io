@@ -492,6 +492,14 @@ const WechatArticle = {
             if (submitComment) submitComment.addEventListener('click', () => this.submitComment());
             if (sheetOverlay) sheetOverlay.addEventListener('click', () => this.hideSheet());
             if (sheetCancel) sheetCancel.addEventListener('click', () => this.hideSheet());
+
+            var loginCloseBtn = document.getElementById('login-close-btn');
+            var loginOverlay = document.getElementById('login-modal-overlay');
+            var loginForm = document.getElementById('login-form');
+
+            if (loginCloseBtn) loginCloseBtn.addEventListener('click', () => this.hideLoginModal());
+            if (loginOverlay) loginOverlay.addEventListener('click', () => this.hideLoginModal());
+            if (loginForm) loginForm.addEventListener('submit', (e) => { e.preventDefault(); this.handleLogin(); });
         } catch (e) {
             console.error('[WechatArticle] bindEvents error:', e);
         }
@@ -549,6 +557,71 @@ const WechatArticle = {
         if (modal) modal.classList.add('hidden');
     },
 
+    showLoginModal() {
+        var m = document.getElementById('login-modal');
+        if (m) m.classList.remove('hidden');
+        var u = document.getElementById('login-username');
+        if (u) u.focus();
+    },
+
+    hideLoginModal() {
+        var m = document.getElementById('login-modal');
+        if (m) m.classList.add('hidden');
+    },
+
+    async handleLogin() {
+        var usernameEl = document.getElementById('login-username');
+        var passwordEl = document.getElementById('login-password');
+        var errorEl = document.getElementById('login-error');
+        var submitBtn = document.getElementById('login-submit-btn');
+        if (!usernameEl || !passwordEl) return;
+
+        var username = usernameEl.value.trim();
+        var password = passwordEl.value;
+
+        if (!username || !password) {
+            if (errorEl) { errorEl.textContent = '请输入用户名和密码'; errorEl.classList.remove('hidden'); }
+            return;
+        }
+
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '登录中...'; }
+        if (errorEl) errorEl.classList.add('hidden');
+
+        var API = this.getApiBase();
+        try {
+            var res = await fetch(API + '/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username, password: password })
+            });
+            var data = await res.json();
+
+            if (!res.ok) {
+                if (errorEl) { errorEl.textContent = data.message || '登录失败'; errorEl.classList.remove('hidden'); }
+                return;
+            }
+
+            if (data.token) localStorage.setItem('token', data.token);
+            if (data.user) {
+                localStorage.setItem('user', JSON.stringify(data.user));
+                this.state.currentUser = data.user;
+            }
+
+            this.hideLoginModal();
+            this.showToast('登录成功');
+            usernameEl.value = '';
+            passwordEl.value = '';
+
+            if (this.state.articleId) this.loadInteractions(this.state.articleId);
+
+        } catch (e) {
+            console.error('[WechatArticle] login error:', e);
+            if (errorEl) { errorEl.textContent = '网络错误，请重试'; errorEl.classList.remove('hidden'); }
+        } finally {
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '登录'; }
+        }
+    },
+
     toggleFollow() {
         this.state.isFollowed = !this.state.isFollowed;
         const btn = document.getElementById('follow-btn');
@@ -567,7 +640,7 @@ const WechatArticle = {
 
         if (type === 'like') {
             if (!currentUser || !currentUser.id) {
-                this.showToast('请先登录');
+                this.showLoginModal();
                 return;
             }
             try {
@@ -618,7 +691,7 @@ const WechatArticle = {
     async toggleCollect() {
         const currentUser = this.state.currentUser;
         if (!currentUser || !currentUser.id) {
-            this.showToast('请先登录');
+            this.showLoginModal();
             return;
         }
 
@@ -707,7 +780,7 @@ const WechatArticle = {
 
     submitComment() {
         if (!this.state.currentUser) {
-            this.showToast('请先登录');
+            this.showLoginModal();
             return;
         }
 

@@ -10,7 +10,7 @@
     <meta property="og:description" content="">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
-    <link rel="stylesheet" href="css/wechat-article.css?v=20260428b">
+    <link rel="stylesheet" href="css/wechat-article.css?v=20260429c">
     <link rel="stylesheet" href="css/tianjg-theme.css">
 </head>
 <body>
@@ -193,6 +193,33 @@
         </div>
     </div>
 
+    <div class="login-modal hidden" id="login-modal">
+        <div class="modal-overlay" id="login-modal-overlay"></div>
+        <div class="modal-content login-modal-content">
+            <div class="modal-header">
+                <h3>登录</h3>
+                <button class="close-btn" id="login-close-btn" aria-label="关闭">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body login-modal-body">
+                <div class="login-error hidden" id="login-error"></div>
+                <form id="login-form" autocomplete="off">
+                    <div class="login-field">
+                        <label>用户名或邮箱</label>
+                        <input type="text" id="login-username" placeholder="请输入用户名或邮箱" required>
+                    </div>
+                    <div class="login-field">
+                        <label>密码</label>
+                        <input type="password" id="login-password" placeholder="请输入密码" required>
+                    </div>
+                    <button type="submit" class="login-submit-btn" id="login-submit-btn">登录</button>
+                </form>
+                <p class="login-hint">登录后可点赞、收藏和评论</p>
+            </div>
+        </div>
+    </div>
+
     <script>
     // Inline bootstrap - ensure page works even if external JS is cached
     (function(){
@@ -208,6 +235,6 @@
         loadScript('js/wechat-article.js?' + v);
     })();
     </script>
-    <script src="js/wechat-article.js?v=20260428b"></script>
+    <script src="js/wechat-article.js?v=20260429c"></script>
 </body>
 </html>
