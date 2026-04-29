@@ -38,6 +38,7 @@ const WechatArticle = {
         try {
             this.initCurrentUser();
             this.bindEvents();
+            this.updateUserUI();
             this.loadUserPreferences();
             this.trackReadTime();
             this.initLazyImages();
@@ -500,6 +501,32 @@ const WechatArticle = {
             if (loginCloseBtn) loginCloseBtn.addEventListener('click', () => this.hideLoginModal());
             if (loginOverlay) loginOverlay.addEventListener('click', () => this.hideLoginModal());
             if (loginForm) loginForm.addEventListener('submit', (e) => { e.preventDefault(); this.handleLogin(); });
+
+            var headerUserBtn = document.getElementById('header-user-btn');
+            if (headerUserBtn) headerUserBtn.addEventListener('click', () => {
+                if (this.state.currentUser) { this.showMoreOptions(); }
+                else { this.showLoginModal(); }
+            });
+
+            var switchToReg = document.getElementById('switch-to-register');
+            var switchToLogin = document.getElementById('switch-to-login');
+            var regForm = document.getElementById('register-form');
+
+            if (switchToReg) switchToReg.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (loginForm) loginForm.style.display = 'none';
+                if (regForm) regForm.style.display = '';
+                var m = document.querySelector('.modal-header h3');
+                if (m) m.textContent = '注册';
+            });
+            if (switchToLogin) switchToLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (loginForm) loginForm.style.display = '';
+                if (regForm) regForm.style.display = 'none';
+                var m = document.querySelector('.modal-header h3');
+                if (m) m.textContent = '登录';
+            });
+            if (regForm) regForm.addEventListener('submit', (e) => { e.preventDefault(); this.handleRegister(); });
         } catch (e) {
             console.error('[WechatArticle] bindEvents error:', e);
         }
@@ -619,6 +646,89 @@ const WechatArticle = {
             if (errorEl) { errorEl.textContent = '网络错误，请重试'; errorEl.classList.remove('hidden'); }
         } finally {
             if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '登录'; }
+        }
+    },
+
+    async handleRegister() {
+        var usernameEl = document.getElementById('reg-username');
+        var emailEl = document.getElementById('reg-email');
+        var passwordEl = document.getElementById('reg-password');
+        var confirmEl = document.getElementById('reg-confirm');
+        var errorEl = document.getElementById('login-error');
+        var submitBtn = document.getElementById('reg-submit-btn');
+        if (!usernameEl || !emailEl || !passwordEl || !confirmEl) return;
+
+        var username = usernameEl.value.trim();
+        var email = emailEl.value.trim();
+        var password = passwordEl.value;
+        var confirm = confirmEl.value;
+
+        if (!username || !email || !password) {
+            if (errorEl) { errorEl.textContent = '请填写所有字段'; errorEl.classList.remove('hidden'); }
+            return;
+        }
+        if (username.length < 3) {
+            if (errorEl) { errorEl.textContent = '用户名至少3个字符'; errorEl.classList.remove('hidden'); }
+            return;
+        }
+        if (password.length < 6) {
+            if (errorEl) { errorEl.textContent = '密码至少6个字符'; errorEl.classList.remove('hidden'); }
+            return;
+        }
+        if (password !== confirm) {
+            if (errorEl) { errorEl.textContent = '两次密码不一致'; errorEl.classList.remove('hidden'); }
+            return;
+        }
+
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '注册中...'; }
+        if (errorEl) errorEl.classList.add('hidden');
+
+        var API = this.getApiBase();
+        try {
+            var res = await fetch(API + '/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: username, email: email, password: password })
+            });
+            var data = await res.json();
+
+            if (!res.ok) {
+                if (errorEl) { errorEl.textContent = data.message || '注册失败'; errorEl.classList.remove('hidden'); }
+                return;
+            }
+
+            if (data.token) localStorage.setItem('token', data.token);
+            if (data.user) {
+                localStorage.setItem('user', JSON.stringify(data.user));
+                this.state.currentUser = data.user;
+            }
+
+            this.hideLoginModal();
+            this.showToast('注册成功');
+            this.updateUserUI();
+
+            if (this.state.articleId) this.loadInteractions(this.state.articleId);
+
+        } catch (e) {
+            console.error('[WechatArticle] register error:', e);
+            if (errorEl) { errorEl.textContent = '网络错误，请重试'; errorEl.classList.remove('hidden'); }
+        } finally {
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '注册'; }
+        }
+    },
+
+    updateUserUI() {
+        var user = this.state.currentUser;
+        var btn = document.getElementById('header-user-btn');
+        var text = document.getElementById('header-user-text');
+        if (btn && text) {
+            if (user && user.username) {
+                text.textContent = user.username;
+                btn.classList.add('logged-in');
+            } else {
+                text.textContent = '登录';
+                btn.classList.remove('logged-in');
+            }
         }
     },
 

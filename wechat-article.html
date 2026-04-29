@@ -10,7 +10,7 @@
     <meta property="og:description" content="">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
-    <link rel="stylesheet" href="css/wechat-article.css?v=20260429c">
+    <link rel="stylesheet" href="css/wechat-article.css?v=20260429d">
     <link rel="stylesheet" href="css/tianjg-theme.css">
 </head>
 <body>
@@ -26,6 +26,10 @@
             <span class="account-name">文章阅读</span>
         </div>
         <div class="header-right">
+            <button class="header-user-btn" id="header-user-btn" aria-label="用户">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span class="header-user-text" id="header-user-text">登录</span>
+            </button>
             <button class="more-btn" aria-label="更多">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
             </button>
@@ -214,6 +218,31 @@
                         <input type="password" id="login-password" placeholder="请输入密码" required>
                     </div>
                     <button type="submit" class="login-submit-btn" id="login-submit-btn">登录</button>
+                    <div class="login-switch">
+                        没有账号？<a href="#" id="switch-to-register">立即注册</a>
+                    </div>
+                </form>
+                <form id="register-form" autocomplete="off" style="display:none;">
+                    <div class="login-field">
+                        <label>用户名</label>
+                        <input type="text" id="reg-username" placeholder="至少3个字符" required>
+                    </div>
+                    <div class="login-field">
+                        <label>邮箱</label>
+                        <input type="email" id="reg-email" placeholder="请输入邮箱" required>
+                    </div>
+                    <div class="login-field">
+                        <label>密码</label>
+                        <input type="password" id="reg-password" placeholder="至少6个字符" required>
+                    </div>
+                    <div class="login-field">
+                        <label>确认密码</label>
+                        <input type="password" id="reg-confirm" placeholder="再次输入密码" required>
+                    </div>
+                    <button type="submit" class="login-submit-btn" id="reg-submit-btn">注册</button>
+                    <div class="login-switch">
+                        已有账号？<a href="#" id="switch-to-login">立即登录</a>
+                    </div>
                 </form>
                 <p class="login-hint">登录后可点赞、收藏和评论</p>
             </div>
@@ -235,6 +264,6 @@
         loadScript('js/wechat-article.js?' + v);
     })();
     </script>
-    <script src="js/wechat-article.js?v=20260429c"></script>
+    <script src="js/wechat-article.js?v=20260429d"></script>
 </body>
 </html>
