@@ -616,8 +616,16 @@ const WechatArticle = {
     showLoginModal() {
         var m = document.getElementById('login-modal');
         if (m) m.classList.remove('hidden');
+        var loginForm = document.getElementById('login-form');
+        var regForm = document.getElementById('register-form');
+        if (loginForm) loginForm.style.display = '';
+        if (regForm) regForm.style.display = 'none';
+        var errEl = document.getElementById('login-error');
+        if (errEl) errEl.classList.add('hidden');
+        var mTitle = document.querySelector('.login-modal-content .modal-header h3');
+        if (mTitle) mTitle.textContent = '登录';
         var u = document.getElementById('login-username');
-        if (u) u.focus();
+        if (u) setTimeout(function(){ u.focus(); }, 100);
     },
 
     hideLoginModal() {
@@ -665,6 +673,7 @@ const WechatArticle = {
 
             this.hideLoginModal();
             this.showToast('登录成功');
+            this.updateUserUI();
             usernameEl.value = '';
             passwordEl.value = '';
 
@@ -782,6 +791,10 @@ const WechatArticle = {
                 this.showLoginModal();
                 return;
             }
+            if (!articleId) {
+                this.showToast('请先打开一篇文章');
+                return;
+            }
             try {
                 const token = localStorage.getItem('token');
                 const res = await fetch(`${API}/articles/${encodeURIComponent(articleId)}/like`, {
@@ -836,6 +849,10 @@ const WechatArticle = {
 
         const API = this.getApiBase();
         const articleId = this.state.articleId;
+        if (!articleId) {
+            this.showToast('请先打开一篇文章');
+            return;
+        }
 
         try {
             const token = localStorage.getItem('token');
