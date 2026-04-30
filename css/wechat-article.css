@@ -1488,7 +1488,7 @@ body.night-mode .lazy-load {
     bottom: 0;
     z-index: 2000;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
 }
 
@@ -1498,15 +1498,26 @@ body.night-mode .lazy-load {
 
 .login-modal-content {
     position: relative;
-    width: 100%;
-    max-width: 677px;
+    width: calc(100% - 40px);
+    max-width: 400px;
     background: #fff;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    animation: slideUp 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+    border-radius: var(--radius-lg);
+    animation: dialogIn 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes dialogIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .login-modal-body {
-    padding: 8px 20px 36px;
+    padding: 8px 24px 28px;
 }
 
 .login-error {
