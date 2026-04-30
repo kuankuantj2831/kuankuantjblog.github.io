@@ -174,13 +174,11 @@ function getCurrentUser() {
  * 显示登录提示
  */
 function showLoginPrompt() {
-    if (confirm('请先登录后再关注用户')) {
-        const loginModal = document.getElementById('loginModal');
-        if (loginModal) {
-            loginModal.style.display = 'block';
-        } else {
-            window.location.href = '/index-chinese.html';
-        }
+    const loginModal = document.getElementById('loginModal');
+    if (loginModal) {
+        loginModal.classList.add('active');
+    } else {
+        window.location.href = '/index-chinese.html';
     }
 }
 
