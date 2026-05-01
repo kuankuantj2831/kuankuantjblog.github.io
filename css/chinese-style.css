@@ -76,11 +76,9 @@ body {
      text-align: center;
      padding: 80px 20px 60px;
  }
- .hero-section[data-animate]:not(.animated) {
-     animation: heroFallback 0.01s 3s forwards;
- }
- @keyframes heroFallback {
-     to { opacity: 1; transform: none; }
+ .main-title {
+     opacity: 1 !important;
+     transform: none !important;
  }
 
 
@@ -99,12 +97,14 @@ body {
     user-select: auto;
 }
 
-.sub-title {
-    font-size: 1.1em;
-    color: #ff9800;
-    margin-bottom: 50px;
-    font-family: 'STKaiti', 'Kaiti SC', 'KaiTi', '楷体', serif;
-}
+ .sub-title {
+     font-size: 1.1em;
+     color: #ff9800;
+     margin-bottom: 50px;
+     font-family: 'STKaiti', 'Kaiti SC', 'KaiTi', '楷体', serif;
+     opacity: 1 !important;
+     transform: none !important;
+ }
 
 /* ==================== 教程板块 ==================== */
 .tutorial-section {
