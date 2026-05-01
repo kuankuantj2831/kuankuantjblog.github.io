@@ -220,9 +220,11 @@ const WechatArticle = {
             return safeUrl ? `<a href="${safeUrl}" target="_blank" rel="noopener">${text}</a>` : text;
         });
         html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+        html = html.replace(/<\/blockquote>\s*<blockquote>/g, '<br>');
         html = html.replace(/^---$/gm, '<hr>');
         html = html.replace(/^\* (.+)$/gm, '<li>$1</li>');
-        html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+        html = html.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul>$1</ul>');
+        html = html.replace(/<\/ul>\s*<ul>/g, '');
         html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
 
         html = html.replace(/\n\n+/g, '</p><p>');
@@ -574,6 +576,10 @@ const WechatArticle = {
         if (likeCount) likeCount.textContent = '赞';
         var collectBtn = document.getElementById('collect-btn');
         if (collectBtn) collectBtn.classList.remove('active');
+        var navCollect = document.querySelector('.nav-icon-btn[data-action="collect"]');
+        if (navCollect) navCollect.classList.remove('active');
+        var navLike = document.querySelector('.nav-icon-btn[data-action="like"]');
+        if (navLike) navLike.classList.remove('active');
 
         this.showToast('已退出登录');
     },
@@ -921,6 +927,11 @@ const WechatArticle = {
     },
 
     showCommentBox() {
+        if (!this.state.currentUser) {
+            this.showLoginModal();
+            return;
+        }
+
         const commentBox = document.querySelector('.comment-input-box');
         if (commentBox) {
             commentBox.classList.remove('hidden');
