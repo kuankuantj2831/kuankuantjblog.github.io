@@ -328,9 +328,9 @@
         <section class="gamification-widgets" style="padding:0 20px 20px;max-width:1200px;margin:0 auto;">
             <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));gap:20px;">
                 <!-- 每日一题 -->
-                <div id="dailyQuizContainer" style="background:rgba(255,255,255,0.95);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);"></div>
+                <div id="dailyQuizContainer" style="display:none;"></div>
                 <!-- 阅读打卡 -->
-                <div id="readingChallengeContainer" style="background:rgba(255,255,255,0.95);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08);"></div>
+                <div id="readingChallengeContainer" style="display:none;"></div>
             </div>
         </section>
 
@@ -801,11 +801,15 @@ import { AchievementSystem } from './js/achievement-system.js';
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     if (token) {
-        if (document.getElementById('dailyQuizContainer')) {
+        const dq = document.getElementById('dailyQuizContainer');
+        if (dq) {
             new DailyQuiz({ containerId: 'dailyQuizContainer' }).init();
+            dq.style.display = '';
         }
-        if (document.getElementById('readingChallengeContainer')) {
+        const rc = document.getElementById('readingChallengeContainer');
+        if (rc) {
             new ReadingChallenge({ containerId: 'readingChallengeContainer' }).init();
+            rc.style.display = '';
         }
     }
 
