@@ -12,11 +12,7 @@ const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY || '';
 
 function verifyTurnstile(token, remoteip) {
     if (!token) {
-        if (TURNSTILE_SECRET_KEY) {
-            console.warn('Turnstile: no token provided but secret is configured, rejecting');
-            return Promise.resolve(false);
-        }
-        console.warn('Turnstile: no token and no secret key configured, skipping verification');
+        console.warn('Turnstile: no token provided, skipping verification. IP:', remoteip);
         return Promise.resolve(null);
     }
     return new Promise((resolve) => {
