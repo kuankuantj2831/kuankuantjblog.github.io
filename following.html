@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>瑰瓨鍨瑰▓鎴礂閾忣偅鏆?- Hakimi 的个人博客/title>
+    <title>我的关注 - Hakimi 的猫爬架</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/tianjg-theme.css">
@@ -69,7 +69,7 @@
             color: #667eea;
         }
 
-        /* 瑰吋绮銊╁冀?*/
+        /* 搜索�?*/
         .search-bar {
             margin: 25px 0;
         }
@@ -110,7 +110,7 @@
             font-size: 1.1em;
         }
 
-        /* 活潿鍔崺㈠礆濡ゅ嫨鈧?*/
+        /* 用户列表 */
         .users-list {
             display: grid;
             gap: 15px;
@@ -251,7 +251,7 @@
             transform: scale(1.1);
         }
 
-        /* 佸矁娅ｆ慨鎼佸箑?*/
+        /* 空状�?*/
         .empty-state {
             text-align: center;
             padding: 80px 20px;
@@ -292,7 +292,7 @@
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
 
-        /* 规亽鍔畷姗宕搹顐ｆ殘 */
+        /* 推荐关注 */
         .suggestions-section {
             margin-top: 40px;
             padding-top: 40px;
@@ -394,45 +394,45 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="/" class="nav-link">濡鐗犻妴?/a>
-                <a href="/profile.html" class="nav-link">搩浜欏Ч嬬▔偟濡?/a>
-                <a href="/collections.html" class="nav-link">衡偓増顥戝?/a>
-                <a href="/messages.html" class="nav-link">炴垵鐗婃导?/a>
+                <a href="/" class="nav-link">首页</a>
+                <a href="/profile.html" class="nav-link">个人中心</a>
+                <a href="/collections.html" class="nav-link">收藏�?/a>
+                <a href="/messages.html" class="nav-link">消息</a>
             </div>
         </nav>
 
         <div class="following-wrapper">
             <div class="following-header">
-                <h1 class="following-title">佲偓欍儲鍞夐柛蹇－?/h1>
+                <h1 class="following-title">社交关系</h1>
                 <div class="following-tabs">
                     <div class="following-tab active" onclick="switchTab('following')">
-                        稿繗娅曢弫鐐寸▔?span id="followingCount">0</span>
+                        关注�?span id="followingCount">0</span>
                     </div>
                     <div class="following-tab" onclick="switchTab('followers')">
-                        喖顦?span id="followersCount">0</span>
+                        粉丝<span id="followersCount">0</span>
                     </div>
                     <div class="following-tab" onclick="switchTab('mutual')">
-                        存粍甯炲ù愬礂閾忣偅鏆?span id="mutualCount">0</span>
+                        互相关注<span id="mutualCount">0</span>
                     </div>
                 </div>
             </div>
 
             <div class="search-bar">
                 <div class="search-input-wrapper">
-                    <span class="search-icon">妫啯鏁?/span>
-                    <input type="text" class="search-input" placeholder="瑰吋绮銊╂偨閵婏箑鐓?.." id="searchInput" oninput="searchUsers(this.value)">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="搜索用户..." id="searchInput" oninput="searchUsers(this.value)">
                 </div>
             </div>
 
             <div class="users-list" id="usersList">
-                <!-- 告鍔埀胯兌閺佹捇骞?-->
+                <!-- 动态生�?-->
             </div>
 
-            <!-- 规亽鍔畷姗宕搹顐ｆ殘 -->
+            <!-- 推荐关注 -->
             <div class="suggestions-section" id="suggestionsSection" style="display: none;">
-                <h3 class="suggestions-title">规亽鍔畷姗宕搹顐ｆ殘</h3>
+                <h3 class="suggestions-title">推荐关注</h3>
                 <div class="suggestions-grid" id="suggestionsGrid">
-                    <!-- 告鍔埀胯兌閺佹捇骞?-->
+                    <!-- 动态生�?-->
                 </div>
             </div>
         </div>
@@ -445,13 +445,13 @@
     <script type="module">
         import { API_BASE_URL } from './js/api-config.js?v=20260418a';
 
-        // 稿繈鍔岄惇勬偐哥?
+        // 全局状�?
         let currentUser = null;
         let currentTab = 'following';
         let users = [];
         let followingIds = new Set();
 
-        // 告帗绻傞～鎰板礌?
+        // 初始�?
         async function init() {
             const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || 'null');
             if (!user) {
@@ -464,7 +464,7 @@
             await loadUsers();
         }
 
-        // 告梻ù鍥磼旀椿鍚
+        // 加载统计
         async function loadStats() {
             try {
                 const response = await fetch(`${API_BASE_URL}/social/follow/stats`, {
@@ -484,10 +484,10 @@
             }
         }
 
-        // 告梻ù鍥偨閵婏箑鐓曢柛鎺擃殙閵?
+        // 加载用户列表
         async function loadUsers() {
             const container = document.getElementById('usersList');
-            container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">告梻ù鍥ㄧ▔?..</div>';
+            container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">加载�?..</div>';
             
             try {
                 let url;
@@ -509,7 +509,7 @@
                     const data = await response.json();
                     users = data.users || [];
                     
-                    // 犱焦樼紞宥咁啅绘帒褰犳繛堝妿堟垿鎮介妸锕鐓?
+                    // 记录已关注的用户
                     followingIds = new Set(users.map(u => u.id));
                     
                     if (users.length === 0) {
@@ -524,17 +524,17 @@
                 }
             } catch (error) {
                 console.error('Error loading users:', error);
-                container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">告梻ù鍥緞堫袝</div>';
+                container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">加载失败</div>';
             }
         }
 
-        // 炴挸堕悡瀣偨閵婏箑鐓曢柛鎺擃殙閵?
+        // 渲染用户列表
         function renderUsers(filteredUsers = null) {
             const container = document.getElementById('usersList');
             const displayUsers = filteredUsers || users;
             
             if (displayUsers.length === 0) {
-                container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">炲备鍓﹢骞幆褍鐓傞顫妽?/div>';
+                container.innerHTML = '<div style="text-align:center;padding:60px;color:rgba(255,255,255,0.5);">没有找到用户</div>';
                 return;
             }
             
@@ -546,21 +546,21 @@
                     <div class="user-info">
                         <div class="user-name">
                             <a href="/profile.html?id=${user.id}" style="color:#fff;text-decoration:none;">${user.username}</a>
-                            ${user.is_verified ? '<span style="color:#667eea;">?/span>' : ''}
+                            ${user.is_verified ? '<span style="color:#667eea;">�?/span>' : ''}
                         </div>
-                        <div class="user-bio">${user.bio || '閺夆晜ら鍙戦铏釜辨繃掗埀▕儱鍘存繛灞糕偓鍐叉櫢~'}</div>
+                        <div class="user-bio">${user.bio || '这个人很懒，什么都没写~'}</div>
                         <div class="user-stats">
-                            <span class="user-stat"><strong>${user.articles_count || 0}</strong> 哄倸娲ㄩ悵?/span>
-                            <span class="user-stat"><strong>${user.followers_count || 0}</strong> 喖顦?/span>
-                            <span class="user-stat"><strong>${user.following_count || 0}</strong> 稿繗娅曢弫?/span>
+                            <span class="user-stat"><strong>${user.articles_count || 0}</strong> 文章</span>
+                            <span class="user-stat"><strong>${user.followers_count || 0}</strong> 粉丝</span>
+                            <span class="user-stat"><strong>${user.following_count || 0}</strong> 关注</span>
                         </div>
                     </div>
                     <div class="user-actions">
-                        <button class="btn-message" onclick="sendMessage(${user.id}, '${user.username}')" title="告瑦鍨剁粔鐑藉箒?>翠礁顧?/button>
+                        <button class="btn-message" onclick="sendMessage(${user.id}, '${user.username}')" title="发消�?>✉️</button>
                         ${user.id !== currentUser.id ? `
                             <button class="btn-follow ${followingIds.has(user.id) ? 'following' : 'not-following'}" 
                                     onclick="toggleFollow(${user.id}, this)">
-                                ${followingIds.has(user.id) ? '瑰憡褰崣褍鈻? : '+ 稿繗娅曢弫?}
+                                ${followingIds.has(user.id) ? '已关�? : '+ 关注'}
                             </button>
                         ` : ''}
                     </div>
@@ -568,25 +568,25 @@
             `).join('');
         }
 
-        // 炴挸堕悡瀣矚閾忕?
+        // 渲染空状�?
         function renderEmptyState() {
             const container = document.getElementById('usersList');
             
             const emptyMessages = {
                 following: {
-                    icon: '妫啯鍣?,
-                    title: '閺夆晜蓱ュ懘垫径濠傚綘炲鍔幑銏媴閺碍鐪?,
-                    desc: '稿繗娅曢弫鐐哄箛斿嘲褰洪悺鎺炵悼堟垿鎮介妸锕鐓曢柨樼灱戝洦绋夐埀籍洘锛熼顏勵儏╁本掗弽锔界拨汇瀚慨鈺呭箑?
+                    icon: '👥',
+                    title: '还没有关注任何人',
+                    desc: '关注感兴趣的用户，第一时间看到他们的动�?
                 },
                 followers: {
-                    icon: '妫啫鐨?,
-                    title: '閺夆晜蓱ュ懘垫径鐒藉?,
-                    desc: '濠㈣埖鑹捐ぐ鍌滄暜愌呭枠犳劑鍔岄崬糕偓鍦辨繈宕ョ粙璺ㄧ┛哄洦娼欓ˇ鍧楀礂閾忣偅鏆?
+                    icon: '🌟',
+                    title: '还没有粉�?,
+                    desc: '多发布优质内容，吸引更多关注'
                 },
                 mutual: {
-                    icon: '妫喚妾?,
-                    title: '閺夆晜蓱ュ懘垫径岄瀺烩晝顭堥崣褍鈻旈妸褎鐣卞┑鍌濇?,
-                    desc: '告粌濂旂紞姗宕搹顐ｆ殘汇瀚Ч嬬▕斿嘲褰犳繛堝妺嶆﹢鏁嶇仦鑺ョ殤煎疇ら▔嫨ㄩ柛?
+                    icon: '🤝',
+                    title: '还没有互相关注的好友',
+                    desc: '和你关注的人也关注你，就能成为好�?
                 }
             };
             
@@ -597,12 +597,12 @@
                     <div class="empty-icon">${msg.icon}</div>
                     <h3 class="empty-title">${msg.title}</h3>
                     <p class="empty-desc">${msg.desc}</p>
-                    ${currentTab === 'following' ? '<a href="/" class="btn-explore">告цぐ鍌炴偝?/a>' : ''}
+                    ${currentTab === 'following' ? '<a href="/" class="btn-explore">去发�?/a>' : ''}
                 </div>
             `;
         }
 
-        // 告梻ù鍥箳閵娿柛蹇氭珪閺?
+        // 加载推荐关注
         async function loadSuggestions() {
             try {
                 const response = await fetch(`${API_BASE_URL}/articles?limit=20`);
@@ -610,7 +610,7 @@
                     const data = await response.json();
                     const articles = data.articles || [];
                     
-                    // 圭粯鍔曡ぐ鍥ㄦ媴濠婂棌?
+                    // 提取作�?
                     const authors = [];
                     const seen = new Set();
                     
@@ -619,8 +619,8 @@
                             seen.add(article.author_id);
                             authors.push({
                                 id: article.author_id,
-                                username: article.author_name || article.author || '告牕鐏濋幃?,
-                                reason: '告瑦鍨电粩閿嬬瑥鍔伴梻鍌樺妽閺啰绮?
+                                username: article.author_name || article.author || '匿名',
+                                reason: '发布了热门文�?
                             });
                         }
                     });
@@ -635,7 +635,7 @@
             }
         }
 
-        // 炴挸堕悡瀣箳閵娿?
+        // 渲染推荐
         function renderSuggestions(suggestions) {
             const container = document.getElementById('suggestionsGrid');
             container.innerHTML = suggestions.map(user => `
@@ -645,12 +645,12 @@
                         <div class="suggestion-name">${user.username}</div>
                         <div class="suggestion-reason">${user.reason}</div>
                     </div>
-                    <button class="btn-follow-sm" onclick="toggleFollow(${user.id}, this); this.textContent = '瑰憡褰崣褍鈻?; this.disabled = true;">+ 稿繗娅曢弫?/button>
+                    <button class="btn-follow-sm" onclick="toggleFollow(${user.id}, this); this.textContent = '已关�?; this.disabled = true;">+ 关注</button>
                 </div>
             `).join('');
         }
 
-        // 告帒娲畷鏌ュ冀モ晩鍔?
+        // 切换标签
         function switchTab(tab) {
             currentTab = tab;
             
@@ -661,7 +661,7 @@
             loadUsers();
         }
 
-        // 瑰吋绮銊╂偨閵婏箑鐓?
+        // 搜索用户
         function searchUsers(query) {
             if (!query) {
                 renderUsers();
@@ -676,7 +676,7 @@
             renderUsers(filtered);
         }
 
-        // 告帒娲畷鏌ュ礂閾忣偅鏆?
+        // 切换关注
         async function toggleFollow(userId, btn) {
             const isFollowing = btn.classList.contains('following');
             
@@ -695,28 +695,28 @@
                     if (isFollowing) {
                         btn.classList.remove('following');
                         btn.classList.add('not-following');
-                        btn.textContent = '+ 稿繗娅曢弫?;
+                        btn.textContent = '+ 关注';
                         followingIds.delete(userId);
-                        showToast('瑰憡褰冭ぐ鍥р槈繂褰犳繛?);
+                        showToast('已取消关�?);
                     } else {
                         btn.classList.remove('not-following');
                         btn.classList.add('following');
-                        btn.textContent = '瑰憡褰崣褍鈻?;
+                        btn.textContent = '已关�?;
                         followingIds.add(userId);
-                        showToast('稿繗娅曢弫鐐哄箣顫?);
+                        showToast('关注成功');
                     }
                     
                     await loadStats();
                 } else {
-                    showToast('瑰灝绉紞鏃勬潏顐バ?);
+                    showToast('操作失败');
                 }
             } catch (error) {
                 console.error('Error toggling follow:', error);
-                showToast('瑰灝绉紞鏃勬潏顐バ?);
+                showToast('操作失败');
             }
         }
 
-        // 告瑦鍨块埀跨劍夌骞?
+        // 发送消�?
         function sendMessage(userId, username) {
             window.location.href = `/messages.html?user=${userId}&name=${encodeURIComponent(username)}`;
         }
@@ -729,16 +729,14 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         };
 
-        // 哄棙冲﹢曞礂閵娿儳婀伴柛鎴Г閺?
+        // 暴露全局函数
         window.switchTab = switchTab;
         window.searchUsers = searchUsers;
         window.toggleFollow = toggleFollow;
         window.sendMessage = sendMessage;
 
-        // 告凹鍨版慨?
+        // 启动
         init();
     </script>
 </body>
 </html>
-
-

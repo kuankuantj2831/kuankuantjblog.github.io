@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>哄倸娲▎銏ゅ礆洟鐓?- kuankuantj前端开发?/title>
+    <title>文件分享 - kuankuantj的个人博�?/title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
@@ -24,13 +24,13 @@
 </head>
 <body>
     <div class="share-card" id="shareCard">
-        <div class="share-icon">妫啯鎯?/div>
-        <div class="share-title" id="fileName">告梻ù鍥ㄧ▔?..</div>
+        <div class="share-icon">📁</div>
+        <div class="share-title" id="fileName">加载�?..</div>
         <div class="share-meta" id="shareMeta"></div>
         <div class="error-msg" id="errorMsg"></div>
-        <input type="password" class="password-input" id="passwordInput" placeholder="閺夊牊崣鍡涘箵绲块闈涙爬架? style="display:none;" maxlength="32">
-        <button class="download-btn" id="downloadBtn" style="display:none;" onclick="downloadFile()">妫啯鎲?挸堝ù鍥棘ワ附顐?/button>
-        <a href="/index-chinese.html" class="back-link">?閺夆晜鏌ú鏍純閺嶎厹鈧?/a>
+        <input type="password" class="password-input" id="passwordInput" placeholder="输入提取密码" style="display:none;" maxlength="32">
+        <button class="download-btn" id="downloadBtn" style="display:none;" onclick="downloadFile()">📥 下载文件</button>
+        <a href="/index-chinese.html" class="back-link">�?返回首页</a>
     </div>
 
     <script>
@@ -41,23 +41,23 @@
 
         async function loadShareInfo() {
             if (!shareCode) {
-                document.getElementById('fileName').textContent = '哄啰弲銉╂儍曨诲ù庡亰藉ジ骞?;
+                document.getElementById('fileName').textContent = '无效的分享链�?;
                 return;
             }
             try {
                 const res = await fetch(`${API_BASE}/drive/share/${shareCode}`);
                 if (!res.ok) {
                     const err = await res.json().catch(() => ({}));
-                    document.getElementById('fileName').textContent = err.message || '告帒妫旈棅鈺傜▔瀹ュ懐鎽犻柛?;
-                    document.querySelector('.share-icon').textContent = '?;
+                    document.getElementById('fileName').textContent = err.message || '分享不存�?;
+                    document.querySelector('.share-icon').textContent = '�?;
                     return;
                 }
                 const data = await res.json();
                 document.getElementById('fileName').textContent = data.fileName;
 
-                let meta = `告帒妫旈棅鈺呮嚀? ${data.sharerName}`;
-                if (data.expiresAt) meta += ` | 閺夆晛娲﹢? ${new Date(data.expiresAt).toLocaleString('zh-CN')}`;
-                if (data.maxDownloads) meta += ` | 挸堝ù? ${data.downloadCount}/${data.maxDownloads}`;
+                let meta = `分享�? ${data.sharerName}`;
+                if (data.expiresAt) meta += ` | 过期: ${new Date(data.expiresAt).toLocaleString('zh-CN')}`;
+                if (data.maxDownloads) meta += ` | 下载: ${data.downloadCount}/${data.maxDownloads}`;
                 document.getElementById('shareMeta').textContent = meta;
 
                 if (data.hasPassword) {
@@ -65,7 +65,7 @@
                 }
                 document.getElementById('downloadBtn').style.display = '';
             } catch (e) {
-                document.getElementById('fileName').textContent = '告梻ù鍥緞堫袝挎稑鐭侀勬煂瀹ュ牏妲?;
+                document.getElementById('fileName').textContent = '加载失败，请重试';
             }
         }
 
@@ -74,7 +74,7 @@
             const errEl = document.getElementById('errorMsg');
             errEl.style.display = 'none';
             btn.disabled = true;
-            btn.textContent = '兼儳鍢茶ぐ鍥ㄧ▔?..';
+            btn.textContent = '获取�?..';
 
             try {
                 const password = document.getElementById('passwordInput').value || undefined;
@@ -86,7 +86,7 @@
 
                 if (!res.ok) {
                     const err = await res.json().catch(() => ({}));
-                    errEl.textContent = err.message || '挸堝ù鍥緞堫袝';
+                    errEl.textContent = err.message || '下载失败';
                     errEl.style.display = '';
                     return;
                 }
@@ -100,11 +100,11 @@
                 a.click();
                 a.remove();
             } catch (e) {
-                errEl.textContent = '傚啯鍨圭划曟煥帩鍤栭柨樼焷曨剟鏌屽㈡Ц';
+                errEl.textContent = '网络错误，请重试';
                 errEl.style.display = '';
             } finally {
                 btn.disabled = false;
-                btn.textContent = '妫啯鎲?挸堝ù鍥棘ワ附顐?;
+                btn.textContent = '📥 下载文件';
             }
         }
 
@@ -112,5 +112,3 @@
     </script>
 </body>
 </html>
-
-
