@@ -543,12 +543,16 @@ const WechatArticle = {
     },
 
     showMoreOptions() {
-        this.showSheet([
+        var items = [
             { text: '分享文章', action: () => this.shareArticle() },
             { text: '复制链接', action: () => this.copyLink() },
             { text: '收藏文章', action: () => this.toggleCollect() },
             { text: '阅读设置', action: () => this.showSettings() }
-        ]);
+        ];
+        if (this.state.currentUser) {
+            items.push({ text: '退出登录', action: () => this.handleLogout() });
+        }
+        this.showSheet(items);
     },
 
     showUserMenu() {
