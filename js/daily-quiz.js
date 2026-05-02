@@ -308,7 +308,7 @@ class DailyQuiz {
                                 padding:12px 16px;border-radius:10px;cursor:${cursor};transition:all 0.2s;
                                 font-size:14px;display:flex;align-items:center;gap:10px;
                                 ${style}
-                            " ${this.answered ? '' : 'onclick="window.dailyQuiz.selectOption(' + i + ')"'}>
+                            ">
                                 <span style="
                                     width:28px;height:28px;border-radius:50%;display:flex;
                                     align-items:center;justify-content:center;font-size:12px;font-weight:bold;
@@ -329,7 +329,7 @@ class DailyQuiz {
                         width:100%;margin-top:16px;padding:12px;border:none;border-radius:10px;
                         background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;
                         font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;
-                    " ${selectedIndex === -1 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>确认答案</button>
+                    " ${selectedIndex === -1 ? 'disabled style="opacity:0.5;cursor:not-allowed;width:100%;margin-top:16px;padding:12px;border:none;border-radius:10px;background:#ccc;color:#fff;font-size:15px;font-weight:600;cursor:not-allowed;"' : ''}>确认答案</button>
                 ` : `
                     <div style="margin-top:16px;padding:12px;border-radius:10px;background:#f6ffed;border:1px solid #b7eb8f;">
                         <p style="margin:0 0 8px;font-weight:600;color:#389e0d;">
@@ -353,6 +353,12 @@ class DailyQuiz {
         `;
 
         if (!this.answered) {
+            container.querySelectorAll('.quiz-option').forEach(optEl => {
+                optEl.addEventListener('click', () => {
+                    this.selectOption(parseInt(optEl.dataset.index));
+                });
+            });
+
             const submitBtn = document.getElementById('quizSubmitBtn');
             if (submitBtn && selectedIndex !== -1) {
                 submitBtn.addEventListener('click', () => this.submitAnswer());
@@ -364,15 +370,6 @@ class DailyQuiz {
         if (this.answered) return;
         localStorage.setItem('quiz_selected', index.toString());
         this.render();
-
-        // 重新绑定提交按钮事件
-        const submitBtn = document.getElementById('quizSubmitBtn');
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.style.opacity = '1';
-            submitBtn.style.cursor = 'pointer';
-            submitBtn.addEventListener('click', () => this.submitAnswer());
-        }
     }
 
     async submitAnswer() {
