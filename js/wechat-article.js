@@ -170,7 +170,7 @@ const WechatArticle = {
             if (coverDiv && coverImg) {
                 coverImg.src = this.sanitizeUrl(article.cover_image);
                 coverImg.onload = () => coverImg.classList.add('loaded');
-                coverDiv.style.display = '';
+                coverDiv.style.display = 'block';
             }
         }
 
@@ -777,6 +777,10 @@ const WechatArticle = {
     },
 
     toggleFollow() {
+        if (!this.state.currentUser) {
+            this.showLoginModal();
+            return;
+        }
         this.state.isFollowed = !this.state.isFollowed;
         const btn = document.getElementById('follow-btn');
         if (btn) {
@@ -945,19 +949,44 @@ const WechatArticle = {
         if (commentBox) commentBox.classList.add('hidden');
     },
 
-    submitComment() {
+    async submitComment() {
         if (!this.state.currentUser) {
             this.showLoginModal();
             return;
         }
 
         const textarea = document.querySelector('.comment-textarea');
-        if (textarea && textarea.value.trim()) {
-            this.showToast('评论提交成功');
-            textarea.value = '';
-            this.hideCommentBox();
-        } else {
+        if (!textarea || !textarea.value.trim()) {
             this.showToast('请输入评论内容');
+            return;
+        }
+
+        var content = textarea.value.trim();
+        var articleId = this.state.articleId;
+        if (!articleId) {
+            this.showToast('请先打开一篇文章');
+            return;
+        }
+
+        var API = this.getApiBase();
+        var token = localStorage.getItem('token');
+        try {
+            var res = await fetch(`${API}/articles/${encodeURIComponent(articleId)}/comments`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ content: content, userId: this.state.currentUser.id })
+            });
+            if (res.ok) {
+                this.showToast('评论提交成功');
+                textarea.value = '';
+                this.hideCommentBox();
+            } else {
+                var err = await res.json().catch(() => ({}));
+                this.showToast(err.message || '评论失败');
+            }
+        } catch (e) {
+            console.error('[WechatArticle] comment error:', e);
+            this.showToast('网络错误，请重试');
         }
     },
 
