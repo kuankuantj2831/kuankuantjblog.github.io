@@ -22,7 +22,6 @@
       this.initParallax();
       this.initNavScroll();
       this.initSmoothScroll();
-      this.initPageTransition();
       this.initScrollProgress();
       this.initSpotlight();
       this.initCharReveal();
