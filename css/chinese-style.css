@@ -80,6 +80,11 @@ body {
      opacity: 1 !important;
      transform: none !important;
  }
+ .main-title .char-animate {
+     opacity: 1 !important;
+     transform: none !important;
+     animation: none !important;
+ }
 
 
 .main-title {
