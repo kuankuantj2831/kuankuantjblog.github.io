@@ -243,7 +243,7 @@
         }
 
         function computeHash(algo, text) {
-            if (algo === 'MD5') return md5(text);
+            if (algo === 'MD5') return Promise.resolve(md5(text));
             var encoder = new TextEncoder();
             var data = encoder.encode(text);
             var algoMap = { 'SHA-1': 'SHA-1', 'SHA-256': 'SHA-256', 'SHA-384': 'SHA-384', 'SHA-512': 'SHA-512' };
