@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="番茄钟 - 专注工作，高效生活 - Hakimi 的猫爬架">
+    <title>番茄钟 - Hakimi 的猫爬架</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 30%, #ffecd2 60%, #fcb69f 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+        }
+        .back-btn {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            text-decoration: none; font-size: 22px;
+            background: rgba(255,255,255,0.9); width: 45px; height: 45px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1); transition: all 0.3s;
+            backdrop-filter: blur(10px); color: #333;
+        }
+        .back-btn:hover { transform: scale(1.1); box-shadow: 0 4px 20px rgba(255,107,107,0.3); }
+        .pomodoro-wrapper {
+            max-width: 480px; width: 90%; text-align: center;
+            position: relative; z-index: 1;
+        }
+        .pomodoro-card {
+            background: rgba(255,255,255,0.85);
+            border-radius: 24px; padding: 40px 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            margin-bottom: 24px;
+        }
+        .pomodoro-card h1 {
+            font-size: 1.8rem; color: #e74c3c; margin-bottom: 8px; font-weight: 700;
+        }
+        .pomodoro-card .subtitle {
+            color: #888; font-size: 0.95rem; margin-bottom: 30px;
+        }
+        .mode-tabs {
+            display: flex; gap: 8px; justify-content: center; margin-bottom: 30px;
+        }
+        .mode-tab {
+            padding: 8px 18px; border: 2px solid #e74c3c; border-radius: 20px;
+            background: transparent; color: #e74c3c; cursor: pointer;
+            font-size: 0.9rem; font-weight: 500; transition: all 0.3s;
+        }
+        .mode-tab.active {
+            background: #e74c3c; color: white;
+        }
+        .mode-tab:hover:not(.active) { background: rgba(231,76,60,0.1); }
+        .timer-ring {
+            position: relative; width: 240px; height: 240px; margin: 0 auto 30px;
+        }
+        .timer-ring svg { transform: rotate(-90deg); }
+        .timer-ring .bg-ring {
+            fill: none; stroke: #f0d0d0; stroke-width: 8;
+        }
+        .timer-ring .progress-ring {
+            fill: none; stroke: #e74c3c; stroke-width: 8;
+            stroke-linecap: round; transition: stroke-dashoffset 0.5s;
+        }
+        .timer-ring.short-break .progress-ring { stroke: #27ae60; }
+        .timer-ring.long-break .progress-ring { stroke: #3498db; }
+        .timer-display {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 3.2rem; font-weight: 700; color: #333;
+            font-variant-numeric: tabular-nums;
+        }
+        .timer-label {
+            position: absolute; top: 68%; left: 50%; transform: translateX(-50%);
+            font-size: 0.85rem; color: #999;
+        }
+        .controls {
+            display: flex; gap: 12px; justify-content: center; margin-bottom: 20px;
+        }
+        .ctrl-btn {
+            width: 56px; height: 56px; border-radius: 50%; border: none;
+            cursor: pointer; font-size: 1.3rem; transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .ctrl-btn.primary {
+            background: linear-gradient(135deg, #e74c3c, #c0392b); color: white;
+            width: 70px; height: 70px; font-size: 1.6rem;
+        }
+        .ctrl-btn.primary:hover { transform: scale(1.1); }
+        .ctrl-btn.secondary {
+            background: rgba(255,255,255,0.9); color: #666;
+        }
+        .ctrl-btn.secondary:hover { background: #f5f5f5; transform: scale(1.05); }
+        .stats-row {
+            display: flex; justify-content: center; gap: 30px;
+            padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.06);
+        }
+        .stat-item { text-align: center; }
+        .stat-item .stat-val {
+            font-size: 1.6rem; font-weight: 700; color: #e74c3c;
+        }
+        .stat-item .stat-label {
+            font-size: 0.8rem; color: #999; margin-top: 2px;
+        }
+        .settings-card {
+            background: rgba(255,255,255,0.85);
+            border-radius: 20px; padding: 24px 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        .settings-card h3 {
+            font-size: 1.1rem; color: #333; margin-bottom: 16px; font-weight: 600;
+        }
+        .setting-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .setting-row:last-child { border-bottom: none; }
+        .setting-row label { font-size: 0.9rem; color: #555; }
+        .setting-row input[type="number"] {
+            width: 60px; padding: 6px 8px; border: 1px solid #ddd;
+            border-radius: 8px; font-size: 0.9rem; text-align: center;
+            background: white;
+        }
+        .setting-row input[type="number"]:focus {
+            outline: none; border-color: #e74c3c;
+        }
+        .sound-toggle {
+            position: relative; width: 44px; height: 24px;
+            background: #ddd; border-radius: 12px; cursor: pointer;
+            transition: background 0.3s;
+        }
+        .sound-toggle.on { background: #e74c3c; }
+        .sound-toggle::after {
+            content: ''; position: absolute; top: 2px; left: 2px;
+            width: 20px; height: 20px; background: white; border-radius: 50%;
+            transition: transform 0.3s; box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+        .sound-toggle.on::after { transform: translateX(20px); }
+        .toast {
+            position: fixed; top: 20px; right: 20px;
+            background: rgba(46,204,113,0.95); color: white;
+            padding: 12px 24px; border-radius: 12px; font-size: 0.9rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            transform: translateX(120%); transition: transform 0.4s ease;
+            z-index: 200;
+        }
+        .toast.show { transform: translateX(0); }
+        @media (max-width: 500px) {
+            .timer-ring { width: 200px; height: 200px; }
+            .timer-display { font-size: 2.6rem; }
+            .pomodoro-card { padding: 30px 20px; }
+            .stats-row { gap: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="features.html" class="back-btn">&#8592;</a>
+    <div id="toast" class="toast"></div>
+    <div class="pomodoro-wrapper">
+        <div class="pomodoro-card">
+            <h1>番茄钟</h1>
+            <p class="subtitle">专注工作，高效生活</p>
+            <div class="mode-tabs">
+                <button class="mode-tab active" data-mode="work">专注</button>
+                <button class="mode-tab" data-mode="shortBreak">短休息</button>
+                <button class="mode-tab" data-mode="longBreak">长休息</button>
+            </div>
+            <div class="timer-ring" id="timerRing">
+                <svg width="100%" height="100%" viewBox="0 0 240 240">
+                    <circle class="bg-ring" cx="120" cy="120" r="108"></circle>
+                    <circle class="progress-ring" id="progressRing" cx="120" cy="120" r="108"
+                        stroke-dasharray="678.58" stroke-dashoffset="0"></circle>
+                </svg>
+                <div class="timer-display" id="timerDisplay">25:00</div>
+                <div class="timer-label" id="timerLabel">点击开始专注</div>
+            </div>
+            <div class="controls">
+                <button class="ctrl-btn secondary" id="resetBtn" title="重置">&#8634;</button>
+                <button class="ctrl-btn primary" id="startBtn">&#9654;</button>
+                <button class="ctrl-btn secondary" id="skipBtn" title="跳过">&#9197;</button>
+            </div>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-val" id="pomodoroCount">0</div>
+                    <div class="stat-label">完成番茄</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val" id="totalMinutes">0</div>
+                    <div class="stat-label">专注分钟</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val" id="todayCount">0</div>
+                    <div class="stat-label">今日番茄</div>
+                </div>
+            </div>
+        </div>
+        <div class="settings-card">
+            <h3>设置</h3>
+            <div class="setting-row">
+                <label>专注时长 (分钟)</label>
+                <input type="number" id="workMin" value="25" min="1" max="90">
+            </div>
+            <div class="setting-row">
+                <label>短休息 (分钟)</label>
+                <input type="number" id="shortMin" value="5" min="1" max="30">
+            </div>
+            <div class="setting-row">
+                <label>长休息 (分钟)</label>
+                <input type="number" id="longMin" value="15" min="1" max="60">
+            </div>
+            <div class="setting-row">
+                <label>提示音</label>
+                <div class="sound-toggle on" id="soundToggle"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        var CIRCUMFERENCE = 2 * Math.PI * 108;
+        var modes = { work: 25, shortBreak: 5, longBreak: 15 };
+        var currentMode = 'work';
+        var totalSeconds = modes.work * 60;
+        var remainingSeconds = totalSeconds;
+        var timer = null;
+        var isRunning = false;
+        var soundOn = true;
+        var totalPomodoros = parseInt(localStorage.getItem('pomodoro_total') || '0');
+        var totalMins = parseInt(localStorage.getItem('pomodoro_mins') || '0');
+        var todayDate = new Date().toDateString();
+        var todayPomodoros = parseInt(localStorage.getItem('pomodoro_today_' + todayDate) || '0');
+
+        var progressRing = document.getElementById('progressRing');
+        var timerDisplay = document.getElementById('timerDisplay');
+        var timerLabel = document.getElementById('timerLabel');
+        var timerRing = document.getElementById('timerRing');
+        var startBtn = document.getElementById('startBtn');
+        var resetBtn = document.getElementById('resetBtn');
+        var skipBtn = document.getElementById('skipBtn');
+        var pomodoroCountEl = document.getElementById('pomodoroCount');
+        var totalMinutesEl = document.getElementById('totalMinutes');
+        var todayCountEl = document.getElementById('todayCount');
+        var soundToggle = document.getElementById('soundToggle');
+        var toastEl = document.getElementById('toast');
+
+        progressRing.style.strokeDasharray = CIRCUMFERENCE;
+        progressRing.style.strokeDashoffset = '0';
+
+        pomodoroCountEl.textContent = totalPomodoros;
+        totalMinutesEl.textContent = totalMins;
+        todayCountEl.textContent = todayPomodoros;
+
+        function formatTime(s) {
+            var m = Math.floor(s / 60);
+            var sec = s % 60;
+            return (m < 10 ? '0' : '') + m + ':' + (sec < 10 ? '0' : '') + sec;
+        }
+
+        function updateDisplay() {
+            timerDisplay.textContent = formatTime(remainingSeconds);
+            var progress = 1 - (remainingSeconds / totalSeconds);
+            progressRing.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
+            document.title = formatTime(remainingSeconds) + ' - 番茄钟';
+        }
+
+        function showToast(msg) {
+            toastEl.textContent = msg;
+            toastEl.classList.add('show');
+            setTimeout(function() { toastEl.classList.remove('show'); }, 2500);
+        }
+
+        function playSound() {
+            if (!soundOn) return;
+            try {
+                var ctx = new (window.AudioContext || window.webkitAudioContext)();
+                var notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach(function(freq, i) {
+                    var osc = ctx.createOscillator();
+                    var gain = ctx.createGain();
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.type = 'sine'; osc.frequency.value = freq;
+                    gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.2);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.2 + 0.4);
+                    osc.start(ctx.currentTime + i * 0.2);
+                    osc.stop(ctx.currentTime + i * 0.2 + 0.4);
+                });
+            } catch(e) {}
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            var mins = parseInt(document.getElementById(mode === 'work' ? 'workMin' : mode === 'shortBreak' ? 'shortMin' : 'longMin').value) || modes[mode];
+            modes[mode] = mins;
+            totalSeconds = mins * 60;
+            remainingSeconds = totalSeconds;
+            timerRing.className = 'timer-ring' + (mode === 'shortBreak' ? ' short-break' : mode === 'longBreak' ? ' long-break' : '');
+            progressRing.style.stroke = mode === 'work' ? '#e74c3c' : mode === 'shortBreak' ? '#27ae60' : '#3498db';
+            updateDisplay();
+            document.querySelectorAll('.mode-tab').forEach(function(tab) {
+                tab.classList.toggle('active', tab.dataset.mode === mode);
+            });
+        }
+
+        function startTimer() {
+            if (isRunning) {
+                clearInterval(timer);
+                isRunning = false;
+                startBtn.innerHTML = '&#9654;';
+                timerLabel.textContent = '已暂停';
+                return;
+            }
+            isRunning = true;
+            startBtn.innerHTML = '&#10074;&#10074;';
+            timerLabel.textContent = currentMode === 'work' ? '专注中...' : '休息中...';
+            timer = setInterval(function() {
+                remainingSeconds--;
+                if (remainingSeconds <= 0) {
+                    clearInterval(timer);
+                    isRunning = false;
+                    startBtn.innerHTML = '&#9654;';
+                    playSound();
+                    if (currentMode === 'work') {
+                        totalPomodoros++;
+                        totalMins += modes.work;
+                        todayPomodoros++;
+                        localStorage.setItem('pomodoro_total', totalPomodoros);
+                        localStorage.setItem('pomodoro_mins', totalMins);
+                        localStorage.setItem('pomodoro_today_' + todayDate, todayPomodoros);
+                        pomodoroCountEl.textContent = totalPomodoros;
+                        totalMinutesEl.textContent = totalMins;
+                        todayCountEl.textContent = todayPomodoros;
+                        showToast('完成一个番茄! 休息一下吧');
+                        var nextMode = (totalPomodoros % 4 === 0) ? 'longBreak' : 'shortBreak';
+                        switchMode(nextMode);
+                    } else {
+                        showToast('休息结束，继续专注吧!');
+                        switchMode('work');
+                    }
+                    return;
+                }
+                updateDisplay();
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            startBtn.innerHTML = '&#9654;';
+            remainingSeconds = totalSeconds;
+            timerLabel.textContent = '点击开始专注';
+            updateDisplay();
+        }
+
+        function skipTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            startBtn.innerHTML = '&#9654;';
+            if (currentMode === 'work') {
+                switchMode((totalPomodoros % 4 === 0) ? 'longBreak' : 'shortBreak');
+            } else {
+                switchMode('work');
+            }
+        }
+
+        startBtn.addEventListener('click', startTimer);
+        resetBtn.addEventListener('click', resetTimer);
+        skipBtn.addEventListener('click', skipTimer);
+
+        document.querySelectorAll('.mode-tab').forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                clearInterval(timer);
+                isRunning = false;
+                startBtn.innerHTML = '&#9654;';
+                switchMode(tab.dataset.mode);
+            });
+        });
+
+        soundToggle.addEventListener('click', function() {
+            soundOn = !soundOn;
+            soundToggle.classList.toggle('on', soundOn);
+        });
+
+        ['workMin', 'shortMin', 'longMin'].forEach(function(id) {
+            document.getElementById(id).addEventListener('change', function() {
+                var mode = id === 'workMin' ? 'work' : id === 'shortMin' ? 'shortBreak' : 'longBreak';
+                if (!isRunning) switchMode(mode);
+            });
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+                e.preventDefault();
+                startTimer();
+            }
+        });
+
+        updateDisplay();
+    })();
+    </script>
+</body>
+</html>

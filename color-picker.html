@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="颜色选择器 - 在线取色与配色方案 - Hakimi 的猫爬架">
+    <title>颜色选择器 - Hakimi 的猫爬架</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 30%, #ffd194 70%, #f093fb 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #333;
+        }
+        .back-btn {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            text-decoration: none; font-size: 22px;
+            background: rgba(255,255,255,0.9); width: 45px; height: 45px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1); transition: all 0.3s;
+            backdrop-filter: blur(10px); color: #333;
+        }
+        .back-btn:hover { transform: scale(1.1); }
+        .picker-wrapper {
+            max-width: 800px; margin: 0 auto; padding: 40px 20px 80px;
+            position: relative; z-index: 1;
+        }
+        .picker-card {
+            background: rgba(255,255,255,0.88);
+            border-radius: 20px; padding: 35px 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+        .picker-card h1 { font-size: 1.8rem; color: #e74c3c; margin-bottom: 6px; font-weight: 700; text-align: center; }
+        .picker-card .subtitle { color: #888; font-size: 0.95rem; margin-bottom: 24px; text-align: center; }
+        .main-area {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;
+        }
+        .canvas-box {
+            position: relative; width: 100%; aspect-ratio: 1; border-radius: 12px;
+            overflow: hidden; cursor: crosshair; border: 2px solid rgba(0,0,0,0.1);
+        }
+        .canvas-box canvas { width: 100%; height: 100%; display: block; }
+        .canvas-marker {
+            position: absolute; width: 18px; height: 18px; border-radius: 50%;
+            border: 2px solid white; box-shadow: 0 0 4px rgba(0,0,0,0.5);
+            pointer-events: none; transform: translate(-50%, -50%);
+        }
+        .hue-strip {
+            position: relative; width: 100%; height: 30px; border-radius: 12px;
+            overflow: hidden; cursor: pointer; border: 2px solid rgba(0,0,0,0.1);
+            background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+        }
+        .hue-marker {
+            position: absolute; top: -2px; width: 8px; height: 34px;
+            background: white; border-radius: 4px; pointer-events: none;
+            box-shadow: 0 0 4px rgba(0,0,0,0.5); transform: translateX(-50%);
+        }
+        .color-preview {
+            width: 100%; aspect-ratio: 1; border-radius: 16px;
+            border: 3px solid rgba(0,0,0,0.1); transition: background 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; font-weight: 700; text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .color-values {
+            display: grid; gap: 10px;
+        }
+        .color-val-row {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(0,0,0,0.03); padding: 10px 12px; border-radius: 10px;
+        }
+        .color-val-row .val-label {
+            font-size: 0.8rem; font-weight: 600; color: #888; min-width: 36px;
+        }
+        .color-val-row .val-text {
+            flex: 1; font-family: 'Consolas', monospace; font-size: 0.85rem; color: #333;
+        }
+        .color-val-row .val-copy {
+            background: none; border: none; cursor: pointer; font-size: 0.85rem;
+            color: #e74c3c; padding: 2px 8px; border-radius: 4px; transition: background 0.2s;
+        }
+        .color-val-row .val-copy:hover { background: rgba(231,76,60,0.1); }
+        .palette-section h3 {
+            font-size: 1.2rem; color: #333; margin-bottom: 12px; font-weight: 600;
+        }
+        .palette-row {
+            display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+        }
+        .palette-swatch {
+            flex: 1; min-width: 48px; height: 48px; border-radius: 10px;
+            cursor: pointer; transition: transform 0.2s; border: 2px solid rgba(255,255,255,0.5);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .palette-swatch:hover { transform: scale(1.15); }
+        .saved-colors {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;
+        }
+        .saved-swatch {
+            width: 40px; height: 40px; border-radius: 8px; cursor: pointer;
+            transition: transform 0.2s; border: 2px solid rgba(255,255,255,0.6);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1); position: relative;
+        }
+        .saved-swatch:hover { transform: scale(1.1); }
+        .saved-swatch .del-btn {
+            position: absolute; top: -6px; right: -6px; width: 16px; height: 16px;
+            background: #e74c3c; color: white; border-radius: 50%; font-size: 10px;
+            display: none; align-items: center; justify-content: center; cursor: pointer;
+            border: none; line-height: 1;
+        }
+        .saved-swatch:hover .del-btn { display: flex; }
+        .save-btn {
+            width: 100%; padding: 12px; border: 2px solid #e74c3c; border-radius: 12px;
+            background: transparent; color: #e74c3c; font-size: 0.95rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s; margin-top: 12px;
+        }
+        .save-btn:hover { background: #e74c3c; color: white; }
+        .toast {
+            position: fixed; top: 20px; right: 20px;
+            background: rgba(46,204,113,0.95); color: white;
+            padding: 12px 24px; border-radius: 12px; font-size: 0.9rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            transform: translateX(120%); transition: transform 0.4s ease; z-index: 200;
+        }
+        .toast.show { transform: translateX(0); }
+        @media (max-width: 600px) {
+            .main-area { grid-template-columns: 1fr; }
+            .picker-card { padding: 24px 18px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="features.html" class="back-btn">&#8592;</a>
+    <div id="toast" class="toast"></div>
+    <div class="picker-wrapper">
+        <div class="picker-card">
+            <h1>颜色选择器</h1>
+            <p class="subtitle">在线取色、配色方案生成</p>
+            <div class="main-area">
+                <div>
+                    <div class="canvas-box" id="canvasBox">
+                        <canvas id="satBright"></canvas>
+                        <div class="canvas-marker" id="canvasMarker"></div>
+                    </div>
+                    <div style="height: 12px;"></div>
+                    <div class="hue-strip" id="hueStrip">
+                        <div class="hue-marker" id="hueMarker"></div>
+                    </div>
+                    <div class="color-values" style="margin-top: 16px;">
+                        <div class="color-val-row">
+                            <span class="val-label">HEX</span>
+                            <span class="val-text" id="hexVal">#FF0000</span>
+                            <button class="val-copy" data-target="hexVal">复制</button>
+                        </div>
+                        <div class="color-val-row">
+                            <span class="val-label">RGB</span>
+                            <span class="val-text" id="rgbVal">rgb(255, 0, 0)</span>
+                            <button class="val-copy" data-target="rgbVal">复制</button>
+                        </div>
+                        <div class="color-val-row">
+                            <span class="val-label">HSL</span>
+                            <span class="val-text" id="hslVal">hsl(0, 100%, 50%)</span>
+                            <button class="val-copy" data-target="hslVal">复制</button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="color-preview" id="colorPreview" style="background: #FF0000; color: white;">#FF0000</div>
+                    <div class="palette-section" style="margin-top: 20px;">
+                        <h3>配色方案</h3>
+                        <p style="font-size: 0.85rem; color: #888; margin-bottom: 10px;">互补色</p>
+                        <div class="palette-row" id="complementary"></div>
+                        <p style="font-size: 0.85rem; color: #888; margin-bottom: 10px;">类似色</p>
+                        <div class="palette-row" id="analogous"></div>
+                        <p style="font-size: 0.85rem; color: #888; margin-bottom: 10px;">三等分</p>
+                        <div class="palette-row" id="triadic"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="save-btn" id="saveBtn">收藏当前颜色</button>
+            <div class="saved-colors" id="savedColors"></div>
+        </div>
+    </div>
+    <script>
+    (function() {
+        var hue = 0, sat = 1, bright = 1;
+        var canvas = document.getElementById('satBright');
+        var ctx = canvas.getContext('2d');
+        var canvasBox = document.getElementById('canvasBox');
+        var marker = document.getElementById('canvasMarker');
+        var hueMarker = document.getElementById('hueMarker');
+        var preview = document.getElementById('colorPreview');
+        var toastEl = document.getElementById('toast');
+        var saved = JSON.parse(localStorage.getItem('saved_colors') || '[]');
+
+        function showToast(msg) {
+            toastEl.textContent = msg;
+            toastEl.classList.add('show');
+            setTimeout(function() { toastEl.classList.remove('show'); }, 2000);
+        }
+
+        function hslToRgb(h, s, l) {
+            var r, g, b;
+            if (s === 0) { r = g = b = l; }
+            else {
+                function hue2rgb(p, q, t) { if (t < 0) t += 1; if (t > 1) t -= 1; if (t < 1/6) return p + (q - p) * 6 * t; if (t < 1/2) return q; if (t < 2/3) return p + (q - p) * (2/3 - t) * 6; return p; }
+                var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                var p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3); g = hue2rgb(p, q, h); b = hue2rgb(p, q, h - 1/3);
+            }
+            return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+        }
+
+        function hsvToHsl(h, s, v) {
+            var l = v * (1 - s / 2);
+            var sl = (l === 0 || l === 1) ? 0 : (v - l) / Math.min(l, 1 - l);
+            return [h, sl, l];
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b].map(function(c) { return ('0' + c.toString(16)).slice(-2); }).join('').toUpperCase();
+        }
+
+        function updateCanvas() {
+            var w = canvasBox.clientWidth;
+            var h = canvasBox.clientHeight;
+            canvas.width = w; canvas.height = h;
+            ctx.fillStyle = 'hsl(' + hue + ', 100%, 50%)';
+            ctx.fillRect(0, 0, w, h);
+            var whiteGrad = ctx.createLinearGradient(0, 0, w, 0);
+            whiteGrad.addColorStop(0, '#fff'); whiteGrad.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = whiteGrad; ctx.fillRect(0, 0, w, h);
+            var blackGrad = ctx.createLinearGradient(0, 0, 0, h);
+            blackGrad.addColorStop(0, 'rgba(0,0,0,0)'); blackGrad.addColorStop(1, '#000');
+            ctx.fillStyle = blackGrad; ctx.fillRect(0, 0, w, h);
+        }
+
+        function updateColor() {
+            var hsl = hsvToHsl(hue / 360, sat, bright);
+            var rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
+            var hex = rgbToHex(rgb[0], rgb[1], rgb[2]);
+            preview.style.background = hex;
+            var lum = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+            preview.style.color = lum > 0.5 ? '#333' : '#fff';
+            preview.textContent = hex;
+            document.getElementById('hexVal').textContent = hex;
+            document.getElementById('rgbVal').textContent = 'rgb(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ')';
+            document.getElementById('hslVal').textContent = 'hsl(' + Math.round(hsl[0] * 360) + ', ' + Math.round(hsl[1] * 100) + '%, ' + Math.round(hsl[2] * 100) + '%)';
+            updatePalettes(hsl[0], hsl[1], hsl[2]);
+        }
+
+        function makeSwatch(hex) {
+            var el = document.createElement('div');
+            el.className = 'palette-swatch';
+            el.style.background = hex;
+            el.title = hex;
+            el.addEventListener('click', function() {
+                navigator.clipboard.writeText(hex).then(function() { showToast('已复制 ' + hex); });
+            });
+            return el;
+        }
+
+        function updatePalettes(h, s, l) {
+            var comp = document.getElementById('complementary');
+            var analog = document.getElementById('analogous');
+            var triad = document.getElementById('triadic');
+            comp.innerHTML = ''; analog.innerHTML = ''; triad.innerHTML = '';
+            var h2 = (h + 0.5) % 1;
+            comp.appendChild(makeSwatch(rgbToHex.apply(null, hslToRgb(h, s, l))));
+            comp.appendChild(makeSwatch(rgbToHex.apply(null, hslToRgb(h2, s, l))));
+            [-0.083, 0, 0.083].forEach(function(offset) {
+                analog.appendChild(makeSwatch(rgbToHex.apply(null, hslToRgb((h + offset + 1) % 1, s, l))));
+            });
+            [0, 1/3, 2/3].forEach(function(offset) {
+                triad.appendChild(makeSwatch(rgbToHex.apply(null, hslToRgb((h + offset) % 1, s, l))));
+            });
+        }
+
+        function updateMarkerPos() {
+            marker.style.left = (sat * 100) + '%';
+            marker.style.top = ((1 - bright) * 100) + '%';
+        }
+
+        function updateHueMarker() {
+            hueMarker.style.left = (hue / 360 * 100) + '%';
+        }
+
+        canvasBox.addEventListener('mousedown', function(e) {
+            function move(ev) {
+                var rect = canvasBox.getBoundingClientRect();
+                sat = Math.max(0, Math.min(1, (ev.clientX - rect.left) / rect.width));
+                bright = Math.max(0, Math.min(1, 1 - (ev.clientY - rect.top) / rect.height));
+                updateMarkerPos(); updateColor();
+            }
+            move(e);
+            function up() { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); }
+            document.addEventListener('mousemove', move);
+            document.addEventListener('mouseup', up);
+        });
+
+        canvasBox.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            function move(ev) {
+                var t = ev.touches[0]; var rect = canvasBox.getBoundingClientRect();
+                sat = Math.max(0, Math.min(1, (t.clientX - rect.left) / rect.width));
+                bright = Math.max(0, Math.min(1, 1 - (t.clientY - rect.top) / rect.height));
+                updateMarkerPos(); updateColor();
+            }
+            move(e);
+            function up() { document.removeEventListener('touchmove', move); document.removeEventListener('touchend', up); }
+            document.addEventListener('touchmove', move);
+            document.addEventListener('touchend', up);
+        });
+
+        var hueStrip = document.getElementById('hueStrip');
+        hueStrip.addEventListener('mousedown', function(e) {
+            function move(ev) {
+                var rect = hueStrip.getBoundingClientRect();
+                hue = Math.max(0, Math.min(360, (ev.clientX - rect.left) / rect.width * 360));
+                updateHueMarker(); updateCanvas(); updateColor();
+            }
+            move(e);
+            function up() { document.removeEventListener('mousemove', move); document.removeEventListener('mouseup', up); }
+            document.addEventListener('mousemove', move);
+            document.addEventListener('mouseup', up);
+        });
+
+        hueStrip.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            function move(ev) {
+                var t = ev.touches[0]; var rect = hueStrip.getBoundingClientRect();
+                hue = Math.max(0, Math.min(360, (t.clientX - rect.left) / rect.width * 360));
+                updateHueMarker(); updateCanvas(); updateColor();
+            }
+            move(e);
+            function up() { document.removeEventListener('touchmove', move); document.removeEventListener('touchend', up); }
+            document.addEventListener('touchmove', move);
+            document.addEventListener('touchend', up);
+        });
+
+        document.querySelectorAll('.val-copy').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var text = document.getElementById(btn.dataset.target).textContent;
+                navigator.clipboard.writeText(text).then(function() { showToast('已复制 ' + text); });
+            });
+        });
+
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            var hsl = hsvToHsl(hue / 360, sat, bright);
+            var rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
+            var hex = rgbToHex(rgb[0], rgb[1], rgb[2]);
+            if (saved.indexOf(hex) !== -1) { showToast('颜色已收藏'); return; }
+            saved.push(hex);
+            localStorage.setItem('saved_colors', JSON.stringify(saved));
+            renderSaved();
+            showToast('已收藏 ' + hex);
+        });
+
+        function renderSaved() {
+            var container = document.getElementById('savedColors');
+            container.innerHTML = '';
+            saved.forEach(function(hex, idx) {
+                var sw = document.createElement('div');
+                sw.className = 'saved-swatch';
+                sw.style.background = hex;
+                sw.title = hex;
+                sw.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('del-btn')) return;
+                    navigator.clipboard.writeText(hex).then(function() { showToast('已复制 ' + hex); });
+                });
+                var del = document.createElement('button');
+                del.className = 'del-btn';
+                del.textContent = '\u00d7';
+                del.addEventListener('click', function() {
+                    saved.splice(idx, 1);
+                    localStorage.setItem('saved_colors', JSON.stringify(saved));
+                    renderSaved();
+                });
+                sw.appendChild(del);
+                container.appendChild(sw);
+            });
+        }
+
+        window.addEventListener('resize', function() { updateCanvas(); });
+        updateCanvas(); updateColor(); updateMarkerPos(); updateHueMarker(); renderSaved();
+    })();
+    </script>
+</body>
+</html>
