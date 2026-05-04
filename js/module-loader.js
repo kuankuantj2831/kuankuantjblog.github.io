@@ -59,9 +59,9 @@ const ModuleLoader = {
 
     async initPerformanceModules() {
         try {
-            await this.loadModuleES('./js/performance-optimizer.js?v=20260425');
-            await this.loadModuleES('./js/resource-prefetcher.js?v=20260425');
-            await this.loadModuleES('./js/resource-optimizer.js?v=20260425');
+            await this.loadModuleES('./performance-optimizer.js?v=20260425');
+            await this.loadModuleES('./resource-prefetcher.js?v=20260425');
+            await this.loadModuleES('./resource-optimizer.js?v=20260425');
         } catch (e) {
             console.warn('[ML] 性能优化模块加载失败:', e);
         }
@@ -79,7 +79,7 @@ const ModuleLoader = {
         const critical = [];
 
         // 主题系统 — 影响首屏渲染，必须最先加载
-        critical.push(this.loadModuleES('./js/theme-system.js?v=20260425').then(m => {
+        critical.push(this.loadModuleES('./theme-system.js?v=20260425').then(m => {
             if (window.themeSystem) {
                 window.themeSystem.loadCustomThemes();
                 if (window.ThemeUI) window.themeUI = new window.ThemeUI(window.themeSystem);
@@ -87,24 +87,24 @@ const ModuleLoader = {
         }));
 
         // i18n — 影响文本显示
-        critical.push(this.loadModuleES('./js/i18n.js?v=20260425'));
+        critical.push(this.loadModuleES('./i18n.js?v=20260425'));
 
         // ========== Tier 2: 交互模块 — 空闲时加载 ==========
         this.scheduleIdle(() => {
             const idle = [];
 
             // 分析系统 — 纯后台采集，低优先
-            idle.push(this.loadModuleES('./js/analytics-system.js?v=20260425'));
+            idle.push(this.loadModuleES('./analytics-system.js?v=20260425'));
 
             // 社交系统
-            idle.push(this.loadModuleES('./js/social-system.js?v=20260425'));
+            idle.push(this.loadModuleES('./social-system.js?v=20260425'));
 
             // GitHub 登录
-            idle.push(this.loadScript('./js/github-login.js?v=20260425'));
+            idle.push(this.loadScript('./github-login.js?v=20260425'));
 
             // 通知中心 — 仅登录用户
             if (loggedIn) {
-                idle.push(this.loadModuleES('./js/notification-center.js?v=20260425').then(() => {
+                idle.push(this.loadModuleES('./notification-center.js?v=20260425').then(() => {
                     if (!window.NotificationCenter || !window.NotificationUI) return;
                     const userId = JSON.parse(localStorage.getItem('user') || '{}').id || 'anonymous';
                     const nc = new window.NotificationCenter({ userId });
@@ -124,12 +124,12 @@ const ModuleLoader = {
                 }));
 
                 // 游戏化
-                idle.push(this.loadModuleES('./js/gamification.js?v=20260425'));
+                idle.push(this.loadModuleES('./gamification.js?v=20260425'));
             }
 
             // ========== Tier 3: 页面专属模块 — 按需加载 ==========
             if (page === 'article') {
-                idle.push(this.loadModuleES('./js/danmaku-comments.js?v=20260425').then(() => {
+                idle.push(this.loadModuleES('./danmaku-comments.js?v=20260425').then(() => {
                     if (!window.DanmakuComments) return;
                     const aid = new URLSearchParams(location.search).get('id') || 'default';
                     const dc = new window.DanmakuComments({ articleId: aid });
@@ -137,13 +137,13 @@ const ModuleLoader = {
                     window.danmakuComments = dc;
                 }));
 
-                idle.push(this.loadModuleES('./js/reading-enhancement.js?v=20260425').then(() => {
+                idle.push(this.loadModuleES('./reading-enhancement.js?v=20260425').then(() => {
                     if (window.ReadingEnhancement) window.readingEnhancement = new window.ReadingEnhancement();
                 }));
 
-                idle.push(this.loadModuleES('./js/offline-reader.js?v=20260425'));
+                idle.push(this.loadModuleES('./offline-reader.js?v=20260425'));
 
-                idle.push(this.loadModuleES('./js/content-export.js?v=20260425').then(() => {
+                idle.push(this.loadModuleES('./content-export.js?v=20260425').then(() => {
                     if (!window.ContentExportSystem) return;
                     window.contentExport = new window.ContentExportSystem();
                     const ac = document.querySelector('article, .article-content');
@@ -161,7 +161,7 @@ const ModuleLoader = {
             }
 
             if (page === 'home' || page === 'articles') {
-                idle.push(this.loadModuleES('./js/content-recommendation.js?v=20260425').then(() => {
+                idle.push(this.loadModuleES('./content-recommendation.js?v=20260425').then(() => {
                     if (!window.ContentRecommendation) return;
                     window.ContentRecommendation.init();
                     const h = document.getElementById('hotArticlesContainer');
@@ -170,7 +170,7 @@ const ModuleLoader = {
                     if (r) window.ContentRecommendation.renderRankingBoard('rankingBoardContainer');
                 }));
 
-                idle.push(this.loadModuleES('./js/tags-system.js?v=20260425').then(() => {
+                idle.push(this.loadModuleES('./tags-system.js?v=20260425').then(() => {
                     if (!window.TagsSystem) return;
                     const ts = new window.TagsSystem();
                     ts.init();
@@ -181,7 +181,7 @@ const ModuleLoader = {
             }
 
             if (page === 'tags') {
-                idle.push(this.loadModuleES('./js/tags-system.js?v=20260425').then(() => {
+                idle.push(this.loadModuleES('./tags-system.js?v=20260425').then(() => {
                     if (!window.TagsSystem) return;
                     const ts = new window.TagsSystem();
                     ts.init();
@@ -192,7 +192,7 @@ const ModuleLoader = {
             }
 
             if (page === 'analytics') {
-                idle.push(this.loadModuleES('./js/analytics-system.js?v=20260425').then(() => {
+                idle.push(this.loadModuleES('./analytics-system.js?v=20260425').then(() => {
                     if (!window.AnalyticsSystem || !window.AnalyticsDashboard) return;
                     const a = new window.AnalyticsSystem({ trackingId: 'dashboard-view' });
                     const d = new window.AnalyticsDashboard(a, 'analyticsDashboardContainer');
@@ -201,8 +201,8 @@ const ModuleLoader = {
             }
 
             if (page === 'profile' && loggedIn) {
-                idle.push(this.loadModuleES('./js/gamification.js?v=20260425'));
-                idle.push(this.loadModuleES('./js/content-recommendation.js?v=20260425'));
+                idle.push(this.loadModuleES('./gamification.js?v=20260425'));
+                idle.push(this.loadModuleES('./content-recommendation.js?v=20260425'));
             }
 
             Promise.allSettled(idle);

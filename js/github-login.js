@@ -2,6 +2,7 @@
  * GitHub OAuth 登录组件
  */
 
+if (typeof GitHubLogin === 'undefined') {
 class GitHubLogin {
     constructor(options = {}) {
         this.clientId = options.clientId || '';
@@ -134,3 +135,5 @@ class GitHubLogin {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = GitHubLogin;
 }
+
+} // end if typeof GitHubLogin === 'undefined'

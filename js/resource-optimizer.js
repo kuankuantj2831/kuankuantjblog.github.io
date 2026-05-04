@@ -570,7 +570,7 @@ const ResourceOptimizer = {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => ResourceOptimizer.init());
 } else {
-    Resource ResourceOptimizer.init();
+    ResourceOptimizer.init();
 }
 
 window.ResourceOptimizer = ResourceOptimizer;

@@ -112,7 +112,7 @@ this.initResourceHints();
         if (!window.PerformanceObserver) return;
 
         try {
-            const fcpObserver = = new PerformanceObserver((list) => {
+            const fcpObserver = new PerformanceObserver((list) => {
                 for (const entry of list.getEntries()) {
                     if (entry.name === 'first-contentful-paint') {
                         this.metrics.fcp = entry.startTime;
