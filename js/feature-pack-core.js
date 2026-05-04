@@ -94,6 +94,10 @@ const FeaturePack = {
         }
     },
 
+    initEnabled() {
+        return this.initAll();
+    },
+
     detectPage() {
         try {
             const p = location.pathname || '';

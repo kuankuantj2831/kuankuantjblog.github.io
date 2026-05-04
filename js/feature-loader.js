@@ -1,78 +1,43 @@
 /**
- * 功能加载器 - 加载所有300个功能
+ * 功能加载器 - 精简版
+ * 只加载不干扰页面视觉的核心功能，其余按需禁用
  */
 import FeaturePack from './feature-pack-core.js?v=20260419a';
 
-// 导入所有60个功能包
+// 只加载核心功能包（UI增强1-5、阅读增强6-10、性能11-15）
 import './feature-pack-1.js?v=20260419a';
 import './feature-pack-2.js?v=20260419a';
 import './feature-pack-3.js?v=20260419a';
-import './feature-pack-4.js?v=20260419a';
-import './feature-pack-5.js?v=20260419a';
-import './feature-pack-6.js?v=20260419a';
-import './feature-pack-7.js?v=20260419a';
-import './feature-pack-8.js?v=20260419a';
-import './feature-pack-9.js?v=20260419a';
-import './feature-pack-10.js?v=20260419a';
-import './feature-pack-11.js?v=20260419a';
-import './feature-pack-12.js?v=20260419a';
-import './feature-pack-13.js?v=20260419a';
-import './feature-pack-14.js?v=20260419a';
-import './feature-pack-15.js?v=20260419a';
-import './feature-pack-16.js?v=20260419a';
-import './feature-pack-17.js?v=20260419a';
-import './feature-pack-18.js?v=20260419a';
-import './feature-pack-19.js?v=20260419a';
-import './feature-pack-20.js?v=20260419a';
-import './feature-pack-21.js?v=20260419a';
-import './feature-pack-22.js?v=20260419a';
-import './feature-pack-23.js?v=20260419a';
-import './feature-pack-24.js?v=20260419a';
-import './feature-pack-25.js?v=20260419a';
-import './feature-pack-26.js?v=20260419a';
-import './feature-pack-27.js?v=20260419a';
-import './feature-pack-28.js?v=20260419a';
-import './feature-pack-29.js?v=20260419a';
-import './feature-pack-30.js?v=20260419a';
-import './feature-pack-31.js?v=20260419a';
-import './feature-pack-32.js?v=20260419a';
-import './feature-pack-33.js?v=20260419a';
-import './feature-pack-34.js?v=20260419a';
-import './feature-pack-35.js?v=20260419a';
-import './feature-pack-36.js?v=20260419a';
-import './feature-pack-37.js?v=20260419a';
-import './feature-pack-38.js?v=20260419a';
-import './feature-pack-39.js?v=20260419a';
-import './feature-pack-40.js?v=20260419a';
-import './feature-pack-41.js?v=20260419a';
-import './feature-pack-42.js?v=20260419a';
-import './feature-pack-43.js?v=20260419a';
-import './feature-pack-44.js?v=20260419a';
-import './feature-pack-45.js?v=20260419a';
-import './feature-pack-46.js?v=20260419a';
-import './feature-pack-47.js?v=20260419a';
-import './feature-pack-48.js?v=20260419a';
-import './feature-pack-49.js?v=20260419a';
-import './feature-pack-50.js?v=20260419a';
-import './feature-pack-51.js?v=20260419a';
-import './feature-pack-52.js?v=20260419a';
-import './feature-pack-53.js?v=20260419a';
-import './feature-pack-54.js?v=20260419a';
-import './feature-pack-55.js?v=20260419a';
-import './feature-pack-56.js?v=20260419a';
-import './feature-pack-57.js?v=20260419a';
-import './feature-pack-58.js?v=20260419a';
-import './feature-pack-59.js?v=20260419a';
-import './feature-pack-60.js?v=20260419a';
 
-// DOM就绪后初始化
+// 不再批量加载所有60个功能包，避免页面信息过载
+// 如需恢复某个功能包，在此添加 import 即可
+
 document.addEventListener('DOMContentLoaded', () => {
-    // 默认启用所有功能
+    // 默认禁用所有功能，只启用白名单内的
+    const allowedFeatures = [
+        'fp01_online_counter',
+        'fp02_read_progress',
+        'fp10_code_copy',
+        'fp11_dark_toggle',
+        'fp12_skeleton',
+        'fp14_smooth_anchor',
+        'fp17_live_clock',
+        'fp28_word_count',
+        'fp31_visit_counter',
+        'fp47_time_greeting',
+        'fp49_load_time',
+        'fp60_console_logo',
+        'fp78_theme_persist',
+        'fp81_scroll_spy',
+        'fp082_img_load_stats'
+    ];
+
     Object.keys(FeaturePack.registry).forEach(id => {
-        if (localStorage.getItem(`fp_${id}`) === null) {
+        if (allowedFeatures.includes(id)) {
             FeaturePack.enabled.add(id);
         }
     });
-    FeaturePack.initAll();
-    console.log(`[FeaturePack] 已加载 ${Object.keys(FeaturePack.registry).length} 个功能`);
+
+    FeaturePack.initEnabled();
+    console.log(`[FeaturePack] 已加载 ${FeaturePack.enabled.size} 个精选功能`);
 });
