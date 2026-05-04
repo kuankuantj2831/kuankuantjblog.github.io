@@ -87,8 +87,6 @@
 
     <!-- 兼容性 polyfill：为旧浏览器提供现代 JS 特性支持 -->
     <script src="js/polyfill.js"></script>
-    <!-- 性能优化：pace 加载指示器使用 async 避免阻塞渲染 -->
-    <script src="js/pace.min.js" async></script>
     <!-- Cloudflare Turnstile 延迟到用户点击登录/注册时才加载 -->
     <script>window.__turnstileReady = false; function onTurnstileLoad() { window.__turnstileReady = true; console.log('Turnstile SDK loaded'); }
     function loadTurnstile() { if (document.getElementById('turnstileScript')) return; var s = document.createElement('script'); s.id = 'turnstileScript'; s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad'; s.async = true; document.head.appendChild(s); }</script>
@@ -800,7 +798,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-<script src="js/music-player.js?v=2"></script>
+
 
 <!-- 100功能包加载器 -->
 <script type="module" src="js/feature-loader.js?v=20260419a"></script>
