@@ -4,7 +4,7 @@ const https = require('https');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { pool } = require('../db');
-const { verifyToken } = require('../middleware/auth');
+const { verifyToken, getJwtSecret } = require('../middleware/auth');
 const router = express.Router();
 
 // Cloudflare Turnstile 验证函数（密钥从环境变量读取）
@@ -149,7 +149,6 @@ router.post('/login', async (req, res) => {
             const { sendVerificationEmail } = require('../utils/email');
             const emailSent = await sendVerificationEmail(user.email, code);
 
-            const { getJwtSecret } = require('../middleware/auth');
             // 使用短期 JWT 作为 2FA 会话令牌，避免暴露 userId
             const twoFaToken = jwt.sign({ id: user.id, type: '2fa_session' }, getJwtSecret(), { expiresIn: '10m' });
 
@@ -160,7 +159,6 @@ router.post('/login', async (req, res) => {
             }
         }
 
-        const { getJwtSecret } = require('../middleware/auth');
         const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, getJwtSecret(), { expiresIn: '24h' });
 
         // Return user info without password
@@ -188,7 +186,6 @@ router.post('/login/verify', async (req, res) => {
         const { twoFaToken, code } = req.body;
 
         // 解码 2FA 会话令牌获取 userId
-        const { getJwtSecret } = require('../middleware/auth');
         let userId;
         try {
             const decoded = jwt.verify(twoFaToken, getJwtSecret());
@@ -232,7 +229,6 @@ router.post('/login/verify', async (req, res) => {
         const user = users[0];
 
         // Generate Token
-        const { getJwtSecret } = require('../middleware/auth');
         const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, getJwtSecret(), { expiresIn: '24h' });
         const { password_hash, ...userInfo } = user;
         res.json({ token, user: userInfo });
