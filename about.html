@@ -1,113 +1,541 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于我 - Hakimi的猫爬架</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="关于 Hakimi - 开发者、创作者、猫爬架的主人">
+    <title>关于我 - Hakimi 的猫爬架</title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script src="/js/pace.min.js" async></script>
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
+            font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #fda085 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
             color: #333;
-            text-align: center;
+            overflow-x: hidden;
         }
-        .intro {
-            text-align: center;
-            margin: 20px 0;
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 40% 80%, rgba(255,255,255,0.06) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
         }
-        .intro img {
-            width: 150px;
-            height: 150px;
+
+        .back-btn {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            text-decoration: none; font-size: 22px;
+            background: rgba(255,255,255,0.9); width: 45px; height: 45px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1); transition: all 0.3s;
+            backdrop-filter: blur(10px); color: #333;
+        }
+        .back-btn:hover { transform: scale(1.1); box-shadow: 0 4px 20px rgba(102,126,234,0.3); }
+
+        .about-wrapper {
+            max-width: 900px; margin: 0 auto; padding: 40px 20px 80px;
+            position: relative; z-index: 1;
+        }
+
+        .hero-card {
+            background: rgba(255,255,255,0.85);
+            border-radius: 24px; padding: 50px 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            text-align: center; margin-bottom: 30px;
+            position: relative; overflow: hidden;
+        }
+
+        .hero-card::before {
+            content: '';
+            position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(102,126,234,0.05) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .avatar-wrapper {
+            position: relative; display: inline-block; margin-bottom: 24px;
+        }
+
+        .avatar-wrapper img {
+            width: 140px; height: 140px; border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255,255,255,0.9);
+            box-shadow: 0 8px 30px rgba(102,126,234,0.3);
+            transition: transform 0.5s ease;
+            position: relative; z-index: 1;
+        }
+
+        .avatar-wrapper:hover img { transform: scale(1.05) rotate(3deg); }
+
+        .avatar-ring {
+            position: absolute; top: -8px; left: -8px;
+            width: calc(100% + 16px); height: calc(100% + 16px);
             border-radius: 50%;
-            margin: 10px 0;
+            border: 3px solid transparent;
+            border-top-color: #667eea;
+            border-right-color: #764ba2;
+            animation: spin 3s linear infinite;
         }
-        .info {
-            margin: 20px 0;
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .hero-card h1 {
+            font-size: 2.2rem; font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 8px;
+            position: relative;
+        }
+
+        .hero-card .tagline {
+            font-size: 1.1rem; color: #888; margin-bottom: 24px;
+            position: relative;
+        }
+
+        .hero-card .bio {
+            font-size: 1rem; color: #555; line-height: 1.8;
+            max-width: 600px; margin: 0 auto;
+            position: relative;
+        }
+
+        .stats-row {
+            display: flex; justify-content: center; gap: 40px;
+            margin-top: 30px; padding-top: 24px;
+            border-top: 1px solid rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        .stat-item { text-align: center; }
+
+        .stat-item .stat-num {
+            font-size: 1.8rem; font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.8rem; color: #999; margin-top: 4px;
+        }
+
+        .section-card {
+            background: rgba(255,255,255,0.8);
+            border-radius: 20px; padding: 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 8px 32px rgba(31,38,135,0.08);
+            margin-bottom: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(102,126,234,0.15);
+        }
+
+        .section-card h2 {
+            font-size: 1.4rem; font-weight: 700; color: #333;
+            margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+        }
+
+        .section-card h2 .icon {
+            font-size: 1.6rem;
+        }
+
+        .skill-grid {
+            display: flex; flex-wrap: wrap; gap: 10px;
+        }
+
+        .skill-tag {
+            padding: 8px 18px; border-radius: 20px; font-size: 0.9rem;
+            font-weight: 500; transition: all 0.3s; cursor: default;
+        }
+
+        .skill-tag.frontend { background: rgba(102,126,234,0.12); color: #667eea; }
+        .skill-tag.backend { background: rgba(46,204,113,0.12); color: #27ae60; }
+        .skill-tag.design { background: rgba(231,76,60,0.12); color: #e74c3c; }
+        .skill-tag.tools { background: rgba(243,156,18,0.12); color: #f39c12; }
+        .skill-tag.other { background: rgba(155,89,182,0.12); color: #9b59b6; }
+
+        .skill-tag:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+        .interest-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .interest-item {
+            display: flex; align-items: center; gap: 14px;
+            padding: 16px; border-radius: 14px;
+            background: rgba(102,126,234,0.05);
+            border: 1px solid rgba(102,126,234,0.1);
+            transition: all 0.3s;
+        }
+
+        .interest-item:hover {
+            background: rgba(102,126,234,0.1);
+            transform: translateX(4px);
+        }
+
+        .interest-item .interest-icon {
+            font-size: 2rem; width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.8); border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .interest-item .interest-text h4 {
+            font-size: 0.95rem; color: #333; font-weight: 600; margin-bottom: 2px;
+        }
+
+        .interest-item .interest-text p {
+            font-size: 0.8rem; color: #999;
+        }
+
+        .timeline {
+            position: relative; padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: ''; position: absolute; left: 8px; top: 0;
+            width: 2px; height: 100%;
+            background: linear-gradient(to bottom, #667eea, #764ba2, transparent);
+        }
+
+        .timeline-item {
+            position: relative; margin-bottom: 24px;
+            padding: 16px 20px; border-radius: 12px;
+            background: rgba(102,126,234,0.04);
+            border: 1px solid rgba(102,126,234,0.08);
+        }
+
+        .timeline-item::before {
+            content: ''; position: absolute; left: -26px; top: 20px;
+            width: 12px; height: 12px; border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            box-shadow: 0 0 0 4px rgba(102,126,234,0.2);
+        }
+
+        .timeline-item .time {
+            font-size: 0.8rem; color: #667eea; font-weight: 600; margin-bottom: 4px;
+        }
+
+        .timeline-item h4 {
+            font-size: 1rem; color: #333; font-weight: 600; margin-bottom: 4px;
+        }
+
+        .timeline-item p {
+            font-size: 0.85rem; color: #666; line-height: 1.6;
+        }
+
+        .contact-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .contact-card {
+            display: flex; align-items: center; gap: 14px;
+            padding: 18px 20px; border-radius: 14px;
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(102,126,234,0.15);
+            text-decoration: none; color: #333;
+            transition: all 0.3s;
+        }
+
+        .contact-card:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.15);
+            border-color: rgba(102,126,234,0.3);
+        }
+
+        .contact-card .contact-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; flex-shrink: 0;
+        }
+
+        .contact-card .contact-icon.email { background: rgba(231,76,60,0.1); }
+        .contact-card .contact-icon.website { background: rgba(102,126,234,0.1); }
+        .contact-card .contact-icon.github { background: rgba(51,51,51,0.1); }
+        .contact-card .contact-icon.wechat { background: rgba(46,204,113,0.1); }
+
+        .contact-card .contact-info h4 {
+            font-size: 0.9rem; font-weight: 600; margin-bottom: 2px;
+        }
+
+        .contact-card .contact-info p {
+            font-size: 0.8rem; color: #999;
+        }
+
+        .motto-card {
+            background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1));
+            border-radius: 20px; padding: 40px 30px;
+            text-align: center; margin-bottom: 24px;
+            border: 1px solid rgba(102,126,234,0.15);
+        }
+
+        .motto-card .quote {
+            font-size: 1.6rem; font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; margin-bottom: 10px;
             line-height: 1.6;
         }
-        .skills {
-            margin: 20px 0;
+
+        .motto-card .author {
+            font-size: 0.9rem; color: #999;
         }
-        .skills h3 {
-            color: #333;
+
+        .footer-note {
+            text-align: center; padding: 30px 20px;
+            color: rgba(255,255,255,0.6); font-size: 0.85rem;
         }
-        .skills ul {
-            list-style: none;
-            padding: 0;
+
+        .footer-note a {
+            color: rgba(255,255,255,0.8); text-decoration: none;
         }
-        .skills li {
-            display: inline-block;
-            background-color: #e0e0e0;
-            padding: 5px 10px;
-            margin: 5px;
-            border-radius: 5px;
+
+        .footer-note a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .hero-card { padding: 35px 24px; }
+            .hero-card h1 { font-size: 1.8rem; }
+            .stats-row { gap: 24px; }
+            .stat-item .stat-num { font-size: 1.4rem; }
+            .interest-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
         }
-        .contact {
-            text-align: center;
-            margin: 20px 0;
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .contact a {
-            color: #007bff;
-            text-decoration: none;
-            margin: 0 10px;
+
+        .animate-in {
+            opacity: 0; transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        .contact a:hover {
-            text-decoration: underline;
+
+        .animate-in.visible {
+            opacity: 1; transform: translateY(0);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+            .hero-card, .section-card { background: rgba(30,30,50,0.85); border-color: rgba(255,255,255,0.08); }
+            .hero-card h1 { background: linear-gradient(135deg, #a8b8ff, #c084fc); -webkit-background-clip: text; background-clip: text; }
+            .hero-card .tagline { color: #aaa; }
+            .hero-card .bio { color: #bbb; }
+            .section-card h2 { color: #e0e0e0; }
+            .interest-item { background: rgba(102,126,234,0.08); border-color: rgba(102,126,234,0.15); }
+            .interest-item .interest-text h4 { color: #ddd; }
+            .timeline-item { background: rgba(102,126,234,0.06); border-color: rgba(102,126,234,0.12); }
+            .timeline-item h4 { color: #ddd; }
+            .timeline-item p { color: #aaa; }
+            .contact-card { background: rgba(30,30,50,0.6); border-color: rgba(102,126,234,0.15); }
+            .contact-card:hover { background: rgba(40,40,60,0.8); }
+            .contact-card .contact-info h4 { color: #ddd; }
+            .motto-card { background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15)); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>关于我</h1>
-        <div class="intro">
-            <img src="images/forrestgump.png" alt="Hakimi">
-            <h2>Hakimi</h2>
-            <p>一个充满好奇心的开发者和创作者</p>
+    <a href="index.html" class="back-btn">&#8592;</a>
+
+    <div class="about-wrapper">
+        <div class="hero-card animate-in">
+            <div class="avatar-wrapper">
+                <div class="avatar-ring"></div>
+                <img src="images/forrestgump.png" alt="Hakimi">
+            </div>
+            <h1>Hakimi</h1>
+            <p class="tagline">开发者 / 创作者 / 猫爬架的主人</p>
+            <p class="bio">你好！我是 Hakimi，一个充满好奇心的开发者。热爱编程、设计和探索新技术，创建了「猫爬架」这个小小的角落，希望在这里分享学习历程、项目经验和生活感悟。相信分享是一种美德，它不求回报，只为真诚。</p>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-num">50+</div>
+                    <div class="stat-label">功能页面</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">200+</div>
+                    <div class="stat-label">微特性</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">5+</div>
+                    <div class="stat-label">技术栈</div>
+                </div>
+            </div>
         </div>
-        
-        <div class="info">
-            <h3>个人介绍</h3>
-            <p>你好！我是Hakimi，一个热爱编程、设计和探索新技术的开发者。我创建了这个博客网站，希望能分享我的学习历程、项目经验和生活感悟。</p>
-            
-            <h3>兴趣爱好</h3>
-            <p>除了编程，我还喜欢：</p>
-            <ul>
-                <li>阅读</li>
-                <li>旅行</li>
-                <li>摄影</li>
-                <li>游戏</li>
-            </ul>
+
+        <div class="motto-card animate-in">
+            <div class="quote">"分享是一种美德，它不求回报，只为真诚。"</div>
+            <div class="author">-- Hakimi</div>
         </div>
-        
-        <div class="skills">
-            <h3>技能特长</h3>
-            <ul>
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>JavaScript</li>
-                <li>Python</li>
-                <li>UI/UX设计</li>
-            </ul>
+
+        <div class="section-card animate-in">
+            <h2><span class="icon">💻</span> 技能特长</h2>
+            <div class="skill-grid">
+                <span class="skill-tag frontend">HTML5</span>
+                <span class="skill-tag frontend">CSS3</span>
+                <span class="skill-tag frontend">JavaScript</span>
+                <span class="skill-tag frontend">Vue.js</span>
+                <span class="skill-tag backend">Node.js</span>
+                <span class="skill-tag backend">Express</span>
+                <span class="skill-tag backend">Python</span>
+                <span class="skill-tag backend">MySQL</span>
+                <span class="skill-tag design">UI/UX 设计</span>
+                <span class="skill-tag design">Figma</span>
+                <span class="skill-tag tools">Git</span>
+                <span class="skill-tag tools">Docker</span>
+                <span class="skill-tag tools">Linux</span>
+                <span class="skill-tag other">PWA</span>
+                <span class="skill-tag other">Service Worker</span>
+            </div>
         </div>
-        
-        <div class="contact">
-            <h3>联系方式</h3>
-            <p>欢迎通过以下方式联系我：</p>
-            <a href="mailto:contact@mcock.cn">邮箱</a>
-            <a href="https://mcock.cn">网站</a>
-            <a href="https://github.com">GitHub</a>
+
+        <div class="section-card animate-in">
+            <h2><span class="icon">🌟</span> 兴趣爱好</h2>
+            <div class="interest-grid">
+                <div class="interest-item">
+                    <div class="interest-icon">📚</div>
+                    <div class="interest-text">
+                        <h4>阅读</h4>
+                        <p>技术书籍与文学作品</p>
+                    </div>
+                </div>
+                <div class="interest-item">
+                    <div class="interest-icon">✈️</div>
+                    <div class="interest-text">
+                        <h4>旅行</h4>
+                        <p>探索不同的文化与风景</p>
+                    </div>
+                </div>
+                <div class="interest-item">
+                    <div class="interest-icon">📷</div>
+                    <div class="interest-text">
+                        <h4>摄影</h4>
+                        <p>记录生活中的美好瞬间</p>
+                    </div>
+                </div>
+                <div class="interest-item">
+                    <div class="interest-icon">🎮</div>
+                    <div class="interest-text">
+                        <h4>游戏</h4>
+                        <p>独立游戏与策略游戏</p>
+                    </div>
+                </div>
+                <div class="interest-item">
+                    <div class="interest-icon">🎵</div>
+                    <div class="interest-text">
+                        <h4>音乐</h4>
+                        <p>放松心情的最佳方式</p>
+                    </div>
+                </div>
+                <div class="interest-item">
+                    <div class="interest-icon">🐱</div>
+                    <div class="interest-text">
+                        <h4>猫咪</h4>
+                        <p>猫爬架的灵魂所在</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card animate-in">
+            <h2><span class="icon">🚀</span> 项目历程</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="time">2024</div>
+                    <h4>猫爬架诞生</h4>
+                    <p>从零开始搭建个人博客，GitHub Pages + 腾讯云 SCF 架构上线</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">2024</div>
+                    <h4>功能扩展</h4>
+                    <p>新增用户系统、文章管理、评论互动、游戏中心等核心功能</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">2025</div>
+                    <h4>游戏化升级</h4>
+                    <p>引入虚拟宠物、股票模拟、成就系统、社区互动等游戏化功能</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="time">2026</div>
+                    <h4>安全与工具</h4>
+                    <p>接口安全加固，新增番茄钟、哈希生成器、颜色选择器等效率工具</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card animate-in">
+            <h2><span class="icon">📬</span> 联系方式</h2>
+            <div class="contact-grid">
+                <a href="mailto:contact@mcock.cn" class="contact-card">
+                    <div class="contact-icon email">&#9993;</div>
+                    <div class="contact-info">
+                        <h4>邮箱</h4>
+                        <p>contact@mcock.cn</p>
+                    </div>
+                </a>
+                <a href="https://mcock.cn" class="contact-card">
+                    <div class="contact-icon website">&#127760;</div>
+                    <div class="contact-info">
+                        <h4>网站</h4>
+                        <p>mcock.cn</p>
+                    </div>
+                </a>
+                <a href="https://github.com/kuankuantj2831" class="contact-card" target="_blank" rel="noopener">
+                    <div class="contact-icon github">&#128187;</div>
+                    <div class="contact-info">
+                        <h4>GitHub</h4>
+                        <p>kuankuantj2831</p>
+                    </div>
+                </a>
+                <div class="contact-card">
+                    <div class="contact-icon wechat">&#128172;</div>
+                    <div class="contact-info">
+                        <h4>微信</h4>
+                        <p>站内私信联系</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <p>Made with &#10084;&#65039; by <a href="https://mcock.cn">Hakimi</a> &copy; 2024-2026</p>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elements = document.querySelectorAll('.animate-in');
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry, index) {
+                if (entry.isIntersecting) {
+                    setTimeout(function() {
+                        entry.target.classList.add('visible');
+                    }, index * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        elements.forEach(function(el) { observer.observe(el); });
+    });
+    </script>
 </body>
 </html>
