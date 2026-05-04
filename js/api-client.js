@@ -3,7 +3,7 @@
  * 提供缓存、去重、重试、批量请求等功能
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260419b';
+import { API_BASE_URL, API_TOKEN } from './api-config.js?v=20260419b';
 
 class ApiClient {
     constructor() {
@@ -168,6 +168,10 @@ class ApiClient {
             }
 
             // 3. 创建请求
+            if (!fetchOptions.headers) fetchOptions.headers = {};
+            if (API_TOKEN && !fetchOptions.headers['X-API-Token']) {
+                fetchOptions.headers['X-API-Token'] = API_TOKEN;
+            }
             const requestPromise = this.fetchWithRetry(url, fetchOptions)
                 .then(async response => {
                     // 解析响应

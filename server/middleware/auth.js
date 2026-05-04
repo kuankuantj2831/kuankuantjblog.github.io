@@ -1,5 +1,22 @@
 const jwt = require('jsonwebtoken');
 
+const API_TOKEN = process.env.API_TOKEN;
+
+const verifyApiToken = (req, res, next) => {
+    if (!API_TOKEN) {
+        if (process.env.NODE_ENV === 'production') {
+            console.error('[Security] API_TOKEN not set in production! Rejecting all requests.');
+            return res.status(500).json({ message: 'Server misconfigured' });
+        }
+        return next();
+    }
+
+    const token = req.headers['x-api-token'];
+    if (token === API_TOKEN) return next();
+
+    return res.status(403).json({ message: 'Invalid API token' });
+};
+
 const getJwtSecret = () => {
     const secret = process.env.JWT_SECRET;
     if (!secret || secret === 'secret') {
@@ -32,8 +49,6 @@ const verifyToken = (req, res, next) => {
 };
 
 const isAdmin = (req, res, next) => {
-    // Ideally, we should check the DB to be sure, but for now let's rely on the token (if we add role to it)
-    // OR fetch user from DB. Fetching from DB is safer.
     const { pool } = require('../db');
 
     pool.query('SELECT role FROM users WHERE id = ?', [req.userId])
@@ -49,4 +64,4 @@ const isAdmin = (req, res, next) => {
         });
 };
 
-module.exports = { verifyToken, isAdmin };
+module.exports = { verifyApiToken, verifyToken, isAdmin };

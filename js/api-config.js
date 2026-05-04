@@ -7,4 +7,6 @@ export const API_BASE_URL = isProxyMode
     ? 'http://localhost:9000'
     : 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
 
+export const API_TOKEN = 'hakimi_blog_2026_sec';
+
 console.log(`[API Config] API地址: ${API_BASE_URL}`);

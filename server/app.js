@@ -30,14 +30,50 @@ app.use(limiter); // Apply global limiter
 
 // CORS 安全配置：只允许指定域名访问
 const allowedOrigins = (process.env.CORS_ORIGINS || 'https://mcock.cn,https://kuankuantj2831.github.io,http://localhost:8080,http://localhost:3000,http://localhost:8000').split(',').map(s => s.trim());
+const allowedReferers = allowedOrigins.map(o => o.replace(/\/$/, ''));
+const isProduction = process.env.NODE_ENV === 'production';
+
+function isOriginAllowed(origin) {
+    if (!origin) return !isProduction;
+    return allowedOrigins.includes(origin) || allowedOrigins.includes('*');
+}
+
+// Referer / Origin 双重校验中间件：防止非授权站点直接调用接口
+app.use((req, res, next) => {
+    if (req.method === 'OPTIONS') return next();
+    if (req.path === '/api/health') return next();
+
+    const origin = req.headers.origin;
+    const referer = req.headers.referer;
+
+    if (isProduction) {
+        if (!isOriginAllowed(origin)) {
+            if (referer) {
+                const refererAllowed = allowedReferers.some(allowed => referer.startsWith(allowed));
+                if (!refererAllowed) {
+                    console.warn(`[Security] Blocked request - origin: ${origin}, referer: ${referer}, path: ${req.path}`);
+                    return res.status(403).json({ message: 'Access denied' });
+                }
+            } else {
+                console.warn(`[Security] Blocked request without origin/referer - path: ${req.path}, ip: ${req.ip}`);
+                return res.status(403).json({ message: 'Access denied' });
+            }
+        }
+    } else {
+        if (!isOriginAllowed(origin)) {
+            console.warn(`[CORS] Blocked origin: ${origin}`);
+        }
+    }
+    next();
+});
 
 // 手动处理 OPTIONS 预检请求（解决腾讯云 SCF CORS 问题）
 app.options('*', (req, res) => {
     const origin = req.headers.origin;
-    if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
-        res.setHeader('Access-Control-Allow-Origin', origin || '*');
+    if (isOriginAllowed(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin || (isProduction ? allowedOrigins[0] : '*'));
         res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS,PATCH');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,Accept,Origin');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,Accept,Origin,X-API-Token');
         res.setHeader('Access-Control-Allow-Credentials', 'true');
         res.setHeader('Access-Control-Max-Age', '86400');
     }
@@ -46,8 +82,7 @@ app.options('*', (req, res) => {
 
 app.use(cors({
     origin: function (origin, callback) {
-        // 允许无 origin 的请求（如服务器间调用、curl）
-        if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+        if (isOriginAllowed(origin)) {
             callback(null, true);
         } else {
             console.warn(`CORS blocked for origin: ${origin}`);
@@ -55,7 +90,7 @@ app.use(cors({
         }
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'X-API-Token'],
     credentials: true,
     maxAge: 86400
 }));
@@ -88,6 +123,11 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+const { verifyApiToken, verifyToken, isAdmin } = require('./middleware/auth');
+
+// API Token 鉴权：所有非健康检查接口必须携带 X-API-Token
+app.use(verifyApiToken);
 
 // Initialize Database (async, non-blocking)
 initDB().catch(err => {

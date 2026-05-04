@@ -3,6 +3,9 @@ const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
 
 const dbConfig = {
+    // 安全要求：MySQL 必须配置为仅允许 SCF 内网访问，禁止外网直连
+    // 腾讯云操作：MySQL 实例 -> 安全组 -> 入站规则 -> 仅放通 SCF 所在 VPC 子网
+    // 或使用云函数内网地址：<region>.internal.tencentcloudapi.com
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',

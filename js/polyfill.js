@@ -191,3 +191,39 @@ if (!console.warn) {
 if (!console.info) {
     console.info = function() {};
 }
+
+// API Token 自动注入：拦截 fetch，对所有指向后端 API 的请求自动附加 X-API-Token
+(function() {
+    var API_TOKEN = 'hakimi_blog_2026_sec';
+    var API_HOSTS = [
+        '1321178544-65fvlfs2za.ap-beijing.tencentscf.com',
+        'localhost:9000',
+        '127.0.0.1:9000'
+    ];
+
+    var originalFetch = window.fetch;
+    window.fetch = function(input, init) {
+        init = init || {};
+        init.headers = init.headers || {};
+
+        var url = typeof input === 'string' ? input : (input && input.url ? input.url : '');
+        var isApiRequest = API_HOSTS.some(function(host) { return url.indexOf(host) !== -1; });
+
+        if (isApiRequest) {
+            if (init.headers instanceof Headers) {
+                if (!init.headers.has('X-API-Token')) {
+                    init.headers.set('X-API-Token', API_TOKEN);
+                }
+            } else if (Array.isArray(init.headers)) {
+                var hasToken = init.headers.some(function(h) { return h[0] === 'X-API-Token'; });
+                if (!hasToken) init.headers.push(['X-API-Token', API_TOKEN]);
+            } else {
+                if (!init.headers['X-API-Token']) {
+                    init.headers['X-API-Token'] = API_TOKEN;
+                }
+            }
+        }
+
+        return originalFetch.call(this, input, init);
+    };
+})();
