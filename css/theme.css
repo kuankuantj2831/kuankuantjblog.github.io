@@ -818,3 +818,79 @@
 [data-theme="dark"] hr {
     border-color: var(--border-color) !important;
 }
+
+/* ==================== 全局按钮悬浮特效 ==================== */
+button,
+a.quick-link,
+a.nav-link,
+a.btn,
+a.button,
+a[class*="btn"],
+button[class*="btn"],
+input[type="submit"],
+input[type="button"],
+.quick-link,
+.ctrl-btn,
+.action-btn,
+.mode-tab,
+.algo-btn,
+.format-btn,
+.generate-btn,
+.compress-btn,
+.download-btn,
+.save-btn,
+.copy-btn,
+.mode-toggle button,
+.contact-card,
+.interest-item,
+.skill-tag,
+.category-card,
+.highlight-item,
+.quick-link,
+.palette-swatch {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+button:hover,
+a.quick-link:hover,
+a.nav-link:hover,
+a.btn:hover,
+a.button:hover,
+a[class*="btn"]:hover,
+button[class*="btn"]:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.ctrl-btn:hover,
+.action-btn:not(:disabled):hover,
+.mode-tab:hover:not(.active),
+.algo-btn:hover:not(.active),
+.format-btn:hover:not(.active),
+.generate-btn:hover:not(:disabled),
+.compress-btn:hover:not(:disabled),
+.download-btn:hover,
+.save-btn:hover,
+.mode-toggle button:hover,
+.contact-card:hover,
+.interest-item:hover,
+.skill-tag:hover,
+.category-card:hover,
+.highlight-item:hover,
+.quick-link:hover,
+.palette-swatch:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] button:hover,
+[data-theme="dark"] a.quick-link:hover,
+[data-theme="dark"] a.nav-link:hover,
+[data-theme="dark"] a.btn:hover,
+[data-theme="dark"] a[class*="btn"]:hover,
+[data-theme="dark"] button[class*="btn"]:hover,
+[data-theme="dark"] .ctrl-btn:hover,
+[data-theme="dark"] .action-btn:not(:disabled):hover,
+[data-theme="dark"] .category-card:hover,
+[data-theme="dark"] .highlight-item:hover,
+[data-theme="dark"] .quick-link:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
