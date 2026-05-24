@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-const TARGET = '1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+const TARGET = '1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com';
 const PORT = 9000;
 const STATIC_DIR = __dirname;
 

@@ -353,7 +353,7 @@ class WechatWebLogin {
      * 获取 API 基础 URL
      */
     getApiBaseUrl() {
-        return window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+        return window.API_BASE_URL || 'https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com';
     }
 
     /**

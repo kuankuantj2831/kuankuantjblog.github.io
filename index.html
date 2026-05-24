@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://static.cloudflareinsights.com https://unpkg.com https://registry.npmmirror.com https://cdnjs.cloudflare.com https://cdn.bootcdn.net; style-src 'self' 'unsafe-inline' https://cdn.bootcdn.net https://cdnjs.cloudflare.com; img-src 'self' https: data:; connect-src 'self' http://localhost:9000 https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com https://api.ipify.org https://ipapi.co https://challenges.cloudflare.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.soundhelix.com; frame-src https://challenges.cloudflare.com; font-src 'self' https:; media-src *;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://static.cloudflareinsights.com https://unpkg.com https://registry.npmmirror.com https://cdnjs.cloudflare.com https://cdn.bootcdn.net; style-src 'self' 'unsafe-inline' https://cdn.bootcdn.net https://cdnjs.cloudflare.com; img-src 'self' https: data:; connect-src 'self' http://localhost:9000 https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com https://api.ipify.org https://ipapi.co https://challenges.cloudflare.com https://cloudflareinsights.com https://static.cloudflareinsights.com https://www.soundhelix.com; frame-src https://challenges.cloudflare.com; font-src 'self' https:; media-src *;">
     <meta name="description" content="Hakimi 的猫爬架 - 一个分享编程技术、游戏资源、设计素材与学习资料的个人博客。分享是一种美德，它不求回报，只为真诚。">
     <meta name="keywords" content="Hakimi,猫爬架,个人博客,编程技术,游戏资源,mcock.cn">
     <meta name="author" content="Hakimi">
@@ -39,8 +39,8 @@
     <link rel="canonical" href="https://mcock.cn/index-chinese.html">
 
     <!-- 性能优化：预连接 API 服务器，节省 DNS 解析 + TLS 握手时间 -->
-    <link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
-    <link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
+    <link rel="dns-prefetch" href="//1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com">
+    <link rel="preconnect" href="https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com" crossorigin>
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="//cdn.bootcdn.net">
@@ -65,7 +65,7 @@
     <link rel="apple-touch-startup-image" href="/images/icons/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px)">
     <link rel="apple-touch-startup-image" href="/images/icons/splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px)">
     <link rel="apple-touch-startup-image" href="/images/icons/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px)">
-    <link rel="alternate" type="application/rss+xml" title="Hakimi 的猫爬架 RSS" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/articles/feed/rss">
+    <link rel="alternate" type="application/rss+xml" title="Hakimi 的猫爬架 RSS" href="https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com/articles/feed/rss">
     <!-- 非关键CSS：布局和主题 - 同步加载 -->
      <link rel="stylesheet" href="css/chinese-style.css?v=6">
     <link rel="stylesheet" href="css/auth.css?v=3">
@@ -555,7 +555,7 @@
         // 标签切换（文章/用户）
         (function initTabSwitch() {
             var currentTab = 'articles';
-            var apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+            var apiBase = window.API_BASE_URL || 'https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com';
             var container = document.getElementById('articles-container');
             var searchSection = document.querySelector('.search-section');
             var loadMoreContainer = document.getElementById('loadMoreContainer');
@@ -639,7 +639,7 @@
         // 加载在线人数 & 发送访客心跳
         (async function loadOnlineCount() {
             try {
-                const apiBase = window.API_BASE_URL || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+                const apiBase = window.API_BASE_URL || 'https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com';
                 // 仅在本地开发或同域环境下发送心跳，避免向生产环境触发 CORS 报错
                 const isLocalDev = apiBase.includes('localhost') || apiBase.includes('127.0.0.1');
                 if (isLocalDev) {
@@ -667,20 +667,7 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js?v=20260419a')
-                .then(reg => {
-                    console.log('SW registered:', reg.scope);
-                    // 仅在更新时刷新（非首次安装）
-                    reg.addEventListener('updatefound', () => {
-                        var newSW = reg.installing;
-                        if (newSW && navigator.serviceWorker.controller) {
-                            newSW.addEventListener('statechange', () => {
-                                if (newSW.state === 'activated') {
-                                    window.location.reload();
-                                }
-                            });
-                        }
-                    });
-                })
+                .then(reg => console.log('SW registered:', reg.scope))
                 .catch(err => console.log('SW registration failed:', err));
         });
     }

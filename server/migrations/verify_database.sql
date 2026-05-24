@@ -90,18 +90,18 @@ SELECT * FROM test_connection ORDER BY test_time DESC LIMIT 1;
 -- 请在命令行执行以下测试：
 
 -- 测试 1: 基础连通性
--- curl -I https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/
+-- curl -I https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com/
 
 -- 测试 2: CORS 预检请求
 -- curl -X OPTIONS -H "Origin: https://mcock.cn" \
 --   -H "Access-Control-Request-Method: GET" \
---   https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/groups
+--   https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com/groups
 
 -- 测试 3: GET 请求
 -- curl -H "Origin: https://mcock.cn" \
---   https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/groups
+--   https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com/groups
 
 -- 测试 4: 检查响应头是否包含 CORS 相关头
 -- curl -I -H "Origin: https://mcock.cn" \
---   https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com/groups \
+--   https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com/groups \
 --   | grep -i "access-control"

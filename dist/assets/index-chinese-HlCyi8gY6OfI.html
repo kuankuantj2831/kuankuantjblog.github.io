@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>kuankuantj的个人博客 - Hakimi 的猫爬架 | 分享是一种美德</title>
+  <meta name="description" content="kuankuantj的个人博客 - 分享编程技术、游戏资源、设计素材与学习资料。分享是一种美德，它不求回报，只为真诚。">
+  <meta name="keywords" content="kuankuantj,个人博客,编程技术,游戏资源,设计素材,学习资料,天机阁,猫爬架">
+  <meta name="author" content="kuankuantj">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#667eea" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1e1e1e" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="format-detection" content="telephone=no, address=no, email=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="猫爬架">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="Hakimi 的猫爬架">
+  <meta name="msapplication-TileColor" content="#667eea">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="kuankuantj的个人博客 - Hakimi 的猫爬架">
+  <meta property="og:description" content="分享编程技术、游戏资源、设计素材与学习资料的个人博客">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mcock.cn/index-chinese.html">
+  <meta property="og:site_name" content="Hakimi 的猫爬架">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:image" content="https://mcock.cn/images/icons/icon-512x512.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="kuankuantj的个人博客">
+  <meta name="twitter:description" content="分享编程技术、游戏资源、设计素材与学习资料的个人博客">
+  <meta name="twitter:image" content="https://mcock.cn/images/icons/icon-512x512.png">
+
+  <link rel="canonical" href="https://mcock.cn/index-chinese.html">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/images/icons/icon-192x192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- DNS Prefetch & Preconnect -->
+  <link rel="dns-prefetch" href="//1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com">
+  <link rel="preconnect" href="https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com" crossorigin>
+
+  <!-- Critical CSS inline -->
+  <style>
+    :root{--bg-primary:#fff;--bg-secondary:#f5f5f5;--text-primary:#333;--text-secondary:#666;--text-muted:#999;--accent:#667eea;--border:#e8e8e8;--shadow:rgba(0,0,0,.1);--card-shadow:0 4px 15px rgba(0,0,0,.08)}
+    [data-theme="dark"]{--bg-primary:#1a1a2e;--bg-secondary:#16213e;--text-primary:#e0e0e0;--text-secondary:#b0b0b0;--text-muted:#808080;--accent:#69b4ff;--border:#2a3a5c;--shadow:rgba(0,0,0,.3);--card-shadow:0 4px 15px rgba(0,0,0,.3)}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;color:var(--text-primary);overflow-x:hidden;min-height:100vh;min-height:100dvh;color-scheme:light dark}
+    .chinese-style-wrapper{--wrapper-bg:linear-gradient(180deg,#fce4ec 0%,#f3e5f5 50%,#e1f5fe 100%);--logo-color:#5e35b1;--nav-link-color:#666;--nav-link-hover:#5e35b1;--nav-link-active:#00bfa5;--hero-title-from:#ff6b6b;--hero-title-via:#ffa500;--hero-title-to:#ff1493;--subtitle-color:#ff9800;--search-bg:#fff;--search-shadow:rgba(0,0,0,.1);--skeleton-from:#f0f0f0;--skeleton-via:#e0e0e0;min-height:100vh;min-height:100dvh;background:var(--wrapper-bg);position:relative;overflow:hidden}
+    [data-theme="dark"] .chinese-style-wrapper{--wrapper-bg:linear-gradient(180deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);--logo-color:#b39ddb;--nav-link-color:#b0b0b0;--nav-link-hover:#b39ddb;--nav-link-active:#69b4ff;--hero-title-from:#b39ddb;--hero-title-via:#69b4ff;--hero-title-to:#90caf9;--subtitle-color:#90caf9;--search-bg:#1e2a45;--search-shadow:rgba(0,0,0,.3);--skeleton-from:#253352;--skeleton-via:#1e2a45}
+    .bg-decoration{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+    .top-nav{position:relative;z-index:10;padding:20px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .logo{font-size:1.5em;font-weight:700;color:var(--logo-color);font-family:"STKaiti","Kaiti SC","KaiTi","楷体",serif;user-select:none}
+    .nav-links{display:flex;gap:30px;align-items:center;flex-wrap:wrap}
+    .nav-link{color:var(--nav-link-color);text-decoration:none;font-size:.95em;transition:color .3s;padding:4px 0}
+    .nav-link:hover,.nav-link:focus-visible{color:var(--nav-link-hover);outline:none}
+    .nav-link:focus-visible{box-shadow:0 2px 0 var(--nav-link-hover)}
+    .nav-link.active{color:var(--nav-link-active);font-weight:600}
+    .hero-section{position:relative;z-index:5;text-align:center;padding:80px 20px 60px}
+    .main-title{font-size:clamp(2em,5vw,3em);font-weight:700;margin-bottom:15px;font-family:"STKaiti","Kaiti SC","KaiTi","楷体",serif;letter-spacing:8px;background:linear-gradient(135deg,var(--hero-title-from) 0%,var(--hero-title-via) 30%,#ff69b4 60%,var(--hero-title-to) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    [data-theme="dark"] .main-title{background:linear-gradient(135deg,#b39ddb 0%,#69b4ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .sub-title{font-size:1.1em;color:var(--subtitle-color);margin-bottom:50px;font-family:"STKaiti","Kaiti SC","KaiTi","楷体",serif}
+    .tab-navigation{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+    .tab-btn{padding:10px 24px;border:none;border-radius:25px;background:#fff;color:#666;cursor:pointer;font-size:.9em;font-weight:500;transition:all .3s;box-shadow:0 2px 8px rgba(0,0,0,.1);outline:none}
+    .tab-btn:hover,.tab-btn:focus-visible{box-shadow:0 4px 12px rgba(0,0,0,.15);transform:translateY(-1px)}
+    .tab-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    .tab-btn.active{background:linear-gradient(135deg,#00bfa5 0%,#00897b 100%);color:#fff}
+    [data-theme="dark"] .tab-btn{background:var(--bg-card);color:var(--text-secondary);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+    [data-theme="dark"] .tab-btn.active{background:linear-gradient(135deg,#00897b 0%,#00695c 100%);color:#fff}
+    .search-section{max-width:800px;margin:0 auto 40px;padding:0 16px}
+    .search-container{display:flex;gap:10px;background:var(--search-bg);padding:8px;border-radius:30px;box-shadow:0 4px 20px var(--search-shadow);flex-wrap:wrap}
+    .search-select{padding:10px 20px;border:none;background:var(--bg-secondary);border-radius:20px;color:var(--text-secondary);cursor:pointer;min-width:140px;font-size:.9em;outline:none}
+    .search-select:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:20px}
+    .search-input{flex:1;min-width:120px;border:none;padding:10px 20px;font-size:1em;outline:none;background:transparent;color:var(--text-primary)}
+    .search-btn{padding:10px 30px;background:linear-gradient(135deg,#00bfa5 0%,#00897b 100%);color:#fff;border:none;border-radius:20px;cursor:pointer;font-weight:600;transition:transform .3s,box-shadow .3s;outline:none;font-size:.9em}
+    .search-btn:hover,.search-btn:focus-visible{transform:scale(1.05);box-shadow:0 4px 12px rgba(0,191,165,.4)}
+    .search-btn:focus-visible{outline:2px solid #00bfa5;outline-offset:2px}
+    .search-btn:active{transform:scale(.98)}
+    .category-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+    .category-tag{padding:6px 16px;background:rgba(255,255,255,.7);color:var(--text-secondary);text-decoration:none;border-radius:20px;font-size:.85em;transition:all .3s;border:1px solid transparent;outline:none}
+    .category-tag:hover,.category-tag:focus-visible{background:#fff;color:var(--nav-link-hover);border-color:var(--nav-link-hover);transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+    .category-tag:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    [data-theme="dark"] .category-tag{background:rgba(30,42,69,.8);color:var(--text-secondary);border-color:var(--border)}
+    [data-theme="dark"] .category-tag:hover{background:rgba(30,42,69,1);color:var(--accent)}
+    .resource-showcase{max-width:1200px;margin:0 auto;padding:0 20px 60px;contain:layout paint}
+    @supports (content-visibility:auto){.resource-showcase{content-visibility:auto;contain-intrinsic-size:auto 500px}}
+    .resource-scroll{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding-bottom:20px}
+    .loading-spinner{text-align:center;padding:40px;color:var(--text-muted);font-size:.95em}
+    .empty-state,.error-state{text-align:center;padding:40px;color:var(--text-muted)}
+    .empty-state a{color:var(--accent);text-decoration:none}
+    .empty-state a:hover{text-decoration:underline}
+    .user-menu{position:relative;margin-left:20px;z-index:100;padding:10px 0}
+    .user-avatar{width:42px;height:42px;background:linear-gradient(135deg,#00bfa5 0%,#00897b 100%);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2em;cursor:pointer;user-select:none;outline:none}
+    .user-avatar:hover,.user-avatar:focus-visible{box-shadow:0 0 0 3px rgba(0,191,165,.3)}
+    .user-avatar:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+    .user-dropdown{position:absolute;top:calc(100% + 8px);right:0;background:rgba(255,255,255,.98);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.15);min-width:200px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .25s ease;z-index:101;overflow:hidden}
+    .user-menu:hover .user-dropdown,.user-menu:focus-within .user-dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+    .user-dropdown-header{padding:16px;border-bottom:1px solid #f0f0f0}
+    .user-dropdown-name{font-weight:600;color:var(--text-primary);font-size:.95em;margin-bottom:4px}
+    .user-dropdown-email{color:var(--text-muted);font-size:.8em}
+    .user-dropdown-menu{padding:8px 0}
+    .user-dropdown-item{display:block;padding:10px 16px;color:var(--text-secondary);text-decoration:none;font-size:.9em;transition:all .2s;outline:none}
+    .user-dropdown-item:hover,.user-dropdown-item:focus-visible{background:#f5f5f5;color:var(--text-primary)}
+    .user-dropdown-item:focus-visible{outline:none;box-shadow:inset 3px 0 0 var(--accent)}
+    .user-dropdown-divider{height:1px;background:#f0f0f0;margin:4px 0}
+    [data-theme="dark"] .user-dropdown{background:rgba(30,42,69,.98)}
+    [data-theme="dark"] .user-dropdown-header{border-color:#2a3a5c}
+    [data-theme="dark"] .user-dropdown-item:hover{background:#253352}
+    @media (max-width:768px){.top-nav{padding:16px 20px}.nav-links{gap:16px}.hero-section{padding:50px 16px 40px}.search-container{flex-direction:column}.search-select{width:100%}.resource-scroll{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}}
+    @media (max-width:480px){.main-title{letter-spacing:4px;font-size:1.8em}.nav-links{gap:12px}.tab-btn{padding:8px 16px;font-size:.8em}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+    @media (prefers-contrast:more){.tab-btn.active,.search-btn,.user-avatar{outline:2px solid currentColor}}
+  </style>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="/css/chinese-style.css?v=13" as="style">
+  <link rel="preload" href="/css/auth.css?v=10" as="style">
+  <link rel="preload" href="/css/theme.css?v=11" as="style">
+  <link rel="preload" href="/js/api-config.js" as="script" crossorigin>
+  <link rel="preload" href="/js/utils.js" as="script" crossorigin>
+
+  <link rel="stylesheet" href="/css/chinese-style.css?v=13" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/css/chinese-style.css?v=13"></noscript>
+  <link rel="stylesheet" href="/css/auth.css?v=10" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/css/auth.css?v=10"></noscript>
+  <link rel="stylesheet" href="/css/theme.css?v=11" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/css/theme.css?v=11"></noscript>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Hakimi 的猫爬架",
+    "url": "https://mcock.cn/",
+    "description": "kuankuantj的个人博客 - 分享编程技术、游戏资源、设计素材与学习资料",
+    "author": {"@type": "Person", "name": "kuankuantj"},
+    "inLanguage": "zh-CN",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {"@type": "EntryPoint", "urlTemplate": "https://mcock.cn/search.html?q={search_term_string}"},
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <a href="#main-content" class="skip-link">跳转到主要内容</a>
+
+  <div class="chinese-style-wrapper">
+    <div class="bg-decoration" aria-hidden="true"></div>
+
+    <!-- 顶部导航 -->
+    <header>
+      <nav class="top-nav" aria-label="主导航">
+        <div class="logo" role="banner">天机阁</div>
+        <div class="nav-links">
+          <a href="/index-chinese.html" class="nav-link active" aria-current="page">
+            <span aria-hidden="true">&#127968;</span> 主页
+          </a>
+          <a href="/drive.html" class="nav-link">
+            <span aria-hidden="true">&#9729;</span> 网盘
+          </a>
+          <a href="/about.html" class="nav-link">
+            <span aria-hidden="true">&#127919;</span> 关于我们
+          </a>
+          <a href="#" class="nav-link login-btn" id="loginBtn" style="cursor:pointer;" role="button" aria-haspopup="dialog">
+            <span aria-hidden="true">&#128100;</span> 登录
+          </a>
+          <a href="#" class="nav-link register-btn" id="registerBtn" style="cursor:pointer;" role="button" aria-haspopup="dialog">
+            <span aria-hidden="true">&#128221;</span> 注册
+          </a>
+
+          <!-- 用户菜单 -->
+          <div class="user-menu" id="userMenu" style="display:none;" role="navigation" aria-label="用户菜单">
+            <div class="user-avatar" id="userAvatar" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false" aria-label="用户菜单">U</div>
+            <div class="user-dropdown" id="userDropdown">
+              <div class="user-dropdown-header">
+                <div class="user-dropdown-name" id="dropdownName">用户名</div>
+                <div class="user-dropdown-email" id="dropdownEmail">user@example.com</div>
+              </div>
+              <div class="user-dropdown-menu">
+                <a href="/editor.html" class="user-dropdown-item">
+                  <span aria-hidden="true">&#9997;</span> 发布文章
+                </a>
+                <a href="/profile.html" class="user-dropdown-item">
+                  <span aria-hidden="true">&#128100;</span> 个人中心
+                </a>
+                <a href="/profile.html" class="user-dropdown-item">
+                  <span aria-hidden="true">&#9881;</span> 设置
+                </a>
+                <div class="user-dropdown-divider" role="separator"></div>
+                <a href="#" class="user-dropdown-item" id="logoutBtn">
+                  <span aria-hidden="true">&#128682;</span> 退出登录
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- 主标题区域 -->
+    <main id="main-content">
+      <section class="hero-section" aria-labelledby="main-title">
+        <h1 class="main-title" id="main-title">分享是一种美德</h1>
+        <p class="sub-title">它不求回报，只为真诚</p>
+
+        <!-- 标签导航 -->
+        <nav class="tab-navigation" aria-label="内容分类" role="tablist">
+          <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="articles-panel" id="tab-articles">文章</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="users-panel" id="tab-users">用户</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="knowledge-panel" id="tab-knowledge">知识</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="mystery-panel" id="tab-mystery">玄机</button>
+          <button class="tab-btn" role="tab" aria-selected="false" aria-controls="shop-panel" id="tab-shop">商品</button>
+        </nav>
+
+        <!-- 搜索区域 -->
+        <div class="search-section" role="search" aria-label="站内搜索">
+          <div class="search-container">
+            <label for="searchCategory" class="visually-hidden">选择分类</label>
+            <select class="search-select" id="searchCategory" aria-label="搜索分类">
+              <option value="">选择标签 &#9660;</option>
+              <option value="programming">编程技术</option>
+              <option value="games">游戏资源</option>
+              <option value="design">设计素材</option>
+              <option value="learning">学习资料</option>
+            </select>
+            <label for="searchInput" class="visually-hidden">搜索关键词</label>
+            <input type="search" class="search-input" id="searchInput" placeholder="开启精彩搜索..." aria-label="搜索关键词" autocomplete="off" enterkeyhint="search">
+            <button class="search-btn" type="button" id="searchBtn" aria-label="搜索">
+              <span aria-hidden="true">&#128269;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 分类标签 -->
+        <nav class="category-tags" aria-label="热门标签">
+          <a href="/search.html?q=%E5%8E%9F%E7%A5%9E" class="category-tag">原神</a>
+          <a href="/search.html?q=%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9" class="category-tag">哔哩哔哩</a>
+          <a href="/search.html?q=%E6%B8%B8%E6%88%8F" class="category-tag">游戏</a>
+        </nav>
+      </section>
+
+      <!-- 资源展示区域 -->
+      <section class="resource-showcase" aria-label="文章列表">
+        <div class="resource-scroll" id="articles-container">
+          <div class="loading-spinner" role="status" aria-live="polite">
+            <span aria-hidden="true">&#9203;</span> 加载文章中...
+          </div>
+        </div>
+        <div id="loadMoreContainer" style="text-align:center;margin-top:20px;display:none;">
+          <button id="loadMoreBtn" class="tab-btn" style="min-width:160px;" type="button">加载更多</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- 登录弹窗 -->
+  <div class="auth-modal-overlay" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle" style="display:none;">
+    <div class="auth-modal" role="document">
+      <div class="auth-modal-header">
+        <h2 class="auth-modal-title" id="loginTitle">
+          <span aria-hidden="true">&#128274;</span> 用户登录
+        </h2>
+        <button class="auth-modal-close" type="button" aria-label="关闭登录窗口">&times;</button>
+      </div>
+      <div class="auth-modal-body">
+        <div class="auth-error" id="loginError" role="alert" aria-live="assertive"></div>
+        <div class="auth-success" id="loginSuccess" role="status" aria-live="polite"></div>
+        <form id="loginForm" novalidate>
+          <div class="auth-form-group">
+            <label class="auth-form-label" for="loginUsername">用户名/邮箱</label>
+            <input type="text" class="auth-form-input" id="loginUsername" placeholder="请输入用户名或邮箱" required autocomplete="username" maxlength="20" aria-required="true">
+          </div>
+          <div class="auth-form-group">
+            <label class="auth-form-label" for="loginPassword">密码</label>
+            <input type="password" class="auth-form-input" id="loginPassword" placeholder="请输入密码" required autocomplete="current-password" maxlength="128" aria-required="true">
+          </div>
+          <div class="auth-remember">
+            <input type="checkbox" id="loginRemember">
+            <label for="loginRemember">记住我</label>
+          </div>
+          <button type="submit" class="auth-btn auth-btn-primary" id="loginSubmitBtn">登录</button>
+        </form>
+        <div class="auth-switch">
+          还没有账号？<a href="#" class="auth-switch-link" id="switchToRegister">立即注册</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 注册弹窗 -->
+  <div class="auth-modal-overlay" id="registerModal" role="dialog" aria-modal="true" aria-labelledby="registerTitle" style="display:none;">
+    <div class="auth-modal" role="document">
+      <div class="auth-modal-header">
+        <h2 class="auth-modal-title" id="registerTitle">
+          <span aria-hidden="true">&#128221;</span> 用户注册
+        </h2>
+        <button class="auth-modal-close" type="button" aria-label="关闭注册窗口">&times;</button>
+      </div>
+      <div class="auth-modal-body">
+        <div class="auth-error" id="registerError" role="alert" aria-live="assertive"></div>
+        <div class="auth-success" id="registerSuccess" role="status" aria-live="polite"></div>
+        <form id="registerForm" novalidate>
+          <div class="auth-form-group">
+            <label class="auth-form-label" for="registerUsername">用户名</label>
+            <input type="text" class="auth-form-input" id="registerUsername" placeholder="请输入用户名（至少3个字符）" required autocomplete="username" minlength="3" maxlength="20" aria-required="true">
+          </div>
+          <div class="auth-form-group">
+            <label class="auth-form-label" for="registerEmail">邮箱</label>
+            <input type="email" class="auth-form-input" id="registerEmail" placeholder="请输入邮箱地址" required autocomplete="email" maxlength="254" aria-required="true">
+          </div>
+          <div class="auth-form-group">
+            <label class="auth-form-label" for="registerPassword">密码</label>
+            <input type="password" class="auth-form-input" id="registerPassword" placeholder="请输入密码（至少6个字符）" required autocomplete="new-password" minlength="6" maxlength="128" aria-required="true">
+          </div>
+          <div class="auth-form-group">
+            <label class="auth-form-label" for="registerConfirmPassword">确认密码</label>
+            <input type="password" class="auth-form-input" id="registerConfirmPassword" placeholder="请再次输入密码" required autocomplete="new-password" maxlength="128" aria-required="true">
+          </div>
+          <button type="submit" class="auth-btn auth-btn-primary" id="registerSubmitBtn">注册</button>
+        </form>
+        <div class="auth-switch">
+          已有账号？<a href="#" class="auth-switch-link" id="switchToLogin">立即登录</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts: async loading for non-critical -->
+  <script src="/js/supabase.js" defer></script>
+  <script type="module" src="/js/supabase-auth.js" defer></script>
+  <script type="module" src="/js/load-articles.js" defer></script>
+  <script src="/js/theme-enhancements.js" defer></script>
+
+  <script>
+    // Inline critical script: tab switching with keyboard support
+    (function() {
+      'use strict';
+      var tabs = document.querySelectorAll('.tab-btn[role="tab"]');
+      var tabList = document.querySelector('[role="tablist"]');
+
+      tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          tabs.forEach(function(t) { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+          this.classList.add('active');
+          this.setAttribute('aria-selected', 'true');
+        });
+      });
+
+      // Keyboard navigation for tabs
+      if (tabList) {
+        tabList.addEventListener('keydown', function(e) {
+          var active = document.activeElement;
+          if (!active.classList.contains('tab-btn')) return;
+          var index = Array.prototype.indexOf.call(tabs, active);
+          var nextIndex;
+          if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            nextIndex = (index + 1) % tabs.length;
+            tabs[nextIndex].focus();
+            tabs[nextIndex].click();
+          } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            nextIndex = (index - 1 + tabs.length) % tabs.length;
+            tabs[nextIndex].focus();
+            tabs[nextIndex].click();
+          } else if (e.key === 'Home') {
+            e.preventDefault();
+            tabs[0].focus();
+            tabs[0].click();
+          } else if (e.key === 'End') {
+            e.preventDefault();
+            tabs[tabs.length - 1].focus();
+            tabs[tabs.length - 1].click();
+          }
+        });
+      }
+
+      // Horizontal drag scroll for resource containers
+      document.querySelectorAll('.resource-scroll').forEach(function(container) {
+        var isDown = false, startX, scrollLeft;
+        container.addEventListener('mousedown', function(e) {
+          if(e.button!==0)return;
+          isDown = true;
+          startX = e.pageX - container.offsetLeft;
+          scrollLeft = container.scrollLeft;
+          container.style.cursor = 'grabbing';
+          container.style.userSelect = 'none';
+        });
+        container.addEventListener('mouseleave', function() {
+          isDown = false;
+          container.style.cursor = '';
+          container.style.userSelect = '';
+        });
+        container.addEventListener('mouseup', function() {
+          isDown = false;
+          container.style.cursor = '';
+          container.style.userSelect = '';
+        });
+        container.addEventListener('mousemove', function(e) {
+          if (!isDown) return;
+          e.preventDefault();
+          var x = e.pageX - container.offsetLeft;
+          var walk = (x - startX) * 2;
+          container.scrollLeft = scrollLeft - walk;
+        });
+        // Touch support
+        var touchStartX, touchScrollLeft;
+        container.addEventListener('touchstart', function(e) {
+          touchStartX = e.touches[0].pageX - container.offsetLeft;
+          touchScrollLeft = container.scrollLeft;
+        }, { passive: true });
+        container.addEventListener('touchmove', function(e) {
+          var x = e.touches[0].pageX - container.offsetLeft;
+          var walk = (x - touchStartX) * 2;
+          container.scrollLeft = touchScrollLeft - walk;
+        }, { passive: true });
+      });
+
+      // Register Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(function(reg) {
+            // Check for updates
+            reg.addEventListener('updatefound', function() {
+              var newWorker = reg.installing;
+              newWorker.addEventListener('statechange', function() {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // New version available
+                  if (confirm('网站有新版本，是否立即更新？')) {
+                    newWorker.postMessage('SKIP_WAITING');
+                    window.location.reload();
+                  }
+                }
+              });
+            });
+          }).catch(function(err) {
+            // Silently ignore SW registration errors
+          });
+        });
+      }
+    })();
+  </script>
+
+  <style>
+    .skip-link{position:absolute;top:-40px;left:0;background:var(--accent);color:#fff;padding:8px 16px;z-index:10000;text-decoration:none;border-radius:0 0 4px 0;font-size:14px;transition:top .2s}
+    .skip-link:focus{top:0;outline:3px solid #fff;outline-offset:-2px}
+    .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .auth-modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
+    .auth-modal-overlay.active{opacity:1;visibility:visible}
+    .auth-modal{background:#fff;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.1);width:90%;max-width:400px;padding:0;position:relative;overflow:hidden;transform:scale(.95);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+    .auth-modal-overlay.active .auth-modal{transform:scale(1)}
+    .auth-modal-close{position:absolute;top:15px;right:15px;background:transparent;border:none;font-size:24px;color:#ccc;cursor:pointer;z-index:10;transition:color .3s;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+    .auth-modal-close:hover,.auth-modal-close:focus-visible{color:#333;background:rgba(0,0,0,.05);outline:none}
+    .auth-modal-header{padding:20px 24px 0}
+    .auth-modal-title{font-size:1.25em;font-weight:600;color:#333;margin:0}
+    .auth-modal-body{padding:20px 24px 24px}
+    .auth-error,.auth-success{padding:10px 14px;border-radius:8px;margin-bottom:16px;font-size:.9em;display:none}
+    .auth-error.show{display:block;background:#fff2f0;color:#ff4d4f;border:1px solid #ffccc7}
+    .auth-success.show{display:block;background:#f6ffed;color:#52c41a;border:1px solid #b7eb8f}
+    .auth-form-group{margin-bottom:16px}
+    .auth-form-label{display:block;margin-bottom:6px;font-size:.85em;color:#666;font-weight:500}
+    .auth-form-input{width:100%;padding:10px 14px;border:1px solid #e8e8e8;border-radius:8px;font-size:1em;color:#333;background:#fff;transition:border-color .2s,box-shadow .2s;outline:none}
+    .auth-form-input:focus{border-color:#00bfa5;box-shadow:0 0 0 3px rgba(0,191,165,.15)}
+    .auth-remember{display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:.9em;color:#666}
+    .auth-remember input{width:16px;height:16px;accent-color:#00bfa5;cursor:pointer}
+    .auth-btn{width:100%;padding:12px;border:none;border-radius:25px;background:linear-gradient(90deg,#4facfe 0%,#00f2fe 100%);color:#fff;font-size:1em;font-weight:600;cursor:pointer;transition:transform .2s,box-shadow .2s;outline:none}
+    .auth-btn:hover,.auth-btn:focus-visible{transform:translateY(-1px);box-shadow:0 4px 12px rgba(79,172,254,.4)}
+    .auth-btn:focus-visible{outline:2px solid #4facfe;outline-offset:2px}
+    .auth-btn:active{transform:translateY(0)}
+    .auth-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+    .auth-switch{text-align:center;margin-top:16px;font-size:.9em;color:#666}
+    .auth-switch-link{color:#4facfe;text-decoration:none;font-weight:500;transition:color .2s}
+    .auth-switch-link:hover,.auth-switch-link:focus-visible{text-decoration:underline;outline:none}
+    .auth-switch-link:focus-visible{outline:2px solid #4facfe;outline-offset:2px;border-radius:2px}
+    [data-theme="dark"] .auth-modal{background:#1e2a45;color:var(--text-primary)}
+    [data-theme="dark"] .auth-modal-title{color:var(--text-primary)}
+    [data-theme="dark"] .auth-form-input{background:#16213e;color:var(--text-primary);border-color:#2a3a5c}
+    [data-theme="dark"] .auth-form-input:focus{border-color:#69b4ff;box-shadow:0 0 0 3px rgba(105,180,255,.15)}
+    [data-theme="dark"] .auth-form-label{color:var(--text-secondary)}
+    [data-theme="dark"] .auth-remember{color:var(--text-secondary)}
+    [data-theme="dark"] .auth-switch{color:var(--text-secondary)}
+    [data-theme="dark"] .auth-modal-close{color:var(--text-muted)}
+    [data-theme="dark"] .auth-modal-close:hover{color:var(--text-primary)}
+    [data-theme="dark"] .auth-error.show{background:#2e1a1a;border-color:#5c2a2a}
+    [data-theme="dark"] .auth-success.show{background:#1a2e1a;border-color:#2a5c2a}
+    @media (max-width:480px){.auth-modal{width:95%;max-width:none;margin:16px}.auth-modal-body{padding:16px 20px 20px}.auth-modal-header{padding:16px 20px 0}}
+  </style>
+</body>
+</html>

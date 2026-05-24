@@ -1,0 +1,13 @@
+dist/
+node_modules/
+*.min.js
+*.min.css
+package-lock.json
+.git/
+.kilo/
+.husky/
+coverage/
+build/
+vendor/
+*.log
+.DS_Store

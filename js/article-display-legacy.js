@@ -179,7 +179,7 @@
     // ==================== Configuration ====================
 
     // API 配置（与 api-config.js 保持一致）
-    var API_BASE_URL = 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+    var API_BASE_URL = 'https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com';
 
     // ==================== Utility Functions ====================
 

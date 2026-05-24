@@ -10,7 +10,7 @@
         ? window.API_BASE_URL
         : (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
             ? 'http://localhost:9000'
-            : 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+            : 'https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com';
 
     const REPORT_REASONS = [
         { id: 'spam', label: '垃圾广告' },

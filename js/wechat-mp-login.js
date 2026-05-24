@@ -5,7 +5,7 @@
 
 class WechatMPLogin {
     constructor(options = {}) {
-        this.apiBaseUrl = options.apiBaseUrl || 'https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com';
+        this.apiBaseUrl = options.apiBaseUrl || 'https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com';
         this.redirectUrl = options.redirectUrl || window.location.pathname;
         this.onSuccess = options.onSuccess || (() => {});
         this.onError = options.onError || (() => {});

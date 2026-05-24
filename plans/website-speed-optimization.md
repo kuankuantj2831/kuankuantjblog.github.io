@@ -49,8 +49,8 @@ graph TD
 
 ```html
 <!-- 添加到 <head> 顶部 -->
-<link rel="dns-prefetch" href="//1321178544-65fvlfs2za.ap-beijing.tencentscf.com">
-<link rel="preconnect" href="https://1321178544-65fvlfs2za.ap-beijing.tencentscf.com" crossorigin>
+<link rel="dns-prefetch" href="//1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com">
+<link rel="preconnect" href="https://1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com" crossorigin>
 ```
 
 #### 1.2 JS 优化

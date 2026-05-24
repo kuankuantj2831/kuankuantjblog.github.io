@@ -196,7 +196,7 @@ if (!console.info) {
 (function() {
     var API_TOKEN = 'hakimi_blog_2026_sec';
     var API_HOSTS = [
-        '1321178544-65fvlfs2za.ap-beijing.tencentscf.com',
+        '1321178544-g8m9k3cmc6.ap-beijing.tencentscf.com',
         'localhost:9000',
         '127.0.0.1:9000'
     ];
