@@ -638,14 +638,17 @@ class SupabaseAuthSystem {
                 return; // Stop here, wait for user to input code
             }
 
-            // Login Success - 验证返回数据完整性
-            if (!data.user || !data.user.id) {
+            // Login Success - 兼容多种响应格式
+            const user = data.user || (data.data && data.data.user);
+            const token = data.token || (data.data && data.data.token);
+            console.log('[Auth] 登录响应:', data, '提取 user:', user, 'token:', token);
+            if (!user || !user.id) {
                 throw new Error('服务器返回的用户数据不完整');
             }
 
-            this.currentUser = data.user;
+            this.currentUser = user;
             localStorage.setItem('user', JSON.stringify(this.currentUser));
-            if (data.token) localStorage.setItem('token', data.token);
+            if (token) localStorage.setItem('token', token);
 
             // 记录成功登录
             if (typeof IPSecurity !== 'undefined') {
