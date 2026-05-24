@@ -113,6 +113,11 @@ const PerformanceOptimizer = {
     initPerformanceObserver() {
         if (!window.PerformanceObserver) return;
 
+        // 断开旧实例（防止 SW 缓存导致新旧脚本同时运行）
+        if (window.__perfObs_fcp) { try { window.__perfObs_fcp.disconnect(); } catch (e) {} }
+        if (window.__perfObs_lcp) { try { window.__perfObs_lcp.disconnect(); } catch (e) {} }
+        if (window.__perfObs_cls) { try { window.__perfObs_cls.disconnect(); } catch (e) {} }
+
         try {
             const fcpObserver = new PerformanceObserver((list) => {
                 for (const entry of list.getEntries()) {
@@ -123,6 +128,7 @@ const PerformanceOptimizer = {
                 }
                 fcpObserver.disconnect();
             });
+            window.__perfObs_fcp = fcpObserver;
             fcpObserver.observe({ entryTypes: ['paint'] });
         } catch (e) {}
 
@@ -134,6 +140,7 @@ const PerformanceOptimizer = {
                 }
                 lcpObserver.disconnect();
             });
+            window.__perfObs_lcp = lcpObserver;
             lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
         } catch (e) {}
 
@@ -149,6 +156,7 @@ const PerformanceOptimizer = {
                 this.logMetric('CLS', clsScore);
                 clsObserver.disconnect();
             });
+            window.__perfObs_cls = clsObserver;
             clsObserver.observe({ entryTypes: ['layout-shift'], buffered: true });
         } catch (e) {}
 
@@ -182,6 +190,13 @@ const PerformanceOptimizer = {
 
     logMetric(name, value) {
         if (!this.config.enableMetrics) return;
+
+        // 全局节流：相同 metric 值在 3 秒内只打印一次（防止新旧脚本实例同时刷屏）
+        const key = `__perfLog_${name}`;
+        const now = Date.now();
+        const last = window[key];
+        if (last && Math.abs(last.value - value) < 0.001 && (now - last.time) < 3000) return;
+        window[key] = { value, time: now };
 
         if (this.config.enableConsole) {
             const colors = {
