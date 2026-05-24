@@ -644,15 +644,13 @@ class SupabaseAuthSystem {
             // 格式3: { data: { id, email, role, token } }
             let user = data.user;
             let token = data.token;
-            if (!user && data.data) {
-                if (data.data.user) {
-                    user = data.data.user;
-                } else if (data.data.id) {
-                    user = data.data;
-                }
-                if (data.data.token) token = data.data.token;
+            const inner = data.data || data;
+            if (!user && inner) {
+                user = inner.user || (inner.id !== undefined ? inner : null);
+                if (!token && inner.token) token = inner.token;
             }
-            console.log('[Auth] 登录响应:', data, '提取 user:', user, 'token:', token);
+            console.log('[Auth] 登录响应 data:', JSON.stringify(data));
+            console.log('[Auth] 提取 user:', JSON.stringify(user), 'token:', token);
             if (!user || !user.id) {
                 throw new Error('服务器返回的用户数据不完整');
             }
