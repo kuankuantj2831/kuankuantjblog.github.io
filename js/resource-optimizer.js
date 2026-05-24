@@ -17,7 +17,6 @@ const ResourceOptimizer = {
         this.initImageOptimization();
         this.initCodeOptimization();
         this.initCacheStrategy();
-        this.initServiceWorkerSupport();
     },
 
     initImageOptimization() {
@@ -397,67 +396,6 @@ const ResourceOptimizer = {
                 return window.MemoryCache.cache.size;
             }
         };
-    },
-
-    initServiceWorkerSupport() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('Service Worker 注册成功');
-                    
-                    registration.addEventListener('updatefound', () => {
-                        const newWorker = registration.installing;
-                        newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                                this.showUpdateAvailable();
-                            }
-                        });
-                    });
-                })
-                .catch(error => {
-                    console.log('Service Worker 注册失败:', error);
-                });
-        }
-    },
-
-    showUpdateAvailable() {
-        const updateNotification = document.createElement('div');
-        updateNotification.className = 'update-notification';
-        updateNotification.innerHTML = `
-            <div class="update-content">
-                <span class="update-icon">🔄</span>
-                <span class="update-text">有新版本可用</span>
-                <button class="update-btn">更新</button>
-                <button class="dismiss-btn">稍后</button>
-            </div>
-        `;
-
-        updateNotification.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 9999;
-            animation: slideDown 0.3s ease;
-        `;
-
-        const updateBtn = updateNotification.querySelector('.update-btn');
-        const dismissBtn = updateNotification.querySelector('.dismiss-btn');
-
-        updateBtn.addEventListener('click', () => {
-            window.location.reload();
-        });
-
-        dismissBtn.addEventListener('click', () => {
-            updateNotification.style.animation = 'slideUp 0.3s ease';
-            setTimeout(() => {
-                updateNotification.remove();
-            }, 300);
-        });
-
-        document.body.appendChild(updateNotification);
     },
 
     async fetchWithCache(url, options = {}) {
