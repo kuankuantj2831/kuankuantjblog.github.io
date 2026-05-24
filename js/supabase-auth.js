@@ -639,8 +639,19 @@ class SupabaseAuthSystem {
             }
 
             // Login Success - 兼容多种响应格式
-            const user = data.user || (data.data && data.data.user);
-            const token = data.token || (data.data && data.data.token);
+            // 格式1: { user: {...}, token: '...' }
+            // 格式2: { data: { user: {...}, token: '...' } }
+            // 格式3: { data: { id, email, role, token } }
+            let user = data.user;
+            let token = data.token;
+            if (!user && data.data) {
+                if (data.data.user) {
+                    user = data.data.user;
+                } else if (data.data.id) {
+                    user = data.data;
+                }
+                if (data.data.token) token = data.data.token;
+            }
             console.log('[Auth] 登录响应:', data, '提取 user:', user, 'token:', token);
             if (!user || !user.id) {
                 throw new Error('服务器返回的用户数据不完整');
