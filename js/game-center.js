@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api-config.js?v=20260419b';
+import { API_BASE_URL } from './api-config.js?v=20260524a';
 
 function escapeHtml(s) { if (!s||typeof s!=='string') return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function esc(s) { return escapeHtml(s); }

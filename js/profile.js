@@ -1,5 +1,5 @@
 
-import { API_BASE_URL } from './api-config.js?v=20260419b';
+import { API_BASE_URL } from './api-config.js?v=20260524a';
 import { escapeHtml } from './utils.js';
 
 class ProfileManager {

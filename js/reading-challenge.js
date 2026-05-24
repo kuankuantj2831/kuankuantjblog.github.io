@@ -3,7 +3,7 @@
  * 连续阅读文章打卡，完成7天挑战获得额外奖励
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260419b';
+import { API_BASE_URL } from './api-config.js?v=20260524a';
 
 class ReadingChallenge {
     constructor(options = {}) {

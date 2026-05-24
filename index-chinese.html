@@ -535,9 +535,9 @@
         </div>
     </div>
     <!-- supabase.js 已移除（未使用），auth 系统延迟加载 -->
-    <script type="module" src="js/supabase-auth.js?v=20260311"></script>
-    <script type="module" src="js/load-articles.js?v=20260310a"></script>
-    <script type="module" src="js/blog-search.js?v=20260310a"></script>
+    <script type="module" src="js/supabase-auth.js?v=20260524a"></script>
+    <script type="module" src="js/load-articles.js?v=20260524a"></script>
+    <script type="module" src="js/blog-search.js?v=20260524a"></script>
     <script type="module">
         import { initNotifications } from './js/notifications.js';
         document.addEventListener('DOMContentLoaded', () => setTimeout(initNotifications, 500));
@@ -701,7 +701,7 @@
     <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js?v=20260419a')
+            navigator.serviceWorker.register('/sw.js?v=20260524a')
                 .then(reg => {
                     console.log('SW registered:', reg.scope);
                     // 仅在更新时刷新（非首次安装）
@@ -801,7 +801,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <!-- 100功能包加载器 -->
-<script type="module" src="js/feature-loader.js?v=20260419a"></script>
+<script type="module" src="js/feature-loader.js?v=20260524a"></script>
 
 <!-- 那年今日 -->
 <script type="module">

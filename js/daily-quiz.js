@@ -3,7 +3,7 @@
  * 每天一道编程/技术相关题目，答对奖励硬币和经验
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260419b';
+import { API_BASE_URL } from './api-config.js?v=20260524a';
 
 class DailyQuiz {
     constructor(options = {}) {

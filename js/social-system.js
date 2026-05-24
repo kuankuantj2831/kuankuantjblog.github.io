@@ -2,7 +2,7 @@
  * 社交系统前端模块
  * 包含：关注、私信、@提及
  */
-import { API_BASE_URL } from './api-config.js?v=20260419b';
+import { API_BASE_URL } from './api-config.js?v=20260524a';
 
 class SocialSystem {
     constructor() {

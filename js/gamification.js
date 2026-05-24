@@ -3,7 +3,7 @@
  * 与后端 gamification.js API 对接
  */
 
-import { API_BASE_URL } from './api-config.js?v=20260419b';
+import { API_BASE_URL } from './api-config.js?v=20260524a';
 import { escapeHtml } from './utils.js';
 
 class GamificationSystem {

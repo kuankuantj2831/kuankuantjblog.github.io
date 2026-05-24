@@ -3,7 +3,7 @@
  * 整合Markdown编辑器、自动保存、版本历史、协作功能
  */
 import MarkdownEditor from './markdown-editor.js?v=20260403';
-import { API_BASE_URL } from './api-config.js?v=20260419b';
+import { API_BASE_URL } from './api-config.js?v=20260524a';
 
 // 安全解析 localStorage 中的用户数据
 function getSafeUser() {
