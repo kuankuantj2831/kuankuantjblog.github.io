@@ -21,8 +21,10 @@ const PerformanceOptimizer = {
     },
 
     init() {
+        if (window.__perfOptimizerInitialized) return;
+        window.__perfOptimizerInitialized = true;
 
-this.initResourceHints();
+        this.initResourceHints();
         this.initLazyLoading();
         this.initPerformanceObserver();
         this.initMemoryMonitor();
@@ -119,6 +121,7 @@ this.initResourceHints();
                         this.logMetric('FCP', entry.startTime);
                     }
                 }
+                fcpObserver.disconnect();
             });
             fcpObserver.observe({ entryTypes: ['paint'] });
         } catch (e) {}
@@ -129,6 +132,7 @@ this.initResourceHints();
                     this.metrics.lcp = entry.startTime;
                     this.logMetric('LCP', entry.startTime);
                 }
+                lcpObserver.disconnect();
             });
             lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
         } catch (e) {}
@@ -137,10 +141,13 @@ this.initResourceHints();
             const clsObserver = new PerformanceObserver((list) => {
                 let clsScore = 0;
                 for (const entry of list.getEntries()) {
-                    clsScore += entry.value;
+                    if (!entry.hadRecentInput) {
+                        clsScore += entry.value;
+                    }
                 }
                 this.metrics.cls = clsScore;
                 this.logMetric('CLS', clsScore);
+                clsObserver.disconnect();
             });
             clsObserver.observe({ entryTypes: ['layout-shift'], buffered: true });
         } catch (e) {}
