@@ -36,7 +36,6 @@ const UtilityFeatures = {
         this.initAnimations();
         this.initAutoDarkMode();
         this.initAnnouncementBar();
-        this.initOnlineCounter();
         this.loadSettings();
     },
 
@@ -178,48 +177,6 @@ const UtilityFeatures = {
         }
         
         window.dispatchEvent(new CustomEvent('onlineUsersUpdate', { detail: data }));
-    },
-
-    // 初始化在线人数显示
-    initOnlineCounter() {
-        // 查找页面上是否有在线人数显示元素
-        const counters = document.querySelectorAll('.online-counter, [data-online-counter]');
-        
-        counters.forEach(counter => {
-            this.updateOnlineCounter(counter);
-        });
-        
-        // 监听更新
-        window.addEventListener('onlineUsersUpdate', (e) => {
-            const counters = document.querySelectorAll('.online-counter, [data-online-counter]');
-            counters.forEach(counter => {
-                this.updateOnlineCounter(counter, e.detail);
-            });
-        });
-    },
-
-    // 更新在线人数显示
-    updateOnlineCounter(element, data) {
-        const onlineData = data || this.getOnlineUsers();
-        const type = element.dataset.counterType || 'total';
-        
-        let count = onlineData.totalCount;
-        if (type === 'members') count = onlineData.memberCount;
-        if (type === 'guests') count = onlineData.totalCount - onlineData.memberCount;
-        
-        // 添加动画效果
-        const oldCount = parseInt(element.textContent) || 0;
-        if (oldCount !== count) {
-            element.classList.add('updating');
-            setTimeout(() => element.classList.remove('updating'), 300);
-        }
-        
-        element.textContent = count.toLocaleString();
-        
-        // 更新详细提示
-        if (element.title) {
-            element.title = `在线会员: ${onlineData.memberCount} | 游客: ${onlineData.totalCount - onlineData.memberCount}`;
-        }
     },
 
     // ========== 用户状态显示 ==========
@@ -888,33 +845,6 @@ const utilityStyles = `
 @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.6; }
-}
-
-/* 在线人数计数器 */
-.online-counter {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 5px 12px;
-    background: rgba(39, 174, 96, 0.1);
-    border-radius: 20px;
-    font-size: 13px;
-    color: #27ae60;
-    transition: all 0.3s;
-}
-
-.online-counter::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: #27ae60;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-}
-
-.online-counter.updating {
-    transform: scale(1.1);
-    background: rgba(39, 174, 96, 0.2);
 }
 
 /* 公告栏 */
