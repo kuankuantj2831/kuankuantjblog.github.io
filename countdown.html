@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>鍊掕鏃跺姛鑳?- 鏇村鍔熻兘</title>
+    <title>倒计时功能 - 更多功能</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         body {
@@ -214,40 +214,40 @@
 </head>
 <body>
     <div class="countdown-container">
-        <h1>鈴憋笍 鍊掕鏃跺姛鑳?/h1>
+        <h1>⏱️ 倒计时功能</h1>
         
         <div class="countdown-input-section">
-            <input type="text" id="countdownTitleInput" class="countdown-input" placeholder="杈撳叆鍊掕鏃舵爣棰?..">
+            <input type="text" id="countdownTitleInput" class="countdown-input" placeholder="输入倒计时标题...">
             <input type="datetime-local" id="countdownDateTimeInput" class="countdown-input">
         </div>
         
         <div class="countdown-duration-section">
-            <button class="countdown-duration-btn" data-duration="300">5鍒嗛挓</button>
-            <button class="countdown-duration-btn" data-duration="600">10鍒嗛挓</button>
-            <button class="countdown-duration-btn" data-duration="900">15鍒嗛挓</button>
-            <button class="countdown-duration-btn" data-duration="1800">30鍒嗛挓</button>
-            <button class="countdown-duration-btn" data-duration="3600">1灏忔椂</button>
+            <button class="countdown-duration-btn" data-duration="300">5分钟</button>
+            <button class="countdown-duration-btn" data-duration="600">10分钟</button>
+            <button class="countdown-duration-btn" data-duration="900">15分钟</button>
+            <button class="countdown-duration-btn" data-duration="1800">30分钟</button>
+            <button class="countdown-duration-btn" data-duration="3600">1小时</button>
         </div>
         
         <div class="countdown-display">
             <div id="countdownTimer" class="countdown-timer">00:00:00</div>
-            <div id="countdownStatus" class="countdown-status">鍑嗗涓?/div>
+            <div id="countdownStatus" class="countdown-status">准备中</div>
         </div>
         
         <div class="countdown-controls">
-            <button id="countdownStartBtn" class="countdown-control-btn">寮€濮?/button>
-            <button id="countdownPauseBtn" class="countdown-control-btn secondary" disabled>鏆傚仠</button>
-            <button id="countdownResetBtn" class="countdown-control-btn secondary" disabled>閲嶇疆</button>
-            <button id="countdownClearBtn" class="countdown-control-btn secondary">娓呴櫎</button>
+            <button id="countdownStartBtn" class="countdown-control-btn">开始</button>
+            <button id="countdownPauseBtn" class="countdown-control-btn secondary" disabled>暂停</button>
+            <button id="countdownResetBtn" class="countdown-control-btn secondary" disabled>重置</button>
+            <button id="countdownClearBtn" class="countdown-control-btn secondary">清除</button>
         </div>
         
         <div class="countdown-history">
-            <div class="countdown-history-title">鍊掕鏃跺巻鍙?/div>
+            <div class="countdown-history-title">倒计时历史</div>
             <ul id="countdownHistoryList" class="countdown-history-list"></ul>
         </div>
     </div>
     
-    <a href="features.html" class="back-btn">杩斿洖鏇村鍔熻兘</a>
+    <a href="features.html" class="back-btn">返回更多功能</a>
     
     <script src="js/countdown.js"></script>
 </body>

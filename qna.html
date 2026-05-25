@@ -1,13 +1,13 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>闂傚偆鍠氶悺鐔煎箖掑啰?- Hakimi的个人博客/title>
+    <title>问答悬赏 - Hakimi的猫爬架</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <link rel="stylesheet" href="css/tianjg-theme.css">
     <style>
-        /* 闂傚偆鍠氶悺鐔哄寲姐倗犻柡宥呭槻?*/
+        /* 问答系统样式 */
         .qna-page {
             max-width: 1200px;
             margin: 0 auto;
@@ -54,7 +54,7 @@
             font-size: 0.9em;
         }
 
-        /* 佹稒鐩埀顦扮埇鏋?*/
+        /* 筛选栏 */
         .qna-filters {
             background: white;
             border-radius: 16px;
@@ -132,7 +132,7 @@
             box-shadow: 0 8px 20px rgba(240, 147, 251, 0.4);
         }
 
-        /* 闂傚偆鍣ｉ。礆濡ゅ嫨鈧?*/
+        /* 问题列表 */
         .qna-list {
             display: flex;
             flex-direction: column;
@@ -274,7 +274,7 @@
             border-radius: 50%;
         }
 
-        /* 佸矁娅ｆ慨鎼佸箑?*/
+        /* 空状态 */
         .qna-empty {
             text-align: center;
             padding: 60px 20px;
@@ -292,7 +292,7 @@
             margin-bottom: 20px;
         }
 
-        /* 告帒妫濋妴?*/
+        /* 分页 */
         .qna-pagination {
             display: flex;
             justify-content: center;
@@ -331,7 +331,7 @@
             color: #999;
         }
 
-        /* ☆垪鍓濋埀跨劍?*/
+        /* 模态框 */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -379,7 +379,7 @@
             color: #333;
         }
 
-        /* 炴稏鍔屽畷鐔煎冀瀹勬壆纭 */
+        /* 表单样式 */
         .qna-form {
             padding: 20px;
         }
@@ -486,7 +486,7 @@
             color: #f5576c;
         }
 
-        /* Toast 圭粯鍔妵?*/
+        /* Toast 提示 */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -511,7 +511,7 @@
         .toast-warning { background: #ff9800; }
         .toast-info { background: #2196F3; }
 
-        /* 告繂绉寸花鎻掝嚕?*/
+        /* 响应式 */
         @media (max-width: 768px) {
             .qna-header {
                 padding: 25px;
@@ -557,62 +557,62 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="index.html" class="nav-link">濡鐗犻妴?/a>
-                <a href="qna.html" class="nav-link active">闂傚偆鍠氶悺?/a>
-                <a href="groups.html" class="nav-link">革箑鐗嗛悺?/a>
-                <a href="about.html" class="nav-link">稿繐鍘栫花?/a>
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="qna.html" class="nav-link active">问答</a>
+                <a href="groups.html" class="nav-link">圈子</a>
+                <a href="about.html" class="nav-link">关于</a>
             </div>
         </nav>
 
         <div class="qna-page">
             <div class="qna-header">
-                <h1>妫啯灏?闂傚偆鍠氶悺鐔煎箖掑啰?/h1>
-                <p>圭粯鍔曢崵顓㈡⒒曗偓ｄ粙鏁嶇仦鎯т壕犙冪箻墽鏁笟濠兼儳鍢茬欢杈ㄧ▔捐尙归悷娆欑悼?/p>
+                <h1>💰 问答悬赏</h1>
+                <p>提出问题，悬赏金币，获得专业解答</p>
                 <div class="qna-stats-bar">
                     <div class="qna-stat">
                         <span class="qna-stat-num" id="totalQuestions">0</span>
-                        <span class="qna-stat-label">闂傚偆鍣ｉ。箑佹ɑ娈?/span>
+                        <span class="qna-stat-label">问题总数</span>
                     </div>
                     <div class="qna-stat">
                         <span class="qna-stat-num" id="totalBounty">0</span>
-                        <span class="qna-stat-label">诡噮鍓濈粊濠氬箑犳凹?/span>
+                        <span class="qna-stat-label">悬赏总额</span>
                     </div>
                     <div class="qna-stat">
                         <span class="qna-stat-num" id="resolvedRate">0%</span>
-                        <span class="qna-stat-label">熸瑱绲介崰鍛存偝?/span>
+                        <span class="qna-stat-label">解决率</span>
                     </div>
                 </div>
             </div>
 
             <div class="qna-filters">
                 <div class="filter-group">
-                    <span class="filter-label">绘栭埀跨筏?/span>
-                    <button class="qna-filter-btn active" data-filter="status" data-value="open">閺夆晜绋栭、鎴炵▔?/button>
-                    <button class="qna-filter-btn" data-filter="status" data-value="resolved">规瓕灏?/button>
-                    <button class="qna-filter-btn" data-filter="status" data-value="all">稿繈鍔戦崕?/button>
+                    <span class="filter-label">状态：</span>
+                    <button class="qna-filter-btn active" data-filter="status" data-value="open">进行中</button>
+                    <button class="qna-filter-btn" data-filter="status" data-value="resolved">已解决</button>
+                    <button class="qna-filter-btn" data-filter="status" data-value="all">全部</button>
                 </div>
                 <div class="filter-group">
-                    <span class="filter-label">圭儤甯掔花顓㈡晬?/span>
-                    <button class="qna-filter-btn active" data-filter="sort" data-value="newest">哄牃撻柡?/button>
-                    <button class="qna-filter-btn" data-filter="sort" data-value="bounty">诡噮鍓濈粊濠氬嫉剚顨?/button>
-                    <button class="qna-filter-btn" data-filter="sort" data-value="popular">哄牃撻?/button>
+                    <span class="filter-label">排序：</span>
+                    <button class="qna-filter-btn active" data-filter="sort" data-value="newest">最新</button>
+                    <button class="qna-filter-btn" data-filter="sort" data-value="bounty">悬赏最高</button>
+                    <button class="qna-filter-btn" data-filter="sort" data-value="popular">最热</button>
                 </div>
                 <div class="qna-search">
-                    <input type="text" id="qnaSearch" placeholder="瑰吋绮銊╂⒒曗偓?..">
+                    <input type="text" id="qnaSearch" placeholder="搜索问题...">
                 </div>
-                <button class="btn-create" id="createQuestionBtn">+ 告瑦鍨电粩鐑芥⒒曗偓?/button>
+                <button class="btn-create" id="createQuestionBtn">+ 发布问题</button>
             </div>
 
             <div class="qna-list" id="qnaList">
-                <!-- 闂傚偆鍣ｉ。礆濡ゅ嫨鈧啰浜崱佽含閺夆晜╅崳宄般掗崣屽帬 -->
+                <!-- 问题列表将在这里渲染 -->
                 <div class="qna-empty">
-                    <div class="qna-empty-icon">?/div>
-                    <p>繐绲藉﹢顏堝礉樼儤绁伴梻鍌ゅ櫍?..</p>
+                    <div class="qna-empty-icon">⏳</div>
+                    <p>正在加载问题...</p>
                 </div>
             </div>
 
             <div class="qna-pagination" id="qnaPagination">
-                <!-- 告帒妫濋妴屼焊韬弶鈺傜懇嘲銆掗崣屽帬 -->
+                <!-- 分页将在这里渲染 -->
             </div>
         </div>
     </div>
@@ -620,5 +620,3 @@
     <script type="module" src="js/qna-system.js"></script>
 </body>
 </html>
-
-

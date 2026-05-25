@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="衡偓栨稑鐦?Hakimi 的个人博客- 诡喓鍔庡▓鎴澬掕箛ｎ伇寸姾ゅ畷姗宕濋埡鍛幋哄嫷鍨伴骞幋拨哄牃懏鐣卞褎告慨?>
-    <title>鍔曟慨顏堝绩栨稑鐦?- Hakimi 的个人博客/title>
+    <meta name="description" content="支持 Hakimi 的猫爬架 - 您的每一份捐助都是对我们最大的鼓励">
+    <title>捐助支持 - Hakimi 的猫爬架</title>
     <link rel="shortcut icon" href="favicon.ico">
     <script src="js/polyfill.js"></script>
     <link rel="stylesheet" href="css/chinese-style.css?v=3">
@@ -50,7 +50,7 @@
             margin: 0;
         }
 
-        /* 閺夆晜绋规娊?*/
+        /* 进度条 */
         .goal-card {
             background: white;
             border-radius: 16px;
@@ -156,7 +156,7 @@
             margin-top: 2px;
         }
 
-        /* 衡偓告顔秶绮堥崫鍕耿?*/
+        /* 收款码展示卡片 */
         .qr-card {
             background: white;
             border-radius: 16px;
@@ -221,6 +221,21 @@
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.9em;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .amount-btn {
+            padding: 12px 8px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-size: 1em;
             font-weight: 600;
         }
 
@@ -234,9 +249,129 @@
             background: linear-gradient(135deg, #fce4ec, #f8bbd0);
             color: #c62828;
             border: 1px solid #ef9a9a;
+            color: #ff6b6b;
         }
 
-        /* 圭儤甯熼、鎴濐潡?& 哄牃撻弶鈺傚灱斿洩銇?*/
+        .amount-btn .yuan {
+            font-size: 0.7em;
+            font-weight: 400;
+            color: #999;
+        }
+
+        .custom-amount {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .custom-amount label {
+            font-size: 0.9em;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        .custom-amount input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .custom-amount input:focus {
+            border-color: #ff6b6b;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .form-row input, .form-row textarea {
+            flex: 1;
+            padding: 10px 14px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 0.9em;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        .form-row input:focus, .form-row textarea:focus {
+            border-color: #ff6b6b;
+        }
+
+        .form-row textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .payment-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+            font-size: 0.95em;
+        }
+
+        .payment-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .payment-btn.active-wechat {
+            border-color: #07c160;
+            background: linear-gradient(135deg, #f0faf4, #fff);
+            color: #07c160;
+        }
+
+        .payment-btn.active-alipay {
+            border-color: #1677ff;
+            background: linear-gradient(135deg, #f0f5ff, #fff);
+            color: #1677ff;
+        }
+
+        .submit-donate-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .submit-donate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,107,107,0.4);
+        }
+
+        .submit-donate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 排行榜 & 最近记录 */
         .donate-panels {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -340,7 +475,7 @@
             flex-shrink: 0;
         }
 
-        /* 哄牃撻弶鈺傚灱斿洩銇?*/
+        /* 最近记录 */
         .recent-item {
             padding: 10px 0;
             border-bottom: 1px solid #f5f5f5;
@@ -390,7 +525,7 @@
             font-size: 0.9em;
         }
 
-        /* 閺夆晜鏌ú鏍箰舵劖灏?*/
+        /* 返回按钮 */
         .back-home {
             text-align: center;
             margin-top: 10px;
@@ -413,28 +548,29 @@
         <div class="bg-decoration"></div>
 
         <nav class="top-nav">
-            <a href="/index-chinese.html" class="nav-logo">&#x1F431; 首页几?/a>
+            <a href="/index-chinese.html" class="nav-logo">&#x1F431; 猫爬架</a>
             <div class="nav-links">
-                <a href="/index-chinese.html">濡鐗犻妴?/a>
-                <a href="/about.html">稿繐鍘栫花?/a>
-                <a href="/donate.html" style="color:#ff6b6b; font-weight:600;">&#x2764;&#xFE0F; 鍔曟慨?/a>
+                <a href="/index-chinese.html">首页</a>
+                <a href="/about.html">关于</a>
+                <a href="/donate.html" style="color:#ff6b6b; font-weight:600;">&#x2764;&#xFE0F; 捐助</a>
             </div>
         </nav>
 
         <div class="donate-container">
-            <!-- 濡炪倕鐖奸崕?Hero -->
+            <!-- 顶部 Hero -->
             <div class="donate-hero">
                 <div class="donate-hero-icon">&#x2764;&#xFE0F;</div>
-                <h1>衡偓栨稑鐦煎╁洭?/h1>
-                <p>诡喓鍔庡▓鎴澬掕箛ｎ伇寸姾ら弫骞愭笟濠闂喛ゅΣ鎼佸箣存粍绮柛鎾Х绘﹢鎯顐⑿柛?&#x2728;</p>
+                <h1>支持猫爬架</h1>
+                <p>您的每一份支持，都是我们前进的动力 &#x2728;</p>
             </div>
 
-            <!-- 鍔曟慨顏堟儎旂晫鍨奸弶鈺傜?-->
+            <!-- 捐助目标进度 -->
             <div class="goal-card" id="goalCard">
                 <div class="goal-header">
-                    <div class="goal-title" id="goalTitle">告梻ù鍥ㄧ▔?..</div>
+                    <div class="goal-title" id="goalTitle">加载中...</div>
                     <div class="goal-amount">
-                        <span id="goalCurrent">0</span> / <span id="goalTarget">0</span> ?                    </div>
+                        <span id="goalCurrent">0</span> / <span id="goalTarget">0</span> 元
+                    </div>
                 </div>
                 <div class="progress-bar-outer">
                     <div class="progress-bar-inner" id="progressBar" style="width: 0%"></div>
@@ -444,50 +580,73 @@
                 <div class="goal-stats">
                     <div class="goal-stat-item">
                         <div class="num" id="statDonors">0</div>
-                        <div class="label">鍔曟慨顏呯ɑ娈?/div>
+                        <div class="label">捐助人次</div>
                     </div>
                     <div class="goal-stat-item">
                         <div class="num" id="statTotal">&#xA5;0</div>
-                        <div class="label">侀硸鍨鎼佸箲袠</div>
+                        <div class="label">累计捐助</div>
                     </div>
                 </div>
             </div>
 
-            <!-- 衡偓告顔秶绮?-->
+            <!-- 收款码展示 -->
             <div class="qr-card">
-                <h2>&#x1F4B0; 偊鍠曟穱濠囧箥愩倗鍨抽褏涙慨?/h2>
-                <div class="qr-subtitle">瑰灚哥鎴濐嚗旇绻嗛娈垮亗旀挳骞傜衡偓栨稑鐦煎╁洭崜浣圭暠閺夆晜鍔橀幆鈧?/div>
+                <h2>&#x1F4B0; 微信扫码赞助</h2>
+                <div class="qr-subtitle">打开微信扫一扫，支持猫爬架的运营</div>
                 <div class="qr-code-display">
-                    <img src="/weixin_pay/skm.PNG" alt="偊鍠曟穱濠囧绩告?>
+                    <img src="/weixin_pay/skm.PNG" alt="微信收款码">
                 </div>
                 <div class="qr-tips">
-                    &#x1F4CC; 规嗙埇鏋舵粓ㄩ娆戝笡告艾鍑界堢博挻姣愮痪顓у枦ㄩ懜娈垮村吋鐭拹鐔煎箖閵娧呮焾犱籍囶浀告柡鏅犻崳鐐紣?br>
-                    &#x1F3C5; 侀硸鍨鍝ユ導愭彃袠 ?<strong>5?/strong> 兼儳鍢茬欢?<strong>VIP</strong> 濠㈠墎顥愰、?br>
-                    &#x1F3C6; 侀硸鍨鍝ユ導愭彃袠 ?<strong>10?/strong> 兼儳鍢茬欢?<strong>MVP</strong> 濠㈠墎顥愰、?                </div>
-                <div class="title-info">
-                    <div class="title-badge vip">&#x1F3C5; VIP 濠㈠墎顥愰、??侀硸鍨鍝ユ導愭彃袠 ?5?/div>
-                    <div class="title-badge mvp">&#x1F3C6; MVP 濠㈠墎顥愰、??侀硸鍨鍝ユ導愭彃袠 ?10?/div>
+                    &#x1F4CC; 扫码支付后，站长确认收款会为您累计赞助金额<br>
+                    &#x1F3C5; 累计赞助 ≥ <strong>5元</strong> 获得 <strong>VIP</strong> 头衔<br>
+                    &#x1F3C6; 累计赞助 ≥ <strong>10元</strong> 获得 <strong>MVP</strong> 头衔
                 </div>
+                <div class="title-info">
+                    <div class="title-badge vip">&#x1F3C5; VIP 头衔 — 累计赞助 ≥ 5元</div>
+                    <div class="title-badge mvp">&#x1F3C6; MVP 头衔 — 累计赞助 ≥ 10元</div>
+                </div>
+                </div>
+
+                <div class="form-row">
+                    <input type="text" id="donorName" placeholder="您的昵称（选填，默认匿名）" maxlength="50">
+                </div>
+
+                <div class="form-row">
+                    <textarea id="donorMessage" placeholder="留言鼓励一下吧~（选填）" maxlength="200"></textarea>
+                </div>
+
+                <div class="payment-methods">
+                    <button class="payment-btn active-wechat" id="btnWechat" data-method="wechat">
+                        💚 微信支付
+                    </button>
+                    <button class="payment-btn" id="btnAlipay" data-method="alipay">
+                        💙 支付宝
+                    </button>
+                </div>
+
+                <button class="submit-donate-btn" id="submitDonate">
+                    ❤️ 立即捐助
+                </button>
             </div>
 
-            <!-- 圭儤甯熼、鎴濐潡?& 哄牃撻弶鈺傚灱斿洩銇?-->
+            <!-- 排行榜 & 最近记录 -->
             <div class="donate-panels">
                 <div class="panel-card">
-                    <h3>&#x1F3C6; 鍔曟慨顏堝箳烘洦鏀芥慨?/h3>
+                    <h3>&#x1F3C6; 捐助排行榜</h3>
                     <ul class="leaderboard-list" id="leaderboardList">
-                        <li class="empty-tip">哄棗瑰Λ夊箲袠犱焦樼紞?/li>
+                        <li class="empty-tip">暂无捐助记录</li>
                     </ul>
                 </div>
                 <div class="panel-card">
-                    <h3>&#x1F550; 哄牃撻弶鈺傚瀹曟﹢宕?/h3>
+                    <h3>&#x1F550; 最近捐助</h3>
                     <div id="recentList">
-                        <div class="empty-tip">哄棗瑰Λ夊箲袠犱焦樼紞?/div>
+                        <div class="empty-tip">暂无捐助记录</div>
                     </div>
                 </div>
             </div>
 
             <div class="back-home">
-                <a href="/index-chinese.html">&#x2190; 閺夆晜鏌ú鏍純閺嶎厹鈧?/a>
+                <a href="/index-chinese.html">&#x2190; 返回首页</a>
             </div>
         </div>
     </div>
@@ -497,5 +656,3 @@
 </body>
 
 </html>
-
-

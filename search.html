@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>濡ゅ倹顭鍥箹濠婂懎?- Hakimi 的个人博客/title>
+    <title>高级搜索 - Hakimi 的猫爬架</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         .search-wrapper {
@@ -431,22 +431,22 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="index.html" class="nav-link">濡鐗犻妴?/a>
-                <a href="search.html" class="nav-link active">瑰吋绮?/a>
-                <a href="profile.html" class="nav-link">搩浜欏Ч嬬▔偟濡?/a>
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="search.html" class="nav-link active">搜索</a>
+                <a href="profile.html" class="nav-link">个人中心</a>
             </div>
         </nav>
         
         <div class="search-wrapper">
             <div class="search-header">
-                <h1>妫啯鏁?濡ゅ倹顭鍥箹濠婂懎?/h1>
+                <h1>🔍 高级搜索</h1>
                 <div class="search-box">
                     <div class="search-input-wrapper">
                         <input 
                             type="text" 
                             class="search-input" 
                             id="searchInput" 
-                            placeholder="瑰吋绮銊╁棘モ晝褰块柕鍡曠劍爬架锝驳娣墎撴担椋▕?.."
+                            placeholder="搜索文章、标签、作者..."
                             autocomplete="off"
                         >
                         <button class="search-btn" id="searchBtn">
@@ -460,79 +460,79 @@
                 </div>
             </div>
             
-            <!-- 瑰吋绮銊х驳戔懇?-->
+            <!-- 搜索筛选 -->
             <div class="search-filters">
                 <div class="filter-row">
                     <div class="filter-group">
-                        <label class="filter-label">告帒妫涚悮?/label>
+                        <label class="filter-label">分类</label>
                         <select class="filter-select" id="categoryFilter">
-                            <option value="">稿繈鍔戦崕鎾礆瑨顫?/option>
-                            <option value="tech">瑰灈撻柡?/option>
-                            <option value="life">汇垻鍠愬?/option>
-                            <option value="tutorial">轰焦埢?/option>
-                            <option value="note">佹妫侀?/option>
+                            <option value="">全部分类</option>
+                            <option value="tech">技术</option>
+                            <option value="life">生活</option>
+                            <option value="tutorial">教程</option>
+                            <option value="note">笔记</option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label class="filter-label">告瑦鍨电粩鐑藉籍洘锛?/label>
+                        <label class="filter-label">发布时间</label>
                         <select class="filter-select" id="dateFilter">
-                            <option value="">稿繈鍔戦崕鎾籍洘锛?/option>
-                            <option value="day">哄牃撻弶?4繐绻戝?/option>
-                            <option value="week">哄牃撻弶鈺傚灣旀挳宕?/option>
-                            <option value="month">哄牃撻弶鈺傚灣旀挳?/option>
-                            <option value="year">哄牃撻弶鈺傚灣旀挳鐛?/option>
+                            <option value="">全部时间</option>
+                            <option value="day">最近24小时</option>
+                            <option value="week">最近一周</option>
+                            <option value="month">最近一月</option>
+                            <option value="year">最近一年</option>
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label class="filter-label">圭儤甯掔花顓㈠棘熸壆纭</label>
+                        <label class="filter-label">排序方式</label>
                         <select class="filter-select" id="sortFilter">
-                            <option value="relevance">烩晝顭堥崣褎鎯?/option>
-                            <option value="newest">哄牃撻柡鍌涙緲瑜板倻鏁?/option>
-                            <option value="popular">哄牃撻柛娆愵殕愯姤娼?/option>
-                            <option value="views">哄牃鑸靛哺濡插鎷?/option>
+                            <option value="relevance">相关度</option>
+                            <option value="newest">最新发布</option>
+                            <option value="popular">最受欢迎</option>
+                            <option value="views">最多阅读</option>
                         </select>
                     </div>
                 </div>
                 <div class="filter-row">
                     <div class="filter-group" style="flex: 2;">
-                        <label class="filter-label">绘埈鍙冨Λ冀モ晩鍔?/label>
+                        <label class="filter-label">热门标签</label>
                         <div class="filter-tags" id="popularTags">
-                            <!-- 告鍔埀胯兌閺佹捇骞?-->
+                            <!-- 动态生成 -->
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- 瑰吋绮銊х磼旀椿鍚 -->
+            <!-- 搜索统计 -->
             <div class="search-stats" id="searchStats" style="display: none;">
                 <span class="search-stats-text">
-                    瑰灚抽崺?<strong id="resultCount">0</strong> 搩浜炵划銊╁几?
-                    <span id="searchTime">(0.12?</span>
+                    找到 <strong id="resultCount">0</strong> 个结果
+                    <span id="searchTime">(0.12秒)</span>
                 </span>
             </div>
             
-            <!-- 瑰吋绮銊х磼浜?-->
+            <!-- 搜索结果 -->
             <div class="search-results" id="searchResults">
-                <!-- 告鍔埀胯兌閺佹捇骞?-->
+                <!-- 动态生成 -->
             </div>
             
-            <!-- 告帒妫濋妴?-->
+            <!-- 分页 -->
             <div class="pagination" id="pagination" style="display: none;">
-                <!-- 告鍔埀胯兌閺佹捇骞?-->
+                <!-- 动态生成 -->
             </div>
             
-            <!-- 绘埈鍙冨Λ箹濠婂懎?-->
+            <!-- 热门搜索 -->
             <div class="trending-searches" id="trendingSearches">
-                <h3 class="trending-title">妫啯鏆?绘埈鍙冨Λ箹濠婂懎?/h3>
+                <h3 class="trending-title">🔥 热门搜索</h3>
                 <div class="trending-tags" id="trendingTags">
-                    <!-- 告鍔埀胯兌閺佹捇骞?-->
+                    <!-- 动态生成 -->
                 </div>
             </div>
         </div>
     </div>
     
     <script type="module">
-        import { API_BASE_URL } from './js/api-config.js?v=20260524a';
+        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
         
         let currentPage = 1;
         let currentQuery = '';
@@ -545,7 +545,7 @@
         const searchStats = document.getElementById('searchStats');
         const pagination = document.getElementById('pagination');
         
-        // 兼儳鍢茶ぐ鍥驳戔懇撴径瀣拫?
+        // 获取筛选条件
         function getFilters() {
             return {
                 category: document.getElementById('categoryFilter').value,
@@ -554,7 +554,7 @@
             };
         }
         
-        // 圭瑳鍡╂斀瑰吋绮?
+        // 执行搜索
         async function performSearch(page = 1) {
             const query = searchInput.value.trim();
             if (!query) return;
@@ -564,7 +564,7 @@
             
             const filters = getFilters();
             
-            // 哄澧介妵跺礉樼儤绁伴垮煐?
+            // 显示加载状态
             searchResults.innerHTML = '<div class="loading-spinner"></div>';
             searchStats.style.display = 'none';
             pagination.style.display = 'none';
@@ -580,28 +580,28 @@
                 const response = await fetch(`${API_BASE_URL}/search?${params}`);
                 const data = await response.json();
                 
-                if (!response.ok) throw new Error(data.error || '瑰吋绮銊緞堫袝');
+                if (!response.ok) throw new Error(data.error || '搜索失败');
                 
                 displayResults(data);
                 
             } catch (error) {
-                console.error('瑰吋绮銊緞堫袝:', error);
+                console.error('搜索失败:', error);
                 searchResults.innerHTML = `
                     <div class="empty-results">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"></circle>
                             <path d="m21 21-4.35-4.35"></path>
                         </svg>
-                        <h3>瑰吋绮銊╁礄差亝鏅?/h3>
+                        <h3>搜索出错</h3>
                         <p>${error.message}</p>
                     </div>
                 `;
             }
         }
         
-        // 哄澧介妵跺箹濠婂懎嶇紓浣规尰?
+        // 显示搜索结果
         function displayResults(data) {
-            // 哄洤鐡ㄩ弻濠磼旀椿鍚
+            // 更新统计
             document.getElementById('resultCount').textContent = data.total || 0;
             searchStats.style.display = 'flex';
             
@@ -612,15 +612,15 @@
                             <circle cx="11" cy="11" r="8"></circle>
                             <path d="m21 21-4.35-4.35"></path>
                         </svg>
-                        <h3>炲备鍓﹢骞幆褍鐓傞鈺冾焾櫻呯磼浜?/h3>
-                        <p>犲洦娲濋惁顖炲礂閺堢數閾傞柛蹇斿▕閺厾鎷犲鍡楃仐犲弳锝驳戔懇撴径瀣拫?/p>
+                        <h3>没有找到相关结果</h3>
+                        <p>试试其他关键词或调整筛选条件</p>
                     </div>
                 `;
                 pagination.style.display = 'none';
                 return;
             }
             
-            // 炴挸堕悡瀣磼浜?
+            // 渲染结果
             searchResults.innerHTML = data.results.map(result => `
                 <div class="result-item">
                     <h3 class="result-title">
@@ -630,18 +630,18 @@
                     <div class="result-meta">
                         <div class="result-author">
                             <div class="author-avatar">${result.author ? result.author.charAt(0).toUpperCase() : '?'}</div>
-                            <span>${result.author || '告牕鐏濋幃?}</span>
+                            <span>${result.author || '匿名'}</span>
                         </div>
                         <div class="result-meta-item">
-                            <span>妫啯鎯?/span>
+                            <span>📅</span>
                             <span>${new Date(result.created_at).toLocaleDateString('zh-CN')}</span>
                         </div>
                         <div class="result-meta-item">
-                            <span>妫啯?/span>
+                            <span>👁</span>
                             <span>${result.views || 0}</span>
                         </div>
                         <div class="result-meta-item">
-                            <span>?/span>
+                            <span>❤</span>
                             <span>${result.likes || 0}</span>
                         </div>
                         ${result.tags ? `
@@ -655,23 +655,23 @@
                 </div>
             `).join('');
             
-            // 炴挸堕悡瀣礆稏鈧?
+            // 渲染分页
             renderPagination(data.total, data.page, data.totalPages);
         }
         
-        // 濡ゅ倹眉垫帡骞栧鍛亶?
+        // 高亮搜索词
         function highlightText(text, query) {
             if (!query || !text) return text;
             const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
             return text.replace(regex, '<mark>$1</mark>');
         }
         
-        // 閺夌儐鍏涚粻鐔奉潰閿懎鐏熼勵潐ｂ晝鈧稒顨堥?
+        // 转义正则特殊字符
         function escapeRegex(string) {
             return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
         
-        // 炴挸堕悡瀣礆稏鈧?
+        // 渲染分页
         function renderPagination(total, currentPage, totalPages) {
             if (totalPages <= 1) {
                 pagination.style.display = 'none';
@@ -680,10 +680,10 @@
             
             let html = '';
             
-            // 挸锕粩瀛樸亜?
-            html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">挸锕粩瀛樸亜?/button>`;
+            // 上一页
+            html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">上一页</button>`;
             
-            // 濡炪倗鏁哥埇鏋?
+            // 页码
             const startPage = Math.max(1, currentPage - 2);
             const endPage = Math.min(totalPages, startPage + 4);
             
@@ -691,20 +691,20 @@
                 html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
             }
             
-            // 挸粩瀛樸亜?
-            html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">挸粩瀛樸亜?/button>`;
+            // 下一页
+            html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">下一页</button>`;
             
             pagination.innerHTML = html;
             pagination.style.display = 'flex';
         }
         
-        // 犲搫鐤囧ù鍡涘礆楀牆鐦归哺閵?
+        // 跳转到指定页
         window.goToPage = function(page) {
             performSearch(page);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
         
-        // 兼儳鍢茶ぐ鍥箹濠婂懎嶇点倝氶?
+        // 获取搜索建议
         async function fetchSuggestions(query) {
             if (!query || query.length < 2) {
                 suggestions.classList.remove('show');
@@ -732,11 +732,11 @@
                     suggestions.classList.remove('show');
                 }
             } catch (error) {
-                console.error('兼儳鍢茶ぐ鍥嚈︽鍞村鎯扮簿?', error);
+                console.error('获取建议失败:', error);
             }
         }
         
-        // 告梻ù鍥倻撱垺锛岄柡宥呮川?
+        // 加载热门标签
         async function loadPopularTags() {
             try {
                 const response = await fetch(`${API_BASE_URL}/search/filters`);
@@ -748,11 +748,11 @@
                     `).join('');
                 }
             } catch (error) {
-                console.error('告梻ù鍥倻撱垺锛岄柡宥呮川掗攱勬潏顐バ?', error);
+                console.error('加载热门标签失败:', error);
             }
         }
         
-        // 告梻ù鍥倻撱垺锛岄鍏肩矌?
+        // 加载热门搜索
         async function loadTrendingSearches() {
             try {
                 const response = await fetch(`${API_BASE_URL}/search/trending`);
@@ -764,17 +764,17 @@
                     `).join('');
                 }
             } catch (error) {
-                console.error('告梻ù鍥倻撱垺锛岄鍏肩矌屻劍勬潏顐バ?', error);
+                console.error('加载热门搜索失败:', error);
             }
         }
         
-        // 瑰吋绮銊╂倻撱垺锛岄?
+        // 搜索热门词
         window.searchTrending = function(query) {
             searchInput.value = query;
             performSearch(1);
         };
         
-        // 存粌▎銏ゆ儎存繃?
+        // 事件监听
         searchInput.addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
@@ -803,14 +803,14 @@
             }
         });
         
-        // 绘劗鎳撻崵顔藉緞閺嶎厼鍔柛蹇斿▕濡潙欐ウ娆敶
+        // 点击外部关闭建议
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.search-box')) {
                 suggestions.classList.remove('show');
             }
         });
         
-        // 佹稒鐩埀顦板顖涚哄搫缍侀柛鏍ㄧ墬濡炲倿鏌屽鍡樼厐瑰吋绮?
+        // 筛选条件变化时重新搜索
         document.getElementById('categoryFilter').addEventListener('change', () => {
             if (currentQuery) performSearch(1);
         });
@@ -823,7 +823,7 @@
             if (currentQuery) performSearch(1);
         });
         
-        // 哄秴娲ㄩ鐑芥倷熸澘姣?
+        // 标签点击
         document.getElementById('popularTags').addEventListener('click', (e) => {
             if (e.target.classList.contains('filter-tag')) {
                 const tag = e.target.dataset.tag;
@@ -832,12 +832,12 @@
             }
         });
         
-        // 告帗绻傞～鎰板礌?
+        // 初始化
         function init() {
             loadPopularTags();
             loadTrendingSearches();
             
-            // ☆偀撻柡婃珔RL告瑥归弳?
+            // 检查URL参数
             const urlParams = new URLSearchParams(window.location.search);
             const query = urlParams.get('q');
             if (query) {
@@ -850,5 +850,3 @@
     </script>
 </body>
 </html>
-
-

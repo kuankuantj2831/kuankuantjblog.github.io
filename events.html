@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>炶尪ф慨鈺呮嚂橆偆绐?- Hakimi 的个人博客/title>
+    <title>活动聚会 - Hakimi 的猫爬架</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -234,7 +234,7 @@
             color: #888;
         }
         
-        /* 哄啫鐖煎Λ璺ㄧ棯愁垼娼掗柛?*/
+        /* 时间线视图 */
         .timeline-view {
             display: none;
         }
@@ -252,7 +252,7 @@
             border-left: 4px solid #667eea;
         }
         
-        /* 告繂绉寸花鎻掝嚕?*/
+        /* 响应式 */
         @media (max-width: 768px) {
             .events-container {
                 margin-top: 60px;
@@ -276,47 +276,47 @@
 <body>
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
-            <a href="/" class="nav-logo">Hakimi 的个人博客/a>
+            <a href="/" class="nav-logo">Hakimi 的猫爬架</a>
             <div class="nav-links">
-                <a href="/" class="nav-link">濡鐗犻妴?/a>
-                <a href="/articles.html" class="nav-link">哄倸娲ㄩ悵?/a>
-                <a href="/groups.html" class="nav-link">傚洢楃划?/a>
-                <a href="/events.html" class="nav-link active">炶尪ф慨?/a>
-                <a href="/messages.html" class="nav-link">炴垵鐗婃导?/a>
+                <a href="/" class="nav-link">首页</a>
+                <a href="/articles.html" class="nav-link">文章</a>
+                <a href="/groups.html" class="nav-link">群组</a>
+                <a href="/events.html" class="nav-link active">活动</a>
+                <a href="/messages.html" class="nav-link">消息</a>
             </div>
         </nav>
 
         <div class="events-container">
             <div class="events-header">
-                <h1>妫啯鎯?炶尪ф慨鈺呮嚂橆偆绐?/h1>
-                <p>告瑦鍨归獮鍥╁垝冨厞炶尪ф慨鈺呮晬瀹鈧划銊ф嫚ɑ绠掗悺鎺炵悼堟垶?/p>
+                <h1>📅 活动聚会</h1>
+                <p>发现精彩活动，结识有趣的人</p>
             </div>
 
             <div class="events-toolbar">
                 <div class="view-switcher">
-                    <button class="view-btn active" onclick="switchView('grid', this)">?告绱曟晶?/button>
-                    <button class="view-btn" onclick="switchView('timeline', this)">?哄啫鐖煎Λ璺ㄧ棯?/button>
-                    <button class="view-btn" onclick="switchView('calendar', this)">妫啯鎯?哄啨卞?/button>
+                    <button class="view-btn active" onclick="switchView('grid', this)">⊞ 卡片</button>
+                    <button class="view-btn" onclick="switchView('timeline', this)">☰ 时间线</button>
+                    <button class="view-btn" onclick="switchView('calendar', this)">📅 日历</button>
                 </div>
-                <button class="create-event-btn" onclick="showCreateEventModal()">+ 告瑦鍨奸幑锝吤虹拠鎻捫?/button>
+                <button class="create-event-btn" onclick="showCreateEventModal()">+ 发起活动</button>
             </div>
 
-            <!-- 告绱曟晶鏍喆?-->
+            <!-- 卡片视图 -->
             <div class="events-grid" id="eventsGrid">
                 <div class="event-card">
                     <div class="event-image">
                         <div class="event-date-badge">
                             <div class="event-date-day">15</div>
-                            <div class="event-date-month">4?/div>
+                            <div class="event-date-month">4月</div>
                         </div>
-                        <div class="event-type-badge online">佹儳銇樼鍌毭虹拠鎻捫?/div>
+                        <div class="event-type-badge online">线上活动</div>
                     </div>
                     <div class="event-content">
-                        <div class="event-title">告挸绉堕剟诲ù庡亗?- Vue3 庡為顔?/div>
+                        <div class="event-title">前端技术分享会 - Vue3 实战技巧</div>
                         <div class="event-meta">
-                            <div class="event-meta-item">妫啯娅?20:00 - 21:30</div>
-                            <div class="event-meta-item">妫啯鎯?煎灚宕橀鍡樺樻剚鍞?/div>
-                            <div class="event-meta-item">妫啯鍣?挻妲掗愭晬橆厼螚哄牜鍨伴妵鍥偋?/div>
+                            <div class="event-meta-item">🕐 20:00 - 21:30</div>
+                            <div class="event-meta-item">📍 腾讯会议</div>
+                            <div class="event-meta-item">👤 主讲：技术大牛</div>
                         </div>
                         <div class="event-footer">
                             <div class="event-participants">
@@ -325,9 +325,9 @@
                                     <div class="participant-avatar"></div>
                                     <div class="participant-avatar"></div>
                                 </div>
-                                <span class="participant-count">128 存粌鎼锟犲閵夈儲?/span>
+                                <span class="participant-count">128 人已报名</span>
                             </div>
-                            <button class="register-btn" onclick="registerEvent('1')">佹柨呭畵鍡涘閵夈儲?/button>
+                            <button class="register-btn" onclick="registerEvent('1')">立即报名</button>
                         </div>
                     </div>
                 </div>
@@ -336,16 +336,16 @@
                     <div class="event-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
                         <div class="event-date-badge">
                             <div class="event-date-day">20</div>
-                            <div class="event-date-month">4?/div>
+                            <div class="event-date-month">4月</div>
                         </div>
-                        <div class="event-type-badge offline">佹儳銇樼鍛虹拠鎻捫?/div>
+                        <div class="event-type-badge offline">线下活动</div>
                     </div>
                     <div class="event-content">
-                        <div class="event-title">棄瀚總鏍緞閺嶃顎炴繛鑼额嚙?- 糕晛楠哥粩鑸殿槹鎼粹冲辅</div>
+                        <div class="event-title">摄影外拍活动 - 城市风光</div>
                         <div class="event-meta">
-                            <div class="event-meta-item">妫啯娅?14:00 - 18:00</div>
-                            <div class="event-meta-item">妫啯鎯?㈩垰烽懙鎴疀愩劎鐣柛锔芥夛箓宕?/div>
-                            <div class="event-meta-item">妫啯鍣?備礁瀚划鎰版嚀滃啰绐钘夊傛牜鏁崼堟瘓?/div>
+                            <div class="event-meta-item">🕐 14:00 - 18:00</div>
+                            <div class="event-meta-item">📍 市中心广场集合</div>
+                            <div class="event-meta-item">👤 组织者：摄影师小王</div>
                         </div>
                         <div class="event-footer">
                             <div class="event-participants">
@@ -353,9 +353,9 @@
                                     <div class="participant-avatar"></div>
                                     <div class="participant-avatar"></div>
                                 </div>
-                                <span class="participant-count">25 存粌鎼锟犲閵夈儲?/span>
+                                <span class="participant-count">25 人已报名</span>
                             </div>
-                            <button class="register-btn" onclick="registerEvent('2')">佹柨呭畵鍡涘閵夈儲?/button>
+                            <button class="register-btn" onclick="registerEvent('2')">立即报名</button>
                         </div>
                     </div>
                 </div>
@@ -364,16 +364,16 @@
                     <div class="event-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
                         <div class="event-date-badge">
                             <div class="event-date-day">25</div>
-                            <div class="event-date-month">4?/div>
+                            <div class="event-date-month">4月</div>
                         </div>
-                        <div class="event-type-badge online">佹儳銇樼鍌毭虹拠鎻捫?/div>
+                        <div class="event-type-badge online">线上活动</div>
                     </div>
                     <div class="event-content">
-                        <div class="event-title">犲洩顔婇崝鐔煎礆洟鐓╁ù?- 靛棗锕划锔锯偓線楀矂鎮界拠宸晙?/div>
+                        <div class="event-title">读书分享会 - 《黑客与画家》</div>
                         <div class="event-meta">
-                            <div class="event-meta-item">妫啯娅?19:30 - 21:00</div>
-                            <div class="event-meta-item">妫啯鎯?Discord 犲浂鍙悡鑸碉紣达缚澹?/div>
-                            <div class="event-meta-item">妫啯鍣?挾绮垫梹悮哥獥犲洩顔婇崝鐔煎触?/div>
+                            <div class="event-meta-item">🕐 19:30 - 21:00</div>
+                            <div class="event-meta-item">📍 Discord 语音频道</div>
+                            <div class="event-meta-item">👤 主持人：读书君</div>
                         </div>
                         <div class="event-footer">
                             <div class="event-participants">
@@ -383,9 +383,9 @@
                                     <div class="participant-avatar"></div>
                                     <div class="participant-avatar"></div>
                                 </div>
-                                <span class="participant-count">56 存粌鎼锟犲閵夈儲?/span>
+                                <span class="participant-count">56 人已报名</span>
                             </div>
-                            <button class="register-btn" onclick="registerEvent('3')">佹柨呭畵鍡涘閵夈儲?/button>
+                            <button class="register-btn" onclick="registerEvent('3')">立即报名</button>
                         </div>
                     </div>
                 </div>
@@ -394,16 +394,16 @@
                     <div class="event-image" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
                         <div class="event-date-badge">
                             <div class="event-date-day">01</div>
-                            <div class="event-date-month">5?/div>
+                            <div class="event-date-month">5月</div>
                         </div>
-                        <div class="event-type-badge offline">佹儳銇樼鍛虹拠鎻捫?/div>
+                        <div class="event-type-badge offline">线下活动</div>
                     </div>
                     <div class="event-content">
-                        <div class="event-title">告稏鍔嶅﹢顖氼嚗烘搩鍔?- ☆偒鍠悘鍕礂掆偓?/div>
+                        <div class="event-title">周末徒步 - 森林公园</div>
                         <div class="event-meta">
-                            <div class="event-meta-item">妫啯娅?08:00 - 16:00</div>
-                            <div class="event-meta-item">妫啯鎯?☆偒鍠悘鍕礂掆偓差垶宕犲Δ鍛紝</div>
-                            <div class="event-meta-item">妫啯鍣?濡澘妫Σ锕傛晬橆厼鐓曞鑸电墳活亝?/div>
+                            <div class="event-meta-item">🕐 08:00 - 16:00</div>
+                            <div class="event-meta-item">📍 森林公园北门</div>
+                            <div class="event-meta-item">👤 领队：户外达人</div>
                         </div>
                         <div class="event-footer">
                             <div class="event-participants">
@@ -412,68 +412,68 @@
                                     <div class="participant-avatar"></div>
                                     <div class="participant-avatar"></div>
                                 </div>
-                                <span class="participant-count">18 存粌鎼锟犲閵夈儲?/span>
+                                <span class="participant-count">18 人已报名</span>
                             </div>
-                            <button class="register-btn" onclick="registerEvent('4')">佹柨呭畵鍡涘閵夈儲?/button>
+                            <button class="register-btn" onclick="registerEvent('4')">立即报名</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 哄啫鐖煎Λ璺ㄧ棯愁垼娼掗柛?-->
+            <!-- 时间线视图 -->
             <div class="timeline-view" id="timelineView">
-                <div class="timeline-month">2026??/div>
-                <!-- 哄啫鐖煎Λ璺ㄧ棯喖鏁堕鍦嚀ㄣ垽宕濋妸锔瑰顫ｉ弶?-->
+                <div class="timeline-month">2026年4月</div>
+                <!-- 时间线内容将动态加载 -->
             </div>
         </div>
     </div>
 
-    <!-- 告帗绋紓鎾趁虹拠鎻捫楁顖楀墲兛鐒、?-->
+    <!-- 创建活动模态框 -->
     <div class="modal" id="createEventModal" style="display: none;">
         <div class="modal-content" style="max-width: 600px;">
             <div class="modal-header">
-                <h3>告瑦鍨奸幑锝夊棘楀牊銇熼柛?/h3>
-                <button class="close-btn" onclick="closeCreateEventModal()">?/button>
+                <h3>发起新活动</h3>
+                <button class="close-btn" onclick="closeCreateEventModal()">×</button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>炶尪ф慨鈺呭冀ヮ剦鏆?*</label>
-                    <input type="text" id="eventTitle" placeholder="備焦鍧楀礉閵娿劍宕冲稑ｉ弴溄汇瀚埇鏋讹锛?>
+                    <label>活动标题 *</label>
+                    <input type="text" id="eventTitle" placeholder="给活动起个吸引人的标题">
                 </div>
                 <div class="form-group">
-                    <label>炶尪ф慨鈺冪尵囪尙鈧?/label>
+                    <label>活动类型</label>
                     <select id="eventType">
-                        <option value="online">佹儳銇樼鍌毭虹拠鎻捫?/option>
-                        <option value="offline">佹儳銇樼鍛虹拠鎻捫?/option>
-                        <option value="hybrid">烇絽鍢查幃∶虹拠鎻捫?/option>
+                        <option value="online">线上活动</option>
+                        <option value="offline">线下活动</option>
+                        <option value="hybrid">混合活动</option>
                     </select>
                 </div>
                 <div class="form-row">
                     <div class="form-group" style="flex: 1;">
-                        <label>殿喒┑顔碱儐濡炲倿姊?*</label>
+                        <label>开始时间 *</label>
                         <input type="datetime-local" id="eventStartTime">
                     </div>
                     <div class="form-group" style="flex: 1;">
-                        <label>備焦诲顐籍洘锛?/label>
+                        <label>结束时间</label>
                         <input type="datetime-local" id="eventEndTime">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>炶尪ф慨鈺呭捶殿喖?/ 闂佸墽敮?/label>
-                    <input type="text" id="eventLocation" placeholder="佹儳銇樼鍛村捶閺夋寧绲婚瀛樼墱ゅ绋夋浣虹獥犱緡鍣ｉ幗濂稿箳?>
+                    <label>活动地点 / 链接</label>
+                    <input type="text" id="eventLocation" placeholder="线下地址或线上会议链接">
                 </div>
                 <div class="form-group">
-                    <label>炶尪ф慨鈺冪不剚?/label>
-                    <textarea id="eventDescription" rows="3" placeholder="寸姴划樏虹拠鎻捫柛鎰噹?.."></textarea>
+                    <label>活动简介</label>
+                    <textarea id="eventDescription" rows="3" placeholder="介绍活动内容..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label>存粎ら弳鐔兼⒔鐓?/label>
-                    <input type="number" id="eventMaxParticipants" placeholder="挸绉瑰娲礆偊鍤為锝嗙懅?>
+                    <label>人数限制</label>
+                    <input type="number" id="eventMaxParticipants" placeholder="不限制请留空">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeCreateEventModal()">告瑦鐗楃粔?/button>
-                <button class="btn btn-primary" onclick="createEvent()">告瑦鍨电粩宄懊虹拠鎻捫?/button>
+                <button class="btn btn-secondary" onclick="closeCreateEventModal()">取消</button>
+                <button class="btn btn-primary" onclick="createEvent()">发布活动</button>
             </div>
         </div>
     </div>
@@ -488,7 +488,7 @@
             document.getElementById('timelineView').classList.toggle('active', view === 'timeline');
             
             if (view === 'calendar') {
-                showToast('哄啨卞鑽ゆ喆堢殿喒撻柛娆愬灣?);
+                showToast('日历视图开发中');
             }
         }
         
@@ -503,15 +503,15 @@
         function createEvent() {
             const title = document.getElementById('eventTitle').value;
             if (!title) {
-                showToast('犲洨鏌夌欢顓㈠礂閵夛附銇熼柛鏂诲妽爬架锝嗭紣?);
+                showToast('请输入活动标题');
                 return;
             }
-            showToast('炶尪ф慨鈺呭存繄顏撮瀛樺姇盯鏁?);
+            showToast('活动发布成功！');
             closeCreateEventModal();
         }
         
         function registerEvent(id) {
-            showToast('遍幃鏇㈠箣顫犻柨楁祰曨剟鎮▎鎰炶尪ф慨鈺呮焻樿京鍙');
+            showToast('报名成功！请留意活动通知');
         }
         
         function showToast(message) {
@@ -535,5 +535,3 @@
     </script>
 </body>
 </html>
-
-

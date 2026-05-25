@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,7 +7,7 @@
   
   
   
-  <meta name="description" content="簽ｆ繈宕￠弴鐘暠技术博客博客>
+  <meta name="description" content="一个简单的个人博客">
   
   <title>
     Archives |
@@ -39,7 +39,7 @@
     
     <div class="archive-heading">
       <h1 class="page-type-title">Archives</h1>
-      <button id="add-post-btn" class="button-add-post">烇綀ф慨鐐哄棘楀牊?/button>
+      <button id="add-post-btn" class="button-add-post">添加新文章</button>
     </div>
     
   
@@ -62,7 +62,7 @@
       
   
   <h2 class="archive-article-title" itemprop="name">
-    <a href="/2024/05/19/%E6%88%91%E7%9A%84%E4%B8%AA%E4%BA%BA%E4%BB%8B%E7%BB%8D/">瑰瓨鍨瑰▓鎴炵▔啯鐪藉ù鐘差儑?/a>
+    <a href="/2024/05/19/%E6%88%91%E7%9A%84%E4%B8%AA%E4%BA%BA%E4%BB%8B%E7%BB%8D/">我的个人介绍</a>
   </h2>
   
   
@@ -127,7 +127,7 @@
             
         </li>
       
-      <li><a href="/admin/">告艾楠歌ぐ哥不閿涘嫭?/a></li>
+      <li><a href="/admin/">后台管理</a></li>
       
       <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
       <li>theme  <a target="_blank" rel="noopener" href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
@@ -207,42 +207,54 @@
 
 <script src="/js/ocean.js" defer></script>
 
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+<script src="/js/ocean.js"></script>
+
 <!-- Modal for adding new post -->
 <div id="add-post-modal" class="modal">
   <div class="modal-content">
     <span class="close-button">&times;</span>
-    <h2>濠碘冲风紞宥吳拠鎻掝潱哄倻澧弸鍐博樺弶瀚查梻鍕?/h2>
-    <p>汇垹褰夌花佹交劖邯笺倝骞ｈ櫣绉圭鏃辩箖閵娾晜橀悷鏇氱窔剚淇虹换鍐閵夈倗撴慨劦庡啴宕烽妸锔芥嫳革妇澧崸濠囧礉樿櫕鐓告劕鎳鎰版晬瀹鈧崝宕ユ惔銏犺吂闂偂侀崺瀛廼tHub寸姰插ú鍧楀棘殿喚绉圭鏃ｉ埀?/p>
+    <h2>如何添加新文章和附件</h2>
+    <p>由于这是一个静态网站，您需要通过以下步骤在本地添加新内容，然后推送到GitHub以更新网站。</p>
     
-    <h4>佹鍏涚粩戭潰閵夘垳绐柛鎺傛捇悧熺鏃傚У閺啯?/h4>
-    <p>诡喓鍔庡▓鎴犵磾寸姷褰插ù濂告？狀噣伴勬殸Hexo汇垻鍠愰舵儍曗斁撻愭告帗绋紓鎾寸▔剛崶銊︾厐哄倸娲ㄩ悵鐑芥晬瀹鍐殲革负鍔崑宥夋儍曨垬鈧秹鎯勯鐣屽烩晩鍠栫紞宥夊箥磭纾紓浣哥墢忣剟鐛幆鎵炴稑濂旀禍鎺▔ｎ亝鍤掑ù鐘х?/p>
-    <code>hexo new "诡喓鍔庡▓鎴棘モ晝褰块柡宥呮喘?</code>
-    <p>閺夆晜惃銏ゅ捶?<code>source/_posts</code> 哄倸娲▎銏緞稓撻柛鎺傛挻绋夐埀▔懏鐓汇鍤渁rkdown哄倸娲▎銏ゆ晬粎浼愬┑?`诡喓鍔庡▓鎴棘モ晝褰块柡宥呮喘?md`挎稑顦埀?/p>
+    <h4>第一步：创建新文章文件</h4>
+    <p>您的网站似乎是由Hexo生成的。要创建一篇新文章，请在您的项目根目录打开终端并运行以下命令：</p>
+    <code>hexo new "您的文章标题"</code>
+    <p>这将在 <code>source/_posts</code> 文件夹下创建一个新的Markdown文件（例如 `您的文章标题.md`）。</p>
 
-    <h4>佹鍏涚花鈺潰閵夘垳绐鐐緲熸捇崶鈺冨</h4>
-    <p>达綀娉曢弫顥砤rkdown傚倹鐗炵欢顐闯閵婏箑鈪电殿喒撻柡鍌涙緲崬欓搹暠哄倸娲▎銏ょ嵁鸿櫣纾诲┑顔碱儏熸挻鎷呭┃屾稑浜堕柛娆樺灟滄帡宕烽妸锔界ù鐘茬埣閵﹪鏌堥妸褎鐣?front-matter"闂喓鍔岄ｆ媼撗呮瀭哄秴娲。Υｈ锛夐柡㈠枂兛鐒︾埇鏋讹絿绮崜褏鎼煎ǎ鍥墲煎懘濡?/p>
+    <h4>第二步：撰写文章</h4>
+    <p>使用Markdown编辑器打开新创建的文件并开始写作。您可以在文件顶部的"front-matter"部分设置标题、日期、标签等信息。</p>
 
-    <h4>佹鍏涚浣割潰閵夘垳绐楁繛锝堫嚙偤姊介顏咁偨挎稑鐗嗛々宕堕崜褍顣婚柨?/h4>
+    <h4>第三步：添加附件（如图片）</h4>
     <ol>
-      <li>繐妫欓崑宥夋儍曨偅堥娲銊╁礂閺堢數閾傞梻鍕嗐垽崶锔筋偨衡偓冨汲濡炪倕婀卞ú鐗堢▔姵鐣?<code>source/images/</code> 哄倸娲▎銏緞楠炲簱?/li>
-      <li>革负鍔崑宥夋儍寴rkdown哄倸娲ㄩ悵閿嬬▔撱劎夊ù锝堟硶閺併倖掗妷憮犲浂鍘界涵璺侯嚕閺姵鏆忛柛銉ュ⒔ф牠鏁?br><code>![搞儱澧芥晶鏍箵韫艾鐗歖(/images/诡喓鍔庡▓鎴炊撗冾暬哄倸娲▎銏ゅ触?jpg)</code></li>
+      <li>将您的图片或其他附件文件放入项目中的 <code>source/images/</code> 文件夹。</li>
+      <li>在您的Markdown文章中，使用以下语法引用图片：<br><code>![图片描述](/images/您的图片文件名.jpg)</code></li>
     </ol>
     
-    <h4>佹鍓欏ú鎾愁潰閵夘垳绐柡墮濠瀛橈紣曨噮娼旈柛冪焸庡绱?/h4>
+    <h4>第四步：本地预览和部署</h4>
     <ol>
-        <li>革负鍔划鎾剁博栨瑨鍘弶鈺傚姌?<code>hexo server</code> 哄插﹢浼村捶兼惌鏆曢悷娆忕墛秹鎯顓犵Ч佹梹辩堟兜旇崵绠藉鎾告帒娲Ο岀矆﹩鍔㈩垱鎮堕埀?/li>
-        <li>绢収鍠涢濠氬籍樹警鍤栭柛嚱辨繃娼婚顖ｆ斀 <code>hexo deploy</code> 瑰瓨鐗旀繛鍥偨閵娿倓绨板鎾斥攪it告稒鍨濋幎夊閵夆晛鍔ョ紓鍐秹鎯函衡偓у摜绐?/li>
+        <li>在终端中运行 <code>hexo server</code> 来本地预览您的网站，确保一切显示正常。</li>
+        <li>确认无误后，运行 <code>hexo deploy</code> 或使用以下Git命令来部署您的更改：</li>
     </ol>
     <code>
         git add .<br>
-        git commit -m "Add new post: 诡喓鍔庡▓鎴棘モ晝褰块柡宥呮喘?<br>
+        git commit -m "Add new post: 您的文章标题"<br>
         git push origin main
     </code>
-    <p>告垹撮ㄦ煢旈攱柨樻湰秹鎯厐哄倸娲ㄩ悵鐑藉椽瀹鍕嶅ù鐘烘硾樸劍煎顓熲枖佲偓嫭韬紓鍐╁灩濐垱绋夋繛?/p>
+    <p>几分钟后，您的新文章和附件就会显示在网站上。</p>
   </div>
 </div>
 
 </body>
 
 </html>
-

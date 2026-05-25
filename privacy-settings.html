@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>闂傚懏鍔～鍡欐媼撗呮瀭 | Hakimi 的个人博客/title>
+    <title>隐私设置 | Hakimi 的猫爬架</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         .privacy-container {
@@ -224,39 +224,39 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="index.html" class="nav-link">妫啫缍?濡鐗犻妴?/a>
-                <a href="profile.html" class="nav-link">妫啯鍣?搩浜欏Ч嬬▔偟濡?/a>
-                <a href="privacy-settings.html" class="nav-link active">妫啯鏅?闂傚懏鍔～鍡欐媼撗呮瀭</a>
+                <a href="index.html" class="nav-link">🏠 首页</a>
+                <a href="profile.html" class="nav-link">👤 个人中心</a>
+                <a href="privacy-settings.html" class="nav-link active">🔒 隐私设置</a>
             </div>
         </nav>
 
         <div class="privacy-container">
-            <!-- 闂傚懏鍔～鍡欐媼撗呮瀭 -->
+            <!-- 隐私设置 -->
             <div class="privacy-card">
                 <div class="privacy-header">
-                    <div class="privacy-icon">妫啯鏅?/div>
+                    <div class="privacy-icon">🔒</div>
                     <div>
-                        <div class="privacy-title">闂傚懏鍔～鍡欐媼撗呮瀭</div>
-                        <div style="color: #666; font-size: 0.9rem;">矇鍐ㄧ厬犲佽ぐ鍙夌閵壯畽告帞澧崑宥夋儍曨亙绻嗛顓у灠锋澘煤彃袟</div>
+                        <div class="privacy-title">隐私设置</div>
+                        <div style="color: #666; font-size: 0.9rem;">控制谁可以看到您的信息和活动</div>
                     </div>
                 </div>
 
                 <div class="setting-item">
                     <div class="setting-info">
-                        <h4>搩浜欏Ч屾導曨剚鐏愰柛娆樺灥棝骞?/h4>
-                        <p>闂顦扮氥劎鎷担绋胯寸姰查悡锟犳儑ｎ浜堕开发嶆ウ璺ㄣ偒?/p>
+                        <h4>个人资料可见性</h4>
+                        <p>选择谁可以查看您的个人资料</p>
                     </div>
                     <select id="profileVisibility" class="form-select">
-                        <option value="public">圭撻柡濐槷?/option>
-                        <option value="followers">寸姴鎳崣褍鈻旈妸銊㈠?/option>
-                        <option value="private">寸姴鎳撻崵冾啅?/option>
+                        <option value="public">所有人</option>
+                        <option value="followers">仅关注者</option>
+                        <option value="private">仅自己</option>
                     </select>
                 </div>
 
                 <div class="setting-item">
                     <div class="setting-info">
-                        <h4>革负鍔崵ㄦ偐哥?/h4>
-                        <p>稿繋囬蹇涘礂閺堢數閾傚ù濠鍛村礆楀牆浜跺ù锝礃濡炲倿宕烽妸褍娈?/p>
+                        <h4>在线状态</h4>
+                        <p>允许其他人看到您何时在线</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="showOnlineStatus">
@@ -266,8 +266,8 @@
 
                 <div class="setting-item">
                     <div class="setting-info">
-                        <h4>哄牃撻柛凹楀倻鐥幐㈩槯闂?/h4>
-                        <p>稿繋囬蹇涘礂閺堢數閾傚ù濠鍛村礆楀牆浜堕柡氬告艾▓鎴澝虹拠鎻捫柡鍐ㄧ埣濡?/p>
+                        <h4>最后上线时间</h4>
+                        <p>允许其他人看到您最后的活动时间</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="showLastSeen">
@@ -277,8 +277,8 @@
 
                 <div class="setting-item">
                     <div class="setting-info">
-                        <h4>闂偅淇虹换鍐焽旂虎鍞鍏肩矌?/h4>
-                        <p>稿繋囬蹇涘礂閺堢數閾傚ù勬剚淇虹换鍐焽旂虎鍞柛锔芥緲煎啴骞幆褍鐓傞?/p>
+                        <h4>通过邮箱搜索</h4>
+                        <p>允许其他人通过邮箱地址找到您</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="allowSearchByEmail">
@@ -288,8 +288,8 @@
 
                 <div class="setting-item">
                     <div class="setting-info">
-                        <h4>稿繋囬寤嗛樺姇?/h4>
-                        <p>稿繋囬蹇涘礂閺堢數閾傚ù冩惈濠顏堝礃涱収囧鎾舵嚐圭粯鍔曞鐑藉箖?/p>
+                        <h4>允许@提及</h4>
+                        <p>允许其他人在内容中@提及您</p>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="allowTagging">
@@ -298,58 +298,58 @@
                 </div>
 
                 <button class="gdpr-btn btn-export" onclick="saveSettings()" style="margin-top: 20px;">
-                    妫啯宕?洦绻傞悺銊ф媼撗呮瀭
+                    💾 保存设置
                 </button>
             </div>
 
-            <!-- 轰澧楀畵浣虹不閿涘嫭?-->
+            <!-- 数据管理 -->
             <div class="privacy-card">
                 <div class="privacy-header">
-                    <div class="privacy-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">妫啯鎯?/div>
+                    <div class="privacy-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">📊</div>
                     <div>
-                        <div class="privacy-title">轰澧楀畵浣割潡屾繍娼?/div>
-                        <div style="color: #666; font-size: 0.9rem;">存粌妫滆瑰瓨鍨冲鎴犫偓櫭崑宥嗙ê浜堕銊ュ姐垺嶅娆愭?/div>
+                        <div class="privacy-title">数据概览</div>
+                        <div style="color: #666; font-size: 0.9rem;">了解我们存储了您的哪些数据</div>
                     </div>
                 </div>
 
                 <div class="data-overview">
                     <div class="data-stat">
                         <div class="data-stat-value" id="statArticles">-</div>
-                        <div class="data-stat-label">哄倸娲ㄩ悵?/div>
+                        <div class="data-stat-label">文章</div>
                     </div>
                     <div class="data-stat">
                         <div class="data-stat-value" id="statComments">-</div>
-                        <div class="data-stat-label">犲洤瀚?/div>
+                        <div class="data-stat-label">评论</div>
                     </div>
                     <div class="data-stat">
                         <div class="data-stat-value" id="statSessions">-</div>
-                        <div class="data-stat-label">谎嗩嚙嶅秵煎宕▓</div>
+                        <div class="data-stat-label">登录会话</div>
                     </div>
                     <div class="data-stat">
                         <div class="data-stat-value" id="statMessages">-</div>
-                        <div class="data-stat-label">告梻撮惁鎴濃槈喍绱?/div>
+                        <div class="data-stat-label">加密消息</div>
                     </div>
                 </div>
 
                 <div class="gdpr-section">
-                    <h3>妫啯鏁?GDPR 轰澧楀畵堕崘銊ョ労</h3>
-                    <p style="color: #666; margin-bottom: 16px;">哄秷顫夊畵?GDPR 炲娲濋～愭晬鐏炴儳浜堕鏋劜濠浣圭閵夈倗撻柡浣哄瀹撲線堕崘銊ョ労?/p>
+                    <h3>🔐 GDPR 数据权利</h3>
+                    <p style="color: #666; margin-bottom: 16px;">根据 GDPR 法规，您拥有以下数据权利：</p>
                     
                     <button class="gdpr-btn btn-export" onclick="requestDataExport()">
-                        妫啯鎲?數鍘崵顓㈠箣寸姵鐣遍柡浣哄瀹?
+                        📥 导出我的数据
                     </button>
                     <button class="gdpr-btn btn-delete" onclick="requestDataDeletion()">
-                        妫啯顥旈柨?告帞呭酣骞幋鐘暠犳劧闄勯崺?
+                        🗑️ 删除我的账户
                     </button>
                 </div>
 
                 <div class="danger-zone">
-                    <h3>宠法濯寸?告浜跺▍鎾诲礌鍘?/h3>
-                    <p style="color: #666; margin-bottom: 16px;">寸姰扮鍛村箼瀹ュ绋婂鎾Т瑜版煡鏌呴崱顓犵犲洨鏌夐惃鎴箞鎼淬垺鎯欏ù锝殠?/p>
+                    <h3>⚠️ 危险区域</h3>
+                    <p style="color: #666; margin-bottom: 16px;">以下操作不可逆，请谨慎操作。</p>
                     
                     <div style="margin-bottom: 16px;">
-                        <h4>煎浜滄慨鈺併掗崨顖涘炲鎾У濡炶法鎹勯崘鈺傛?/h4>
-                        <p style="color: #666; font-size: 0.9rem;">殿喒撻柛煎灠鏁嶅畝鍐弶?65濠㈠灈鏅滃﹢顓犳媼ф锛栭銊ュ閺嗙喖骞戦鑲╂炴凹夐崵堝礉閵娿儱鐏╅梻?/p>
+                        <h4>自动清理不活跃数据</h4>
+                        <p style="color: #666; font-size: 0.9rem;">开启后，超过365天未访问的数据将被自动删除</p>
                         <label class="switch" style="margin-top: 10px;">
                             <input type="checkbox" id="autoDeleteInactive">
                             <span class="slider"></span>
@@ -369,7 +369,7 @@
     <script type="module">
         import { API_BASE_URL } from './js/api-config.js';
 
-        // 告梻ù鍥⒕噮娼岄浣稿⒔?
+        // 加载隐私设置
         async function loadSettings() {
             showLoading(true);
             try {
@@ -396,12 +396,12 @@
                 }
             } catch (error) {
                 console.error('Load settings error:', error);
-                showToast('告梻ù鍥╂媼撗呮瀭濠㈡儼绮剧憴?);
+                showToast('加载设置失败');
             }
             showLoading(false);
         }
 
-        // 告梻ù鍥极楀牆绁︽慨鎺戝介～?
+        // 加载数据概览
         async function loadDataOverview() {
             try {
                 const token = localStorage.getItem('token');
@@ -422,7 +422,7 @@
             }
         }
 
-        // 洦绻傞悺銊ф媼撗呮瀭
+        // 保存设置
         window.saveSettings = async function() {
             showLoading(true);
             try {
@@ -448,20 +448,20 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    showToast('犱礁澧介悿鍡楊啅闊厾绠介?);
+                    showToast('设置已保存');
                 } else {
-                    showToast(data.message || '洦绻傞悺銊緞堫袝');
+                    showToast(data.message || '保存失败');
                 }
             } catch (error) {
                 console.error('Save settings error:', error);
-                showToast('洦绻傞悺銊緞堫袝');
+                showToast('保存失败');
             }
             showLoading(false);
         };
 
-        // 犲洭鏀遍惇浼村极楀牆绁鐢靛帶?
+        // 请求数据导出
         window.requestDataExport = async function() {
-            if (!confirm('绢収鍠栭悾鍓ф啺壊鍤ら柛鎴犲劋秹鎯顣查柡濐槹閺嗙喖骞戦鍏煎亱挎稓鍠閬嶅礄鏆氶瀛樺姇骞幋拨村吋埀佷亢诲啴鏌囬橆偨闂偅ㄩ悡锟犲箖閵婏絺?)) {
+            if (!confirm('确定要导出您的所有数据吗？导出完成后我们会通过邮件通知您。')) {
                 return;
             }
 
@@ -476,27 +476,27 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    showToast('轰澧楀畵浣衡偓鐢靛帶ゎ厼顔忛懠棰殲堟嫚垮鍙活亜夐崑鏍ㄧ?);
+                    showToast('数据导出已请求，请查看邮件');
                 } else {
-                    showToast(data.message || '犲洭鏀遍惇鐗堝緞堫袝');
+                    showToast(data.message || '请求失败');
                 }
             } catch (error) {
                 console.error('Export data error:', error);
-                showToast('犲洭鏀遍惇鐗堝緞堫袝');
+                showToast('请求失败');
             }
             showLoading(false);
         };
 
-        // 犲洭鏀遍惇浼村极楀牆绁柛鎺斿█?
+        // 请求数据删除
         window.requestDataDeletion = async function() {
-            if (!confirm('宠法濯寸?犫偓閿曗偓诧鏁嶅宕繐妫褰掓⒔閵堝棗浜堕銊ュ跺嫰骞畡鐗堝圭撻柡濐槺村宕搹顐ｆ鍣鎶僴\n縿栭幖閿嬫媴濠婂啰娈洪柛?0濠㈠灈鏅涢幃呭箥瑜戦、鎴︽晬鐏炵偓傞梻鍌氱摠秹宕ｉ娆鞍告瑦鐗楃粔鐑藉Υ娣悏\n绢収鍠栭悾鍓ф啺儤涚紓囧幖晬?)) {
+            if (!confirm('⚠️ 警告：这将删除您的账户和所有相关数据！\n\n此操作将在30天后执行，期间您可以取消。\n\n确定要继续吗？')) {
                 return;
             }
 
-            const password = prompt('犲洨鏌夌欢顓㈠礂閵夛箑浜堕銊ュ︽垿鎯嶆担铚傜鞍绢収鍠涢濠氭晬?);
+            const password = prompt('请输入您的密码以确认：');
             if (!password) return;
 
-            const reason = prompt('犲洭顥撻悾堟啺鍤涢柡鍕姊介妶鍛枾搞儳濯寸娆栫偐撴径氱?) || '';
+            const reason = prompt('请简要说明删除原因（可选）：') || '';
 
             showLoading(true);
             try {
@@ -513,16 +513,16 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    alert('犳劧闄勯崺㈠礆樼粯鐝熺瑰憡褰悾銊╁箳哄撻樹憾汇瀚径鍕箣瀹勬壆娈洪柛?0濠㈠灈鏅涢幃冩偖愩垹鐏╅梻鍕╁戦埀跨箰n\n革负鍔嫉斿吋锛熼柨樻湰秹宕ｉ娆鞍谎嗩嚙嶅秹鐛幆閭晱闂傚偆鍣▓锝矓紓鍐枟肩敻宕ｉ弽銊柛鎺斿█呭酣濡?);
+                    alert('账户删除已安排。您的账户将在30天后被删除。\n\n在此期间，您可以登录并访问隐私设置来取消删除。');
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     window.location.href = 'index.html';
                 } else {
-                    showToast(data.message || '犲洭鏀遍惇鐗堝緞堫袝');
+                    showToast(data.message || '请求失败');
                 }
             } catch (error) {
                 console.error('Delete data error:', error);
-                showToast('犲洭鏀遍惇鐗堝緞堫袝');
+                showToast('请求失败');
             }
             showLoading(false);
         };
@@ -538,11 +538,9 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // 告帗绻傞～鎰板礌?
+        // 初始化
         loadSettings();
         loadDataOverview();
     </script>
 </body>
 </html>
-
-

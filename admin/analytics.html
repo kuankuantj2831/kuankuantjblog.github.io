@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>媴绱曢幃濠囧触鎼粹抽叡 - Hakimi 的个人博客/title>
+    <title>管理后台 - Hakimi 的猫爬架</title>
     <link rel="stylesheet" href="../css/chinese-style.css">
     <style>
         * {
@@ -22,7 +22,7 @@
             min-height: 100vh;
         }
 
-        /* 撴皜鍡欑彾?*/
+        /* 侧边栏 */
         .admin-sidebar {
             width: 260px;
             background: #1a1f37;
@@ -80,7 +80,7 @@
             color: #667eea;
         }
 
-        /* 捁崬糕偓鍦嚀鐏?*/
+        /* 主内容区 */
         .admin-main {
             flex: 1;
             margin-left: 260px;
@@ -120,7 +120,7 @@
             background: #f0f0f0;
         }
 
-        /* 備鍠曢鎼佸础閿涘顣?*/
+        /* 统计卡片 */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -185,7 +185,7 @@
             font-size: 0.9rem;
         }
 
-        /* 搞儲宕橀妴鍐礌鍘?*/
+        /* 图表区域 */
         .charts-row {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -215,7 +215,7 @@
             color: #999;
         }
 
-        /* 庡厜鍓濋悧鎶芥⒓斿嘲鐏?*/
+        /* 审核队列 */
         .moderation-section {
             background: white;
             border-radius: 15px;
@@ -318,7 +318,7 @@
             color: white;
         }
 
-        /* 告劕鎳鎰版閵忊剝绶?*/
+        /* 内容面板 */
         .content-panel {
             display: none;
         }
@@ -327,7 +327,7 @@
             display: block;
         }
 
-        /* 哄啨辩换鏃傛偘閵婏妇澹?*/
+        /* 日志表格 */
         .logs-table {
             width: 100%;
             border-collapse: collapse;
@@ -357,7 +357,7 @@
         .level-badge.warning { background: #fff3e0; color: #f57c00; }
         .level-badge.error { background: #ffebee; color: #d32f2f; }
 
-        /* 告繂绉寸花鎻掝嚕?*/
+        /* 响应式 */
         @media (max-width: 1024px) {
             .admin-sidebar {
                 transform: translateX(-100%);
@@ -376,163 +376,163 @@
 </head>
 <body>
     <div class="admin-layout">
-        <!-- 撴皜鍡欑彾?-->
+        <!-- 侧边栏 -->
         <aside class="admin-sidebar">
             <div class="sidebar-header">
-                <h1>妫啯?媴绱曢幃濠囧触鎼粹抽叡</h1>
+                <h1>🐱 管理后台</h1>
             </div>
             <nav class="sidebar-nav">
                 <div class="nav-section">
-                    <div class="nav-section-title">帒介～?/div>
+                    <div class="nav-section-title">概览</div>
                     <div class="nav-item active" onclick="adminApp.switchPanel('dashboard')">
-                        <span>妫啯鎯?/span> 寸媭浜ｉ妴鍐?
+                        <span>📊</span> 仪表板
                     </div>
                     <div class="nav-item" onclick="adminApp.switchPanel('analytics')">
-                        <span>妫啯鎯?/span> 轰澧楀畵宕氶崱尖偓?
+                        <span>📈</span> 数据分析
                     </div>
                 </div>
                 <div class="nav-section">
-                    <div class="nav-section-title">告劕鎳鎰不閿涘嫭?/div>
+                    <div class="nav-section-title">内容管理</div>
                     <div class="nav-item" onclick="adminApp.switchPanel('moderation')">
-                        <span>妫啯夐柨?/span> 告劕鎳鎰偓鍏夊墲?
+                        <span>🛡️</span> 内容审核
                     </div>
                     <div class="nav-item" onclick="adminApp.switchPanel('articles')">
-                        <span>妫啯鎲?/span> 哄倸娲ㄩ悵椋不閿涘嫭?
+                        <span>📝</span> 文章管理
                     </div>
                     <div class="nav-item" onclick="adminApp.switchPanel('users')">
-                        <span>妫啯鍣?/span> 活潿鍔崺氱不閿涘嫭?
+                        <span>👥</span> 用户管理
                     </div>
                 </div>
                 <div class="nav-section">
-                    <div class="nav-section-title">垵宕电划?/div>
+                    <div class="nav-section-title">系统</div>
                     <div class="nav-item" onclick="adminApp.switchPanel('logs')">
-                        <span>妫啯鎯?/span> 垵宕电划娲籍閵夈儳绠?
+                        <span>📋</span> 系统日志
                     </div>
                     <div class="nav-item" onclick="adminApp.switchPanel('settings')">
-                        <span>虫寧辩?/span> 垵宕电划铏规媼撗呮瀭
+                        <span>⚙️</span> 系统设置
                     </div>
                 </div>
                 <div class="nav-section">
                     <div class="nav-item" onclick="location.href='/'">
-                        <span>妫啫缍?/span> 閺夆晜鏌ú鏍純閺嶎厹鈧?
+                        <span>🏠</span> 返回首页
                     </div>
                 </div>
             </nav>
         </aside>
 
-        <!-- 捁崬糕偓?-->
+        <!-- 主内容 -->
         <main class="admin-main">
-            <!-- 寸媭浜ｉ妴鍐?-->
+            <!-- 仪表板 -->
             <div class="content-panel active" id="dashboardPanel">
                 <div class="admin-header">
-                    <h2>寸媭浜ｉ妴鍐?/h2>
+                    <h2>仪表板</h2>
                     <div class="admin-actions">
                         <button class="btn-refresh" onclick="adminApp.refreshData()">
-                            <span>妫啯鏁?/span> 告帡鏀遍弻濠囧极楀牆绁?
+                            <span>🔄</span> 刷新数据
                         </button>
                     </div>
                 </div>
 
-                <!-- 備鍠曢鎼佸础閿涘顣?-->
+                <!-- 统计卡片 -->
                 <div class="stats-grid">
                     <div class="stat-card users">
                         <div class="stat-card-header">
-                            <div class="stat-icon">妫啯鍣?/div>
-                            <span class="stat-trend up">?12%</span>
+                            <div class="stat-icon">👥</div>
+                            <span class="stat-trend up">↑ 12%</span>
                         </div>
                         <div class="stat-value" id="statUsers">--</div>
-                        <div class="stat-label">诡剝宕弫夊箣?/div>
+                        <div class="stat-label">总用户</div>
                     </div>
                     <div class="stat-card articles">
                         <div class="stat-card-header">
-                            <div class="stat-icon">妫啯鎲?/div>
-                            <span class="stat-trend up">?8%</span>
+                            <div class="stat-icon">📝</div>
+                            <span class="stat-trend up">↑ 8%</span>
                         </div>
                         <div class="stat-value" id="statArticles">--</div>
-                        <div class="stat-label">诡剛绮弸鍐博?/div>
+                        <div class="stat-label">总文章</div>
                     </div>
                     <div class="stat-card comments">
                         <div class="stat-card-header">
-                            <div class="stat-icon">妫啯灏?/div>
-                            <span class="stat-trend up">?15%</span>
+                            <div class="stat-icon">💬</div>
+                            <span class="stat-trend up">↑ 15%</span>
                         </div>
                         <div class="stat-value" id="statComments">--</div>
-                        <div class="stat-label">诡剚妲掗惁ｆ媼?/div>
+                        <div class="stat-label">总评论</div>
                     </div>
                     <div class="stat-card online">
                         <div class="stat-card-header">
-                            <div class="stat-icon">妫啰鍘?/div>
+                            <div class="stat-icon">🟢</div>
                         </div>
                         <div class="stat-value" id="statOnline">--</div>
-                        <div class="stat-label">滅増告晶鐘诲捶閵娧冩疇</div>
+                        <div class="stat-label">当前在线</div>
                     </div>
                 </div>
 
-                <!-- 搞儲宕橀妴?-->
+                <!-- 图表 -->
                 <div class="charts-row">
                     <div class="chart-card">
-                        <h3>活潿鍔崺欐櫠愮儤姣愰悺鎺戭儏?/h3>
+                        <h3>用户增长趋势</h3>
                         <div class="chart-placeholder" id="userGrowthChart">
-                            搞儲宕橀妴鍐礉樼儤绁板?..
+                            图表加载中...
                         </div>
                     </div>
                     <div class="chart-card">
-                        <h3>告劕鎳鎰板礆顏?/h3>
+                        <h3>内容分布</h3>
                         <div class="chart-placeholder" id="contentDistributionChart">
-                            搞儲宕橀妴鍐礉樼儤绁板?..
+                            图表加载中...
                         </div>
                     </div>
                 </div>
 
-                <!-- 庡厜鍓濋悧鎶芥⒓斿嘲鐏?-->
+                <!-- 审核队列 -->
                 <div class="moderation-section">
                     <div class="section-header">
                         <h3>
-                            妫啯夐柨?垫澘鎳鎼佸冀灝鏁堕?
+                            🛡️ 待审核内容
                             <span class="badge" id="moderationCount">0</span>
                         </h3>
-                        <a href="#" onclick="adminApp.switchPanel('moderation')">哄被冲﹢鍛村礂閵娾晛鍔??/a>
+                        <a href="#" onclick="adminApp.switchPanel('moderation')">查看全部 →</a>
                     </div>
                     <div class="moderation-list" id="moderationList">
-                        <p style="text-align:center;color:#999;padding:20px;">哄棗瑰Λ咁嚗涱収鍚哄秶顭堥崬糕偓?/p>
+                        <p style="text-align:center;color:#999;padding:20px;">暂无待审核内容</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 稿繑婀圭划勬閵忊剝绶?-->
+            <!-- 其他面板 -->
             <div class="content-panel" id="analyticsPanel">
                 <div class="admin-header">
-                    <h2>轰澧楀畵宕氶崱尖偓?/h2>
+                    <h2>数据分析</h2>
                 </div>
-                <p style="text-align:center;color:#999;padding:60px;">轰澧楀畵宕氶崱尖偓礉旇鍘寸殿喒撻柛娆愬灣?..</p>
+                <p style="text-align:center;color:#999;padding:60px;">数据分析功能开发中...</p>
             </div>
 
             <div class="content-panel" id="moderationPanel">
                 <div class="admin-header">
-                    <h2>告劕鎳鎰偓鍏夊墲?/h2>
+                    <h2>内容审核</h2>
                 </div>
                 <div class="moderation-list" id="fullModerationList">
-                    <p style="text-align:center;color:#999;padding:40px;">告梻ù鍥ㄧ▔?..</p>
+                    <p style="text-align:center;color:#999;padding:40px;">加载中...</p>
                 </div>
             </div>
 
             <div class="content-panel" id="logsPanel">
                 <div class="admin-header">
-                    <h2>垵宕电划娲籍閵夈儳绠?/h2>
+                    <h2>系统日志</h2>
                 </div>
                 <div class="chart-card">
                     <table class="logs-table" id="logsTable">
                         <thead>
                             <tr>
-                                <th>哄啫鐖煎Λ?/th>
-                                <th>嫏鍐ㄧ劶</th>
-                                <th>?/th>
-                                <th>炴垵鐗婃导?/th>
-                                <th>活潿鍔崺?/th>
+                                <th>时间</th>
+                                <th>级别</th>
+                                <th>类型</th>
+                                <th>消息</th>
+                                <th>用户</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- 告鍔埀跨偞娼?-->
+                            <!-- 动态加载 -->
                         </tbody>
                     </table>
                 </div>
@@ -540,29 +540,29 @@
 
             <div class="content-panel" id="articlesPanel">
                 <div class="admin-header">
-                    <h2>哄倸娲ㄩ悵椋不閿涘嫭?/h2>
+                    <h2>文章管理</h2>
                 </div>
-                <p style="text-align:center;color:#999;padding:60px;">哄倸娲ㄩ悵椋不閿涘嫭為柛鏃傚忔êｉ埀存粏鍘?..</p>
+                <p style="text-align:center;color:#999;padding:60px;">文章管理功能开发中...</p>
             </div>
 
             <div class="content-panel" id="usersPanel">
                 <div class="admin-header">
-                    <h2>活潿鍔崺氱不閿涘嫭?/h2>
+                    <h2>用户管理</h2>
                 </div>
-                <p style="text-align:center;color:#999;padding:60px;">活潿鍔崺氱不閿涘嫭為柛鏃傚忔êｉ埀存粏鍘?..</p>
+                <p style="text-align:center;color:#999;padding:60px;">用户管理功能开发中...</p>
             </div>
 
             <div class="content-panel" id="settingsPanel">
                 <div class="admin-header">
-                    <h2>垵宕电划铏规媼撗呮瀭</h2>
+                    <h2>系统设置</h2>
                 </div>
-                <p style="text-align:center;color:#999;padding:60px;">垵宕电划铏规媼撗呮瀭告梻鍠曢崗侯嚕剟宕ｉ幋幀...</p>
+                <p style="text-align:center;color:#999;padding:60px;">系统设置功能开发中...</p>
             </div>
         </main>
     </div>
 
     <script type="module">
-        import { API_BASE_URL } from '../js/api-config.js?v=20260524a';
+        import { API_BASE_URL } from '../js/api-config.js?v=20260223b';
 
         class AdminApp {
             constructor() {
@@ -572,9 +572,9 @@
             }
 
             async init() {
-                // ☆偀撻柡灞诲劤撴悂鎮堕崱佸枀哄村?
+                // 检查管理员权限
                 if (!this.token || !this.user.is_admin) {
-                    alert('哄啰靛㈡媼ф锛?);
+                    alert('无权访问');
                     location.href = '/';
                     return;
                 }
@@ -588,7 +588,7 @@
                     const response = await fetch(`${API_BASE_URL}/admin-dashboard/overview`, {
                         headers: { 'Authorization': `Bearer ${this.token}` }
                     });
-                    if (!response.ok) throw new Error('告梻ù鍥緞堫袝');
+                    if (!response.ok) throw new Error('加载失败');
                     
                     const data = await response.json();
                     document.getElementById('statUsers').textContent = data.stats.total_users;
@@ -596,7 +596,7 @@
                     document.getElementById('statComments').textContent = data.stats.total_comments;
                     document.getElementById('statOnline').textContent = data.stats.online_users;
                 } catch (error) {
-                    console.error('告梻ù鍥潡屾繍娼旈柡浣哄瀹撲焦勬潏顐バ?', error);
+                    console.error('加载概览数据失败:', error);
                 }
             }
 
@@ -605,7 +605,7 @@
                     const response = await fetch(`${API_BASE_URL}/admin-dashboard/moderation/queue`, {
                         headers: { 'Authorization': `Bearer ${this.token}` }
                     });
-                    if (!response.ok) throw new Error('告梻ù鍥緞堫袝');
+                    if (!response.ok) throw new Error('加载失败');
                     
                     const data = await response.json();
                     const items = data.items || [];
@@ -614,38 +614,38 @@
                     this.renderModerationList(items.slice(0, 5), 'moderationList');
                     this.renderModerationList(items, 'fullModerationList');
                 } catch (error) {
-                    console.error('告梻ù鍥┾偓鍏夊墲楁娊姊奸悢宄扮仚濠㈡儼绮剧憴?', error);
+                    console.error('加载审核队列失败:', error);
                 }
             }
 
             renderModerationList(items, containerId) {
                 const container = document.getElementById(containerId);
                 if (items.length === 0) {
-                    container.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">哄棗瑰Λ咁嚗涱収鍚哄秶顭堥崬糕偓?/p>';
+                    container.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">暂无待审核内容</p>';
                     return;
                 }
 
                 const icons = {
-                    article: '妫啯鎲?,
-                    comment: '妫啯灏?,
-                    user: '妫啯鍣?
+                    article: '📝',
+                    comment: '💬',
+                    user: '👤'
                 };
 
                 container.innerHTML = items.map(item => `
                     <div class="moderation-item ${item.ai_flagged ? 'ai-flagged' : ''}">
-                        <div class="item-type">${icons[item.content_type] || '妫啯鎯?}</div>
+                        <div class="item-type">${icons[item.content_type] || '📄'}</div>
                         <div class="item-content">
-                            <h4>${item.title || '哄啰电埇鏋讹锛?}</h4>
+                            <h4>${item.title || '无标题'}</h4>
                             <p>${item.content_preview?.substring(0, 100)}...</p>
                             <div class="item-meta">
-                                达绮忛埀? ${item.author_name} | 
-                                挾撴慨? ${item.report_count} ?| 
+                                作者: ${item.author_name} | 
+                                举报: ${item.report_count} 次 | 
                                 ${new Date(item.created_at).toLocaleString('zh-CN')}
                             </div>
                         </div>
                         <div class="item-actions">
-                            <button class="btn-action btn-approve" onclick="adminApp.approveItem(${item.id}, '${item.content_type}')">闂偅淇虹换?/button>
-                            <button class="btn-action btn-reject" onclick="adminApp.rejectItem(${item.id}, '${item.content_type}')">归攱甯炵划?/button>
+                            <button class="btn-action btn-approve" onclick="adminApp.approveItem(${item.id}, '${item.content_type}')">通过</button>
+                            <button class="btn-action btn-reject" onclick="adminApp.rejectItem(${item.id}, '${item.content_type}')">拒绝</button>
                         </div>
                     </div>
                 `).join('');
@@ -670,12 +670,12 @@
                         body: JSON.stringify({ content_id: id, content_type: type, action })
                     });
 
-                    if (!response.ok) throw new Error('瑰灝绉紞鏃勬潏顐バ?);
+                    if (!response.ok) throw new Error('操作失败');
                     
-                    alert(action === 'approved' ? '瑰憡鐓￠埀佷亢? : '圭剁氬棛绱?);
+                    alert(action === 'approved' ? '已通过' : '已拒绝');
                     this.loadModerationQueue();
                 } catch (error) {
-                    alert('瑰灝绉紞鏃勬潏顐バ?);
+                    alert('操作失败');
                 }
             }
 
@@ -684,7 +684,7 @@
                     const response = await fetch(`${API_BASE_URL}/admin-dashboard/logs?limit=50`, {
                         headers: { 'Authorization': `Bearer ${this.token}` }
                     });
-                    if (!response.ok) throw new Error('告梻ù鍥緞堫袝');
+                    if (!response.ok) throw new Error('加载失败');
                     
                     const data = await response.json();
                     const tbody = document.querySelector('#logsTable tbody');
@@ -699,7 +699,7 @@
                         </tr>
                     `).join('');
                 } catch (error) {
-                    console.error('告梻ù鍥籍閵夈儳绠跺鎯扮簿?', error);
+                    console.error('加载日志失败:', error);
                 }
             }
 
@@ -727,5 +727,3 @@
     </script>
 </body>
 </html>
-
-

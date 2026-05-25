@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>二维惍浣烘晸存劕娅?- 存垹娈戦崡吂</title>
+    <title>二维码生成器 - 更多功能</title>
     <link rel="stylesheet" href="css/chinese-style.css">
-    <!-- 洖鍙?qrcode.js 鎼?-->
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <style>
         body {
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -14,6 +12,15 @@
             padding: 20px;
             max-width: 1000px;
             margin: 0 auto;
+        }
+        
+        .qr-generator-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         
         h1 {
@@ -32,6 +39,14 @@
         }
         
         #content {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .qr-input-section input[type="text"],
+        .qr-input-section textarea {
             width: 100%;
             min-height: 120px;
             padding: 15px;
@@ -44,6 +59,46 @@
         
         #generateBtn {
             background-color: #007bff;
+        }
+        
+        .option-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .option-group input[type="range"] {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+        
+        .option-group .range-value {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .option-group input[type="color"] {
+            width: 50px;
+            height: 30px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .option-group select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -74,6 +129,10 @@
         }
         
         #options {
+            background-color: #218838;
+        }
+        
+        .qr-result {
             margin-top: 20px;
             padding: 20px;
             background-color: #f8f9fa;
@@ -129,8 +188,39 @@
         }
         
         .history-container {
+        
+        #qrCodeCanvas {
+            margin: 0 auto;
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .qr-actions {
             margin-top: 20px;
             padding: 20px;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .qr-action-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+        
+        .qr-action-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .qr-history {
+            margin-top: 20px;
+            padding: 15px;
             background-color: #f8f9fa;
             border-radius: 8px;
         }
@@ -148,6 +238,14 @@
             padding: 10px;
             border-radius: 4px;
             background-color: white;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .history-list {
+            max-height: 150px;
+            overflow-y: auto;
         }
         
         .history-item {
@@ -166,53 +264,118 @@
         .history-item:last-child {
             margin-bottom: 0;
         }
+        
+        .history-item-content {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 10px;
+        }
+        
+        .history-item-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .history-item-actions button {
+            padding: 5px 10px;
+            background-color: transparent;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .history-item-actions button:hover {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        .back-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        @media (max-width: 768px) {
+            .qr-generator-container {
+                margin: 20px;
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>📌冩懌 二维惍浣烘晸存劕娅?/h1>
+    <h1>📱 二维码生成器</h1>
     
     <div class="container">
-        <textarea id="content" placeholder="柉绶崗銉洣喐鍨氭禍娣惍浣烘畱閺傚洦婀伴幋?URL..."></textarea>
-        <button id="generateBtn">喐鍨氭禍娣惍?/button>
+        <textarea id="content" placeholder="请输入要生成二维码的文本或 URL..."></textarea>
+        <button id="generateBtn">生成二维码</button>
         
         <canvas id="qrCode"></canvas>
         
         <div id="error"></div>
         
         <div id="options">
-            <h2>挎瑱绗?銆?/h2>
+            <h2>⚙️ 选项</h2>
             
             <div class="option">
-                <label for="size">鐏搫? <span id="sizeValue">256</span>x<span id="sizeValue2">256</span></label>
+                <label for="size">尺寸: <span id="sizeValue">256</span>x<span id="sizeValue2">256</span></label>
                 <input type="range" id="size" min="100" max="400" value="256">
             </div>
             
             <div class="option">
-                <label for="level">剧娀鏁粵岄獓</label>
+                <label for="level">纠错等级</label>
                 <select id="level">
-                    <option value="L">?(L) - 7% 瑰鏁婇悳?/option>
-                    <option value="M">?(M) - 15% 瑰鏁婇悳?/option>
-                    <option value="Q">?(Q) - 25% 瑰鏁婇悳?/option>
-                    <option value="H">?(H) - 30% 瑰鏁婇悳?/option>
+                    <option value="L">低 (L) - 7% 容错率</option>
+                    <option value="M">中 (M) - 15% 容错率</option>
+                    <option value="Q">高 (Q) - 25% 容错率</option>
+                    <option value="H">高 (H) - 30% 容错率</option>
                 </select>
             </div>
             
             <div class="option">
-                <label for="foreground">秵娅欓懝?/label>
+                <label for="foreground">前景色</label>
                 <input type="color" id="foreground" value="#000000">
                 <span id="foregroundValue">#000000</span>
             </div>
             
             <div class="option">
-                <label for="background">冲本娅欓懝?/label>
+                <label for="background">背景色</label>
                 <input type="color" id="background" value="#FFFFFF">
                 <span id="backgroundValue">#FFFFFF</span>
             </div>
         </div>
         
         <div class="history-container">
-            <h2>📌冩憪 喐鍨氶崢鍡楀蕉</h2>
+            <h2>📜 生成历史</h2>
             <div id="historyList"></div>
+            <canvas id="qrCodeCanvas"></canvas>
+            
+            <div class="qr-actions">
+                <button class="qr-action-btn" id="downloadBtn">下载图片</button>
+                <button class="qr-action-btn" id="copyBtn">复制到剪贴板</button>
+            </div>
+        </div>
+        
+        <div class="qr-history">
+            <div class="history-title">生成历史</div>
+            <div class="history-list" id="historyList"></div>
         </div>
     </div>
     
@@ -254,20 +417,34 @@
             const canvas = document.createElement('canvas');
             canvas.width = size;
             canvas.height = size;
+            const ctx = canvas.getContext('2d');
             
-            // ｈ法鏁?qrcodejs 鎼存挾鏁撻幋鎰癌佸鐖?            try {
-                const qr = new QRCode(canvas, {
-                    text: content,
-                    width: size,
-                    height: size,
-                    colorDark: foreground,
-                    colorLight: background,
-                    correctLevel: level === 'L' ? QRCode.CorrectLevel.L : 
-                                   level === 'M' ? QRCode.CorrectLevel.M : 
-                                   level === 'Q' ? QRCode.CorrectLevel.Q : QRCode.CorrectLevel.H
-                });
-            } catch (error) {
-                console.error('QR Code generation error:', error);
+            ctx.fillStyle = background;
+            ctx.fillRect(0, 0, size, size);
+            
+            ctx.fillStyle = foreground;
+            const moduleSize = Math.floor(size / 25);
+            
+            drawPositionPattern(ctx, moduleSize * 3, moduleSize * 3, moduleSize * 7);
+            drawPositionPattern(ctx, size - moduleSize * 10, moduleSize * 3, moduleSize * 7);
+            drawPositionPattern(ctx, moduleSize * 3, size - moduleSize * 10, moduleSize * 7);
+            
+            for (let y = moduleSize * 8; y < size - moduleSize * 8; y += moduleSize * 2) {
+                for (let x = moduleSize * 8; x < size - moduleSize * 8; x += moduleSize * 3) {
+                    ctx.fillRect(x, y, moduleSize, moduleSize);
+                }
+            }
+            
+            const encodedData = encodeData(content);
+            let index = 0;
+            
+            for (let y = moduleSize * 10; y < size - moduleSize * 10; y += moduleSize) {
+                for (let x = moduleSize * 10; x < size - moduleSize * 10; x += moduleSize) {
+                    if (index < encodedData.length && encodedData[index] === 1) {
+                        ctx.fillRect(x, y, moduleSize, moduleSize);
+                    }
+                    index++;
+                }
             }
             
             return canvas;
@@ -280,7 +457,7 @@
                 const content = document.getElementById('content').value;
                 
                 if (!content) {
-                    alert('柉绶崗銉洣喐鍨氭禍娣惍浣烘畱愬懎顔?);
+                    alert('请输入要生成二维码的内容');
                     return;
                 }
                 
@@ -306,7 +483,7 @@
             } catch (error) {
                 console.error('Error:', error);
                 const errorDiv = document.getElementById('error');
-                errorDiv.textContent = `挎瑨? ${error.message}`;
+                errorDiv.textContent = `错误: ${error.message}`;
             }
         });
         
@@ -339,7 +516,7 @@
         }
         
         const testBtn = document.createElement('button');
-        testBtn.textContent = '韫囶偊鈧喐绁寸拠?;
+        testBtn.textContent = '快速测试';
         testBtn.style.marginTop = '10px';
         testBtn.style.padding = '8px 16px';
         testBtn.style.width = 'auto';
@@ -352,4 +529,3 @@
     </script>
 </body>
 </html>
-

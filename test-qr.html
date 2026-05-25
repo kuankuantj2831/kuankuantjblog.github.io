@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR 鐮敓鎴愬櫒嬭瘯</title>
+    <title>QR 码生成器测试</title>
     <style>
         body {
             font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -95,67 +95,67 @@
 </head>
 <body>
     <div class="container">
-        <h1>馃摫 QR 鐮敓鎴愬櫒功能兘嬭瘯</h1>
+        <h1>📱 QR 码生成器功能测试</h1>
         
         <div class="test-section">
-            <h2>1. 鏂囦欢块棶嬭瘯</h2>
-            <div class="test-result" id="fileTest">嬭瘯涓?..</div>
+            <h2>1. 文件访问测试</h2>
+            <div class="test-result" id="fileTest">测试中...</div>
         </div>
         
         <div class="test-section">
-            <h2>2. JavaScript 硶嬭瘯</h2>
-            <div class="test-result" id="jsTest">嬭瘯涓?..</div>
+            <h2>2. JavaScript 方法测试</h2>
+            <div class="test-result" id="jsTest">测试中...</div>
         </div>
         
         <div class="test-section">
-            <h2>3. QR 鐮敓鎴愬姛鑳芥祴?/h2>
+            <h2>3. QR 码生成功能测试</h2>
             <div class="qr-preview">
                 <canvas id="qrCode" width="256" height="256"></canvas>
             </div>
-            <div class="test-result" id="qrTest">鍑嬭瘯...</div>
-            <button class="test-button" id="generateTest">鐢熸垚嬭瘯 QR 鐮?/button>
+            <div class="test-result" id="qrTest">准备测试...</div>
+            <button class="test-button" id="generateTest">生成测试 QR 码</button>
         </div>
         
         <div class="test-section">
-            <h2>4. 潰块棶嬭瘯</h2>
+            <h2>4. 页面访问测试</h2>
             <div class="test-result" id="pageTest">
-                <a href="qr-generator.html" target="_blank">鐐瑰嚮块棶 QR 鐮敓鎴愬櫒</a>
+                <a href="qr-generator.html" target="_blank">点击访问 QR 码生成器</a>
             </div>
         </div>
     </div>
     
     <script>
-        // 鏂囦欢块棶嬭瘯
+        // 文件访问测试
         fetch('js/qr-generator.js')
             .then(response => {
                 if (response.ok) {
                     return response.text();
                 }
-                throw new Error('鏂囦欢鏃犳硶块棶');
+                throw new Error('文件无法访问');
             })
             .then(text => {
                 const resultDiv = document.getElementById('fileTest');
-                resultDiv.textContent = `鉁?鏂囦欢块棶鎴愬姛锛屾枃跺ぇ灏? ${text.length} 瀛楃`;
+                resultDiv.textContent = `✅文件访问成功，文件大小 ${text.length} 字符`;
                 resultDiv.className = 'test-result success';
             })
             .catch(error => {
                 const resultDiv = document.getElementById('fileTest');
-                resultDiv.textContent = `鉂?鏂囦欢块棶辫触: ${error.message}`;
+                resultDiv.textContent = `❌文件访问失败: ${error.message}`;
                 resultDiv.className = 'test-result error';
             });
         
-        // JavaScript 硶嬭瘯
+        // JavaScript 方法测试
         try {
-            // 鐩存帴嬭瘯绠鍗曠殑 QR 鐮敓鎴愬嚱鏁?            const testCanvas = document.getElementById('qrCode');
+            // 直接测试简单的 QR 码生成函数            const testCanvas = document.getElementById('qrCode');
             const ctx = testCanvas.getContext('2d');
             
-            // 绠鍗曠粯鍒舵祴?            ctx.fillStyle = '#000000';
+            // 简单绘制测试            ctx.fillStyle = '#000000';
             ctx.fillRect(0, 0, 256, 256);
             
-            // 樺埗涓浜涘浘妗?            ctx.fillStyle = '#ffffff';
+            // 绘制一些图案            ctx.fillStyle = '#ffffff';
             ctx.fillRect(10, 10, 236, 236);
             
-            // 樺埗绠鍗曠殑 QR 鐮佹ā鎷?            ctx.fillStyle = '#000000';
+            // 绘制简单的 QR 码模拟            ctx.fillStyle = '#000000';
             for (let x = 30; x < 220; x += 20) {
                 for (let y = 30; y < 220; y += 20) {
                     if (Math.random() > 0.7) {
@@ -165,51 +165,51 @@
             }
             
             const resultDiv = document.getElementById('jsTest');
-            resultDiv.textContent = '鉁?JavaScript 硶鍜?Canvas 樺浘功能兘姝父';
+            resultDiv.textContent = '✅JavaScript 方法和 Canvas 绘图功能正常';
             resultDiv.className = 'test-result success';
         } catch (error) {
             const resultDiv = document.getElementById('jsTest');
-            resultDiv.textContent = `鉂?JavaScript 閿欒: ${error.message}`;
+            resultDiv.textContent = `❌JavaScript 错误: ${error.message}`;
             resultDiv.className = 'test-result error';
             console.error(error);
         }
         
-        // QR 鐮敓鎴愬姛鑳芥祴?        document.getElementById('generateTest').addEventListener('click', function() {
+        // QR 码生成功能测试        document.getElementById('generateTest').addEventListener('click', function() {
             const resultDiv = document.getElementById('qrTest');
             
             try {
-                // 鍔犺浇骞舵祴?QR 鐮敓鎴愬櫒
+                // 加载并测试 QR 码生成器
                 const script = document.createElement('script');
                 script.src = 'js/qr-generator.js';
                 script.onload = function() {
                     try {
-                        // 璋冪敤 QR 鐮敓鎴愬櫒鍑芥暟
+                        // 调用 QR 码生成器函数
                         if (typeof generateQRCode === 'function') {
-                            resultDiv.textContent = '鉁?QR 鐮敓鎴愬櫒鍑芥暟鍔犺浇鎴愬姛';
+                            resultDiv.textContent = '✅QR 码生成器函数加载成功';
                             resultDiv.className = 'test-result success';
                             
-                            // 鐢熸垚绠鍗曠殑 QR 鐮?                            const canvas = generateQRCode('嬭瘯鍐呭');
+                            // 生成简单的 QR 码                            const canvas = generateQRCode('测试内容');
                             const qrCode = document.getElementById('qrCode');
                             qrCode.width = canvas.width;
                             qrCode.height = canvas.height;
                             qrCode.getContext('2d').drawImage(canvas, 0, 0);
                         } else {
-                            throw new Error('generateQRCode 鍑芥暟鏈壘鍒?);
+                            throw new Error('generateQRCode 函数未找到');
                         }
                     } catch (error) {
-                        resultDiv.textContent = `鉂?QR 鐮敓鎴愬嚱鏁伴敊? ${error.message}`;
+                        resultDiv.textContent = `❌QR 码生成函数错误: ${error.message}`;
                         resultDiv.className = 'test-result error';
                         console.error(error);
                     }
                 };
                 
                 script.onerror = function() {
-                    throw new Error('JavaScript 鍔犺浇辫触');
+                    throw new Error('JavaScript 加载失败');
                 };
                 
                 document.body.appendChild(script);
             } catch (error) {
-                resultDiv.textContent = `鉂?${error.message}`;
+                resultDiv.textContent = `❌${error.message}`;
                 resultDiv.className = 'test-result error';
                 console.error(error);
             }

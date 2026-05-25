@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>轰澧楀畵宕氶崱尖偓鑺ョ▔偟濡?- Hakimi 的个人博客/title>
+    <title>数据分析中心 - Hakimi 的猫爬架</title>
     <link rel="stylesheet" href="css/chinese-style.css">
-    <script src="https://unpkg.com/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .analytics-wrapper {
             max-width: 1200px;
@@ -289,64 +289,64 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="index.html" class="nav-link">濡鐗犻妴?/a>
-                <a href="profile.html" class="nav-link">搩浜欏Ч嬬▔偟濡?/a>
-                <a href="analytics-dashboard.html" class="nav-link active">轰澧楀畵宕氶崱尖偓?/a>
+                <a href="index.html" class="nav-link">首页</a>
+                <a href="profile.html" class="nav-link">个人中心</a>
+                <a href="analytics-dashboard.html" class="nav-link active">数据分析</a>
             </div>
         </nav>
         
         <div class="analytics-wrapper">
             <div class="analytics-header">
-                <h1>妫啯鎯?轰澧楀畵宕氶崱尖偓鑺ョ▔偟濡?/h1>
-                <p>炶尙涢惂鍌炲棘モ晝褰块悶栧妿楠炲洭鏁嶇仦鑲╁枠告牗鐗曢杈ㄦ媴濠婂懐鎽滈柨?/p>
+                <h1>📊 数据分析中心</h1>
+                <p>洞察文章表现，优化创作策略</p>
             </div>
             
-            <!-- 轰澧楀畵浣割潡屾繍娼?-->
+            <!-- 数据概览 -->
             <div class="stats-overview" id="statsOverview">
                 <div class="stat-card">
-                    <div class="stat-icon views">妫啯?/div>
+                    <div class="stat-icon views">👁</div>
                     <div class="stat-value" id="totalViews">-</div>
-                    <div class="stat-label">诡顭Σ鍕嫚犳艾娅?/div>
+                    <div class="stat-label">总阅读量</div>
                     <div class="stat-change up" id="viewsChange">+0%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon likes">?/div>
+                    <div class="stat-icon likes">❤</div>
                     <div class="stat-value" id="totalLikes">-</div>
-                    <div class="stat-label">诡剝宕崑锝導愬瓨娈?/div>
+                    <div class="stat-label">总点赞数</div>
                     <div class="stat-change up" id="likesChange">+0%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon comments">妫啯灏?/div>
+                    <div class="stat-icon comments">💬</div>
                     <div class="stat-value" id="totalComments">-</div>
-                    <div class="stat-label">诡剚妲掗惁ｆ媼ɑ娈?/div>
+                    <div class="stat-label">总评论数</div>
                     <div class="stat-change up" id="commentsChange">+0%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon favorites">?/div>
+                    <div class="stat-icon favorites">⭐</div>
                     <div class="stat-value" id="totalFavorites">-</div>
-                    <div class="stat-label">诡剛绮弫褰掓寠韫梹娈?/div>
+                    <div class="stat-label">总收藏数</div>
                     <div class="stat-change up" id="favoritesChange">+0%</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon articles">妫啯鎲?/div>
+                    <div class="stat-icon articles">📝</div>
                     <div class="stat-value" id="totalArticles">-</div>
-                    <div class="stat-label">哄倸娲ㄩ悵鐑藉箑佹ɑ娈?/div>
+                    <div class="stat-label">文章总数</div>
                 </div>
             </div>
             
-            <!-- 哄啫鐖煎Λ璺ㄧ驳戣櫕瀚?-->
+            <!-- 时间筛选 -->
             <div class="date-filter">
-                <button class="active" data-range="7">??/button>
-                <button data-range="30">?0?/button>
-                <button data-range="90">?0?/button>
-                <button data-range="365">閺夆晜鍨粩鎾晸?/button>
+                <button class="active" data-range="7">近7天</button>
+                <button data-range="30">近30天</button>
+                <button data-range="90">近90天</button>
+                <button data-range="365">近一年</button>
             </div>
             
-            <!-- 帒呮繛宥夊炊规劑鈧?-->
+            <!-- 趋势图表 -->
             <div class="chart-section">
                 <h2 class="section-title">
-                    <span>妫啯鎯?/span>
-                    闂傚啫鎳撻鎵惥ｎ亜鈼?
+                    <span>📈</span>
+                    阅读趋势
                 </h2>
                 <div class="chart-container">
                     <canvas id="viewsChart"></canvas>
@@ -355,34 +355,34 @@
             
             <div class="chart-section">
                 <h2 class="section-title">
-                    <span>妫啫绠?/span>
-                    存粍甯掓慨鈺呭礆鈧?
+                    <span>🎯</span>
+                    互动分析
                 </h2>
                 <div class="chart-container">
                     <canvas id="engagementChart"></canvas>
                 </div>
             </div>
             
-            <!-- 绘埈鍙冨Λ棘モ晝褰?-->
+            <!-- 热门文章 -->
             <div class="articles-list">
                 <h2 class="section-title">
-                    <span>妫啯鏆?/span>
-                    绘埈鍙冨Λ棘モ晝褰块鐑樺笩?
+                    <span>🔥</span>
+                    热门文章排行
                 </h2>
                 <div id="articlesTableContainer">
                     <table class="articles-table">
                         <thead>
                             <tr>
-                                <th>圭儤甯掗幃?/th>
-                                <th>哄倸娲ㄩ悵鐑藉冀ヮ剦鏆?/th>
-                                <th>告瑦鍨电粩鐑藉籍洘锛?/th>
-                                <th>闂傚啫鎳撻浼存晸?/th>
-                                <th>绘劗顢粋?/th>
-                                <th>犲洤瀚?/th>
+                                <th>排名</th>
+                                <th>文章标题</th>
+                                <th>发布时间</th>
+                                <th>阅读量</th>
+                                <th>点赞</th>
+                                <th>评论</th>
                             </tr>
                         </thead>
                         <tbody id="articlesTableBody">
-                            <!-- 告鍔埀胯兌閺佹捇鏁?-->
+                            <!-- 动态生成 -->
                         </tbody>
                     </table>
                 </div>
@@ -391,23 +391,23 @@
     </div>
     
     <script type="module">
-        import { API_BASE_URL } from './js/api-config.js?v=20260524a';
+        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
         
         let viewsChart, engagementChart;
         let currentRange = 7;
         
-        // 兼儳鍢茶ぐ鍥偨閵婏箑鐓昑oken
+        // 获取用户Token
         function getToken() {
             return localStorage.getItem('access_token') || sessionStorage.getItem('access_token');
         }
         
-        // 兼儳鍢茶ぐ鍥啿顤呴顫妽?
+        // 获取当前用户
         function getCurrentUser() {
             const userJson = localStorage.getItem('current_user') || sessionStorage.getItem('current_user');
             return userJson ? JSON.parse(userJson) : null;
         }
         
-        // ☆偀撻柡灞诲劤呫儴銇愰弴鐘残柨?
+        // 检查登录状态
         function checkAuth() {
             const user = getCurrentUser();
             const token = getToken();
@@ -419,7 +419,7 @@
             return true;
         }
         
-        // 哄秶鍘х锟犲礌閺嶃劍娈堕柨?
+        // 格式化数字
         function formatNumber(num) {
             if (num >= 10000) {
                 return (num / 10000).toFixed(1) + 'w';
@@ -430,7 +430,7 @@
             return num.toString();
         }
         
-        // 告梻ù鍥磼旀椿鍚轰澧楀畵?
+        // 加载统计数据
         async function loadStats() {
             try {
                 const token = getToken();
@@ -440,30 +440,30 @@
                     }
                 });
                 
-                if (!response.ok) throw new Error('告梻ù鍥緞堫袝');
+                if (!response.ok) throw new Error('加载失败');
                 
                 const data = await response.json();
                 
-                // 哄洤鐡ㄩ弻濠傤潡屾繍娼旈柡浣哄瀹?
+                // 更新概览数据
                 document.getElementById('totalViews').textContent = formatNumber(data.total_views || 0);
                 document.getElementById('totalLikes').textContent = formatNumber(data.total_likes || 0);
                 document.getElementById('totalComments').textContent = formatNumber(data.total_comments || 0);
                 document.getElementById('totalFavorites').textContent = formatNumber(data.total_favorites || 0);
                 document.getElementById('totalArticles').textContent = data.total_articles || 0;
                 
-                // 哄洤鐡ㄩ弻濠勬惥ｎ亜鈼?
+                // 更新趋势
                 updateTrendIndicator('viewsChange', data.views_change);
                 updateTrendIndicator('likesChange', data.likes_change);
                 updateTrendIndicator('commentsChange', data.comments_change);
                 updateTrendIndicator('favoritesChange', data.favorites_change);
                 
             } catch (error) {
-                console.error('告梻ù鍥磼旀椿鍚轰澧楀畵浣瑰緞堫袝:', error);
-                showError('告梻ù鍥磼旀椿鍚轰澧楀畵浣瑰緞堫袝');
+                console.error('加载统计数据失败:', error);
+                showError('加载统计数据失败');
             }
         }
         
-        // 哄洤鐡ㄩ弻濠勬惥ｎ亜鈼绋挎川閵岸鏁?
+        // 更新趋势指示器
         function updateTrendIndicator(id, value) {
             const el = document.getElementById(id);
             if (!el || value === undefined) return;
@@ -473,7 +473,7 @@
             el.className = 'stat-change ' + (isUp ? 'up' : 'down');
         }
         
-        // 告梻ù鍥╂惥ｎ亜鈼柡浣哄瀹?
+        // 加载趋势数据
         async function loadTrends(days = 7) {
             try {
                 const token = getToken();
@@ -486,7 +486,7 @@
                     }
                 });
                 
-                if (!response.ok) throw new Error('告梻ù鍥緞堫袝');
+                if (!response.ok) throw new Error('加载失败');
                 
                 const data = await response.json();
                 
@@ -494,11 +494,11 @@
                 updateEngagementChart(data.dates, data.likes, data.comments, data.favorites);
                 
             } catch (error) {
-                console.error('告梻ù鍥╂惥ｎ亜鈼柡浣哄瀹撲焦勬潏顐バ?', error);
+                console.error('加载趋势数据失败:', error);
             }
         }
         
-        // 哄洤鐡ㄩ弻濠⒓涢偊鍤梺鎻掔箰存﹢鏁?
+        // 更新阅读量图表
         function updateViewsChart(dates, views) {
             const ctx = document.getElementById('viewsChart').getContext('2d');
             
@@ -509,9 +509,9 @@
             viewsChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: dates.map(d => d.slice(5)), // 哄澧介妵?MM-DD
+                    labels: dates.map(d => d.slice(5)), // 显示 MM-DD
                     datasets: [{
-                        label: '闂傚啫鎳撻浼存晸?,
+                        label: '阅读量',
                         data: views,
                         borderColor: '#667eea',
                         backgroundColor: 'rgba(102, 126, 234, 0.1)',
@@ -541,7 +541,7 @@
             });
         }
         
-        // 哄洤鐡ㄩ弻濠冪烘垵袟搞儲宕橀妴?
+        // 更新互动图表
         function updateEngagementChart(dates, likes, comments, favorites) {
             const ctx = document.getElementById('engagementChart').getContext('2d');
             
@@ -555,17 +555,17 @@
                     labels: dates.map(d => d.slice(5)),
                     datasets: [
                         {
-                            label: '绘劗顢粋?,
+                            label: '点赞',
                             data: likes,
                             backgroundColor: '#c2185b'
                         },
                         {
-                            label: '犲洤瀚?,
+                            label: '评论',
                             data: comments,
                             backgroundColor: '#388e3c'
                         },
                         {
-                            label: '衡偓増顥?,
+                            label: '收藏',
                             data: favorites,
                             backgroundColor: '#f57c00'
                         }
@@ -587,7 +587,7 @@
             });
         }
         
-        // 告梻ù鍥倻撱垺锛岄柡鍌氭川?
+        // 加载热门文章
         async function loadPopularArticles() {
             try {
                 const token = getToken();
@@ -597,7 +597,7 @@
                     }
                 });
                 
-                if (!response.ok) throw new Error('告梻ù鍥緞堫袝');
+                if (!response.ok) throw new Error('加载失败');
                 
                 const data = await response.json();
                 const tbody = document.getElementById('articlesTableBody');
@@ -609,7 +609,7 @@
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                 </svg>
-                                <p>哄棗瑰Λ夊棘モ晝褰块柡浣哄瀹?/p>
+                                <p>暂无文章数据</p>
                             </td>
                         </tr>
                     `;
@@ -625,37 +625,37 @@
                         <td>${new Date(article.created_at).toLocaleDateString('zh-CN')}</td>
                         <td>
                             <span class="metric-badge views">
-                                妫啯?${formatNumber(article.views)}
+                                👁 ${formatNumber(article.views)}
                             </span>
                         </td>
                         <td>
                             <span class="metric-badge likes">
-                                ?${formatNumber(article.likes)}
+                                ❤ ${formatNumber(article.likes)}
                             </span>
                         </td>
                         <td>
                             <span class="metric-badge comments">
-                                妫啯灏?${formatNumber(article.comments)}
+                                💬 ${formatNumber(article.comments)}
                             </span>
                         </td>
                     </tr>
                 `).join('');
                 
             } catch (error) {
-                console.error('告梻ù鍥倻撱垺锛岄柡鍌氭川濋攱勬潏顐バ?', error);
+                console.error('加载热门文章失败:', error);
                 document.getElementById('articlesTableBody').innerHTML = `
                     <tr>
                         <td colspan="6" class="empty-state">
-                            <p>告梻ù鍥緞堫袝挎稑鐭侀傜矙瀹ュ懏梺鎻掔Х?/p>
+                            <p>加载失败，请稍后重试</p>
                         </td>
                     </tr>
                 `;
             }
         }
         
-        // 哄澧介妵舵煥帩鍤?
+        // 显示错误
         function showError(message) {
-            // 姭撻柛佹礈堟垿鏌▎鎺殩圭粯鍔妵?
+            // 简单的错误提示
             const toast = document.createElement('div');
             toast.style.cssText = `
                 position: fixed;
@@ -673,7 +673,7 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        // 告帗绻傞～鎰版晸?
+        // 初始化
         function init() {
             if (!checkAuth()) return;
             
@@ -681,7 +681,7 @@
             loadTrends(7);
             loadPopularArticles();
             
-            // 備焦鍨悾楣冨籍洘锛熺欑洴顦扮垫粓鏁?
+            // 绑定时间筛选按钮
             document.querySelectorAll('.date-filter button').forEach(btn => {
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('.date-filter button').forEach(b => b.classList.remove('active'));
@@ -696,5 +696,3 @@
     </script>
 </body>
 </html>
-
-

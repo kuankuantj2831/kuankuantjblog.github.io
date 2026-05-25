@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>瑰瓨鍨瑰▓鎴绩増顥戝?- Hakimi 的个人博客/title>
+    <title>我的收藏夹 - Hakimi 的猫爬架</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <link rel="stylesheet" href="css/auth.css">
     <link rel="stylesheet" href="css/tianjg-theme.css">
@@ -63,7 +63,7 @@
             }
         }
 
-        /* 撴皜鍡欑彾?*/
+        /* 侧边栏 */
         .collections-sidebar {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
@@ -164,7 +164,7 @@
             background: rgba(255,255,255,0.2);
         }
 
-        /* 捁崬糕偓鍦嚀鐏?*/
+        /* 主内容区 */
         .collections-main {
             background: rgba(255,255,255,0.1);
             backdrop-filter: blur(10px);
@@ -240,7 +240,7 @@
             background: rgba(244, 67, 54, 0.3);
         }
 
-        /* 哄倸娲ㄩ悵鐑藉礆濡ゅ嫨鈧?*/
+        /* 文章列表 */
         .articles-list {
             display: flex;
             flex-direction: column;
@@ -302,7 +302,7 @@
             align-items: center;
         }
 
-        /* 归潧缍婇崳娲箼瀹ュ绋婇柡?*/
+        /* 批量操作栏 */
         .batch-actions {
             display: none;
             position: sticky;
@@ -335,7 +335,7 @@
             gap: 10px;
         }
 
-        /* 佸矁娅ｆ慨鎼佸箑?*/
+        /* 空状态 */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
@@ -353,7 +353,7 @@
             margin-bottom: 25px;
         }
 
-        /* ☆垪鍓濋埀跨劍?*/
+        /* 模态框 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -514,7 +514,7 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
-        /* Toast 圭粯鍔妵?*/
+        /* Toast 提示 */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -540,121 +540,121 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="/" class="nav-link">濡鐗犻妴?/a>
-                <a href="/profile.html" class="nav-link">搩浜欏Ч嬬▔偟濡?/a>
-                <a href="/drive.html" class="nav-link">傚啯鍨瑰ú?/a>
-                <a href="/messages.html" class="nav-link">炴垵鐗婃导?/a>
+                <a href="/" class="nav-link">首页</a>
+                <a href="/profile.html" class="nav-link">个人中心</a>
+                <a href="/drive.html" class="nav-link">网盘</a>
+                <a href="/messages.html" class="nav-link">消息</a>
             </div>
         </nav>
 
         <div class="collections-wrapper">
             <div class="collections-header">
                 <h1 class="collections-title">
-                    <span>妫啯鎲?/span>
-                    瑰瓨鍨瑰▓鎴绩増顥戝?
+                    <span>📚</span>
+                    我的收藏夹
                 </h1>
                 <button class="btn-create-collection" onclick="openCreateModal()">
                     <span>+</span>
-                    哄倹樼紓鎾诲绩増顥戝?
+                    新建收藏夹
                 </button>
             </div>
 
             <div class="collections-layout">
-                <!-- 撴皜鍡欑彾?-->
+                <!-- 侧边栏 -->
                 <aside class="collections-sidebar">
-                    <h3 class="sidebar-title">衡偓増顥戝鍓佹嚀鎮?/h3>
+                    <h3 class="sidebar-title">收藏夹列表</h3>
                     <div class="collections-list" id="collectionsList">
-                        <!-- 告鍔埀胯兌閺佹捇骞?-->
+                        <!-- 动态生成 -->
                     </div>
                 </aside>
 
-                <!-- 捁崬糕偓鍦嚀鐏?-->
+                <!-- 主内容区 -->
                 <main class="collections-main">
                     <div class="collection-header">
                         <div class="collection-title-section">
-                            <div class="collection-title-icon" id="currentIcon">妫啯鎯?/div>
+                            <div class="collection-title-icon" id="currentIcon">📁</div>
                             <div class="collection-title-text">
-                                <h2 id="currentCollectionName">稿繈鍔戦崕鎾棘モ晝褰?/h2>
-                                <p id="currentCollectionDesc">圭撻柡濐槹閺佸婅箛鏇熺暠哄倸娲ㄩ悵?/p>
+                                <h2 id="currentCollectionName">全部文章</h2>
+                                <p id="currentCollectionDesc">所有收藏的文章</p>
                             </div>
                         </div>
                         <div class="collection-main-actions">
                             <button class="btn-secondary" onclick="editCurrentCollection()">
-                                <span>翠礁楠忕?/span> 傚倹鐗炵欢?
+                                <span>✏️</span> 编辑
                             </button>
                             <button class="btn-secondary btn-danger" onclick="deleteCurrentCollection()">
-                                <span>妫啯顥旈柨?/span> 告帞?
+                                <span>🗑️</span> 删除
                             </button>
                         </div>
                     </div>
 
                     <div class="articles-list" id="articlesList">
-                        <!-- 告鍔埀胯兌閺佹捇骞?-->
+                        <!-- 动态生成 -->
                     </div>
 
-                    <!-- 归潧缍婇崳娲箼瀹ュ绋婇柡?-->
+                    <!-- 批量操作栏 -->
                     <div class="batch-actions" id="batchActions">
                         <div class="batch-info">
-                            瑰憡鐓￠埀顦扮?<span id="selectedCount">0</span> 佲虫处閺啰绮?
+                            已选择 <span id="selectedCount">0</span> 篇文章
                         </div>
                         <div class="batch-buttons">
                             <button class="btn-secondary" onclick="moveSelected()">
-                                <span>妫啯鎯?/span> 佸ф慨?
+                                <span>📂</span> 移动
                             </button>
                             <button class="btn-secondary btn-danger" onclick="deleteSelected()">
-                                <span>妫啯顥旈柨?/span> 佸顭▍?
+                                <span>🗑️</span> 移除
                             </button>
                             <button class="btn-secondary" onclick="clearSelection()">
-                                告瑦鐗楃粔鐑芥焻跺顏?
+                                取消选择
                             </button>
                         </div>
                     </div>
 
-                    <!-- 佸矁娅ｆ慨鎼佸箑?-->
+                    <!-- 空状态 -->
                     <div class="empty-state" id="emptyState" style="display: none;">
-                        <div class="empty-icon">妫啯鎳?/div>
-                        <p class="empty-text">閺夆晜ら堝绩増顥戝鍓攰绘洖鈻介埄鍐畳哄倸娲ㄩ悵?/p>
-                        <a href="/" class="btn-create-collection">告цぐ鍌炴偝閺夎￥ㄩ柡鍌氭川?/a>
+                        <div class="empty-icon">📭</div>
+                        <p class="empty-text">这个收藏夹还没有文章</p>
+                        <a href="/" class="btn-create-collection">去发现好文章</a>
                     </div>
                 </main>
             </div>
         </div>
     </div>
 
-    <!-- 告帗绋紓?傚倹鐗炵欢顐绩増顥戝鎯潐鑶╅跨劍?-->
+    <!-- 创建/编辑收藏夹模态框 -->
     <div class="modal-overlay" id="collectionModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modalTitle">哄倹樼紓鎾诲绩増顥戝?/h3>
+                <h3 id="modalTitle">新建收藏夹</h3>
             </div>
             <form id="collectionForm">
                 <div class="form-group">
-                    <label class="form-label">衡偓増顥戝鍓佹嚀洜绮?/label>
-                    <input type="text" class="form-input" id="collectionName" placeholder="備焦弫褰掓寠韫挶氶褑娓归堝触瀹ュ懐鎽? required>
+                    <label class="form-label">收藏夹名称</label>
+                    <input type="text" class="form-input" id="collectionName" placeholder="给收藏夹起个名字" required>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">绻崼顏堟晬繂查梺顐㈩檧?/label>
-                    <textarea class="form-input form-textarea" id="collectionDesc" placeholder="姭撻柛佹礃寧娼绘０浣侯伇挸堢换鏍ㄧ▔懏鏆柦虹箰閵?.."></textarea>
+                    <label class="form-label">描述（可选）</label>
+                    <textarea class="form-input form-textarea" id="collectionDesc" placeholder="简单描述一下这个收藏夹..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">闂顦扮氥劑宕堕悙傚灱</label>
+                    <label class="form-label">选择图标</label>
                     <div class="icon-selector" id="iconSelector">
-                        <div class="icon-option selected" data-icon="妫啯鎯?>妫啯鎯?/div>
-                        <div class="icon-option" data-icon="?>?/div>
-                        <div class="icon-option" data-icon="村倶х?>村倶х?/div>
-                        <div class="icon-option" data-icon="妫啯鎲?>妫啯鎲?/div>
-                        <div class="icon-option" data-icon="妫啯?>妫啯?/div>
-                        <div class="icon-option" data-icon="妫啫鑵?>妫啫鑵?/div>
-                        <div class="icon-option" data-icon="妫啯宕?>妫啯宕?/div>
-                        <div class="icon-option" data-icon="妫啫绠?>妫啫绠?/div>
-                        <div class="icon-option" data-icon="妫啫绠?>妫啫绠?/div>
-                        <div class="icon-option" data-icon="妫啫绠?>妫啫绠?/div>
-                        <div class="icon-option" data-icon="妫啯鎲?>妫啯鎲?/div>
-                        <div class="icon-option" data-icon="妫啯鏆?>妫啯鏆?/div>
+                        <div class="icon-option selected" data-icon="📁">📁</div>
+                        <div class="icon-option" data-icon="⭐">⭐</div>
+                        <div class="icon-option" data-icon="❤️">❤️</div>
+                        <div class="icon-option" data-icon="📖">📖</div>
+                        <div class="icon-option" data-icon="💡">💡</div>
+                        <div class="icon-option" data-icon="🎨">🎨</div>
+                        <div class="icon-option" data-icon="💻">💻</div>
+                        <div class="icon-option" data-icon="🎮">🎮</div>
+                        <div class="icon-option" data-icon="🎵">🎵</div>
+                        <div class="icon-option" data-icon="🎬">🎬</div>
+                        <div class="icon-option" data-icon="📚">📚</div>
+                        <div class="icon-option" data-icon="🔬">🔬</div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">闂顦扮氥劍锛愬鍡楊棌</label>
+                    <label class="form-label">选择颜色</label>
                     <div class="color-selector" id="colorSelector">
                         <div class="color-option selected" style="background: linear-gradient(135deg, #667eea, #764ba2);" data-color="#667eea"></div>
                         <div class="color-option" style="background: linear-gradient(135deg, #f093fb, #f5576c);" data-color="#f093fb"></div>
@@ -665,43 +665,43 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-cancel" onclick="closeModal()">告瑦鐗楃粔?/button>
-                    <button type="submit" class="btn-primary">洦绻傞悺?/button>
+                    <button type="button" class="btn-cancel" onclick="closeModal()">取消</button>
+                    <button type="submit" class="btn-primary">保存</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- 佸ф慨鈺呭棘モ晝褰挎顖楀墲兛鐒、?-->
+    <!-- 移动文章模态框 -->
     <div class="modal-overlay" id="moveModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>佸ф慨鈺呭礆楀牊鏆柦虹箰閵?/h3>
+                <h3>移动到收藏夹</h3>
             </div>
             <div class="collections-list" id="moveCollectionList" style="max-height: 300px; overflow-y: auto;">
-                <!-- 告鍔埀胯兌閺佹捇骞?-->
+                <!-- 动态生成 -->
             </div>
             <div class="modal-footer">
-                <button class="btn-cancel" onclick="closeMoveModal()">告瑦鐗楃粔?/button>
+                <button class="btn-cancel" onclick="closeMoveModal()">取消</button>
             </div>
         </div>
     </div>
 
-    <!-- Toast 圭粯鍔妵?-->
+    <!-- Toast 提示 -->
     <div class="toast" id="toast"></div>
 
     <script src="js/supabase-auth.js"></script>
     <script type="module">
-        import { API_BASE_URL } from './js/api-config.js?v=20260524a';
+        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
         
-        // 稿繈鍔岄惇勬偐哥?
+        // 全局状态
         let collections = [];
         let currentCollectionId = null;
         let selectedArticles = new Set();
         let editingCollectionId = null;
         let currentUser = null;
 
-        // 告帗绻傞～鎰板礌?
+        // 初始化
         async function init() {
             const user = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user') || 'null');
             if (!user) {
@@ -713,7 +713,7 @@
             setupEventListeners();
         }
 
-        // 告梻ù鍥绩増顥戝鍓佹嚀鎮?
+        // 加载收藏夹列表
         async function loadCollections() {
             try {
                 const response = await fetch(`${API_BASE_URL}/collections`, {
@@ -727,7 +727,7 @@
                     collections = data.collections || [];
                     renderCollectionsList();
                     
-                    // 掓稒顭堥濠氭焻跺顏ョ婂厸斿瓨绋夐鍛毆芥ê绻愰妵娆箣?稿繈鍔戦崕?
+                    // 默认选择第一个收藏夹或"全部"
                     if (collections.length > 0 && !currentCollectionId) {
                         selectCollection(collections[0].id);
                     } else if (currentCollectionId) {
@@ -736,23 +736,23 @@
                 }
             } catch (error) {
                 console.error('Error loading collections:', error);
-                showToast('告梻ù鍥緞堫袝挎稑鐭侀礆垮鐓闂佹彃绉烽惁?);
+                showToast('加载失败，请刷新重试');
             }
         }
 
-        // 炴挸堕悡瀣绩増顥戝鍓佹嚀鎮?
+        // 渲染收藏夹列表
         function renderCollectionsList() {
             const container = document.getElementById('collectionsList');
             
             let html = '';
             
-            // "稿繈鍔戦崕?闂顦妴?
+            // "全部"选项
             html += `
                 <div class="collection-item ${!currentCollectionId ? 'active' : ''}" onclick="selectCollection(null)">
-                    <div class="collection-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">妫啯鎲?/div>
+                    <div class="collection-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">📚</div>
                     <div class="collection-info">
-                        <div class="collection-name">稿繈鍔戦崕鎾绩増顥?/div>
-                        <div class="collection-count">${collections.reduce((sum, c) => sum + (c.article_count || 0), 0)} 佲虫处閺啰绮?/div>
+                        <div class="collection-name">全部收藏</div>
+                        <div class="collection-count">${collections.reduce((sum, c) => sum + (c.article_count || 0), 0)} 篇文章</div>
                     </div>
                 </div>
             `;
@@ -762,18 +762,18 @@
                     <div class="collection-item ${currentCollectionId === collection.id ? 'active' : ''}" 
                          onclick="selectCollection(${collection.id})">
                         <div class="collection-icon" style="background: ${collection.color || 'linear-gradient(135deg, #667eea, #764ba2)'};">
-                            ${collection.icon || '妫啯鎯?}
+                            ${collection.icon || '📁'}
                         </div>
                         <div class="collection-info">
                             <div class="collection-name">
                                 ${collection.name}
-                                ${collection.is_public ? '<span>妫啫?/span>' : '<span>妫啯鏅?/span>'}
+                                ${collection.is_public ? '<span>🌐</span>' : '<span>🔒</span>'}
                             </div>
-                            <div class="collection-count">${collection.article_count || 0} 佲虫处閺啰绮?/div>
+                            <div class="collection-count">${collection.article_count || 0} 篇文章</div>
                         </div>
                         <div class="collection-actions">
-                            <button class="btn-icon" onclick="event.stopPropagation(); editCollection(${collection.id})">翠礁楠忕?/button>
-                            <button class="btn-icon" onclick="event.stopPropagation(); deleteCollection(${collection.id})">妫啯顥旈柨?/button>
+                            <button class="btn-icon" onclick="event.stopPropagation(); editCollection(${collection.id})">✏️</button>
+                            <button class="btn-icon" onclick="event.stopPropagation(); deleteCollection(${collection.id})">🗑️</button>
                         </div>
                     </div>
                 `;
@@ -782,7 +782,7 @@
             container.innerHTML = html;
         }
 
-        // 闂顦扮氥劑ㄩ幆鐗堫棏濠?
+        // 选择收藏夹
         async function selectCollection(id) {
             currentCollectionId = id;
             selectedArticles.clear();
@@ -792,25 +792,25 @@
             if (id) {
                 const collection = collections.find(c => c.id === id);
                 if (collection) {
-                    document.getElementById('currentIcon').textContent = collection.icon || '妫啯鎯?;
+                    document.getElementById('currentIcon').textContent = collection.icon || '📁';
                     document.getElementById('currentIcon').style.background = collection.color || 'linear-gradient(135deg, #667eea, #764ba2)';
                     document.getElementById('currentCollectionName').textContent = collection.name;
-                    document.getElementById('currentCollectionDesc').textContent = collection.description || '哄棗瑰Λ夊箵韫艾鐗?;
+                    document.getElementById('currentCollectionDesc').textContent = collection.description || '暂无描述';
                 }
             } else {
-                document.getElementById('currentIcon').textContent = '妫啯鎲?;
+                document.getElementById('currentIcon').textContent = '📚';
                 document.getElementById('currentIcon').style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
-                document.getElementById('currentCollectionName').textContent = '稿繈鍔戦崕鎾绩増顥?;
-                document.getElementById('currentCollectionDesc').textContent = '圭撻柡濐槹閺佸婅箛鏇熺暠哄倸娲ㄩ悵?;
+                document.getElementById('currentCollectionName').textContent = '全部收藏';
+                document.getElementById('currentCollectionDesc').textContent = '所有收藏的文章';
             }
             
             await loadArticles(id);
         }
 
-        // 告梻ù鍥棘モ晝褰块柛鎺擃殙閵?
+        // 加载文章列表
         async function loadArticles(collectionId) {
             const container = document.getElementById('articlesList');
-            container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">告梻ù鍥ㄧ▔?..</div>';
+            container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">加载中...</div>';
             
             try {
                 let url = `${API_BASE_URL}/collections`;
@@ -839,11 +839,11 @@
                 }
             } catch (error) {
                 console.error('Error loading articles:', error);
-                container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">告梻ù鍥緞堫袝</div>';
+                container.innerHTML = '<div style="text-align:center;padding:40px;color:rgba(255,255,255,0.6);">加载失败</div>';
             }
         }
 
-        // 炴挸堕悡瀣棘モ晝褰块柛鎺擃殙閵?
+        // 渲染文章列表
         function renderArticles(articles) {
             const container = document.getElementById('articlesList');
             
@@ -857,20 +857,20 @@
                     <div class="article-content">
                         <a href="/article.html?id=${article.id}" class="article-title">${article.title}</a>
                         <div class="article-meta">
-                            <span>妫啯鍣?${article.author_name || '告牕鐏濋幃?}</span>
-                            <span>妫啯鎯?${formatDate(article.created_at)}</span>
-                            <span>妫啯戦柨?${article.view_count || 0} 闂傚啫鎳撻?/span>
+                            <span>👤 ${article.author_name || '匿名'}</span>
+                            <span>📅 ${formatDate(article.created_at)}</span>
+                            <span>👁️ ${article.view_count || 0} 阅读</span>
                         </div>
                     </div>
                     <div class="article-actions">
-                        <button class="btn-icon" onclick="moveArticle('${article.id}')" title="佸ф慨?>妫啯鎯?/button>
-                        <button class="btn-icon" onclick="removeArticle('${article.id}')" title="佸顭▍?>妫啯顥旈柨?/button>
+                        <button class="btn-icon" onclick="moveArticle('${article.id}')" title="移动">📂</button>
+                        <button class="btn-icon" onclick="removeArticle('${article.id}')" title="移除">🗑️</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        // 闂顦扮?告瑦鐗楃粔鐑芥焻跺顏柡鍌氭川?
+        // 选择/取消选择文章
         function toggleArticle(articleId) {
             if (selectedArticles.has(articleId)) {
                 selectedArticles.delete(articleId);
@@ -880,7 +880,7 @@
             updateBatchActions();
         }
 
-        // 哄洤鐡ㄩ弻濠囧箥瑜版帒娅ら鍨С嶆棃?
+        // 更新批量操作栏
         function updateBatchActions() {
             const batchActions = document.getElementById('batchActions');
             const selectedCount = document.getElementById('selectedCount');
@@ -894,16 +894,16 @@
             }
         }
 
-        // 炴挸鎳樺▍ㄦ焻跺顏?
+        // 清除选择
         function clearSelection() {
             selectedArticles.clear();
             document.querySelectorAll('.article-checkbox input').forEach(cb => cb.checked = false);
             updateBatchActions();
         }
 
-        // 犱礁澧介悿鍡樼ｂ晜顐介鈺傚灥?
+        // 设置事件监听
         function setupEventListeners() {
-            // 搞儳埇鏋讹綁鏌呮径瀣仴
+            // 图标选择
             document.querySelectorAll('#iconSelector .icon-option').forEach(option => {
                 option.addEventListener('click', function() {
                     document.querySelectorAll('#iconSelector .icon-option').forEach(o => o.classList.remove('selected'));
@@ -911,7 +911,7 @@
                 });
             });
             
-            // 濡増绮忔竟濠焻跺顏?
+            // 颜色选择
             document.querySelectorAll('#colorSelector .color-option').forEach(option => {
                 option.addEventListener('click', function() {
                     document.querySelectorAll('#colorSelector .color-option').forEach(o => o.classList.remove('selected'));
@@ -919,17 +919,17 @@
                 });
             });
             
-            // 炴稏鍔屽畷鐔煎箵亝鍞?
+            // 表单提交
             document.getElementById('collectionForm').addEventListener('submit', handleFormSubmit);
         }
 
-        // 濠㈣泛瀚幃濠勬偘閵娿儱樺姃?
+        // 处理表单提交
         async function handleFormSubmit(e) {
             e.preventDefault();
             
             const name = document.getElementById('collectionName').value;
             const description = document.getElementById('collectionDesc').value;
-            const icon = document.querySelector('#iconSelector .icon-option.selected')?.dataset.icon || '妫啯鎯?;
+            const icon = document.querySelector('#iconSelector .icon-option.selected')?.dataset.icon || '📁';
             const color = document.querySelector('#colorSelector .color-option.selected')?.dataset.color || '#667eea';
             
             const data = {
@@ -954,30 +954,30 @@
                 });
                 
                 if (response.ok) {
-                    showToast(editingCollectionId ? '衡偓増顥戝鍓佹嚀戯寸涙ɑ鐓' : '衡偓増顥戝鍓佹嚀崬欓悜虹亣?);
+                    showToast(editingCollectionId ? '收藏夹已更新' : '收藏夹创建成功');
                     closeModal();
                     await loadCollections();
                 } else {
                     const error = await response.json();
-                    showToast(error.message || '瑰灝绉紞鏃勬潏顐バ?);
+                    showToast(error.message || '操作失败');
                 }
             } catch (error) {
                 console.error('Error saving collection:', error);
-                showToast('洦绻傞悺銊緞堫袝挎稑鐭侀勬煂瀹ュ牏妲?);
+                showToast('保存失败，请重试');
             }
         }
 
-        // 傚倹鐗炵欢顐绩増顥戝?
+        // 编辑收藏夹
         function editCollection(id) {
             const collection = collections.find(c => c.id === id);
             if (!collection) return;
             
             editingCollectionId = id;
-            document.getElementById('modalTitle').textContent = '傚倹鐗炵欢顐绩増顥戝?;
+            document.getElementById('modalTitle').textContent = '编辑收藏夹';
             document.getElementById('collectionName').value = collection.name;
             document.getElementById('collectionDesc').value = collection.description || '';
             
-            // 犱礁澧介悿鍡涘炊愵剛鍨?
+            // 设置图标
             document.querySelectorAll('#iconSelector .icon-option').forEach(o => {
                 o.classList.toggle('selected', o.dataset.icon === collection.icon);
             });
@@ -985,18 +985,18 @@
             document.getElementById('collectionModal').classList.add('show');
         }
 
-        // 傚倹鐗炵欢顐ャ啿顤呴柡鈧幆鐗堫棏濠?
+        // 编辑当前收藏夹
         function editCurrentCollection() {
             if (!currentCollectionId) {
-                showToast('哄啰电涵鍓磽閺嶎剛甯?稿繈鍔戦崕鎾绩増顥?');
+                showToast('无法编辑"全部收藏"');
                 return;
             }
             editCollection(currentCollectionId);
         }
 
-        // 告帞呭酣ㄩ幆鐗堫棏濠?
+        // 删除收藏夹
         async function deleteCollection(id) {
-            if (!confirm('绢収鍠栭悾鍓ф啺鐏╅梻鍕╁涚换鏍ㄧ▔懏鏆柦虹箰閵瑩宕ュΔ瀣惞稿繑婀归懙鎴︽儍曨剚鏃傚Тㄣ垻鎮銇扳晠宕?稿繈鍔戦崕鎾绩増顥??)) return;
+            if (!confirm('确定要删除这个收藏夹吗？其中的文章将被移到"全部收藏"。')) return;
             
             try {
                 const response = await fetch(`${API_BASE_URL}/collections/${id}`, {
@@ -1007,53 +1007,53 @@
                 });
                 
                 if (response.ok) {
-                    showToast('衡偓増顥戝鍓佹嚀戯宕氶悩樼彑');
+                    showToast('收藏夹已删除');
                     if (currentCollectionId === id) {
                         currentCollectionId = null;
                     }
                     await loadCollections();
                 } else {
-                    showToast('告帞呭勬潏顐バ?);
+                    showToast('删除失败');
                 }
             } catch (error) {
                 console.error('Error deleting collection:', error);
-                showToast('告帞呭勬潏顐バ?);
+                showToast('删除失败');
             }
         }
 
-        // 告帞呭氦銇愰幘鍐差枀衡偓増顥戝?
+        // 删除当前收藏夹
         function deleteCurrentCollection() {
             if (!currentCollectionId) {
-                showToast('哄啰电涵曞礆樼粯鐝?稿繈鍔戦崕鎾绩増顥?');
+                showToast('无法删除"全部收藏"');
                 return;
             }
             deleteCollection(currentCollectionId);
         }
 
-        // 佸ф慨鈺呭棘モ晝褰?
+        // 移动文章
         async function moveArticle(articleId) {
             selectedArticles.clear();
             selectedArticles.add(articleId);
             openMoveModal();
         }
 
-        // 归潧缍婇崳铏圭矓彃袟
+        // 批量移动
         function moveSelected() {
             if (selectedArticles.size === 0) return;
             openMoveModal();
         }
 
-        // 瑰灚哥鎴犵矓彃袟☆垪鍓濋埀跨劍?
+        // 打开移动模态框
         function openMoveModal() {
             const list = document.getElementById('moveCollectionList');
             list.innerHTML = collections.map(c => `
                 <div class="collection-item" onclick="confirmMove(${c.id})">
                     <div class="collection-icon" style="background: ${c.color || 'linear-gradient(135deg, #667eea, #764ba2)'};">
-                        ${c.icon || '妫啯鎯?}
+                        ${c.icon || '📁'}
                     </div>
                     <div class="collection-info">
                         <div class="collection-name">${c.name}</div>
-                        <div class="collection-count">${c.article_count || 0} 佲虫处閺啰绮?/div>
+                        <div class="collection-count">${c.article_count || 0} 篇文章</div>
                     </div>
                 </div>
             `).join('');
@@ -1061,13 +1061,13 @@
             document.getElementById('moveModal').classList.add('show');
         }
 
-        // 绢収鍠涢鑽ょ矓彃袟
+        // 确认移动
         async function confirmMove(targetCollectionId) {
             const articleIds = Array.from(selectedArticles);
             
             try {
                 for (const articleId of articleIds) {
-                    // 稿繐鐗呯划鐘恒啿顤呴柡鈧幆鐗堫棏濠㈣泛婀变簺闂?
+                    // 先从当前收藏夹移除
                     if (currentCollectionId) {
                         await fetch(`${API_BASE_URL}/collections/${currentCollectionId}/articles/${articleId}`, {
                             method: 'DELETE',
@@ -1077,7 +1077,7 @@
                         });
                     }
                     
-                    // 烇綀ф慨鐐哄礆殿喗绐柡宥呮处閺佸婅箛鎾变粴
+                    // 添加到目标收藏夹
                     await fetch(`${API_BASE_URL}/collections/${targetCollectionId}/articles`, {
                         method: 'POST',
                         headers: {
@@ -1088,20 +1088,20 @@
                     });
                 }
                 
-                showToast(`瑰瓨鍔曟慨氱矓彃袟 ${articleIds.length} 佲虫处閺啰绮╅悤?;
+                showToast(`成功移动 ${articleIds.length} 篇文章`);
                 closeMoveModal();
                 clearSelection();
                 await loadCollections();
                 await loadArticles(currentCollectionId);
             } catch (error) {
                 console.error('Error moving articles:', error);
-                showToast('佸ф慨鈺傚緞堫袝');
+                showToast('移动失败');
             }
         }
 
-        // 佸顭▍棘モ晝褰?
+        // 移除文章
         async function removeArticle(articleId) {
-            if (!confirm('绢収鍠栭悾鍓ф啺洅鈺呮⒔閵堝牏绠圭鈥虫处閺啰绮╅悩鍙夊亱?)) return;
+            if (!confirm('确定要移除这篇文章吗？')) return;
             
             try {
                 const url = currentCollectionId
@@ -1116,22 +1116,22 @@
                 });
                 
                 if (response.ok) {
-                    showToast('哄倸娲ㄩ悵宄啅碱儷鈺呮⒔?);
+                    showToast('文章已移除');
                     await loadCollections();
                     await loadArticles(currentCollectionId);
                 } else {
-                    showToast('佸顭▍㈠緞堫袝');
+                    showToast('移除失败');
                 }
             } catch (error) {
                 console.error('Error removing article:', error);
-                showToast('佸顭▍㈠緞堫袝');
+                showToast('移除失败');
             }
         }
 
-        // 归潧缍婇崳铏圭矓犳碍鐝?
+        // 批量移除
         async function deleteSelected() {
             if (selectedArticles.size === 0) return;
-            if (!confirm(`绢収鍠栭悾鍓ф啺洅鈺呮⒔閵堝撴径庡幀?${selectedArticles.size} 佲虫处閺啰绮╅悩鍙夊亱挎稓鍓?) return;
+            if (!confirm(`确定要移除选中的 ${selectedArticles.size} 篇文章吗？`)) return;
             
             const articleIds = Array.from(selectedArticles);
             for (const articleId of articleIds) {
@@ -1140,7 +1140,7 @@
             clearSelection();
         }
 
-        // 规悶遍崣鍧楀礄恒儲娈?
+        // 工具函数
         function formatDate(dateStr) {
             if (!dateStr) return '';
             const date = new Date(dateStr);
@@ -1155,11 +1155,11 @@
             return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
         }
 
-        // 哄棙冲﹢曞礂閵娿儳婀伴柛鎴Г閺?
+        // 暴露全局函数
         window.selectCollection = selectCollection;
         window.openCreateModal = function() {
             editingCollectionId = null;
-            document.getElementById('modalTitle').textContent = '哄倹樼紓鎾诲绩増顥戝?;
+            document.getElementById('modalTitle').textContent = '新建收藏夹';
             document.getElementById('collectionForm').reset();
             document.querySelectorAll('#iconSelector .icon-option').forEach((o, i) => o.classList.toggle('selected', i === 0));
             document.querySelectorAll('#colorSelector .color-option').forEach((o, i) => o.classList.toggle('selected', i === 0));
@@ -1192,10 +1192,8 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         };
 
-        // 告凹鍨版慨?
+        // 启动
         init();
     </script>
 </body>
 </html>
-
-

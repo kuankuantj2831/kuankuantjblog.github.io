@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>IP顦崣蹇曠不閿涘嫭?- 告艾楠歌ぐ哥不閿涘嫭?/title>
+    <title>IP安全管理 - 后台管理</title>
     <link rel="stylesheet" href="../css/chinese-style.css">
     <style>
         body {
@@ -266,122 +266,122 @@
 </head>
 <body>
     <div class="admin-container">
-        <a href="index.html" class="back-link">?閺夆晜鏌ú鏍触鎼粹抽叡媴绱曢幃?/a>
+        <a href="index.html" class="back-link">← 返回后台管理</a>
         
         <div class="card">
-            <h2 style="margin:0 0 20px 0;">IP顦崣蹇曠不閿涘嫭?/h2>
+            <h2 style="margin:0 0 20px 0;">IP安全管理</h2>
             
-            <!-- 備鍠曢鎼佸础閿涘顣?-->
+            <!-- 统计卡片 -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value" id="totalLogins">0</div>
-                    <div class="stat-label">诡剝宕靛▍銉ㄣ閺噥柡?/div>
+                    <div class="stat-label">总登录次数</div>
                 </div>
                 <div class="stat-card success">
                     <div class="stat-value" id="successRate">0%</div>
-                    <div class="stat-label">瑰瓨鍔曟慨㈡偝?/div>
+                    <div class="stat-label">成功率</div>
                 </div>
                 <div class="stat-card warning">
                     <div class="stat-value" id="bannedCount">0</div>
-                    <div class="stat-label">繋鑳堕々顨疨?/div>
+                    <div class="stat-label">封禁IP数</div>
                 </div>
                 <div class="stat-card danger">
                     <div class="stat-value" id="suspiciousCount">0</div>
-                    <div class="stat-label">告瑯鍨抽弸鎵濸?/div>
+                    <div class="stat-label">可疑IP数</div>
                 </div>
             </div>
         </div>
 
-        <!-- Tab庝絻澹堥崺?-->
+        <!-- Tab导航 -->
         <div class="card">
             <div class="tabs">
-                <button class="tab-btn active" data-tab="login-history">谎嗩嚙嶅秶鎷弶璺ㄧЭ</button>
-                <button class="tab-btn" data-tab="banned-ips">繋鑳堕々锔剧不閿涘嫭?/button>
-                <button class="tab-btn" data-tab="security-settings">顦崣蹇曟媼撗呮瀭</button>
+                <button class="tab-btn active" data-tab="login-history">登录记录</button>
+                <button class="tab-btn" data-tab="banned-ips">封禁管理</button>
+                <button class="tab-btn" data-tab="security-settings">安全设置</button>
             </div>
 
-            <!-- 谎嗩嚙嶅秶鎷弶璺ㄧЭ Tab -->
+            <!-- 登录记录 Tab -->
             <div id="tab-login-history" class="tab-content active">
                 <div class="toolbar">
                     <div class="search-box">
-                        <input type="text" id="ipSearchInput" placeholder="瑰吋绮鈫朠革附樺?.." oninput="filterLoginHistory()">
-                        <input type="text" id="userSearchInput" placeholder="瑰吋绮銊╂偨閵婏箑鐓曢柛?.." oninput="filterLoginHistory()">
+                        <input type="text" id="ipSearchInput" placeholder="搜索IP地址..." oninput="filterLoginHistory()">
+                        <input type="text" id="userSearchInput" placeholder="搜索用户名..." oninput="filterLoginHistory()">
                     </div>
                     <div>
-                        <button class="btn btn-secondary btn-small" onclick="exportLoginHistory()">數鍘崵顓犳媼閺夎法绉?/button>
-                        <button class="btn btn-danger btn-small" onclick="clearAllHistory()">炴挸鎳愰埞鏍媼閺夎法绉?/button>
+                        <button class="btn btn-secondary btn-small" onclick="exportLoginHistory()">导出记录</button>
+                        <button class="btn btn-danger btn-small" onclick="clearAllHistory()">清空记录</button>
                     </div>
                 </div>
                 <div id="loginHistoryContainer">
-                    <div class="empty-state">哄棗瑰Λ夋儌囪尙绉块浣规緲?/div>
+                    <div class="empty-state">暂无登录记录</div>
                 </div>
             </div>
 
-            <!-- 繋鑳堕々锔剧不閿涘嫭?Tab -->
+            <!-- 封禁管理 Tab -->
             <div id="tab-banned-ips" class="tab-content">
                 <div class="form-row" style="margin-bottom: 20px;">
                     <div class="form-group" style="margin:0;">
-                        <label>IP革附樺?/label>
-                        <input type="text" id="banIpInput" placeholder="閺夊牊崣鍡欐啺摜娈辩鍌欒兌堟厲P革附樺?>
+                        <label>IP地址</label>
+                        <input type="text" id="banIpInput" placeholder="输入要封禁的IP地址">
                     </div>
                     <div class="form-group" style="margin:0;">
-                        <label>繋鑳堕々锕傚籍洘姣?/label>
+                        <label>封禁时长</label>
                         <select id="banDurationSelect">
-                            <option value="3600000">1繐绻戝?/option>
-                            <option value="86400000">1濠?/option>
-                            <option value="604800000">7濠?/option>
-                            <option value="2592000000">30濠?/option>
-                            <option value="31536000000">1?/option>
-                            <option value="9999999999999">﹢鏅茬粻?/option>
+                            <option value="3600000">1小时</option>
+                            <option value="86400000">1天</option>
+                            <option value="604800000">7天</option>
+                            <option value="2592000000">30天</option>
+                            <option value="31536000000">1年</option>
+                            <option value="9999999999999">永久</option>
                         </select>
                     </div>
-                    <button class="btn btn-danger" onclick="banIPManual()">繋鑳堕々顨疨</button>
+                    <button class="btn btn-danger" onclick="banIPManual()">封禁IP</button>
                 </div>
                 <div id="bannedIPsContainer">
-                    <div class="empty-state">哄棗瑰Λ囦焊ｄ警娲ｉ銊ュ殬P</div>
+                    <div class="empty-state">暂无封禁的IP</div>
                 </div>
             </div>
 
-            <!-- 顦崣蹇曟媼撗呮瀭 Tab -->
+            <!-- 安全设置 Tab -->
             <div id="tab-security-settings" class="tab-content">
                 <div class="settings-grid">
                     <div>
                         <div class="form-group">
-                            <label>哄牃啨浜奸鎰╁劚墽鎷犻弴鐕佸仹?/label>
+                            <label>最大失败尝试次数</label>
                             <input type="number" id="maxAttemptsInput" value="5" min="1" max="20">
                         </div>
                         <div class="form-group">
-                            <label>煎浜滄慨鈺焊ｄ警娲ｉ柡鍐ㄧ埣閺?/label>
+                            <label>自动封禁时长</label>
                             <select id="autoBanDuration">
-                                <option value="3600000">1繐绻戝?/option>
-                                <option value="86400000" selected>1濠?/option>
-                                <option value="604800000">7濠?/option>
-                                <option value="2592000000">30濠?/option>
+                                <option value="3600000">1小时</option>
+                                <option value="86400000" selected>1天</option>
+                                <option value="604800000">7天</option>
+                                <option value="2592000000">30天</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>
-                                <input type="checkbox" id="autoBanCheckbox" checked> 告凹鍨抽弫夋嚊袟繋鑳堕々?
+                                <input type="checkbox" id="autoBanCheckbox" checked> 启用自动封禁
                             </label>
                         </div>
-                        <button class="btn btn-primary" onclick="saveSecuritySettings()">洦绻傞悺銊ф媼撗呮瀭</button>
+                        <button class="btn btn-primary" onclick="saveSecuritySettings()">保存设置</button>
                     </div>
                 </div>
                 
                 <div class="danger-zone">
-                    <div class="danger-zone-title">告浜跺▍鎾诲箼瀹ュ绋?/div>
-                    <button class="btn btn-secondary btn-small" onclick="IPSecurity.exportData()">數鍘崵顓㈠箥剟垫径濠勬殧稿繈鍔弳鐔煎箲?/button>
-                    <button class="btn btn-danger btn-small" onclick="clearAllSecurityData()" style="margin-left: 10px;">炴挸鎳愰埞鏍箥剟垫径濠勬殧稿繈鍔弳鐔煎箲?/button>
+                    <div class="danger-zone-title">危险操作</div>
+                    <button class="btn btn-secondary btn-small" onclick="IPSecurity.exportData()">导出所有安全数据</button>
+                    <button class="btn btn-danger btn-small" onclick="clearAllSecurityData()" style="margin-left: 10px;">清空所有安全数据</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- IP顦崣蹇涙嚇橆厽鎷?-->
+    <!-- IP安全脚本 -->
     <script src="../js/ip-security.js"></script>
     
     <script>
-        // 告帗绻傞～鎰板礌?
+        // 初始化
         document.addEventListener('DOMContentLoaded', function() {
             initTabs();
             updateStats();
@@ -390,24 +390,24 @@
             loadSettings();
         });
 
-        // Tab告帒娲畷?
+        // Tab切换
         function initTabs() {
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const tab = this.dataset.tab;
                     
-                    // 告帒娲畷鏌ュ箰舵劖灏垮煐?
+                    // 切换按钮状态
                     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // 告帒娲畷鏌ュ礃涱収?
+                    // 切换内容
                     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                     document.getElementById('tab-' + tab).classList.add('active');
                 });
             });
         }
 
-        // 哄洤鐡ㄩ弻濠磼旀椿鍚
+        // 更新统计
         function updateStats() {
             const stats = IPSecurity.getStats();
             document.getElementById('totalLogins').textContent = stats.totalLogins;
@@ -416,27 +416,27 @@
             document.getElementById('suspiciousCount').textContent = stats.suspiciousIPs;
         }
 
-        // 炴挸堕悡瀣儌囪尙绉块浣规緲?
+        // 渲染登录记录
         function renderLoginHistory() {
             const history = IPSecurity.getLoginHistory();
             const container = document.getElementById('loginHistoryContainer');
             
             if (history.length === 0) {
-                container.innerHTML = '<div class="empty-state">哄棗瑰Λ夋儌囪尙绉块浣规緲?/div>';
+                container.innerHTML = '<div class="empty-state">暂无登录记录</div>';
                 return;
             }
 
             let html = '<table class="table"><thead><tr>' +
-                '<th>哄啫鐖煎Λ?/th><th>活潿鍔崺㈠触?/th><th>IP革附樺?/th><th>达絽绉堕悿?/th><th>哄茬花?/th><th>绘栭埀?/th><th>瑰灝绉紞?/th>' +
+                '<th>时间</th><th>用户名</th><th>IP地址</th><th>位置</th><th>来源</th><th>状态</th><th>操作</th>' +
                 '</tr></thead><tbody>';
             
             history.forEach(record => {
                 const time = new Date(record.timestamp).toLocaleString();
                 const location = record.location ? 
-                    `${record.location.country} ${record.location.city}` : '哄牜浜為悡?;
+                    `${record.location.country} ${record.location.city}` : '未知';
                 const statusClass = record.success ? 'status-success' : 'status-failed';
-                const statusText = record.success ? '瑰瓨鍔曟慨? : '濠㈡儼绮剧憴?;
-                const source = record.source === 'admin' ? '告艾楠歌ぐ? : '濡鐗犻妴?;
+                const statusText = record.success ? '成功' : '失败';
+                const source = record.source === 'admin' ? '后台' : '首页';
                 
                 html += `<tr>
                     <td>${time}</td>
@@ -446,8 +446,8 @@
                     <td>${source}</td>
                     <td><span class="status-badge ${statusClass}">${statusText}</span></td>
                     <td>
-                        <button class="btn btn-danger btn-small" onclick="banIPFromHistory('${record.ip}')">繋鑳堕々?/button>
-                        <button class="btn btn-secondary btn-small" onclick="deleteHistoryRecord('${record.id}')">告帞?/button>
+                        <button class="btn btn-danger btn-small" onclick="banIPFromHistory('${record.ip}')">封禁</button>
+                        <button class="btn btn-secondary btn-small" onclick="deleteHistoryRecord('${record.id}')">删除</button>
                     </td>
                 </tr>`;
             });
@@ -456,7 +456,7 @@
             container.innerHTML = html;
         }
 
-        // 佹稒鐩埀顦卞▍銉ㄣ閺団槅鍞剁憸?
+        // 筛选登录记录
         function filterLoginHistory() {
             const ipFilter = document.getElementById('ipSearchInput').value.toLowerCase();
             const userFilter = document.getElementById('userSearchInput').value.toLowerCase();
@@ -470,56 +470,56 @@
                 history = history.filter(r => r.username.toLowerCase().includes(userFilter));
             }
             
-            // 闂佹彃绉弻濠傘掗崣屽帬挎稑鐗忛悾礌閺嶎顣奸柨?
+            // 重新渲染（简化版）
             renderLoginHistory();
         }
 
-        // 寸姴鍥閺偟娈辩鍌欐诞P
+        // 从记录封禁IP
         function banIPFromHistory(ip) {
-            if (confirm(`绢収鍠栭悾鍓ф啺摜娈辩鍌欐诞P ${ip} 告碍顨愮?) {
-                IPSecurity.banIP(ip, '寸姴▍銉ㄣ閺団槅鍞剁憸鐗堟礃ф粓宕濋妸銉ф?);
+            if (confirm(`确定要封禁IP ${ip} 吗？`)) {
+                IPSecurity.banIP(ip, '从登录记录手动封禁');
                 renderBannedIPs();
                 updateStats();
-                alert('IP瑰憡褰惃堢矉?);
+                alert('IP已封禁');
             }
         }
 
-        // 告帞呭酣宕￠弴鐔歌拫犱焦樼紞?
+        // 删除单条记录
         function deleteHistoryRecord(id) {
-            if (confirm('绢収鍠栭悾楣冨礆樼粯鐝熼弶鈺傜懄碱垳鎷弶璺ㄧЭ告碍顨愮?)) {
+            if (confirm('确定删除这条记录吗？')) {
                 IPSecurity.deleteHistoryRecord(id);
                 renderLoginHistory();
                 updateStats();
             }
         }
 
-        // 炴挸鎳愰埞鏍箥剟垫径敹?
+        // 清空所有记录
         function clearAllHistory() {
-            if (confirm('绢収鍠栭悾鍓ф啺顏哥ゆ晶宥夊嫉跺本顏憸鐗堟礉斿洩銇愰弴鐐村亱挎稓鍠愰箼瀹ュ绋婂鎾Т瑜版煡骞侀姀鐙妲婚柕?)) {
+            if (confirm('确定要清空所有登录记录吗？此操作不可恢复。')) {
                 IPSecurity.clearHistory();
                 renderLoginHistory();
                 updateStats();
             }
         }
 
-        // 數鍘崵顓㈡儌囪尙绉块浣规緲?
+        // 导出登录记录
         function exportLoginHistory() {
             IPSecurity.exportData();
         }
 
-        // 炴挸堕悡瀣焊ｄ警娲ｉ柛鎺擃殙閵?
+        // 渲染封禁列表
         function renderBannedIPs() {
             const banned = IPSecurity.getBannedIPs();
             const container = document.getElementById('bannedIPsContainer');
             const ips = Object.keys(banned);
             
             if (ips.length === 0) {
-                container.innerHTML = '<div class="empty-state">哄棗瑰Λ囦焊ｄ警娲ｉ銊ュ殬P</div>';
+                container.innerHTML = '<div class="empty-state">暂无封禁的IP</div>';
                 return;
             }
 
             let html = '<table class="table"><thead><tr>' +
-                '<th>IP革附樺?/th><th>繋鑳堕々锕傚储旈攱?/th><th>繋鑳堕々锕傚籍洘锛?/th><th>閺夆晛娲﹢锟犲籍洘锛?/th><th>告鏅欑紞鎴籍洘锛?/th><th>瑰灝绉紞?/th>' +
+                '<th>IP地址</th><th>封禁原因</th><th>封禁时间</th><th>过期时间</th><th>剩余时间</th><th>操作</th>' +
                 '</tr></thead><tbody>';
             
             ips.forEach(ip => {
@@ -530,12 +530,12 @@
                 
                 html += `<tr>
                     <td>${ip}</td>
-                    <td>${record.reason || '?}</td>
+                    <td>${record.reason || '无'}</td>
                     <td>${bannedAt}</td>
                     <td>${expiresAt}</td>
                     <td>${remaining}</td>
                     <td>
-                        <button class="btn btn-primary btn-small" onclick="unbanIP('${ip}')">熸瑱绲介惃?/button>
+                        <button class="btn btn-primary btn-small" onclick="unbanIP('${ip}')">解封</button>
                     </td>
                 </tr>`;
             });
@@ -544,45 +544,45 @@
             container.innerHTML = html;
         }
 
-        // 归潧呮慨鈺焊ｄ警娲P
+        // 手动封禁IP
         function banIPManual() {
             const ip = document.getElementById('banIpInput').value.trim();
             const duration = parseInt(document.getElementById('banDurationSelect').value);
             
             if (!ip) {
-                alert('犲洨鏌夌欢顓㈠礂у粷革附樺?);
+                alert('请输入IP地址');
                 return;
             }
             
-            IPSecurity.banIP(ip, '归潧呮慨鈺焊ｄ警娲?, duration);
+            IPSecurity.banIP(ip, '手动封禁', duration);
             renderBannedIPs();
             updateStats();
             document.getElementById('banIpInput').value = '';
-            alert('IP瑰憡褰惃堢矉?);
+            alert('IP已封禁');
         }
 
-        // 熸瑱绲介惃籔
+        // 解封IP
         function unbanIP(ip) {
-            if (confirm(`绢収鍠栭悾鍓ф啺彨鎺斾焊擃摉 ${ip} 告碍顨愮?) {
+            if (confirm(`确定要解封IP ${ip} 吗？`)) {
                 IPSecurity.unbanIP(ip);
                 renderBannedIPs();
                 updateStats();
             }
         }
 
-        // 哄秶鍘х锟犲礌閺嶃劍顦梻鈧?
+        // 格式化时长
         function formatDuration(ms) {
-            if (ms < 0) return '规瓕灏换鍐嫉?;
+            if (ms < 0) return '已过期';
             
             const days = Math.floor(ms / (1000 * 60 * 60 * 24));
             const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             
-            if (days > 0) return `${days}濠?{hours}繐绻戝淇?
-            if (hours > 0) return `${hours}繐绻戝淇?
-            return '告块惃銏交ャ劍?;
+            if (days > 0) return `${days}天${hours}小时`;
+            if (hours > 0) return `${hours}小时`;
+            return '即将过期';
         }
 
-        // 告梻ù鍥╂媼撗呮瀭
+        // 加载设置
         function loadSettings() {
             const settings = IPSecurity.getSettings();
             document.getElementById('maxAttemptsInput').value = settings.maxFailedAttempts;
@@ -590,7 +590,7 @@
             document.getElementById('autoBanCheckbox').checked = settings.autoBan;
         }
 
-        // 洦绻傞悺銊ф媼撗呮瀭
+        // 保存设置
         function saveSecuritySettings() {
             const settings = {
                 maxFailedAttempts: parseInt(document.getElementById('maxAttemptsInput').value),
@@ -599,12 +599,12 @@
             };
             
             IPSecurity.saveSettings(settings);
-            alert('犱礁澧介悿鍡楊啅闊厾绠介?);
+            alert('设置已保存');
         }
 
-        // 炴挸鎳愰埞鏍箥剟垫径濠勬殧稿繈鍔弳鐔煎箲?
+        // 清空所有安全数据
         function clearAllSecurityData() {
-            if (confirm('绢収鍠栭悾鍓ф啺顏哥ゆ晶宥夊嫉跺﹦鏆旈柛蹇妽閺嗙喖骞戦鍏煎亱挎稓鍠垫﹢骞忛鍌涱仮滅増娲濋鍥閺ǚ撴担鍝ユ佸倷侀顏偘閵娧呮惣靛棗归箼瀹ュ绋婂鎾Т瑜版煡骞侀姀鐙妲婚柨?)) {
+            if (confirm('确定要清空所有安全数据吗？包括登录记录、封禁列表等。此操作不可恢复！')) {
                 localStorage.removeItem(IPSecurity.STORAGE_KEYS.LOGIN_HISTORY);
                 localStorage.removeItem(IPSecurity.STORAGE_KEYS.BANNED_IPS);
                 localStorage.removeItem(IPSecurity.STORAGE_KEYS.IP_ATTEMPTS);
@@ -615,11 +615,9 @@
                 updateStats();
                 loadSettings();
                 
-                alert('圭撻柡濐槸ｃ劑宕妸锔芥鍠栭鈥炽掗崨顖楁晞');
+                alert('所有安全数据已清空');
             }
         }
     </script>
 </body>
 </html>
-
-

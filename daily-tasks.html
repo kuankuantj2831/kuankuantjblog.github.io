@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>絽绻戝Λ鈺傜彃顫?- Hakimi 的个人博客/title>
+    <title>每日任务 - Hakimi 的猫爬架</title>
     <link rel="stylesheet" href="css/chinese-style.css">
     <style>
         .tasks-container {
@@ -12,7 +12,7 @@
             padding: 100px 20px 40px;
         }
 
-        /* 濠㈣埖抽崕?*/
+        /* 头部 */
         .tasks-header {
             background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
             border-radius: 20px;
@@ -76,7 +76,7 @@
             opacity: 0.9;
         }
 
-        /* 閺夆晝熼悽濠氬箥啿骞?*/
+        /* 连续打卡 */
         .streak-card {
             background: white;
             border-radius: 15px;
@@ -113,7 +113,7 @@
             font-size: 0.9rem;
         }
 
-        /* 寸姾ф慨鐔煎礆濡ゅ嫨鈧?*/
+        /* 任务列表 */
         .tasks-section {
             background: white;
             border-radius: 15px;
@@ -237,7 +237,7 @@
             font-size: 1.5rem;
         }
 
-        /* 告稏鍔屽?*/
+        /* 周历 */
         .week-calendar {
             background: white;
             border-radius: 15px;
@@ -279,7 +279,7 @@
             font-weight: bold;
         }
 
-        /* 佸矁娅ｆ慨鎼佸箑?*/
+        /* 空状态 */
         .empty-state {
             text-align: center;
             padding: 40px;
@@ -291,7 +291,7 @@
             margin-bottom: 15px;
         }
 
-        /* 告繂绉寸花鎻掝嚕?*/
+        /* 响应式 */
         @media (max-width: 600px) {
             .tasks-header h1 {
                 font-size: 1.5rem;
@@ -331,17 +331,17 @@
     <div class="chinese-style-wrapper">
         <nav class="top-nav">
             <div class="nav-links">
-                <a href="/" class="nav-link">濡鐗犻妴?/a>
-                <a href="/coins.html" class="nav-link">绢収鍓欑粩鍨▔偟濡?/a>
-                <span class="nav-link active">絽绻戝Λ鈺傜彃顫?/span>
+                <a href="/" class="nav-link">首页</a>
+                <a href="/coins.html" class="nav-link">硬币中心</a>
+                <span class="nav-link active">每日任务</span>
             </div>
         </nav>
 
         <div class="tasks-container">
-            <!-- 濠㈣埖抽崕?-->
+            <!-- 头部 -->
             <div class="tasks-header">
-                <h1>妫啯鎯?絽绻戝Λ鈺傜彃顫?/h1>
-                <p>鏈彃顫ら柤鎯у槻瑜板洨绱掕箛氬告粌鐬奸垾鏍暜壊娈柛?/p>
+                <h1>📅 每日任务</h1>
+                <p>完成任务获取经验和硬币奖励</p>
                 <div class="daily-progress">
                     <svg class="progress-ring" viewBox="0 0 100 100">
                         <circle class="bg" cx="50" cy="50" r="42"/>
@@ -350,38 +350,38 @@
                     </svg>
                     <div class="progress-text">
                         <div class="number" id="progressPercent">0%</div>
-                        <div class="label">寸姴锕ュΛ鈺傛交ê顔?/div>
+                        <div class="label">今日进度</div>
                     </div>
                 </div>
             </div>
 
-            <!-- 閺夆晝熼悽濠氬箥啿骞?-->
+            <!-- 连续打卡 -->
             <div class="streak-card">
                 <div class="streak-info">
-                    <h3>妫啯鏆?閺夆晝熼悽濠氬箥啿骞?/h3>
-                    <p>秆垫柨袙韫梹锛夐版湰ㄦ碍掔拠鎻掝潳挎稑鐭佽闂佸じ换氱磼媭鍔柛鎺斿ㄦ氨浜幉瀣＜</p>
+                    <h3>🔥 连续打卡</h3>
+                    <p>坚持每日完成任务，解锁连续签到成就！</p>
                 </div>
                 <div class="streak-number">
                     <div class="days" id="streakDays">0</div>
-                    <div class="label">濠?/div>
+                    <div class="label">天</div>
                 </div>
             </div>
 
-            <!-- 告稏鍔屽?-->
+            <!-- 周历 -->
             <div class="week-calendar">
-                <h3 class="section-title">妫啯鎯?哄牜鍓欓幊鍡欌偓版湰ㄦ岸骞嗛崨顓炴瀸</h3>
+                <h3 class="section-title">📆 本周完成情况</h3>
                 <div class="calendar-grid" id="weekCalendar">
-                    <!-- 告鍔埀胯兌閺佹捇骞?-->
+                    <!-- 动态生成 -->
                 </div>
             </div>
 
-            <!-- 寸姾ф慨鐔煎礆濡ゅ嫨鈧?-->
+            <!-- 任务列表 -->
             <div class="tasks-section">
-                <h3 class="section-title">?寸姴锕ュΛ鈺傜彃顫?/h3>
+                <h3 class="section-title">✨ 今日任务</h3>
                 <div class="tasks-list" id="tasksList">
                     <div class="empty-state">
-                        <div class="icon">?/div>
-                        <p>繐绲藉﹢顏堝礉樼儤绁板ù鐘侯嚙?..</p>
+                        <div class="icon">⏳</div>
+                        <p>正在加载任务...</p>
                     </div>
                 </div>
             </div>
@@ -389,7 +389,7 @@
     </div>
 
     <script type="module">
-        import { API_BASE_URL } from './js/api-config.js?v=20260524a';
+        import { API_BASE_URL } from './js/api-config.js?v=20260223b';
 
         class DailyTasksPage {
             constructor() {
@@ -417,25 +417,25 @@
                     const response = await fetch(`${API_BASE_URL}/tasks/daily`, {
                         headers: { 'Authorization': `Bearer ${this.token}` }
                     });
-                    if (!response.ok) throw new Error('告梻ù鍥ㄧ彃顫ゅ鎯扮簿?);
+                    if (!response.ok) throw new Error('加载任务失败');
                     
                     const data = await response.json();
                     this.tasks = data.tasks || [];
                     this.renderTasks();
                     this.updateProgress();
                 } catch (error) {
-                    console.error('告梻ù鍥ㄧ彃顫ゅ鎯扮簿?', error);
+                    console.error('加载任务失败:', error);
                     document.getElementById('tasksList').innerHTML = `
                         <div class="empty-state">
-                            <div class="icon">妫啯袟</div>
-                            <p>告梻ù鍥緞堫袝挎稑鐭侀礆垮鐓闂佹彃绉烽惁?/p>
+                            <div class="icon">😢</div>
+                            <p>加载失败，请刷新重试</p>
                         </div>
                     `;
                 }
             }
 
             async loadStreak() {
-                // 寸姴瀛╁﹢浼村捶閺夎法鎽犻柛灞诲妽ㄋ婸I兼儳鍢茶ぐ鍥ㄦ交愮數鏁鹃鍨尭瀹曡鲸勯埡鍌涙
+                // 从本地存储或API获取连续打卡天数
                 const streak = localStorage.getItem('checkinStreak') || 0;
                 this.streak = parseInt(streak);
                 document.getElementById('streakDays').textContent = this.streak;
@@ -447,21 +447,21 @@
                 if (this.tasks.length === 0) {
                     list.innerHTML = `
                         <div class="empty-state">
-                            <div class="icon">妫啫绔?/div>
-                            <p>寸姴锕ュΛ鈺傜彃顫ょ瑰憡褰崣蹇涙焾閵娿儳鏆氶瀛樺姧辨帡版惔掳浜柛鎰У肩敻宕～?/p>
+                            <div class="icon">🎉</div>
+                            <p>今日任务已全部完成！明天再来吧~</p>
                         </div>
                     `;
                     return;
                 }
 
                 const icons = {
-                    checkin: '妫啯鎯?,
-                    read: '妫啯鎲?,
-                    comment: '妫啯灏?,
-                    like: '村倶х?,
-                    share: '妫啯鎲?,
-                    write: '翠礁绋?,
-                    default: '?
+                    checkin: '📅',
+                    read: '📖',
+                    comment: '💬',
+                    like: '❤️',
+                    share: '📤',
+                    write: '✍️',
+                    default: '✨'
                 };
 
                 list.innerHTML = this.tasks.map(task => `
@@ -472,14 +472,14 @@
                             <div class="task-desc">${task.description}</div>
                             <div class="task-rewards">
                                 <span class="reward-tag exp">+${task.reward_exp} XP</span>
-                                ${task.reward_coins ? `<span class="reward-tag coins">+${task.reward_coins} 妫啰宕?/span>` : ''}
+                                ${task.reward_coins ? `<span class="reward-tag coins">+${task.reward_coins} 🪙</span>` : ''}
                             </div>
                         </div>
                         <div class="task-action">
                             ${task.completed ? 
-                                '<span class="completed-badge">?/span>' :
+                                '<span class="completed-badge">✅</span>' :
                                 `<button class="btn-task" onclick="dailyTasksPage.doTask(${task.task_id}, '${task.task_type}')">
-                                    ${task.task_type === 'checkin' ? '佹稒抽崺? : '告悾箣?}
+                                    ${task.task_type === 'checkin' ? '签到' : '去完成'}
                                 </button>`
                             }
                         </div>
@@ -489,7 +489,7 @@
 
             renderWeekCalendar() {
                 const container = document.getElementById('weekCalendar');
-                const days = ['?, '?, '?, '?, '?, '?, '?];
+                const days = ['日', '一', '二', '三', '四', '五', '六'];
                 const today = new Date();
                 
                 let html = '';
@@ -497,7 +497,7 @@
                     const date = new Date(today);
                     date.setDate(today.getDate() - today.getDay() + i);
                     const isToday = i === today.getDay();
-                    // ☆垪鍓濈氭瑥顔忛幓鎺旀殮瑰瓨鍔楀▓鎴极楀牆绁柨樿嫰ゅ嫰姊介崨顓犲畨寸姴鐩疨I兼儳鍢茶ぐ?
+                    // 模拟已完成的数据，实际应从API获取
                     const isCompleted = i < today.getDay(); 
                     
                     html += `
@@ -517,7 +517,7 @@
                 
                 document.getElementById('progressPercent').textContent = `${percent}%`;
                 
-                // 哄洤鐡ㄩ弻濠囧捶瑥绠氶弶鈺傜?
+                // 更新圆环进度
                 const circle = document.getElementById('progressCircle');
                 const circumference = 264;
                 const offset = circumference - (percent / 100) * circumference;
@@ -528,7 +528,7 @@
                 if (taskType === 'checkin') {
                     await this.completeTask(taskId);
                 } else {
-                    // 犲搫鐤囧ù鍡涘礆閺夋鍤犻幖瀛樻閵妫?
+                    // 跳转到对应页面
                     const routes = {
                         read: '/',
                         comment: '/',
@@ -547,14 +547,14 @@
                         headers: { 'Authorization': `Bearer ${this.token}` }
                     });
 
-                    if (!response.ok) throw new Error('鏈彃顫ゅ鎯扮簿?);
+                    if (!response.ok) throw new Error('完成任务失败');
                     
                     const result = await response.json();
-                    alert(`妫啫绔?寸姾ф慨鐔衡偓版湰ㄦ岸鏁嶆担钘夌?${result.exp_gained || 0} XP${result.coins_gained ? ' ?' + result.coins_gained + ' 绢収鍓欑粩? : ''}`);
+                    alert(`🎉 任务完成！获得 ${result.exp_gained || 0} XP${result.coins_gained ? ' 和 ' + result.coins_gained + ' 硬币' : ''}`);
                     
                     await this.loadTasks();
                 } catch (error) {
-                    alert('寸姾ф慨鐔衡偓版湰ㄦ碍勬潏顐バ曢柨樼焷曨剟鏌屽㈡Ц');
+                    alert('任务完成失败，请重试');
                 }
             }
         }
@@ -565,5 +565,3 @@
     </script>
 </body>
 </html>
-
-
