@@ -102,28 +102,8 @@ const ModuleLoader = {
             // GitHub 登录
             idle.push(this.loadScript('./github-login.js?v=20260425'));
 
-            // 通知中心 — 仅登录用户
-            if (loggedIn) {
-                idle.push(this.loadModuleES('./notification-center.js?v=20260425').then(() => {
-                    if (!window.NotificationCenter || !window.NotificationUI) return;
-                    const userId = JSON.parse(localStorage.getItem('user') || '{}').id || 'anonymous';
-                    const nc = new window.NotificationCenter({ userId });
-                    window.notificationCenter = nc;
-                    const nui = new window.NotificationUI(nc);
-                    window.notificationUI = nui;
-                    const bell = document.getElementById('notificationBellContainer');
-                    if (bell) { nui.renderBell('notificationBellContainer'); return; }
-                    const nav = document.querySelector('nav, .nav, .top-nav, header');
-                    if (nav) {
-                        const d = document.createElement('div');
-                        d.id = 'notificationBellContainer';
-                        d.style.cssText = 'display:inline-block;margin-left:12px;';
-                        nav.appendChild(d);
-                        nui.renderBell('notificationBellContainer');
-                    }
-                }));
-
-                // 游戏化
+            // 通知中心已移除，统一使用 💬 消息入口
+            // 游戏化
                 idle.push(this.loadModuleES('./gamification.js?v=20260425'));
             }
 

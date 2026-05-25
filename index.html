@@ -147,20 +147,7 @@
                 <a href="donate.html" class="nav-link" style="color:#ff6b6b;">❤️ 捐助</a>
                 <a href="about.html" class="nav-link">🎯 关于我们</a>
                 <a href="features.html" class="nav-link">✨ 更多功能</a>
-                <a href="messages.html" class="nav-link msg-nav-link" style="display:none;position:relative;">💬 消息 <span id="navUnreadBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span></a>
-                <div class="nav-link notification-bell-wrap" style="display:none;position:relative;cursor:pointer;" id="notificationBell">
-                    🔔 <span id="notifBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span>
-                    <!-- 通知下拉面板 -->
-                    <div id="notifDropdown" class="notif-dropdown" style="display:none;">
-                        <div class="notif-header">
-                            <span>通知</span>
-                            <a href="#" id="notifReadAll" style="font-size:12px;color:#667eea;">全部已读</a>
-                        </div>
-                        <div id="notifList" class="notif-list">
-                            <p style="text-align:center;color:#999;padding:20px;">暂无通知</p>
-                        </div>
-                    </div>
-                </div>
+                <a href="messages.html" class="nav-link msg-nav-link" style="position:relative;">💬 消息 <span id="navUnreadBadge" style="display:none;position:absolute;top:-4px;right:-8px;background:#ff4d4f;color:white;font-size:10px;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center;"></span></a>
                 <a href="#" class="nav-link login-btn" style="cursor: pointer;"
                     onclick="loadTurnstile();document.getElementById('loginModal').classList.add('active')">👤 登录</a>
                 <a href="#" class="nav-link register-btn" style="cursor: pointer;" onclick="loadTurnstile()">📝 注册</a>
@@ -510,10 +497,6 @@
     <script type="module" src="js/supabase-auth.js?v=20260524a"></script>
     <script type="module" src="js/load-articles.js?v=20260524a"></script>
     <script type="module" src="js/blog-search.js?v=20260524a"></script>
-    <script type="module">
-        import { initNotifications } from './js/notifications.js';
-        document.addEventListener('DOMContentLoaded', () => setTimeout(initNotifications, 500));
-    </script>
     <!-- API 性能优化模块 -->
     <script type="module">
         import { dataPreloader } from './js/data-preload.js';
