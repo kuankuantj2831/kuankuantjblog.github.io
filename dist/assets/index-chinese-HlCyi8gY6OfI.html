@@ -432,19 +432,7 @@
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
           navigator.serviceWorker.register('/sw.js', { scope: '/' }).then(function(reg) {
-            // Check for updates
-            reg.addEventListener('updatefound', function() {
-              var newWorker = reg.installing;
-              newWorker.addEventListener('statechange', function() {
-                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  // New version available
-                  if (confirm('网站有新版本，是否立即更新？')) {
-                    newWorker.postMessage('SKIP_WAITING');
-                    window.location.reload();
-                  }
-                }
-              });
-            });
+            console.log('SW registered:', reg.scope);
           }).catch(function(err) {
             // Silently ignore SW registration errors
           });

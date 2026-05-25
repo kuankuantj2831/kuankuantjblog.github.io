@@ -702,20 +702,7 @@
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js?v=20260524a')
-                .then(reg => {
-                    console.log('SW registered:', reg.scope);
-                    // 仅在更新时刷新（非首次安装）
-                    reg.addEventListener('updatefound', () => {
-                        var newSW = reg.installing;
-                        if (newSW && navigator.serviceWorker.controller) {
-                            newSW.addEventListener('statechange', () => {
-                                if (newSW.state === 'activated') {
-                                    window.location.reload();
-                                }
-                            });
-                        }
-                    });
-                })
+                .then(reg => console.log('SW registered:', reg.scope))
                 .catch(err => console.log('SW registration failed:', err));
         });
     }
