@@ -642,11 +642,12 @@ class SupabaseAuthSystem {
             // 格式1: { user: {...}, token: '...' }
             // 格式2: { data: { user: {...}, token: '...' } }
             // 格式3: { data: { id, email, role, token } }
+            // 格式4: { data: { userInfo: {...}, token: '...' } }
             let user = data.user;
             let token = data.token;
             const inner = data.data || data;
             if (!user && inner) {
-                user = inner.user || (inner.id !== undefined ? inner : null);
+                user = inner.user || inner.userInfo || (inner.id !== undefined ? inner : null);
                 if (!token && inner.token) token = inner.token;
             }
             console.log('[Auth] 登录响应 data:', JSON.stringify(data));
