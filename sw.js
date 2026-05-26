@@ -26,8 +26,6 @@ const PRECACHE_URLS = [
     '/js/music-player.js',
     '/js/follow.js',
     '/js/browser-detect.js',
-    '/js/report-modal.js',
-    '/css/report-modal.css',
     '/images/icons/icon-192x192.png',
     '/favicon.ico'
 ];

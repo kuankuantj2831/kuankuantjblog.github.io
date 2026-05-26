@@ -285,29 +285,6 @@ class EnhancedCommentSystem {
     }
 
     /**
-     * 举报评论
-     */
-    async reportComment(commentId, reason) {
-        try {
-            const response = await fetch(`${this.options.apiBaseUrl}/comments/${commentId}/report`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.getToken()}`
-                },
-                body: JSON.stringify({ reason })
-            });
-
-            if (!response.ok) throw new Error('举报失败');
-
-            return { success: true };
-        } catch (error) {
-            console.error('举报失败:', error);
-            return { success: false, message: error.message };
-        }
-    }
-
-    /**
      * 获取模拟评论
      */
     getMockComments() {
@@ -785,11 +762,7 @@ class CommentUI {
                             <button class="action-btn" onclick="commentUI.delete('${comment.id}')">
                                 🗑 删除
                             </button>
-                        ` : `
-                            <button class="action-btn" onclick="commentUI.report('${comment.id}')">
-                                ⚠️ 举报
-                            </button>
-                        `}
+                        ` : ''}
                     </div>
                     <div class="reply-container" id="reply-${comment.id}"></div>
                     ${comment.children?.length > 0 ? `
@@ -927,22 +900,6 @@ class CommentUI {
             const data = await this.system.loadComments();
             this.renderCommentList(data.comments);
             this.updateCommentCount(data.total);
-        } else {
-            alert(result.message);
-        }
-    }
-
-    /**
-     * 举报评论
-     */
-    async report(commentId) {
-        const reason = prompt('请输入举报原因：');
-        if (!reason) return;
-
-        const result = await this.system.reportComment(commentId, reason);
-
-        if (result.success) {
-            alert('举报已提交，感谢您的反馈');
         } else {
             alert(result.message);
         }

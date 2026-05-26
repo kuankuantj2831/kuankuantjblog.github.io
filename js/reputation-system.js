@@ -28,12 +28,10 @@ class ReputationSystem {
         VERIFY_EMAIL: { points: 30, oneTime: true, desc: '验证邮箱' },
         VERIFY_PHONE: { points: 30, oneTime: true, desc: '验证手机' },
         INVITE_USER: { points: 15, dailyLimit: 75, desc: '邀请用户' },
-        REPORT_SPAM: { points: 5, dailyLimit: 25, desc: '举报违规' },
-        
+
         // 负向行为
         DELETE_ARTICLE: { points: -5, desc: '删除文章' },
         SPAM_COMMENT: { points: -10, desc: '垃圾评论' },
-        RECEIVE_REPORT: { points: -20, desc: '被举报' },
         PLAGIARISM: { points: -50, desc: '抄袭行为' },
         ABUSIVE_BEHAVIOR: { points: -30, desc: '辱骂行为' },
         CANCEL_BOUNTY: { points: -15, desc: '取消悬赏' }
@@ -382,34 +380,6 @@ class ReputationSystem {
         }
         
         return data;
-    }
-
-    /**
-     * 举报用户
-     */
-    async reportUser(targetUserId, reason, evidence = null) {
-        try {
-            const response = await fetch(`${this.apiBaseUrl}/reputation/report`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.getToken()}`
-                },
-                body: JSON.stringify({
-                    targetUserId,
-                    reason,
-                    evidence,
-                    timestamp: new Date().toISOString()
-                })
-            });
-
-            if (!response.ok) throw new Error('举报失败');
-
-            return await response.json();
-        } catch (error) {
-            console.error('举报失败:', error);
-            throw error;
-        }
     }
 
     /**

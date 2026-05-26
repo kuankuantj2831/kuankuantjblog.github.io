@@ -196,7 +196,6 @@ class AdminDashboard {
                             <p>${escapeHtml(item.content_preview || '').substring(0, 100)}...</p>
                             <div class="item-meta">
                                 <span>作者: ${escapeHtml(item.author_name)}</span>
-                                <span>举报: ${item.report_count} 次</span>
                                 <span>${this.formatTimeAgo(item.created_at)}</span>
                             </div>
                             ${item.ai_flagged ? `
