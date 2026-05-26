@@ -8,8 +8,6 @@ const OFFLINE_URL = '/offline.html';
 
 // 预缓存的核心资源（不带版本号，fetch 时用 ignoreSearch 匹配）
 const PRECACHE_URLS = [
-    '/',
-    '/index.html',
     '/offline.html',
     '/css/chinese-style.css',
     '/css/auth.css',
@@ -90,18 +88,6 @@ self.addEventListener('fetch', event => {
         return;
     }
 
-    // HTML 页面：网络优先，离线回退
-    event.respondWith(
-        fetch(request)
-            .then(response => {
-                if (response.ok) {
-                    const clone = response.clone();
-                    caches.open(CACHE_NAME).then(cache => cache.put(request, clone));
-                }
-                return response;
-            })
-            .catch(() =>
-                caches.match(request).then(cached => cached || caches.match(OFFLINE_URL))
-            )
-    );
+    // HTML 页面：不缓存，直接放行
+    return;
 });

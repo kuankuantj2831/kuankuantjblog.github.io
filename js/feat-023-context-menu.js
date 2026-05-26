@@ -15,8 +15,7 @@
         { icon: '🏠', text: '返回首页', action: function() { location.href = '/index-chinese.html'; } },
         { icon: '⬆️', text: '回到顶部', action: function() { window.scrollTo({ top: 0, behavior: 'smooth' }); } },
         { icon: '📋', text: '复制链接', action: function() { navigator.clipboard.writeText(location.href); } },
-        { icon: '🔄', text: '刷新页面', action: function() { location.reload(); } },
-        { icon: '📖', text: '全部文章', action: function() { location.href = '/articles.html'; } }
+        { icon: '🔄', text: '刷新页面', action: function() { location.reload(); } }
     ];
     items.forEach(function(item) {
         var div = document.createElement('div');

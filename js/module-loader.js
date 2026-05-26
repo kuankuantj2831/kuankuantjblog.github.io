@@ -16,7 +16,6 @@ const ModuleLoader = {
         if (p.endsWith('/article.html') || /\/\d{4}\/\d{2}\//.test(p)) return 'article';
         if (p.endsWith('/profile.html')) return 'profile';
         if (p.endsWith('/index.html') || p.endsWith('/index-chinese.html') || p === '/' || p === '/index.html') return 'home';
-        if (p.endsWith('/articles.html')) return 'articles';
         if (p.endsWith('/tags.html')) return 'tags';
         if (p.endsWith('/analytics-dashboard.html')) return 'analytics';
         if (p.endsWith('/following.html')) return 'following';
